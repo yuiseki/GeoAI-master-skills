@@ -27,7 +27,7 @@
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [ ] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る節
     - [ ] 分母の小さい割合の扱い (004)
-- 予測して、評価を疑う (8 / 9)
+- 予測して、評価を疑う (9 / 9)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
@@ -43,10 +43,12 @@
     - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
     - [ ] 重み付きの学習と採点 (測定回数で重み付けした R²、study-geoai 001)
     - [ ] 誤差の分析: グループ、時期、測定回数ごとの残差 (001、006)
-  - [ ] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
-    - [ ] `references/baselines.md`: 前の期間、季節ナイーブ、平年値、縮めた前の期間
-    - [ ] `references/ets-sarima.md`
-    - [ ] `references/lag-gbdt.md`
+  - [x] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
+    - [x] `references/baselines.md`
+    - [x] `references/ets.md`
+    - [x] `references/lag-gbdt.md`
+    - [ ] SARIMA
+    - [ ] 系列ごとの平均の方へ縮める前の期間
     - [ ] `references/timesfm.md`: TimesFM 2.5 (Apache 2.0)。3.0 は非商用
   - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する
   - [x] `noise-ceiling-analysis`: 目的変数の雑音から、どんなモデルでも超えられない点数の上限 (天井) を見積もる
