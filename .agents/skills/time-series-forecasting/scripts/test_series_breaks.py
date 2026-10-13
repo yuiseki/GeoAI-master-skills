@@ -76,3 +76,30 @@ def test_a_jump_between_tiny_values_is_ignored_when_a_minimum_level_is_given():
     t = np.arange(v.shape[1])
     assert [(k, int(x)) for k, x, _ in find_breaks(keys, t, v)] == [("s3", 20)]
     assert find_breaks(keys, t, v, min_level=100.0) == []
+
+
+def test_breaks_that_share_a_period_are_counted_together():
+    from series_breaks import breaks_by_time
+
+    v = smooth()
+    v[:, 30:] *= 1.25            # all six jump together at 30
+    v[1, 12:] *= 1.4             # one series alone at 12
+    keys = [f"s{i}" for i in range(len(v))]
+    t = np.arange(v.shape[1])
+    counts = breaks_by_time(find_breaks(keys, t, v))
+    assert counts[30] == 6 and counts[12] == 1
+
+
+def test_the_change_at_a_series_and_time_can_be_read_from_another_version_of_the_data():
+    from series_breaks import change_at
+
+    v = smooth()
+    other = v.copy()
+    other[2, 25:] *= 1.3         # this version has the jump, the other does not
+    v2 = v.copy()
+    keys = [f"s{i}" for i in range(len(v))]
+    t = np.arange(v.shape[1])
+    assert abs(change_at(keys, t, other, "s2", 25) - np.log(1.3)) < 0.05
+    assert abs(change_at(keys, t, v2, "s2", 25)) < 0.05
+    assert change_at(keys, t, v2, "nope", 25) is None
+    assert change_at(keys, t, v2, "s2", 999) is None

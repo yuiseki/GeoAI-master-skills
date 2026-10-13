@@ -9,9 +9,13 @@ The total over all series is checked too, like for like (only the series present
 periods), next to the raw total. A raw total that jumps while the like-for-like total does not
 means series entered or left; a smooth total can hide breaks in single series.
 
+For each break it also prints how many series jump in the same period (many at once points to a shared
+shock or a change of method) and, with --other-table (another version of the same table), the change in
+that version: a jump present in both versions was not introduced by a later revision.
+
 Usage:
     uvx --with numpy --with duckdb python series_breaks.py TABLE SERIES TIME VALUE [--top 15] \
-        [--min-jump 0.15] [--mad 5] [--min-level 0]
+        [--min-jump 0.15] [--mad 5] [--min-level 0] [--other-table TABLE2]
 """
 
 import argparse
@@ -60,6 +64,26 @@ def find_breaks(keys, times, values, min_jump=0.15, mad_k=5.0, min_level=0.0):
     return [(k, t, g_) for _, k, t, g_ in found]
 
 
+def breaks_by_time(found):
+    """How many series jump in each period. Many at once means a shared shock or a shared change of method."""
+    counts = {}
+    for _, t, _ in found:
+        counts[t] = counts.get(t, 0) + 1
+    return counts
+
+
+def change_at(keys, times, values, key, time):
+    """The log change into `time` for `key` in this version of the data, or None if it is not there."""
+    keys, times = list(keys), list(times)
+    if key not in keys or time not in times or times.index(time) == 0:
+        return None
+    i, j = keys.index(key), times.index(time)
+    a, b = values[i][j - 1], values[i][j]
+    if not (a > 0 and b > 0):
+        return None
+    return float(np.log(b / a))
+
+
 def aggregate_breaks(values, times, min_jump=0.15, mad_k=5.0):
     """The total over series, period by period: raw change, like-for-like change, entries, exits."""
     values = np.asarray(values, float)
@@ -93,20 +117,27 @@ def main():
     p.add_argument("--top", type=int, default=15)
     p.add_argument("--min-jump", type=float, default=0.15)
     p.add_argument("--mad", type=float, default=5.0)
+    p.add_argument("--other-table", default=None,
+                   help="another version of the table (same columns): show the change there for each break")
     p.add_argument("--min-level", type=float, default=0.0,
                    help="ignore changes between values that are both below this (counts that start from tiny numbers)")
     a = p.parse_args()
 
     import duckdb
 
-    rows = duckdb.sql(f'select "{a.series}", "{a.time}", "{a.value}" from \'{a.table}\'').fetchall()
-    keys = sorted({str(r[0]) for r in rows})
-    times = sorted({r[1] for r in rows})
-    ki, ti = {k: i for i, k in enumerate(keys)}, {t: i for i, t in enumerate(times)}
-    values = np.full((len(keys), len(times)), np.nan)
-    for k, t, v in rows:
-        if v is not None:
-            values[ki[str(k)], ti[t]] = float(v)
+    def load(table):
+        rows = duckdb.sql(f'select "{a.series}", "{a.time}", "{a.value}" from \'{table}\'').fetchall()
+        ks = sorted({str(r[0]) for r in rows})
+        ts = sorted({r[1] for r in rows})
+        ki, ti = {k: i for i, k in enumerate(ks)}, {t: i for i, t in enumerate(ts)}
+        m = np.full((len(ks), len(ts)), np.nan)
+        for k, t, v in rows:
+            if v is not None:
+                m[ki[str(k)], ti[t]] = float(v)
+        return ks, ts, m
+
+    keys, times, values = load(a.table)
+    other = load(a.other_table) if a.other_table else None
     if isinstance(times[0], int) and len(times) != times[-1] - times[0] + 1:
         print("note: the time axis has gaps; a gap is read as a missing value, not as the next period")
     print(f"series {len(keys)}, periods {len(times)} ({times[0]} to {times[-1]})")
@@ -122,8 +153,16 @@ def main():
               f"          {r['entering']:>4}      {r['leaving']:>4}{mark}")
     found = find_breaks(keys, times, values, a.min_jump, a.mad, a.min_level)
     print(f"\nbreaks in single series: {len(found)} (log change; +0.693 is a doubling), largest first")
+    shared = breaks_by_time(found)
     for k, t, g in found[:a.top]:
-        print(f"  {k}  {t}  {g:+.3f}  ({np.exp(g) - 1:+.1%})")
+        extra = f"  same period: {shared[t]} series"
+        if other is not None:
+            o = change_at(*other, k, t)
+            extra += "  other version: " + ("absent" if o is None else f"{o:+.3f}")
+        print(f"  {k}  {t}  {g:+.3f}  ({np.exp(g) - 1:+.1%}){extra}")
+    if found:
+        print("\nfind the cause of each jump: the data source's own notes for that series and period, whether the jump"
+              " is in the other version too, and whether many series jump at once; otherwise treat it as an event not yet confirmed")
 
 
 if __name__ == "__main__":

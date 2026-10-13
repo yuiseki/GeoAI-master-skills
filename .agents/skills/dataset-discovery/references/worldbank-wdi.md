@@ -127,6 +127,21 @@ where indicator_code = 'SP.POP.TOTL' and year = 2020;
 - 読み方は `duckdb` だけで足りる。`uvx --from 'duckdb>=1.5.5' python -c "import duckdb; print(duckdb.sql(\"select count(*) from 'hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/data.parquet'\").fetchall())"`。
 - 総人口の国別の系列には、1 年で 2 割動く跳ねがある (セーシェル 2022 年 +20.8% など)。予測に使うなら、跳ねを先に探す。
 
+## 注記 (footnotes) で、系列の跳ねの原因を引く
+
+`footnotes` テーブルに、国 × 指標 × 年ごとの注記がある (804,608 行、版 2026-10-01)。系列が 1 年で大きく跳ねたときは、その年の注記を引く。
+
+```sql
+select year_int, DESCRIPTION
+from 'hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/footnotes.parquet'
+where CountryCode = 'SYC' and SeriesCode = 'SP.POP.TOTL' order by year_int;
+```
+
+- セーシェルの総人口の 2022 年の跳ね (+20.8%) には、「Break in series. Rebased on the census.」(系列の断絶。国勢調査に合わせて直した) という注記が、2022 年に付いている。同じ注記が、1987、1994、2004、2010 年にもある。
+- 総人口の「Break in series」の注記は、46 行、34 か国 (2026-10-13 実測)。クウェートは 2012 年、カタールは 2009 年に、出どころを国連の人口推計から各国の統計局に切り替えた注記がある。
+- 注記が無い跳ね (クウェート 1991 年、ルワンダ 1994 年、1995 年) もある。注記が無いことは、出来事だと確かめたことにはならない。
+- `country_series` は、国と指標ごとの出どころの説明。`series_time` は、指標と年ごとの注記 (134 行)。
+
 ## 気をつけること
 
 集計単位が混ざっている。 `data` には World、地域、所得階層の値も入っている。国だけにするには `countries` の `Region` が空でないものに絞る。絞らないと、国の平均や回帰に World が 1 行として入る。
