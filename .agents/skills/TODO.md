@@ -12,7 +12,7 @@
     - [x] `references/duckdb-spatial.md`
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [ ] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る節
-- 予測して、評価を疑う (5 / 8)
+- 予測して、評価を疑う (6 / 8)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
@@ -31,7 +31,9 @@
     - [x] `references/repeat.md`
     - [x] `references/counts.md`
     - [x] `references/rounding.md`
-  - [ ] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間を評価する
+  - [x] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間の被覆率を、全体とグループごとに確かめる
+    - [x] `references/calibration.md`
+    - [x] `references/intervals.md`
   - [ ] `model-explanation`: permutation importance、SHAP、部分依存で、モデルが何に効いているかを説明する
   - [ ] `robustness-analysis`: 乱数の種、標本、集計、空間単位、手法の設定を変えて、結論や見つけた構造が保たれるかを見る。既知の区分との照合も。MAUP は references
 - 構造を探す (3 / 5)
