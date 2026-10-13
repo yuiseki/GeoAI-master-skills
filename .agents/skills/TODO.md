@@ -1,26 +1,53 @@
-- [x] `dataset-discovery`: 利用可能なデータセット、カラム、粒度、時空間範囲を調べる
-- [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
-- [x] `analysis-unit-design`: point / grid / 町丁目 / 区など分析単位を選ぶ
-- [x] `spatial-data-integration`: spatial join、最近傍、包含、集約で複数地理データを統合する
-- [x] `spatial-feature-engineering`: 密度、距離、近傍数、土地利用などの特徴量を構築する
-  - [ ] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る節
-- [x] `eda-and-baseline`: 分布、相関、単純平均、線形モデルなど最初の基準を作る
-- [x] `spatial-data-modeling`: 基準と同じ分割で、線形、木、ブースティング、事前学習モデルなどを当てはめて比べる。回帰と分類の両方。モデルの種類ごとの知識は references
-  - [ ] `references/time-series.md`: ARIMA、ETS、ラグ + GBDT、TimesFM (2.5 以前)。time-series-analysis から
-  - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
-- [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
-- [x] `leakage-audit`: 特徴量に答えや未来の情報が紛れ込んでいないか (target leakage、位置リーク、答えの言い換え) を検出する
-- [ ] `noise-ceiling-analysis`: 目的変数の雑音と予測可能性の上限を推定する
-- [ ] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間を評価する
-- [ ] `model-explanation`: permutation importance、SHAP、部分依存で、モデルが何に効いているかを説明する
-- [ ] `robustness-analysis`: 乱数の種、標本、集計、空間単位、手法の設定を変えて、結論や見つけた構造が保たれるかを見る。既知の区分との照合も。MAUP は references
-- [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
-  - [ ] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
-  - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
-- [x] `clustering-analysis`: 似た単位の群に分けられるか。references に k-means、DBSCAN、HDBSCAN、DPMM
-- [ ] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。references に PCA、並行分析、ブートストラップ
-- [x] `anomaly-detection`: 比べる相手 (自分の過去、近傍、モデルの予測、全体) からの外れを並べ、誤りか出来事かを分ける。references に time、space、expected、global
-- [ ] `point-pattern-analysis`: 点が無作為な配置と比べて集まっているか。references に Ripley の K と L、カーネル密度、比べる基準の作り方
-- [ ] `spatial-network-analysis`: 最短経路、到達圏、中心性で空間ネットワークを解析し、最適化に使う距離行列を作る
-- [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
-- [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す
+- データを知る (2 / 2)
+  - [x] `dataset-discovery`: 使えるデータセットを選び、列、粒度、時空間範囲、注意点を実測する
+    - [x] `references/natural-earth.md`
+    - [x] `references/worldbank-wdi.md`
+    - [x] `references/ourairports.md`
+    - [x] `references/ucdp-ged.md`
+    - [x] `references/unhcr-refugee-stats.md`
+  - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
+- 単位を決めて、データをそろえる (3 / 3)
+  - [x] `analysis-unit-design`: 分析の 1 行が何を表すか (点、格子、行政区、国、地域の組、それぞれ × 時間) を決める
+  - [x] `spatial-data-integration`: 包含、最近傍、キー、集計で複数の地理データを単位に結合し、全ての行を数える
+    - [x] `references/duckdb-spatial.md`
+  - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
+    - [ ] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る節
+- 予測して、評価を疑う (4 / 8)
+  - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
+  - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
+    - [x] `references/group.md`
+    - [x] `references/spatial.md`
+    - [x] `references/time.md`
+  - [x] `spatial-data-modeling`: 分割表で、線形、木、ブースティング、事前学習モデルなどを当てはめて比べる。回帰と分類の両方
+    - [x] `references/linear-modeling.md`
+    - [x] `references/tree-modeling.md`
+    - [x] `references/boosting-modeling.md`
+    - [x] `references/foundation-modeling.md`
+    - [x] `references/classification.md`
+    - [ ] `references/time-series.md`: ARIMA、ETS、ラグ + GBDT、TimesFM (2.5 以前)
+    - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
+  - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する
+  - [ ] `noise-ceiling-analysis`: 目的変数の雑音と予測可能性の上限を推定する
+  - [ ] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間を評価する
+  - [ ] `model-explanation`: permutation importance、SHAP、部分依存で、モデルが何に効いているかを説明する
+  - [ ] `robustness-analysis`: 乱数の種、標本、集計、空間単位、手法の設定を変えて、結論や見つけた構造が保たれるかを見る。既知の区分との照合も。MAUP は references
+- 構造を探す (3 / 5)
+  - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
+    - [ ] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
+    - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
+  - [x] `clustering-analysis`: 似た単位の群に分けられるか。群が戻ってくるか、既知の区分と何が違うか
+    - [x] `references/kmeans.md`
+    - [x] `references/density-based.md`
+    - [x] `references/dpmm.md`
+  - [ ] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。references に PCA、並行分析、ブートストラップ
+  - [x] `anomaly-detection`: 比べる相手からの外れを並べ、データの誤りか本当の出来事かを分ける
+    - [x] `references/time.md`
+    - [x] `references/space.md`
+    - [x] `references/expected.md`
+    - [x] `references/global.md`
+  - [ ] `point-pattern-analysis`: 点が無作為な配置と比べて集まっているか。references に Ripley の K と L、カーネル密度、比べる基準の作り方
+- ネットワークと最適化 (0 / 2)
+  - [ ] `spatial-network-analysis`: 最短経路、到達圏、中心性で空間ネットワークを解析し、最適化に使う距離行列を作る
+  - [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
+- 残す (0 / 1)
+  - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す
