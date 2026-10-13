@@ -65,6 +65,20 @@ DuckDB は 1.5.5 以上を使う。古い版は、空間の関数が壊れるこ
 
 座標の順の罠: 東京駅 (経度 139.77、緯度 35.68) から大阪駅 (経度 135.50、緯度 34.73) の距離は、約 402 km。DuckDB の `ST_Distance_Sphere` に `ST_Point(経度, 緯度)` のまま渡すと、481 km と黙って 2 割違う値が出る。この関数は、点の x を緯度として読む。既知の 2 点の距離と合うかを、必ず確かめる。詳しくは [.agents/skills/spatial-data-integration/references/duckdb-spatial.md](../.agents/skills/spatial-data-integration/references/duckdb-spatial.md)。
 
+## 何も入れずに始める (Docker)
+
+`uv` も Python も入れたくないときは、リポジトリ直下の `Dockerfile` で、道具の入った環境を作れる。入っているのは、Python 3.12、`uv`、DuckDB 1.5.5 以上 (空間拡張と httpfs は入れてある)、numpy、scipy、scikit-learn、pandas、pyarrow、statsmodels、networkx、shapely、rasterio、esda、libpysal、pytest。
+
+```bash
+docker build -t geoai-skills .
+docker run --rm -it -v "$PWD":/work geoai-skills
+```
+
+- 手元のリポジトリを `/work` に見せるので、コンテナの中で作ったファイルは手元に残る。
+- 中で `python .agents/skills/check_skills.py` と、各スキルの `scripts/` での `python -m pytest` が通ることを確かめてある。
+- TabPFN、XGBoost、LightGBM、CatBoost は入れていない。使うときは `uvx --with tabpfn python ...` のように足す。
+- ホストの利用者の番号が 1000 でないと、`/work` に書けないことがある。そのときは `--user "$(id -u):$(id -g)"` を付ける。
+
 ## 次に
 
 [docs/tutorial/README.md](tutorial/README.md) のコードを、そのまま写して流す。
