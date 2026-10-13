@@ -9,7 +9,7 @@
   - [ ] `references/time-series.md`: ARIMA、ETS、ラグ + GBDT、TimesFM (2.5 以前)。time-series-analysis から
   - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
 - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
-- [ ] `leakage-audit`: 特徴量に答えや未来の情報が紛れ込んでいないか (target leakage、位置リーク、答えの言い換え) を検出する
+- [x] `leakage-audit`: 特徴量に答えや未来の情報が紛れ込んでいないか (target leakage、位置リーク、答えの言い換え) を検出する
 - [ ] `noise-ceiling-analysis`: 目的変数の雑音と予測可能性の上限を推定する
 - [ ] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間を評価する
 - [ ] `model-explanation`: permutation importance、SHAP、部分依存で、モデルが何に効いているかを説明する
