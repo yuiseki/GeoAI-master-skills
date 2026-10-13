@@ -16,12 +16,11 @@ operations:
     returns: JSON の root は dict。経路は payload['trip']、距離は payload['trip']['summary']['length'] (units の単位)、所要時間は payload['trip']['summary']['time'] (秒)。routes というキーは無い
   - {name: locate, method: POST, path: /locate, returns: 座標が道路網のどこに当たるか}
   - {name: status, method: GET, path: /status, returns: 状態}
-limits: {http_timeout_seconds: 15}
 gotchas:
   - "応答の最上位のキーは trip だけだった (実測)。routes は無い。"
   - "東京駅 (35.6812, 139.7671) から上野駅 (35.7141, 139.7774) を pedestrian で引くと、length 4.323 (km)、time 3113.184 (秒) だった (2026-10-13 実測)。"
   - "costing は必須。時間は秒で、距離の単位は units で決まる。"
-  - "locations は lat と lon のキー名つきの dict の配列で渡す (Geo-Voyager の記述と、上の実測の形)。"
+  - "locations は lat と lon のキー名つきの dict の配列で渡す (上の実測の形)。"
 ---
 
 # Valhalla

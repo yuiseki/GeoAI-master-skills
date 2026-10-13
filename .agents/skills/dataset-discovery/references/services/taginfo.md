@@ -34,7 +34,6 @@ operations:
     path: /api/4/tags/list
     params: ["key か tags (どちらか必須)"]
     returns: タグの一覧。query 検索には使わない
-limits: {http_timeout_seconds: 15}
 gotchas:
   - "search/by_value は部分一致。ramen を引くと cuisine=ramen (8,213) のほかに cuisine=noodle;ramen (1,073) なども返る (2026-10-13 実測。使用数は data_until の時点)。1 つのタグの使用数には使わず、tag/stats を使う。"
   - "key/values は page と rp の両方が必須。どちらかが無いと HTTP 412 (number of results too large, use paging) になる。"

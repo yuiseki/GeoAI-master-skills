@@ -59,7 +59,7 @@ tables:                        # catalog なら tables の代わりに access (�
 
 - `joins` の書式は `<データセット>:<表>.<列>`。同じデータセットの中なら `<表>.<列>`。表が複数あるとき (レイヤーなど) は `*` を使える。
 - `grain`、`id`、`join_keys`、`no_key` は、結合の前に必ず読む。結合の前に、キーが一意かどうかを自分で数える (reference の `unique` や `rows` は、書いた日の値)。
-- `service` は、`tables` の代わりに `protocol` と `operations` (`name`、`method`、`path`、`params`、`returns`) を持つ。呼べる制限は `limits`、つまずきやすい点は `gotchas` に書く。
+- `service` は、`tables` の代わりに `protocol` と `operations` (`name`、`method`、`path`、`params`、`returns`) を持つ。つまずきやすい点は `gotchas` に書く。
 - 数を書くときは、実測した日を本文に書く。frontmatter の `rows` は、reference を書いたときの値で、版が変われば変わる。
 - reference を書き足すときは、frontmatter も同時に書く。
 
@@ -94,7 +94,6 @@ tables:                        # catalog なら tables の代わりに access (�
 | [nominatim](references/services/nominatim.md) | 地名から座標と OSM の ID を引く | 2025-09-14 で止まっている |
 | [valhalla](references/services/valhalla.md) | 経路の距離と所要時間 | 確かめていない |
 | [taginfo](references/services/taginfo.md) | OSM のタグの辞書と使用数 | 2026-01-29 まで |
-| [yuisekin-geosparql](references/services/yuisekin-geosparql.md) | 東京 23 区の区の名前と OSM の relation の ID | 実機で未確認 |
 
 Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。
 

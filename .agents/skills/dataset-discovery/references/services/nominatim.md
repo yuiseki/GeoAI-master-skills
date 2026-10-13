@@ -14,7 +14,6 @@ operations:
   - {name: lookup, method: GET, path: /lookup, params: ["osm_ids", "format=jsonv2"], returns: OSM の ID から地物}
   - {name: details, method: GET, path: /details, returns: 1 つの地物の詳しい情報}
   - {name: status, method: GET, path: /status, returns: 状態とデータの更新日時}
-limits: {http_timeout_seconds: 15}
 gotchas:
   - "format=jsonv2 を付ける。/search は q と limit を受け取り、JSON の配列を返す。"
   - "boundingbox は [south, north, west, east] の順の文字列の配列。台東区は ['35.6948026', '35.7316244', '139.7622652', '139.8098027'] だった (2026-10-13 実測)。Overpass の bbox の順 (south, west, north, east) とは違う。"
