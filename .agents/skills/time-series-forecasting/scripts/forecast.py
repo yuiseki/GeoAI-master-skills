@@ -20,12 +20,13 @@ Models
                           one model per horizon
 
 Series must be regular (one value per period, no gaps) and aligned so that index 0 has phase 0.
+Before any model runs, the series are checked for level jumps (series_breaks.py) and the result is printed.
 
 Usage:
     uvx --with numpy --with scipy --with scikit-learn --with statsmodels --with duckdb python forecast.py \
         TABLE SERIES_COL TIME_COL VALUE_COL --season 12 --horizons 12 --origins 24 \
         --models naive seasonal_naive climatology shrunk_persistence ets lag_gbdt \
-        [--origin-from 300] [--report-horizons 1 12]
+        [--origin-from 300] [--report-horizons 1 12] [--break-min-level 0]
 """
 
 import argparse
@@ -155,6 +156,28 @@ def evaluate(series, models, horizons, origins, season, origin_from=None):
     return out
 
 
+def break_report(series, times, top=10, min_level=0.0):
+    """Lines that say which series jump in level, and how the total moves, before any model is fitted."""
+    from series_breaks import aggregate_breaks, find_breaks
+
+    keys = list(series)
+    values = np.array([np.asarray(series[k], float) for k in keys])
+    times = list(times)
+    found = find_breaks(keys, times, values, min_level=min_level)
+    lines = [f"level jumps in single series (series_breaks.py): {len(found)}"]
+    if not found:
+        lines.append("  no level jumps found")
+    for k, t, g in found[:top]:
+        lines.append(f"  {k}  at {t}  {g:+.3f}  ({np.exp(g) - 1:+.1%})")
+    flagged = [r for r in aggregate_breaks(values, times) if r["flag"] or r["raw_flag"]]
+    for r in flagged[:top]:
+        lines.append(f"  total  at {r['time']}  raw {r['raw_change']:+.3f}  like for like "
+                     f"{r['like_for_like_change']:+.3f}  (entering {r['entering']}, leaving {r['leaving']})")
+    if found:
+        lines.append("  find out whether each jump is an event, a data revision or a change of what is counted, and say what you did about it")
+    return lines
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("table")
@@ -168,6 +191,8 @@ def main():
     p.add_argument("--origin-from", type=int, default=None,
                    help="first origin (position in the series); default: the last --origins origins")
     p.add_argument("--report-horizons", type=int, nargs="*", default=[])
+    p.add_argument("--break-min-level", type=float, default=0.0,
+                   help="ignore level jumps between values that are both below this (see series_breaks.py)")
     a = p.parse_args()
 
     import duckdb
@@ -184,6 +209,7 @@ def main():
         raise SystemExit("every series must cover the same periods")
     print(f"series {len(series)}, periods {len(next(iter(times.values())))}, season {a.season}, "
           f"horizons 1..{a.horizons}, origins {a.origins}")
+    print("\n".join(break_report(series, next(iter(times.values())), min_level=a.break_min_level)))
     res = evaluate(series, a.models, a.horizons, a.origins, a.season, a.origin_from)
     base = res.get("seasonal_naive") or res.get("naive")
     for name, r in res.items():

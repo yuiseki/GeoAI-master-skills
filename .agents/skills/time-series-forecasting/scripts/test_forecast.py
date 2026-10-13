@@ -104,3 +104,15 @@ def test_own_mean_uses_only_the_history():
     # Handing it the whole series must not change the answer: it may read only up to o.
     g = shrunk_to_own_mean(series, o, h, 12)
     assert g == pytest.approx(f)
+
+
+def test_the_break_report_names_a_series_with_a_level_jump_and_says_so_when_there_is_none():
+    from forecast import break_report
+
+    rng = np.random.default_rng(0)
+    series = {f"s{i}": 100.0 * (1 + i) * np.exp(0.01 * np.arange(60) + rng.normal(scale=0.005, size=60))
+              for i in range(4)}
+    times = list(range(60))
+    assert any("no level jumps" in line for line in break_report(series, times))
+    series["s2"][30:] = series["s2"][30:] * 1.6
+    assert any("s2" in line and "30" in line for line in break_report(series, times))
