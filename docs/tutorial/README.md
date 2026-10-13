@@ -151,4 +151,4 @@ GroupKFold (地域ごと伏せる)     hgb     R2 0.342
 | 近い国どうしで値が似ているか。残差に空間の偏りが残っていないか | spatial-autocorrelation |
 | 単位や格子の大きさで結論が変わらないか | robustness-analysis |
 
-全体の流れは `AGENTS.md` (リポジトリ直下)、用語は `docs/glossary.md`。
+座標を持つ点のデータで、投影、格子、空間を考えた評価の分け方まで通すなら、[入門 2](points.md)。全体の流れは `AGENTS.md` (リポジトリ直下)、用語は `docs/glossary.md`。

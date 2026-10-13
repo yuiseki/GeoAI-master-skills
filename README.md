@@ -8,16 +8,36 @@
 
 理由は 3 つ。評価の分け方を 1 回だけ作ってファイルに残し、基準もモデルも同じ分割で採点するには、コードが要る。結合や集計で入力の行がどうなったかを数え、合わなければ止めるには、コードが要る。単位の大きさや分け方を変えて、同じ分析を何十回も流し直すには、コードが要る。QGIS を地図を眺めるために併用するのは構わないが、分析そのものは Python で書く。
 
-最初は、[docs/tutorial/README.md](docs/tutorial/README.md) のコードを、そのまま写して流すところから始めればよい。
+最初は、[docs/setup.md](docs/setup.md) で環境を用意し (入れるのは `uv` だけ。QGIS の操作との対応表もある)、[docs/tutorial/README.md](docs/tutorial/README.md) のコードを、そのまま写して流すところから始めればよい。
 
 ## どこから読むか
 
-1. [docs/tutorial/README.md](docs/tutorial/README.md): 座標の基礎から、国の平均寿命の予測を最初から最後まで通す入門。実際に流して、画面の出力を載せてある。まずこれを手を動かして読む。
-2. [docs/glossary.md](docs/glossary.md): CRS、Moran's I、リーク、交差検証などの用語集。分からない言葉が出たら引く。
-3. [AGENTS.md](AGENTS.md) (このリポジトリの直下): 分析の流れ全体。どの問いにどのスキルを使うかが分かる。
-4. `.agents/skills/<スキル>/SKILL.md`: 問いごとの手順。必要なものだけ読めばよい。どのスキルも、それだけで最後まで進められるように書いてある。
+1. [docs/setup.md](docs/setup.md): 環境の準備。`uv` を入れ、QGIS でやっていたことを SQL でどう書くかを知る。
+2. [docs/tutorial/README.md](docs/tutorial/README.md): 座標の基礎から、国の平均寿命の予測を最初から最後まで通す入門。実際に流して、画面の出力を載せてある。手を動かして読む。続きの [入門 2](docs/tutorial/points.md) は、点のデータから、投影、格子、空間を考えた評価までを通す。
+3. [docs/glossary.md](docs/glossary.md): CRS、Moran's I、リーク、交差検証などの用語集。分からない言葉が出たら引く。
+4. [AGENTS.md](AGENTS.md) (このリポジトリの直下): 分析の流れ全体。どの問いにどのスキルを使うかが分かる。
+5. `.agents/skills/<スキル>/SKILL.md`: 問いごとの手順。必要なものだけ読めばよい。どのスキルも、それだけで最後まで進められるように書いてある。
 
 進み具合の表 [.agents/skills/TODO.md](.agents/skills/TODO.md) は、リポジトリ直下でなく `.agents/skills/` の中にある。`.agents/skills/AGENTS.md` は、スキルを書く人向けの決まりで、使う人が読む必要はない。
+
+## テーマから使うスキルを選ぶ
+
+| やりたいこと | 読むスキル |
+|---|---|
+| 国や地域ごとの指標を、他の指標から予測したい | eda-and-baseline、cross-validation-design、spatial-data-modeling |
+| 紛争や事故の起きやすい場所を、格子ごとに予測したい | analysis-unit-design、spatial-feature-engineering、cross-validation-design |
+| 時間とともに変わる値の先を当てたい | time-series-forecasting |
+| 自分のモデルの点数が高すぎる気がする | leakage-audit、cross-validation-design、noise-ceiling-analysis |
+| 予測にどれだけ自信を持てるか示したい | uncertainty-estimation |
+| どの特徴量がどう効いているか説明したい | model-explanation |
+| 値が近い場所で似ているか、どこに集まっているか知りたい | spatial-autocorrelation |
+| 国や地点を似たものどうしに分けたい | clustering-analysis、dimensionality-reduction |
+| おかしな値、突出した場所を見つけたい | anomaly-detection |
+| 点 (施設、事件) が集まっているか知りたい | point-pattern-analysis |
+| 歩いて何分か、道のりで測りたい | spatial-network-analysis |
+| 施設をどこに置くか決めたい | spatial-optimization |
+| 結論が単位の取り方に左右されないか確かめたい | robustness-analysis、analysis-unit-design |
+| どのデータを使えるか探したい | dataset-discovery、data-variable-semantics |
 
 ## 何が入っているか
 
