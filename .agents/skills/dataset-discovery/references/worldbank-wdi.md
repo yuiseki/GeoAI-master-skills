@@ -124,8 +124,34 @@ where indicator_code = 'SP.POP.TOTL' and year = 2020;
 
 - 過去の値は、版の間で改訂される。総人口 (`SP.POP.TOTL`) の 2020 年の値を、版 2024-05-30 と版 2026-10-01 で比べると、217 か国の差の中央値は 0.89%、64 か国で 2% を超える。最大は英領ヴァージン諸島 +20.1%、サウジアラビア -12.4%、イエメン +11.9% (2026-10-13 実測)。
 - 版が複数あるので、当時の版で予測し、現行の版で採点する評価ができる。現行の版を過去で切るだけの評価は、当時使えた値での予測の再現にならない。
-- 読み方は `duckdb` だけで足りる。`uvx --from 'duckdb>=1.5.5' python -c "import duckdb; print(duckdb.sql(\"select count(*) from 'hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/data.parquet'\").fetchall())"`。
+- 読み方は `duckdb` だけで足りる。指標を絞れば、すぐ終わる (下の節)。
 - 総人口の国別の系列には、1 年で 2 割動く跳ねがある (セーシェル 2022 年 +20.8% など)。予測に使うなら、跳ねを先に探す。
+
+## 指標を絞って読む (かかる時間)
+
+`data.parquet` は 50.4 MB で、88 の行グループが指標コード順に並んでいる。指標で絞ると、必要な行グループだけを読む。全体を読もうとせず、指標と国を絞る。
+
+```sql
+-- 国だけ (集計単位を除く) の総人口、全部の年
+select d.country_code, k."Short Name" as country, k."Region" as region, d.year, d.value
+from 'hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/data.parquet' d
+join 'hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/countries.parquet' k
+  on d.country_code = k."Country Code"
+where d.indicator_code = 'SP.POP.TOTL' and k."Region" <> '';
+```
+
+2026-10-13、DuckDB 1.5.6、この環境から (HF の読み出し)。
+
+| 読んだもの | 行数 | 時間 |
+|---|---:|---:|
+| 総人口、全部の国と集計単位、全部の年 | 17,394 | 0.7 秒 |
+| 総人口、1 年だけ | 264 | 2.2 秒 |
+| 総人口、3 か国 | 198 | 0.7 秒 |
+| 上の join (国だけ、`countries` と結ぶ) | 14,292 | 6.7 秒 |
+
+- 絞れば、1 秒から数秒で終わる。「長時間化したので API にした」ということは起きない。
+- 最初の `uvx --from 'duckdb>=1.5.5'` は、パッケージの取得で数秒かかる。コマンドの出力が空のあいだは、まだ終わっていないことがある。終わるまで待つ (出力が空でも失敗ではない)。
+- `countries` の列名には空白がある (`"Country Code"`、`"Short Name"`、`"Region"`)。二重引用符で書く。`name` という列は無い。
 
 ## 注記 (footnotes) で、系列の跳ねの原因を引く
 
