@@ -12,7 +12,7 @@
     - [x] `references/duckdb-spatial.md`
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [ ] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る節
-- 予測して、評価を疑う (4 / 8)
+- 予測して、評価を疑う (5 / 8)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
@@ -27,7 +27,10 @@
     - [ ] `references/time-series.md`: ARIMA、ETS、ラグ + GBDT、TimesFM (2.5 以前)
     - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
   - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する
-  - [ ] `noise-ceiling-analysis`: 目的変数の雑音と予測可能性の上限を推定する
+  - [x] `noise-ceiling-analysis`: 目的変数の雑音から、どんなモデルでも超えられない点数の上限 (天井) を見積もる
+    - [x] `references/repeat.md`
+    - [x] `references/counts.md`
+    - [x] `references/rounding.md`
   - [ ] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間を評価する
   - [ ] `model-explanation`: permutation importance、SHAP、部分依存で、モデルが何に効いているかを説明する
   - [ ] `robustness-analysis`: 乱数の種、標本、集計、空間単位、手法の設定を変えて、結論や見つけた構造が保たれるかを見る。既知の区分との照合も。MAUP は references
