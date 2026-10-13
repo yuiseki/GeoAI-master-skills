@@ -18,8 +18,8 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
    uvx --from 'duckdb>=1.5.5' python scripts/profile_layer.py <parquet のパスか URL>
    ```
 
-   行数、列ごとの型と NULL の数、ジオメトリ型の内訳、範囲、`ST_IsValid` が偽の件数を出す。
-4. 結合キーにする列は、NULL、重複、`-99` のような欠損の符号を数える。
+   行数、列ごとの型と NULL の数、CRS、ジオメトリ型の内訳、範囲、`ST_IsValid` が偽の件数を出す。
+4. 複数のデータセットを結ぶなら、結合キーで実際に結んで一致する件数と一致しない値を数える。結合キーの NULL、重複、`-99` のような欠損の符号も数える。空間結合なら両方の CRS 名を確かめる。
 5. 下の「書き出すもの」を残す。reference と実測が食い違ったら、実測を書き、食い違いも書く。
 
 索引に無いデータセットが要る場合は、使う前に reference を 1 つ書き足す。
@@ -29,6 +29,12 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 | reference | 中身 | 範囲 | 時点 |
 |---|---|---|---|
 | [natural-earth](references/natural-earth.md) | 国、州・省、都市、海岸線、陸海、湖、川、道路など | 全世界、1:10m〜1:110m | 2022-05 で止まっている |
+| [worldbank-wdi](references/worldbank-wdi.md) | 国 × 年の開発指標 約 1,400 | 国、座標なし | 1960〜2025、版ごと |
+| [ourairports](references/ourairports.md) | 空港、ヘリポート、飛行場の点と IATA / ICAO コード | 全世界の点 | 2026-08-31 で凍結 |
+| [ucdp-ged](references/ucdp-ged.md) | 組織的暴力の事件の点と死者数 | 全世界の点 (精度はまちまち) | 1989〜2025、版ごと |
+| [unhcr-refugee-stats](references/unhcr-refugee-stats.md) | 出身国 × 庇護国 × 年の難民などの人数 | 国の組、座標なし | 1951〜2025、版ごと |
+
+Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。
 
 ## 書き出すもの
 

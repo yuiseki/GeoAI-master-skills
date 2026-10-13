@@ -1,4 +1,4 @@
-"""Profile one GeoParquet layer: rows, columns, geometry types, extent, invalid geometries.
+"""Profile one GeoParquet layer: rows, columns, CRS, geometry types, extent, invalid geometries.
 
 Usage:
     uvx --from 'duckdb>=1.5.5' python profile_layer.py <parquet path or hf:// / https:// URL>
@@ -30,6 +30,8 @@ def profile(src: str) -> None:
         print("geometry: column present, every value NULL")
         return
 
+    for (crs,) in con.sql("select distinct ST_CRS(geometry) from t").fetchall():
+        print(f"crs: {crs}")
     for gtype, n in con.sql(
         "select ST_GeometryType(geometry), count(*) from t group by 1 order by 2 desc"
     ).fetchall():

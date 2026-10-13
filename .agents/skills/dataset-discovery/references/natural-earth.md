@@ -27,7 +27,7 @@ from 'hf://datasets/yuiseki/natural-earth/parquet/v5.1.2/110m_cultural/ne_110m_a
 | 項目 | 値 |
 |---|---|
 | 空間範囲 | 全世界 |
-| 座標系 | EPSG:4326 (経度、緯度)。面積や距離は投影してから測る |
+| 座標系 | EPSG:4326 (経度、緯度)。面積や距離は投影してから測る。`geometry` の CRS 名は `EPSG:4326` で、`OGC:CRS84` の点 (OurAirports、UCDP GED) とは DuckDB 1.5 がそのままでは空間結合しない |
 | 縮尺 | 1:10m (細かい)、1:50m、1:110m (粗い) の 3 段 |
 | 時点 | 2022-05 の v5.1.2 で止まっている。以後の境界変更、改名、合併は入っていない |
 | ライセンス | public domain。表示も不要 |
