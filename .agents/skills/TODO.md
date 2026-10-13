@@ -48,7 +48,7 @@
     - [x] `references/ets.md`
     - [x] `references/lag-gbdt.md`
     - [ ] SARIMA
-    - [ ] 系列ごとの平均の方へ縮める前の期間
+    - [x] 系列ごとの平均の方へ縮める前の期間 (shrunk_to_own_mean)
     - [ ] `references/timesfm.md`: TimesFM 2.5 (Apache 2.0)。3.0 は非商用
   - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する
   - [x] `noise-ceiling-analysis`: 目的変数の雑音から、どんなモデルでも超えられない点数の上限 (天井) を見積もる

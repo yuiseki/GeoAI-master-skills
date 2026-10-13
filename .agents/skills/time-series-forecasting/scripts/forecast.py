@@ -14,6 +14,8 @@ Models
     pooled (fitted on all series' history before the origin, then applied to each series):
       shrunk_persistence  y[o+h] = a + b * y[o], a and b fitted by least squares per horizon:
                           the last value pulled towards the mean as far as the data say
+      shrunk_to_own_mean  y[o+h] = m_s + b * (y[o] - m_s), m_s the series' own mean so far and b
+                          fitted on all series' deviations: pulled towards its own level
       lag_gbdt            histogram gradient boosting on the last `season` values and the phase,
                           one model per horizon
 
@@ -79,6 +81,21 @@ def shrunk_persistence(series, o, h, season):
     return {k: a + b * s[o] for k, s in series.items()}
 
 
+def shrunk_to_own_mean(series, o, h, season):
+    """y[o+h] = m_s + b * (y[o] - m_s), where m_s is the series' own mean up to o and b is fitted
+    on all series' deviations from their own means (pairs with t + h <= o)."""
+    xs, ys, means = [], [], {}
+    for k, s in series.items():
+        m = s[:o + 1].mean()
+        means[k] = m
+        t = np.arange(0, o - h + 1)
+        xs.append(s[t] - m)
+        ys.append(s[t + h] - m)
+    x, y = np.concatenate(xs), np.concatenate(ys)
+    b = float(x @ y / (x @ x)) if (x @ x) > 0 else 0.0
+    return {k: means[k] + b * (s[o] - means[k]) for k, s in series.items()}
+
+
 def lag_gbdt(series, o, h, season):
     from sklearn.ensemble import HistGradientBoostingRegressor
 
@@ -95,6 +112,7 @@ MODELS = {
     "climatology": {"kind": "series", "fn": climatology},
     "ets": {"kind": "series", "fn": ets},
     "shrunk_persistence": {"kind": "pooled", "fn": shrunk_persistence},
+    "shrunk_to_own_mean": {"kind": "pooled", "fn": shrunk_to_own_mean},
     "lag_gbdt": {"kind": "pooled", "fn": lag_gbdt},
 }
 

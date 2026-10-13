@@ -74,3 +74,22 @@ def test_climatology_matches_the_phase_of_the_season():
     series = {"a": np.sin(2 * np.pi * t / 12)}
     r = evaluate(series, ["climatology"], horizons=12, origins=6, season=12)
     assert r["climatology"]["mae"] == pytest.approx(0.0, abs=1e-9)
+
+
+def test_shrinking_to_each_series_own_mean_removes_the_pooled_bias():
+    # Series at very different levels, each noisy around its own level.
+    rng = np.random.default_rng(3)
+    series = {f"s{i}": level + rng.normal(scale=1.0, size=80) for i, level in enumerate([0, 5, 20, 50])}
+    r = evaluate(series, ["shrunk_persistence", "shrunk_to_own_mean", "naive"], horizons=1,
+                 origins=20, season=12)
+    pooled, own = r["shrunk_persistence"], r["shrunk_to_own_mean"]
+    assert own["mae"] < pooled["mae"]
+    assert own["mae"] < r["naive"]["mae"]  # pulling a noisy last value to its own mean helps
+
+
+def test_own_mean_uses_only_the_history():
+    # Every series jumps from 0 to 100 at t=60; forecasts for t=41..50 must not know it.
+    rng = np.random.default_rng(4)
+    series = {f"s{i}": np.r_[rng.normal(size=60), 100 + rng.normal(size=20)] for i in range(5)}
+    r = evaluate(series, ["shrunk_to_own_mean"], horizons=1, origins=10, season=12, origin_from=40)
+    assert r["shrunk_to_own_mean"]["mae"] < 2
