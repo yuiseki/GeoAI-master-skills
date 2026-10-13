@@ -34,8 +34,7 @@ tables:
     unique: true
     joins:
     - mlit-toshi-keikaku-jp:*.Citycode
-    note: 1
-    918 行で重複が無い (実測)。全国の合計を取るときは、親と区が重なるので ward is null に絞る: null
+    note: 1,918 行で重複が無い (実測)。全国の合計を取るときは、親と区が重なるので ward is null に絞る
   - column: pref_code
     type: VARCHAR
     meaning: 2 桁の都道府県コード (文字列)

@@ -47,6 +47,23 @@ def column_type(fm, table, column):
     return None
 
 
+def broken_values(obj, path=""):
+    """Values that look cut in the middle: a key whose value is null (a comma split free text in a
+    flow mapping) or text with unbalanced parentheses."""
+    found = []
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if v is None and k not in ("rows", "crs"):
+                found.append(f"{path}/{k}: null value, so the text before it was cut at a comma")
+            found += broken_values(v, f"{path}/{k}")
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            found += broken_values(v, f"{path}[{i}]")
+    elif isinstance(obj, str) and (obj.count("(") != obj.count(")") or obj.count("（") != obj.count("）")):
+        found.append(f"{path}: unbalanced parentheses: {obj[:40]}")
+    return found
+
+
 def frontmatter_problems(refs):
     """Problems in the frontmatter of the dataset references under `refs`."""
     problems, fms = [], {}
@@ -67,6 +84,8 @@ def frontmatter_problems(refs):
             problems.append(f"{rel}: no YAML frontmatter")
             continue
         fms[rel] = fm
+        for item in broken_values({k: fm[k] for k in ("tables", "operations") if k in fm}):
+            problems.append(f"{rel}: {item}")
         kind = fm.get("kind")
         if kind not in REQUIRED:
             problems.append(f"{rel}: kind must be one of {', '.join(REQUIRED)}")

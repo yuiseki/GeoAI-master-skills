@@ -53,9 +53,7 @@ tables:
   - name: iata_code
     type: VARCHAR
     meaning: IATA コード。利用者の入力で、IATA の登録簿とは照合されていない
-    missing: NULL は IATA コードが無いこと (86
-    002 行のうち 76: null
-    945 行): null
+    missing: NULL は IATA コードが無いこと (86,002 行のうち 76,945 行)
   - name: geometry
     type: geometry:OGC:CRS84
     meaning: 点 (OGC:CRS84。経度、緯度)

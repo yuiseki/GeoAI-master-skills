@@ -36,8 +36,7 @@ tables:
     unique: false
     joins:
     - jp-admin-2026-09:municipalities.code5
-    note: 1
-    215 件すべてが code5 に一致する: null
+    note: 1,215 件すべてが code5 に一致する
   no_key:
   - name: feature_id
     note: 区画を一意に指す ID は無い。source_file と fid の組で行を指す
@@ -51,17 +50,14 @@ tables:
   - name: FAR
     type: DOUBLE
     meaning: 容積率 (%)。空は値が無いこと
-    missing: NULL は値が無いこと (8
-    561 行)。0 ではない: null
+    missing: NULL は値が無いこと (8,561 行)。0 ではない
   - name: BCR
     type: DOUBLE
     meaning: 建蔽率 (%)
   - name: INDate
     type: VARCHAR
     meaning: 当初決定の日付。書式がばらばらの文字列
-    missing: NULL が大半 (102
-    159 行のうち 101: null
-    092 行): null
+    missing: NULL が大半 (102,159 行のうち 101,092 行)
   - name: geometry
     type: geometry:EPSG:6668
     meaning: 用途地域の面 (EPSG:6668)

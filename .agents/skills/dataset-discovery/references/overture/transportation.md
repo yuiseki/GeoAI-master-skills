@@ -24,7 +24,7 @@ tables:
   join_keys:
   - column: connectors
     type: STRUCT(connector_id VARCHAR, "at" DOUBLE)[]
-    meaning: 線の上の接点の並び。(connector_id と at) の組で、at は線の上の位置 (始点 0、終点 1)
+    meaning: 線の上の接点の並び。(connector_id, at) の組で、at は線の上の位置 (始点 0、終点 1)
     unique: false
     joins:
     - connector.id

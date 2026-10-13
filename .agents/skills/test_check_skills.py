@@ -110,3 +110,10 @@ def test_joining_columns_of_different_types_needs_a_cast(tmp_path):
     assert any("say how to cast" in p for p in pair(tmp_path, GOOD, other))
     cast = GOOD.replace("        meaning: m\n", "        meaning: m\n        cast: cast(k as integer)\n")
     assert pair(tmp_path, cast, other) == []
+
+
+def test_a_value_cut_at_a_comma_is_reported(tmp_path):
+    cut = GOOD.replace("        meaning: m\n", "        meaning: 1\n        918 行: null\n")
+    assert any("null value" in p for p in pair(tmp_path, cut))
+    paren = GOOD.replace("        meaning: m\n", "        meaning: 開業日 (10\n")
+    assert any("unbalanced parentheses" in p for p in pair(tmp_path, paren))

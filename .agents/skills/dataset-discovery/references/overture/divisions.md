@@ -49,9 +49,7 @@ tables:
     meaning: 名前。言語が階層で違う (日本の都道府県は日本語、市区町村はローマ字だった)
   - name: population
     type: INTEGER
-    meaning: 人口。日本の locality 8
-    042 件のうち 1: null
-    748 件にだけある: null
+    meaning: 人口。日本の locality 8,042 件のうち 1,748 件にだけある
 - name: division_area
   read: s3://overturemaps-us-west-2/release/2026-09-23.1/theme=divisions/type=division_area/*.parquet
   grain: 1 つの行政区域の面。country と region は、陸の面と海の面 (領海) に分かれる

@@ -40,11 +40,7 @@ tables:
   join_keys:
   - column: osm_id
     type: BIGINT
-    meaning: OSM のウェイの ID。12
-    259: null
-    617 行に対し、異なる値は 12: null
-    209: null
-    517 (実測): null
+    meaning: OSM のウェイの ID。12,259,617 行に対し、異なる値は 12,209,517 (実測)
     unique: false
 - name: planet_osm_polygon
   read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_polygon.parquet
@@ -77,9 +73,7 @@ tables:
   join_keys:
   - column: osm_id
     type: BIGINT
-    meaning: OSM のウェイの ID。762
-    255 行に対し、異なる値は 757: null
-    067 (実測): null
+    meaning: OSM のウェイの ID。762,255 行に対し、異なる値は 757,067 (実測)
     unique: false
 ---
 

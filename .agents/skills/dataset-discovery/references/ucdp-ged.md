@@ -26,8 +26,7 @@ tables:
   join_keys:
   - column: priogrid_gid
     type: BIGINT
-    meaning: PRIO-GRID の 0.5 度格子の番号。事件のある格子 8
-    003 個だけが行に現れる: null
+    meaning: PRIO-GRID の 0.5 度格子の番号。事件のある格子 8,003 個だけが行に現れる
     unique: false
     joins: []
   - column: country_id

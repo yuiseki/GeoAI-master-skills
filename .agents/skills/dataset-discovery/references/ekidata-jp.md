@@ -62,8 +62,7 @@ tables:
     meaning: 経度 (世界測地系。WGS 84 として読む)。lat が緯度
   - name: open_ymd
     type: VARCHAR
-    meaning: 開業日。0000-00-00 は日付なし (10
-    584 駅): null
+    meaning: 開業日。0000-00-00 は日付なし (10,584 駅)
     missing: '''0000-00-00'' は日付なし (10,962 駅のうち 10,584 駅)'
   - name: geometry
     type: geometry:OGC:CRS84
