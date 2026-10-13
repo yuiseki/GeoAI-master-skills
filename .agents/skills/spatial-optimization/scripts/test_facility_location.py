@@ -85,3 +85,10 @@ def test_a_milp_that_does_worse_than_the_heuristic_is_reported_as_a_model_error(
     monkeypatch.setattr(fl, "pmedian_milp", wrong_model)
     with pytest.raises(SystemExit):
         fl.solve(d, w, 3, problem_kind="p-median")
+
+
+def test_distance_unit_follows_the_column_suffix():
+    import facility_location as fl
+    assert fl.distance_unit("distance_km") == "km"
+    assert fl.distance_unit("network_m") == "m"
+    assert fl.distance_unit("dist") == "m"

@@ -26,6 +26,11 @@ from scipy.optimize import Bounds, LinearConstraint, milp
 from scipy.sparse import coo_matrix, csr_matrix, hstack, vstack
 
 
+def distance_unit(column):
+    """The unit named by the distance column's suffix (`_km`, `_m`); metres when it names none."""
+    return "km" if column.endswith("_km") else "m"
+
+
 def pmedian_value(d, w, open_sites):
     return float(np.sum(w * d[:, open_sites].min(axis=1)))
 
@@ -181,11 +186,12 @@ def main():
     for k in a.p:
         out = solve(d, w, k, a.problem, a.radius)
         mi, he = out["milp"], out["heuristic"]
-        unit = "weighted m" if a.problem == "p-median" else f"weight within {a.radius:g} m"
+        u = distance_unit(a.distance)
+        unit = f"weighted {u}" if a.problem == "p-median" else f"weight within {a.radius:g} {u}"
         print(f"p={k}: MILP {mi['status']} {mi['recomputed']:.6g} {unit} ({mi['seconds']:.1f}s), "
               f"heuristic {he['recomputed']:.6g} ({he['seconds']:.1f}s)")
         if a.problem == "p-median":
-            print(f"    mean distance per unit of weight: {mi['recomputed'] / w.sum():.1f} m")
+            print(f"    mean distance per unit of weight: {mi['recomputed'] / w.sum():.1f} {u}")
         else:
             print(f"    share of weight covered: {mi['recomputed'] / w.sum():.1%}")
         print(f"    open: {[dests[j] for j in mi['open']]}")
