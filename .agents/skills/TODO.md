@@ -14,6 +14,11 @@
       - [x] `references/worldpop/population.md`
       - [ ] `references/worldpop/age-sex.md`
       - [ ] `references/worldpop/urbanisation.md`
+    - [x] `references/planetary-computer/README.md`: STAC API、匿名の SAS 署名の 3 つの方法
+      - [ ] コレクションごとのファイル (Sentinel-2 L2A、Landsat C2 L2、HLS、NASADEM、Copernicus DEM、ESA WorldCover、Impact Observatory の土地被覆)
+    - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
+    - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
+    - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
 - 単位を決めて、データをそろえる (3 / 3)
   - [x] `analysis-unit-design`: 分析の 1 行が何を表すか (点、格子、行政区、国、地域の組、それぞれ × 時間) を決める
