@@ -3,24 +3,18 @@
 - [x] `analysis-unit-design`: point / grid / 町丁目 / 区など分析単位を選ぶ
 - [x] `spatial-data-integration`: spatial join、最近傍、包含、集約で複数地理データを統合する
 - [x] `spatial-feature-engineering`: 密度、距離、近傍数、土地利用などの特徴量を構築する
+  - [ ] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る節
 - [x] `eda-and-baseline`: 分布、相関、単純平均、線形モデルなど最初の基準を作る
 - [x] `spatial-data-modeling`: 基準と同じ分割で、線形、木、ブースティング、事前学習モデルなどを当てはめて比べる。回帰と分類の両方。モデルの種類ごとの知識は references
+  - [ ] `references/time-series.md`: ARIMA、ETS、ラグ + GBDT、TimesFM (2.5 以前)。time-series-analysis から
+  - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
 - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
-- [ ] `leakage-audit`: target leakage、位置リーク、答えの言い換えを検出する
+- [ ] `leakage-audit`: 特徴量に答えや未来の情報が紛れ込んでいないか (target leakage、位置リーク、答えの言い換え) を検出する
 - [ ] `noise-ceiling-analysis`: 目的変数の雑音と予測可能性の上限を推定する
-- [ ] `robustness-analysis`: seed、sampling、aggregation、空間単位を変えて結論の安定性を見る
-- [ ] `maup-sensitivity`: grid・行政界・粒度による結果変化を検証する
-- [ ] `clustering-analysis`: k-means / DBSCAN / HDBSCAN / DPMM で空間構造を探索する
-- [ ] `dimensionality-reduction`: PCA、parallel analysis、bootstrap で潜在構造と安定性を見る
-- [ ] `anomaly-detection`: Isolation Forest / LOF で異常地点・異常時期を探索する
-- [ ] `time-series-analysis`: ARIMA / ETS / lag+GBDT 等で時間変化を分析・予測する
-- [ ] `uncertainty-estimation`: calibration、Brier/ECE、prediction interval を評価する
-- [ ] `model-explanation`: permutation importance / SHAP / partial dependence で説明する
-- [ ] `graph-analysis`: Dijkstra / A\* / matching など空間ネットワークを解析する
-- [ ] `linear-optimization`: LP、dual、relaxation を使って制約付き問題を解く
-- [ ] `integer-optimization`: MILP、maximum coverage など選択問題を解く
-- [ ] `facility-location`: p-median、coverage、交換法で施設配置を分析する
-- [ ] `assignment-optimization`: assignment / transportation / matching を解く
-- [ ] `constraint-programming`: CP-SAT、NoOverlap 等で配置・スケジューリングを解く
-- [ ] `multi-objective-analysis`: weighted sum、Pareto frontier、ε-constraint でトレードオフを出す
+- [ ] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間を評価する
+- [ ] `model-explanation`: permutation importance、SHAP、部分依存で、モデルが何に効いているかを説明する
+- [ ] `robustness-analysis`: 乱数の種、標本、集計、空間単位を変えて結論が保たれるかを見る。MAUP は references
+- [ ] `spatial-pattern-exploration`: 目的変数なしで空間の構造を探す。references に クラスタリング、次元削減、異常検知、空間自己相関とホットスポット、点パターン
+- [ ] `spatial-network-analysis`: 最短経路、到達圏、中心性で空間ネットワークを解析し、最適化に使う距離行列を作る
+- [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
 - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す
