@@ -77,8 +77,12 @@
     - [x] `references/baselines.md`
     - [ ] カーネル密度
     - [ ] 2 種類の点の間 (クロス K) と、散らばりの検定
-- ネットワークと最適化 (0 / 2)
-  - [ ] `spatial-network-analysis`: 最短経路、到達圏、中心性で空間ネットワークを解析し、最適化に使う距離行列を作る
+- ネットワークと最適化 (1 / 2)
+  - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る
+    - [x] `references/building-the-graph.md`
+    - [x] `references/measures.md`
+    - [ ] 一方通行と曲がれない交差点、速度から時間
+    - [ ] 出発地と目的地の表から距離行列を書き出すコマンド (spatial-optimization の入力)
   - [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
 - 残す (0 / 1)
   - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す
