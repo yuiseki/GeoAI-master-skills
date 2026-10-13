@@ -88,8 +88,19 @@ def test_shrinking_to_each_series_own_mean_removes_the_pooled_bias():
 
 
 def test_own_mean_uses_only_the_history():
-    # Every series jumps from 0 to 100 at t=60; forecasts for t=41..50 must not know it.
-    rng = np.random.default_rng(4)
-    series = {f"s{i}": np.r_[rng.normal(size=60), 100 + rng.normal(size=20)] for i in range(5)}
-    r = evaluate(series, ["shrunk_to_own_mean"], horizons=1, origins=10, season=12, origin_from=40)
-    assert r["shrunk_to_own_mean"]["mae"] < 2
+    from forecast import shrunk_to_own_mean
+
+    # The future (from t=6) jumps; the forecast from o=5 must be built from t <= 5 only.
+    series = {"a": np.array([1.0, 3.0, 1.0, 3.0, 1.0, 3.0, 100.0, 100.0]),
+              "b": np.array([10.0, 12.0, 10.0, 12.0, 10.0, 12.0, 500.0, 500.0])}
+    o, h = 5, 1
+    means = {"a": 2.0, "b": 11.0}  # means of t = 0..5
+    x = np.r_[[series[k][:o] - means[k] for k in series]].ravel()       # t = 0..4
+    y = np.r_[[series[k][1:o + 1] - means[k] for k in series]].ravel()  # t + 1 = 1..5
+    b = x @ y / (x @ x)
+    f = shrunk_to_own_mean({k: v[:o + 1] for k, v in series.items()}, o, h, 12)
+    for k in series:
+        assert f[k] == pytest.approx(means[k] + b * (series[k][o] - means[k]))
+    # Handing it the whole series must not change the answer: it may read only up to o.
+    g = shrunk_to_own_mean(series, o, h, 12)
+    assert g == pytest.approx(f)
