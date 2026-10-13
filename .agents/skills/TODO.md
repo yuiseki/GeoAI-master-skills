@@ -5,6 +5,15 @@
     - [x] `references/ourairports.md`
     - [x] `references/ucdp-ged.md`
     - [x] `references/unhcr-refugee-stats.md`
+    - [x] `references/overture/README.md`: 目録の引き方、S3 の Parquet の読み方、ライセンス
+      - [x] `references/overture/divisions.md`
+      - [x] `references/overture/transportation.md`
+      - [ ] `references/overture/places.md`
+      - [ ] `references/overture/buildings.md`
+    - [x] `references/worldpop/README.md`: STAC API、year と datetime、Range が効かない配布元、HF の日本の凍結版
+      - [x] `references/worldpop/population.md`
+      - [ ] `references/worldpop/age-sex.md`
+      - [ ] `references/worldpop/urbanisation.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
 - 単位を決めて、データをそろえる (3 / 3)
   - [x] `analysis-unit-design`: 分析の 1 行が何を表すか (点、格子、行政区、国、地域の組、それぞれ × 時間) を決める

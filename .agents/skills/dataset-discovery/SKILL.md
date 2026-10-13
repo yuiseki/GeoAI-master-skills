@@ -22,7 +22,7 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 4. 複数のデータセットを結ぶなら、結合キーで実際に結んで一致する件数と一致しない値を数える。結合キーの NULL、重複、`-99` のような欠損の符号も数える。空間結合なら両方の CRS 名を確かめる。
 5. 下の「書き出すもの」を残す。reference と実測が食い違ったら、実測を書き、食い違いも書く。
 
-索引に無いデータセットが要る場合は、使う前に reference を 1 つ書き足す。
+索引に無いデータセットが要る場合は、使う前に reference を 1 つ書き足す。多数のデータセットを束ねた目録 (STAC など) は、1 目録 1 ディレクトリにして、目録の引き方を `README.md` に、データセットやテーマごとの中身を別のファイルに書く。
 
 ## 索引
 
@@ -33,6 +33,8 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 | [ourairports](references/ourairports.md) | 空港、ヘリポート、飛行場の点と IATA / ICAO コード | 全世界の点 | 2026-08-31 で凍結 |
 | [ucdp-ged](references/ucdp-ged.md) | 組織的暴力の事件の点と死者数 | 全世界の点 (精度はまちまち) | 1989〜2025、版ごと |
 | [unhcr-refugee-stats](references/unhcr-refugee-stats.md) | 出身国 × 庇護国 × 年の難民などの人数 | 国の組、座標なし | 1951〜2025、版ごと |
+| [overture/](references/overture/README.md) | 目録。行政区域、道路と交差点、POI、建物など | 全世界 | 月ごとの版 |
+| [worldpop/](references/worldpop/README.md) | 目録。人口の格子 (100 m、1 km)、年齢・性別、都市化度 | 全世界、国ごと | 2015〜2030 |
 
 Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。
 
