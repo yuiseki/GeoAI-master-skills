@@ -4,10 +4,12 @@
 
 ## どこから読むか
 
-1. [docs/tutorial/README.md](docs/tutorial/README.md): 国の平均寿命の予測を、最初から最後まで通す入門。実際に流して、画面の出力を載せてある。まずこれを手を動かして読む。
+1. [docs/tutorial/README.md](docs/tutorial/README.md): 座標の基礎から、国の平均寿命の予測を最初から最後まで通す入門。実際に流して、画面の出力を載せてある。まずこれを手を動かして読む。
 2. [docs/glossary.md](docs/glossary.md): CRS、Moran's I、リーク、交差検証などの用語集。分からない言葉が出たら引く。
-3. [AGENTS.md](AGENTS.md): 分析の流れ全体。どの問いにどのスキルを使うかが分かる。
+3. [AGENTS.md](AGENTS.md) (このリポジトリの直下): 分析の流れ全体。どの問いにどのスキルを使うかが分かる。
 4. `.agents/skills/<スキル>/SKILL.md`: 問いごとの手順。必要なものだけ読めばよい。どのスキルも、それだけで最後まで進められるように書いてある。
+
+進み具合の表 [.agents/skills/TODO.md](.agents/skills/TODO.md) は、リポジトリ直下でなく `.agents/skills/` の中にある。`.agents/skills/AGENTS.md` は、スキルを書く人向けの決まりで、使う人が読む必要はない。
 
 ## 何が入っているか
 
@@ -26,7 +28,7 @@
 ## 動かすために
 
 - Python の道具は `uv` を使う。スクリプトは `uvx --with ... python scripts/<name>.py` で、環境を作らずに動く。
-- 実データの処理は、メモリと CPU に上限を付けて流す。方法は [.agents/skills/AGENTS.md](.agents/skills/AGENTS.md) の「スクリプト」。
+- 自分の PC では、`uv` だけで動く。メモリと CPU の上限 (`systemd-run`) は、このリポジトリを作った Linux の機械 (swap が無く、メモリが尽きると機械ごと止まる) の事情で付けている。Windows や macOS では使えず、付けなくてもよい。大きなデータを流すときは、自分の環境に合わせて上限を考える。
 - スキルの書き方と、独立させる決まりは同じファイル。`python3 .agents/skills/check_skills.py` で確かめる。
 
 ## 数字について
