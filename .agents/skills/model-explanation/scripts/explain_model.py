@@ -8,6 +8,9 @@
     pd          partial dependence: in each fold, set the feature to each grid value for every
                 test row and average the predictions; the grid runs between the 5th and 95th
                 percentiles, where there are data.
+    ice         the same curve for each of a sample of rows (first repeat), summarised by how
+                much each row's prediction changes over the grid: an average that hides
+                opposite effects shows up as rows going both ways.
 
 Models and folds come from spatial-data-modeling/scripts/compare_models.py.
 
@@ -75,9 +78,33 @@ def partial_dependence(y, X, j, model_name, folds, task, points=11):
     return grid, np.mean(curves, axis=0)
 
 
+def ice_curves(y, X, j, model_name, folds, task, points=11, sample=200, seed=0):
+    """Individual conditional expectation: for a random sample of rows, each row's prediction as
+    feature j runs over the grid, from the model of the fold in which the row was held out (the
+    first repeat). Returns the curves (rows x points) and the sampled row indices."""
+    y, X = np.asarray(y), np.asarray(X, float)
+    grid = np.linspace(*np.percentile(X[:, j], [5, 95]), points)
+    repeat = sorted(folds)[0]
+    rng = np.random.default_rng(seed)
+    tested = np.concatenate([t for _, t in folds[repeat]])
+    rows = np.sort(rng.choice(tested, size=min(sample, len(tested)), replace=False))
+    curves = np.full((len(rows), points), np.nan)
+    pos = {r: i for i, r in enumerate(rows)}
+    for train, test in folds[repeat]:
+        mine = [r for r in test if r in pos]
+        if not mine:
+            continue
+        model = MODELS[model_name][task](repeat).fit(X[train], y[train])
+        for k, v in enumerate(grid):
+            Xg = X[mine].copy()
+            Xg[:, j] = v
+            curves[[pos[r] for r in mine], k] = _predict(model, Xg, task)
+    return curves, rows
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("kind", choices=["importance", "pd"])
+    p.add_argument("kind", choices=["importance", "pd", "ice"])
     p.add_argument("table")
     p.add_argument("id")
     p.add_argument("target")
@@ -114,6 +141,15 @@ def main():
         print(f"drop in {metric} when permuted on held-out rows (mean, sd over folds):")
         for k, v in sorted(imp.items(), key=lambda kv: -kv[1]["mean"]):
             print(f"  {k:<24} {v['mean']:+.3f}  (sd {v['sd']:.3f})")
+    elif a.kind == "ice":
+        if a.feature not in a.features:
+            p.error("--feature must be one of the features")
+        curves, rows = ice_curves(y, X, a.features.index(a.feature), a.model, folds, a.task, a.points)
+        change = curves[:, -1] - curves[:, 0]
+        q = np.percentile(change, [10, 50, 90])
+        print(f"ICE of {a.feature}, {len(rows)} sampled rows: change of the prediction from the 5th to the"
+              f" 95th percentile: 10th {q[0]:+.4g}, median {q[1]:+.4g}, 90th {q[2]:+.4g};"
+              f" rows going down {int((change < 0).sum())}, up {int((change > 0).sum())}")
     else:
         if a.feature not in a.features:
             p.error("--feature must be one of the features")

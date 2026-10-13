@@ -66,7 +66,7 @@
     - [x] `references/permutation.md`
     - [x] `references/partial-dependence.md`
     - [ ] `references/shap.md`: SHAP 値。行ごとの説明
-    - [ ] 行ごとの部分依存の曲線 (ICE)
+    - [x] 行ごとの部分依存の曲線 (ICE)
   - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
     - [x] `references/maup.md`
     - [ ] 格子の原点をずらす区切り方の効果

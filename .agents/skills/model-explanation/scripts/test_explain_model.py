@@ -52,3 +52,17 @@ def test_partial_dependence_follows_the_shape_of_the_relation():
     centre = pd[len(pd) // 2]
     assert pd[0] > centre + 2 and pd[-1] > centre + 2
     assert grid[0] < -1.5 and grid[-1] > 1.5
+
+
+def test_ice_shows_opposite_effects_that_the_average_hides():
+    from explain_model import ice_curves
+
+    rng = np.random.default_rng(5)
+    X = rng.uniform(-1, 1, size=(1200, 2))
+    y = 3 * X[:, 0] * np.sign(X[:, 1]) + rng.normal(scale=0.1, size=1200)
+    grid, pd = partial_dependence(y, X, 0, "hgb", kfold(1200), "regression", points=7)
+    curves, rows = ice_curves(y, X, 0, "hgb", kfold(1200), "regression", points=7, sample=200, seed=0)
+    assert np.ptp(pd) < 1.0  # the average is nearly flat
+    slopes = curves[:, -1] - curves[:, 0]
+    up = X[rows, 1] > 0
+    assert slopes[up].mean() > 3 and slopes[~up].mean() < -3
