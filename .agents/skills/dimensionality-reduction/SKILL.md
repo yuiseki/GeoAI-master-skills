@@ -21,7 +21,7 @@ description: 多くの特徴量を少数の軸 (主成分) で要約できるか
 5. 軸ごとに、軸の一致度と空間の一致度を見る。軸の一致度が 0.95 以上の軸だけに名前を付ける。軸の一致度が低く空間の一致度が高い軸は、隣の軸と組で読む。
 6. 名前を付けた軸の負荷量の大きい特徴量を言葉にする。
 7. 地域や期間で分けても同じ軸が出るかを `--compare-by` で確かめる (references/choosing-components.md)。全体の軸が、どの部分にも当てはまるとは限らない。
-8. 得点 (`--scores-out`) を地図や他のスキル (clustering-analysis、spatial-autocorrelation、モデルの特徴量) に渡す。
+8. 得点 (`--scores-out`) を地図や、群分け、空間自己相関、モデルの特徴量に渡す。
 
 ```sh
 uvx --with numpy --with scipy --with duckdb --with pyarrow python scripts/reduce_dims.py \

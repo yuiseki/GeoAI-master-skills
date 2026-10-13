@@ -32,8 +32,8 @@ from sklearn.metrics import adjusted_rand_score, silhouette_score
 from sklearn.mixture import BayesianGaussianMixture
 from sklearn.preprocessing import StandardScaler
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "spatial-autocorrelation" / "scripts"))
-from spatial_autocorrelation import knn_neighbors  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from knn_neighbors import knn_neighbors  # noqa: E402
 
 
 def cluster(X, method, params, seed=0):

@@ -15,7 +15,7 @@ description: モデルの不確かさを信じてよいかを確かめる。分�
 ## 手順
 
 1. 予測をどう使うかを書く。確率をそのまま使うのか、しきい値で 0/1 にするのか、区間で幅を示すのか。
-2. spatial-data-modeling の `compare_models.py --predictions-out` で、交差検証の外側の予測を書き出す。学習に使った行の予測では、不確かさを小さく見積もる。
+2. 交差検証の外側の予測を (repeat、model、id、target、prediction) の列の Parquet に書き出す (書き方は [references/predictions-file.md](references/predictions-file.md))。学習に使った行の予測では、不確かさを小さく見積もる。
 3. `scripts/uncertainty.py` で、全体と、グループ (`--by`、地域、年、所得階層など) ごとに確かめる。
 4. ずれていたら、その原因を探す。時代による基準の割合のずれか、特定のグループの雑音の大きさか、モデルの癖か。
 5. 直すなら、学習側の中で較正する、グループごとに区間を作る、などを行い、同じ分割表で確かめ直す。

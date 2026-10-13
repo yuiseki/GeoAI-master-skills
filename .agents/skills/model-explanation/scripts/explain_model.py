@@ -12,7 +12,7 @@
                 much each row's prediction changes over the grid: an average that hides
                 opposite effects shows up as rows going both ways.
 
-Models and folds come from spatial-data-modeling/scripts/compare_models.py.
+Models and folds come from compare_models.py, a copy of which sits in this directory.
 
 Usage:
     uvx --with duckdb --with scikit-learn python explain_model.py importance TABLE ID TARGET F1 F2 ... \
@@ -28,7 +28,7 @@ from pathlib import Path
 import numpy as np
 from sklearn.metrics import r2_score, roc_auc_score
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "spatial-data-modeling" / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_models import MODELS, load_folds  # noqa: E402
 
 

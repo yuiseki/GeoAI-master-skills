@@ -10,7 +10,7 @@
                  residuals, each row's interval built from the other rows' residuals, or from the
                  past only (--time, --calibrate-before), and their coverage overall and by --by
 
-The input is the predictions file of spatial-data-modeling/scripts/compare_models.py
+The input is an out-of-fold predictions file
 (--predictions-out: repeat, model, id, target, prediction), joined to a table for --by.
 
 Usage:

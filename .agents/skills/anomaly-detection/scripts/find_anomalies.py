@@ -31,8 +31,8 @@ from sklearn.ensemble import IsolationForest
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.preprocessing import StandardScaler
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "spatial-autocorrelation" / "scripts"))
-from spatial_autocorrelation import knn_neighbors  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from knn_neighbors import knn_neighbors  # noqa: E402
 
 
 def expected_from_time(x, unit, time, window=2, past_only=False):

@@ -14,9 +14,9 @@ description: モデルが何に頼って予測しているかを、採点と同�
 
 ## 手順
 
-1. 説明したいモデルと、本番の使い道に合った分割表を決める (cross-validation-design)。
+1. 説明したいモデルと、本番の使い道に合った分割表 (repeat、fold、id、role の Parquet) を決める。
 2. `scripts/explain_model.py importance` で、各 fold の試験側の行で重要度を測る。相関の強い特徴量 (緯度と経度、似た指標) は `--group` でまとめても測る。
-3. 甘い分割表 (行を無作為に) でも測り、重要度を比べる。甘い分割表でだけ重要な特徴量は、単位や場所を覚えるのに使われている (leakage-audit)。
+3. 甘い分割表 (行を無作為に) でも測り、重要度を比べる。甘い分割表でだけ重要な特徴量は、単位や場所を覚えるのに使われている。
 4. 重要な特徴量について、`scripts/explain_model.py pd` で部分依存を見る。向きと形 (直線、飽和、しきい値) を言葉にする。 `ice` で行ごとの曲線も見て、行によって向きが逆になっていないかを確かめる。
 5. 線形モデルの係数や、別のモデルの部分依存と並べる。モデルによって形が違うなら、どちらかの形はデータの少ない所の当て推量。
 6. 書き出す。
@@ -30,7 +30,7 @@ uvx --with duckdb --with scikit-learn python scripts/explain_model.py pd \
   --folds-file tmp/folds_rows.parquet --feature F1
 ```
 
-モデルと分割表の読み込みは spatial-data-modeling の `compare_models.py` を使う。
+モデルと分割表の読み込みは、同じ場所の `compare_models.py` を使う。
 
 テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_explain_model.py`。目的変数に関係する特徴量だけが重要になること、学習側の行で測ると雑音の特徴量まで重要に見えること、相関の強い 2 つの特徴量をまとめて並べ替えると組を保ったまま壊れること、部分依存が関係の形 (2 次曲線) をたどることを確かめている。学習側の行で測る、群を別々に並べ替える、のそれぞれで落ちることを確かめてある。
 

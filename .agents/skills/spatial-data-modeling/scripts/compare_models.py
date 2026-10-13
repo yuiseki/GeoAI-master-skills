@@ -1,6 +1,6 @@
 """Compare models on the same folds, out of fold, over several repeats.
 
-The folds come from a fold table made by cross-validation-design/scripts/make_folds.py, so that
+The folds come from a fold table (repeat, fold, id, role; one Parquet file), so that
 baselines and models are scored on the same folds. In each repeat every tested row is predicted
 once, by a model fitted without it, and the repeat's predictions are scored together; rows the
 repeat never tests (the first periods of time folds) are left out of the score, and n says how many

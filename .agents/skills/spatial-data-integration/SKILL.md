@@ -1,6 +1,6 @@
 ---
 name: spatial-data-integration
-description: 複数の地理データを、analysis-unit-design で決めた単位に結合する。点を面に入れる、最近傍に割り当てる、キーで結ぶ、単位ごとに集計する。結合の前後で全ての行を数え、落ちた行と重複した行を報告する。
+description: 複数の地理データを、分析の単位として決めた単位に結合する。点を面に入れる、最近傍に割り当てる、キーで結ぶ、単位ごとに集計する。結合の前後で全ての行を数え、落ちた行と重複した行を報告する。
 ---
 
 # spatial-data-integration
@@ -9,7 +9,7 @@ description: 複数の地理データを、analysis-unit-design で決めた単�
 
 ## 手順
 
-1. 結合する 2 つのデータについて、CRS の名前、座標の順、結合キーを確かめる。dataset-discovery の reference と、このスキルの [references/duckdb-spatial.md](references/duckdb-spatial.md) を読む。
+1. 結合する 2 つのデータについて、CRS の名前、座標の順、結合キーを確かめる。データセットの説明 (CRS、座標の順、結合キーの一致) と、このスキルの [references/duckdb-spatial.md](references/duckdb-spatial.md) を読む。
 2. 結合の種類を選ぶ (下の表)。
 3. 結合する。入力の各行を、ちょうど 1 つに入った、複数に入った、どれにも入らなかった、に分けて数える。
 4. どれにも入らなかった行を見る。種類、場所、値で偏っていないか。最寄りに割り当てるなら距離の上限を決め、割り当てた距離の分布を書く。
@@ -39,7 +39,7 @@ uvx --from 'duckdb>=1.5.5' python scripts/assign_points.py \
 
 テストは `uvx --from 'duckdb>=1.5.5' --with pytest pytest scripts/test_assign_points.py`。
 
-上の例は約 1 分で終わる。結果と、そこから分かったことは `../dataset-discovery/references/ourairports.md` にある。結合して分かったデータセット固有のことは、このスキルでなくそのデータセットの reference に書く。
+上の例は約 1 分で終わる。結合して分かったデータセット固有のことは、このスキルでなく、そのデータセットの説明 (リポジトリにデータセットごとの reference があればそこ) に書く。
 
 ## 書き出すもの
 

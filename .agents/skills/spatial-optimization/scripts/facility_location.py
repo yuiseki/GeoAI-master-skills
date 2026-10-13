@@ -15,7 +15,7 @@ Usage:
         --problem p-median|coverage --p 5 [--radius 800] [--distance network_m]
 
 MATRIX: origin (demand id), destination (candidate id), and a distance column, every pair present
-(spatial-network-analysis/scripts/road_network.py matrix writes one). WEIGHTS: id, weight.
+(any all-pairs distance table in this shape works). WEIGHTS: id, weight.
 """
 
 import argparse

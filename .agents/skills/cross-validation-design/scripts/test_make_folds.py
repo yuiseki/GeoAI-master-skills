@@ -113,7 +113,7 @@ def test_space_time_combines_both(data):
                 assert haversine_km(*pos[a], *pos[b]) > 150
 
 
-def test_the_command_line_writes_a_fold_table_compare_models_can_read(tmp_path):
+def test_the_command_line_writes_a_fold_table_score_folds_can_read(tmp_path):
     import subprocess
     import sys
     from pathlib import Path
@@ -137,8 +137,8 @@ def test_the_command_line_writes_a_fold_table_compare_models_can_read(tmp_path):
         rows = duckdb.sql(f"select repeat, fold, id, role from '{folds}'").fetchall()
         assert rows and {r[3] for r in rows} == {"train", "test"}
 
-    sys.path.insert(0, str(here.parent.parent / "spatial-data-modeling" / "scripts"))
-    from compare_models import load_folds
+    sys.path.insert(0, str(here))
+    from score_folds import load_folds
 
     ids = duckdb.sql(f"select id from '{table}'").fetchnumpy()["id"]
     loaded = load_folds(str(folds), ids)

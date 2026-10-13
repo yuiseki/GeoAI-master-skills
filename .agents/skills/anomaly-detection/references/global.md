@@ -9,7 +9,7 @@
 
 - `find_anomalies.py` は scikit-learn の `IsolationForest(n_estimators=500)` と `LocalOutlierFactor(n_neighbors=20)` を使い、どちらも高いほど外れとして出す。並べるのは Isolation Forest。
 - どの特徴量の組み合わせで外れているかは、得点からは分からない。上位の単位の特徴量を、全体の分布と並べて見る。
-- clustering-analysis で 1 単位だけの群になった単位や、密度に基づく手法で雑音とされた単位は、ここでも上位に来ることが多い。
+- 群に分けたとき 1 単位だけの群になった単位や、密度に基づく手法で雑音とされた単位は、ここでも上位に来ることが多い。
 
 ## 例
 

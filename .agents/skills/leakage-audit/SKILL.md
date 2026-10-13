@@ -7,7 +7,7 @@ description: 特徴量に、答えの言い換え、単位の識別子、予測�
 
 リークは、点数が良く見えるという形でしか現れない。良い点数が出たら、まず漏れを疑う。
 
-分け方によるリーク (同じ単位の別の行を覚える) は cross-validation-design、特徴量を作るときの注意は spatial-feature-engineering にある。このスキルは、できあがった特徴量を監査する。
+このスキルは、できあがった特徴量を監査する。分け方によるリーク (同じ単位の別の行を覚える) は、評価の分け方を変えて点数の差を見ることで確かめる。分割表は (repeat、fold、id、role) の Parquet で、`--folds-file` に渡す。
 
 ## 手順
 
@@ -19,7 +19,7 @@ description: 特徴量に、答えの言い換え、単位の識別子、予測�
 
 ## 監査の 4 つの検査
 
-`scripts/audit_features.py` は、spatial-data-modeling の `compare_models.py` と同じ分割表、同じ採点で次を出す。
+`scripts/audit_features.py` は、同じ分割表、同じ採点 (同じ場所の `compare_models.py`) で次を出す。
 
 | 検査 | 何をするか | 旗が立ったら |
 |---|---|---|

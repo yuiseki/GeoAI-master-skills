@@ -48,7 +48,7 @@ select * replace (ST_SetCRS(geometry, 'EPSG:4326') as geometry) from airports
 - `XP`: 南シナ海の西沙諸島の施設。係争地
 - `ZZ`: `Non-Existent Airport` のような架空の行
 
-点を Natural Earth の 10m の国の面に入れ、入らなければ 5 km 以内の最寄りの国に割り当てた結果 (spatial-data-integration の `assign_points.py`、2026-10-10):
+点を Natural Earth の 10m の国の面に入れ、入らなければ 5 km 以内の最寄りの国に割り当てた結果 (最近傍への割り当てを含む点の結合、2026-10-10):
 
 | 区分 | 件数 | `iso_country` と一致 |
 |---|---:|---:|

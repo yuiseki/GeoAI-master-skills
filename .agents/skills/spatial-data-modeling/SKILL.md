@@ -1,6 +1,6 @@
 ---
 name: spatial-data-modeling
-description: eda-and-baseline で出した基準と同じ分割、同じ指標で、線形、木、ブースティングなどのモデルを当てはめて比べる。回帰と分類の両方。モデルの種類ごとの前処理と落とし穴は references にある。
+description: 基準 (平均、グループ平均、線形) と同じ分割、同じ指標で、線形、木、ブースティングなどのモデルを当てはめて比べる。回帰と分類の両方。モデルの種類ごとの前処理と落とし穴は references にある。
 ---
 
 # spatial-data-modeling
@@ -21,7 +21,7 @@ description: eda-and-baseline で出した基準と同じ分割、同じ指標�
 
 1. 問いの種類 (回帰か分類か) と、モデルを何に使うか (予測か、説明か) を書く。説明に使うなら、点数より係数や効き方の安定が大事になる。
 2. 試すモデルを先に決める。基準 (mean か prior、group_mean) を必ず含める。
-3. 分割は cross-validation-design で作った分割表を使う。eda-and-baseline の基準と同じ分割表で採点する。甘い分け方と厳しい分け方の両方で比べる。
+3. 分割は (repeat、fold、id、role の Parquet の) 分割表で決め、基準も同じ分割表で採点する。甘い分け方と厳しい分け方の両方で比べる。
 4. 各モデルの前処理を、そのモデルの reference に従って決める。前処理 (標準化、欠損の補完、エンコード) で学習するものは、学習側の行だけで学習する。
 5. ハイパーパラメータを決める。決めるなら学習側の中で決める (内側の交差検証か、学習側から取り分けた検証用の行)。試験側の点数を見て選ばない。
 6. repeat (乱数の種) を 3 つ以上にして、平均とばらつきを書く。ばらつきより小さい差は差と呼ばない。
@@ -38,7 +38,7 @@ uvx --with duckdb --with scikit-learn python scripts/compare_models.py tmp/table
   --folds-file tmp/folds_region.parquet
 ```
 
-`--predictions-out FILE` (`--with pyarrow` が要る) で、交差検証の外側の予測を (repeat、model、id、target、prediction) の表に書き出す。残差の空間自己相関 (spatial-autocorrelation) や較正 (uncertainty-estimation) に使う。
+`--predictions-out FILE` (`--with pyarrow` が要る) で、交差検証の外側の予測を (repeat、model、id、target、prediction) の表に書き出す。残差の空間自己相関や較正に使う。
 
 表は、使う列に欠損の無い行だけにしておく。分割表もその表から作る。分割表の id がデータの行に無いと止まる。
 

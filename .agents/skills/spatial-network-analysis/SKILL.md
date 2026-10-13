@@ -1,6 +1,6 @@
 ---
 name: spatial-network-analysis
-description: 道路などの線のデータからネットワークを作り、道のりの距離、到達圏、道のりと直線距離の比を測る。直線距離では足りない問い (歩いて何分か、どこまで届くか) や、spatial-optimization の距離行列を作るときに使う。
+description: 道路などの線のデータからネットワークを作り、道のりの距離、到達圏、道のりと直線距離の比を測る。直線距離では足りない問い (歩いて何分か、どこまで届くか) や、施設配置などの最適化に渡す距離行列を作るときに使う。
 ---
 
 # spatial-network-analysis
@@ -33,7 +33,7 @@ uvx ... python scripts/road_network.py matrix tmp/walk_edges.parquet tmp/walk_no
   --origins tmp/demand.parquet --destinations tmp/candidates.parquet --out tmp/matrix.parquet
 ```
 
-`matrix` は、出発地と目的地 (どちらも id、lon、lat の表) を最大の連結成分の節点に寄せ、全ての組の道のり、直線距離、寄せた距離を書き出す。道のりは寄せた節点の間のもので、寄せた距離は足していない。spatial-optimization の入力になる。
+`matrix` は、出発地と目的地 (どちらも id、lon、lat の表) を最大の連結成分の節点に寄せ、全ての組の道のり、直線距離、寄せた距離を書き出す。道のりは寄せた節点の間のもので、寄せた距離は足していない。施設配置などの最適化の入力にできる。
 
 テストは `uvx --with numpy --with scipy --with scikit-learn --with shapely --with duckdb --with pytest pytest scripts/test_road_network.py`。線の長さが大円距離であること、線を connector の位置で切り、並びが順でなくても正しく切ること、折れ線の後の区間の上の connector をその区間に置くこと、最短経路が共有の connector を通ること、つながらない組が無限大であること、点を大円距離で最寄りの節点に寄せ、孤立した小片を避けられること、同じ 2 点を結ぶ道が 2 本あれば短いほうを使うことを確かめている。connector を並べ替えない、寄せるときに経度と緯度を取り違える、平行な道の長いほうを取る、節点を最初の区間にしか置かない、のそれぞれで落ちることを確かめてある。
 

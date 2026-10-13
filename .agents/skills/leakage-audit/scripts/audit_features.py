@@ -15,7 +15,7 @@ Usage:
     uvx --with duckdb --with scikit-learn python audit_features.py TABLE ID TARGET FEATURE [...] \
         --task regression|classification --folds-file folds.parquet [--group COL] [--flag-score 0.9]
 
-Scoring and folds come from spatial-data-modeling/scripts/compare_models.py.
+Scoring and folds come from compare_models.py, a copy of which sits in this directory.
 """
 
 import argparse
@@ -24,7 +24,7 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "spatial-data-modeling" / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_models import load_folds, run  # noqa: E402
 
 

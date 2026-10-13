@@ -1,6 +1,6 @@
 # Overture: divisions
 
-国から町丁目までの行政区域。Natural Earth には無い、国の中の細かい階層 (日本なら都道府県、市区町村、町丁目) がある。分析の単位 (analysis-unit-design) や、集計の単位を変える MAUP の比較 (robustness-analysis) に使う。
+国から町丁目までの行政区域。Natural Earth には無い、国の中の細かい階層 (日本なら都道府県、市区町村、町丁目) がある。分析の単位や、集計の単位を変える MAUP の比較に使う。
 
 ## 3 つの種類
 

@@ -10,7 +10,7 @@
 
 - ECE は帯の切り方で変わる。行の少ない帯の差は偶然が大きい。表の行数と並べて読む。
 - AUC は順位しか見ないので、較正が崩れていても変わらない。確率を使うなら、AUC だけで判断しない。
-- 分類の指標と基準 (prior) は spatial-data-modeling の references/classification.md。
+- 分類の指標は log loss、Brier、AUC、accuracy。基準 (prior) は学習側のクラスの割合をそのまま予測する。
 
 ## 時代による基準の割合のずれ
 

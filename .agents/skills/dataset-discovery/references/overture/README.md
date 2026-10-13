@@ -37,7 +37,7 @@ where bbox.xmin <= 139.82 and bbox.xmax >= 139.76 and bbox.ymin <= 35.73 and bbo
 ```
 
 - 各行の範囲は `bbox` 列 (xmin、xmax、ymin、ymax) にある。これで絞ると、Parquet の行グループの統計で読まない部分を飛ばせる。
-- `geometry` の CRS 名は `OGC:CRS84`。Natural Earth (`EPSG:4326`) と空間結合するには、spatial-data-integration の references/duckdb-spatial.md のとおり名前を揃える。
+- `geometry` の CRS 名は `OGC:CRS84`。Natural Earth (`EPSG:4326`) と空間結合するには、`ST_Transform` などで CRS の名前を揃えてから結合する (名前が違うだけで同じ CRS でも、DuckDB は食い違いとして拒む)。
 - 速さ (2026-10-10、この環境から): 台東区付近 (経度 0.06 度 × 緯度 0.04 度) の道路 24,170 本を、範囲の重なる 4 ファイルから bbox で絞って読むのに 97 秒。divisions/division の 470 万行のうち 10 列を全て読むのに 111 秒。division_area の日本の行の数え上げは 10 秒。
 - 列名 `primary` は SQL の予約語なので、`names."primary"` と引用する。
 
