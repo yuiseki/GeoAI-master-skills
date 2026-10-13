@@ -17,8 +17,8 @@ select count(*) from 'https://stac.yuiseki.net/mlit-nlftp/items.parquet';
 ## 気をつけること
 
 - Python の `urllib` の既定の User-Agent では、Cloudflare に 403 を返される。User-Agent を付ければ 200 (2026-10-10 に確かめた)。DuckDB と curl は通る。
-- ライセンスはデータセットではなく年に付く。`redistribution` 列 (`allowed`、`not-allowed`、`check`) で絞る。ただし `allowed` でも、国土地理院の承認の注記 (`ksj:source_material`) によってはファイルの再配布に承認が要る (study-geoai-algo-py の記録)。分析の結果の公開とファイルの再配布を分けて考える。
+- ライセンスはデータセットではなく年に付く。`redistribution` 列 (`allowed`、`not-allowed`、`check`) で絞る。ただし `allowed` でも、国土地理院の承認の注記 (`ksj:source_material`) によってはファイルの再配布に承認が要る (以前の調査の記録)。分析の結果の公開とファイルの再配布を分けて考える。
 - 最新の年は都道府県ごとに違う。`is_latest` は地域ごとの最新。
 - 範囲 (footprint) は都道府県の外接矩形で、中身の実測ではない。
 - 測地系が JGD2011 と JGD2000 で混ざる。古い Shapefile は Shift-JIS。
-- 配布は zip だけで、必要な範囲だけを読むことはできない。東京都の 4 データセットは、GeoParquet にしたミラーが `https://z.yuiseki.net/static/ksj/` にある (study-geoai-algo-py の記録)。
+- 配布は zip だけで、必要な範囲だけを読むことはできない。東京都の 4 データセットは、GeoParquet にしたミラーが `https://z.yuiseki.net/static/ksj/` にある (以前の調査の記録)。

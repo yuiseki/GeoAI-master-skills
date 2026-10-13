@@ -14,5 +14,5 @@
 - CKAN には場所も時刻も無いので、目録の場所と時刻は推定値。推定の根拠は `tokyo:footprint_basis` と `tokyo:datetime_basis`。場所は公開した組織の管轄区域の矩形で、データの点がその中にあるとは限らない。
 - 時刻がデータの時期を表すのは、`datetime_basis` が `resource-name` か `dataset-title` のものだけ。
 - 同じ名前のデータセットでも列の構成が同じとは限らない。`family_layout_match` で確かめる。
-- ファイルのリンクは切れる。study-geoai-algo-py の記録では、23 区の施設一覧の CSV 194 件のうち 11 件が 2026-09-28 に 404 で、残り 183 件を `https://z.yuiseki.net/static/tokyo-ckan-files/` に中身を変えずに置いてある。文字コードは UTF-8、CP932、UTF-16 が混ざり、緯度と経度の列があっても値が空のものが多い。
+- ファイルのリンクは切れる。以前の調査の記録では、23 区の施設一覧の CSV 194 件のうち 11 件が 2026-09-28 に 404 で、残り 183 件を `https://z.yuiseki.net/static/tokyo-ckan-files/` に中身を変えずに置いてある。文字コードは UTF-8、CP932、UTF-16 が混ざり、緯度と経度の列があっても値が空のものが多い。
 - ライセンスはほぼ CC-BY-4.0。データセットごとに確かめる。

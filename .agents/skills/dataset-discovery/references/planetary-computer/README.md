@@ -2,7 +2,7 @@
 
 衛星画像、標高、土地被覆などのラスタの目録。STAC API で範囲と時期から item を探し、COG を Range で読む。
 
-この目録の中のコレクションごとのファイルはまだ書いていない。study-geoai-algo-py で調べたもの (Sentinel-2 L2A、Landsat C2 L2、HLS、NASADEM) と、下で読めることを確かめたものが候補 (TODO.md)。
+この目録の中のコレクションごとのファイルはまだ書いていない。以前の調査で調べたもの (Sentinel-2 L2A、Landsat C2 L2、HLS、NASADEM) と、下で読めることを確かめたものが候補 (TODO.md)。
 
 ## 目録の引き方
 
@@ -44,4 +44,4 @@ item の asset の URL (Azure Blob Storage) をそのまま読むと、409 `Publ
 
 ## ライセンス
 
-コレクションごとに違う。collection の `license` と、その link の先の本文を読む。study-geoai-algo-py の記録では、NASADEM は `proprietary` で LP DAAC の引用の方針へのリンク、Sentinel-2 は Copernicus Sentinel data の条件 (本文は未確認)。
+コレクションごとに違う。collection の `license` と、その link の先の本文を読む。以前の調査の記録では、NASADEM は `proprietary` で LP DAAC の引用の方針へのリンク、Sentinel-2 は Copernicus Sentinel data の条件 (本文は未確認)。
