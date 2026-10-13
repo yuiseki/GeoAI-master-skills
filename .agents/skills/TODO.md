@@ -19,7 +19,7 @@
   - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
 - [x] `clustering-analysis`: 似た単位の群に分けられるか。references に k-means、DBSCAN、HDBSCAN、DPMM
 - [ ] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。references に PCA、並行分析、ブートストラップ
-- [ ] `anomaly-detection`: 全体や周りから外れた単位はどれか。references に Isolation Forest、LOF
+- [x] `anomaly-detection`: 比べる相手 (自分の過去、近傍、モデルの予測、全体) からの外れを並べ、誤りか出来事かを分ける。references に time、space、expected、global
 - [ ] `point-pattern-analysis`: 点が無作為な配置と比べて集まっているか。references に Ripley の K と L、カーネル密度、比べる基準の作り方
 - [ ] `spatial-network-analysis`: 最短経路、到達圏、中心性で空間ネットワークを解析し、最適化に使う距離行列を作る
 - [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
