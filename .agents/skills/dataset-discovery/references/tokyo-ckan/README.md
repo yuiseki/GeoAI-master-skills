@@ -8,19 +8,23 @@ license: ほぼ CC-BY-4.0。データセットごとに確かめる
 crs: 不明 (データごとに違う)
 spatial_coverage: 東京都。目録の場所は公開した組織の管轄区域の矩形で、推定値
 temporal_coverage: 目録の時刻は推定値。データの時期を表すのは datetime_basis が resource-name か dataset-title のものだけ
-as_of: {checked: 2026-10-10}
-contents: [施設一覧, 統計表, 区市町村のオープンデータ]
+as_of:
+  checked: 2026-10-10
+contents:
+- 施設一覧
+- 統計表
+- 区市町村のオープンデータ
 tables:
-  - name: items
-    read: https://stac.yuiseki.net/tokyo-ckan/items.parquet
-    grain: 1 つのデータセット
-    rows: 9698
-    id: []
-  - name: assets
-    read: https://stac.yuiseki.net/tokyo-ckan/assets.parquet
-    grain: 1 つのファイル
-    rows: 83821
-    id: []
+- name: items
+  read: https://stac.yuiseki.net/tokyo-ckan/items.parquet
+  grain: 1 つのデータセット
+  rows: 9698
+  id: []
+- name: assets
+  read: https://stac.yuiseki.net/tokyo-ckan/assets.parquet
+  grain: 1 つのファイル
+  rows: 83821
+  id: []
 ---
 
 # 東京都オープンデータカタログ (tokyo-ckan)

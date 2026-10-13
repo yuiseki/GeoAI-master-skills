@@ -30,33 +30,49 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 
 ```yaml
 ---
-kind: dataset                  # dataset か catalog
-id: yuiseki/jp-admin-2026-09   # 一意な名前。結合先の指定には、最後の / の後ろを使う
+kind: dataset                    # dataset、catalog、service のどれか
+id: yuiseki/jp-admin-2026-09     # 一意な名前。結合先の指定には、最後の / の後ろを使う
 description: 何のデータか (1 文)
 url: https://huggingface.co/datasets/yuiseki/jp-admin-2026-09
-card_revision: <コミットの SHA>  # 読んだカードの版 (任意)
 license: CC-BY-4.0
-formats: [GeoParquet 1.1]
-crs: EPSG:4612                 # 座標を持たないなら null
+formats:
+  - GeoParquet 1.1
+crs: EPSG:4612                   # 座標を持たないなら null
 spatial_coverage: 範囲 (どこまで入っていて、どこが欠けるか)
 temporal_coverage: 時点 (いつの状態か。名前と面で違うならそう書く)
-as_of: {boundaries_and_counts: 2020-10-01}   # 時点を日付や版で (任意)
-contents: [収録されているもの]
-tables:                        # catalog なら tables の代わりに access (どう引くか)
+as_of:                           # 時点を日付や版で (任意)
+  boundaries_and_counts: 2020-10-01
+contents:
+  - 収録されているもの
+tables:                          # catalog なら tables の代わりに access (どう引くか)
   - name: municipalities
     read: hf://datasets/yuiseki/jp-admin-2026-09/municipalities.parquet
     grain: 1 つの市区町村。政令指定都市は、親と区が別の行になる   # 1 行が何を表すか
     rows: 1918
-    id: [lg_code, code5]       # 1 行を一意に決める列。決められないなら []
-    join_keys:                 # ほかの表と結べる列
-      - {column: code5, meaning: 5 桁の市区町村コード, unique: true, joins: ["mlit-toshi-keikaku-jp:*.Citycode"]}
-    no_key:                    # あると思われがちだが、無いキー
-      - {name: osm_id, note: OpenStreetMap とは ID で結べない。コードか空間結合で結ぶ}
-    columns:                   # 主な列とその意味
-      - {name: population, meaning: 2020 年国勢調査の人口。推計ではない}
+    id:                          # 1 行を一意に決める列。決められないなら []
+      - lg_code
+    join_keys:                   # ほかの表と結べる列
+      - column: pref_code
+        type: VARCHAR            # 列の型 (DuckDB の describe の名前)
+        meaning: 2 桁の都道府県コード
+        unique: false
+        joins:
+          - ekidata-jp:station.pref_cd
+        cast: 型が違うときは、どう揃えるか   # 結合先と型が違うなら必須
+    no_key:                      # あると思われがちだが、無いキー
+      - name: osm_id
+        note: OpenStreetMap とは ID で結べない。コードか空間結合で結ぶ
+    columns:                     # 主な列
+      - name: population
+        type: BIGINT
+        meaning: 2020 年国勢調査の人口。推計ではない
+        missing: NULL は調べていないこと (9 行)。0 ではない   # 欠損の表し方 (任意)
 ---
 ```
 
+- frontmatter は、`{...}` や `[...]` を使わず、ブロック形式で書く (空の `[]` だけは良い)。値にカンマやコロンがあると、`{...}` の中では YAML が壊れる。`check_skills.py` が検査する。
+
+- `type` は、列の型。結合する 2 つの列の型が違うと検査が落ちるので、`cast` に揃え方を書く。`missing` は、欠損を何で表すか (NULL、-99999、`0000-00-00` など)。
 - `joins` の書式は `<データセット>:<表>.<列>`。同じデータセットの中なら `<表>.<列>`。表が複数あるとき (レイヤーなど) は `*` を使える。
 - `grain`、`id`、`join_keys`、`no_key` は、結合の前に必ず読む。結合の前に、キーが一意かどうかを自分で数える (reference の `unique` や `rows` は、書いた日の値)。
 - `service` は、`tables` の代わりに `protocol` と `operations` (`name`、`method`、`path`、`params`、`returns`) を持つ。つまずきやすい点は `gotchas` に書く。

@@ -8,19 +8,25 @@ license: コレクションごと。collections.parquet の license 列 (AgERA5 
 crs: コレクションごとに違う
 spatial_coverage: 全世界
 temporal_coverage: コレクションごと
-as_of: {checked: 2026-10-10}
-contents: [干ばつ指数, 作物の適地, 土壌, 降水, 気温]
+as_of:
+  checked: 2026-10-10
+contents:
+- 干ばつ指数
+- 作物の適地
+- 土壌
+- 降水
+- 気温
 tables:
-  - name: items
-    read: https://stac.yuiseki.net/fao-ferspas/items.parquet
-    grain: 1 つのファイル
-    rows: 639947
-    id: []
-  - name: collections
-    read: https://stac.yuiseki.net/fao-ferspas/collections.parquet
-    grain: 1 つのコレクション
-    rows: 1921
-    id: []
+- name: items
+  read: https://stac.yuiseki.net/fao-ferspas/items.parquet
+  grain: 1 つのファイル
+  rows: 639947
+  id: []
+- name: collections
+  read: https://stac.yuiseki.net/fao-ferspas/collections.parquet
+  grain: 1 つのコレクション
+  rows: 1921
+  id: []
 ---
 
 # FAO の農業・食料系ラスタ (fao-ferspas)

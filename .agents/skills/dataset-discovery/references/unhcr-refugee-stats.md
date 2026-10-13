@@ -4,31 +4,57 @@ id: yuiseki/unhcr-refugee-stats
 description: UNHCR の難民統計。年ごと、出身国と庇護国の組ごとの難民、庇護申請者、国内避難民、無国籍者の数。座標は無い。
 url: https://huggingface.co/datasets/yuiseki/unhcr-refugee-stats
 license: CC BY 4.0 に UNHCR の Terms of Use for Datasets が加わる。表示の書式と Terms の URL の掲示が要る
-formats: [Parquet]
+formats:
+- Parquet
 crs: null
 spatial_coverage: 出身国と庇護国の組。座標なし
 temporal_coverage: 1951 から 2025 年の年末。UNHCR が年 2 回上書きして過去の年も改訂する。版は取得日 (2026-10-04)
-as_of: {version: 2026-10-04}
-contents: [難民と庇護申請者と国内避難民と無国籍者の人数, 庇護申請と決定, 帰還と第三国定住と帰化, 年齢と性別の内訳]
+as_of:
+  version: 2026-10-04
+contents:
+- 難民と庇護申請者と国内避難民と無国籍者の人数
+- 庇護申請と決定
+- 帰還と第三国定住と帰化
+- 年齢と性別の内訳
 tables:
-  - name: population
-    read: hf://datasets/yuiseki/unhcr-refugee-stats/parquet/2026-10-04/population.parquet
-    grain: 1 年 × 1 出身国 × 1 庇護国の年末の人数
-    rows: 138893
-    id: ["Year", "Country of origin (ISO)", "Country of asylum (ISO)"]
-    join_keys:
-      - {column: Country of origin (ISO), meaning: 出身国の ISO 3 文字コード, joins: ["natural-earth:ne_10m_admin_0_countries.ISO_A3_EH"], note: 219 種のうち 213 種が一致する。TIB、UNK、XXA は国でない}
-      - {column: Country of asylum (ISO), meaning: 庇護国の ISO 3 文字コード, joins: ["natural-earth:ne_10m_admin_0_countries.ISO_A3_EH"]}
-    no_key: [{name: code, note: countries の code は UNHCR 独自で ISO と衝突する (AUS がオーストリア)。結合には iso を使う}]
-    columns:
-      - {name: Refugees under UNHCR's mandate, meaning: UNHCR が所管する難民の数。5 未満は 5 の倍数に丸められている}
-      - {name: IDPs of concern to UNHCR, meaning: UNHCR が保護や支援をしている国内避難民。全数ではない}
-      - {name: Stateless persons, meaning: 無国籍者の数。難民と二重に数える年がある}
-  - name: countries
-    read: hf://datasets/yuiseki/unhcr-refugee-stats/parquet/2026-10-04/countries.parquet
-    grain: 1 つの国
-    rows: 232
-    id: []
+- name: population
+  read: hf://datasets/yuiseki/unhcr-refugee-stats/parquet/2026-10-04/population.parquet
+  grain: 1 年 × 1 出身国 × 1 庇護国の年末の人数
+  rows: 138893
+  id:
+  - Year
+  - Country of origin (ISO)
+  - Country of asylum (ISO)
+  join_keys:
+  - column: Country of origin (ISO)
+    type: VARCHAR
+    meaning: 出身国の ISO 3 文字コード
+    joins:
+    - natural-earth:ne_10m_admin_0_countries.ISO_A3_EH
+    note: 219 種のうち 213 種が一致する。TIB、UNK、XXA は国でない
+  - column: Country of asylum (ISO)
+    type: VARCHAR
+    meaning: 庇護国の ISO 3 文字コード
+    joins:
+    - natural-earth:ne_10m_admin_0_countries.ISO_A3_EH
+  no_key:
+  - name: code
+    note: countries の code は UNHCR 独自で ISO と衝突する (AUS がオーストリア)。結合には iso を使う
+  columns:
+  - name: Refugees under UNHCR's mandate
+    type: BIGINT
+    meaning: UNHCR が所管する難民の数。5 未満は 5 の倍数に丸められている
+  - name: IDPs of concern to UNHCR
+    type: BIGINT
+    meaning: UNHCR が保護や支援をしている国内避難民。全数ではない
+  - name: Stateless persons
+    type: BIGINT
+    meaning: 無国籍者の数。難民と二重に数える年がある
+- name: countries
+  read: hf://datasets/yuiseki/unhcr-refugee-stats/parquet/2026-10-04/countries.parquet
+  grain: 1 つの国
+  rows: 232
+  id: []
 ---
 
 # UNHCR Refugee Population Statistics

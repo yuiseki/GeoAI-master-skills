@@ -5,56 +5,115 @@ description: 駅データ.jp 無料版の、鉄道事業者、路線、駅 (座�
 url: https://huggingface.co/datasets/yuiseki/ekidata-jp
 card_revision: a33321099406b47338be0d03a4887059473fde0c
 license: 駅データ.jp の利用規約 (https://ekidata.jp/agreement.php)。改変しない再配布は無償のときだけ
-formats: [CSV, Parquet, GeoParquet 1.0]
+formats:
+- CSV
+- Parquet
+- GeoParquet 1.0
 crs: OGC:CRS84
 spatial_coverage: 日本全国。無料版は新幹線の駅を含まない
 temporal_coverage: 取得は 2026-10-05。収録版は 2025-05-23 から 2026-09-14。最新の駅の版は 2026-07-31。都道府県の表は日付なし
-as_of: {fetched: 2026-10-05, latest_station_edition: 2026-07-31}
-contents: [鉄道事業者, 路線, 駅と座標, 路線上の隣り合う駅, 都道府県の表]
+as_of:
+  fetched: 2026-10-05
+  latest_station_edition: 2026-07-31
+contents:
+- 鉄道事業者
+- 路線
+- 駅と座標
+- 路線上の隣り合う駅
+- 都道府県の表
 tables:
-  - name: station
-    read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/station.2026-07-31.parquet
-    grain: 路線ごとの 1 駅。乗換駅は路線の数だけ行がある
-    rows: 10962
-    id: [station_cd]
-    join_keys:
-      - {column: station_g_cd, meaning: 路線が違っても同じ駅とみなす駅のグループ, unique: false, joins: [station.station_g_cd]}
-      - {column: line_cd, meaning: 路線のコード, joins: ["line.line_cd", "join.line_cd"]}
-      - {column: pref_cd, meaning: 都道府県コード (整数 1 から 47), joins: ["pref.pref_cd", "jp-admin-2026-09:municipalities.pref_code (型を揃える)"]}
-    no_key: [{name: code5, note: 市区町村コードは持たない。市区町村とは点の空間結合で結ぶ}, {name: osm_id, note: OpenStreetMap とは ID で結べない}]
-    columns:
-      - {name: e_status, meaning: 0 が運行中、1 が未開業、2 が廃止}
-      - {name: lon, meaning: 経度 (世界測地系。WGS 84 として読む)。lat が緯度}
-      - {name: open_ymd, meaning: 開業日。0000-00-00 は日付なし (10,584 駅)}
-      - {name: geometry, meaning: lon と lat から作った点 (OGC:CRS84)}
-  - name: line
-    read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/line.2026-06-18.parquet
-    grain: 1 路線
-    rows: 624
-    id: [line_cd]
-    join_keys:
-      - {column: company_cd, meaning: 事業者のコード, joins: ["company.company_cd"]}
-    columns:
-      - {name: lon, meaning: 路線全体を地図に収める中心の経度であって、路線の位置ではない。lat、zoom も同じ}
-  - name: company
-    read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/company.2026-04-09.parquet
-    grain: 1 つの鉄道事業者
-    rows: 175
-    id: [company_cd]
-    columns:
-      - {name: company_type, meaning: 0 がその他、1 が JR、2 が大手私鉄、3 が準大手私鉄}
-  - name: join
-    read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/join.2026-09-14.parquet
-    grain: ある路線の上で隣り合う 2 つの駅の組
-    rows: 10188
-    id: [line_cd, station_cd1, station_cd2]
-    join_keys:
-      - {column: station_cd1, meaning: 隣り合う駅の片方 (station_cd2 がもう片方), joins: ["station.station_cd"]}
-  - name: pref
-    read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/pref.parquet
-    grain: 1 つの都道府県。コード 99 の「その他」を含む
-    rows: 48
-    id: [pref_cd]
+- name: station
+  read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/station.2026-07-31.parquet
+  grain: 路線ごとの 1 駅。乗換駅は路線の数だけ行がある
+  rows: 10962
+  id:
+  - station_cd
+  join_keys:
+  - column: station_g_cd
+    type: INTEGER
+    meaning: 路線が違っても同じ駅とみなす駅のグループ
+    unique: false
+    joins:
+    - station.station_g_cd
+  - column: line_cd
+    type: INTEGER
+    meaning: 路線のコード
+    joins:
+    - line.line_cd
+    - join.line_cd
+  - column: pref_cd
+    type: INTEGER
+    meaning: 都道府県コード (整数 1 から 47)
+    joins:
+    - pref.pref_cd
+    - jp-admin-2026-09:municipalities.pref_code (型を揃える)
+    cast: jp-admin-2026-09 の pref_code は 2 桁の文字列。cast(pref_cd as integer) と、cast(pref_code as integer) で揃える
+  no_key:
+  - name: code5
+    note: 市区町村コードは持たない。市区町村とは点の空間結合で結ぶ
+  - name: osm_id
+    note: OpenStreetMap とは ID で結べない
+  columns:
+  - name: e_status
+    type: INTEGER
+    meaning: 0 が運行中、1 が未開業、2 が廃止
+  - name: lon
+    type: DOUBLE
+    meaning: 経度 (世界測地系。WGS 84 として読む)。lat が緯度
+  - name: open_ymd
+    type: VARCHAR
+    meaning: 開業日。0000-00-00 は日付なし (10
+    584 駅): null
+    missing: '''0000-00-00'' は日付なし (10,962 駅のうち 10,584 駅)'
+  - name: geometry
+    type: geometry:OGC:CRS84
+    meaning: lon と lat から作った点 (OGC:CRS84)
+- name: line
+  read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/line.2026-06-18.parquet
+  grain: 1 路線
+  rows: 624
+  id:
+  - line_cd
+  join_keys:
+  - column: company_cd
+    type: INTEGER
+    meaning: 事業者のコード
+    joins:
+    - company.company_cd
+  columns:
+  - name: lon
+    type: DOUBLE
+    meaning: 路線全体を地図に収める中心の経度であって、路線の位置ではない。lat、zoom も同じ
+- name: company
+  read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/company.2026-04-09.parquet
+  grain: 1 つの鉄道事業者
+  rows: 175
+  id:
+  - company_cd
+  columns:
+  - name: company_type
+    type: INTEGER
+    meaning: 0 がその他、1 が JR、2 が大手私鉄、3 が準大手私鉄
+- name: join
+  read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/join.2026-09-14.parquet
+  grain: ある路線の上で隣り合う 2 つの駅の組
+  rows: 10188
+  id:
+  - line_cd
+  - station_cd1
+  - station_cd2
+  join_keys:
+  - column: station_cd1
+    type: INTEGER
+    meaning: 隣り合う駅の片方 (station_cd2 がもう片方)
+    joins:
+    - station.station_cd
+- name: pref
+  read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/pref.parquet
+  grain: 1 つの都道府県。コード 99 の「その他」を含む
+  rows: 48
+  id:
+  - pref_cd
 ---
 
 # 駅データ.jp (ekidata-jp)

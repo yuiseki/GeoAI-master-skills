@@ -8,9 +8,18 @@ license: 種類ごとに違う。divisions と transportation は ODbL-1.0。pla
 crs: OGC:CRS84
 spatial_coverage: 全世界
 temporal_coverage: 版ごと。2026-10-10 には 2026-08-19.0、2026-09-23.0、2026-09-23.1
-as_of: {latest_checked: 2026-09-23.1}
-contents: [行政区域, 道路と鉄道, POI, 建物, 住所, 土地被覆]
-children: [divisions.md, transportation.md]
+as_of:
+  latest_checked: 2026-09-23.1
+contents:
+- 行政区域
+- 道路と鉄道
+- POI
+- 建物
+- 住所
+- 土地被覆
+children:
+- divisions.md
+- transportation.md
 ---
 
 # Overture Maps

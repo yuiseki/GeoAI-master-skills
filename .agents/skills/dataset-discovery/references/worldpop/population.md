@@ -4,21 +4,35 @@ id: worldpop/population
 description: 1 つの画素 (100 m か 1 km 四方) に住む推計の人数。版 R2025A の v1。
 url: https://stac.worldpop.org/
 license: CC-BY-4.0
-formats: [GeoTIFF]
+formats:
+- GeoTIFF
 crs: EPSG:4326
 spatial_coverage: 国ごと (日本で実測)
 temporal_coverage: 2015 から 2030 年。2025 年より後は推計の延長。版が変わると過去の年の値も変わりうる
-as_of: {release: R2025A, version: v1, checked: 2026-10-10}
-contents: [100 m の総人口, 1 km の総人口]
+as_of:
+  release: R2025A
+  version: v1
+  checked: 2026-10-10
+contents:
+- 100 m の総人口
+- 1 km の総人口
 tables:
-  - name: raster
-    read: https://api.stac.worldpop.org/collections/JPN/items?limit=100
-    grain: 1 画素 (100 m は約 0.00083333 度、1 km は約 0.0083333 度) の推計人口。float32、欠損値は -99999
-    rows: null
-    id: []
-    no_key: [{name: code5, note: 市区町村コードは持たない。市区町村へは、画素の合計をゾーナル統計で集める}]
-    columns:
-      - {name: year, meaning: 年。item の datetime は公開の年 (2025-01-01) で、年を表さない。year で絞る}
+- name: raster
+  read: https://api.stac.worldpop.org/collections/JPN/items?limit=100
+  grain: 1 画素 (100 m は約 0.00083333 度、1 km は約 0.0083333 度) の推計人口。float32、欠損値は -99999
+  rows: null
+  id: []
+  no_key:
+  - name: code5
+    note: 市区町村コードは持たない。市区町村へは、画素の合計をゾーナル統計で集める
+  columns:
+  - name: value
+    type: float32
+    meaning: 1 画素の推計人口 (人数)
+    missing: -99999
+  - name: year
+    meaning: 年。item の datetime は公開の年 (2025-01-01) で、年を表さない。year で絞る
+    type: integer
 ---
 
 # WorldPop: 総人口

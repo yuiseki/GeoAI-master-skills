@@ -5,45 +5,82 @@ description: OpenStreetMap の 2026-08-31 の planet から切り出した日本
 url: https://huggingface.co/datasets/yuiseki/osm-japan-src-2026-08
 card_revision: 9a9b4a77e89e28a66bf15781644a16b63501f622
 license: ODbL-1.0
-formats: [OSM PBF, GeoParquet 1.1, GeoJSON]
+formats:
+- OSM PBF
+- GeoParquet 1.1
+- GeoJSON
 crs: EPSG:3857
 spatial_coverage: 日本全国。complete_ways のため、境界の外へ延びる地物も含む
 temporal_coverage: 2026-08-31
-as_of: {planet: 2026-08-31}
-contents: [OSM の点, 線, 面, 道路, 切り出しの境界]
+as_of:
+  planet: 2026-08-31
+contents:
+- OSM の点
+- 線
+- 面
+- 道路
+- 切り出しの境界
 tables:
-  - name: planet_osm_point
-    read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_point.parquet
-    grain: OSM の 1 つのノード (タグのあるもの)
-    rows: 3720141
-    id: [osm_id]
-    no_key: [{name: code5, note: 市区町村コードは持たない。市区町村とは、点を面に入れる空間結合で結ぶ}, {name: relation_id, note: リレーションの ID の列は無い。マルチポリゴンは負の osm_id}]
-  - name: planet_osm_line
-    read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_line.parquet
-    grain: OSM の 1 つのウェイ (道路、鉄道、川など)。ウェイやリレーションが複数行に分かれることがある
-    rows: 12259617
-    id: []
-    join_keys:
-      - {column: osm_id, meaning: OSM のウェイの ID。12,259,617 行に対し、異なる値は 12,209,517 (実測), unique: false}
-  - name: planet_osm_polygon
-    read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_polygon.parquet
-    grain: 1 つの面 (建物、土地利用、行政区域など)。マルチポリゴンは、同じ osm_id (負の値) の複数行になる
-    rows: 33281956
-    id: []
-    join_keys:
-      - {column: osm_id, meaning: OSM のウェイの ID。マルチポリゴンでは負の値で、行が重なる, unique: false}
-    columns:
-      - {name: admin_level, meaning: 行政区域の階層 (2 が国、4 が都道府県、7 が市区町村と東京の特別区)。boundary が administrative の行で意味を持つ}
-      - {name: way, meaning: 面 (EPSG:3857。メートルだが、実際の長さとは緯度で違う)}
-      - {name: tags, meaning: osm2pgsql が列にしなかったタグ。JSON の文字列}
-      - {name: bbox, meaning: way の外接矩形 (EPSG:3857)。範囲での絞り込みに使う}
-  - name: planet_osm_roads
-    read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_roads.parquet
-    grain: 縮尺の小さい地図に出す道路の線
-    rows: 762255
-    id: []
-    join_keys:
-      - {column: osm_id, meaning: OSM のウェイの ID。762,255 行に対し、異なる値は 757,067 (実測), unique: false}
+- name: planet_osm_point
+  read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_point.parquet
+  grain: OSM の 1 つのノード (タグのあるもの)
+  rows: 3720141
+  id:
+  - osm_id
+  no_key:
+  - name: code5
+    note: 市区町村コードは持たない。市区町村とは、点を面に入れる空間結合で結ぶ
+  - name: relation_id
+    note: リレーションの ID の列は無い。マルチポリゴンは負の osm_id
+- name: planet_osm_line
+  read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_line.parquet
+  grain: OSM の 1 つのウェイ (道路、鉄道、川など)。ウェイやリレーションが複数行に分かれることがある
+  rows: 12259617
+  id: []
+  join_keys:
+  - column: osm_id
+    type: BIGINT
+    meaning: OSM のウェイの ID。12
+    259: null
+    617 行に対し、異なる値は 12: null
+    209: null
+    517 (実測): null
+    unique: false
+- name: planet_osm_polygon
+  read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_polygon.parquet
+  grain: 1 つの面 (建物、土地利用、行政区域など)。マルチポリゴンは、同じ osm_id (負の値) の複数行になる
+  rows: 33281956
+  id: []
+  join_keys:
+  - column: osm_id
+    type: BIGINT
+    meaning: OSM のウェイの ID。マルチポリゴンでは負の値で、行が重なる
+    unique: false
+  columns:
+  - name: admin_level
+    type: VARCHAR
+    meaning: 行政区域の階層 (2 が国、4 が都道府県、7 が市区町村と東京の特別区)。boundary が administrative の行で意味を持つ
+  - name: way
+    type: geometry:EPSG:3857
+    meaning: 面 (EPSG:3857。メートルだが、実際の長さとは緯度で違う)
+  - name: tags
+    type: VARCHAR
+    meaning: osm2pgsql が列にしなかったタグ。JSON の文字列
+  - name: bbox
+    type: STRUCT
+    meaning: way の外接矩形 (EPSG:3857)。範囲での絞り込みに使う
+- name: planet_osm_roads
+  read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_roads.parquet
+  grain: 縮尺の小さい地図に出す道路の線
+  rows: 762255
+  id: []
+  join_keys:
+  - column: osm_id
+    type: BIGINT
+    meaning: OSM のウェイの ID。762
+    255 行に対し、異なる値は 757: null
+    067 (実測): null
+    unique: false
 ---
 
 # OpenStreetMap 日本 (osm-japan-src-2026-08)

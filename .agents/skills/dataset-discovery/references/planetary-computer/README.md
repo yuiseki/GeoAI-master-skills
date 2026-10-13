@@ -8,8 +8,16 @@ license: コレクションごとに違う。collection の license と、その
 crs: コレクションごとに違う
 spatial_coverage: 全世界
 temporal_coverage: コレクションごと
-as_of: {checked: 2026-10-10}
-contents: [Sentinel-2 L2A, Landsat C2 L2, HLS, NASADEM, ESA WorldCover, 土地被覆, 標高]
+as_of:
+  checked: 2026-10-10
+contents:
+- Sentinel-2 L2A
+- Landsat C2 L2
+- HLS
+- NASADEM
+- ESA WorldCover
+- 土地被覆
+- 標高
 ---
 
 # Microsoft Planetary Computer

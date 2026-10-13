@@ -7,9 +7,18 @@ access: 各サービスの url にパスを付けて、HTTP で直接呼ぶ。�
 license: 各サービスの frontmatter を見る (OSM 由来のものは ODbL-1.0)
 spatial_coverage: サービスごと
 temporal_coverage: サービスごと。Overpass と Nominatim のデータは 2025-09-14 で止まっている (実測)
-as_of: {measured: 2026-10-13}
-contents: [Overpass, Nominatim, Valhalla, taginfo]
-children: [overpass.md, nominatim.md, valhalla.md, taginfo.md]
+as_of:
+  measured: 2026-10-13
+contents:
+- Overpass
+- Nominatim
+- Valhalla
+- taginfo
+children:
+- overpass.md
+- nominatim.md
+- valhalla.md
+- taginfo.md
 ---
 
 # 自前のサービス

@@ -4,29 +4,46 @@ id: overture/transportation
 description: 道路、鉄道、水路の線 (segment) と、線どうしが接する点 (connector)。最短経路や到達圏のネットワークに使う。
 url: https://stac.overturemaps.org/
 license: ODbL-1.0
-formats: [GeoParquet]
+formats:
+- GeoParquet
 crs: OGC:CRS84
 spatial_coverage: 全世界。大きいので、bbox で使う範囲だけを読む
 temporal_coverage: 版 2026-09-23.1 を実測。版ごとに行が変わる
-as_of: {release: 2026-09-23.1}
-contents: [道路と鉄道と水路の線, 線どうしの接点]
+as_of:
+  release: 2026-09-23.1
+contents:
+- 道路と鉄道と水路の線
+- 線どうしの接点
 tables:
-  - name: segment
-    read: s3://overturemaps-us-west-2/release/2026-09-23.1/theme=transportation/type=segment/*.parquet
-    grain: 1 本の線 (道路、鉄道、水路) と属性
-    rows: 352054710
-    id: [id]
-    join_keys:
-      - {column: connectors, meaning: 線の上の接点の並び。(connector_id, at) の組で、at は線の上の位置 (始点 0、終点 1), unique: false, joins: ["connector.id"]}
-    columns:
-      - {name: subtype, meaning: road、rail、water}
-      - {name: class, meaning: 道路の種類 (motorway、primary、residential、footway など)。歩道と階段が 4 割近くを占める地域がある}
-      - {name: bbox, meaning: 線の外接矩形。範囲で絞ると、Parquet の行グループを飛ばせる}
-  - name: connector
-    read: s3://overturemaps-us-west-2/release/2026-09-23.1/theme=transportation/type=connector/*.parquet
-    grain: 線どうしが接する 1 つの点
-    rows: 421978977
-    id: [id]
+- name: segment
+  read: s3://overturemaps-us-west-2/release/2026-09-23.1/theme=transportation/type=segment/*.parquet
+  grain: 1 本の線 (道路、鉄道、水路) と属性
+  rows: 352054710
+  id:
+  - id
+  join_keys:
+  - column: connectors
+    type: STRUCT(connector_id VARCHAR, "at" DOUBLE)[]
+    meaning: 線の上の接点の並び。(connector_id と at) の組で、at は線の上の位置 (始点 0、終点 1)
+    unique: false
+    joins:
+    - connector.id
+  columns:
+  - name: subtype
+    type: VARCHAR
+    meaning: road、rail、water
+  - name: class
+    type: VARCHAR
+    meaning: 道路の種類 (motorway、primary、residential、footway など)。歩道と階段が 4 割近くを占める地域がある
+  - name: bbox
+    type: STRUCT
+    meaning: 線の外接矩形。範囲で絞ると、Parquet の行グループを飛ばせる
+- name: connector
+  read: s3://overturemaps-us-west-2/release/2026-09-23.1/theme=transportation/type=connector/*.parquet
+  grain: 線どうしが接する 1 つの点
+  rows: 421978977
+  id:
+  - id
 ---
 
 # Overture: transportation

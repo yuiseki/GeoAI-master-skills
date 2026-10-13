@@ -2,6 +2,12 @@
 
 地理空間データの分析 (GeoAI、地理空間の機械学習) を、データを選ぶところから、評価を疑うところまで、人や AI エージェントが自力で進めるための手順書の集まり。教科書のように読め、そのままエージェントのスキルとしても使える。
 
+## 最初の 1 時間
+
+1. [docs/setup.md](docs/setup.md) で `uv` を入れる (または Docker で一式を用意する)。
+2. [docs/tutorial/README.md](docs/tutorial/README.md) の最初のコードを、そのまま写して流す。
+3. 分からない言葉が出たら、[docs/glossary.md](docs/glossary.md) を引く。
+
 ## 前提: QGIS ではなく Python を使う
 
 このリポジトリの手順は、QGIS の画面操作では再現できない。QGIS をやめて、Python (と SQL) でコードを書く覚悟を決めてから読む。
@@ -56,8 +62,8 @@
 ## 動かすために
 
 - Python の道具は `uv` を使う。スクリプトは `uvx --with ... python scripts/<name>.py` で、環境を作らずに動く。
-- 自分の PC では、`uv` だけで動く。メモリと CPU の上限 (`systemd-run`) は、このリポジトリを作った Linux の機械 (swap が無く、メモリが尽きると機械ごと止まる) の事情で付けている。Windows や macOS では使えず、付けなくてもよい。大きなデータを流すときは、自分の環境に合わせて上限を考える。
-- スキルの書き方と、独立させる決まりは同じファイル。`python3 .agents/skills/check_skills.py` で確かめる。
+- Python の道具は `uv` だけで動く。大きなデータを流すときは、自分の環境のメモリと CPU に合わせて、並列の数やデータの量を考える。
+- スキルを書く人向けの決まり (作者の環境の話を含む) は `.agents/skills/AGENTS.md` にある。独立の検査は `python3 .agents/skills/check_skills.py` (PyYAML が要る。Docker の環境には入っている)。
 
 ## 数字について
 

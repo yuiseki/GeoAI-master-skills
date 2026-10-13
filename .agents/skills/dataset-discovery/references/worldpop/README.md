@@ -8,9 +8,15 @@ license: CC-BY-4.0 (コレクションで確かめた)
 crs: EPSG:4326
 spatial_coverage: 全世界、国ごと (2026-10-10 に 248 コレクション)
 temporal_coverage: 2015 から 2030 年。2025 年より後は推計
-as_of: {checked: 2026-10-10}
-contents: [100 m と 1 km の総人口, 年齢と性別の内訳, 都市化度]
-children: [population.md, japan.md]
+as_of:
+  checked: 2026-10-10
+contents:
+- 100 m と 1 km の総人口
+- 年齢と性別の内訳
+- 都市化度
+children:
+- population.md
+- japan.md
 ---
 
 # WorldPop

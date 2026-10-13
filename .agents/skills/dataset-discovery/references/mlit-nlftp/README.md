@@ -8,14 +8,16 @@ license: 年とデータセットごとに違う。redistribution 列 (allowed�
 crs: JGD2011 と JGD2000 が混ざる
 spatial_coverage: 日本。範囲 (footprint) は都道府県の外接矩形
 temporal_coverage: 年ごと。is_latest は地域ごとの最新
-as_of: {checked: 2026-10-10}
-contents: [国土数値情報の各データセット]
+as_of:
+  checked: 2026-10-10
+contents:
+- 国土数値情報の各データセット
 tables:
-  - name: items
-    read: https://stac.yuiseki.net/mlit-nlftp/items.parquet
-    grain: 1 つのファイル (データセット × 年 × 地域)
-    rows: 21603
-    id: []
+- name: items
+  read: https://stac.yuiseki.net/mlit-nlftp/items.parquet
+  grain: 1 つのファイル (データセット × 年 × 地域)
+  rows: 21603
+  id: []
 ---
 
 # 国土数値情報 (mlit-nlftp)

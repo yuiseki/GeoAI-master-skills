@@ -35,12 +35,29 @@ def read_frontmatter(path):
     return yaml.safe_load(text.split("---\n", 2)[1])
 
 
+FLOW = re.compile(r"^\s*(?:-\s+)?(?:[\w.\"-]+:\s+)?[\[{](?!\]\s*$|\}\s*$)")
+
+
+def column_type(fm, table, column):
+    for t in fm.get("tables", []):
+        if t["name"] == table:
+            for x in t.get("join_keys", []) + t.get("columns", []):
+                if x.get("column", x.get("name")) == column:
+                    return x.get("type")
+    return None
+
+
 def frontmatter_problems(refs):
     """Problems in the frontmatter of the dataset references under `refs`."""
     problems, fms = [], {}
     files = sorted(refs.rglob("*.md"))
     for f in files:
         rel = f.relative_to(refs)
+        head = f.read_text().split("---\n", 2)[1] if f.read_text().startswith("---\n") else ""
+        for line in head.splitlines():
+            if FLOW.match(line):
+                problems.append(f"{rel}: write collections in block style, not {{...}} or [...] (a comma or colon in free text breaks flow style): {line.strip()[:50]}")
+                break
         try:
             fm = read_frontmatter(f)
         except yaml.YAMLError as e:
@@ -68,11 +85,11 @@ def frontmatter_problems(refs):
             if not isinstance(t.get("id", []), list):
                 problems.append(f"{rel}: table {t.get('name', '?')}: id must be a list")
             for c in t.get("columns", []):
-                if not {"name", "meaning"} <= set(c):
-                    problems.append(f"{rel}: table {t.get('name', '?')}: a column needs name and meaning")
+                if not {"name", "type", "meaning"} <= set(c):
+                    problems.append(f"{rel}: table {t.get('name', '?')}: a column needs name, type and meaning")
             for k in t.get("join_keys", []):
-                if not {"column", "meaning"} <= set(k):
-                    problems.append(f"{rel}: table {t.get('name', '?')}: a join key needs column and meaning")
+                if not {"column", "type", "meaning"} <= set(k):
+                    problems.append(f"{rel}: table {t.get('name', '?')}: a join key needs column, type and meaning")
             for k in t.get("no_key", []):
                 if not {"name", "note"} <= set(k):
                     problems.append(f"{rel}: table {t.get('name', '?')}: no_key needs name and note")
@@ -90,6 +107,11 @@ def frontmatter_problems(refs):
                         problems.append(f"{rel}: joins {target}: no dataset {ds}")
                     elif table != "*" and table not in {x["name"] for x in other.get("tables", [])}:
                         problems.append(f"{rel}: joins {target}: no table {table}")
+                    elif table != "*":
+                        column = target[m.end():].split(" (")[0]
+                        theirs = column_type(other, table, column)
+                        if theirs and k.get("type") and theirs.lower() != k["type"].lower() and "cast" not in k:
+                            problems.append(f"{rel}: joins {target}: type {k['type']} vs {theirs}; say how to cast in `cast`")
     return problems
 
 
