@@ -1,5 +1,5 @@
 - [x] `dataset-discovery`: 利用可能なデータセット、カラム、粒度、時空間範囲を調べる
-- [ ] `data-provenance-audit`: 出典、ライセンス、時点、欠損、重複、意味を確認する
+- [ ] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
 - [ ] `spatial-data-integration`: spatial join、最近傍、包含、集約で複数地理データを統合する
 - [ ] `spatial-feature-engineering`: 密度、距離、近傍数、土地利用などの特徴量を構築する
 - [ ] `analysis-unit-design`: point / grid / 町丁目 / 区など分析単位を選ぶ
