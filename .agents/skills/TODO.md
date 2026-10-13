@@ -1,0 +1,32 @@
+- [ ] `dataset-discovery`: 利用可能なデータセット、カラム、粒度、時空間範囲を調べる
+- [ ] `data-provenance-audit`: 出典、ライセンス、時点、欠損、重複、意味を確認する
+- [ ] `spatial-data-integration`: spatial join、最近傍、包含、集約で複数地理データを統合する
+- [ ] `spatial-feature-engineering`: 密度、距離、近傍数、土地利用などの特徴量を構築する
+- [ ] `analysis-unit-design`: point / grid / 町丁目 / 区など分析単位を選ぶ
+- [ ] `eda-and-baseline`: 分布、相関、単純平均、線形モデルなど最初の基準を作る
+- [ ] `regression-analysis`: Linear / Ridge / Lasso 等で連続値を説明・予測する
+- [ ] `classification-analysis`: Logistic Regression 等で分類問題を扱う
+- [ ] `tree-modeling`: Decision Tree / Random Forest と相互作用を調べる
+- [ ] `boosting-modeling`: HistGB / XGBoost / LightGBM / CatBoost を比較する
+- [ ] `foundation-model-baseline`: TabPFN / TimesFM のような事前学習モデルを通常手法と比較する
+- [ ] `cross-validation-design`: K-fold / stratified / group / OOF の評価設計を選ぶ
+- [ ] `spatial-cross-validation`: 空間 block / 地域 holdout で spatial leakage を検出する
+- [ ] `temporal-validation`: 時系列 split、future leakage を防いで評価する
+- [ ] `leakage-audit`: target leakage、位置リーク、答えの言い換えを検出する
+- [ ] `noise-ceiling-analysis`: 目的変数の雑音と予測可能性の上限を推定する
+- [ ] `robustness-analysis`: seed、sampling、aggregation、空間単位を変えて結論の安定性を見る
+- [ ] `maup-sensitivity`: grid・行政界・粒度による結果変化を検証する
+- [ ] `clustering-analysis`: k-means / DBSCAN / HDBSCAN / DPMM で空間構造を探索する
+- [ ] `dimensionality-reduction`: PCA、parallel analysis、bootstrap で潜在構造と安定性を見る
+- [ ] `anomaly-detection`: Isolation Forest / LOF で異常地点・異常時期を探索する
+- [ ] `time-series-analysis`: ARIMA / ETS / lag+GBDT 等で時間変化を分析・予測する
+- [ ] `uncertainty-estimation`: calibration、Brier/ECE、prediction interval を評価する
+- [ ] `model-explanation`: permutation importance / SHAP / partial dependence で説明する
+- [ ] `graph-analysis`: Dijkstra / A\* / matching など空間ネットワークを解析する
+- [ ] `linear-optimization`: LP、dual、relaxation を使って制約付き問題を解く
+- [ ] `integer-optimization`: MILP、maximum coverage など選択問題を解く
+- [ ] `facility-location`: p-median、coverage、交換法で施設配置を分析する
+- [ ] `assignment-optimization`: assignment / transportation / matching を解く
+- [ ] `constraint-programming`: CP-SAT、NoOverlap 等で配置・スケジューリングを解く
+- [ ] `multi-objective-analysis`: weighted sum、Pareto frontier、ε-constraint でトレードオフを出す
+- [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す
