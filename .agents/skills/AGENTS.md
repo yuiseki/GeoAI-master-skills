@@ -47,6 +47,13 @@ SKILL.md で観点を説明するために実例を挙げるのはよい。た�
 - テストが間違いを見抜けるかを確かめる。実装の要の部分を外すと落ちることを一度は試す。たとえば経度と緯度の取り違えは、赤道上のデータでは距離にほとんど表れないので、高緯度で試す。
 - 入力の全ての行がどうなったかを数え、合わなければ止まるようにする。
 - 実行で生まれる中間ファイルは `tmp/` か `data/` に置く。どちらも git に入らない。
+- 実データでの実行とテストは、メモリと CPU に上限を掛けて流す。このマシンは swap が無く、メモリが尽きると OOM で落ちるのではなく機械ごと止まる。ほかのサービスも同じ機械で動いている。
+
+  ```sh
+  systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% -- uvx ... python scripts/<name>.py ...
+  ```
+
+  scikit-learn の `n_jobs=-1` や HistGradientBoosting の OpenMP は、上限が無いと全コアを使う。DuckDB の `memory_limit` は scikit-learn には効かない。
 
 ## 文章
 
