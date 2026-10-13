@@ -8,7 +8,9 @@ Pairs that cannot reach each other are infinite, never filled with a number.
 Commands:
     build    SEGMENTS --out-edges E --out-nodes N [--classes c1,c2 | --exclude-classes ...]
     detour   E N --pairs 2000: network distance / straight-line distance between random node pairs
-    reach    E N --lon X --lat Y --within 500 1000 2000: nodes and edge length within each distance
+    reach    E N --lon X --lat Y --within 500 1000 2000: nodes within each distance
+    matrix   E N --origins O --destinations D --out M: network distance for every pair, with the
+             snapping distances and the straight-line distance (input tables: id, lon, lat)
 
 Usage:
     uvx --with numpy --with scipy --with scikit-learn --with shapely --with duckdb --with pyarrow \
@@ -124,6 +126,23 @@ class Network:
         return [self.ids[cand[i]] for i in idx[:, 0]], dist[:, 0] * EARTH_M
 
 
+def distance_matrix(net, o_lon, o_lat, d_lon, d_lat):
+    """Network distance (m) from every origin to every destination, each point snapped to the
+    largest component; also the snapping distances and the straight-line distances. Network
+    distances are between the snapped nodes; the snapping legs are not added."""
+    o_node, o_snap = net.snap(o_lon, o_lat, largest_only=True)
+    d_node, d_snap = net.snap(d_lon, d_lat, largest_only=True)
+    uniq = sorted(set(o_node))
+    row = {n: i for i, n in enumerate(uniq)}
+    dist = dijkstra(net.graph, directed=False, indices=[net.index[n] for n in uniq])
+    cols = [net.index[n] for n in d_node]
+    network = np.array([dist[row[n], cols] for n in o_node])
+    straight = _hav(np.asarray(o_lon)[:, None], np.asarray(o_lat)[:, None],
+                    np.asarray(d_lon)[None, :], np.asarray(d_lat)[None, :])
+    return {"network_m": network, "straight_m": straight, "origin_snap_m": o_snap,
+            "dest_snap_m": d_snap}
+
+
 def _read_segments(path, classes=None, exclude=None):
     import duckdb
     from shapely import wkb
@@ -174,6 +193,12 @@ def main():
     d.add_argument("nodes")
     d.add_argument("--pairs", type=int, default=2000)
     d.add_argument("--seed", type=int, default=0)
+    m = sub.add_parser("matrix")
+    m.add_argument("edges")
+    m.add_argument("nodes")
+    m.add_argument("--origins", required=True, help="table with id, lon, lat")
+    m.add_argument("--destinations", required=True, help="table with id, lon, lat")
+    m.add_argument("--out", required=True)
     r = sub.add_parser("reach")
     r.add_argument("edges")
     r.add_argument("nodes")
@@ -195,6 +220,28 @@ def main():
         return
 
     net = _load(a.edges, a.nodes)
+    if a.cmd == "matrix":
+        import duckdb
+        import pyarrow as pa
+
+        o = duckdb.sql(f"select id, lon, lat from '{a.origins}'").fetchnumpy()
+        d = duckdb.sql(f"select id, lon, lat from '{a.destinations}'").fetchnumpy()
+        res = distance_matrix(net, o["lon"], o["lat"], d["lon"], d["lat"])
+        no, nd = len(o["id"]), len(d["id"])
+        mat = pa.table({
+            "origin": np.repeat([str(x) for x in o["id"]], nd),
+            "destination": np.tile([str(x) for x in d["id"]], no),
+            "network_m": res["network_m"].ravel(),
+            "straight_m": res["straight_m"].ravel(),
+            "origin_snap_m": np.repeat(res["origin_snap_m"], nd),
+            "destination_snap_m": np.tile(res["dest_snap_m"], no),
+        })
+        duckdb.sql(f"copy (select * from mat) to '{a.out}' (format parquet)")
+        unreachable = int(np.isinf(res["network_m"]).sum())
+        print(f"origins {no}, destinations {nd}, pairs {no * nd}, unreachable {unreachable}")
+        for name, snap in (("origins", res["origin_snap_m"]), ("destinations", res["dest_snap_m"])):
+            print(f"{name} snapped: median {np.median(snap):.1f} m, max {snap.max():.1f} m")
+        return
     if a.cmd == "detour":
         rng = np.random.default_rng(a.seed)
         n = len(net.ids)

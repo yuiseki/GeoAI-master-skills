@@ -77,12 +77,18 @@
     - [x] `references/baselines.md`
     - [ ] カーネル密度
     - [ ] 2 種類の点の間 (クロス K) と、散らばりの検定
-- ネットワークと最適化 (1 / 2)
+- ネットワークと最適化 (2 / 2)
   - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る
     - [x] `references/building-the-graph.md`
     - [x] `references/measures.md`
     - [ ] 一方通行と曲がれない交差点、速度から時間
-    - [ ] 出発地と目的地の表から距離行列を書き出すコマンド (spatial-optimization の入力)
-  - [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
+    - [x] 出発地と目的地の表から距離行列を書き出すコマンド (spatial-optimization の入力)
+  - [x] `spatial-optimization`: 定式化、MILP と発見的な解、選んだ解からの目的の計算し直し、設定を変えたときの答えの変わり方
+    - [x] `references/p-median.md`
+    - [x] `references/coverage.md`
+    - [ ] 割当と輸送 (容量のある割当)
+    - [ ] LP と双対 (資源の値段)
+    - [ ] CP-SAT (配置とスケジューリング)
+    - [ ] 多目的 (重み付き和、パレート、ε 制約)
 - 残す (0 / 1)
   - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す

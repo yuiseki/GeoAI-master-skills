@@ -105,3 +105,20 @@ def test_snapping_can_skip_small_islands_of_the_network():
     assert anywhere[0] in ("i0", "i1")
     assert largest[0].startswith("n")
     assert dist_m[0] > 100
+
+
+def test_distance_matrix_adds_snapping_and_keeps_straight_line_for_comparison():
+    from road_network import distance_matrix
+
+    segs = [seg("s1", [(0, 0), (0.01, 0)], [("a", 0), ("b", 1)]),
+            seg("s2", [(0.01, 0), (0.01, 0.01)], [("b", 0), ("c", 1)])]
+    net = Network(*build_edges(segs))
+    # Origins next to a and c, one destination next to c.
+    m = distance_matrix(net, np.array([0.0, 0.01]), np.array([0.0001, 0.0101]),
+                        np.array([0.01]), np.array([0.0099]))
+    assert m["network_m"].shape == (2, 1)
+    along = haversine_m(0, 0, 0.01, 0) + haversine_m(0.01, 0, 0.01, 0.01)
+    assert m["network_m"][0, 0] == pytest.approx(along, rel=1e-6)
+    assert m["network_m"][1, 0] == pytest.approx(0.0, abs=1e-3)
+    assert m["origin_snap_m"][0] == pytest.approx(haversine_m(0, 0.0001, 0, 0), rel=1e-6)
+    assert m["straight_m"][0, 0] == pytest.approx(haversine_m(0.0, 0.0001, 0.01, 0.0099), rel=1e-6)

@@ -29,7 +29,11 @@ uvx --with numpy --with scipy --with scikit-learn --with shapely --with duckdb -
 uvx ... python scripts/road_network.py reach tmp/drive_edges.parquet tmp/drive_nodes.parquet \
   --lon 139.7774 --lat 35.7141 --within 500 1000 2000
 uvx ... python scripts/road_network.py detour tmp/drive_edges.parquet tmp/drive_nodes.parquet --pairs 2000
+uvx ... python scripts/road_network.py matrix tmp/walk_edges.parquet tmp/walk_nodes.parquet \
+  --origins tmp/demand.parquet --destinations tmp/candidates.parquet --out tmp/matrix.parquet
 ```
+
+`matrix` は、出発地と目的地 (どちらも id、lon、lat の表) を最大の連結成分の節点に寄せ、全ての組の道のり、直線距離、寄せた距離を書き出す。道のりは寄せた節点の間のもので、寄せた距離は足していない。spatial-optimization の入力になる。
 
 テストは `uvx --with numpy --with scipy --with scikit-learn --with shapely --with duckdb --with pytest pytest scripts/test_road_network.py`。線の長さが大円距離であること、線を connector の位置で切り、並びが順でなくても正しく切ること、折れ線の後の区間の上の connector をその区間に置くこと、最短経路が共有の connector を通ること、つながらない組が無限大であること、点を大円距離で最寄りの節点に寄せ、孤立した小片を避けられること、同じ 2 点を結ぶ道が 2 本あれば短いほうを使うことを確かめている。connector を並べ替えない、寄せるときに経度と緯度を取り違える、平行な道の長いほうを取る、節点を最初の区間にしか置かない、のそれぞれで落ちることを確かめてある。
 
@@ -38,7 +42,6 @@ uvx ... python scripts/road_network.py detour tmp/drive_edges.parquet tmp/drive_
 - 一方通行と、曲がれない交差点 (`prohibited_transitions`)。ネットワークは向きの無いグラフ。車の道のりは実際より短く出うる。
 - 速度。道のりの距離だけで、時間ではない。`speed_limits` と道の種類から時間にするのは未実装。
 - 高さ (`level_rules`)。立体交差でも、connector を共有していればつながる。共有していなければつながらない (Overture の側でそう表されている)。
-- 出発地と目的地の表から距離行列を書き出すコマンド (`Network.distances` は関数としてある)。
 
 ## 書き出すもの
 
