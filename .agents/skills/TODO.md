@@ -72,7 +72,7 @@
     - [ ] 格子の原点をずらす区切り方の効果
 - 構造を探す (5 / 5)
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
-    - [ ] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
+    - [x] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
     - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
   - [x] `clustering-analysis`: 似た単位の群に分けられるか。群が戻ってくるか、既知の区分と何が違うか
     - [x] `references/kmeans.md`

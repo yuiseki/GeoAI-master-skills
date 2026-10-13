@@ -23,11 +23,12 @@ description: 単位に付いた値 (目的変数、特徴量、モデルの残�
 | global Moran's I | 全体として、近い単位どうしが似ているか | 既定で出す |
 | コレログラム (距離の帯ごとの Moran's I) | どの距離まで似ているか | `--bands-km` |
 | local Moran (LISA) | どの単位が、似た値の集まり (HH、LL) や、周りと逆の値 (HL、LH) にあるか | `--local-out` |
+| Getis-Ord Gi* | どこに高い値、低い値が集まっているか (ホットスポット)。references/getis-ord.md | `--hotspots-out` |
 
 ```sh
 uvx --with duckdb --with scikit-learn --with pyarrow python scripts/spatial_autocorrelation.py \
   tmp/table.parquet ID VALUE --lon lon --lat lat --k 6 \
-  --bands-km 0 500 1000 2000 4000 8000 --local-out tmp/lisa.parquet
+  --bands-km 0 500 1000 2000 4000 8000 --local-out tmp/lisa.parquet --hotspots-out tmp/gi.parquet
 ```
 
 ## 近傍と重み

@@ -10,7 +10,8 @@ announces a move to two-sided, which roughly doubles a p-value.
 Usage:
     uvx --with duckdb --with scikit-learn --with pyarrow python spatial_autocorrelation.py \
         TABLE ID VALUE (--lon COL --lat COL | --geometry COL) [--k 6] \
-        [--bands-km 0 500 1000 2000 4000] [--permutations 999] [--local-out lisa.parquet]
+        [--bands-km 0 500 1000 2000 4000] [--permutations 999] [--local-out lisa.parquet] \
+        [--hotspots-out gi.parquet]
 
 VALUE can be a target, a feature, or a model's residual (target - prediction).
 """
@@ -113,6 +114,23 @@ def local_moran(x, neighbors, permutations=999, seed=0):
     return {"Is": Is, "q": q, "p_sim": p, "lag": lag}
 
 
+def getis_ord(x, neighbors):
+    """Getis-Ord Gi* z-score per unit: is the sum over the unit and its neighbours (binary
+    weights, the unit included) higher or lower than the overall mean would give?"""
+    x = np.asarray(x, float)
+    n = len(x)
+    xbar = x.mean()
+    s = np.sqrt((x ** 2).mean() - xbar ** 2)
+    z = np.empty(n)
+    for i, nb in enumerate(neighbors):
+        idx = np.r_[i, nb]
+        wsum = len(idx)  # binary weights: the sum and the sum of squares are both the count
+        num = x[idx].sum() - xbar * wsum
+        den = s * np.sqrt((n * wsum - wsum ** 2) / (n - 1))
+        z[i] = num / den
+    return z
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("table")
@@ -126,6 +144,7 @@ def main():
     p.add_argument("--permutations", type=int, default=999)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--local-out")
+    p.add_argument("--hotspots-out", help="write Getis-Ord Gi* z-scores per unit")
     a = p.parse_args()
 
     import duckdb
@@ -158,6 +177,16 @@ def main():
             r = moran(x, bn, a.permutations, a.seed)
             print(f"  {lo:>7g} - {hi:<7g} I {r['I']:+.3f}  p {r['p_sim']:.4f}  "
                   f"with neighbours {r['n'] - r['islands']}")
+
+    if a.hotspots_out:
+        z = getis_ord(x, nb)
+        import pyarrow as pa
+
+        hs = pa.table({"id": [str(i) for i in t["id"]], "value": x, "gi_star_z": z})
+        con.sql(f"copy (select * from hs order by gi_star_z desc) to '{a.hotspots_out}' (format parquet)")
+        print(f"Getis-Ord Gi*, {a.k} nearest neighbours and the unit itself: "
+              f"z >= 1.96 in {int((z >= 1.96).sum())} units (hot), z <= -1.96 in {int((z <= -1.96).sum())}"
+              " (cold); no correction for multiple tests or for overlapping neighbourhoods")
 
     if a.local_out:
         lm = local_moran(x, nb, a.permutations, a.seed)

@@ -93,3 +93,28 @@ def test_local_moran_matches_esda(field):
     assert ours["q"].tolist() == ref.q.tolist()
     # Pseudo p-values are random; they should agree on which units are clearly significant.
     assert np.corrcoef(ours["p_sim"], ref.p_sim)[0, 1] > 0.9
+
+
+def test_getis_ord_gi_star_matches_esda(field):
+    from spatial_autocorrelation import getis_ord
+
+    lon, lat, x = field
+    nb = knn_neighbors(lon, lat, 6)
+    ours = getis_ord(x, nb)
+    w = libpysal.weights.W({i: list(n) for i, n in enumerate(nb)}, silence_warnings=True)
+    ref = esda.G_Local(x, w, transform="B", star=True, permutations=0)
+    assert ours == pytest.approx(ref.Zs, rel=1e-6)
+
+
+def test_getis_ord_finds_a_planted_hotspot():
+    from spatial_autocorrelation import getis_ord
+
+    rng = np.random.default_rng(5)
+    lon = rng.uniform(0, 10, 400)
+    lat = rng.uniform(40, 50, 400)
+    x = rng.normal(size=400)
+    hot = (lon < 2) & (lat < 42)
+    x[hot] += 4
+    z = getis_ord(x, knn_neighbors(lon, lat, 8))
+    assert z[hot].mean() > 3
+    assert abs(z[~hot & (lon > 5)].mean()) < 1
