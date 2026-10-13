@@ -78,7 +78,7 @@
     - [x] `references/kmeans.md`
     - [x] `references/density-based.md`
     - [x] `references/dpmm.md`
-    - [ ] 位置そのものでクラスタリングしない、欠損の埋め方、DPMM の共分散の事前分布 (004)
+    - [x] 位置そのものでクラスタリングしない、欠損の埋め方、DPMM の共分散の事前分布
   - [x] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。並行分析で軸の数を決め、軸と空間の安定を分けて確かめる
     - [x] `references/pca.md`
     - [x] `references/choosing-components.md`
