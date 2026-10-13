@@ -56,7 +56,7 @@
   - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
     - [x] `references/maup.md`
     - [ ] 格子の原点をずらす区切り方の効果
-- 構造を探す (4 / 5)
+- 構造を探す (5 / 5)
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
     - [ ] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
     - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
@@ -64,7 +64,9 @@
     - [x] `references/kmeans.md`
     - [x] `references/density-based.md`
     - [x] `references/dpmm.md`
-  - [ ] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。references に PCA、並行分析、ブートストラップ
+  - [x] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。並行分析で軸の数を決め、軸と空間の安定を分けて確かめる
+    - [x] `references/pca.md`
+    - [x] `references/choosing-components.md`
   - [x] `anomaly-detection`: 比べる相手からの外れを並べ、データの誤りか本当の出来事かを分ける
     - [x] `references/time.md`
     - [x] `references/space.md`
