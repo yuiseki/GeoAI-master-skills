@@ -13,6 +13,7 @@
 Usage:
     uvx --with numpy --with scipy --with duckdb --with pyarrow python reduce_dims.py TABLE ID F1 F2 ... \
         [--components 6] [--permutations 200] [--resamples 200] [--top 5] [--scores-out scores.parquet]
+        [--compare-by COLUMN]
 """
 
 import argparse
@@ -93,6 +94,28 @@ def bootstrap_congruence(X, components, resamples=200, seed=0):
     return {"axis": axis / resamples, "subspace": sub / resamples}
 
 
+def compare_subspaces(ref, other, components):
+    """Compare the principal components of two sets of rows with the same features (a region and
+    the whole, an early and a late period).
+
+    axis         |Tucker congruence| of each reference component with its matched component of
+                 the other set (order and sign ignored)
+    in_subspace  for each of the other set's components, the length of its projection onto the
+                 space the reference components span: 1 if it lies in that space, even if turned
+    score_shift  mean of the other set's scores on the reference axes (the other set standardised
+                 with the reference's means and sds), in units of the reference scores' sd
+    """
+    ref, other = np.asarray(ref, float), np.asarray(other, float)
+    k = components
+    eig_r, load_r, _ = pca(ref)
+    _, load_o, _ = pca(other)
+    R, O = load_r[:k], load_o[:k]
+    z = (other - ref.mean(axis=0)) / ref.std(axis=0)
+    shift = (z @ R.T).mean(axis=0) / np.sqrt(eig_r[:k])
+    return {"axis": match_congruence(R, O), "in_subspace": np.linalg.norm(O @ R.T, axis=1),
+            "score_shift": shift}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("table")
@@ -104,16 +127,17 @@ def main():
     p.add_argument("--top", type=int, default=5)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--scores-out")
+    p.add_argument("--compare-by", help="compare each value's rows with all rows")
     a = p.parse_args()
 
     import duckdb
 
-    cols = [a.id, *a.features]
+    cols = [a.id, *a.features] + ([a.compare_by] if a.compare_by else [])
     rows = duckdb.sql("select " + ", ".join(f'"{c}"' for c in cols) + f" from '{a.table}'").fetchall()
     if any(v is None for r in rows for v in r):
         raise SystemExit("some rows have a missing value; drop them first and say how many")
     ids = [r[0] for r in rows]
-    X = np.array([r[1:] for r in rows], float)
+    X = np.array([r[1:1 + len(a.features)] for r in rows], float)
     k = min(a.components, X.shape[1])
     keep, eig, thr = parallel_analysis(X, a.permutations, a.seed)
     cong = bootstrap_congruence(X, k, a.resamples, a.seed)
@@ -128,6 +152,20 @@ def main():
               f"{cong['axis'][i]:.3f} / {cong['subspace'][i]:.3f}")
         order = np.argsort(-np.abs(load[i]))[:a.top]
         print("        " + ", ".join(f"{a.features[j]} {load[i, j]:+.2f}" for j in order))
+    if a.compare_by:
+        kk = max(keep, 1)
+        by = np.array([r[-1] for r in rows])
+        print(f"each {a.compare_by} against all rows, {kk} component(s): axis congruence, "
+              "length inside the subspace, score shift (sd of all rows' scores)")
+        for v in sorted(set(by.tolist())):
+            m = by == v
+            if m.sum() < 2 * X.shape[1]:
+                print(f"  {v}: {int(m.sum())} rows, too few for {X.shape[1]} features; not compared")
+                continue
+            c = compare_subspaces(X, X[m], kk)
+            cells = "; ".join(f"PC{i + 1} {c['axis'][i]:.2f} / {c['in_subspace'][i]:.2f} / "
+                              f"{c['score_shift'][i]:+.2f}" for i in range(kk))
+            print(f"  {v}: {int(m.sum())} rows: {cells}")
     if a.scores_out:
         import pyarrow as pa
 

@@ -62,3 +62,46 @@ def test_matching_ignores_order_and_sign():
     ref = np.linalg.qr(rng.normal(size=(8, 3)))[0].T  # three orthonormal loading vectors
     cand = np.array([-ref[2], ref[0], -ref[1]])
     assert np.allclose(match_congruence(ref, cand), 1.0)
+
+
+def blocks(rng, n, corr=0.0):
+    """Factor 1 on features 0-6, factor 2 on features 7-9 (so they differ in strength after
+    standardising), with the two factors correlated by corr."""
+    f = rng.multivariate_normal([0, 0], [[1, corr], [corr, 1]], size=n)
+    X = np.c_[np.repeat(f[:, :1], 7, axis=1), np.repeat(f[:, 1:], 3, axis=1)]
+    return X + rng.normal(scale=0.5, size=X.shape)
+
+
+def test_the_same_structure_compares_as_the_same_axes():
+    from reduce_dims import compare_subspaces
+
+    rng = np.random.default_rng(20)
+    c = compare_subspaces(blocks(rng, 3000), blocks(rng, 3000), 2)
+    assert min(c["axis"]) > 0.98 and min(c["in_subspace"]) > 0.98
+
+
+def test_axes_turned_within_the_same_plane_are_told_apart_from_a_new_plane():
+    from reduce_dims import compare_subspaces
+
+    rng = np.random.default_rng(21)
+    a = blocks(rng, 3000)
+    # Correlated factors: the leading component mixes both blocks, so it turns within their plane.
+    c = compare_subspaces(a, blocks(rng, 3000, corr=0.9), 2)
+    assert c["axis"][0] < 0.95
+    assert min(c["in_subspace"]) > 0.95
+    # A structure along a contrast inside each block lies outside that plane.
+    v = np.array([1, -1, 1, -1, 1, -1, 1, 1, -1, 1], float)
+    other = (rng.normal(size=(3000, 1)) * 3) @ v[None, :] + rng.normal(size=(3000, 10))
+    c2 = compare_subspaces(a, other, 2)
+    assert c2["in_subspace"][0] < 0.3
+
+
+def test_scores_on_the_reference_axes_show_a_shift():
+    from reduce_dims import compare_subspaces
+
+    rng = np.random.default_rng(22)
+    a = blocks(rng, 3000)
+    later = a + 2.0  # every feature up by the same amount
+    c = compare_subspaces(a, later, 2)
+    assert abs(c["score_shift"][0]) > 0.5
+    assert abs(compare_subspaces(a, a, 2)["score_shift"][0]) < 1e-9

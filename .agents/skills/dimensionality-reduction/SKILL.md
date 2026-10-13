@@ -20,14 +20,15 @@ description: 多くの特徴量を少数の軸 (主成分) で要約できるか
 4. 並行分析が残す軸の数を見る。しきい値をわずかに超えただけの軸は、残すかどうかを保留する。
 5. 軸ごとに、軸の一致度と空間の一致度を見る。軸の一致度が 0.95 以上の軸だけに名前を付ける。軸の一致度が低く空間の一致度が高い軸は、隣の軸と組で読む。
 6. 名前を付けた軸の負荷量の大きい特徴量を言葉にする。
-7. 得点 (`--scores-out`) を地図や他のスキル (clustering-analysis、spatial-autocorrelation、モデルの特徴量) に渡す。
+7. 地域や期間で分けても同じ軸が出るかを `--compare-by` で確かめる (references/choosing-components.md)。全体の軸が、どの部分にも当てはまるとは限らない。
+8. 得点 (`--scores-out`) を地図や他のスキル (clustering-analysis、spatial-autocorrelation、モデルの特徴量) に渡す。
 
 ```sh
 uvx --with numpy --with scipy --with duckdb --with pyarrow python scripts/reduce_dims.py \
   tmp/table.parquet ID F1 F2 F3 F4 F5 --components 5 --scores-out tmp/scores.parquet
 ```
 
-テストは `uvx --with numpy --with scipy --with duckdb --with pytest pytest scripts/test_reduce_dims.py`。並行分析が本当の因子の数を当て、雑音では 0 を返すこと、標準化していること、強さの違う因子の軸は安定し雑音の軸は安定しないこと、同じ強さの 2 つの因子では軸は回るが空間は安定すること、順番と符号の違う軸を正しく対応させることを確かめている。標準化を外す、並行分析で行ごと並べ替える、空間の回転を外す、対応づけを外す、一致係数の絶対値を取らずに符号付きで比べる、のそれぞれで落ちることを確かめてある。
+テストは `uvx --with numpy --with scipy --with duckdb --with pytest pytest scripts/test_reduce_dims.py`。並行分析が本当の因子の数を当て、雑音では 0 を返すこと、標準化していること、強さの違う因子の軸は安定し雑音の軸は安定しないこと、同じ強さの 2 つの因子では軸は回るが空間は安定すること、順番と符号の違う軸を正しく対応させることを確かめている。標準化を外す、並行分析で行ごと並べ替える、空間の回転を外す、対応づけを外す、一致係数の絶対値を取らずに符号付きで比べる、のそれぞれで落ちることを確かめてある。集合の間の比べ方では、同じ構造なら同じ軸になること、同じ平面の中で回った軸と別の平面を区別できること、ずらした集合の得点が動くことを確かめ、空間への射影を対角だけにする、得点を自分の平均で標準化する、のそれぞれで落ちることを確かめてある。
 
 ## 書き出すもの
 

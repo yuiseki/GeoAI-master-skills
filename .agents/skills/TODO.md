@@ -82,7 +82,7 @@
   - [x] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。並行分析で軸の数を決め、軸と空間の安定を分けて確かめる
     - [x] `references/pca.md`
     - [x] `references/choosing-components.md`
-    - [ ] 地域や期間の間で主成分の空間を比べる、新しい期間を古い軸に載せる (004、006)
+    - [x] 地域や期間の間で主成分の空間を比べる、得点の動き (--compare-by)
   - [x] `anomaly-detection`: 比べる相手からの外れを並べ、データの誤りか本当の出来事かを分ける
     - [x] `references/time.md`
     - [x] `references/space.md`
