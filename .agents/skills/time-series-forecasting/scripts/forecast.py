@@ -24,7 +24,8 @@ Series must be regular (one value per period, no gaps) and aligned so that index
 Usage:
     uvx --with numpy --with scipy --with scikit-learn --with statsmodels --with duckdb python forecast.py \
         TABLE SERIES_COL TIME_COL VALUE_COL --season 12 --horizons 12 --origins 24 \
-        --models naive seasonal_naive climatology shrunk_persistence ets lag_gbdt
+        --models naive seasonal_naive climatology shrunk_persistence ets lag_gbdt \
+        [--origin-from 300] [--report-horizons 1 12]
 """
 
 import argparse
@@ -164,6 +165,8 @@ def main():
     p.add_argument("--horizons", type=int, default=1)
     p.add_argument("--origins", type=int, default=12)
     p.add_argument("--models", nargs="+", default=list(MODELS), choices=list(MODELS))
+    p.add_argument("--origin-from", type=int, default=None,
+                   help="first origin (position in the series); default: the last --origins origins")
     p.add_argument("--report-horizons", type=int, nargs="*", default=[])
     a = p.parse_args()
 
@@ -181,7 +184,7 @@ def main():
         raise SystemExit("every series must cover the same periods")
     print(f"series {len(series)}, periods {len(next(iter(times.values())))}, season {a.season}, "
           f"horizons 1..{a.horizons}, origins {a.origins}")
-    res = evaluate(series, a.models, a.horizons, a.origins, a.season)
+    res = evaluate(series, a.models, a.horizons, a.origins, a.season, a.origin_from)
     base = res.get("seasonal_naive") or res.get("naive")
     for name, r in res.items():
         rel = f", MAE / {('seasonal_naive' if 'seasonal_naive' in res else 'naive')} {r['mae'] / base['mae']:.3f}" if base else ""

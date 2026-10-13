@@ -45,3 +45,18 @@ def test_the_current_value_never_enters():
         ok = ~np.isnan(v)
         # Features built from the past cannot track the current value of white noise.
         assert abs(np.corrcoef(v[ok], value[ok])[0, 1]) < 0.3, k
+
+
+def test_a_gap_inside_the_window_makes_the_mean_nan_but_the_total_counts_what_exists():
+    unit = np.array(["a"] * 4)
+    time = np.array([0, 1, 3, 4])  # period 2 missing
+    value = np.array([1.0, 2.0, 4.0, 8.0])
+    f = lag_features(unit, time, value, lags=[], windows=[2], cumulative=True)
+    assert np.isnan(f["mean2"][2])  # t=3 needs t=1 and t=2
+    assert np.isnan(f["mean2"][3])  # t=4 needs t=3 and t=2
+    assert f["total_before"].tolist() == [0, 1, 3, 7]
+
+
+def test_two_rows_for_one_period_are_refused():
+    with pytest.raises(SystemExit):
+        lag_features(np.array(["a", "a"]), np.array([1, 1]), np.array([1.0, 2.0]))
