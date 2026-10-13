@@ -1,4 +1,4 @@
-# Autonomous-GeoAI: 分析の流れ
+# GeoAI-skills: 分析の流れ
 
 地理空間データの分析を頼まれたら、この流れで進める。各段階の手順は `.agents/skills/<スキル>/SKILL.md` にある。問いに合うスキルだけを読み、全部を読まなくてよい。スキルを書く、直すときの決まりは `.agents/skills/AGENTS.md`。
 
