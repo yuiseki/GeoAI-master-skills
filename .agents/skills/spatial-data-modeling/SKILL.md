@@ -35,6 +35,8 @@ uvx --with duckdb --with scikit-learn python scripts/compare_models.py tmp/table
   --folds-file tmp/folds_region.parquet
 ```
 
+`--predictions-out FILE` (`--with pyarrow` が要る) で、交差検証の外側の予測を (repeat、model、id、target、prediction) の表に書き出す。残差の空間自己相関 (spatial-pattern-exploration) や較正 (uncertainty-estimation) に使う。
+
 表は、使う列に欠損の無い行だけにしておく。分割表もその表から作る。分割表の id がデータの行に無いと止まる。
 
 分類は `--task classification` で、目的変数は 0/1。基準は `prior` (学習側のクラスの割合)。

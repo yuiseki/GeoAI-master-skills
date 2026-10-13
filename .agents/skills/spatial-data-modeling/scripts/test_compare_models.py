@@ -160,3 +160,12 @@ def test_tabpfn_runs_out_of_fold():
     y = 2 * X[:, 0] + rng.normal(scale=0.1, size=60)
     s = run(y, X, None, ["mean", "tabpfn_v2"], kfold(60, k=3), "regression")
     assert s["tabpfn_v2"]["r2"][0] > s["mean"]["r2"][0] + 0.5
+
+
+def test_predictions_are_kept_for_every_tested_row_only():
+    y = np.arange(10, dtype=float)
+    folds = {0: [(np.arange(0, 6), np.arange(6, 8)), (np.arange(0, 8), np.arange(8, 10))]}
+    preds = []
+    run(y, y[:, None], None, ["mean"], folds, "regression", preds)
+    assert sorted((r, m, i) for r, m, i, _ in preds) == [(0, "mean", i) for i in range(6, 10)]
+    assert dict((i, v) for _, _, i, v in preds) == {6: 2.5, 7: 2.5, 8: 3.5, 9: 3.5}

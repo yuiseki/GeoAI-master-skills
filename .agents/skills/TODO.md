@@ -14,7 +14,11 @@
 - [ ] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間を評価する
 - [ ] `model-explanation`: permutation importance、SHAP、部分依存で、モデルが何に効いているかを説明する
 - [ ] `robustness-analysis`: 乱数の種、標本、集計、空間単位を変えて結論が保たれるかを見る。MAUP は references
-- [ ] `spatial-pattern-exploration`: 目的変数なしで空間の構造を探す。references に クラスタリング、次元削減、異常検知、空間自己相関とホットスポット、点パターン
+- [x] `spatial-pattern-exploration`: 目的変数なしで空間の構造を探す。references に クラスタリング、次元削減、異常検知、空間自己相関とホットスポット、点パターン
+  - [ ] `references/clustering.md`: k-means、DBSCAN、HDBSCAN、DPMM
+  - [ ] `references/dimensionality-reduction.md`: PCA、並行分析、ブートストラップ
+  - [ ] `references/anomaly-detection.md`: Isolation Forest、LOF
+  - [ ] `references/point-pattern.md`: Ripley の K と L、カーネル密度
 - [ ] `spatial-network-analysis`: 最短経路、到達圏、中心性で空間ネットワークを解析し、最適化に使う距離行列を作る
 - [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
 - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す

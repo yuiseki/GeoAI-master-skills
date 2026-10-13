@@ -208,10 +208,11 @@ def score(y, pred, task):
     }
 
 
-def run(y, X, group, names, folds, task):
+def run(y, X, group, names, folds, task, predictions=None):
     """Scores per model, one value per repeat, on the rows the repeat tests.
 
     folds: {repeat: [(train, test), ...]}. The repeat also seeds the models.
+    predictions: if a list, (repeat, model, row index, prediction) is appended for every tested row.
     """
     y, X = np.asarray(y), np.asarray(X, float)
     if task == "classification" and set(np.unique(y)) - {0, 1}:
@@ -231,6 +232,9 @@ def run(y, X, group, names, folds, task):
         for repeat, splits in folds.items():
             pred = oof_predict(lambda: MODELS[name][task](repeat), Xm, y, splits, task)
             tested = ~np.isnan(pred)
+            if predictions is not None:
+                predictions.extend((repeat, name, int(i), float(pred[i]))
+                                   for i in np.flatnonzero(tested))
             per_repeat.setdefault("n", []).append(int(tested.sum()))
             for k, v in score(y[tested], pred[tested], task).items():
                 per_repeat.setdefault(k, []).append(v)
@@ -248,6 +252,9 @@ def main():
     p.add_argument("--models", nargs="+", required=True, choices=list(MODELS))
     p.add_argument("--folds-file", required=True)
     p.add_argument("--group")
+    p.add_argument("--predictions-out",
+                   help="write the out-of-fold predictions (repeat, model, id, target, prediction); "
+                        "needs --with pyarrow")
     a = p.parse_args()
 
     cols = [a.id, a.target, *a.features] + ([a.group] if a.group else [])
@@ -265,10 +272,25 @@ def main():
     folds = load_folds(a.folds_file, ids)
     print(f"rows: {len(rows)}, folds: {a.folds_file}, repeats: {list(folds)}")
 
-    for name, s in run(y, X, group, a.models, folds, a.task).items():
+    preds = [] if a.predictions_out else None
+    for name, s in run(y, X, group, a.models, folds, a.task, preds).items():
         n = s.pop("n")
         cells = "  ".join(f"{k} {np.mean(v):.4g} (sd {np.std(v):.2g})" for k, v in s.items())
         print(f"{name:<11} n {min(n)}-{max(n)}  {cells}")
+
+    if preds is not None:
+        import pyarrow as pa  # only needed here: --with pyarrow
+
+        pred_rows = pa.table({
+            "repeat": [r for r, _, _, _ in preds],
+            "model": [m for _, m, _, _ in preds],
+            "id": [str(ids[i]) for _, _, i, _ in preds],
+            "target": [float(y[i]) for _, _, i, _ in preds],
+            "prediction": [v for _, _, _, v in preds],
+        })
+        duckdb.sql(f"copy (select * from pred_rows order by all) to '{a.predictions_out}' "
+                   "(format parquet)")
+        print(f"predictions: {len(preds)} rows to {a.predictions_out}")
 
 
 if __name__ == "__main__":
