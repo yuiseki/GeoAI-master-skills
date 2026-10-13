@@ -17,7 +17,7 @@
 - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
   - [ ] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
   - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
-- [ ] `clustering-analysis`: 似た単位の群に分けられるか。references に k-means、DBSCAN、HDBSCAN、DPMM
+- [x] `clustering-analysis`: 似た単位の群に分けられるか。references に k-means、DBSCAN、HDBSCAN、DPMM
 - [ ] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。references に PCA、並行分析、ブートストラップ
 - [ ] `anomaly-detection`: 全体や周りから外れた単位はどれか。references に Isolation Forest、LOF
 - [ ] `point-pattern-analysis`: 点が無作為な配置と比べて集まっているか。references に Ripley の K と L、カーネル密度、比べる基準の作り方
