@@ -69,7 +69,7 @@
     - [x] 行ごとの部分依存の曲線 (ICE)
   - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
     - [x] `references/maup.md`
-    - [ ] 格子の原点をずらす区切り方の効果
+    - [x] 格子の原点をずらす区切り方の効果
 - 構造を探す (5 / 5)
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
     - [x] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
