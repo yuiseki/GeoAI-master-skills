@@ -45,6 +45,25 @@ uvx --from 'duckdb>=1.5.5' python scripts/point_neighbors.py \
 - 上の例は問い合わせ 295,780 点、参照 3,268 点で、約 11 秒、メモリ 320 MB だった (2026-10-10)。無作為の 221 点を総当たりの haversine と比べ、件数は全て一致し、距離の相対誤差は 1e-12 未満だった。
 - テストは `uvx --from 'duckdb>=1.5.5' --with pytest pytest scripts/test_point_neighbors.py`。
 
+## 過去の値の特徴量
+
+時間のある単位 (国 × 年、格子 × 月) では、前の期間の値、直近の平均、それまでの累積が強い特徴量になる。どれも、各行の時点より前の値だけから作る。今の時点の値を混ぜると、答えの言い換えになる (leakage-audit)。
+
+`scripts/lag_features.py` は、単位 × 期間の表から、各行について `lag{k}` (k 期間前の値)、`mean{w}` (直前の w 期間の平均)、`total_before` (それより前の合計) を作る。
+
+```sh
+uvx --with numpy --with duckdb --with pyarrow python scripts/lag_features.py tmp/table.parquet UNIT TIME VALUE \
+  --lags 1 12 --windows 3 12 --cumulative --out tmp/lags.parquet
+```
+
+- 期間は整数 (年、または起点から数えた月)。欠けた期間は 0 ではなく欠け。k 期間前が欠けていれば `lag{k}` は NaN、直前の w 期間のどれかが欠けていれば `mean{w}` は NaN。
+- 行の並びではなく期間で数える。表の行が期間の順に並んでいなくても、期間が飛んでいても正しい。
+- 1 つの単位に同じ期間の行が 2 つあると止まる。
+- 例: UCDP の国 × 月 (20 か国 × 444 か月、`tmp/ucdp_country_month.parquet`) から作ると、`lag12` と `mean12` は各国の最初の 12 か月が NaN (240 行)。
+- 予測の時点より先を当てるなら (h 期間先)、`lag1` ではなく `lag{h}` 以上だけを使う。予測を使う時点で分かっている値だけを入れる。
+
+テストは `uvx --with numpy --with duckdb --with pytest pytest scripts/test_lag_features.py`。ラグと平均と累積が前の期間だけを使うこと、単位をまたがないこと、行の順と期間の欠けに正しく従うこと、白色雑音の今の値と相関しないことを確かめている。平均に今の値を入れる、累積に今の値を入れる、行の順で数える、のそれぞれで落ちることを確かめてある。
+
 ## 分母の小さい割合
 
 単位の中の割合 (POI のうち宿泊の割合、空港のうちヘリポートの割合) は、分母が小さいと偶然で大きく振れる。study-geoai-algo-py の 004 では、POI が数件の 1 km 格子が「宿泊 20%」の外れ値になり、k-means の型を 1 つ使った。
