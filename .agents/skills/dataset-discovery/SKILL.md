@@ -39,6 +39,11 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 | [mlit-nlftp/](references/mlit-nlftp/README.md) | 目録。国土数値情報 (鉄道、医療機関、浸水想定、将来推計人口など) | 日本 | 年ごと |
 | [tokyo-ckan/](references/tokyo-ckan/README.md) | 目録。東京都と区市町村のオープンデータ (施設一覧、統計表) | 東京都 | データセットごと |
 | [fao-ferspas/](references/fao-ferspas/README.md) | 目録。FAO の農業・食料・気候のラスタ (COG) | 全世界 | コレクションごと |
+| [jp-admin-2026-09](references/jp-admin-2026-09.md) | 都道府県と市区町村の面、コード、名前、2020 年の人口と世帯数 (CC BY 4.0) | 日本 | 名前 2026-09、面と人口 2020 |
+| [osm-japan-src-2026-08](references/osm-japan-src-2026-08.md) | OpenStreetMap の日本全国 (点、線、面、道路)。GeoParquet、EPSG:3857 | 日本 | 2026-08-31 で凍結 |
+| [mlit-toshi-keikaku-jp](references/mlit-toshi-keikaku-jp.md) | 都市計画決定GISデータ。用途地域 (容積率、建蔽率)、都市計画道路、公園、地区計画など 25 レイヤー | 日本 (自治体が提供した分) | 令和 7 年度版 |
+| [ekidata-jp](references/ekidata-jp.md) | 鉄道の事業者、路線、駅の点、隣り合う駅 (無料版。新幹線の駅なし) | 日本 | 2026-10-05 取得、版ごと |
+| [worldpop/japan.md](references/worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
 
 Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。
 
