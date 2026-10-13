@@ -45,6 +45,20 @@ uvx --from 'duckdb>=1.5.5' python scripts/point_neighbors.py \
 - 上の例は問い合わせ 295,780 点、参照 3,268 点で、約 11 秒、メモリ 320 MB だった (2026-10-10)。無作為の 221 点を総当たりの haversine と比べ、件数は全て一致し、距離の相対誤差は 1e-12 未満だった。
 - テストは `uvx --from 'duckdb>=1.5.5' --with pytest pytest scripts/test_point_neighbors.py`。
 
+## 分母の小さい割合
+
+単位の中の割合 (POI のうち宿泊の割合、空港のうちヘリポートの割合) は、分母が小さいと偶然で大きく振れる。study-geoai-algo-py の 004 では、POI が数件の 1 km 格子が「宿泊 20%」の外れ値になり、k-means の型を 1 つ使った。
+
+`scripts/shrink_rates.py` は、各単位の割合 x / n を (x + a) / (n + a + b) に置き換える (経験ベイズ、ベータ二項分布)。a / (a + b) は全体の割合、a + b (事前の強さ) は、割合のばらつきのうち二項分布の偶然では説明できない分から、モーメント法で求める。分母が a + b ほどの単位は、自分の割合を半分残す。割合のばらつきが偶然と変わらなければ、全ての単位が全体の割合になる。
+
+```sh
+uvx --with numpy --with duckdb --with pyarrow python scripts/shrink_rates.py tmp/table.parquet ID COUNT DENOMINATOR --out tmp/rates.parquet
+```
+
+例: 国ごとの、空港のうちヘリポートの割合 (OurAirports 2026-08、247 か国、全体 0.270、2026-10-10)。事前の強さは 4.8。バチカン (1 / 1) は 1.000 から 0.395 に、モナコ (3 / 3) は 0.550 に縮む。国の間の本当のばらつきが大きいので、縮め方は弱い。
+
+テストは `uvx --with numpy --with duckdb --with pytest pytest scripts/test_shrink_rates.py`。分母の小さい単位が全体の方へ動き大きい単位は動かないこと、縮めた割合が本当の割合に近いこと、本当のばらつきが無ければ全体の割合になること、分母 0 の単位の扱いを確かめている。偶然の分を引かない、縮めない、のそれぞれで落ちることを確かめてある。
+
 ## 気をつけること
 
 自分自身を数える。 同じデータの点どうしで数えると、各点が自分を 1 と数える。`--exclude-self` を使うか、1 を引く。
