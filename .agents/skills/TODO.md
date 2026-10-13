@@ -26,20 +26,28 @@
     - [x] `references/duckdb-spatial.md`
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [ ] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る節
-- 予測して、評価を疑う (8 / 8)
+    - [ ] 分母の小さい割合の扱い (004)
+- 予測して、評価を疑う (8 / 9)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
     - [x] `references/spatial.md`
     - [x] `references/time.md`
+    - [ ] 実効的な標本の数と、分け方の間で採点する行を揃えること (001、006)
   - [x] `spatial-data-modeling`: 分割表で、線形、木、ブースティング、事前学習モデルなどを当てはめて比べる。回帰と分類の両方
     - [x] `references/linear-modeling.md`
     - [x] `references/tree-modeling.md`
     - [x] `references/boosting-modeling.md`
     - [x] `references/foundation-modeling.md`
     - [x] `references/classification.md`
-    - [ ] `references/time-series.md`: ARIMA、ETS、ラグ + GBDT、TimesFM (2.5 以前)
     - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
+    - [ ] 重み付きの学習と採点 (測定回数で重み付けした R²、study-geoai 001)
+    - [ ] 誤差の分析: グループ、時期、測定回数ごとの残差 (001、006)
+  - [ ] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
+    - [ ] `references/baselines.md`: 前の期間、季節ナイーブ、平年値、縮めた前の期間
+    - [ ] `references/ets-sarima.md`
+    - [ ] `references/lag-gbdt.md`
+    - [ ] `references/timesfm.md`: TimesFM 2.5 (Apache 2.0)。3.0 は非商用
   - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する
   - [x] `noise-ceiling-analysis`: 目的変数の雑音から、どんなモデルでも超えられない点数の上限 (天井) を見積もる
     - [x] `references/repeat.md`
@@ -48,6 +56,9 @@
   - [x] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間の被覆率を、全体とグループごとに確かめる
     - [x] `references/calibration.md`
     - [x] `references/intervals.md`
+    - [ ] 較正し直す (isotonic、Platt) (003)
+    - [ ] 分位点の区間と CQR、時間順の較正 (006)
+    - [ ] 実効的な標本の数 (006)
   - [x] `model-explanation`: 試験側の行での permutation importance (群でも) と部分依存で、モデルが何に頼っているかを調べる
     - [x] `references/permutation.md`
     - [x] `references/partial-dependence.md`
@@ -64,14 +75,17 @@
     - [x] `references/kmeans.md`
     - [x] `references/density-based.md`
     - [x] `references/dpmm.md`
+    - [ ] 位置そのものでクラスタリングしない、欠損の埋め方、DPMM の共分散の事前分布 (004)
   - [x] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。並行分析で軸の数を決め、軸と空間の安定を分けて確かめる
     - [x] `references/pca.md`
     - [x] `references/choosing-components.md`
+    - [ ] 地域や期間の間で主成分の空間を比べる、新しい期間を古い軸に載せる (004、006)
   - [x] `anomaly-detection`: 比べる相手からの外れを並べ、データの誤りか本当の出来事かを分ける
     - [x] `references/time.md`
     - [x] `references/space.md`
     - [x] `references/expected.md`
     - [x] `references/global.md`
+    - [ ] 傾向があるときの基準の期間の選び方 (006)
   - [x] `point-pattern-analysis`: 点が、比べる基準の分布で無作為に置いた場合と比べて、どの距離で集まっているかを調べる
     - [x] `references/ripley.md`
     - [x] `references/baselines.md`
@@ -90,5 +104,7 @@
     - [ ] LP と双対 (資源の値段)
     - [ ] CP-SAT (配置とスケジューリング)
     - [ ] 多目的 (重み付き和、パレート、ε 制約)
+    - [ ] 無作為な配置の分布を基準にする、既存の配置を評価する (002)
+    - [ ] 下限を先に求める (005)
 - 残す (0 / 1)
   - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す
