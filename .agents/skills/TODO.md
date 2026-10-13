@@ -1,4 +1,4 @@
-- [ ] `dataset-discovery`: 利用可能なデータセット、カラム、粒度、時空間範囲を調べる
+- [x] `dataset-discovery`: 利用可能なデータセット、カラム、粒度、時空間範囲を調べる
 - [ ] `data-provenance-audit`: 出典、ライセンス、時点、欠損、重複、意味を確認する
 - [ ] `spatial-data-integration`: spatial join、最近傍、包含、集約で複数地理データを統合する
 - [ ] `spatial-feature-engineering`: 密度、距離、近傍数、土地利用などの特徴量を構築する
