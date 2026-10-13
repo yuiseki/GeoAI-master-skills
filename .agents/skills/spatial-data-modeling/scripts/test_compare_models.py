@@ -1,10 +1,15 @@
-"""uvx --with duckdb --with scikit-learn --with pytest pytest test_compare_models.py"""
+"""uvx --with duckdb --with scikit-learn --with pytest pytest test_compare_models.py
+
+Add --with tabpfn==9.1.0 to run the TabPFN tests too; without it they are skipped.
+"""
 
 import numpy as np
 import pytest
 from sklearn.base import BaseEstimator, RegressorMixin
 
-from compare_models import MODELS, make_splits, oof_predict, run
+from compare_models import MODELS, TABPFN_V2_WEIGHTS, make_splits, oof_predict, run
+
+OPTIONAL = {"tabpfn_v2"}
 
 
 class Memoriser(BaseEstimator, RegressorMixin):
@@ -69,6 +74,26 @@ def test_every_model_name_runs_for_both_tasks():
     yr = X[:, 0] + rng.normal(size=120)
     yc = (yr > 0).astype(int)
     for task, y in (("regression", yr), ("classification", yc)):
-        names = [n for n, m in MODELS.items() if task in m]
+        names = [n for n, m in MODELS.items() if task in m and n not in OPTIONAL]
         s = run(y, X, group, names, folds=3, group_folds=True, seeds=[0, 1], task=task)
         assert set(s) == set(names)
+
+
+def test_tabpfn_uses_the_pinned_v2_weights():
+    pytest.importorskip("tabpfn")
+    for task, (repo, filename, revision) in TABPFN_V2_WEIGHTS.items():
+        model = MODELS["tabpfn_v2"][task](0)
+        path = str(model.model_path)
+        assert path.endswith(filename)
+        assert f"snapshots/{revision}/" in path
+        assert filename.startswith("tabpfn-v2-")
+
+
+def test_tabpfn_runs_out_of_fold():
+    pytest.importorskip("tabpfn")
+    rng = np.random.default_rng(4)
+    X = rng.normal(size=(60, 2))
+    y = 2 * X[:, 0] + rng.normal(scale=0.1, size=60)
+    s = run(y, X, None, ["mean", "tabpfn_v2"], folds=3, group_folds=False, seeds=[0],
+            task="regression")
+    assert s["tabpfn_v2"]["r2"][0] > s["mean"]["r2"][0] + 0.5

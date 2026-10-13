@@ -4,8 +4,7 @@
 - [x] `spatial-data-integration`: spatial join、最近傍、包含、集約で複数地理データを統合する
 - [x] `spatial-feature-engineering`: 密度、距離、近傍数、土地利用などの特徴量を構築する
 - [x] `eda-and-baseline`: 分布、相関、単純平均、線形モデルなど最初の基準を作る
-- [x] `spatial-data-modeling`: 基準と同じ分割で、線形、木、ブースティングなどのモデルを当てはめて比べる。回帰と分類の両方。モデルの種類ごとの知識は references
-- [ ] `foundation-model-baseline`: TabPFN / TimesFM のような事前学習モデルを通常手法と比較する
+- [x] `spatial-data-modeling`: 基準と同じ分割で、線形、木、ブースティング、事前学習モデルなどを当てはめて比べる。回帰と分類の両方。モデルの種類ごとの知識は references
 - [ ] `cross-validation-design`: K-fold / stratified / group / OOF の評価設計を選ぶ
 - [ ] `spatial-cross-validation`: 空間 block / 地域 holdout で spatial leakage を検出する
 - [ ] `temporal-validation`: 時系列 split、future leakage を防いで評価する

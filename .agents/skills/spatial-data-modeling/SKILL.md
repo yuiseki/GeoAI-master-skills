@@ -12,6 +12,7 @@ description: eda-and-baseline で出した基準と同じ分割、同じ指標�
 | [linear-modeling](references/linear-modeling.md) | 線形回帰、Ridge、Lasso、ロジスティック回帰。係数を説明に使うとき |
 | [tree-modeling](references/tree-modeling.md) | 決定木、ランダムフォレスト。非線形と相互作用、しきい値 |
 | [boosting-modeling](references/boosting-modeling.md) | HistGradientBoosting、XGBoost、LightGBM、CatBoost |
+| [foundation-modeling](references/foundation-modeling.md) | TabPFN、TimesFM などの事前学習モデル。版ごとのライセンス |
 | [classification](references/classification.md) | 目的変数がカテゴリのときに、どのモデルにも加わる論点 |
 
 ## 手順
@@ -49,8 +50,9 @@ uvx --with duckdb --with scikit-learn python scripts/compare_models.py tmp/table
 | linear | 0.631 | 0.521 |
 | rf | 0.518 (sd 0.06) | 0.337 |
 | hgb | 0.580 | 0.324 |
+| tabpfn_v2 | 0.624 | 0.484 |
 
-木とブースティングは、どちらの分割でも線形に負けた。地域ごとの分割では差が開く。試験側の行が学習側の特徴量の範囲の外に出たのは 209 行中 8 行だけで、その 8 行ではランダムフォレストの RMSE が 7.88、線形が 4.92。範囲の内側の 201 行でも 6.40 と 5.50 で、外挿だけでは差を説明できない。行数が少なく、関係が滑らかで単調なことが効いていると推測している (未確認)。
+木とブースティングと TabPFN は、どちらの分割でも線形に負けた。地域ごとの分割では差が開く。試験側の行が学習側の特徴量の範囲の外に出たのは 209 行中 8 行だけで、その 8 行ではランダムフォレストの RMSE が 7.88、線形が 4.92。範囲の内側の 201 行でも 6.40 と 5.50 で、外挿だけでは差を説明できない。行数が少なく、関係が滑らかで単調なことが効いていると推測している (未確認)。
 
 ## 書き出すもの
 

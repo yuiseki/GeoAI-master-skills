@@ -13,6 +13,8 @@ Models (regression / classification):
     ridge            RidgeCV / LogisticRegressionCV, penalty chosen by inner CV on the training rows
     rf               random forest, 500 trees
     hgb              histogram gradient boosting, early stopping on 10% of the training rows
+    tabpfn_v2        TabPFN v2 on the CPU, weights pinned to a commercially usable version
+                     (needs --with tabpfn==9.1.0; see references/foundation-modeling.md)
 
 Usage:
     uvx --with duckdb --with scikit-learn python compare_models.py TABLE TARGET FEATURE [...] \
@@ -108,7 +110,34 @@ MODELS = {
         "classification": lambda seed: HistGradientBoostingClassifier(
             early_stopping=True, validation_fraction=0.1, random_state=seed),
     },
+    "tabpfn_v2": {
+        "regression": lambda seed: tabpfn_v2("regression", seed),
+        "classification": lambda seed: tabpfn_v2("classification", seed),
+    },
 }
+
+# TabPFN v2 weights under the Prior Labs License 1.1 (Apache 2.0 plus an attribution clause).
+# Later versions (2.5 onwards) forbid commercial use, and the tabpfn package defaults to the latest,
+# so the version, the file and the Hugging Face commit are all fixed here.
+TABPFN_V2_WEIGHTS = {
+    "regression": ("Prior-Labs/TabPFN-v2-reg", "tabpfn-v2-regressor.ckpt",
+                   "4972a65a1b30806315c6f92499959ffbfc69a673"),
+    "classification": ("Prior-Labs/TabPFN-v2-clf", "tabpfn-v2-classifier-finetuned-zk73skhh.ckpt",
+                       "f851f2a3c941544733b712d8c0f96dfae9b28862"),
+}
+
+
+def tabpfn_v2(task, seed):
+    # Imported here so that the other models need neither torch nor tabpfn.
+    from huggingface_hub import hf_hub_download
+    from tabpfn import TabPFNClassifier, TabPFNRegressor
+    from tabpfn.constants import ModelVersion
+
+    repo, filename, revision = TABPFN_V2_WEIGHTS[task]
+    path = hf_hub_download(repo, filename, revision=revision)
+    cls = TabPFNRegressor if task == "regression" else TabPFNClassifier
+    return cls.create_default_for_version(
+        ModelVersion.V2, model_path=path, device="cpu", random_state=seed)
 
 
 def make_splits(X, y, group, folds, group_folds, seed, task):
