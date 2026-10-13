@@ -39,16 +39,7 @@ uvx --from 'duckdb>=1.5.5' python scripts/assign_points.py \
 
 テストは `uvx --from 'duckdb>=1.5.5' --with pytest pytest scripts/test_assign_points.py`。
 
-上の例の結果 (2026-10-10、約 1 分):
-
-| 区分 | 件数 | `iso_country` と一致 |
-|---|---:|---:|
-| contained | 82,847 | 82,433 (99.5%) |
-| contained_multiple | 0 | |
-| nearest (5 km 以内) | 2,327 | 2,295 (98.6%) |
-| unassigned | 828 | |
-
-最寄りに割り当てた距離は中央値 0.64 km、90% 点 2.72 km。外れた点には海岸の大空港 (ジェノバ、ポートサイド、トロムソなど) が入る。10m の海岸線では埋立地が海になるため。5 km でも割り当たらない 828 件のうち 540 件はヘリポート。
+上の例は約 1 分で終わる。結果と、そこから分かったことは `../dataset-discovery/references/ourairports.md` にある。結合して分かったデータセット固有のことは、このスキルでなくそのデータセットの reference に書く。
 
 ## 書き出すもの
 
