@@ -33,7 +33,7 @@
     - [x] `references/group.md`
     - [x] `references/spatial.md`
     - [x] `references/time.md`
-    - [ ] 実効的な標本の数と、分け方の間で採点する行を揃えること (001、006)
+    - [x] 実効的な標本の数と、分け方の間で採点する行を揃えること (SKILL.md の手順 6)
   - [x] `spatial-data-modeling`: 分割表で、線形、木、ブースティング、事前学習モデルなどを当てはめて比べる。回帰と分類の両方
     - [x] `references/linear-modeling.md`
     - [x] `references/tree-modeling.md`
@@ -88,7 +88,7 @@
     - [x] `references/space.md`
     - [x] `references/expected.md`
     - [x] `references/global.md`
-    - [ ] 傾向があるときの基準の期間の選び方 (006)
+    - [x] 傾向があるときの基準の期間の選び方 (references/time.md)
   - [x] `point-pattern-analysis`: 点が、比べる基準の分布で無作為に置いた場合と比べて、どの距離で集まっているかを調べる
     - [x] `references/ripley.md`
     - [x] `references/baselines.md`
