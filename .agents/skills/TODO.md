@@ -1,7 +1,7 @@
 - [x] `dataset-discovery`: 利用可能なデータセット、カラム、粒度、時空間範囲を調べる
 - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
 - [x] `analysis-unit-design`: point / grid / 町丁目 / 区など分析単位を選ぶ
-- [ ] `spatial-data-integration`: spatial join、最近傍、包含、集約で複数地理データを統合する
+- [x] `spatial-data-integration`: spatial join、最近傍、包含、集約で複数地理データを統合する
 - [ ] `spatial-feature-engineering`: 密度、距離、近傍数、土地利用などの特徴量を構築する
 - [ ] `eda-and-baseline`: 分布、相関、単純平均、線形モデルなど最初の基準を作る
 - [ ] `regression-analysis`: Linear / Ridge / Lasso 等で連続値を説明・予測する
