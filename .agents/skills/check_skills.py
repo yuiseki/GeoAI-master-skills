@@ -5,7 +5,7 @@
 1. No skill points at another skill's files (a relative path, or a script path built from parents[2]).
 2. No skill names another skill, except dataset-discovery (the catalogue of dataset facts) and its own name.
 3. A script shared by several skills is a copy; the copies must be identical.
-4. Every dataset reference in dataset-discovery starts with YAML frontmatter that has the required keys,
+4. Every dataset, catalog and service reference in dataset-discovery starts with YAML frontmatter that has the required keys,
    and every `joins` entry points at a dataset and table that exist (needs PyYAML).
 """
 
@@ -19,7 +19,12 @@ try:
 except ImportError:
     sys.exit("PyYAML is needed to check the dataset frontmatter: uvx --with pyyaml python check_skills.py")
 
-COMMON = ["id", "description", "url", "license", "spatial_coverage", "temporal_coverage", "contents"]
+COMMON = ["id", "description", "url", "license", "spatial_coverage", "temporal_coverage"]
+REQUIRED = {
+    "dataset": COMMON + ["contents", "tables"],
+    "catalog": COMMON + ["contents", "access"],
+    "service": COMMON + ["protocol", "operations"],
+}
 JOINS = re.compile(r"^(?:([\w-]+):)?([\w*]+)\.")
 
 
@@ -46,12 +51,16 @@ def frontmatter_problems(refs):
             continue
         fms[rel] = fm
         kind = fm.get("kind")
-        if kind not in ("dataset", "catalog"):
-            problems.append(f"{rel}: kind must be dataset or catalog")
+        if kind not in REQUIRED:
+            problems.append(f"{rel}: kind must be one of {', '.join(REQUIRED)}")
             continue
-        for key in COMMON + (["access"] if kind == "catalog" else ["tables"]):
+        for key in REQUIRED[kind]:
             if key not in fm:
                 problems.append(f"{rel}: missing {key}")
+        for op in fm.get("operations", []):
+            for key in ("name", "method", "path", "returns"):
+                if key not in op:
+                    problems.append(f"{rel}: operation {op.get('name', '?')} is missing {key}")
         for t in fm.get("tables", []):
             for key in ("name", "read", "grain", "id"):
                 if key not in t:

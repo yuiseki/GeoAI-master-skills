@@ -65,3 +65,26 @@ def test_a_join_to_a_dataset_or_table_that_does_not_exist_is_reported(tmp_path):
 def test_invalid_yaml_is_reported(tmp_path):
     write(tmp_path, "a.md", "---\nkind: [unclosed\n---\n")
     assert any("not valid YAML" in p for p in frontmatter_problems(tmp_path))
+
+
+SERVICE = """\
+---
+kind: service
+id: svc
+description: d
+url: https://example.org
+protocol: overpass
+license: ODbL-1.0
+spatial_coverage: s
+temporal_coverage: t
+operations:
+  - {name: q, method: GET, path: /q, returns: json}
+---
+"""
+
+
+def test_a_complete_service_passes_and_an_operation_without_returns_is_reported(tmp_path):
+    write(tmp_path, "s.md", SERVICE)
+    assert frontmatter_problems(tmp_path) == []
+    write(tmp_path, "s.md", SERVICE.replace(", returns: json", ""))
+    assert any("operation q is missing returns" in p for p in frontmatter_problems(tmp_path))

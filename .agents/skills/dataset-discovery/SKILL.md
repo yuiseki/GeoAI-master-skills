@@ -26,7 +26,7 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 
 ## reference の frontmatter
 
-各 reference は、先頭に YAML frontmatter を持つ。人が読む本文と同じ事実を、機械が読める形にしたもの。`kind` が `dataset` か `catalog`。`check_skills.py` が必須の項目と、結合先の実在を検査する。
+各 reference は、先頭に YAML frontmatter を持つ。人が読む本文と同じ事実を、機械が読める形にしたもの。`kind` は、データセットの `dataset`、目録の `catalog`、呼び出して使うサービスの `service` のどれか。`check_skills.py` が必須の項目と、結合先の実在を検査する。
 
 ```yaml
 ---
@@ -59,6 +59,7 @@ tables:                        # catalog なら tables の代わりに access (�
 
 - `joins` の書式は `<データセット>:<表>.<列>`。同じデータセットの中なら `<表>.<列>`。表が複数あるとき (レイヤーなど) は `*` を使える。
 - `grain`、`id`、`join_keys`、`no_key` は、結合の前に必ず読む。結合の前に、キーが一意かどうかを自分で数える (reference の `unique` や `rows` は、書いた日の値)。
+- `service` は、`tables` の代わりに `protocol` と `operations` (`name`、`method`、`path`、`params`、`returns`) を持つ。呼べる制限は `limits`、つまずきやすい点は `gotchas` に書く。
 - 数を書くときは、実測した日を本文に書く。frontmatter の `rows` は、reference を書いたときの値で、版が変われば変わる。
 - reference を書き足すときは、frontmatter も同時に書く。
 
@@ -82,6 +83,18 @@ tables:                        # catalog なら tables の代わりに access (�
 | [mlit-toshi-keikaku-jp](references/mlit-toshi-keikaku-jp.md) | 都市計画決定GISデータ。用途地域 (容積率、建蔽率)、都市計画道路、公園、地区計画など 25 レイヤー | 日本 (自治体が提供した分) | 令和 7 年度版 |
 | [ekidata-jp](references/ekidata-jp.md) | 鉄道の事業者、路線、駅の点、隣り合う駅 (無料版。新幹線の駅なし) | 日本 | 2026-10-05 取得、版ごと |
 | [worldpop/japan.md](references/worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
+
+## サービス
+
+データを持たずに、問いを投げて答えを得る自前のサービス。呼び方、制限、つまずきやすい点が [services/](references/services/README.md) にある。
+
+| reference | できること | 時点 |
+|---|---|---|
+| [overpass](references/services/overpass.md) | OSM の地物をタグと範囲で検索、集計する | 2025-09-14 で止まっている |
+| [nominatim](references/services/nominatim.md) | 地名から座標と OSM の ID を引く | 2025-09-14 で止まっている |
+| [valhalla](references/services/valhalla.md) | 経路の距離と所要時間 | 確かめていない |
+| [taginfo](references/services/taginfo.md) | OSM のタグの辞書と使用数 | 2026-01-29 まで |
+| [yuisekin-geosparql](references/services/yuisekin-geosparql.md) | 東京 23 区の区の名前と OSM の relation の ID | 実機で未確認 |
 
 Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。
 

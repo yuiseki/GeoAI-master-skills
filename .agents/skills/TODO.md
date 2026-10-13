@@ -19,6 +19,10 @@
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
+    - [x] `references/jp-admin-2026-09.md`、`osm-japan-src-2026-08.md`、`mlit-toshi-keikaku-jp.md`、`ekidata-jp.md`、`worldpop/japan.md`: 日本の凍結データセット 5 件
+    - [x] `references/services/README.md`: 自前のサービスの目録とゲートウェイの制限
+      - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
+      - [ ] `references/services/yuisekin-geosparql.md`: 書いたが実機で流していない (外から引ける URL を確かめる)
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
 - 単位を決めて、データをそろえる (3 / 3)
   - [x] `analysis-unit-design`: 分析の 1 行が何を表すか (点、格子、行政区、国、地域の組、それぞれ × 時間) を決める
