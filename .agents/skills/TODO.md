@@ -5,9 +5,7 @@
 - [x] `spatial-feature-engineering`: 密度、距離、近傍数、土地利用などの特徴量を構築する
 - [x] `eda-and-baseline`: 分布、相関、単純平均、線形モデルなど最初の基準を作る
 - [x] `spatial-data-modeling`: 基準と同じ分割で、線形、木、ブースティング、事前学習モデルなどを当てはめて比べる。回帰と分類の両方。モデルの種類ごとの知識は references
-- [ ] `cross-validation-design`: K-fold / stratified / group / OOF の評価設計を選ぶ
-- [ ] `spatial-cross-validation`: 空間 block / 地域 holdout で spatial leakage を検出する
-- [ ] `temporal-validation`: 時系列 split、future leakage を防いで評価する
+- [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
 - [ ] `leakage-audit`: target leakage、位置リーク、答えの言い換えを検出する
 - [ ] `noise-ceiling-analysis`: 目的変数の雑音と予測可能性の上限を推定する
 - [ ] `robustness-analysis`: seed、sampling、aggregation、空間単位を変えて結論の安定性を見る

@@ -52,6 +52,14 @@ from 'hf://datasets/yuiseki/natural-earth/parquet/v5.1.2/110m_cultural/ne_110m_a
 
 ISO_A3 の -99。 `ne_10m_admin_0_countries` の 258 件中 22 件で `ISO_A3` が `-99`。France と Norway もそう。`ADM0_A3` は 258 件すべてに入っていて重複も無いので、結合キーにはこちらを使う。ISO コードが要るなら `ISO_A3_EH` のほうが埋まっている (France は `FRA`、Norway は `NOR`) が、Kosovo、Somaliland、N. Cyprus などは `ISO_A3_EH` でも `-99`。
 
+ISO_A3_EH は一意でない。 `ISO_A3_EH` が `-99` でない 244 件に対して、値は 238 種類。本体の国と、属領や租借地が同じコードを持つ: `AUS` (Australia、Ashmore and Cartier Is.、Coral Sea Is.、Indian Ocean Ter.)、`BRA` (Brazil、Brazilian I.)、`FRA` (France、Clipperton I.)、`KAZ` (Kazakhstan、Baikonur)。そのまま結合すると国の行が増える。本体を選ぶには、同じ `ISO_A3_EH` の中で `ADM0_A3 = ISO_A3_EH` の行を優先する。`ADM0_A3 = ISO_A3_EH` だけで絞ると、`ADM0_A3` の綴りが違う Palestine (`PSX`)、S. Sudan (`SDS`)、W. Sahara (`SAH`)、Åland (`ALD`) が落ちる (2026-10-10 実測)。
+
+```sql
+select * from ne_10m_admin_0_countries
+where ISO_A3_EH <> '-99'
+qualify row_number() over (partition by ISO_A3_EH order by (ADM0_A3 = ISO_A3_EH) desc) = 1
+```
+
 人口と GDP の年が揃っていない。 国の `POP_EST` の年 (`POP_YEAR`) は 258 件中 232 件が 2019 年で、残りは 2009〜2020 年。`GDP_MD` の年 (`GDP_YEAR`) は 193 件が 2019 年で、残りは 1999〜2018 年に散らばる。国の間で比べる特徴量にするなら `POP_YEAR` と `GDP_YEAR` を確かめる。最新の値が要るなら World Bank などの統計と結合する。
 
 国境は de facto。 既定は実効支配の線。`ne_10m_admin_0_countries_<iso>` の 33 レイヤーが国ごとの見方の変種。たとえば `NAME_JA` は Taiwan が `中華民国`、Kosovo が `コソボ共和国`。どの見方を使ったかを報告に書く。

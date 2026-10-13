@@ -41,7 +41,7 @@ where indicator_code = 'SP.POP.TOTL' and year = 2020;
 
 ## Natural Earth との結合
 
-`countries` で `Region` が空でない 217 件が国。`country_code` を Natural Earth の `ISO_A3_EH` と結ぶと 215 件が一致する (2026-10-10 実測)。
+`countries` で `Region` が空でない 217 件が国。`country_code` を Natural Earth の `ISO_A3_EH` と結ぶ (`ISO_A3_EH` は一意でないので、natural-earth.md の方法で本体の国の行だけにしてから)と 215 件が一致する (2026-10-10 実測)。
 
 一致しない 2 件:
 

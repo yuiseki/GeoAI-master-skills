@@ -12,13 +12,13 @@ description: 目的変数と特徴量の分布、欠損、外れ値、相関を�
 1. 目的変数を見る。分布 (偏り、裾、0 の多さ)、外れ値、単位の値の範囲。変換 (対数など) をするなら理由を書く。
 2. 欠損を見る。列ごとの欠損の数と、どの単位が欠けているか。欠けた単位の目的変数の分布を、欠けていない単位と比べる。欠損が無作為でなければ、行を除くと結論が偏る向きを書く。
 3. 特徴量を見る。分布、外れ値、特徴量どうしの相関 (順位相関)。ほぼ同じものを測っている組を見つける。
-4. 目的変数の空間的な偏りを見る。地域や国ごとの平均、地図。近い単位どうしが似ているなら、行を無作為に分ける評価は甘くなる (spatial-cross-validation)。
-5. 基準の点数を出す (下の節)。行の無作為な分割と、地域などのグループごとの分割の両方で出す。
+4. 目的変数の空間的な偏りを見る。地域や国ごとの平均、地図。近い単位どうしが似ているなら、行を無作為に分ける評価は甘くなる (cross-validation-design)。
+5. 基準の点数を出す (下の節)。分割表は cross-validation-design で先に作り、後のモデルも同じ分割表で採点する。甘い分け方と厳しい分け方の両方で出す。
 6. 書き出す。
 
 ## 基準
 
-`scripts/baselines.py` は、次の 4 つを交差検証の外側の予測 (各行を、その行を学習に使わなかったモデルで予測する) でまとめて採点し、RMSE、MAE、R2 を出す。
+基準は spatial-data-modeling の `compare_models.py` で、モデルと同じ採点のコードを通して出す。各行を、その行を学習に使わなかったモデルで予測し、まとめて採点する (RMSE、MAE、R2)。
 
 | 基準 | 予測 | 超えられなかったら |
 |---|---|---|
@@ -28,13 +28,14 @@ description: 目的変数と特徴量の分布、欠損、外れ値、相関を�
 | linear | 標準化した特徴量の線形回帰 | 非線形のモデルを使う理由が無い |
 
 ```sh
-uvx --with duckdb --with scikit-learn python scripts/baselines.py tmp/table.parquet TARGET F1 F2 F3 --group region
-uvx --with duckdb --with scikit-learn python scripts/baselines.py tmp/table.parquet TARGET F1 F2 F3 --group region --group-folds
+uvx --with duckdb --with scikit-learn python ../spatial-data-modeling/scripts/compare_models.py \
+  tmp/table.parquet ID TARGET F1 F2 F3 --task regression \
+  --models mean median group_mean linear --group region --folds-file tmp/folds_region.parquet
 ```
 
-`--group-folds` はグループを丸ごと学習か試験の片方に置く。このとき group_mean は、試験側のグループを学習側で見ていないので mean と同じになる。
+分類なら `--task classification` で、基準は `prior` (学習側のクラスの割合) と `linear` (ロジスティック回帰)。
 
-テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_baselines.py`。グループ平均を全行から取るように書き換えると落ちることを確かめてある。
+地域で分けた分割表では、試験側の地域を学習側で見ていないので、group_mean は mean と同じになる。
 
 ## 分け方で基準が変わる
 

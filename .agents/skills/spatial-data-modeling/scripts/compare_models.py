@@ -1,13 +1,19 @@
-"""Compare models on the same folds, out of fold, over several seeds.
+"""Compare models on the same folds, out of fold, over several repeats.
 
-Every row is predicted once per seed, by a model fitted without it, and all predictions of a seed
-are scored together. Anything a model tunes (Ridge's penalty, the boosting's early stopping) is
-chosen inside the training rows of the fold, never on the held-out rows.
+The folds come from a fold table made by cross-validation-design/scripts/make_folds.py, so that
+baselines and models are scored on the same folds. In each repeat every tested row is predicted
+once, by a model fitted without it, and the repeat's predictions are scored together; rows the
+repeat never tests (the first periods of time folds) are left out of the score, and n says how many
+were scored. The repeat number also seeds the models.
+
+Anything a model tunes (Ridge's penalty, the boosting's early stopping) is chosen inside the
+training rows of the fold, never on the held-out rows.
 
 Regression scores: rmse, mae, r2. Classification (binary): log_loss, brier, auc, accuracy.
 
 Models (regression / classification):
     mean / prior     the training mean, or the training class share
+    median           the training median
     group_mean       the training mean of the row's group (needs --group)
     linear           linear regression / logistic regression, on standardised features
     ridge            RidgeCV / LogisticRegressionCV, penalty chosen by inner CV on the training rows
@@ -17,9 +23,12 @@ Models (regression / classification):
                      (needs --with tabpfn==9.1.0; see references/foundation-modeling.md)
 
 Usage:
-    uvx --with duckdb --with scikit-learn python compare_models.py TABLE TARGET FEATURE [...] \
+    uvx --with duckdb --with scikit-learn python compare_models.py TABLE ID TARGET FEATURE [...] \
         --task regression|classification --models mean linear rf hgb \
-        [--group COLUMN] [--group-folds] [--folds 5] [--seeds 0 1 2]
+        --folds-file folds.parquet [--group COLUMN]
+
+TABLE must have no missing value in the columns used, and the folds must be made from the same
+rows.
 """
 
 import argparse
@@ -47,7 +56,6 @@ from sklearn.metrics import (
     r2_score,
     roc_auc_score,
 )
-from sklearn.model_selection import GroupKFold, KFold, StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -55,6 +63,15 @@ from sklearn.preprocessing import StandardScaler
 class Constant(BaseEstimator, RegressorMixin):
     def fit(self, X, y):
         self.value_ = float(np.mean(y))
+        return self
+
+    def predict(self, X):
+        return np.full(len(X), self.value_)
+
+
+class Median(BaseEstimator, RegressorMixin):
+    def fit(self, X, y):
+        self.value_ = float(np.median(y))
         return self
 
     def predict(self, X):
@@ -89,6 +106,7 @@ def scaled(model):
 
 MODELS = {
     "mean": {"regression": lambda seed: Constant()},
+    "median": {"regression": lambda seed: Median()},
     "prior": {"classification": lambda seed: Prior()},
     "group_mean": {"regression": lambda seed: GroupMean()},
     "linear": {
@@ -140,24 +158,37 @@ def tabpfn_v2(task, seed):
         ModelVersion.V2, model_path=path, device="cpu", random_state=seed)
 
 
-def make_splits(X, y, group, folds, group_folds, seed, task):
-    if group_folds:
-        return list(GroupKFold(n_splits=folds).split(X, y, group))
-    if task == "classification":
-        return list(StratifiedKFold(n_splits=folds, shuffle=True, random_state=seed).split(X, y))
-    return list(KFold(n_splits=folds, shuffle=True, random_state=seed).split(X))
+def load_folds(path, ids):
+    """{repeat: [(train indices, test indices), ...]} from a fold table made by make_folds.py.
+
+    Every id in the fold table must be a row of the data: the folds have to be made from the
+    same rows, after any row with a missing value has been dropped.
+    """
+    index = {v: i for i, v in enumerate(ids.tolist())}
+    rows = duckdb.sql(f"select repeat, fold, id, role from '{path}' order by all").fetchall()
+    missing = {r[2] for r in rows if r[2] not in index}
+    if missing:
+        raise SystemExit(f"{len(missing)} ids of the fold table are not rows of the data, "
+                         f"e.g. {sorted(map(str, missing))[:3]}; make the folds from these rows")
+    folds = {}
+    for repeat, fold, rid, role in rows:
+        f = folds.setdefault(repeat, {}).setdefault(fold, {"train": [], "test": []})
+        f[role].append(index[rid])
+    return {r: [(np.array(f["train"]), np.array(f["test"])) for _, f in sorted(fs.items())]
+            for r, fs in sorted(folds.items())}
 
 
 def oof_predict(make_model, X, y, splits, task):
+    """Out-of-fold predictions; NaN for a row no fold tests."""
     pred = np.full(len(y), np.nan)
     for train, test in splits:
+        if not np.isnan(pred[test]).all():
+            raise SystemExit("a row is tested by two folds of one repeat")
         model = make_model().fit(X[train], y[train])
         if task == "classification":
             pred[test] = model.predict_proba(X[test])[:, 1]
         else:
             pred[test] = model.predict(X[test])
-    if np.isnan(pred).any():
-        raise SystemExit("some rows got no out-of-fold prediction")
     return pred
 
 
@@ -177,7 +208,11 @@ def score(y, pred, task):
     }
 
 
-def run(y, X, group, names, folds, group_folds, seeds, task):
+def run(y, X, group, names, folds, task):
+    """Scores per model, one value per repeat, on the rows the repeat tests.
+
+    folds: {repeat: [(train, test), ...]}. The repeat also seeds the models.
+    """
     y, X = np.asarray(y), np.asarray(X, float)
     if task == "classification" and set(np.unique(y)) - {0, 1}:
         raise SystemExit("classification takes a 0/1 target")
@@ -192,48 +227,48 @@ def run(y, X, group, names, folds, group_folds, seeds, task):
             if group is None:
                 raise SystemExit("group_mean needs --group")
             Xm = np.c_[X, codes]
-        per_seed = {}
-        for seed in seeds:
-            # Group folds do not depend on the seed; the seed then varies the models only.
-            splits = make_splits(Xm, y, group, folds, group_folds, seed, task)
-            pred = oof_predict(lambda: MODELS[name][task](seed), Xm, y, splits, task)
-            for k, v in score(y, pred, task).items():
-                per_seed.setdefault(k, []).append(v)
-        out[name] = per_seed
+        per_repeat = {}
+        for repeat, splits in folds.items():
+            pred = oof_predict(lambda: MODELS[name][task](repeat), Xm, y, splits, task)
+            tested = ~np.isnan(pred)
+            per_repeat.setdefault("n", []).append(int(tested.sum()))
+            for k, v in score(y[tested], pred[tested], task).items():
+                per_repeat.setdefault(k, []).append(v)
+        out[name] = per_repeat
     return out
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("table")
+    p.add_argument("id")
     p.add_argument("target")
     p.add_argument("features", nargs="+")
     p.add_argument("--task", choices=["regression", "classification"], required=True)
     p.add_argument("--models", nargs="+", required=True, choices=list(MODELS))
+    p.add_argument("--folds-file", required=True)
     p.add_argument("--group")
-    p.add_argument("--group-folds", action="store_true")
-    p.add_argument("--folds", type=int, default=5)
-    p.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
     a = p.parse_args()
-    if a.group_folds and not a.group:
-        p.error("--group-folds needs --group")
 
-    cols = [a.target, *a.features] + ([a.group] if a.group else [])
+    cols = [a.id, a.target, *a.features] + ([a.group] if a.group else [])
     quoted = ", ".join(f'"{c}"' for c in cols)
     rows = duckdb.sql(f"select {quoted} from '{a.table}'").fetchall()
     kept = [r for r in rows if all(v is not None for v in r)]
-    print(f"rows: {len(rows)}, dropped for a missing value: {len(rows) - len(kept)}")
+    if len(kept) != len(rows):
+        raise SystemExit(f"{len(rows) - len(kept)} rows have a missing value; drop them before "
+                         "making the folds, so that the folds and the data are the same rows")
     nf = len(a.features)
-    y = np.array([r[0] for r in kept], float if a.task == "regression" else int)
-    X = np.array([r[1:1 + nf] for r in kept], float)
+    ids = np.array([r[0] for r in kept])
+    y = np.array([r[1] for r in kept], float if a.task == "regression" else int)
+    X = np.array([r[2:2 + nf] for r in kept], float)
     group = np.array([r[-1] for r in kept]) if a.group else None
-    print(f"folds: {a.folds} {'by ' + a.group if a.group_folds else 'shuffled'}, seeds: {a.seeds}")
+    folds = load_folds(a.folds_file, ids)
+    print(f"rows: {len(rows)}, folds: {a.folds_file}, repeats: {list(folds)}")
 
-    for name, s in run(y, X, group, a.models, a.folds, a.group_folds, a.seeds, a.task).items():
-        cells = "  ".join(
-            f"{k} {np.mean(v):.4g} (sd {np.std(v):.2g})" for k, v in s.items()
-        )
-        print(f"{name:<11} {cells}")
+    for name, s in run(y, X, group, a.models, folds, a.task).items():
+        n = s.pop("n")
+        cells = "  ".join(f"{k} {np.mean(v):.4g} (sd {np.std(v):.2g})" for k, v in s.items())
+        print(f"{name:<11} n {min(n)}-{max(n)}  {cells}")
 
 
 if __name__ == "__main__":

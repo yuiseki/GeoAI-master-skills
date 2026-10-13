@@ -19,26 +19,27 @@ description: eda-and-baseline で出した基準と同じ分割、同じ指標�
 
 1. 問いの種類 (回帰か分類か) と、モデルを何に使うか (予測か、説明か) を書く。説明に使うなら、点数より係数や効き方の安定が大事になる。
 2. 試すモデルを先に決める。基準 (mean か prior、group_mean) を必ず含める。
-3. 分割を決める。eda-and-baseline と同じ分割を使う。行の無作為な分割と、グループ (地域など) ごとの分割の両方で比べる。どちらが本番に近いかは cross-validation-design。
+3. 分割は cross-validation-design で作った分割表を使う。eda-and-baseline の基準と同じ分割表で採点する。甘い分け方と厳しい分け方の両方で比べる。
 4. 各モデルの前処理を、そのモデルの reference に従って決める。前処理 (標準化、欠損の補完、エンコード) で学習するものは、学習側の行だけで学習する。
 5. ハイパーパラメータを決める。決めるなら学習側の中で決める (内側の交差検証か、学習側から取り分けた検証用の行)。試験側の点数を見て選ばない。
-6. 乱数の種を 3 つ以上で回し、平均とばらつきを書く。ばらつきより小さい差は差と呼ばない。
+6. repeat (乱数の種) を 3 つ以上にして、平均とばらつきを書く。ばらつきより小さい差は差と呼ばない。
 7. 基準と並べた表を書く。基準を超えないモデルは、超えないと書く。
 
 ## 比べる仕組み
 
-`scripts/compare_models.py` は、手順 3、5、6 を全てのモデルに同じように適用する。各行を、その行を学習に使わなかったモデルで種ごとに 1 回予測し、まとめて採点する。調整するもの (Ridge の罰則、ブースティングの早期打ち切り) は学習側の中で決める。
+`scripts/compare_models.py` は、分割表 (`--folds-file`) を読み、全てのモデルを同じ fold で採点する。repeat ごとに、試験された各行を、その行を学習に使わなかったモデルで 1 回予測し、まとめて採点する。どの fold でも試験されない行 (時間の分割の最初の時点) は採点から外し、採点した行の数を `n` に出す。repeat の番号はモデルの乱数の種にもなる。調整するもの (Ridge の罰則、ブースティングの早期打ち切り) は学習側の中で決める。
 
 ```sh
-uvx --with duckdb --with scikit-learn python scripts/compare_models.py tmp/table.parquet TARGET F1 F2 F3 \
-  --task regression --models mean group_mean linear ridge rf hgb --group region
-uvx --with duckdb --with scikit-learn python scripts/compare_models.py tmp/table.parquet TARGET F1 F2 F3 \
-  --task regression --models mean group_mean linear ridge rf hgb --group region --group-folds
+uvx --with duckdb --with scikit-learn python scripts/compare_models.py tmp/table.parquet ID TARGET F1 F2 F3 \
+  --task regression --models mean group_mean linear ridge rf hgb --group region \
+  --folds-file tmp/folds_region.parquet
 ```
+
+表は、使う列に欠損の無い行だけにしておく。分割表もその表から作る。分割表の id がデータの行に無いと止まる。
 
 分類は `--task classification` で、目的変数は 0/1。基準は `prior` (学習側のクラスの割合)。
 
-テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_compare_models.py`。学習データを丸暗記するモデルで、試験側の行が学習に入っていないことを確かめている。全行で学習するように書き換えると落ちる。
+テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_compare_models.py`。学習データを丸暗記するモデルで、試験側の行が学習に入っていないことを確かめている。全行で学習する、グループ平均を学習側から取らない、1 つの repeat で同じ行を 2 回試験する、試験されない行を採点に入れる、のそれぞれで落ちることを確かめてある。
 
 ## 単純なモデルが勝つこともある
 

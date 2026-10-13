@@ -36,7 +36,8 @@ TabPFN v2 の Prior Labs License 1.1 は、Apache 2.0 に第 10 項を足した�
 
 ```sh
 uvx --with tabpfn==9.1.0 --with duckdb --with scikit-learn python scripts/compare_models.py \
-  tmp/table.parquet TARGET F1 F2 F3 --task regression --models linear tabpfn_v2 --group region
+  tmp/table.parquet ID TARGET F1 F2 F3 --task regression --models linear tabpfn_v2 \
+  --folds-file tmp/folds_region.parquet
 ```
 
 - `torch` が入るので初回は時間がかかる。
