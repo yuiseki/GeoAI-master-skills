@@ -80,3 +80,67 @@ def test_leave_one_out_quantile_matches_brute_force_with_ties(seed):
         for i in range(23):
             others = np.sort(np.delete(r, i))
             assert hi[i] == pytest.approx(others[k - 1])
+
+
+def test_isotonic_and_platt_recalibration_reduce_ece():
+    from uncertainty import recalibrate
+
+    rng = np.random.default_rng(10)
+    true_p = rng.uniform(size=20_000)
+    y = (rng.uniform(size=20_000) < true_p).astype(int)
+    distorted = true_p ** 2.5  # too low everywhere but at the ends
+    before = ece(y, distorted)
+    iso = recalibrate(y, distorted, "isotonic", folds=5, seed=0)
+    logit = np.log(true_p / (1 - true_p))
+    underconfident = 1 / (1 + np.exp(-0.4 * logit))  # pulled towards 0.5
+    platt = recalibrate(y, underconfident, "platt", folds=5, seed=0)
+    assert before > 0.1
+    assert ece(y, iso) < 0.02
+    assert ece(y, platt) < 0.02
+
+
+def test_recalibration_is_cross_fitted():
+    from sklearn.isotonic import IsotonicRegression
+
+    from uncertainty import recalibrate, recalibration_groups
+
+    rng = np.random.default_rng(11)
+    p = rng.uniform(size=300)
+    y = (rng.uniform(size=300) < p).astype(int)
+    out = recalibrate(y, p, "isotonic", folds=3, seed=4)
+    groups = recalibration_groups(300, 3, 4)
+    for g in range(3):
+        held, rest = groups == g, groups != g
+        iso = IsotonicRegression(y_min=0, y_max=1, out_of_bounds="clip").fit(p[rest], y[rest])
+        assert np.allclose(out[held], iso.predict(p[held]))
+
+
+def test_calibrating_on_the_past_cannot_fix_a_rise_in_the_base_rate():
+    from uncertainty import recalibrate
+
+    rng = np.random.default_rng(12)
+    time = np.repeat(np.arange(10), 2000)
+    rate = np.where(time < 5, 0.2, 0.5)
+    y = (rng.uniform(size=len(time)) < rate).astype(int)
+    p = np.full(len(time), 0.2)  # a model that learned the old rate
+    later = time >= 5
+    past = recalibrate(y, p, "isotonic", time=time, calibrate_before=5)
+    shuffled = recalibrate(y, p, "isotonic", folds=5, seed=0)
+    assert ece(y[later], past[later]) > 0.25  # still 0.2 against 0.5
+    assert ece(y[later], shuffled[later]) < ece(y[later], past[later])
+
+
+def test_time_ordered_intervals_under_growing_noise():
+    from uncertainty import conformal_intervals_before
+
+    rng = np.random.default_rng(13)
+    time = np.repeat(np.arange(10), 1000)
+    y = rng.normal(scale=np.where(time < 5, 1.0, 2.0))
+    lo, hi = conformal_intervals_before(y, np.zeros(len(y)), time, 5, alpha=0.1)
+    later = time >= 5
+    assert np.isnan(lo[~later]).all()  # only rows after the calibration period get intervals
+    assert coverage(y[later], lo[later], hi[later]) < 0.75
+
+
+def test_ece_of_nothing_is_not_zero():
+    assert np.isnan(ece(np.array([]), np.array([])))

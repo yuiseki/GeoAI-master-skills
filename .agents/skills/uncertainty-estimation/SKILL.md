@@ -26,9 +26,13 @@ uvx --with duckdb --with scikit-learn python scripts/uncertainty.py calibration 
   --table tmp/table.parquet --id ID --by year
 uvx --with duckdb --with scikit-learn python scripts/uncertainty.py intervals tmp/predictions.parquet \
   --table tmp/table.parquet --id ID --by region --alpha 0.1
+uvx --with duckdb --with scikit-learn python scripts/uncertainty.py recalibrate tmp/predictions.parquet \
+  --table tmp/table.parquet --id ID --method isotonic --time year --calibrate-before 2023
 ```
 
-テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_uncertainty.py`。ECE を手で計算できる例と一致すること、Brier が scikit-learn と一致すること、区間が約束どおりの割合を覆うこと、各行の区間が自分の残差を使わないこと (同じ値の多いデータで総当たりと一致)、雑音の大きいグループで区間が狭すぎることを示せることを確かめている。自分の残差を使う、ECE の重みを落とす、のそれぞれで落ちることを確かめてある。
+`--time 列 --calibrate-before T` を付けると、較正し直しも区間も、T より前の行だけで作って T 以降の行に当てる。時代のずれがある問題では、こちらの数字を報告する (references/calibration.md)。
+
+テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_uncertainty.py`。ECE を手で計算できる例と一致すること、Brier が scikit-learn と一致すること、区間が約束どおりの割合を覆うこと、各行の区間が自分の残差を使わないこと (同じ値の多いデータで総当たりと一致)、雑音の大きいグループで区間が狭すぎることを示せることを確かめている。自分の残差を使う、ECE の重みを落とす、のそれぞれで落ちることを確かめてある。較正し直しが交差フィットであること (手で組んだ交差フィットと一致)、過去で較正すると基準の割合の上昇を直せないこと、雑音が大きくなると時間順の区間が覆えなくなること、空の入力の ECE が 0 でなく NaN であることも確かめ、全行で較正する、過去でなく全期間で較正する、区間に後の期間の残差を使う、のそれぞれで落ちることを確かめてある。
 
 ## 書き出すもの
 

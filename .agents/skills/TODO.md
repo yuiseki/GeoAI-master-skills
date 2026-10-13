@@ -58,9 +58,10 @@
   - [x] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間の被覆率を、全体とグループごとに確かめる
     - [x] `references/calibration.md`
     - [x] `references/intervals.md`
-    - [ ] 較正し直す (isotonic、Platt) (003)
-    - [ ] 分位点の区間と CQR、時間順の較正 (006)
-    - [ ] 実効的な標本の数 (006)
+    - [x] 較正し直す (isotonic、Platt)、交差フィットと時間順
+    - [x] 時間順の区間
+    - [ ] 分位点の区間と CQR (006)
+    - [x] 実効的な標本の数 (references/intervals.md に書いた)
   - [x] `model-explanation`: 試験側の行での permutation importance (群でも) と部分依存で、モデルが何に頼っているかを調べる
     - [x] `references/permutation.md`
     - [x] `references/partial-dependence.md`
