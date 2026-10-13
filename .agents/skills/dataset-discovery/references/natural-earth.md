@@ -1,3 +1,43 @@
+---
+kind: dataset
+id: yuiseki/natural-earth
+description: 全世界の小縮尺ベクター (国、州・省、都市、海岸線、陸、海、湖、川、道路など)。1 レイヤーが 1 つの GeoParquet。
+url: https://huggingface.co/datasets/yuiseki/natural-earth
+license: public domain
+formats: [GeoParquet]
+crs: EPSG:4326
+spatial_coverage: 全世界。縮尺は 1:10m、1:50m、1:110m
+temporal_coverage: 2022-05 の版 v5.1.2 で止まっている。以後の境界変更、改名、合併は入っていない
+as_of: {version: v5.1.2, fetched: 2026-10-06}
+contents: [国と地域, 州・省・県, 郡 (米国のみ), 都市の点, 陸と海, 海岸線, 市街地]
+tables:
+  - name: ne_10m_admin_0_countries
+    read: hf://datasets/yuiseki/natural-earth/parquet/v5.1.2/10m_cultural/ne_10m_admin_0_countries.parquet
+    grain: 1 つの国または地域 (属領や係争地を含む)
+    rows: 258
+    id: [ADM0_A3]
+    join_keys:
+      - {column: ADM0_A3, meaning: 3 文字の国コード (Natural Earth 独自)。258 件すべてに入り、重複が無い, unique: true, joins: []}
+      - {column: ISO_A3_EH, meaning: ISO の 3 文字コードの補正版, unique: false, joins: ["worldbank-wdi:countries.Country Code", "unhcr-refugee-stats:population.Country of origin (ISO)"], note: 属領が本体と同じ値を持つので、本体の行に絞ってから結ぶ}
+      - {column: ISO_A2_EH, meaning: ISO の 2 文字コードの補正版, joins: ["ourairports-2026-08:airports.iso_country"]}
+    no_key: [{name: ISO_A3, note: 22 件が -99。結合キーにしない}]
+    columns:
+      - {name: POP_EST, meaning: 推計人口。年は POP_YEAR で、国によって 2009 から 2020 年}
+      - {name: GDP_MD, meaning: GDP (百万米ドル)。年は GDP_YEAR で、国によって 1999 から 2019 年}
+      - {name: NAME_JA, meaning: 国名の日本語。国境の見方 (de facto) によって表記が変わる}
+      - {name: geometry, meaning: 国の面 (EPSG:4326)}
+  - name: ne_10m_admin_1_states_provinces
+    read: hf://datasets/yuiseki/natural-earth/parquet/v5.1.2/10m_cultural/ne_10m_admin_1_states_provinces.parquet
+    grain: 1 つの州・省・県。日本は 47 都道府県
+    rows: 4596
+    id: [adm1_code]
+  - name: ne_10m_populated_places
+    read: hf://datasets/yuiseki/natural-earth/parquet/v5.1.2/10m_cultural/ne_10m_populated_places.parquet
+    grain: 1 つの都市 (点)
+    rows: 7342
+    id: []
+---
+
 # Natural Earth
 
 全世界の小縮尺ベクター。国、州・省、都市、海岸線、陸地、海、湖、川、道路、鉄道、空港、港、時間帯など。

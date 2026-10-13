@@ -1,3 +1,28 @@
+---
+kind: catalog
+id: fao-ferspas
+description: FAO が公開している農業・食料・気候のラスタ (干ばつ指数、作物の適地、土壌、降水、気温 AgERA5 など) の目録。yuiseki が作った非公式の目録で、持っているのはメタデータだけ。
+url: https://stac.yuiseki.net/fao-ferspas/
+access: items.parquet を DuckDB で読む。ファイル (COG) は FAO の Google Cloud Storage にあり、gs:// を https://storage.googleapis.com/ に置き換えると匿名で読める (一部のバケットは 403)
+license: コレクションごと。collections.parquet の license 列 (AgERA5 の雨と基準蒸発散量は CC-BY-SA-4.0、気温は CC-BY-4.0)
+crs: コレクションごとに違う
+spatial_coverage: 全世界
+temporal_coverage: コレクションごと
+as_of: {checked: 2026-10-10}
+contents: [干ばつ指数, 作物の適地, 土壌, 降水, 気温]
+tables:
+  - name: items
+    read: https://stac.yuiseki.net/fao-ferspas/items.parquet
+    grain: 1 つのファイル
+    rows: 639947
+    id: []
+  - name: collections
+    read: https://stac.yuiseki.net/fao-ferspas/collections.parquet
+    grain: 1 つのコレクション
+    rows: 1921
+    id: []
+---
+
 # FAO の農業・食料系ラスタ (fao-ferspas)
 
 FAO が公開している農業・食料・気候のラスタの目録。干ばつ指数、作物の適地、土壌、降水、気温 (AgERA5) など。yuiseki が作った非公式の目録で、持っているのはメタデータだけ。ファイル (COG) は FAO の Google Cloud Storage にある。

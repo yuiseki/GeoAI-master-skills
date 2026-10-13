@@ -1,3 +1,56 @@
+---
+kind: dataset
+id: yuiseki/ourairports-2026-08
+description: 全世界の空港、ヘリポート、飛行場の点と、IATA と ICAO のコード、滑走路、無線施設。2026-08-31 の凍結。
+url: https://huggingface.co/datasets/yuiseki/ourairports-2026-08
+license: public domain
+formats: [GeoParquet]
+crs: OGC:CRS84
+spatial_coverage: 全世界。米国が 38%
+temporal_coverage: 2026-08-31。各行がいつ更新されたかは分からない
+as_of: {snapshot: 2026-08-31}
+contents: [空港と飛行場の点, 滑走路, 無線施設, 国と地域の表, 周波数, コメント]
+tables:
+  - name: airports
+    read: hf://datasets/yuiseki/ourairports-2026-08/parquet/airports.parquet
+    grain: 1 か所 (空港、ヘリポート、飛行場など)。ほとんどは小さな飛行場とヘリポートで、旅客の空港ではない
+    rows: 86002
+    id: [id, ident]
+    join_keys:
+      - {column: iso_country, meaning: ISO の 2 文字の国コード, unique: false, joins: ["natural-earth:ne_10m_admin_0_countries.ISO_A2_EH"], note: 247 種のうち 237 種が一致する。XP と ZZ は国でない}
+      - {column: ident, meaning: 空港の識別子 (ICAO に近い。IATA ではない), joins: ["runways.airport_ident", "airport_frequencies.airport_ident"]}
+    no_key: [{name: osm_id, note: OpenStreetMap とは ID で結べない}]
+    columns:
+      - {name: type, meaning: 種類。small_airport、heliport、closed、medium_airport、large_airport など}
+      - {name: scheduled_service, meaning: 定期便があるか (yes か no)}
+      - {name: iata_code, meaning: IATA コード。利用者の入力で、IATA の登録簿とは照合されていない}
+      - {name: geometry, meaning: 点 (OGC:CRS84。経度、緯度)}
+  - name: runways
+    read: hf://datasets/yuiseki/ourairports-2026-08/parquet/runways.parquet
+    grain: 1 本の滑走路
+    rows: 48203
+    id: [id]
+    join_keys:
+      - {column: airport_ident, meaning: airports.ident を指す, unique: false, joins: ["airports.ident"]}
+  - name: airport_frequencies
+    read: hf://datasets/yuiseki/ourairports-2026-08/parquet/airport_frequencies.parquet
+    grain: 1 つの空港の 1 つの周波数
+    rows: 30343
+    id: [id]
+    join_keys:
+      - {column: airport_ident, meaning: airports.ident を指す, unique: false, joins: ["airports.ident"]}
+  - name: navaids
+    read: hf://datasets/yuiseki/ourairports-2026-08/parquet/navaids.parquet
+    grain: 1 つの無線施設
+    rows: 11008
+    id: []
+  - name: countries
+    read: hf://datasets/yuiseki/ourairports-2026-08/parquet/countries.parquet
+    grain: 1 つの国
+    rows: 249
+    id: []
+---
+
 # OurAirports
 
 全世界の空港、ヘリポート、飛行場の点と、IATA / ICAO コード、定期便の有無、滑走路、無線施設。

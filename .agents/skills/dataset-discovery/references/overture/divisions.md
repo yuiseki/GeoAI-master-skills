@@ -1,3 +1,45 @@
+---
+kind: dataset
+id: overture/divisions
+description: 国から町丁目までの行政区域の、点、面、境界線。国の中の細かい階層 (日本なら都道府県、市区町村、町丁目) がある。
+url: https://stac.overturemaps.org/
+license: ODbL-1.0
+formats: [GeoParquet]
+crs: OGC:CRS84
+spatial_coverage: 全世界。日本は都道府県 47、市区町村 1,742 など
+temporal_coverage: 版 2026-09-23.1 を実測。版ごとに行が足され、消され、直される
+as_of: {release: 2026-09-23.1}
+contents: [行政区域の点と属性, 行政区域の面, 行政区域どうしの境界線]
+tables:
+  - name: division
+    read: s3://overturemaps-us-west-2/release/2026-09-23.1/theme=divisions/type=division/*.parquet
+    grain: 1 つの行政区域の代表点と属性 (名前、階層、親、人口、Wikidata)
+    rows: 4688229
+    id: [id]
+    join_keys:
+      - {column: country, meaning: ISO の 2 文字の国コード (係争地は X で始まる独自のコード), unique: false, joins: ["natural-earth:ne_10m_admin_0_countries.ISO_A2_EH"], note: subtype が country の 219 件のうち 199 件が一致する}
+      - {column: region, meaning: ISO 3166-2 の地域コード (日本の都道府県なら JP-47 など), unique: false, joins: []}
+    no_key: [{name: code5, note: 日本の市区町村コードは持たない。jp-admin-2026-09 とは、名前ではなく空間結合で結ぶ}, {name: osm_id, note: OpenStreetMap の ID の列は無い}]
+    columns:
+      - {name: subtype, meaning: 階層。country、region、county (日本では市区町村)、locality、neighborhood など}
+      - {name: names."primary", meaning: 名前。言語が階層で違う (日本の都道府県は日本語、市区町村はローマ字だった)}
+      - {name: population, meaning: 人口。日本の locality 8,042 件のうち 1,748 件にだけある}
+  - name: division_area
+    read: s3://overturemaps-us-west-2/release/2026-09-23.1/theme=divisions/type=division_area/*.parquet
+    grain: 1 つの行政区域の面。country と region は、陸の面と海の面 (領海) に分かれる
+    rows: 1080667
+    id: [id]
+    join_keys:
+      - {column: division_id, meaning: division.id を指す, unique: false, joins: ["division.id"], note: 面の名前や親は division から結ぶ}
+    columns:
+      - {name: is_land, meaning: 陸の面なら true、領海の面なら false。点を面に入れるときは絞る}
+  - name: division_boundary
+    read: s3://overturemaps-us-west-2/release/2026-09-23.1/theme=divisions/type=division_boundary/*.parquet
+    grain: 2 つの行政区域の境界線
+    rows: 87530
+    id: [id]
+---
+
 # Overture: divisions
 
 国から町丁目までの行政区域。Natural Earth には無い、国の中の細かい階層 (日本なら都道府県、市区町村、町丁目) がある。分析の単位や、集計の単位を変える MAUP の比較に使う。

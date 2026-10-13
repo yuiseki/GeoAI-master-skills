@@ -1,3 +1,18 @@
+---
+kind: catalog
+id: worldpop
+description: WorldPop の人口の格子。総人口 (100 m、1 km)、年齢と性別、都市化度。英国サウサンプトン大学が出す。
+url: https://stac.worldpop.org/
+access: STAC Browser が https://stac.worldpop.org/ で、実体の STAC API は https://api.stac.worldpop.org/。1 か国が 1 コレクション (id は ISO の 3 文字)。ファイルは data.worldpop.org にあり、Range 要求を無視して全体を返す
+license: CC-BY-4.0 (コレクションで確かめた)
+crs: EPSG:4326
+spatial_coverage: 全世界、国ごと (2026-10-10 に 248 コレクション)
+temporal_coverage: 2015 から 2030 年。2025 年より後は推計
+as_of: {checked: 2026-10-10}
+contents: [100 m と 1 km の総人口, 年齢と性別の内訳, 都市化度]
+children: [population.md, japan.md]
+---
+
 # WorldPop
 
 全世界の人口の格子。総人口 (100 m と 1 km)、年齢・性別の内訳、都市化度。2015〜2030 年 (2025 年より後は推計)。英国サウサンプトン大学の WorldPop が出す。

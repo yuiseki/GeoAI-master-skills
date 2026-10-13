@@ -1,3 +1,17 @@
+---
+kind: catalog
+id: planetary-computer
+description: Microsoft Planetary Computer の、衛星画像、標高、土地被覆などのラスタの目録。STAC API で範囲と時期から item を探し、COG を Range で読む。
+url: https://planetarycomputer.microsoft.com/api/stac/v1
+access: 検索 (POST /search) は認証なし。ファイルは、匿名で取れる SAS トークンを URL に付けないと 409 になる (アカウント不要)
+license: コレクションごとに違う。collection の license と、その link の先を読む
+crs: コレクションごとに違う
+spatial_coverage: 全世界
+temporal_coverage: コレクションごと
+as_of: {checked: 2026-10-10}
+contents: [Sentinel-2 L2A, Landsat C2 L2, HLS, NASADEM, ESA WorldCover, 土地被覆, 標高]
+---
+
 # Microsoft Planetary Computer
 
 衛星画像、標高、土地被覆などのラスタの目録。STAC API で範囲と時期から item を探し、COG を Range で読む。

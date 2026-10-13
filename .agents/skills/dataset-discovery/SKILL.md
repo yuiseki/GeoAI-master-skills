@@ -11,7 +11,7 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 ## 手順
 
 1. 問いから、必要な分析の単位 (国、州、都市の点、格子など) と時空間範囲を書き出す。
-2. 下の索引から候補のデータセットを選び、その reference を読む。reference には読み方、粒度、主なレイヤー、既知の注意点がある。
+2. 下の索引から候補のデータセットを選び、その reference を読む。先頭の YAML frontmatter に、1 行が何を表すか、ID と結合キー、主な列の意味、範囲と時点が機械可読に書いてある。本文には読み方と既知の注意点がある。
 3. 使うレイヤーを `scripts/profile_layer.py` で実測する。
 
    ```sh
@@ -23,6 +23,44 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 5. 下の「書き出すもの」を残す。reference と実測が食い違ったら、実測を書き、食い違いも書く。
 
 索引に無いデータセットが要る場合は、使う前に reference を 1 つ書き足す。多数のデータセットを束ねた目録 (STAC など) は、1 目録 1 ディレクトリにして、目録の引き方を `README.md` に、データセットやテーマごとの中身を別のファイルに書く。
+
+## reference の frontmatter
+
+各 reference は、先頭に YAML frontmatter を持つ。人が読む本文と同じ事実を、機械が読める形にしたもの。`kind` が `dataset` か `catalog`。`check_skills.py` が必須の項目と、結合先の実在を検査する。
+
+```yaml
+---
+kind: dataset                  # dataset か catalog
+id: yuiseki/jp-admin-2026-09   # 一意な名前。結合先の指定には、最後の / の後ろを使う
+description: 何のデータか (1 文)
+url: https://huggingface.co/datasets/yuiseki/jp-admin-2026-09
+card_revision: <コミットの SHA>  # 読んだカードの版 (任意)
+license: CC-BY-4.0
+formats: [GeoParquet 1.1]
+crs: EPSG:4612                 # 座標を持たないなら null
+spatial_coverage: 範囲 (どこまで入っていて、どこが欠けるか)
+temporal_coverage: 時点 (いつの状態か。名前と面で違うならそう書く)
+as_of: {boundaries_and_counts: 2020-10-01}   # 時点を日付や版で (任意)
+contents: [収録されているもの]
+tables:                        # catalog なら tables の代わりに access (どう引くか)
+  - name: municipalities
+    read: hf://datasets/yuiseki/jp-admin-2026-09/municipalities.parquet
+    grain: 1 つの市区町村。政令指定都市は、親と区が別の行になる   # 1 行が何を表すか
+    rows: 1918
+    id: [lg_code, code5]       # 1 行を一意に決める列。決められないなら []
+    join_keys:                 # ほかの表と結べる列
+      - {column: code5, meaning: 5 桁の市区町村コード, unique: true, joins: ["mlit-toshi-keikaku-jp:*.Citycode"]}
+    no_key:                    # あると思われがちだが、無いキー
+      - {name: osm_id, note: OpenStreetMap とは ID で結べない。コードか空間結合で結ぶ}
+    columns:                   # 主な列とその意味
+      - {name: population, meaning: 2020 年国勢調査の人口。推計ではない}
+---
+```
+
+- `joins` の書式は `<データセット>:<表>.<列>`。同じデータセットの中なら `<表>.<列>`。表が複数あるとき (レイヤーなど) は `*` を使える。
+- `grain`、`id`、`join_keys`、`no_key` は、結合の前に必ず読む。結合の前に、キーが一意かどうかを自分で数える (reference の `unique` や `rows` は、書いた日の値)。
+- 数を書くときは、実測した日を本文に書く。frontmatter の `rows` は、reference を書いたときの値で、版が変われば変わる。
+- reference を書き足すときは、frontmatter も同時に書く。
 
 ## 索引
 

@@ -67,7 +67,7 @@ DuckDB は 1.5.5 以上を使う。古い版は、空間の関数が壊れるこ
 
 ## 何も入れずに始める (Docker)
 
-`uv` も Python も入れたくないときは、リポジトリ直下の `Dockerfile` で、道具の入った環境を作れる。入っているのは、Python 3.12、`uv`、DuckDB 1.5.5 以上 (空間拡張と httpfs は入れてある)、numpy、scipy、scikit-learn、pandas、pyarrow、statsmodels、networkx、shapely、rasterio、esda、libpysal、pytest。
+`uv` も Python も入れたくないときは、リポジトリ直下の `Dockerfile` で、道具の入った環境を作れる。入っているのは、Python 3.12、`uv`、DuckDB 1.5.5 以上 (空間拡張と httpfs は入れてある)、numpy、scipy、scikit-learn、pandas、pyarrow、statsmodels、networkx、shapely、rasterio、esda、libpysal、pyyaml、pytest。
 
 ```bash
 docker build -t geoai-skills .

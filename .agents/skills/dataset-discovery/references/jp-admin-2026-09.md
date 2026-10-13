@@ -1,3 +1,44 @@
+---
+kind: dataset
+id: yuiseki/jp-admin-2026-09
+description: 日本の 47 都道府県と 1,918 市区町村の名前、コード、面、2020 年国勢調査の人口と世帯数を結んだもの。市区町村より細かい単位は無い。
+url: https://huggingface.co/datasets/yuiseki/jp-admin-2026-09
+card_revision: e6c87b1d7095c17422147962185071a986e13135
+license: CC-BY-4.0
+formats: [GeoParquet 1.1]
+crs: EPSG:4612
+spatial_coverage: 日本 47 都道府県、1,918 市区町村。面、人口、世帯数が空の自治体が 9 ある
+temporal_coverage: 名前とコードは 2026-09、面と人口と世帯数は 2020 年国勢調査
+as_of: {names_and_codes: 2026-09, boundaries_and_counts: 2020-10-01}
+contents: [行政区域の名前とコード, 代表点, 行政区域の面, 人口, 世帯数]
+tables:
+  - name: municipalities
+    read: hf://datasets/yuiseki/jp-admin-2026-09/municipalities.parquet
+    grain: 1 つの市区町村。政令指定都市は、親の市と、その区が別の行になる (171 区)
+    rows: 1918
+    id: [lg_code, code5]
+    join_keys:
+      - {column: code5, meaning: 5 桁の市区町村コード。区は区のコードを持つ, unique: true, joins: ["mlit-toshi-keikaku-jp:*.Citycode"], note: 1,918 行で重複が無い (実測)。全国の合計を取るときは、親と区が重なるので ward is null に絞る}
+      - {column: pref_code, meaning: 2 桁の都道府県コード (文字列), joins: ["ekidata-jp:station.pref_cd (整数。型を揃える)"]}
+    no_key: [{name: osm_id, note: OpenStreetMap とは ID で結べない。コードか空間結合で結ぶ}]
+    columns:
+      - {name: lg_code, meaning: 地方公共団体コード 6 桁 (住所基盤登録簿)}
+      - {name: name, meaning: 市区町村名。区は 浜松市中央区 のように市名つき}
+      - {name: ward, meaning: 政令指定都市の区の名前。親の市の行では空}
+      - {name: population, meaning: 2020 年国勢調査の人口 (小地域の合計)。推計ではない。空は調べていないこと}
+      - {name: households, meaning: 2020 年国勢調査の世帯数}
+      - {name: geometry_source, meaning: 面の出所。census small areas、union of its wards、none}
+      - {name: rep_lon, meaning: 住所基盤登録簿の代表点の経度。rep_lat が緯度}
+      - {name: geometry, meaning: 市区町村の面 (EPSG:4612)。海を含まない}
+  - name: prefectures
+    read: hf://datasets/yuiseki/jp-admin-2026-09/prefectures.parquet
+    grain: 1 つの都道府県
+    rows: 47
+    id: [pref_code]
+    columns:
+      - {name: population, meaning: 2020 年国勢調査の人口。市区町村の ward is null の行の合計と一致する}
+---
+
 # jp-admin-2026-09 (日本の都道府県と市区町村)
 
 日本の 47 都道府県と 1,918 市区町村の、コード、名前 (漢字、かな、ローマ字)、面、2020 年国勢調査の人口と世帯数。市区町村より細かい単位は無い。

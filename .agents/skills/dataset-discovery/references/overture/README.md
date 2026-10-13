@@ -1,3 +1,18 @@
+---
+kind: catalog
+id: overture
+description: Overture Maps Foundation の全世界の地図データ。行政区域、道路と交差点、POI、建物、住所、土地被覆と土地利用、水域。月に 1 回ほど版が出る。
+url: https://stac.overturemaps.org/catalog.json
+access: STAC の静的カタログ。Parquet は S3 (s3://overturemaps-us-west-2/release/<版>/theme=<テーマ>/type=<種類>/*.parquet、us-west-2、認証なし) と Azure に同じものがある
+license: 種類ごとに違う。divisions と transportation は ODbL-1.0。places と addresses は other で、元データごとに条件が違う
+crs: OGC:CRS84
+spatial_coverage: 全世界
+temporal_coverage: 版ごと。2026-10-10 には 2026-08-19.0、2026-09-23.0、2026-09-23.1
+as_of: {latest_checked: 2026-09-23.1}
+contents: [行政区域, 道路と鉄道, POI, 建物, 住所, 土地被覆]
+children: [divisions.md, transportation.md]
+---
+
 # Overture Maps
 
 全世界の地図データ。行政区域、道路と交差点、POI、建物、住所、土地被覆と土地利用、水域。OpenStreetMap などを元に Overture Maps Foundation が月に 1 回ほど版を出す。

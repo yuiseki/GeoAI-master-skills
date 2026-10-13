@@ -1,3 +1,23 @@
+---
+kind: catalog
+id: mlit-nlftp
+description: 国土交通省の国土数値情報の目録 (鉄道、バス停、医療機関、学校、浸水想定区域、将来推計人口メッシュなど)。yuiseki が作った非公式の STAC で、持っているのはメタデータだけ。
+url: https://stac.yuiseki.net/mlit-nlftp/
+access: items.parquet を DuckDB で読む。使い方の正本は目録の AGENTS.md。配布は zip だけで、範囲だけを読むことはできない
+license: 年とデータセットごとに違う。redistribution 列 (allowed、not-allowed、check) で絞る
+crs: JGD2011 と JGD2000 が混ざる
+spatial_coverage: 日本。範囲 (footprint) は都道府県の外接矩形
+temporal_coverage: 年ごと。is_latest は地域ごとの最新
+as_of: {checked: 2026-10-10}
+contents: [国土数値情報の各データセット]
+tables:
+  - name: items
+    read: https://stac.yuiseki.net/mlit-nlftp/items.parquet
+    grain: 1 つのファイル (データセット × 年 × 地域)
+    rows: 21603
+    id: []
+---
+
 # 国土数値情報 (mlit-nlftp)
 
 国土交通省の国土数値情報の目録。鉄道、バス停、医療機関、学校、浸水想定区域、将来推計人口メッシュなど。yuiseki が作った非公式の STAC で、持っているのはメタデータだけ。ファイル (zip) は国土数値情報の配布元にある。

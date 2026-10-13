@@ -1,3 +1,37 @@
+---
+kind: dataset
+id: yuiseki/worldpop-jp-2026-01
+description: WorldPop R2025A の日本の人口ラスターの原本と、値を変えない COG。国勢調査ではなく推計と予測。
+url: https://huggingface.co/datasets/yuiseki/worldpop-jp-2026-01
+card_revision: cb54e5985662c617a235278bc3529cc172e6368c
+license: CC-BY-4.0 (製品ごとの DOI で引用する)
+formats: [GeoTIFF, Cloud Optimized GeoTIFF, Parquet]
+crs: EPSG:4326
+spatial_coverage: 日本全国
+temporal_coverage: 2015 から 2030 年の推計と予測。版 R2025A (原本の更新は 2025-07 から 2026-01)
+as_of: {release: R2025A, fetched: 2026-09-28}
+contents: [100 m と 1 km の総人口, 1 km の年齢と性別の人口, 都市化度, ラスターのファイルの一覧]
+tables:
+  - name: files
+    read: hf://datasets/yuiseki/worldpop-jp-2026-01/parquet/files.parquet
+    grain: 1 つのラスターファイル (製品、年、解像度、性別、年齢階級の組)
+    rows: 1024
+    id: [raw_path]
+    join_keys:
+      - {column: cog_path, meaning: COG のパス (同じデータセット内の cog/ 以下), joins: ["同じデータセットのファイル"]}
+    no_key: [{name: code5, note: 市区町村コードは持たない。市区町村へは、画素の合計をゾーナル統計で集める}]
+    columns:
+      - {name: project, meaning: 製品。Population、Age and Sex Structures、Degree of Urbanisation}
+      - {name: resolution, meaning: 解像度 (100m か 1km)。都市化度は空}
+      - {name: sex, meaning: female、male、total。年齢性別の製品だけ。足すときは total だけにする}
+      - {name: sum, meaning: そのラスターの画素の合計 (人数の推計)。解像度と性別で絞らないと重なる}
+  - name: population_100m_2020
+    read: https://huggingface.co/datasets/yuiseki/worldpop-jp-2026-01/resolve/main/cog/GIS/Population/Global_2015_2030/R2025A/2020/JPN/v1/100m/constrained/jpn_pop_2020_CN_100m_R2025A_v1.tif
+    grain: 1 画素 (約 100 m) の推計人口。float32、欠損値は -99999
+    rows: null
+    id: []
+---
+
 # WorldPop 日本の凍結版 (worldpop-jp-2026-01)
 
 WorldPop の日本の人口の格子 (2015〜2030 年、版 R2025A) の凍結版。100 m と 1 km の総人口、1 km の性別と 5 歳階級ごとの人口、都市化度。WorldPop が出した元の GeoTIFF と、値を変えずに作った COG (範囲だけを読める) を、1,024 ファイルで持つ。

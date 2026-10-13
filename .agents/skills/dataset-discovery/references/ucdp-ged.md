@@ -1,3 +1,33 @@
+---
+kind: dataset
+id: yuiseki/ucdp-ged
+description: Uppsala Conflict Data Program が記録した、1989 年以降の組織的暴力の事件。1 件ごとの場所、日付、当事者、死者数。
+url: https://huggingface.co/datasets/yuiseki/ucdp-ged
+license: CC BY 4.0。UCDP が版ごとに挙げる論文の引用が条件
+formats: [Parquet]
+crs: OGC:CRS84
+spatial_coverage: 全世界の 126 か国。位置の精度は where_prec で事件ごとに違う
+temporal_coverage: 1989-01-01 から 2025-12-31 (版 26.1)。版ごとに過去の事件も改訂される
+as_of: {version: "26.1"}
+contents: [事件の点, 当事者, 死者数, 位置の精度]
+tables:
+  - name: ged
+    read: hf://datasets/yuiseki/ucdp-ged/parquet/26.1/ged.parquet
+    grain: 1 件の事件 (点と期間)
+    rows: 417968
+    id: [id]
+    join_keys:
+      - {column: priogrid_gid, meaning: PRIO-GRID の 0.5 度格子の番号。事件のある格子 8,003 個だけが行に現れる, unique: false, joins: []}
+      - {column: country_id, meaning: Gleditsch and Ward の国の番号, joins: []}
+    no_key: [{name: iso_a3, note: ISO の国コードは持たない。country は旧名を括弧で添えた UCDP の表記なので、国には点を面に入れて割り当てる}]
+    columns:
+      - {name: best, meaning: 死者数の最良の推定。4 つの deaths_* の合計}
+      - {name: where_prec, meaning: 位置の精度 (1 が正確、3 以上は行政区などの代表点、6 は国まで、7 は公海)}
+      - {name: type_of_violence, meaning: 1 が国家が当事者の紛争、2 が国家以外の紛争、3 が一方的な暴力}
+      - {name: date_start, meaning: 事件の開始日}
+      - {name: geometry, meaning: 点 (OGC:CRS84)}
+---
+
 # UCDP Georeferenced Event Dataset (GED)
 
 Uppsala Conflict Data Program が記録した、1989 年以降の組織的暴力の事件。1 件 1 行で、場所、日付、当事者、死者数を持つ。

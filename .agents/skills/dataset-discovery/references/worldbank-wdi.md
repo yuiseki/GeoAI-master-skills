@@ -1,3 +1,41 @@
+---
+kind: dataset
+id: yuiseki/worldbank-wdi
+description: 世界銀行の世界開発指標。国と年ごとの人口、GDP、保健、教育、環境など約 1,400 指標。座標は無い。
+url: https://huggingface.co/datasets/yuiseki/worldbank-wdi
+license: CC BY 4.0 に世界銀行の紛争解決条項 (調停と仲裁) が加わる。指標ごとに出典の表示が要る。ライセンスが CC BY でない 74 指標は除いてある
+formats: [Parquet]
+crs: null
+spatial_coverage: 国と集計単位 264 (国 217、集計単位 47)。座標なし
+temporal_coverage: 1960 から 2025 年。版ごとに別のディレクトリ (最新は 2026-10-01)
+as_of: {release: 2026-10-01}
+contents: [国 × 年 × 指標の値, 国の表, 指標の定義, 注記]
+tables:
+  - name: data
+    read: hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/data.parquet
+    grain: 1 つの値 (国または集計単位 × 指標 × 年)。空の値は行にならない
+    rows: 8790085
+    id: [country_code, indicator_code, year]
+    join_keys:
+      - {column: country_code, meaning: 3 文字の国コード。集計単位 (World、地域、所得階層) も入る, joins: ["countries.Country Code", "natural-earth:ne_10m_admin_0_countries.ISO_A3_EH"], note: 国だけにするには countries の Region が空でないものに絞る。215 件が一致する}
+      - {column: indicator_code, meaning: 指標のコード (SP.POP.TOTL など), joins: ["series.Series Code"]}
+    columns:
+      - {name: value, meaning: 指標の値。単位は指標ごとに series の定義にある。欠損は行が無いことで表す}
+      - {name: year, meaning: 年 (1960 から 2025)}
+  - name: series
+    read: hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/series.parquet
+    grain: 1 つの指標 (定義、出典、ライセンスの種類)
+    rows: 1441
+    id: ["Series Code"]
+  - name: countries
+    read: hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/countries.parquet
+    grain: 1 つの国または集計単位
+    rows: 264
+    id: ["Country Code"]
+    columns:
+      - {name: Region, meaning: 地域。空なら集計単位であって国ではない}
+---
+
 # World Development Indicators (WDI)
 
 世界銀行の開発指標。国と年ごとの人口、GDP、保健、教育、環境など約 1,400 指標。

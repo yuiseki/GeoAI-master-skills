@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-ce
 # TabPFN, XGBoost, LightGBM and CatBoost are left out; add them per run with `uvx --with ...`.
 RUN uv venv /opt/venv && VIRTUAL_ENV=/opt/venv uv pip install --no-cache \
     'duckdb>=1.5.5' numpy scipy scikit-learn pandas pyarrow statsmodels networkx \
-    shapely rasterio esda libpysal pytest
+    shapely rasterio esda libpysal pyyaml pytest
 
 ENV PATH=/opt/venv/bin:$PATH \
     UV_CACHE_DIR=/opt/uv-cache \
