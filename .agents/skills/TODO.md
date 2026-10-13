@@ -56,7 +56,7 @@
   - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
     - [x] `references/maup.md`
     - [ ] 格子の原点をずらす区切り方の効果
-- 構造を探す (3 / 5)
+- 構造を探す (4 / 5)
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
     - [ ] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
     - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
@@ -70,7 +70,11 @@
     - [x] `references/space.md`
     - [x] `references/expected.md`
     - [x] `references/global.md`
-  - [ ] `point-pattern-analysis`: 点が無作為な配置と比べて集まっているか。references に Ripley の K と L、カーネル密度、比べる基準の作り方
+  - [x] `point-pattern-analysis`: 点が、比べる基準の分布で無作為に置いた場合と比べて、どの距離で集まっているかを調べる
+    - [x] `references/ripley.md`
+    - [x] `references/baselines.md`
+    - [ ] カーネル密度
+    - [ ] 2 種類の点の間 (クロス K) と、散らばりの検定
 - ネットワークと最適化 (0 / 2)
   - [ ] `spatial-network-analysis`: 最短経路、到達圏、中心性で空間ネットワークを解析し、最適化に使う距離行列を作る
   - [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
