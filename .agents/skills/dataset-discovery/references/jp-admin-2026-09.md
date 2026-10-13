@@ -72,6 +72,7 @@ tables:
     type: geometry:EPSG:4612
     meaning: 市区町村の面 (EPSG:4612)。海を含まない
     missing: NULL は面が無い (9 行)
+    note: 隣の市区町村の面と、境界で重なっている。隣接は ST_Intersects で取る。ST_Touches は重なった組を隣として数えない (8 割を取り逃がす。2026-10-14 実測)
 - name: prefectures
   read: hf://datasets/yuiseki/jp-admin-2026-09/prefectures.parquet
   grain: 1 つの都道府県

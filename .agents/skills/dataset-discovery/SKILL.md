@@ -68,6 +68,7 @@ tables:                          # catalog なら tables の代わりに access 
         type: BIGINT
         meaning: 2020 年国勢調査の人口。推計ではない
         missing: NULL は調べていないこと (9 行)。0 ではない   # 欠損の表し方 (任意)
+        note: 使うときに取り違えやすい性質 (任意。実測したことだけ)
 ---
 ```
 
