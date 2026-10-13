@@ -41,8 +41,8 @@
     - [x] `references/foundation-modeling.md`
     - [x] `references/classification.md`
     - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
-    - [ ] 重み付きの学習と採点 (測定回数で重み付けした R²、study-geoai 001)
-    - [ ] 誤差の分析: グループ、時期、測定回数ごとの残差 (001、006)
+    - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
+    - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE
   - [x] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
     - [x] `references/baselines.md`
     - [x] `references/ets.md`

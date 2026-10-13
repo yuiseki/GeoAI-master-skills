@@ -169,3 +169,50 @@ def test_predictions_are_kept_for_every_tested_row_only():
     run(y, y[:, None], None, ["mean"], folds, "regression", preds)
     assert sorted((r, m, i) for r, m, i, _ in preds) == [(0, "mean", i) for i in range(6, 10)]
     assert dict((i, v) for _, _, i, v in preds) == {6: 2.5, 7: 2.5, 8: 3.5, 9: 3.5}
+
+
+def test_weighted_mean_baseline_and_weighted_scores():
+    from sklearn.metrics import r2_score
+
+    y = np.array([0.0, 0.0, 10.0, 10.0, 0.0, 10.0])
+    w = np.array([1.0, 1.0, 3.0, 3.0, 1.0, 3.0])
+    folds = {0: [(np.array([0, 1, 2, 3]), np.array([4, 5]))]}
+    preds = []
+    s = run(y, np.zeros((6, 1)), None, ["mean"], folds, "regression", preds, weights=w)
+    # Training rows 0-3: weighted mean (0 + 0 + 30 + 30) / 8 = 7.5.
+    assert {i: v for _, _, i, v in preds} == {4: 7.5, 5: 7.5}
+    assert s["mean"]["r2"][0] == pytest.approx(r2_score(y[4:], [7.5, 7.5], sample_weight=w[4:]))
+
+
+def test_weights_reach_the_model_fit():
+    # Heavily weighted rows follow y = x; lightly weighted rows are wild. A weighted linear fit
+    # follows the heavy rows and scores far better on them than an unweighted one.
+    rng = np.random.default_rng(7)
+    x = rng.uniform(-1, 1, 400)
+    heavy = np.arange(400) % 4 != 0
+    y = np.where(heavy, x, rng.normal(scale=20, size=400))
+    w = np.where(heavy, 1.0, 0.0001)
+    weighted = run(y, x[:, None], None, ["linear"], kfold(400), "regression", weights=w)
+    # Scored with the weights, only a fit that also used them follows the heavy rows.
+    assert weighted["linear"]["r2"][0] > 0.9
+
+
+def test_a_model_without_sample_weight_support_stops_the_run():
+    from sklearn.neighbors import KNeighborsRegressor
+
+    MODELS["knn_no_weights"] = {"regression": lambda seed: KNeighborsRegressor(3)}
+    try:
+        y = np.arange(20, dtype=float)
+        with pytest.raises(SystemExit):
+            run(y, y[:, None], None, ["knn_no_weights"], kfold(20, k=2), "regression",
+                weights=np.ones(20))
+    finally:
+        del MODELS["knn_no_weights"]
+
+
+def test_effective_sample_size_of_weights():
+    from compare_models import effective_n
+
+    assert effective_n(np.ones(10)) == pytest.approx(10)
+    assert effective_n(np.r_[np.ones(9), 0.0]) == pytest.approx(9)
+    assert effective_n(np.r_[100.0, np.ones(99)]) == pytest.approx(199 ** 2 / (100 ** 2 + 99))

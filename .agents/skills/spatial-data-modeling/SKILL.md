@@ -14,6 +14,8 @@ description: eda-and-baseline で出した基準と同じ分割、同じ指標�
 | [boosting-modeling](references/boosting-modeling.md) | HistGradientBoosting、XGBoost、LightGBM、CatBoost |
 | [foundation-modeling](references/foundation-modeling.md) | TabPFN、TimesFM などの事前学習モデル。版ごとのライセンス |
 | [classification](references/classification.md) | 目的変数がカテゴリのときに、どのモデルにも加わる論点 |
+| [weights](references/weights.md) | 行ごとの重みで学習し採点する。実効的な標本の数 |
+| [error-analysis](references/error-analysis.md) | 誤差をグループや分位ごとに分けて、どこで外れているかを見る |
 
 ## 手順
 
@@ -24,6 +26,7 @@ description: eda-and-baseline で出した基準と同じ分割、同じ指標�
 5. ハイパーパラメータを決める。決めるなら学習側の中で決める (内側の交差検証か、学習側から取り分けた検証用の行)。試験側の点数を見て選ばない。
 6. repeat (乱数の種) を 3 つ以上にして、平均とばらつきを書く。ばらつきより小さい差は差と呼ばない。
 7. 基準と並べた表を書く。基準を超えないモデルは、超えないと書く。
+8. 選んだモデルの誤差を、地域、時期、測定の回数などで分けて見る (references/error-analysis.md)。
 
 ## 比べる仕組み
 
