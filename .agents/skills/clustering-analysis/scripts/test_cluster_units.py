@@ -83,3 +83,12 @@ def test_no_clusters_is_not_reported_as_perfectly_stable():
     s = stability(X, "hdbscan", {"min_cluster_size": 60}, runs=3, fraction=0.8, seed=0)
     assert np.isnan(s["ari_mean"])
     assert s["clusters_in_full"] == 0
+
+
+def test_dpmm_covariance_scale_changes_how_many_clusters_are_used():
+    rng = np.random.default_rng(0)
+    X = np.vstack([rng.normal(c, 1.0, (60, 2)) for c in ([0, 0], [8, 0], [0, 8])])
+    narrow = cluster(X, "dpmm", {"max_components": 15, "covariance_scale": 0.02})
+    wide = cluster(X, "dpmm", {"max_components": 15, "covariance_scale": 3.0})
+    assert len(np.unique(narrow)) > len(np.unique(wide))
+    assert len(np.unique(wide)) <= 4

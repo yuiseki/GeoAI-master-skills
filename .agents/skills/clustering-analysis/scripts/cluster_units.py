@@ -14,7 +14,8 @@ Methods and settings (one or more, comma-separated values):
     kmeans   --k 3,4,5
     hdbscan  --min-cluster-size 5,10
     dbscan   --eps 0.5 --min-samples 5        (eps in standardised units)
-    dpmm     --max-components 10              (Bayesian Gaussian mixture, Dirichlet process prior)
+    dpmm     --max-components 10 [--covariance-scale 1,3,10]
+                                              (Bayesian Gaussian mixture, Dirichlet process prior)
 
 Usage:
     uvx --with duckdb --with scikit-learn --with pyarrow python cluster_units.py TABLE ID FEATURE [...] \
@@ -46,10 +47,15 @@ def cluster(X, method, params, seed=0):
     if method == "dbscan":
         return DBSCAN(eps=params["eps"], min_samples=params["min_samples"]).fit_predict(Z)
     if method == "dpmm":
+        extra = {}
+        if params.get("covariance_scale") is not None:
+            # How wide one cluster may be (in standardised units): a small value splits the data
+            # into many narrow clusters, a large one lets few wide clusters cover it.
+            extra["covariance_prior"] = np.eye(Z.shape[1]) * params["covariance_scale"]
         m = BayesianGaussianMixture(
             n_components=params["max_components"],
             weight_concentration_prior_type="dirichlet_process",
-            max_iter=1000, random_state=seed).fit(Z)
+            max_iter=1000, random_state=seed, **extra).fit(Z)
         labels = m.predict(Z)
         # Renumber the components actually used as 0..n-1.
         return np.unique(labels, return_inverse=True)[1]
@@ -104,7 +110,9 @@ def settings(a):
     if a.method == "dbscan":
         return [{"eps": e, "min_samples": m} for e in nums(a.eps, float)
                 for m in nums(a.min_samples, int)]
-    return [{"max_components": v} for v in nums(a.max_components, int)]
+    scales = nums(a.covariance_scale, float) if a.covariance_scale else [None]
+    return [{"max_components": v, "covariance_scale": c}
+            for v in nums(a.max_components, int) for c in scales]
 
 
 def main():
@@ -118,6 +126,8 @@ def main():
     p.add_argument("--eps", default="0.5")
     p.add_argument("--min-samples", default="5")
     p.add_argument("--max-components", default="10")
+    p.add_argument("--covariance-scale", help="dpmm: covariance prior = identity x this value "
+                   "(standardised units); comma-separated values; default: scikit-learn's")
     p.add_argument("--compare-with", nargs="*", default=[])
     p.add_argument("--lon")
     p.add_argument("--lat")
@@ -148,7 +158,7 @@ def main():
     out_labels = {}
     for params in settings(a):
         labels = cluster(X, a.method, params, a.seed)
-        name = ",".join(f"{k}={v}" for k, v in params.items())
+        name = ",".join(f"{k}={v}" for k, v in params.items() if v is not None)
         out_labels[name] = labels
         keep = labels >= 0
         n_clusters = len(np.unique(labels[keep]))
