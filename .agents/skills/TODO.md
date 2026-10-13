@@ -13,12 +13,14 @@
 - [ ] `noise-ceiling-analysis`: 目的変数の雑音と予測可能性の上限を推定する
 - [ ] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間を評価する
 - [ ] `model-explanation`: permutation importance、SHAP、部分依存で、モデルが何に効いているかを説明する
-- [ ] `robustness-analysis`: 乱数の種、標本、集計、空間単位を変えて結論が保たれるかを見る。MAUP は references
-- [x] `spatial-pattern-exploration`: 目的変数なしで空間の構造を探す。references に クラスタリング、次元削減、異常検知、空間自己相関とホットスポット、点パターン
-  - [ ] `references/clustering.md`: k-means、DBSCAN、HDBSCAN、DPMM
-  - [ ] `references/dimensionality-reduction.md`: PCA、並行分析、ブートストラップ
-  - [ ] `references/anomaly-detection.md`: Isolation Forest、LOF
-  - [ ] `references/point-pattern.md`: Ripley の K と L、カーネル密度
+- [ ] `robustness-analysis`: 乱数の種、標本、集計、空間単位、手法の設定を変えて、結論や見つけた構造が保たれるかを見る。既知の区分との照合も。MAUP は references
+- [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
+  - [ ] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
+  - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
+- [ ] `clustering-analysis`: 似た単位の群に分けられるか。references に k-means、DBSCAN、HDBSCAN、DPMM
+- [ ] `dimensionality-reduction`: 多くの特徴量を少数の軸で要約できるか。references に PCA、並行分析、ブートストラップ
+- [ ] `anomaly-detection`: 全体や周りから外れた単位はどれか。references に Isolation Forest、LOF
+- [ ] `point-pattern-analysis`: 点が無作為な配置と比べて集まっているか。references に Ripley の K と L、カーネル密度、比べる基準の作り方
 - [ ] `spatial-network-analysis`: 最短経路、到達圏、中心性で空間ネットワークを解析し、最適化に使う距離行列を作る
 - [ ] `spatial-optimization`: 定式化、求解、手で組んだ解との比較、感度の確認。references に LP、MILP、CP-SAT、施設配置、割当、多目的
 - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す
