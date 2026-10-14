@@ -13,7 +13,9 @@ COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /uvx /usr/local/bin/
 RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-certificates curl \
  && rm -rf /var/lib/apt/lists/*
 
-# The Codex release binary (musl, static), kept apart from the user state in /home/geo/.codex.
+# The Codex release binaries (musl, static), kept apart from the user state in /home/geo/.codex.
+# codex-code-mode-host is a separate asset that codex starts to run commands; without it every
+# command fails with "No such file or directory".
 RUN case "${TARGETARCH:-$(dpkg --print-architecture)}" in \
       amd64) triple=x86_64-unknown-linux-musl ;; \
       arm64) triple=aarch64-unknown-linux-musl ;; \
@@ -22,7 +24,10 @@ RUN case "${TARGETARCH:-$(dpkg --print-architecture)}" in \
  && curl -fsSL "https://github.com/openai/codex/releases/download/rust-v${CODEX_VERSION}/codex-${triple}.tar.gz" \
     | tar -xz -C /usr/local/bin \
  && mv "/usr/local/bin/codex-${triple}" /usr/local/bin/codex \
- && chmod 0755 /usr/local/bin/codex \
+ && curl -fsSL "https://github.com/openai/codex/releases/download/rust-v${CODEX_VERSION}/codex-code-mode-host-${triple}.tar.gz" \
+    | tar -xz -C /usr/local/bin \
+ && mv "/usr/local/bin/codex-code-mode-host-${triple}" /usr/local/bin/codex-code-mode-host \
+ && chmod 0755 /usr/local/bin/codex /usr/local/bin/codex-code-mode-host \
  && codex --version
 
 # rasterio is pinned below 1.5: 1.5.x reads GeoTIFFs with libertiff, which gave CRS and nodata None
@@ -39,6 +44,9 @@ ENV PATH=/opt/venv/bin:$PATH \
     OPENBLAS_NUM_THREADS=8 \
     MKL_NUM_THREADS=8 \
     NUMEXPR_NUM_THREADS=8
+
+# Codex runs commands in a login shell, and Debian's /etc/profile resets PATH; put the venv back.
+RUN echo 'export PATH=/opt/venv/bin:$PATH' > /etc/profile.d/venv.sh
 
 RUN useradd --uid 1000 --create-home --home-dir /home/geo geo \
  && mkdir -p /opt/uv-cache /work /home/geo/.codex && chown -R geo /opt/uv-cache /work /home/geo
