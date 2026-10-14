@@ -39,14 +39,14 @@ FAO が公開している農業・食料・気候のラスタの目録。干ば�
 - 静的な STAC の JSON は無く、GeoParquet の表が本体。`catalog.json` と `AGENTS.md` は無い (404)。
 - `items.parquet` は 1 行が 1 ファイルで、2026-10-10 に 639,947 行。`season`、`crop`、`ssp` などの次元が列になっている。
 - `collections.parquet` は 1,921 行。ライセンスは `license` 列。
-- 以前の調査の記録では、`search.parquet` が全文検索の索引、`embeddings*.parquet` が意味検索のベクトル (ここでは確かめていない)。
+- 以前の調査の記録 (未確認)では、`search.parquet` が全文検索の索引、`embeddings*.parquet` が意味検索のベクトル (ここでは確かめていない)。
 
 ```sql
 load httpfs;
 select count(*) from 'https://stac.yuiseki.net/fao-ferspas/items.parquet';
 ```
 
-## ファイルの読み方 (以前の調査の記録、2026-09-28)
+## ファイルの読み方 (以前の調査の記録、未確認、2026-09-28)
 
 - `data_href` の `storage.cloud.google.com` は Google のログインに飛ばされて取れない。`data_gs_href` の `gs://` を `https://storage.googleapis.com/` に置き換えると匿名で読める。
 - 57 のバケットのうち 3 つは匿名だと 403: `fao-gismgr-asis-data` (18,917 ファイル、農業ストレス指数など)、`fao-gismgr-rdms-data` (1,245)、`fao-gismgr-seap-data` (1)。

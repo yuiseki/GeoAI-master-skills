@@ -1,4 +1,4 @@
-"""uvx --from 'duckdb>=1.5.5' --with numpy --with scipy --with pyproj --with pyarrow --with pytest pytest test_target_distance.py
+"""uvx --from 'duckdb>=1.5.5' --with numpy --with scipy --with pyproj --with pyarrow --with pytest pytest test_evaluate_interpolation.py
 
 A 2 km square of observations every 100 m (a regular network), and prediction points placed where the
 network has a hole, or between the stations. Distances are worked out from the layout, not from the code.

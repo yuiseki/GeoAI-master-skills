@@ -117,3 +117,86 @@ def test_a_value_cut_at_a_comma_is_reported(tmp_path):
     assert any("null value" in p for p in pair(tmp_path, cut))
     paren = GOOD.replace("        meaning: m\n", "        meaning: 開業日 (10\n")
     assert any("unbalanced parentheses" in p for p in pair(tmp_path, paren))
+
+
+# --- the checks over the skill directories, on a small fake tree ---
+
+from check_skills import copy_problems, cross_skill_problems, style_problems, script_test_problems, todo_problems
+
+
+def tree(tmp_path, files):
+    for rel, text in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(text)
+    return tmp_path
+
+
+def test_naming_another_skill_or_its_files_is_reported(tmp_path):
+    root = tree(tmp_path, {"a/SKILL.md": "use b first, then ../b/scripts/x.py", "b/SKILL.md": "fine",
+                           "dataset-discovery/SKILL.md": "x", "c/SKILL.md": "see dataset-discovery references"})
+    probs = cross_skill_problems(root, ["a", "b", "c", "dataset-discovery"])
+    assert any("a/SKILL.md: names the skill b" in p for p in probs)
+    assert any("relative path" in p for p in probs)
+    assert not any(p.startswith("c/") for p in probs)
+
+
+def test_copies_must_match(tmp_path):
+    root = tree(tmp_path, {"a/scripts/s.py": "x = 1\n", "b/scripts/s.py": "x = 2\n", "a/scripts/t.py": "y\n"})
+    assert copy_problems(root, {"s.py": ["a", "b"]})
+    assert copy_problems(root, {"t.py": ["a", "b"]})                 # missing copy
+    root = tree(tmp_path, {"b/scripts/s.py": "x = 1\n"})
+    assert not copy_problems(root, {"s.py": ["a", "b"]})
+
+
+def test_bold_and_em_dash_are_reported_outside_code(tmp_path):
+    root = tree(tmp_path, {".cache/x.md": "**ignored**\n", "a/SKILL.md": "plain\n`__pycache__` and `**kwargs`\n```\n**x** in a block\n```\n",
+                           "b/SKILL.md": "this is **bold**\n", "c/SKILL.md": "a \u2014 b\n", "d/SKILL.md": "__also bold__\n"})
+    probs = style_problems(root)
+    assert sorted(p.split(":")[0] for p in probs) == ["b/SKILL.md", "c/SKILL.md", "d/SKILL.md"]
+
+
+def test_every_script_has_its_test(tmp_path):
+    root = tree(tmp_path, {"a/scripts/run.py": "", "a/scripts/test_run.py": "", "b/scripts/go.py": ""})
+    assert script_test_problems(root) == ["b/scripts/go.py: no test_go.py beside it"]
+
+
+TODO = """\
+- 段階 (1 / 2)
+  - [x] `a`: done
+    - [x] `references/r1.md`
+    - [x] `references/cat/README.md`: a catalogue
+      - [x] `one.md`
+  - [ ] `b`: not yet
+"""
+
+
+def test_todo_matches_the_files(tmp_path):
+    files = {"TODO.md": TODO, "a/SKILL.md": "x", "a/references/r1.md": "", "a/references/cat/README.md": "",
+             "a/references/cat/one.md": "", "b/SKILL.md": ""}
+    assert todo_problems(tree(tmp_path, files)) == []             # an empty SKILL.md is a stub, not a skill
+
+
+def test_todo_counts_unlisted_files_and_missing_ones(tmp_path):
+    files = {"TODO.md": TODO.replace("(1 / 2)", "(2 / 2)"), "a/SKILL.md": "x", "a/references/r1.md": "",
+             "a/references/cat/README.md": "", "a/references/extra.md": "", "b/SKILL.md": ""}
+    probs = todo_problems(tree(tmp_path, files))
+    assert any("says (2 / 2), counted (1 / 2)" in p for p in probs)
+    assert any("cat/one.md" in p and "exists=False" in p for p in probs)
+    assert any("extra.md" in p and "not in TODO" in p for p in probs)
+
+
+def test_a_test_command_must_bring_every_package_the_test_and_its_script_import(tmp_path):
+    from check_skills import test_command_problems
+    root = tree(tmp_path, {
+        "a/scripts/run.py": "import json\nimport numpy as np\nimport shapely\n\ndef main():\n    import pyarrow\ntry:\n    import tabpfn\nexcept ImportError:\n    pass\n",
+        "a/scripts/test_run.py": '"""uvx --from \'duckdb>=1.5.5\' --with scikit-learn --with pytest pytest test_run.py"""\nimport duckdb\nfrom sklearn import base\nfrom run import main\n',
+        "c/scripts/cli.py": "def main():\n    import pyarrow\n",
+        "c/scripts/test_cli.py": '"""uvx --with pytest pytest test_cli.py"""\nimport subprocess\nsubprocess.run(["python", "cli.py"])\n',
+        "b/scripts/go.py": "import yaml\n",
+        "b/scripts/test_go.py": '"""uvx --with pyyaml --with pytest pytest test_go.py"""\nfrom go import yaml\n',
+    })
+    probs = test_command_problems(root)
+    # numpy comes with scikit-learn; pyarrow inside a function counts only when the test runs the script as a
+    # command (c); tabpfn sits in a try block; shapely is imported at module level and is missing
+    assert sorted(probs) == ["a/scripts/test_run.py: the command lacks shapely", "c/scripts/test_cli.py: the command lacks pyarrow"]

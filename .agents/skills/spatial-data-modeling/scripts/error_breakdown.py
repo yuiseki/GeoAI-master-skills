@@ -42,6 +42,27 @@ def breakdown(target, pred, by, bins=5, weights=None):
     return rows
 
 
+def joined_rows(predictions, table, id_col, column, model, weight=None):
+    """One row per predicted id (target and prediction averaged over repeats) with the table's column.
+    Stops when a predicted id has no row in the table, or the table repeats an id."""
+    import duckdb
+
+    dup = duckdb.sql(f"""select count(*) - count(distinct cast("{id_col}" as varchar)) from '{table}'""").fetchone()[0]
+    if dup:
+        raise SystemExit(f"{id_col} repeats in {table}: {dup} duplicate rows")
+    cols = ["avg(p.target)", "avg(p.prediction)", f'any_value(t."{column}")']
+    if weight:
+        cols.append(f'any_value(t."{weight}")')
+    n_pred = duckdb.sql(f"select count(distinct id) from '{predictions}' where model = '{model}'").fetchone()[0]
+    rows = duckdb.sql(f"""
+        select {", ".join(cols)}
+        from '{predictions}' p join '{table}' t on cast(t."{id_col}" as varchar) = p.id
+        where p.model = '{model}' group by p.id""").fetchall()
+    if len(rows) != n_pred:
+        raise SystemExit(f"{model}: {n_pred - len(rows)} of {n_pred} predicted ids have no row in {table}")
+    return rows
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("predictions")
@@ -57,13 +78,7 @@ def main():
 
     models = [r[0] for r in duckdb.sql(f"select distinct model from '{a.predictions}' order by 1").fetchall()]
     for model in [a.model] if a.model else models:
-        cols = ["avg(p.target)", "avg(p.prediction)", f'any_value(t."{a.column}")']
-        if a.weight:
-            cols.append(f'any_value(t."{a.weight}")')
-        rows = duckdb.sql(f"""
-            select {", ".join(cols)}
-            from '{a.predictions}' p join '{a.table}' t on cast(t."{a.id}" as varchar) = p.id
-            where p.model = '{model}' group by p.id""").fetchall()
+        rows = joined_rows(a.predictions, a.table, a.id, a.column, model, a.weight)
         target = np.array([r[0] for r in rows], float)
         pred = np.array([r[1] for r in rows], float)
         by = np.array([r[2] for r in rows])

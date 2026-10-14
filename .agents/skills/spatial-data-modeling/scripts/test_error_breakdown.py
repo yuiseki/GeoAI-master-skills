@@ -33,3 +33,30 @@ def test_weights_enter_the_group_scores():
     (row,) = breakdown(target, pred, np.array(["a", "a", "a"]), weights=w)
     assert row["mae"] == pytest.approx((1 + 1 + 8) / 4)
     assert row["weight"] == pytest.approx(4.0)
+
+
+def _files(tmp_path, table_rows):
+    import duckdb
+    pred = tmp_path / "pred.parquet"
+    table = tmp_path / "table.parquet"
+    duckdb.sql(f"""copy (select * from (values (0, 'm', 'a', 1.0, 1.5), (0, 'm', 'b', 2.0, 2.0), (0, 'm', 'c', 3.0, 2.0))
+                   t(repeat, model, id, target, prediction)) to '{pred}' (format parquet)""")
+    vals = ", ".join(f"('{i}', '{g}')" for i, g in table_rows)
+    duckdb.sql(f"copy (select * from (values {vals}) t(id, region)) to '{table}' (format parquet)")
+    return str(pred), str(table)
+
+
+def test_every_predicted_id_must_find_its_row(tmp_path):
+    from error_breakdown import joined_rows
+    pred, table = _files(tmp_path, [("a", "x"), ("b", "y"), ("c", "y")])
+    assert len(joined_rows(pred, table, "id", "region", "m")) == 3
+    pred, table = _files(tmp_path, [("a", "x"), ("b", "y")])            # c has no row in the table
+    with pytest.raises(SystemExit):
+        joined_rows(pred, table, "id", "region", "m")
+
+
+def test_a_table_id_that_repeats_stops(tmp_path):
+    from error_breakdown import joined_rows
+    pred, table = _files(tmp_path, [("a", "x"), ("b", "y"), ("c", "y"), ("c", "z")])
+    with pytest.raises(SystemExit):
+        joined_rows(pred, table, "id", "region", "m")

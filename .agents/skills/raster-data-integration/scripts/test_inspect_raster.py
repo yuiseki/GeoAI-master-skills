@@ -1,4 +1,4 @@
-"""uvx --with rasterio --with pytest pytest test_inspect_raster.py"""
+"""uvx --with rasterio --with pyproj --with pytest pytest test_inspect_raster.py"""
 
 import numpy as np
 import pytest

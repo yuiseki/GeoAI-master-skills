@@ -1,4 +1,4 @@
-"""uvx --with duckdb --with scikit-learn --with pytest pytest test_make_folds.py"""
+"""uvx --with duckdb --with scikit-learn --with pyarrow --with pytest pytest test_make_folds.py"""
 
 import math
 

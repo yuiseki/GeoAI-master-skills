@@ -11,7 +11,7 @@ description: 分析に使えるデータセットを選び、そのレイヤー�
 ## 手順
 
 1. 問いから、必要な分析の単位 (国、州、都市の点、格子など) と時空間範囲を書き出す。
-2. 下の索引から候補のデータセットを選び、その reference を読む。同じデータが、版の固定された配布 (Hugging Face の版など) と、更新され続ける入口 (API、配布元のサイト) の両方にあるときは、reference が示す固定された配布を使う。別の入口を使うなら、理由と、版や日付の差を書く。更新される入口は、同じ条件で取り直しても同じ値が返る保証が無い。先頭の YAML frontmatter に、1 行が何を表すか、ID と結合キー、主な列の意味、範囲と時点が機械可読に書いてある。本文には読み方と既知の注意点がある。
+2. 索引 ([references/index.md](references/index.md)) から候補のデータセットを選び、その reference を読む。同じデータが、版の固定された配布 (Hugging Face の版など) と、更新され続ける入口 (API、配布元のサイト) の両方にあるときは、reference が示す固定された配布を使う。別の入口を使うなら、理由と、版や日付の差を書く。更新される入口は、同じ条件で取り直しても同じ値が返る保証が無い。先頭の YAML frontmatter に、1 行が何を表すか、ID と結合キー、主な列の意味、範囲と時点が機械可読に書いてある。本文には読み方と既知の注意点がある。
 3. 使うレイヤーを `scripts/profile_layer.py` で実測する。
 
    ```sh
@@ -83,42 +83,7 @@ tables:                          # catalog なら tables の代わりに access 
 
 ## 索引
 
-| reference | 中身 | 範囲 | 時点 |
-|---|---|---|---|
-| [natural-earth](references/natural-earth.md) | 国、州・省、都市、海岸線、陸海、湖、川、道路など | 全世界、1:10m〜1:110m | 2022-05 で止まっている |
-| [worldbank-wdi](references/worldbank-wdi.md) | 国 × 年の開発指標 約 1,400 | 国、座標なし | 1960〜2025、版ごと |
-| [ourairports](references/ourairports.md) | 空港、ヘリポート、飛行場の点と IATA / ICAO コード | 全世界の点 | 2026-08-31 で凍結 |
-| [ucdp-ged](references/ucdp-ged.md) | 組織的暴力の事件の点と死者数 | 全世界の点 (精度はまちまち) | 1989〜2025、版ごと |
-| [unhcr-refugee-stats](references/unhcr-refugee-stats.md) | 出身国 × 庇護国 × 年の難民などの人数 | 国の組、座標なし | 1951〜2025、版ごと |
-| [overture/](references/overture/README.md) | 目録。行政区域、道路と交差点、POI、建物など | 全世界 | 月ごとの版 |
-| [worldpop/](references/worldpop/README.md) | 目録。人口の格子 (100 m、1 km)、年齢・性別、都市化度 | 全世界、国ごと | 2015〜2030 |
-| [planetary-computer/](references/planetary-computer/README.md) | 目録。衛星画像、標高、土地被覆のラスタ (COG、匿名の SAS 署名が要る) | 全世界 | コレクションごと |
-| [mlit-nlftp/](references/mlit-nlftp/README.md) | 目録。国土数値情報 (鉄道、医療機関、浸水想定、将来推計人口など) | 日本 | 年ごと |
-| [tokyo-ckan/](references/tokyo-ckan/README.md) | 目録。東京都と区市町村のオープンデータ (施設一覧、統計表) | 東京都 | データセットごと |
-| [fao-ferspas/](references/fao-ferspas/README.md) | 目録。FAO の農業・食料・気候のラスタ (COG) | 全世界 | コレクションごと |
-| [jp-admin-2026-09](references/jp-admin-2026-09.md) | 都道府県と市区町村の面、コード、名前、2020 年の人口と世帯数 (CC BY 4.0) | 日本 | 名前 2026-09、面と人口 2020 |
-| [osm-japan-src-2026-08](references/osm-japan-src-2026-08.md) | OpenStreetMap の日本全国 (点、線、面、道路)。GeoParquet、EPSG:3857 | 日本 | 2026-08-31 で凍結 |
-| [mlit-toshi-keikaku-jp](references/mlit-toshi-keikaku-jp.md) | 都市計画決定GISデータ。用途地域 (容積率、建蔽率)、都市計画道路、公園、地区計画など 25 レイヤー | 日本 (自治体が提供した分) | 令和 7 年度版 |
-| [ekidata-jp](references/ekidata-jp.md) | 鉄道の事業者、路線、駅の点、隣り合う駅 (無料版。新幹線の駅なし) | 日本 | 2026-10-05 取得、版ごと |
-| [osm-tokyo23-src-2026-08](references/osm-tokyo23-src-2026-08.md) | OpenStreetMap の東京 23 区 (点、線、面、道路)。全国版と同じ列で約 30 分の 1 の大きさ。EPSG:3857 | 東京 23 区 | 2026-08-31 で凍結 |
-| [gsi-evacuation-sites-jp](references/gsi-evacuation-sites-jp.md) | 指定緊急避難場所 (災害の種類ごとの指定) と指定避難所の点 | 日本 | 2026-10-06 取得 |
-| [estat-census-mesh-2020](references/estat-census-mesh-2020.md) | 令和 2 年国勢調査の 1 km メッシュの統計 (人口、世帯、年齢、就業、住宅など 12 表) | 日本 | 2020-10-01 |
-| [gsi-dem-tiles](references/gsi-dem-tiles.md) | 国土地理院の標高タイル (ズームとタイル番号で 256 × 256 画素の標高をテキストで返す) | 日本の陸域 | 随時更新、2026-10-14 取得 |
-| [maddison-project](references/maddison-project.md) | 国ごとの 1 人あたり実質 GDP と人口の長期の推計 (2018、2020、2023 年版) | 世界の国 | 西暦 1〜2022 年 |
-| [worldpop/japan.md](references/worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
-
-## サービス
-
-データを持たずに、問いを投げて答えを得る自前のサービス。呼び方、制限、つまずきやすい点が [services/](references/services/README.md) にある。
-
-| reference | できること | 時点 |
-|---|---|---|
-| [overpass](references/services/overpass.md) | OSM の地物をタグと範囲で検索、集計する | 2025-09-14 で止まっている |
-| [nominatim](references/services/nominatim.md) | 地名から座標と OSM の ID を引く | 2025-09-14 で止まっている |
-| [valhalla](references/services/valhalla.md) | 経路の距離と所要時間 | 確かめていない |
-| [taginfo](references/services/taginfo.md) | OSM のタグの辞書と使用数 | 2026-01-29 まで |
-
-Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。
+使えるデータセット、目録、サービスの一覧は [references/index.md](references/index.md) にある。データセットが増えるたびに行が増えるので、この SKILL.md には置かない。
 
 ## 書き出すもの
 

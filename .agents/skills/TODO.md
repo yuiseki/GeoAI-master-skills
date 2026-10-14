@@ -1,5 +1,6 @@
 - データを知る (3 / 3)
   - [x] `dataset-discovery`: 使えるデータセットを選び、列、粒度、時空間範囲、注意点を実測する
+    - [x] `references/index.md`: データセット、目録、サービスの索引
     - [x] `references/natural-earth.md`
     - [x] `references/worldbank-wdi.md`
     - [x] `references/ourairports.md`
@@ -85,6 +86,7 @@
   - [x] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間の被覆率を、全体とグループごとに確かめる
     - [x] `references/calibration.md`
     - [x] `references/intervals.md`
+    - [x] `references/predictions-file.md`: 外側の予測の Parquet の形式
     - [x] 較正し直す (isotonic、Platt)、交差フィットと時間順
     - [x] 時間順の区間
     - [ ] 分位点の区間と CQR (006)
