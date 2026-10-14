@@ -74,3 +74,14 @@ def test_extract_task_returns_only_that_section():
     assert extract_task(text, 10) == "## 課題 10: c\n\nbody10\n"
     with pytest.raises(SystemExit):
         extract_task(text, 3)
+
+
+def test_prompt_workdir_overrides_the_path_in_the_prompt(repo, tmp_path):
+    (repo / "t.md").write_text("## 課題 1: a\n問い\n")
+    (repo / "tpl.md").write_text("at {{WORKDIR}} {{SHA}}\n{{TASK}}")
+    here = Path(__file__).parent
+    out = subprocess.run(
+        ["python", str(here / "prepare_workdir.py"), "HEAD", str(tmp_path / "w"), "--repo", str(repo),
+         "--task", str(repo / "t.md"), "--number", "1", "--template", str(repo / "tpl.md"),
+         "--prompt-workdir", "/work"], check=True, capture_output=True, text=True).stdout
+    assert out.startswith("at /work ")

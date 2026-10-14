@@ -18,6 +18,7 @@
 | `tasks/tasks.md` | 教科書的な課題 (問いと使い道だけ)。課題 1〜8 は、スキルを直すために結果を読んだので、評価としては汚染済み。課題 9〜11 は、直す前の保留 |
 | `tasks/rubric.md` | 課題ごとの、拾うべき落とし穴と実測値 (解答) |
 | `prompts/agent-task.md` | エージェントへの指示の雛形 (`{{WORKDIR}}`、`{{SHA}}`、`{{TASK}}`) |
+| `run_codex_docker.sh` | 作業場所を Docker (`../Dockerfile.evals.codex`) に閉じ込めて Codex を流す。CPU、メモリ、プロセス数の上限はここで強制する (テスト付き) |
 | `prepare_workdir.py` | エージェントの作業場所を、`evals/` なしで用意する (テスト付き) |
 | `results/agent-runs.md` | これまでの実行の一覧 (成果物の本体は、リポジトリの外) |
 | `results/overview.md` | 設計、結果、直したこと、残った隙のまとめ |
@@ -37,6 +38,34 @@
 3. 成果物を回収し、`tasks/rubric.md` で採点する。同じ課題を 2 回流し、再現を確かめる (コピーして流し直し、出力を比べる)。
 4. 禁止パスのコマンドの読み取りが 0 件かを、エージェントのログで確かめる。
 5. 結果を `results/` に書く。スキルあり、なし、の両方を同じ表に並べる。
+
+## Docker で流す
+
+エージェントの計算量を、プロンプトのお願いでなく、Docker (cgroup) で強制する。上限は eval の条件の一部で、スキルあり、なし (baseline) で同じにする。違ってよいのは、`prepare_workdir.py` が作る作業場所の中身だけ。
+
+| 固定するもの | 値 |
+|---|---|
+| イメージ | `geoai-skills-evals-codex` (Codex CLI は `CODEX_VERSION` で固定、既定 0.162.1。結果と一緒に版を記録する) |
+| CPU | `--cpuset-cpus=0-7 --cpus=8` (`EVAL_CPUSET` で、別の 8 論理 CPU に変えられる。並列に流すときに分ける) |
+| メモリ | `--memory=16g --memory-swap=16g` (swap に逃げない) |
+| プロセス数 | `--pids-limit=512` |
+| 権限 | `--cap-drop=ALL --security-opt=no-new-privileges`。非 root (`geo`) |
+| 環境変数 | `OMP_NUM_THREADS` など 4 つを 8 (協調の上限)。DuckDB は課題の指示で `SET threads=8` |
+| mount | 作業場所 → `/work` と、Codex の状態 `~/.codex-evals` → `/home/geo/.codex` だけ。元のリポジトリ、`evals/`、docker.sock、ホームは渡さない |
+
+```sh
+docker build -f Dockerfile.evals.codex -t geoai-skills-evals-codex .
+
+# 初回だけ: ログイン (認証は ~/.codex-evals に保存。イメージには入れない。普段の ~/.codex とは別)
+evals/run_codex_docker.sh --login
+
+# 作業場所と、/work を書いた指示文を作って流す (baseline は --baseline を付けるだけ)
+python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md --number 9 \
+  --template evals/prompts/agent-task.md --prompt-workdir /work > <指示文>
+evals/run_codex_docker.sh --prompt <指示文> <作業場所> -m gpt-6-luna -c model_reasoning_effort=medium
+```
+
+`--prompt` を付けないと、対話の Codex が `/work` で起動する。`--dry-run` で、実行する `docker run` を表示する。Codex の自前の sandbox は、`--cap-drop=ALL` では動かないので、`--dangerously-bypass-approvals-and-sandbox` で流す。コンテナが sandbox。ネットワークは開いている (データの取得とモデルの API に必要)。
 
 ## なぜ `evals/` を渡さないか
 

@@ -12,6 +12,7 @@ Usage:
 
 --baseline gives an empty working copy (only projects/), for measuring the agent without the skills.
 With --task and --template, the filled prompt is printed after the directory is prepared.
+--prompt-workdir /work puts that path in the prompt, for evals/run_codex_docker.sh.
 """
 
 import argparse
@@ -61,6 +62,8 @@ def main():
     p.add_argument("--task", help="the tasks file")
     p.add_argument("--number", type=int, help="which task in it")
     p.add_argument("--template")
+    p.add_argument("--prompt-workdir", help="the path to write into the prompt (default: DEST); "
+                   "/work when the agent runs in Docker")
     a = p.parse_args()
     prepare(a.repo, a.rev, a.dest, a.baseline)
     sha = subprocess.run(["git", "-C", a.repo, "rev-parse", "--short", a.rev], check=True,
@@ -68,7 +71,7 @@ def main():
     print(f"prepared {a.dest} from {sha}{' (baseline, no skills)' if a.baseline else ''}",
           file=sys.stderr)
     if a.task and a.template:
-        print(render_prompt(Path(a.template).read_text(), Path(a.dest).resolve(),
+        print(render_prompt(Path(a.template).read_text(), a.prompt_workdir or Path(a.dest).resolve(),
                             extract_task(Path(a.task).read_text(), a.number), sha))
 
 
