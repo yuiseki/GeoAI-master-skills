@@ -1,4 +1,4 @@
-- データを知る (2 / 2)
+- データを知る (3 / 3)
   - [x] `dataset-discovery`: 使えるデータセットを選び、列、粒度、時空間範囲、注意点を実測する
     - [x] `references/natural-earth.md`
     - [x] `references/worldbank-wdi.md`
@@ -26,6 +26,10 @@
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
+  - [x] `observation-bias-audit`: 記録の数や密度の違いが、現象の違いか、観測され記録されやすさの違いかを疑う。知りたい現象、発生の機会、記録の過程を分け、記録と観測の努力の関係を測る
+    - [x] `references/proxies.md`
+    - [ ] 独立した 2 つの記録の重なりの比較 (スクリプト)
+    - [ ] 記録される確率の模型 (ポアソン回帰の努力の項)。必要が実測されたら
 - 単位を決めて、データをそろえる (5 / 5)
   - [x] `analysis-unit-design`: 分析の 1 行が何を表すか (点、格子、行政区、国、地域の組、それぞれ × 時間) を決める
   - [x] `spatial-data-integration`: 包含、最近傍、キー、集計で複数の地理データを単位に結合し、全ての行を数える
