@@ -49,6 +49,7 @@
     - [x] `references/duckdb-spatial.md`
     - [x] `references/crs-and-datum.md`: 地理と投影、測地系、標高と楕円体高、座標の順
     - [x] `references/topology.md`: 述語の違い、重心と面の中の点、無効な形、隙間と重なり、精度
+    - [x] `references/spatiotemporal-alignment.md`: 3 つの時刻、ストックとフロー、as-of の結合、時間のリーク、境界とコードの変化 (align_time.py)
   - [x] `raster-data-integration`: 意味の決まったラスタ (人口、標高、土地被覆のクラスなど) を、点、格子、行政区に、NoData と範囲外を分けて集計し、総量と解像度による違いを確かめる。衛星画像の解析は扱わない
     - [x] `references/raster-semantics.md`
     - [x] `references/resampling.md`
