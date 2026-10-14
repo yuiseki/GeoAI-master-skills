@@ -100,6 +100,16 @@ evals/run_gemini_docker.sh --prompt <指示文> <作業場所> > <ログ.jsonl>
 
 rubric には答えが書いてある。エージェントが clone して、リポジトリの中を読むと、答えが見える。`prepare_workdir.py` は、`git archive` (`.gitattributes` の `evals/ export-ignore` を守る) で用意し、さらに `evals/` を自分で消す。属性が抜けても漏れない。maplibre-agent-skills は、モデルに SKILL.md だけをシステムプロンプトとして渡す方式 (promptfoo) なので、そもそもモデルが `evals/` を読めない。ここは、エージェントが作業場所を歩くので、作業場所から消す。
 
+## 正解と手間の両方を記録する
+
+採点 (rubric) は正解を見る。データ固有の罠や結合の鍵のように、だれかが一度はまって共有すれば済む知識は、強いエージェントなら自力でも正解にたどり着く。その場合、スキルの効き目は正解の数でなく、正解までの手間 (tokens、道具の呼び出し、失敗した呼び出し、時間) に出る。実行ごとに、次で手間も記録する。
+
+```bash
+python evals/effort.py RUN_DIR [RUN_DIR ...]   # 1 実行 1 行の TSV
+```
+
+実行のディレクトリは、`prompt.md`、`log` (エージェントの出力)、`exit` (終わったときに書く) を持つ。Codex の文字のログと、agy の stream-json の両方を読む。tokens は CLI ごとに数え方が違うので、同じエージェントの中だけで比べる。スキルありの tokens には、スキルを読む分が含まれる。
+
 ## 読むときの注意
 
 - 直すために読んだ課題では、効果を測らない。新しい課題 (保留) で測る。
