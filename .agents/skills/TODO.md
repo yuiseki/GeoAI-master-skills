@@ -20,6 +20,8 @@
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
     - [x] `references/jp-admin-2026-09.md`、`osm-japan-src-2026-08.md`、`mlit-toshi-keikaku-jp.md`、`ekidata-jp.md`、`worldpop/japan.md`: 日本の凍結データセット 5 件
+    - [x] `references/osm-tokyo23-src-2026-08.md`、`gsi-evacuation-sites-jp.md`、`estat-census-mesh-2020.md`: 日本の小さめのデータセット 3 件
+    - [x] `references/maddison-project.md`
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
