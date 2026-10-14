@@ -82,8 +82,8 @@ def test_default_model_is_a_weak_flash_with_low_effort_and_can_be_overridden(hom
 def test_prompt_runs_print_mode_with_a_structured_log(home, workdir, tmp_path):
     p = tmp_path / "p.md"
     p.write_text("go")
-    out = run("--prompt", str(p), "--dry-run", str(workdir), home=home, env=KEY).stdout
-    assert "agy --print - --output-format stream-json" in out
+    out = run("--prompt", str(p), "--dry-run", str(workdir), home=home, env=KEY).stdout.replace("\\", "")
+    assert "--print=" in out and "--output-format stream-json" in out and "--print -" not in out
 
 
 def test_refuses_a_workdir_holding_evals_or_git(home, workdir):
@@ -95,3 +95,43 @@ def test_refuses_the_everyday_gemini_dir(home, workdir):
     (home / ".gemini").mkdir()
     r = run("--dry-run", str(workdir), home=home, env={**KEY, "EVAL_GEMINI_HOME": str(home / ".gemini")})
     assert r.returncode == 2
+
+
+# OAuth sign-in: the key is not needed and not passed; the state directory holds the token.
+def with_token(home):
+    d = home / ".gemini-evals/antigravity-cli"
+    d.mkdir(parents=True)
+    (d / "antigravity-oauth-token").write_text("t")
+
+
+def test_oauth_needs_no_key_and_passes_none(home, workdir):
+    r = run("--auth", "oauth", "--dry-run", str(workdir), home=home, env=KEY)
+    assert r.returncode == 0, r.stderr
+    assert "-e GEMINI_API_KEY" not in r.stdout
+    assert '"modelProvider"' not in (home / ".gemini-evals/antigravity-cli/settings.json").read_text()
+
+
+def test_auth_is_oauth_by_default_when_a_token_exists(home, workdir):
+    with_token(home)
+    r = run("--dry-run", str(workdir), home=home, env=KEY)
+    assert r.returncode == 0 and "-e GEMINI_API_KEY" not in r.stdout and "auth: oauth" in r.stderr
+
+
+def test_auth_falls_back_to_the_key_without_a_token(home, workdir):
+    r = run("--dry-run", str(workdir), home=home, env=KEY)
+    assert "-e GEMINI_API_KEY " in r.stdout and "auth: api-key" in r.stderr
+
+
+def test_login_starts_an_interactive_agy_with_only_the_state_mounted(home):
+    r = run("--login", "--dry-run", home=home)
+    assert r.returncode == 0, r.stderr
+    assert " -it " in r.stdout and r.stdout.count(" -v ") == 1 and "/work" not in r.stdout
+    assert "--cpuset-cpus=0-7" in r.stdout and "-e GEMINI_API_KEY" not in r.stdout
+
+
+def test_oauth_default_model_has_the_effort_in_its_name_and_no_effort_flag(home, workdir):
+    out = run("--auth", "oauth", "--dry-run", str(workdir), home=home).stdout
+    assert "--model gemini-3.8-flash-low" in out and "--effort" not in out
+    out = run("--auth", "oauth", "--dry-run", str(workdir), home=home,
+              env={"EVAL_MODEL": "gemini-3.8-flash-medium"}).stdout
+    assert "--model gemini-3.8-flash-medium" in out
