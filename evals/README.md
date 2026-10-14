@@ -20,6 +20,7 @@
 | `prompts/agent-task.md` | エージェントへの指示の雛形 (`{{WORKDIR}}`、`{{SHA}}`、`{{TASK}}`) |
 | `prepare_workdir.py` | エージェントの作業場所を、`evals/` なしで用意する (テスト付き) |
 | `results/agent-runs.md` | これまでの実行の一覧 (成果物の本体は、リポジトリの外) |
+| `results/overview.md` | 設計、結果、直したこと、残った隙のまとめ |
 
 ## 評価の流れ
 
