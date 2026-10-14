@@ -9,7 +9,7 @@ description: 複数の地理データを、分析の単位として決めた単�
 
 ## 手順
 
-1. 結合する 2 つのデータについて、CRS の名前、座標の順、結合キーを確かめる。データセットの説明 (CRS、座標の順、結合キーの一致) と、このスキルの [references/duckdb-spatial.md](references/duckdb-spatial.md) を読む。
+1. 結合する 2 つのデータについて、CRS の名前、座標の順、結合キーを確かめる。データセットの説明 (CRS、座標の順、結合キーの一致) と、このスキルの [references/duckdb-spatial.md](references/duckdb-spatial.md) を読む。座標系と測地系 (地理と投影、測地系のずれ、座標の順、距離と面積に向く座標系) は [references/crs-and-datum.md](references/crs-and-datum.md)、述語の違い (contains と covers、touches)、重心、無効な形、隙間と重なりは [references/topology.md](references/topology.md)。
 2. 結合の種類を選ぶ (下の表)。
 3. 結合する。入力の各行を、ちょうど 1 つに入った、複数に入った、どれにも入らなかった、に分けて数える。
 4. どれにも入らなかった行を見る。種類、場所、値で偏っていないか。最寄りに割り当てるなら距離の上限を決め、割り当てた距離の分布を書く。

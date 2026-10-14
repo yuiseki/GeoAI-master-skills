@@ -17,6 +17,8 @@ description: 基準 (平均、グループ平均、線形) と同じ分割、同
 | [weights](references/weights.md) | 行ごとの重みで学習し採点する。実効的な標本の数 |
 | [error-analysis](references/error-analysis.md) | 誤差をグループや分位ごとに分けて、どこで外れているかを見る |
 | [spatial-regression](references/spatial-regression.md) | 残差に空間の偏りが残るときの、空間ラグモデル、空間誤差モデル、空間フィルタ、GWR の選び方 |
+| [count-modeling](references/count-modeling.md) | 件数と率: ポアソン回帰と offset、発生率比、過分散と負の二項、ゼロが多いとき (合成データの比較) |
+| [compositional](references/compositional.md) | 合計が一定の割合 (土地利用、年齢、産業の構成): 閉包、共線性、基準のカテゴリ、対数比、0 の扱い |
 
 言葉:
 - 分割表: 交差検証で、どの行を学習に、どの行を試験に使うかを書いたファイル。1 行が 1 つの (repeat、fold、id、role)。repeat は分け直しの回、fold はその回の何番目の分け、id は行の識別子、role は `train` (学習) か `test` (試験)。Parquet (列指向のファイル形式) で書く。

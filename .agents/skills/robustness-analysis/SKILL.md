@@ -10,6 +10,7 @@ description: 分析の結論を確かめられる式で書き、乱数の種、�
 | reference | 中身 |
 |---|---|
 | [maup](references/maup.md) | 集計の単位 (格子の大きさ、行政区の階層) で結果が変わる問題 |
+| [inference](references/inference.md) | 効果の大きさと有意、信頼区間、検出力、p 値の読み方、分析の自由度、探索と確認 (合成データの数字) |
 
 ## 手順
 

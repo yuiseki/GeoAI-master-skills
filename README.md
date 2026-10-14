@@ -48,6 +48,8 @@
 | 結論が単位の取り方に左右されないか確かめたい | robustness-analysis、analysis-unit-design |
 | どのデータを使えるか探したい | dataset-discovery、data-variable-semantics |
 | 記録が多い場所は、本当に現象が多いのか、観測されやすいだけなのか確かめたい | observation-bias-audit |
+| このデータの品質 (位置の正確さ、欠け、新しさ) で、結論を支えられるか確かめたい | data-quality-audit |
+| これから観測する地点を、どこに、何地点、どう選ぶか決めたい | spatial-sampling-design |
 
 ## 何が入っているか
 
@@ -55,7 +57,7 @@
 
 | 段階 | 答える問い | スキル |
 |---|---|---|
-| データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか。記録の多さは現象の多さか、観測のされやすさか | dataset-discovery、data-variable-semantics、observation-bias-audit |
+| データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか。その品質で結論を支えられるか。記録の多さは現象の多さか、観測のされやすさか。これから観測するならどこを測るか | dataset-discovery、data-variable-semantics、data-quality-audit、observation-bias-audit、spatial-sampling-design |
 | 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。境界の違う区域の値をどう移すか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、areal-interpolation、spatial-feature-engineering |
 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか。結論は頑健か | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatial-interpolation、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation、robustness-analysis |
 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis |

@@ -1,4 +1,4 @@
-- データを知る (3 / 3)
+- データを知る (5 / 5)
   - [x] `dataset-discovery`: 使えるデータセットを選び、列、粒度、時空間範囲、注意点を実測する
     - [x] `references/index.md`: データセット、目録、サービスの索引
     - [x] `references/natural-earth.md`
@@ -27,6 +27,13 @@
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
+    - [x] `references/missingness.md`: 欠測、0、検出の限界、打ち切りの区別と扱い方
+  - [x] `data-quality-audit`: このデータの品質で、この分析の結論を支えられるかを判断する。位置と属性の正確さ、一貫性、完全性、時間、来歴、使ってよいか
+    - [x] `references/positional-error.md`: 位置の誤差の測り方と、バッファ、最寄り、重ね合わせへの影響 (駅の実測、合成)
+  - [x] `spatial-sampling-design`: どこを、何地点、どう観測するか。枠、単純無作為、格子、層別、集落、空間的に均衡した抽出、包含確率、行きやすさの偏り
+    - [x] `references/designs.md`: 同じ 100 地点での方法ごとの精度と偏り (合成)
+    - [ ] 標本の大きさの計算 (精度の目標から)
+    - [ ] 一般化ランダム層別 (GRTS) と、均衡した抽出の分散の推定
   - [x] `observation-bias-audit`: 記録の数や密度の違いが、現象の違いか、観測され記録されやすさの違いかを疑う。知りたい現象、発生の機会、記録の過程を分け、記録と観測の努力の関係を測る
     - [x] `references/proxies.md`
     - [ ] 独立した 2 つの記録の重なりの比較 (スクリプト)
@@ -35,6 +42,8 @@
   - [x] `analysis-unit-design`: 分析の 1 行が何を表すか (点、格子、行政区、国、地域の組、それぞれ × 時間) を決める
   - [x] `spatial-data-integration`: 包含、最近傍、キー、集計で複数の地理データを単位に結合し、全ての行を数える
     - [x] `references/duckdb-spatial.md`
+    - [x] `references/crs-and-datum.md`: 地理と投影、測地系、標高と楕円体高、座標の順
+    - [x] `references/topology.md`: 述語の違い、重心と面の中の点、無効な形、隙間と重なり、精度
   - [x] `raster-data-integration`: 意味の決まったラスタ (人口、標高、土地被覆のクラスなど) を、点、格子、行政区に、NoData と範囲外を分けて集計し、総量と解像度による違いを確かめる。衛星画像の解析は扱わない
     - [x] `references/raster-semantics.md`
     - [x] `references/resampling.md`
@@ -65,6 +74,8 @@
     - [x] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR の選び方 (実装はしていない)
     - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
     - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE
+    - [x] `references/count-modeling.md`: 件数と率、ポアソンと offset、過分散と負の二項、ゼロが多いとき
+    - [x] `references/compositional.md`: 合計が一定の割合、閉包、基準のカテゴリ、対数比
   - [x] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
     - [x] `references/baselines.md`
     - [x] `references/ets.md`
@@ -87,6 +98,7 @@
     - [x] `references/calibration.md`
     - [x] `references/intervals.md`
     - [x] `references/predictions-file.md`: 外側の予測の Parquet の形式
+    - [x] `references/input-uncertainty.md`: 入力と前処理の不確かさが後へ伝わること
     - [x] 較正し直す (isotonic、Platt)、交差フィットと時間順
     - [x] 時間順の区間
     - [ ] 分位点の区間と CQR (006)
@@ -98,11 +110,12 @@
     - [x] 行ごとの部分依存の曲線 (ICE)
   - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
     - [x] `references/maup.md`
+    - [x] `references/inference.md`: 効果の大きさと有意、検出力、分析の自由度、探索と確認
     - [x] 格子の原点をずらす区切り方の効果
 - 構造を探す (5 / 5)
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
     - [x] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
-    - [ ] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み
+    - [x] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み (Queen と Rook、島、成分。contiguity.py)
   - [x] `clustering-analysis`: 似た単位の群に分けられるか。群が戻ってくるか、既知の区分と何が違うか
     - [x] `references/kmeans.md`
     - [x] `references/density-based.md`

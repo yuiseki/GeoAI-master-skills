@@ -11,6 +11,7 @@ description: モデルの不確かさを信じてよいかを確かめる。分�
 |---|---|
 | [calibration](references/calibration.md) | 分類の確率。モデルが 0.3 と言った行の 3 割が陽性か |
 | [intervals](references/intervals.md) | 回帰の予測区間。90% の区間が 9 割の行を覆うか |
+| [input-uncertainty](references/input-uncertainty.md) | 入力と前処理 (位置の誤差、按分の推定、分類の誤り) の不確かさが後の段階へ伝わること。固定すると区間が狭すぎる |
 
 ## 手順
 
