@@ -56,15 +56,24 @@ tables:
   - name: admin_level
     type: VARCHAR
     meaning: 行政区域の階層 (2 が国、4 が都道府県、7 が市区町村と東京の特別区)。boundary が administrative の行で意味を持つ
+    note: OSM の行政区域は公式の境界ではない。市区町村の人口や面積を出すなら、人口のある jp-admin-2026-09 の面を使う
+  - name: building
+    type: VARCHAR
+    meaning: 建物のタグ。値は建物の種類 (yes、house、apartments など)
+    missing: NULL は建物でない面 (土地利用、行政区域など)
+    note: 建物は building が NULL でない 29,898,443 行 (2026-10-14 実測)。値は yes が 83%、house が 10%。osm_id が負の行 (リレーションのマルチポリゴン) が 25,120 行 (0.08%) あり、同じ osm_id が複数行になる。建物の数は count(distinct osm_id) で数える (異なる osm_id は 29,896,586)。osm_id > 0 で絞ると、リレーションの建物 23,263 を落とす
   - name: way
     type: geometry:EPSG:3857
     meaning: 面 (EPSG:3857。メートルだが、実際の長さとは緯度で違う)
+    note: 面積や長さを 3857 のまま測らない (東京で長さ約 1.24 倍、面積はその 2 乗)。ST_Transform で経度、緯度に直すときは always_xy := true を付ける。付けないと緯度、経度の順の点になり、エラーにならずに別の場所を指す
   - name: tags
     type: VARCHAR
     meaning: osm2pgsql が列にしなかったタグ。JSON の文字列
+    note: 取り出しは (tags->>'キー') と、括弧を付ける。タグだけの条件では、行グループを飛ばせず、全体を読む
   - name: bbox
     type: STRUCT
     meaning: way の外接矩形 (EPSG:3857)。範囲での絞り込みに使う
+    note: 範囲で絞るときは、この列の xmin、ymin、xmax、ymax を条件にする。ファイルはヒルベルト曲線の順で、行グループを飛ばせる
 - name: planet_osm_roads
   read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_roads.parquet
   grain: 縮尺の小さい地図に出す道路の線
