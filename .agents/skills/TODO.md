@@ -32,7 +32,7 @@
     - [x] `references/positional-error.md`: 位置の誤差の測り方と、バッファ、最寄り、重ね合わせへの影響 (駅の実測、合成)
   - [x] `spatial-sampling-design`: どこを、何地点、どう観測するか。枠、単純無作為、格子、層別、集落、空間的に均衡した抽出、包含確率、行きやすさの偏り
     - [x] `references/designs.md`: 同じ 100 地点での方法ごとの精度と偏り (合成)
-    - [ ] 標本の大きさの計算 (精度の目標から)
+    - [x] `references/sample-size.md`: 標本の大きさの計算 (精度の目標から、sample_size.py)
     - [ ] 一般化ランダム層別 (GRTS) と、均衡した抽出の分散の推定
   - [x] `observation-bias-audit`: 記録の数や密度の違いが、現象の違いか、観測され記録されやすさの違いかを疑う。知りたい現象、発生の機会、記録の過程を分け、記録と観測の努力の関係を測る
     - [x] `references/proxies.md`
@@ -140,7 +140,7 @@
   - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る
     - [x] `references/building-the-graph.md`
     - [x] `references/measures.md`
-    - [ ] 一方通行と曲がれない交差点、速度から時間
+    - [x] `references/directions-and-time.md`: 一方通行と曲がれない交差点、速度から時間 (routing.py)
     - [x] 出発地と目的地の表から距離行列を書き出すコマンド (spatial-optimization の入力)
   - [x] `spatial-optimization`: 定式化、MILP と発見的な解、選んだ解からの目的の計算し直し、設定を変えたときの答えの変わり方
     - [x] `references/p-median.md`

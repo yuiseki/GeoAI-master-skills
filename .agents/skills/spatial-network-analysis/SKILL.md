@@ -19,6 +19,8 @@ description: 道路などの線のデータからネットワークを作り、�
 3. `scripts/road_network.py build` で、動くものに合った道の種類だけでネットワークを作る。連結成分の数と、最大の成分の割合を見る。
 4. 点 (出発地、目的地) を最大の連結成分の節点に寄せ、寄せた距離を書く。寄せた距離が大きい点は、道路の無い場所か、範囲の外にある。
 5. 測る (到達圏、迂回率、距離行列)。たどり着けない組は、数を書き、0 や大きな値で埋めない。
+   - 車や自転車の経路なら、向き (一方通行) を入れる。`road_network.py` のネットワークは向きが無いので、結論に効く組を `scripts/routing.py` で向きと曲がれない交差点を入れて測り直し、差を書く。
+   - 「何分か」を問うなら、重みを時間にする。速度の出どころ (タグか、道の種類からの仮定か) と、仮定した arc の数を書く。最短の道のりと最短の時間の経路は違う ([directions-and-time](references/directions-and-time.md))。
 6. 書き出す。
 
 ```sh
@@ -37,11 +39,13 @@ uvx ... python scripts/road_network.py matrix tmp/walk_edges.parquet tmp/walk_no
 
 テストは `uvx --with numpy --with scipy --with scikit-learn --with shapely --with duckdb --with pytest pytest scripts/test_road_network.py`。線の長さが大円距離であること、線を connector の位置で切り、並びが順でなくても正しく切ること、折れ線の後の区間の上の connector をその区間に置くこと、最短経路が共有の connector を通ること、つながらない組が無限大であること、点を大円距離で最寄りの節点に寄せ、孤立した小片を避けられること、同じ 2 点を結ぶ道が 2 本あれば短いほうを使うことを確かめている。connector を並べ替えない、寄せるときに経度と緯度を取り違える、平行な道の長いほうを取る、節点を最初の区間にしか置かない、のそれぞれで落ちることを確かめてある。
 
+`routing.py` のテストは `uvx --with numpy --with pytest pytest scripts/test_routing.py`。一方通行を無視すると走れない経路ができること、曲がれない交差点で近道が消えること、U ターンを許すかで届くかが変わること、最短の道のりと最短の時間の経路が違うこと、mph の換算、速度の無い道で止まること、モードで入る道が違うこと、届かない組が無限大であること、寄せた距離が上限を超えた点に印が付くことを確かめている。
+
 ## まだできないこと
 
-- 一方通行と、曲がれない交差点 (`prohibited_transitions`)。ネットワークは向きの無いグラフ。車の道のりは実際より短く出うる。
-- 速度。道のりの距離だけで、時間ではない。`speed_limits` と道の種類から時間にするのは未実装。
+- `road_network.py` (Overture) のネットワークは向きの無いグラフで、`access_restrictions`、`prohibited_transitions`、`speed_limits` を読まない。向きと曲がれない交差点と時間は、`routing.py` に辺を渡して小さな範囲で測る。
 - 高さ (`level_rules`)。立体交差でも、connector を共有していればつながる。共有していなければつながらない (Overture の側でそう表されている)。
+- 信号、混雑、曲がる時間。時間は上限の速さで走ったときの値。
 
 ## 書き出すもの
 
@@ -49,4 +53,5 @@ uvx ... python scripts/road_network.py matrix tmp/walk_edges.parquet tmp/walk_no
 - 節点、辺、総延長、連結成分の数と最大の成分の割合
 - 点の寄せた距離、最大の成分に寄せ直した点
 - 測ったもの (到達圏、迂回率、距離) と、たどり着けない組の数
+- モード、向きと曲がれない交差点を入れたか、速度の出どころと仮定した arc の数
 - まだできないことのうち、結論に効きうるもの
