@@ -103,6 +103,7 @@ tables:                          # catalog なら tables の代わりに access 
 | [osm-tokyo23-src-2026-08](references/osm-tokyo23-src-2026-08.md) | OpenStreetMap の東京 23 区 (点、線、面、道路)。全国版と同じ列で約 30 分の 1 の大きさ。EPSG:3857 | 東京 23 区 | 2026-08-31 で凍結 |
 | [gsi-evacuation-sites-jp](references/gsi-evacuation-sites-jp.md) | 指定緊急避難場所 (災害の種類ごとの指定) と指定避難所の点 | 日本 | 2026-10-06 取得 |
 | [estat-census-mesh-2020](references/estat-census-mesh-2020.md) | 令和 2 年国勢調査の 1 km メッシュの統計 (人口、世帯、年齢、就業、住宅など 12 表) | 日本 | 2020-10-01 |
+| [gsi-dem-tiles](references/gsi-dem-tiles.md) | 国土地理院の標高タイル (ズームとタイル番号で 256 × 256 画素の標高をテキストで返す) | 日本の陸域 | 随時更新、2026-10-14 取得 |
 | [maddison-project](references/maddison-project.md) | 国ごとの 1 人あたり実質 GDP と人口の長期の推計 (2018、2020、2023 年版) | 世界の国 | 西暦 1〜2022 年 |
 | [worldpop/japan.md](references/worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
 

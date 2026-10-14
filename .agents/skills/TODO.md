@@ -22,6 +22,7 @@
     - [x] `references/jp-admin-2026-09.md`、`osm-japan-src-2026-08.md`、`mlit-toshi-keikaku-jp.md`、`ekidata-jp.md`、`worldpop/japan.md`: 日本の凍結データセット 5 件
     - [x] `references/osm-tokyo23-src-2026-08.md`、`gsi-evacuation-sites-jp.md`、`estat-census-mesh-2020.md`: 日本の小さめのデータセット 3 件
     - [x] `references/maddison-project.md`
+    - [x] `references/gsi-dem-tiles.md`
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
@@ -43,7 +44,7 @@
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)
-- 予測して、評価を疑う (9 / 9)
+- 予測して、評価を疑う (10 / 10)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
@@ -66,6 +67,12 @@
     - [ ] SARIMA
     - [x] 系列ごとの平均の方へ縮める前の期間 (shrunk_to_own_mean)
     - [ ] `references/timesfm.md`: TimesFM 2.5 (Apache 2.0)。3.0 は非商用
+  - [x] `spatial-interpolation`: 地点で観測した連続的な値から、観測していない地点の値を推定する。平均と最近傍を基準に IDW と通常クリギングを比べ、予測地点の離れ方に合わせた分け方で評価し、凸包の中と外、距離ごとに誤差を分ける
+    - [x] `references/evaluation.md`
+    - [x] `references/kriging.md`
+    - [ ] 大域的な勾配を除いてから補間する (回帰クリギング、ユニバーサルクリギング)
+    - [ ] 異方性
+    - [ ] 予測地点までの距離に合わせた分け方を、スクリプトの分け方に足す
   - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する
   - [x] `noise-ceiling-analysis`: 目的変数の雑音から、どんなモデルでも超えられない点数の上限 (天井) を見積もる
     - [x] `references/repeat.md`
