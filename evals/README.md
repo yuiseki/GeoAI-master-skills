@@ -18,6 +18,7 @@
 | `tasks/tasks.md` | 教科書的な課題 (問いと使い道だけ)。課題 1〜8 は、スキルを直すために結果を読んだので、評価としては汚染済み。課題 9〜11 は、直す前の保留 |
 | `tasks/rubric.md` | 課題ごとの、拾うべき落とし穴と実測値 (解答) |
 | `prompts/agent-task.md` | エージェントへの指示の雛形 (`{{WORKDIR}}`、`{{SHA}}`、`{{TASK}}`) |
+| `run_gemini_docker.sh` | 同じ条件で、Gemini を流す (中で使う CLI は Antigravity CLI の `agy`)。イメージは `../Dockerfile.evals.gemini` |
 | `run_codex_docker.sh` | 作業場所を Docker (`../Dockerfile.evals.codex`) に閉じ込めて Codex を流す。CPU、メモリ、プロセス数の上限はここで強制する (テスト付き) |
 | `prepare_workdir.py` | エージェントの作業場所を、`evals/` なしで用意する (テスト付き) |
 | `results/agent-runs.md` | これまでの実行の一覧 (成果物の本体は、リポジトリの外) |
@@ -66,6 +67,32 @@ evals/run_codex_docker.sh --prompt <指示文> <作業場所> -m gpt-6-luna -c m
 ```
 
 `--prompt` を付けないと、対話の Codex が `/work` で起動する。`--dry-run` で、実行する `docker run` を表示する。Codex の自前の sandbox は、`--cap-drop=ALL` では動かないので、`--dangerously-bypass-approvals-and-sandbox` で流す。コンテナが sandbox。ネットワークは開いている (データの取得とモデルの API に必要)。
+
+## Gemini で流す (Gemini eval)
+
+Codex と同じ課題、同じ作業場所、同じ CPU とメモリの条件で、Gemini を流して比べる。中で動かす CLI は Antigravity CLI (`agy`) だが、評価の名前は「Gemini eval」にそろえる。Codex 用と同じ分析ライブラリの版 (rasterio 1.4.1 を含む) なので、違うのはモデルと CLI だけ。
+
+| 固定するもの | 値 |
+|---|---|
+| イメージ | `geoai-skills-evals-gemini`。`agy` の版は `AGY_VERSION` で固定 (既定 1.3.5)。公式のインストーラは最新を入れ、`agy` は自己更新もするので、版が違うとビルドが失敗する。上げるときは `--build-arg AGY_VERSION=...` で意図して上げ、結果と一緒に版を記録する。root で入れるので、実行中の自己更新はできない |
+| モデルと effort | `gemini-3.6-flash`、`low` (`EVAL_MODEL`、`EVAL_EFFORT`。`agy models` で一覧)。baseline とスキルありで同じにする |
+| CPU、メモリ、プロセス数、権限、mount | Codex と同じ (上の表) |
+| ログ | `--prompt` で、構造化ログ (stream-json) が標準出力に出る |
+
+```sh
+docker build -f Dockerfile.evals.gemini -t geoai-skills-evals-gemini .
+
+# API キー: .env (git に入れない。.env.example を写す) か、環境変数の GEMINI_API_KEY (または GOOGLE_GENERATIVE_AI_API_KEY)
+cp .env.example .env   # 値を書く
+
+python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md --number 9 \
+  --template evals/prompts/agent-task.md --prompt-workdir /work > <指示文>
+evals/run_gemini_docker.sh --prompt <指示文> <作業場所> > <ログ.jsonl>
+```
+
+キーは名前だけを読み、`docker run -e GEMINI_API_KEY` で渡す。イメージ、`/work`、コマンドラインには入らない。`.env` の、ほかの値は読まない。ただし、エージェントはコンテナの中で、そのキーを環境変数として見られる。使用量の上限を付けたキーを使うこと。キーのプロジェクトに課金の残高が無いと `Error 402 (prepayment credits are depleted)` で止まる。
+
+Gemini の状態は `~/.gemini-evals` (普段の `~/.gemini` とは別)。設定 (`modelProvider: gemini`) は、実行のたびに書き直す。`--dry-run` で、実行する `docker run` を表示する。
 
 ## なぜ `evals/` を渡さないか
 
