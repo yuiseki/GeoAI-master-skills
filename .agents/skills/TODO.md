@@ -75,7 +75,8 @@
     - [x] `references/tree-modeling.md`
     - [x] `references/boosting-modeling.md`
     - [x] `references/foundation-modeling.md`
-    - [x] `references/classification.md`
+    - [x] `references/classification.md`: 二値と多クラス (macro F1、balanced accuracy、クラスごとの指標、稀なクラス)
+    - [x] `references/panel-data.md`: 同じ単位の繰り返しの観測。固定効果、クラスタの標準誤差、ラグ (panel_fit.py)
     - [x] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR の選び方 (実装はしていない)
     - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
     - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE
