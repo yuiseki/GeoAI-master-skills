@@ -23,10 +23,16 @@
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
-- 単位を決めて、データをそろえる (3 / 3)
+- 単位を決めて、データをそろえる (4 / 4)
   - [x] `analysis-unit-design`: 分析の 1 行が何を表すか (点、格子、行政区、国、地域の組、それぞれ × 時間) を決める
   - [x] `spatial-data-integration`: 包含、最近傍、キー、集計で複数の地理データを単位に結合し、全ての行を数える
     - [x] `references/duckdb-spatial.md`
+  - [x] `raster-data-integration`: 意味の決まったラスタ (人口、標高、土地被覆のクラスなど) を、点、格子、行政区に、NoData と範囲外を分けて集計し、総量と解像度による違いを確かめる。衛星画像の解析は扱わない
+    - [x] `references/raster-semantics.md`
+    - [x] `references/resampling.md`
+    - [x] `references/zonal-aggregation.md`
+    - [ ] 時間の次元を持つラスタ (月ごとの気温など) の期間の集計
+    - [ ] 面積の割合を、多角形と画素の交差で正確に測る方法との比較
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)

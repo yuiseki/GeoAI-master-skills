@@ -42,6 +42,7 @@
 | 点 (施設、事件) が集まっているか知りたい | point-pattern-analysis |
 | 歩いて何分か、道のりで測りたい | spatial-network-analysis |
 | 施設をどこに置くか決めたい | spatial-optimization |
+| 人口や標高、土地被覆のラスタを、区や格子や地点に集計したい | raster-data-integration、analysis-unit-design |
 | 結論が単位の取り方に左右されないか確かめたい | robustness-analysis、analysis-unit-design |
 | どのデータを使えるか探したい | dataset-discovery、data-variable-semantics |
 
@@ -52,7 +53,7 @@
 | 段階 | 答える問い | スキル |
 |---|---|---|
 | データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか | dataset-discovery、data-variable-semantics |
-| 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、spatial-feature-engineering |
+| 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、spatial-feature-engineering |
 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか。結論は頑健か | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation、robustness-analysis |
 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis |
 | ネットワークと最適化 | 実際に歩いて何分か。施設をどこに置くか | spatial-network-analysis、spatial-optimization |

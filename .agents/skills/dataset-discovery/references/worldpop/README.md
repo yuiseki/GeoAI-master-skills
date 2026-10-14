@@ -38,6 +38,7 @@ children:
 - コレクションのライセンスは CC-BY-4.0 (`JPN` で確かめた)。
 - item の `project` がプロダクト: `Population`、`Age and Sex Structures`、`Degree of Urbanisation`。日本は 80 item で、総人口 32 (16 年 × 100 m と 1 km)、年齢・性別 32、都市化度 16 (2026-10-10)。
 - item には `year`、画素の大きさ (`data:pixel_size`)、欠損値 (`data:nodata_value`)、型、座標系、ファイルの大きさ、版 (`Release`、`Version`) がある。
+- item の説明 (`description`) は、解像度を取り違えていることがある。日本の 2020 年の 1 km の item の説明は「3 arc (約 100 m)」と書いている (2026-10-14)。解像度は `data:pixel_size` とファイルで確かめる。
 
 ```
 https://api.stac.worldpop.org/collections/JPN/items?limit=100

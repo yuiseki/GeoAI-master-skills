@@ -17,7 +17,7 @@
 1. 問いと使い道を 1 行で書く。「何を、どの単位で、何のために予測する (または知る) か」。使い道は評価の分け方を決める。
 2. データを知る。使うデータセットを選び、列、粒度、範囲、注意点を実データで測る (`dataset-discovery`)。変数が問いの言葉と同じものを指すかを、定義と実データで照合する (`data-variable-semantics`)。
 3. 単位を決める (`analysis-unit-design`)。標本の数、0 の割合、位置の精度、単位の選び方による結論の変化 (MAUP) を数える。
-4. データをそろえる。複数のデータを単位に結合し、全ての行を数える (`spatial-data-integration`)。特徴量を作る (`spatial-feature-engineering`)。
+4. データをそろえる。複数のデータを単位に結合し、全ての行を数える (`spatial-data-integration`)。ラスタ (人口、標高、土地被覆のクラスなど) の値を単位に集めるなら、画素の意味 (量か水準かクラスか、NoData は何か) を先に決め、NoData と範囲外を分けて数え、量なら総量を照合する (`raster-data-integration`)。特徴量を作る (`spatial-feature-engineering`)。
 5. 予測が問いなら:
    1. 分布、欠損、相関を見て、基準の点数を出す (`eda-and-baseline`)。
    2. 使い道から評価の分け方を決め、分割表を 1 つ作る (`cross-validation-design`)。
