@@ -127,6 +127,8 @@ def main():
         raise SystemExit("some rows have a missing value; drop them before making the folds")
     ids = np.array([r[0] for r in rows])
     y = np.array([r[1] for r in rows], float if a.task == "regression" else int)
+    if a.task == "classification" and set(np.unique(y).tolist()) - {0, 1}:
+        raise SystemExit("this script scores classification by AUC and takes a 0/1 target only")
     X = np.array([r[2:] for r in rows], float)
     folds = load_folds(a.folds_file, ids)
     metric = "AUC" if a.task == "classification" else "R2"

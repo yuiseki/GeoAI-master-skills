@@ -13,7 +13,7 @@ description: 基準 (平均、グループ平均、線形) と同じ分割、同
 | [tree-modeling](references/tree-modeling.md) | 決定木、ランダムフォレスト。非線形と相互作用、しきい値 |
 | [boosting-modeling](references/boosting-modeling.md) | HistGradientBoosting、XGBoost、LightGBM、CatBoost |
 | [foundation-modeling](references/foundation-modeling.md) | TabPFN、TimesFM などの事前学習モデル。版ごとのライセンス |
-| [classification](references/classification.md) | 目的変数がカテゴリのときに、どのモデルにも加わる論点 |
+| [classification](references/classification.md) | 目的変数がカテゴリのときに、どのモデルにも加わる論点。多クラスの指標、稀なクラス、argmax、空間的に固まったクラス |
 | [weights](references/weights.md) | 行ごとの重みで学習し採点する。実効的な標本の数 |
 | [error-analysis](references/error-analysis.md) | 誤差をグループや分位ごとに分けて、どこで外れているかを見る |
 | [spatial-regression](references/spatial-regression.md) | 残差に空間の偏りが残るときの、空間ラグモデル、空間誤差モデル、空間フィルタ、GWR の選び方 |
@@ -51,7 +51,7 @@ uvx --with duckdb --with scikit-learn python scripts/compare_models.py tmp/table
 
 表は、使う列に欠損の無い行だけにしておく。分割表もその表から作る。分割表の id がデータの行に無いと止まる。
 
-分類は `--task classification` で、目的変数は 0/1。基準は `prior` (学習側のクラスの割合)。
+分類は `--task classification` で、目的変数が 0/1 なら二値、それ以外のラベルなら多クラス (macro F1、balanced accuracy、クラスごとの precision と recall も出す)。基準は `prior` (学習側のクラスの割合)。
 
 テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_compare_models.py`。学習データを丸暗記するモデルで、試験側の行が学習に入っていないことを確かめている。全行で学習する、グループ平均を学習側から取らない、1 つの repeat で同じ行を 2 回試験する、試験されない行を採点に入れる、のそれぞれで落ちることを確かめてある。
 

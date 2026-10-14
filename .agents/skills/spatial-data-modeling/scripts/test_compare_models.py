@@ -9,7 +9,7 @@ import pytest
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.model_selection import GroupKFold, KFold, StratifiedKFold
 
-from compare_models import MODELS, TABPFN_V2_WEIGHTS, load_folds, oof_predict, run
+from compare_models import MODELS, TABPFN_V2_WEIGHTS, load_folds, oof_predict, run, score
 
 OPTIONAL = {"tabpfn_v2"}
 
@@ -216,3 +216,68 @@ def test_effective_sample_size_of_weights():
     assert effective_n(np.ones(10)) == pytest.approx(10)
     assert effective_n(np.r_[np.ones(9), 0.0]) == pytest.approx(9)
     assert effective_n(np.r_[100.0, np.ones(99)]) == pytest.approx(199 ** 2 / (100 ** 2 + 99))
+
+
+# Multiclass. 100 rows: 90 of class 0, 9 of class 1, 1 of class 2; counts worked out by hand.
+Y3 = np.array([0] * 90 + [1] * 9 + [2])
+
+
+def probs(predicted):
+    """0.8 on the predicted class, 0.1 on each of the other two."""
+    p = np.full((len(predicted), 3), 0.1)
+    p[np.arange(len(predicted)), predicted] = 0.8
+    return p
+
+
+def test_majority_prediction_looks_accurate_but_macro_f1_shows_the_failure():
+    s = score(Y3, np.tile([0.9, 0.09, 0.01], (100, 1)), "classification")
+    assert s["accuracy"] == pytest.approx(0.90)
+    assert s["balanced_accuracy"] == pytest.approx(1 / 3)
+    assert s["macro_f1"] == pytest.approx((180 / 190) / 3)  # class 0: P 0.9, R 1; classes 1 and 2: 0
+    assert s["weighted_f1"] == pytest.approx(0.9 * 180 / 190)
+    assert s["log_loss"] == pytest.approx(-(0.9 * np.log(0.9) + 0.09 * np.log(0.09) + 0.01 * np.log(0.01)))
+    assert s["recall[2]"] == 0 and s["f1[2]"] == 0
+
+
+def test_accuracy_picks_the_model_that_never_finds_the_rare_class_and_macro_f1_does_not():
+    # A: all of class 0, 5 of 9 of class 1, never class 2. B: 85 of 90, 7 of 9, and the one row of class 2.
+    a = np.array([0] * 90 + [1] * 5 + [0] * 4 + [0])
+    b = np.array([0] * 85 + [1] * 5 + [1] * 7 + [0] * 2 + [2])
+    sa, sb = score(Y3, probs(a), "classification"), score(Y3, probs(b), "classification")
+    assert (sa["accuracy"], sb["accuracy"]) == (pytest.approx(0.95), pytest.approx(0.93))
+    assert sa["macro_f1"] == pytest.approx((180 / 185 + 10 / 14 + 0) / 3)
+    assert sb["macro_f1"] == pytest.approx((170 / 177 + 14 / 21 + 1) / 3)
+    assert sa["balanced_accuracy"] == pytest.approx((1 + 5 / 9 + 0) / 3)
+    assert sb["balanced_accuracy"] == pytest.approx((85 / 90 + 7 / 9 + 1) / 3)
+    assert sa["accuracy"] > sb["accuracy"] and sa["macro_f1"] < sb["macro_f1"]
+    assert sa["precision[1]"] == 1 and sb["precision[1]"] == pytest.approx(7 / 12)
+
+
+def test_multiclass_run_scores_the_prior_at_its_entropy_and_keeps_class_labels():
+    rng = np.random.default_rng(4)
+    X = rng.normal(size=(600, 2))
+    y = np.array(["forest", "urban", "water"])[np.argmax(X @ [[3, -3, 0], [0, 3, -3]] + rng.gumbel(size=(600, 3)), 1)]
+    s = run(y, X, None, ["prior", "linear"], kfold(600, y=y), "classification")
+    share = np.unique(y, return_counts=True)[1] / 600
+    assert s["prior"]["log_loss"][0] == pytest.approx(-(share * np.log(share)).sum(), abs=0.01)
+    assert s["linear"]["log_loss"][0] < s["prior"]["log_loss"][0] - 0.3
+    assert {"recall[forest]", "recall[urban]", "recall[water]", "macro_f1"} <= set(s["linear"])
+
+
+def test_a_class_missing_from_a_training_fold_still_gets_its_own_column():
+    # the single row of class 1 is not in the training rows of the fold that tests it; there the model
+    # knows classes 0 and 2 only, and class 2's probability must still land in column 2
+    y = np.array([0] * 90 + [1] + [2] * 9)
+    X = np.r_[np.zeros((90, 1)), np.ones((1, 1)), np.full((9, 1), 2.0)]
+    s = run(y, X, None, ["prior", "rf"], kfold(100, k=4), "classification")
+    assert s["rf"]["recall[1]"][0] == 0
+    assert s["rf"]["recall[2]"][0] == 1
+    assert np.isfinite(s["rf"]["log_loss"][0])
+
+
+def test_multiclass_predictions_are_one_probability_per_class():
+    preds = []
+    X = np.random.default_rng(5).normal(size=(100, 1))
+    run(Y3, X, None, ["prior"], kfold(100, k=4, y=Y3 > 0), "classification", predictions=preds)
+    assert len(preds) == 300  # 100 rows x 3 classes
+    assert {p[2] for p in preds} == set(range(100))

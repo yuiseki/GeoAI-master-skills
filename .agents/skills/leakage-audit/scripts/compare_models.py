@@ -9,7 +9,13 @@ were scored. The repeat number also seeds the models.
 Anything a model tunes (Ridge's penalty, the boosting's early stopping) is chosen inside the
 training rows of the fold, never on the held-out rows.
 
-Regression scores: rmse, mae, r2. Classification (binary): log_loss, brier, auc, accuracy.
+Regression scores: rmse, mae, r2. Classification (binary, a 0/1 target): log_loss, brier, auc, accuracy.
+Classification with any other labels (three or more classes, or text) is multiclass: each model gives a
+probability for every class, the predicted class is the one with the highest probability (argmax, no
+threshold), and the scores are log_loss, accuracy, balanced_accuracy, macro_f1, weighted_f1, and
+precision[c], recall[c], f1[c] for each class c. A class absent from a fold's training rows gets
+probability 0 there (clipped for the log loss), not a missing column. prior predicts the training class
+shares; its argmax is the majority class, so its accuracy is the majority-class baseline.
 
 Models (regression / classification):
     mean / prior     the training mean, or the training class share
@@ -52,8 +58,10 @@ from sklearn.linear_model import (
 from sklearn.metrics import (
     accuracy_score,
     brier_score_loss,
+    f1_score,
     log_loss,
     mean_absolute_error,
+    precision_recall_fscore_support,
     r2_score,
     roc_auc_score,
 )
@@ -88,11 +96,15 @@ class Median(BaseEstimator, RegressorMixin):
 
 class Prior(BaseEstimator, ClassifierMixin):
     def fit(self, X, y, sample_weight=None):
-        self.p_ = float(np.average(y, weights=sample_weight))
+        self.classes_ = np.unique(y)
+        if set(self.classes_.tolist()) <= {0, 1}:  # binary: always both columns, as before
+            self.classes_ = np.array([0, 1])
+        w = np.ones(len(y)) if sample_weight is None else np.asarray(sample_weight, float)
+        self.shares_ = np.array([w[y == c].sum() for c in self.classes_]) / w.sum()
         return self
 
     def predict_proba(self, X):
-        return np.c_[np.full(len(X), 1 - self.p_), np.full(len(X), self.p_)]
+        return np.tile(self.shares_, (len(X), 1))
 
 
 class GroupMean(BaseEstimator, RegressorMixin):
@@ -206,23 +218,58 @@ def _fit(model, X, y, w):
     return model.fit(X, y, sample_weight=w)
 
 
-def oof_predict(make_model, X, y, splits, task, weights=None):
-    """Out-of-fold predictions; NaN for a row no fold tests."""
-    pred = np.full(len(y), np.nan)
+def _proba(model, X, n_classes):
+    """Class probabilities in the columns 0 .. n_classes - 1, whatever classes the model saw."""
+    est = model.steps[-1][1] if hasattr(model, "steps") else model
+    out = np.zeros((len(X), n_classes))
+    out[:, np.asarray(est.classes_, int)] = model.predict_proba(X)
+    return out
+
+
+def oof_predict(make_model, X, y, splits, task, weights=None, n_classes=None):
+    """Out-of-fold predictions; NaN for a row no fold tests. With n_classes (multiclass, y coded
+    0 .. n_classes - 1), one row of class probabilities per data row."""
+    pred = np.full(len(y) if n_classes is None else (len(y), n_classes), np.nan)
     for train, test in splits:
         if not np.isnan(pred[test]).all():
             raise SystemExit("a row is tested by two folds of one repeat")
         model = _fit(make_model(), X[train], y[train],
                      None if weights is None else weights[train])
-        if task == "classification":
+        if n_classes is not None:
+            pred[test] = _proba(model, X[test], n_classes)
+        elif task == "classification":
             pred[test] = model.predict_proba(X[test])[:, 1]
         else:
             pred[test] = model.predict(X[test])
     return pred
 
 
-def score(y, pred, task, weights=None):
+def score_multiclass(y, proba, labels=None, weights=None):
+    """y coded 0 .. K - 1, proba (n, K). Labels name the classes in the per-class keys."""
+    k = proba.shape[1]
+    labels = list(range(k)) if labels is None else list(labels)
+    p = np.clip(proba, 1e-15, 1)
+    p = p / p.sum(1, keepdims=True)
+    hat = proba.argmax(1)
+    ks = list(range(k))
+    prec, rec, f1, _ = precision_recall_fscore_support(y, hat, labels=ks, sample_weight=weights, zero_division=0)
+    out = {
+        "log_loss": log_loss(y, p, labels=ks, sample_weight=weights),
+        "accuracy": accuracy_score(y, hat, sample_weight=weights),
+        "balanced_accuracy": float(np.mean([r for r, c in zip(rec, ks) if np.any(y == c)])),
+        "macro_f1": f1_score(y, hat, labels=ks, average="macro", sample_weight=weights, zero_division=0),
+        "weighted_f1": f1_score(y, hat, labels=ks, average="weighted", sample_weight=weights, zero_division=0),
+    }
+    for name, values in (("precision", prec), ("recall", rec), ("f1", f1)):
+        for lab, v in zip(labels, values):
+            out[f"{name}[{lab}]"] = float(v)
+    return out
+
+
+def score(y, pred, task, weights=None, labels=None):
     w = weights
+    if task == "classification" and np.ndim(pred) == 2:
+        return score_multiclass(np.asarray(y), np.asarray(pred, float), labels, w)
     if task == "classification":
         p = np.clip(pred, 1e-15, 1 - 1e-15)
         return {
@@ -246,8 +293,10 @@ def run(y, X, group, names, folds, task, predictions=None, weights=None):
     weights: per-row weights, used both to fit (sample_weight) and to score.
     """
     y, X = np.asarray(y), np.asarray(X, float)
-    if task == "classification" and set(np.unique(y)) - {0, 1}:
-        raise SystemExit("classification takes a 0/1 target")
+    labels, n_classes = None, None
+    if task == "classification" and set(np.unique(y).tolist()) - {0, 1}:
+        labels, y = np.unique(y, return_inverse=True)
+        n_classes = len(labels)
     if group is not None:
         codes = np.unique(np.asarray(group), return_inverse=True)[1].astype(float)
     out = {}
@@ -261,14 +310,17 @@ def run(y, X, group, names, folds, task, predictions=None, weights=None):
             Xm = np.c_[X, codes]
         per_repeat = {}
         for repeat, splits in folds.items():
-            pred = oof_predict(lambda: MODELS[name][task](repeat), Xm, y, splits, task, weights)
-            tested = ~np.isnan(pred)
-            if predictions is not None:
+            pred = oof_predict(lambda: MODELS[name][task](repeat), Xm, y, splits, task, weights, n_classes)
+            tested = ~np.isnan(pred) if n_classes is None else ~np.isnan(pred).any(1)
+            if predictions is not None and n_classes is None:
                 predictions.extend((repeat, name, int(i), float(pred[i]))
                                    for i in np.flatnonzero(tested))
+            elif predictions is not None:
+                predictions.extend((repeat, name, int(i), float(pred[i, c]), str(labels[c]))
+                                   for i in np.flatnonzero(tested) for c in range(n_classes))
             per_repeat.setdefault("n", []).append(int(tested.sum()))
             wt = None if weights is None else weights[tested]
-            for k, v in score(y[tested], pred[tested], task, wt).items():
+            for k, v in score(y[tested], pred[tested], task, wt, labels).items():
                 per_repeat.setdefault(k, []).append(v)
         out[name] = per_repeat
     return out
@@ -300,7 +352,11 @@ def main():
                          "making the folds, so that the folds and the data are the same rows")
     nf = len(a.features)
     ids = np.array([r[0] for r in kept])
-    y = np.array([r[1] for r in kept], float if a.task == "regression" else int)
+    y = np.array([r[1] for r in kept])
+    if a.task == "regression":
+        y = y.astype(float)
+    elif set(np.unique(y).tolist()) <= {0, 1}:
+        y = y.astype(int)
     X = np.array([r[2:2 + nf] for r in kept], float)
     gi = 2 + nf
     group = np.array([r[gi] for r in kept]) if a.group else None
@@ -322,13 +378,16 @@ def main():
     if preds is not None:
         import pyarrow as pa  # only needed here: --with pyarrow
 
-        pred_rows = pa.table({
-            "repeat": [r for r, _, _, _ in preds],
-            "model": [m for _, m, _, _ in preds],
-            "id": [str(ids[i]) for _, _, i, _ in preds],
-            "target": [float(y[i]) for _, _, i, _ in preds],
-            "prediction": [v for _, _, _, v in preds],
-        })
+        cols = {
+            "repeat": [r[0] for r in preds],
+            "model": [r[1] for r in preds],
+            "id": [str(ids[r[2]]) for r in preds],
+            "target": [str(y[r[2]]) if len(r) == 5 else float(y[r[2]]) for r in preds],
+            "prediction": [r[3] for r in preds],
+        }
+        if preds and len(preds[0]) == 5:  # multiclass: one row per class, prediction is its probability
+            cols["class"] = [r[4] for r in preds]
+        pred_rows = pa.table(cols)
         duckdb.sql(f"copy (select * from pred_rows order by all) to '{a.predictions_out}' "
                    "(format parquet)")
         print(f"predictions: {len(preds)} rows to {a.predictions_out}")
