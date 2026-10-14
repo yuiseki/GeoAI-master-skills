@@ -118,3 +118,34 @@ def test_getis_ord_finds_a_planted_hotspot():
     z = getis_ord(x, knn_neighbors(lon, lat, 8))
     assert z[hot].mean() > 3
     assert abs(z[~hot & (lon > 5)].mean()) < 1
+
+
+def test_benjamini_hochberg_and_bonferroni_by_hand():
+    from spatial_autocorrelation import adjust_p
+    p = np.array([0.04, 0.01, 0.2, 0.03, 0.02])          # unsorted on purpose
+    # BH: sorted 0.01 0.02 0.03 0.04 0.2 -> p * 5 / rank = 0.05 0.05 0.05 0.05 0.2, then running minimum from the top
+    assert adjust_p(p, "fdr").tolist() == pytest.approx([0.05, 0.05, 0.2, 0.05, 0.05])
+    assert adjust_p(p, "bonferroni").tolist() == pytest.approx([0.2, 0.05, 1.0, 0.15, 0.1])
+    # 0.01 0.04 0.045: p * 3 / rank = 0.03 0.06 0.045; the 0.06 takes the smaller value above it, 0.045
+    assert adjust_p(np.array([0.01, 0.04, 0.045]), "fdr").tolist() == pytest.approx([0.03, 0.045, 0.045])
+
+
+def test_gi_star_p_values_are_two_sided_normal():
+    from spatial_autocorrelation import gi_p_values
+    assert gi_p_values(np.array([1.959964, -1.959964, 0.0])).tolist() == pytest.approx([0.05, 0.05, 1.0], abs=1e-5)
+
+
+def test_correction_drops_chance_hits_and_keeps_a_planted_hotspot():
+    from spatial_autocorrelation import adjust_p, getis_ord, gi_p_values
+    rng = np.random.default_rng(5)
+    lon, lat = rng.uniform(0, 10, 400), rng.uniform(40, 50, 400)
+    noise = rng.normal(size=400)
+    nb = knn_neighbors(lon, lat, 8)
+    p_noise = gi_p_values(getis_ord(noise, nb))
+    assert (p_noise <= 0.05).sum() > 5                         # chance alone makes "hot spots" among 400 tests
+    assert (adjust_p(p_noise, "fdr") <= 0.05).sum() < (p_noise <= 0.05).sum()
+    x = noise.copy()
+    hot = (lon < 2) & (lat < 42)
+    x[hot] += 4
+    p_hot = adjust_p(gi_p_values(getis_ord(x, nb)), "fdr")
+    assert (p_hot[hot] <= 0.05).mean() > 0.8

@@ -120,3 +120,16 @@ def test_variogram_of_pure_noise_is_flat():
     from interpolate_points import gamma
     assert sill == pytest.approx(1, abs=0.35)
     assert gamma(30.0, model, nugget, sill, rng_) >= 0.6 * sill   # no spatial structure: near pairs differ as much as far ones
+
+
+def test_kriging_far_beyond_the_range_returns_the_mean_of_the_observations():
+    # An equilateral triangle (side 10 m) holds 10, 20 and 60. Far beyond the range every observation is
+    # equally (un)informative, the symmetric layout gives them equal weights, and the prediction is 30.
+    h = 10 * 3 ** 0.5 / 2
+    tri = obs([(0, 0, 10), (10, 0, 20), (5, h, 60)])
+    vg = ("exponential", 0.0, 100.0, 2.0)                  # practical range about 6 m
+    far = predict(tri, q((10000, 10000)), "kriging", variogram=vg)
+    near = predict(tri, q((5, 3)), "kriging", variogram=vg)
+    assert far["prediction"][0] == pytest.approx(30, abs=1e-6)
+    assert far["kriging_sd"][0] > near["kriging_sd"][0]
+    assert far["inside_hull"][0] == False and far["nearest_m"][0] > 10000

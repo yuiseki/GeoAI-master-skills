@@ -62,7 +62,7 @@
     - [x] `references/boosting-modeling.md`
     - [x] `references/foundation-modeling.md`
     - [x] `references/classification.md`
-    - [ ] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR
+    - [x] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR の選び方 (実装はしていない)
     - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
     - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE
   - [x] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする

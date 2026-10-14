@@ -60,3 +60,24 @@ def test_a_table_id_that_repeats_stops(tmp_path):
     pred, table = _files(tmp_path, [("a", "x"), ("b", "y"), ("c", "y"), ("c", "z")])
     with pytest.raises(SystemExit):
         joined_rows(pred, table, "id", "region", "m")
+
+
+def test_residual_moran_by_hand():
+    from error_breakdown import residual_moran
+    # Four points on the equator at longitudes 0, 1, 3, 7. Nearest neighbours (k = 1): 1, 0, 1, 3.
+    # Residuals 1, 1, -1, -1 (mean 0); lags 1, 1, 1, -1; I = (1 + 1 - 1 + 1) / 4 = 0.5.
+    r = residual_moran([0, 1, 3, 7], [0, 0, 0, 0], [1, 1, -1, -1], k=1, permutations=99)
+    assert r["I"] == pytest.approx(0.5)
+    assert r["EI"] == pytest.approx(-1 / 3)
+
+
+def test_residual_moran_takes_great_circle_neighbours_at_high_latitude():
+    from error_breakdown import residual_moran
+    # At 60N, 0.015 degrees east is 835 m and 0.01 degrees north is 1,113 m: the east point is the nearer one.
+    lon = [0.0, 0.015, 0.0, 10.0, 10.015, 10.0]
+    lat = [60.0, 60.0, 60.01, 60.0, 60.0, 60.01]
+    resid = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0]
+    r = residual_moran(lon, lat, resid, k=1, permutations=99)
+    # Great circle: 0 -> 1, 1 -> 0, 2 -> 0 in each group. With the mean removed, z = 1/3, 1/3, -5/3 ... and
+    # sum(z * z[neighbour]) is 0, so I = 0. Taking degrees as distances, 0 -> 2 instead, and I = -0.5.
+    assert r["I"] == pytest.approx(0.0)

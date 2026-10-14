@@ -7,6 +7,11 @@ zero row, as in PySAL. Pseudo p-values come from permutations and are folded (on
 direction of the observed value), as esda 2.10 does by default (its alternative='directed'); esda
 announces a move to two-sided, which roughly doubles a p-value.
 
+Local statistics test every unit, so some units pass p <= 0.05 by chance. The local outputs carry the raw
+p-value and the Benjamini-Hochberg (p_fdr) and Bonferroni (p_bonferroni) adjusted ones, and the printed
+counts use the adjusted values. A permutation p-value cannot fall below 1 / (permutations + 1), so with many
+units and few permutations nothing may survive the correction: raise --permutations.
+
 Usage:
     uvx --with duckdb --with scikit-learn --with pyarrow python spatial_autocorrelation.py \
         TABLE ID VALUE (--lon COL --lat COL | --geometry COL) [--k 6] \
@@ -114,6 +119,28 @@ def local_moran(x, neighbors, permutations=999, seed=0):
     return {"Is": Is, "q": q, "p_sim": p, "lag": lag}
 
 
+def adjust_p(p, method="fdr"):
+    """Adjust p-values for testing many units at once. fdr: Benjamini-Hochberg (controls the expected share
+    of false discoveries among the units called significant; valid when the tests are positively dependent,
+    as neighbouring units are). bonferroni: p times the number of tests (controls any false discovery)."""
+    p = np.asarray(p, float)
+    m = len(p)
+    if method == "bonferroni":
+        return np.minimum(p * m, 1.0)
+    order = np.argsort(p)
+    ranked = p[order] * m / np.arange(1, m + 1)
+    ranked = np.minimum.accumulate(ranked[::-1])[::-1]
+    out = np.empty(m)
+    out[order] = np.minimum(ranked, 1.0)
+    return out
+
+
+def gi_p_values(z):
+    """Two-sided p-values of Gi* z-scores under the normal approximation."""
+    from math import erfc, sqrt
+    return np.array([erfc(abs(v) / sqrt(2)) for v in np.asarray(z, float)])
+
+
 def getis_ord(x, neighbors):
     """Getis-Ord Gi* z-score per unit: is the sum over the unit and its neighbours (binary
     weights, the unit included) higher or lower than the overall mean would give?"""
@@ -182,11 +209,15 @@ def main():
         z = getis_ord(x, nb)
         import pyarrow as pa
 
-        hs = pa.table({"id": [str(i) for i in t["id"]], "value": x, "gi_star_z": z})
+        pz = gi_p_values(z)
+        fdr = adjust_p(pz, "fdr")
+        hs = pa.table({"id": [str(i) for i in t["id"]], "value": x, "gi_star_z": z, "p": pz, "p_fdr": fdr,
+                       "p_bonferroni": adjust_p(pz, "bonferroni")})
         con.sql(f"copy (select * from hs order by gi_star_z desc) to '{a.hotspots_out}' (format parquet)")
         print(f"Getis-Ord Gi*, {a.k} nearest neighbours and the unit itself: "
-              f"z >= 1.96 in {int((z >= 1.96).sum())} units (hot), z <= -1.96 in {int((z <= -1.96).sum())}"
-              " (cold); no correction for multiple tests or for overlapping neighbourhoods")
+              f"raw p <= 0.05 in {int(((pz <= 0.05) & (z > 0)).sum())} hot and {int(((pz <= 0.05) & (z < 0)).sum())} cold units; "
+              f"after Benjamini-Hochberg {int(((fdr <= 0.05) & (z > 0)).sum())} hot and {int(((fdr <= 0.05) & (z < 0)).sum())} cold. "
+              "Neighbourhoods overlap, so neighbouring z-scores are not independent")
 
     if a.local_out:
         lm = local_moran(x, nb, a.permutations, a.seed)
@@ -197,12 +228,15 @@ def main():
             "id": [str(i) for i in t["id"]],
             "value": x, "lag": lm["lag"] + x.mean(), "local_i": lm["Is"],
             "quadrant": [names[int(v)] for v in lm["q"]], "p_sim": lm["p_sim"],
+            "p_fdr": adjust_p(lm["p_sim"], "fdr"), "p_bonferroni": adjust_p(lm["p_sim"], "bonferroni"),
         })
         con.sql(f"copy (select * from lisa order by id) to '{a.local_out}' (format parquet)")
-        sig = lm["p_sim"] <= 0.05
-        counts = {names[k]: int(((lm["q"] == k) & sig).sum()) for k in names}
-        print(f"local Moran, pseudo p <= 0.05: {counts}, not significant {int((~sig).sum())}"
-              " (no correction for multiple tests)")
+        for label, pv in (("pseudo p", lm["p_sim"]), ("Benjamini-Hochberg p", adjust_p(lm["p_sim"], "fdr"))):
+            sig = pv <= 0.05
+            counts = {names[k]: int(((lm["q"] == k) & sig).sum()) for k in names}
+            print(f"local Moran, {label} <= 0.05: {counts}, not significant {int((~sig).sum())}")
+        print(f"(the smallest possible pseudo p is {1 / (a.permutations + 1):.4g}; with {len(x)} units, "
+              "Benjamini-Hochberg needs it below 0.05 / units for the first rank)")
 
 
 if __name__ == "__main__":

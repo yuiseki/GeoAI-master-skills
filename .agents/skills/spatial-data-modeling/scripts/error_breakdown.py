@@ -5,9 +5,15 @@ predictions over the repeats, joins the table for the column to break down by, a
 line per group. A text column is used as is; a numeric column is cut into --bins quantile bins
 (measurement counts, population, distance to the edge).
 
+With --lon and --lat (columns of the table), it also measures whether the errors are spatially
+autocorrelated: Moran's I of each row's residual (prediction minus target) over its --k nearest rows by
+great-circle distance, row-standardised weights, with a permutation pseudo p-value. Residuals that cluster
+in space mean the model misses a spatial structure, and that the rows are not independent: the usual
+standard errors and p-values of a regression are then too small.
+
 Usage:
     uvx --with numpy --with duckdb python error_breakdown.py PREDICTIONS TABLE ID COLUMN \
-        [--model hgb] [--bins 5] [--weight COLUMN]
+        [--model hgb] [--bins 5] [--weight COLUMN] [--lon COL --lat COL --k 6]
 """
 
 import argparse
@@ -42,6 +48,30 @@ def breakdown(target, pred, by, bins=5, weights=None):
     return rows
 
 
+def residual_moran(lon, lat, resid, k=6, permutations=999, seed=0):
+    """Moran's I of residuals with row-standardised k-nearest-neighbour weights by great-circle distance."""
+    lon, lat = np.radians(np.asarray(lon, float)), np.radians(np.asarray(lat, float))
+    z = np.asarray(resid, float)
+    n = len(z)
+    nb = np.empty((n, k), int)
+    for i in range(n):
+        a = np.sin((lat - lat[i]) / 2) ** 2 + np.cos(lat[i]) * np.cos(lat) * np.sin((lon - lon[i]) / 2) ** 2
+        d = 2 * np.arcsin(np.sqrt(np.clip(a, 0, 1)))
+        d[i] = np.inf
+        nb[i] = np.argsort(d, kind="stable")[:k]
+
+    def stat(v):
+        c = v - v.mean()
+        return float((c * c[nb].mean(1)).sum() / (c ** 2).sum())
+
+    observed = stat(z)
+    rng = np.random.default_rng(seed)
+    sim = np.array([stat(rng.permutation(z)) for _ in range(permutations)])
+    ei = -1.0 / (n - 1)
+    more = (sim >= observed).sum() if observed >= ei else (sim <= observed).sum()
+    return {"I": observed, "EI": ei, "p_sim": float((more + 1) / (permutations + 1)), "n": n, "k": k}
+
+
 def joined_rows(predictions, table, id_col, column, model, weight=None):
     """One row per predicted id (target and prediction averaged over repeats) with the table's column.
     Stops when a predicted id has no row in the table, or the table repeats an id."""
@@ -72,6 +102,9 @@ def main():
     p.add_argument("--model")
     p.add_argument("--bins", type=int, default=5)
     p.add_argument("--weight")
+    p.add_argument("--lon")
+    p.add_argument("--lat")
+    p.add_argument("--k", type=int, default=6)
     a = p.parse_args()
 
     import duckdb
@@ -79,6 +112,11 @@ def main():
     models = [r[0] for r in duckdb.sql(f"select distinct model from '{a.predictions}' order by 1").fetchall()]
     for model in [a.model] if a.model else models:
         rows = joined_rows(a.predictions, a.table, a.id, a.column, model, a.weight)
+        if a.lon and a.lat:
+            xy = joined_rows(a.predictions, a.table, a.id, a.lon, model, a.lat)
+            r = residual_moran([v[2] for v in xy], [v[3] for v in xy], [v[1] - v[0] for v in xy], a.k)
+            print(f"{model}: residual Moran's I {r['I']:+.3f} (expected {r['EI']:+.4f} without autocorrelation), "
+                  f"pseudo p {r['p_sim']:.4f}, {r['k']} nearest by great-circle distance, {r['n']} rows")
         target = np.array([r[0] for r in rows], float)
         pred = np.array([r[1] for r in rows], float)
         by = np.array([r[2] for r in rows])
