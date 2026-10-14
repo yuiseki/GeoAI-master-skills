@@ -192,3 +192,53 @@ def test_points_take_the_value_of_the_pixel_they_fall_in(tmp_path, counts):
 def test_lines_are_refused_rather_than_guessed(tmp_path, counts):
     r, _ = run(tmp_path, counts, {"line": shapely.LineString([(X0 + 50, Y0 - 50), (X0 + 350, Y0 - 50)])}, "extensive")
     assert r["line"]["status"] == "unsupported_geometry"
+
+
+# Exact coverage: each pixel is weighted by the area of its intersection with the polygon.
+TRIANGLE = shapely.Polygon([(X0, Y0), (X0 + 100, Y0), (X0, Y0 - 100)])  # half of pixel (0,0), cut on the diagonal
+
+
+def test_exact_rule_weights_pixels_by_their_intersection_area(tmp_path, counts):
+    r, _ = run(tmp_path, counts, {"corner": UNITS["corner"], "tiny": UNITS["tiny"]}, "extensive", method="exact")
+    assert r["corner"]["sum"] == pytest.approx(1 * 1 + 2 * 0.4 + 5 * 0.4 + 6 * 0.16)
+    assert r["tiny"]["sum"] == pytest.approx(1 * 0.09)
+
+
+def test_exact_rule_is_exact_where_the_subdivided_grid_is_not(tmp_path, counts):
+    # 100 sub-cell centres of pixel (0,0): 45 lie strictly inside (i + j < 9) and 10 on the diagonal (i + j = 9),
+    # which GDAL counts as inside, so fraction says 0.55
+    exact, _ = run(tmp_path, counts, {"tri": TRIANGLE}, "extensive", method="exact")
+    frac, _ = run(tmp_path, counts, {"tri": TRIANGLE}, "extensive", method="fraction")
+    assert exact["tri"]["sum"] == pytest.approx(0.5)
+    assert frac["tri"]["sum"] == pytest.approx(0.55)
+
+
+def test_all_touched_rule_takes_every_touched_pixel_whole(tmp_path, counts):
+    r, _ = run(tmp_path, counts, {"corner": UNITS["corner"]}, "extensive", method="all_touched")
+    assert r["corner"]["sum"] == pytest.approx(1 + 2 + 5 + 6)  # 14 from an area of 1.96 pixels
+
+
+def test_exact_mean_of_a_level_weights_by_intersection_area(tmp_path, counts):
+    # x 30-150 m in the top row: 0.7 of pixel 1 (value 1) and 0.5 of pixel 2 (value 2)
+    r, _ = run(tmp_path, counts, {"strip": sq(30, 0, 150, 100)}, "intensive", method="exact")
+    assert r["strip"]["mean"] == pytest.approx((0.7 * 1 + 0.5 * 2) / 1.2)
+    assert (r["strip"]["min"], r["strip"]["max"]) == (1, 2)
+
+
+def test_exact_class_shares_of_a_thin_strip_crossing_pixel_rows(tmp_path):
+    # y 190-210 m: 0.1 of every pixel in rows 1 (1,1,2,2) and 2 (3,3,ND,2); no pixel centre inside
+    raster = write_raster(tmp_path / "classes.tif", CLASSES, "uint8", 0)
+    strip = {"strip": sq(0, 190, 400, 210)}
+    r, _ = run(tmp_path, raster, strip, "categorical", method="exact")
+    assert r["strip"]["class_1"] == pytest.approx(2 / 7)
+    assert r["strip"]["class_2"] == pytest.approx(3 / 7)
+    assert r["strip"]["class_3"] == pytest.approx(2 / 7)
+    assert r["strip"]["cells_nodata"] == pytest.approx(0.1)
+    c, _ = run(tmp_path, raster, strip, "categorical")
+    assert c["strip"]["status"] == "no_pixel_centre"
+
+
+def test_exact_rule_conserves_the_total_of_tiling_units(tmp_path, counts):
+    tri2 = shapely.Polygon([(X0 + 100, Y0), (X0 + 400, Y0), (X0 + 400, Y0 - 400), (X0, Y0 - 400), (X0, Y0 - 100)])
+    _, rep = run(tmp_path, counts, {"a": TRIANGLE, "b": tri2}, "extensive", method="exact")
+    assert rep["assigned_total"] == pytest.approx(126) and rep["ok"]

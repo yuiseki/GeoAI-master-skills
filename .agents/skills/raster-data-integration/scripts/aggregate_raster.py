@@ -5,11 +5,15 @@ The kind of quantity decides the statistic, and must be given; there is no defau
     intensive    a level that does not grow with area (elevation, temperature): area-weighted mean, min, max
     categorical  a class code (land cover): area share of each class, and the majority class
 
-Pixels are given to a unit by one of two rules, both approximations of the polygon:
+Pixels are given to a unit by one of four rules:
     centre       a pixel belongs to the unit if its centre is inside (rasterio's default). A unit smaller
                  than a pixel can hold no centre; it is reported as no_pixel_centre, not as 0.
     fraction     each pixel is weighted by the share of its area inside, measured on a grid --subdivide
                  times finer in each direction (10 gives the share to 1 %).
+    exact        each pixel is weighted by the area of its intersection with the polygon, divided by the
+                 pixel's area (in the raster's CRS, so the share, not the area, is what is exact).
+    all_touched  every pixel the polygon touches counts whole. It always over-counts; it is here to measure
+                 that, not to sum quantities.
 
 Units are moved onto the raster's CRS (the raster is never resampled here). Pixel areas are measured on the
 ellipsoid for a geographic raster, so degrees are never used as area. Scale and offset in the file are applied
@@ -29,7 +33,7 @@ difference is printed, and the run exits with status 2 if it is larger than --to
 Usage:
     uvx --from 'duckdb>=1.5.5' --with rasterio --with shapely --with pyproj --with pyarrow \\
         python aggregate_raster.py RASTER UNITS UNIT_ID --kind extensive|intensive|categorical \\
-        --units-crs EPSG:4612 [--geom geometry] [--method centre|fraction] [--subdivide 10] \\
+        --units-crs EPSG:4612 [--geom geometry] [--method centre|fraction|exact|all_touched] [--subdivide 10] \\
         [--band 1] [--tolerance 0.001] [--max-pixels 200000000] --out units_raster.parquet
 """
 
@@ -109,8 +113,15 @@ class Grid:
     def weights(self, geom, r0, r1, c0, c1, method, k):
         h, w = r1 - r0, c1 - c0
         t = self.t @ Affine.translation(c0, r0)
-        if method == "centre":
-            return rasterize([(geom, 1)], out_shape=(h, w), transform=t, dtype="uint8").astype("float64")
+        if method in ("centre", "all_touched"):
+            return rasterize([(geom, 1)], out_shape=(h, w), transform=t, dtype="uint8",
+                             all_touched=method == "all_touched").astype("float64")
+        if method == "exact":
+            xs = self.t.c + self.t.a * np.arange(c0, c1 + 1)
+            ys = self.t.f + self.t.e * np.arange(r0, r1 + 1)
+            boxes = shapely.box(xs[None, :-1], ys[1:, None], xs[None, 1:], ys[:-1, None])
+            shapely.prepare(geom)
+            return shapely.area(shapely.intersection(boxes, geom)) / abs(self.t.a * self.t.e)
         fine = rasterize([(geom, 1)], out_shape=(h * k, w * k), transform=t @ Affine.scale(1 / k), dtype="uint8")
         return fine.reshape(h, k, w, k).sum(axis=(1, 3)) / (k * k)
 
@@ -269,7 +280,7 @@ def main():
     p.add_argument("--kind", required=True, choices=KINDS)
     p.add_argument("--units-crs", required=True, help="CRS of the units' coordinates, such as EPSG:4612")
     p.add_argument("--geom", default="geometry")
-    p.add_argument("--method", default="centre", choices=("centre", "fraction"))
+    p.add_argument("--method", default="centre", choices=("centre", "fraction", "exact", "all_touched"))
     p.add_argument("--subdivide", type=int, default=10)
     p.add_argument("--band", type=int, default=1)
     p.add_argument("--tolerance", type=float, default=0.001)

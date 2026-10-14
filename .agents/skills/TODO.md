@@ -48,8 +48,8 @@
     - [x] `references/raster-semantics.md`
     - [x] `references/resampling.md`
     - [x] `references/zonal-aggregation.md`
-    - [ ] 時間の次元を持つラスタ (月ごとの気温など) の期間の集計
-    - [ ] 面積の割合を、多角形と画素の交差で正確に測る方法との比較
+    - [x] `references/time-aggregation.md`: 時間の次元を持つラスタ (月ごとの気温など) の期間の集計 (aggregate_time.py)
+    - [x] 面積の割合を、多角形と画素の交差で正確に測る方法との比較 (`--method exact`、zonal-aggregation.md)
   - [x] `areal-interpolation`: ある区域の集計値を、境界の違う別の区域へ移す。値の種類 (量、比、水準) を決め、仮定 (一様、補助データ) を書き、覆われ方と総量の保存を数え、細かい真値での back-test で誤差を測る
     - [x] `references/validation.md`
     - [x] `references/auxiliary.md`
