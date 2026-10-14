@@ -25,9 +25,11 @@ RUN case "${TARGETARCH:-$(dpkg --print-architecture)}" in \
  && chmod 0755 /usr/local/bin/codex \
  && codex --version
 
+# rasterio is pinned below 1.5: 1.5.x reads GeoTIFFs with libertiff, which gave CRS and nodata None
+# (measured 2026-10-14 on the WorldPop rasters in task 11). Dockerfile does not pin it.
 RUN uv venv /opt/venv && VIRTUAL_ENV=/opt/venv uv pip install --no-cache \
     'duckdb>=1.5.5' numpy scipy scikit-learn pandas pyarrow statsmodels networkx \
-    shapely rasterio esda libpysal pyyaml pytest
+    shapely 'rasterio==1.4.1' esda libpysal pyyaml pytest
 
 # The thread counts are cooperative; the hard limits come from docker run (see run_codex_docker.sh).
 ENV PATH=/opt/venv/bin:$PATH \
