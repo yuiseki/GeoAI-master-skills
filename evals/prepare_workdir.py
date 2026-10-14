@@ -12,6 +12,7 @@ Usage:
 
 --baseline gives an empty working copy (only projects/), for measuring the agent without the skills.
 With --task and --template, the filled prompt is printed after the directory is prepared.
+The prompt differs only in the paragraph about the skills (see the {{#SKILLS}} markers in the template).
 --prompt-workdir /work puts that path in the prompt, for evals/run_codex_docker.sh.
 """
 
@@ -48,7 +49,11 @@ def extract_task(text, number):
     return m.group(0).rstrip() + "\n"
 
 
-def render_prompt(template, workdir, task, sha):
+def render_prompt(template, workdir, task, sha, baseline=False):
+    """Keep {{#SKILLS}}..{{/SKILLS}} with skills, {{#BASELINE}}..{{/BASELINE}} without; the rest is shared."""
+    keep, drop = ("BASELINE", "SKILLS") if baseline else ("SKILLS", "BASELINE")
+    template = re.sub(rf"{{{{#{drop}}}}}.*?{{{{/{drop}}}}}", "", template, flags=re.S)
+    template = template.replace(f"{{{{#{keep}}}}}", "").replace(f"{{{{/{keep}}}}}", "")
     return (template.replace("{{WORKDIR}}", str(workdir)).replace("{{SHA}}", sha)
             .replace("{{TASK}}", task))
 
@@ -72,7 +77,7 @@ def main():
           file=sys.stderr)
     if a.task and a.template:
         print(render_prompt(Path(a.template).read_text(), a.prompt_workdir or Path(a.dest).resolve(),
-                            extract_task(Path(a.task).read_text(), a.number), sha))
+                            extract_task(Path(a.task).read_text(), a.number), sha, a.baseline))
 
 
 if __name__ == "__main__":

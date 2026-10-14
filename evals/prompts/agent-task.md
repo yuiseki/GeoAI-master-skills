@@ -1,6 +1,6 @@
 あなたは地理空間データの分析を担当するエージェントです。
 
-作業場所は {{WORKDIR}} です (GeoAI-skills の版 {{SHA}} が用意してあります)。そこにある README.md、AGENTS.md、docs/、.agents/skills/ の中身を熟読してから、下の課題に取り組んでください。clone や checkout はしません。必要なスキルを自分で選んで進めます。成果物は、{{WORKDIR}}/projects/ の下に、課題の名前のディレクトリを作って置いてください。
+{{#SKILLS}}作業場所は {{WORKDIR}} です (GeoAI-skills の版 {{SHA}} が用意してあります)。そこにある README.md、AGENTS.md、docs/、.agents/skills/ の中身を熟読してから、下の課題に取り組んでください。clone や checkout はしません。必要なスキルを自分で選んで進めます。{{/SKILLS}}{{#BASELINE}}作業場所は {{WORKDIR}} です。下の課題に取り組んでください。{{/BASELINE}}成果物は、{{WORKDIR}}/projects/ の下に、課題の名前のディレクトリを作って置いてください。
 
 読まない、探さない、開かないでください。
 - {{WORKDIR}} の外にある、評価の資料やほかのエージェントの作業場所 (兄弟のディレクトリ、課題の採点の資料、元になった研究のディレクトリ)

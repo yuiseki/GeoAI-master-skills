@@ -85,3 +85,9 @@ def test_prompt_workdir_overrides_the_path_in_the_prompt(repo, tmp_path):
          "--task", str(repo / "t.md"), "--number", "1", "--template", str(repo / "tpl.md"),
          "--prompt-workdir", "/work"], check=True, capture_output=True, text=True).stdout
     assert out.startswith("at /work ")
+
+
+def test_render_prompt_keeps_the_skills_part_only_with_skills():
+    t = "a\n{{#SKILLS}}read the skills\n{{/SKILLS}}{{#BASELINE}}no skills here\n{{/BASELINE}}b"
+    assert render_prompt(t, Path("/w"), "T", "s") == "a\nread the skills\nb"
+    assert render_prompt(t, Path("/w"), "T", "s", baseline=True) == "a\nno skills here\nb"
