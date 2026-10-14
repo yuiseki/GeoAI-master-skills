@@ -136,6 +136,7 @@ where bbox.xmin <= 15559415 and bbox.xmax >= 15558190
   and amenity = 'cafe';
 ```
 
+- `bbox` の範囲は、手で書いた数字にしない。対象の境界 (行政区域の面) を `ST_Transform(..., 'EPSG:3857', ...)` した `ST_XMin`、`ST_XMax` などから作る。台東区で、東端を 15562000 と手で書いたところ、区の東端 15563550 に届かず、建物の面積が約 3.0 km² (正しくは約 3.7 km²) になった。絞ったあとは、行の座標の最大値が範囲の端に触れていないか確かめ、触れていれば範囲を広げる。
 - タグの取り出しは `->>` で、括弧が要る。`(tags->>'operator:en') = 'East Japan Railway'`。
 - マルチポリゴンは、同じ `osm_id` (負の値) の複数行になる。測る前に集約する。
 - 行政区域は `planet_osm_polygon` の中にある (`boundary = 'administrative'`、`admin_level`)。`admin_level` は、国が 2、都道府県が 4、市区町村と東京の特別区が 7。別の表は無い。
