@@ -138,7 +138,7 @@ CRS の名前が違うので、そのままでは空間結合できない。 Nat
 select * replace (ST_SetCRS(geometry, 'EPSG:4326') as geometry) from airports
 ```
 
-コードで結ぶなら `iso_country` (2 文字) を Natural Earth の `ISO_A2_EH` と結ぶ。247 種のうち 237 種が一致する (2026-10-10 実測)。一致しないのは:
+コードで結ぶなら `iso_country` (2 文字) を Natural Earth の `ISO_A2_EH` と結ぶ。247 種のうち 237 種が一致する (2026-10-10 実測)。一致しない 10 種は次のとおり。
 
 - フランスの海外県 (`GF`、`RE`、`GP`、`MQ`、`YT`)。Natural Earth の国の面ではフランスに含まれる
 - `BQ`、`CC`、`CX`

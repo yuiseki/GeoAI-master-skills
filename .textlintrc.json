@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "@textlint-ja/preset-ai-writing": {
+      "no-ai-hype-expressions": {
+        "allows": ["/完全(に|には)(一致|同じ|決ま|知る|重な)/"]
+      }
+    }
+  }
+}

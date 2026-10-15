@@ -102,7 +102,7 @@ group by all order by refugees desc limit 10;
 
 ## Natural Earth との結合
 
-出身国と庇護国の ISO 3 文字コード (`Country of origin (ISO)`、`Country of asylum (ISO)`) を Natural Earth の `ISO_A3_EH` と結ぶ (`ISO_A3_EH` は一意でないので、natural-earth.md の方法で本体の国の行だけにしてから)。`population` に出てくる 219 種のうち 213 種が一致する (2026-10-10 実測)。一致しないのは:
+出身国と庇護国の ISO 3 文字コード (`Country of origin (ISO)`、`Country of asylum (ISO)`) を Natural Earth の `ISO_A3_EH` と結ぶ (`ISO_A3_EH` は一意でないので、natural-earth.md の方法で本体の国の行だけにしてから)。`population` に出てくる 219 種のうち 213 種が一致する (2026-10-10 実測)。一致しないものは次のとおり。
 
 - `GLP`、`GUF`、`MTQ`: フランスの海外県。Natural Earth の国の面ではフランスに含まれる
 - `TIB`: 出身国の欄にだけ現れる `Tibetan`。国ではなく出身の区分

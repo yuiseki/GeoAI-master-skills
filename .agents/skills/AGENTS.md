@@ -27,6 +27,7 @@ TODO.md は入れ子のリスト。1 段目は分析の段階で、括弧に済�
 - スキルどうしでやりとりするものは、ファイルの形式で決める (分割表は repeat、fold、id、role の Parquet。外側の予測は repeat、model、id、target、prediction の Parquet)。形式は受け取る側のスキルに書き、作り方の例も付ける。
 - 別のスキルと同じスクリプトを持つなら、そのテストも同じ内容でコピーし、`COPIES` に両方を書く。
 - `python3 .agents/skills/check_skills.py` で、パスや名前の参照、コピーの食い違い、太字と em ダッシュ、スクリプトごとのテストの有無、TODO.md とファイルの一致、テストの実行コマンドの依存の抜けを確かめる。スキルを足す、直すたびに流す。
+- 日本語の文章は textlint (`@textlint-ja/textlint-rule-preset-ai-writing`、設定はリポジトリ直下の `.textlintrc.json`) で確かめる。`npm install` の後、`npm run lint:text`。文字どおりの「完全に一致する」のような用法は `allows` に足し、ルールを止めずに直すことを先に考える。評価の課題と結果 (`evals/`) は対象にしない。
 
 ## スキルを分けるか、reference にまとめるか
 

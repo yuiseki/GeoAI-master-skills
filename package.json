@@ -1,0 +1,13 @@
+{
+  "name": "geoai-skills",
+  "private": true,
+  "description": "Text lint for the Japanese Markdown of GeoAI-skills",
+  "scripts": {
+    "lint:text": "textlint README.md AGENTS.md \"docs/**/*.md\" \".agents/skills/**/*.md\"",
+    "lint:text:fix": "textlint --fix README.md AGENTS.md \"docs/**/*.md\" \".agents/skills/**/*.md\""
+  },
+  "devDependencies": {
+    "@textlint-ja/textlint-rule-preset-ai-writing": "1.7.0",
+    "textlint": "14.8.4"
+  }
+}
