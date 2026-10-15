@@ -75,7 +75,7 @@ docker run --rm -it -v "$PWD":/work geoai-master-skills
 ```
 
 - 手元のリポジトリを `/work` に見せるので、コンテナの中で作ったファイルは手元に残る。
-- 中で `python .agents/skills/check_skills.py` と、各スキルの `scripts/` での `python -m pytest` が通ることを確かめてある。
+- 中で `python .agents/skills/check_skills.py` と、各スキルの `scripts/` での `python -m pytest` が通ることを確かめてある (2026-10-16、ネットワークを切った状態)。外部の実装との照合のうち、イメージに入っていない pyfixest と pgmpy を使うものは飛ばされる。
 - TabPFN、XGBoost、LightGBM、CatBoost は入れていない。使うときは `uvx --with tabpfn python ...` のように足す。
 - ホストの利用者の番号が 1000 でないと、`/work` に書けないことがある。そのときは `--user "$(id -u):$(id -g)"` を付ける。
 
