@@ -17,6 +17,9 @@ optionally a random slope, a second level, and the group means of the regressors
                within-group slope (the same as unit fixed effects), and the group mean's coefficient is the
                between minus within difference. The random intercept alone assumes the group effect is
                unrelated to the regressors; when it is not, its slope mixes in the between-group difference.
+The likelihood is maximised by BFGS with a tight gradient tolerance; statsmodels' default (L-BFGS) stopped
+short of the maximum on a flat REML surface (WDI life expectancy, 211 countries: tau2 1.6e-4 below the value an
+independent REML found). If BFGS does not converge, the default is used and optimiser says so.
 ML divides the between sum of squares by the number of groups, not that minus one: with few groups it
 underestimates tau2. Prefer REML for variances; compare fixed effects across models fitted with ML.
 
@@ -97,7 +100,12 @@ def fit(y, X, group, names=None, random_slope=None, mundlak=False, nested=None, 
         exog_vc = VCSpec(["nested"], [names_vc], [mats])
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter("always")
-        m = sm.MixedLM(y, D, groups=group, exog_re=exog_re, exog_vc=exog_vc).fit(reml=reml)
+        model = sm.MixedLM(y, D, groups=group, exog_re=exog_re, exog_vc=exog_vc)
+        m = model.fit(reml=reml, method="bfgs", gtol=1e-10, maxiter=2000)
+        optimiser = "bfgs"
+        if not m.converged:  # fall back to statsmodels' default; converged and warnings still report it
+            m = model.fit(reml=reml)
+            optimiser = "default"
     ols = sm.OLS(y, D).fit()
     k = D.shape[1]
     cov_re = np.atleast_2d(np.asarray(m.cov_re))
@@ -113,7 +121,7 @@ def fit(y, X, group, names=None, random_slope=None, mundlak=False, nested=None, 
         "tau2": tau2, "sigma2": sigma2, "icc": tau2 / (tau2 + sigma2),
         "slope_var": {c: float(cov_re[i, i]) for i, c in enumerate(re_cols) if i > 0},
         "random_effects": {g: float(np.asarray(v)[0]) for g, v in m.random_effects.items()},
-        "groups": len(np.unique(group)), "converged": bool(m.converged),
+        "groups": len(np.unique(group)), "converged": bool(m.converged), "optimiser": optimiser,
         "warnings": sorted({str(w.message).splitlines()[0] for w in caught}),
     }
     if nested is not None:
