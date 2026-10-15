@@ -29,6 +29,7 @@
     - [x] `references/jp-admin-2026-09.md`、`osm-japan-src-2026-08.md`、`mlit-toshi-keikaku-jp.md`、`ekidata-jp.md`、`worldpop/japan.md`: 日本の凍結データセット 5 件
     - [x] `references/osm-tokyo23-src-2026-08.md`、`gsi-evacuation-sites-jp.md`、`estat-census-mesh-2020.md`: 日本の小さめのデータセット 3 件
     - [x] `references/maddison-project.md`
+    - [x] `references/nsw-lalonde.md`: 職業訓練の実験と観察の対照 (地理の列なし。因果の推定量の検算用)
     - [x] `references/gsi-dem-tiles.md`
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
@@ -180,9 +181,9 @@
     - [ ] 多目的 (重み付き和、パレート、ε 制約)
     - [ ] 無作為な配置の分布を基準にする、既存の配置を評価する (002)
     - [ ] 下限を先に求める (005)
-- 因果の効果を推定する (0 / 1)
-  - [ ] `causal-estimation`: 識別できると判定した因果の効果を、設計の表に従って推定する。推定量ごとの仮定、支えと重みの診断、共変量のバランス、推定量の間の比較、感度
-    - [ ] `references/adjustment-weighting.md`: 回帰による調整、IPW、AIPW (二重頑健)。傾向スコアの重なり、重みの診断、バランス
+- 因果の効果を推定する (1 / 1)
+  - [x] `causal-estimation`: 識別できると判定した因果の効果を、設計の表に従って推定する。推定量ごとの仮定、支えと重みの診断、共変量のバランス、推定量の間の比較、感度
+    - [x] `references/adjustment-weighting.md`: 回帰による調整、IPW、AIPW (二重頑健)。傾向スコアの重なり、重みの診断、バランス
     - [ ] `references/matching.md`: 最近傍のマッチング、キャリパー、バランス、マッチングの後の推定と標準誤差
     - [ ] `references/did.md`: 差の差。2 期、段階的な導入 (二方向の固定効果の落とし穴)、事前の傾向、イベントスタディ
     - [ ] `references/iv.md`: 操作変数と 2SLS。弱い操作変数、除外制約、LATE

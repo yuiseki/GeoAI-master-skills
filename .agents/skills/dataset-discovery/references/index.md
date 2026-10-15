@@ -25,6 +25,7 @@
 | [gsi-evacuation-sites-jp](gsi-evacuation-sites-jp.md) | 指定緊急避難場所 (災害の種類ごとの指定) と指定避難所の点 | 日本 | 2026-10-06 取得 |
 | [estat-census-mesh-2020](estat-census-mesh-2020.md) | 令和 2 年国勢調査の 1 km メッシュの統計 (人口、世帯、年齢、就業、住宅など 12 表) | 日本 | 2020-10-01 |
 | [gsi-dem-tiles](gsi-dem-tiles.md) | 国土地理院の標高タイル (ズームとタイル番号で 256 × 256 画素の標高をテキストで返す) | 日本の陸域 | 随時更新、2026-10-14 取得 |
+| [nsw-lalonde](nsw-lalonde.md) | 職業訓練の無作為化実験 NSW と観察の対照 (PSID、CPS)。実験の答えが分かっていて、因果の推定量の検算に使う。地理の列は無い | アメリカの人、座標なし | 1974、1975、1978 年の所得 |
 | [maddison-project](maddison-project.md) | 国ごとの 1 人あたり実質 GDP と人口の長期の推計 (2018、2020、2023 年版) | 世界の国 | 西暦 1〜2022 年 |
 | [worldpop/japan.md](worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
 

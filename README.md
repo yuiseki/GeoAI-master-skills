@@ -54,6 +54,7 @@
 | これから観測する地点を、どこに、何地点、どう選ぶか決めたい | spatial-sampling-design |
 | 人や世帯の位置を含むデータを、使い、共有し、公開してよいか判断したい | location-privacy |
 | 施設や規制の効果 (因果) を、このデータから言えるか判断したい | causal-design |
+| 識別できると判定した効果の大きさを推定したい | causal-estimation |
 
 ## 何が入っているか
 
@@ -67,7 +68,7 @@
 | 問いに応じた分析 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatiotemporal-modeling、spatial-interpolation、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation |
 | 問いに応じた分析 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか。点はどんな過程から生まれたか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis、spatial-process-modeling |
 | 問いに応じた分析 | ネットワークと最適化 | 実際に歩いて何分か。施設をどこに置くか | spatial-network-analysis、spatial-optimization |
-| 問いに応じた分析 | 因果の効果を推定する | 識別できると判定した効果を、どの手法で推定するか (マッチング、IPW、DiD、IV、RDD など) | まだ無い。因果を問う の後に来る |
+| 問いに応じた分析 | 因果の効果を推定する | 識別できると判定した効果は、どれだけか、どれだけ確かか。重なりと重みとバランスは足りているか | causal-estimation (調整の集合で識別する型だけ。因果を問う の後に来る) |
 | 結論を疑う、残す | 頑健性と報告 | 結論は、単位、分け方、標本、設定を変えても保たれるか。どう成果物に残すか | robustness-analysis、analysis-reporting (未着手) |
 
 予測の精度、回帰の係数、パネルの固定効果、階層モデルのランダム効果、特徴量の重要度は、どれも因果の識別を保証しない。因果を言うなら、識別の設計と、そこで置いた仮定を添える。
@@ -80,7 +81,7 @@
 - 予測と、その評価の分け方、リーク、雑音の天井、不確かさ。
 - 構造の探索: 空間の自己相関、群、外れ、点のパターン。
 - モデル: 線形、木、ブースティング、事前学習モデル、パネルの固定効果、階層モデル、共役な事前分布のベイズ、測定の誤差、時空間の分解、Poisson 過程の尤度。
-- 因果の問いの、識別の設計 (DAG、支え、波及、感度)。
+- 因果の問いの、識別の設計 (DAG、支え、波及、感度) と、調整の集合で識別できる効果の推定 (回帰による調整、IPW、AIPW)。
 - 道のりの距離と、施設の配置の最適化。
 
 扱わないもの (意図して外している):
@@ -88,7 +89,7 @@
 - 大きなジョブを壊さずに流す技術 (分割、再開、配布)。外のスキル集が詳しい ([docs/related-work.md](docs/related-work.md))。
 
 まだ無いもの (いずれ足す候補):
-- 因果の効果の推定の手法 (マッチング、IPW、DiD、IV、RDD など)。今は識別の設計までで止まる。
+- 因果の効果の推定のうち、マッチング、差の差、操作変数、回帰不連続、合成対照、波及の効果。
 - MCMC。ベイズは解析的に解けるモデルだけ。
 - 空間ラグと空間誤差のモデル、GWR の実装 (選び方の説明はある)。時空間のクリギング、ガウス過程、SPDE。Cox 過程、点どうしの相互作用、Hawkes 過程。
 - 分析を成果物にまとめる `analysis-reporting`。最適化の発展的な内容。
