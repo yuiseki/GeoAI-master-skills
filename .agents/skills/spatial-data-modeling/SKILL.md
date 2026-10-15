@@ -16,6 +16,7 @@ description: 基準 (平均、グループ平均、線形) と同じ分割、同
 | [classification](references/classification.md) | 目的変数がカテゴリのときに、どのモデルにも加わる論点。多クラスの指標、稀なクラス、argmax、空間的に固まったクラス |
 | [panel-data](references/panel-data.md) | 同じ単位を繰り返し観測したデータ。単位と時間の固定効果、時間で変わらない変数、クラスタの標準誤差、ラグ (`scripts/panel_fit.py`) |
 | [multilevel-models](references/multilevel-models.md) | 入れ子の構造 (地点、市区町村、都道府県)。部分的なまとめと縮小、ICC、ランダム傾き、上の段を落とす誤り、Mundlak (`scripts/multilevel_fit.py`) |
+| [measurement-error](references/measurement-error.md) | 観測値が潜在的な真値の雑音まじりの代わりのとき。古典的と Berkson の誤差、減衰と信頼性、繰り返しと検証用の標本、回帰による較正、誤分類 (`scripts/measurement_error.py`) |
 | [weights](references/weights.md) | 行ごとの重みで学習し採点する。実効的な標本の数 |
 | [error-analysis](references/error-analysis.md) | 誤差をグループや分位ごとに分けて、どこで外れているかを見る |
 | [spatial-regression](references/spatial-regression.md) | 残差に空間の偏りが残るときの、空間ラグモデル、空間誤差モデル、空間フィルタ、GWR の選び方 |
