@@ -159,5 +159,12 @@
     - [ ] 多目的 (重み付き和、パレート、ε 制約)
     - [ ] 無作為な配置の分布を基準にする、既存の配置を評価する (002)
     - [ ] 下限を先に求める (005)
+- 因果を問う (1 / 1)
+  - [x] `causal-design`: 因果の効果を推定する前に、このデータと仮定から識別できるかを判断する。設計の表、DAG と調整の集合、地図の上の支え、隣への波及、空間的な交絡、未観測の交絡への感度
+    - [x] `references/potential-outcomes.md`
+    - [x] `references/dag-adjustment.md`
+    - [x] `references/spatial.md`
+    - [x] `references/sensitivity.md`
+    - [ ] 推定の手法 (マッチング、IPW、DiD、IV、RDD など): 設計の基礎が固まってから判断する
 - 残す (0 / 1)
   - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す

@@ -51,10 +51,11 @@
 | このデータの品質 (位置の正確さ、欠け、新しさ) で、結論を支えられるか確かめたい | data-quality-audit |
 | これから観測する地点を、どこに、何地点、どう選ぶか決めたい | spatial-sampling-design |
 | 人や世帯の位置を含むデータを、使い、共有し、公開してよいか判断したい | location-privacy |
+| 施設や規制の効果 (因果) を、このデータから言えるか判断したい | causal-design |
 
 ## 何が入っているか
 
-分析の流れは 5 つの段階に分かれている。
+分析の流れは 6 つの段階に分かれている。
 
 | 段階 | 答える問い | スキル |
 |---|---|---|
@@ -63,6 +64,7 @@
 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか。結論は頑健か | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatial-interpolation、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation、robustness-analysis |
 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis |
 | ネットワークと最適化 | 実際に歩いて何分か。施設をどこに置くか | spatial-network-analysis、spatial-optimization |
+| 因果を問う | この因果効果を、このデータと仮定から識別できるか | causal-design |
 
 まだ無いもの: 分析を成果物にまとめる `analysis-reporting`、最適化の発展的な内容。進み具合は [.agents/skills/TODO.md](.agents/skills/TODO.md)。
 

@@ -40,8 +40,9 @@
    - 外れがあるか: `anomaly-detection`
    - 点が集まっているか: `point-pattern-analysis`
 7. 距離が道のりで決まる問い、置き場所を選ぶ問いは `spatial-network-analysis`、`spatial-optimization`。
-8. 結論を式で書き、条件を変えて保たれるかを確かめる (`robustness-analysis`)。地理的な単位 (市区町村、国、格子) の間の相関や回帰が結論なら、書く前に 2 つを実行して数字を報告書に貼る。変数それぞれの Moran's I (`spatial-autocorrelation/scripts/spatial_autocorrelation.py`、回帰なら残差の I) と、大きさをそろえた格子 3 段以上での同じ相関 (`analysis-unit-design` の MAUP の節)。行政区の階層を変えただけでは、単位の大きさの効果と境界の効果が混ざる。
-9. 書き出す。仮説、データ (版)、方法、評価 (分け方ごと)、反証、限界、結論。人や世帯の位置から作った図や表を公開する前に、再識別の攻撃を模擬し、守り方で結論が変わらないかを確かめる (`location-privacy`)。成果物にまとめるスキル (`analysis-reporting`) は未着手。
+8. 因果の効果 (施設や規制が結果を動かしたか) が問いなら、推定より先に、識別できるかを判断する (`causal-design`)。処置、結果、推定の対象、調整する変数としてはいけない変数、識別に要る仮定を書く。予測の精度、特徴量の重要度、固定効果の係数の良さは、識別の根拠にしない。
+9. 結論を式で書き、条件を変えて保たれるかを確かめる (`robustness-analysis`)。地理的な単位 (市区町村、国、格子) の間の相関や回帰が結論なら、書く前に 2 つを実行して数字を報告書に貼る。変数それぞれの Moran's I (`spatial-autocorrelation/scripts/spatial_autocorrelation.py`、回帰なら残差の I) と、大きさをそろえた格子 3 段以上での同じ相関 (`analysis-unit-design` の MAUP の節)。行政区の階層を変えただけでは、単位の大きさの効果と境界の効果が混ざる。
+10. 書き出す。仮説、データ (版)、方法、評価 (分け方ごと)、反証、限界、結論。人や世帯の位置から作った図や表を公開する前に、再識別の攻撃を模擬し、守り方で結論が変わらないかを確かめる (`location-privacy`)。成果物にまとめるスキル (`analysis-reporting`) は未着手。
 
 ## 道具
 
