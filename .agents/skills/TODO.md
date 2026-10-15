@@ -131,7 +131,7 @@
     - [x] `references/partial-dependence.md`
     - [ ] `references/shap.md`: SHAP 値。行ごとの説明
     - [x] 行ごとの部分依存の曲線 (ICE)
-- 構造を探す (5 / 5)
+- 構造を探す (6 / 6)
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
     - [x] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
     - [x] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み (Queen と Rook、島、成分。contiguity.py)
@@ -155,6 +155,12 @@
     - [x] `references/baselines.md`
     - [ ] カーネル密度
     - [ ] 2 種類の点の間 (クロス K) と、散らばりの検定
+  - [x] `spatial-process-modeling`: 点のパターンを確率過程の生成としてモデル化する。対数線形の強度の Poisson 過程を点過程の尤度で当てはめ、格子の Poisson 回帰と比べ、模擬で確かめる
+    - [x] `references/poisson-process.md`
+    - [x] `references/beyond-poisson.md`
+    - [ ] Cox 過程 (潜在の場) の推定
+    - [ ] 観測の過程 (見つかる確率) の補正
+    - [ ] 点どうしの相互作用のモデル (Gibbs、Strauss)、時空間の点過程 (Hawkes)
 - ネットワークと最適化 (2 / 2)
   - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る
     - [x] `references/building-the-graph.md`

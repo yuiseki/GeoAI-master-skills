@@ -54,7 +54,7 @@
       - 近い単位どうしで似ているか、どこに集まっているか: `spatial-autocorrelation`
       - 群があるか: `clustering-analysis`。軸に要約できるか: `dimensionality-reduction`
       - 外れがあるか: `anomaly-detection`
-      - 点が集まっているか: `point-pattern-analysis`
+      - 点が集まっているか: `point-pattern-analysis`。点がどんな過程から生まれたか (強度のパラメータを推定し、尤度と模擬で比べる): `spatial-process-modeling`
    - 距離が道のりで決まる問い、置き場所を選ぶ問い: `spatial-network-analysis`、`spatial-optimization`。
    - 因果の効果の推定: 3 で識別できると判定した問いだけ。推定の手法 (マッチング、IPW、DiD、IV、RDD など) のスキルはまだ無い。それまでは、設計の表、調整の層ごとの標準化 (`causal-design/scripts/design_checks.py`) と感度の表までを報告し、それ以上の推定はしていないと書く。予測のモデルで回帰を当てはめるなら、変数は設計の表の調整の集合に限り、係数を効果と読むのは識別できると判定した範囲だけ。
 8. 結論を式で書き、条件を変えて保たれるかを確かめる (`robustness-analysis`)。地理的な単位 (市区町村、国、格子) の間の相関や回帰が結論なら、書く前に 2 つを実行して数字を報告書に貼る。変数それぞれの Moran's I (`spatial-autocorrelation/scripts/spatial_autocorrelation.py`、回帰なら残差の I) と、大きさをそろえた格子 3 段以上での同じ相関 (`analysis-unit-design` の MAUP の節)。行政区の階層を変えただけでは、単位の大きさの効果と境界の効果が混ざる。
