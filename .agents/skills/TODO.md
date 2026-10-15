@@ -1,3 +1,10 @@
+- 因果を問う (1 / 1)
+  - [x] `causal-design`: 因果の問いのときだけ、データに手を付ける前に使う。因果の効果を推定する前に、このデータと仮定から識別できるかを判断する。設計の表、DAG と調整の集合、地図の上の支え、隣への波及、空間的な交絡、未観測の交絡への感度
+    - [x] `references/potential-outcomes.md`
+    - [x] `references/dag-adjustment.md`
+    - [x] `references/spatial.md`
+    - [x] `references/sensitivity.md`
+    - [ ] 設計の後に来る推定の手法 (マッチング、IPW、DiD、IV、RDD など)。causal-design で識別できると判定した問いだけに使う。別のスキルにするかは、設計の基礎が固まってから判断する
 - データを知る (6 / 6)
   - [x] `dataset-discovery`: 使えるデータセットを選び、列、粒度、時空間範囲、注意点を実測する
     - [x] `references/index.md`: データセット、目録、サービスの索引
@@ -64,7 +71,7 @@
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)
-- 予測して、評価を疑う (10 / 10)
+- 予測して、評価を疑う (9 / 9)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
@@ -116,10 +123,6 @@
     - [x] `references/partial-dependence.md`
     - [ ] `references/shap.md`: SHAP 値。行ごとの説明
     - [x] 行ごとの部分依存の曲線 (ICE)
-  - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
-    - [x] `references/maup.md`
-    - [x] `references/inference.md`: 効果の大きさと有意、検出力、分析の自由度、探索と確認
-    - [x] 格子の原点をずらす区切り方の効果
 - 構造を探す (5 / 5)
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
     - [x] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
@@ -159,12 +162,10 @@
     - [ ] 多目的 (重み付き和、パレート、ε 制約)
     - [ ] 無作為な配置の分布を基準にする、既存の配置を評価する (002)
     - [ ] 下限を先に求める (005)
-- 因果を問う (1 / 1)
-  - [x] `causal-design`: 因果の効果を推定する前に、このデータと仮定から識別できるかを判断する。設計の表、DAG と調整の集合、地図の上の支え、隣への波及、空間的な交絡、未観測の交絡への感度
-    - [x] `references/potential-outcomes.md`
-    - [x] `references/dag-adjustment.md`
-    - [x] `references/spatial.md`
-    - [x] `references/sensitivity.md`
-    - [ ] 推定の手法 (マッチング、IPW、DiD、IV、RDD など): 設計の基礎が固まってから判断する
+- 結論を疑う (1 / 1)
+  - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
+    - [x] `references/maup.md`
+    - [x] `references/inference.md`: 効果の大きさと有意、検出力、分析の自由度、探索と確認
+    - [x] 格子の原点をずらす区切り方の効果
 - 残す (0 / 1)
   - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す

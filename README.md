@@ -28,6 +28,8 @@
 
 ## テーマから使うスキルを選ぶ
 
+知りたいことが、予測 (どこで、どれだけ起こるか) か、関連や構造 (どこで高いか、似ているか) か、因果 (何かを変えたら結果が変わるか) かで、読むスキルが変わる。因果なら、表のどの行より先に causal-design を読む。
+
 | やりたいこと | 読むスキル |
 |---|---|
 | 国や地域ごとの指標を、他の指標から予測したい | eda-and-baseline、cross-validation-design、spatial-data-modeling |
@@ -55,18 +57,22 @@
 
 ## 何が入っているか
 
-分析の流れは 6 つの段階に分かれている。
+スキルは、どの問いでも通る準備と、問いの種類で分かれる分析と、結論を疑って残す仕上げに分かれる。最初に問いの種類を決める。「来年どこで事故が起こるか」は予測、「駅の近くで地価が高いか」は関連や構造、「道路整備が事故を減らしたか」「駅を新設すると地価が上がるか」は因果。因果の問いだけは、データに手を付ける前に「因果を問う」(causal-design) で、識別できるかを設計する。設計の表 (処置の時点、推定の対象、調整する変数としてはいけない変数、支え、波及) は、その後の準備と分析の選び方を縛る。
 
-| 段階 | 答える問い | スキル |
-|---|---|---|
-| データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか。その品質で結論を支えられるか。記録の多さは現象の多さか、観測のされやすさか。これから観測するならどこを測るか。位置を使い、共有し、公開してよいか | dataset-discovery、data-variable-semantics、data-quality-audit、observation-bias-audit、spatial-sampling-design、location-privacy |
-| 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。境界の違う区域の値をどう移すか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、areal-interpolation、spatial-feature-engineering |
-| 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか。結論は頑健か | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatial-interpolation、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation、robustness-analysis |
-| 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis |
-| ネットワークと最適化 | 実際に歩いて何分か。施設をどこに置くか | spatial-network-analysis、spatial-optimization |
-| 因果を問う | この因果効果を、このデータと仮定から識別できるか | causal-design |
+| 区分 | 段階 | 答える問い | スキル |
+|---|---|---|---|
+| 問いを決める | 因果を問う (因果の問いのときだけ、準備の前に) | この因果効果を、このデータと仮定から識別できるか。処置、結果、推定の対象、調整する変数、してはいけない変数、識別の仮定は何か | causal-design |
+| 共通の準備 | データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか。その品質で結論を支えられるか。記録の多さは現象の多さか、観測のされやすさか。これから観測するならどこを測るか。位置を使い、共有し、公開してよいか | dataset-discovery、data-variable-semantics、data-quality-audit、observation-bias-audit、spatial-sampling-design、location-privacy |
+| 共通の準備 | 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。境界の違う区域の値をどう移すか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、areal-interpolation、spatial-feature-engineering |
+| 問いに応じた分析 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatial-interpolation、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation |
+| 問いに応じた分析 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis |
+| 問いに応じた分析 | ネットワークと最適化 | 実際に歩いて何分か。施設をどこに置くか | spatial-network-analysis、spatial-optimization |
+| 問いに応じた分析 | 因果の効果を推定する | 識別できると判定した効果を、どの手法で推定するか (マッチング、IPW、DiD、IV、RDD など) | まだ無い。因果を問う の後に来る |
+| 結論を疑う、残す | 頑健性と報告 | 結論は、単位、分け方、標本、設定を変えても保たれるか。どう成果物に残すか | robustness-analysis、analysis-reporting (未着手) |
 
-まだ無いもの: 分析を成果物にまとめる `analysis-reporting`、最適化の発展的な内容。進み具合は [.agents/skills/TODO.md](.agents/skills/TODO.md)。
+予測の精度、回帰の係数、パネルの固定効果、階層モデルのランダム効果、特徴量の重要度は、どれも因果の識別を保証しない。因果を言うなら、識別の設計と、そこで置いた仮定を添える。
+
+まだ無いもの: 分析を成果物にまとめる `analysis-reporting`、因果の効果の推定の手法、最適化の発展的な内容。進み具合は [.agents/skills/TODO.md](.agents/skills/TODO.md)。
 
 ## 動かすために
 
