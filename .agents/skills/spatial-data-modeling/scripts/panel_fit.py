@@ -6,10 +6,16 @@ and standard errors clustered by unit.
               time     time fixed effects: only differences between units in the same period
               twoway   both (alternating demeaning, so unbalanced panels work)
 A regressor with no variation left after the effects (an area or a region code under unit effects) cannot
-be estimated; it is listed in dropped and its coefficient is NaN, rather than given a number.
+be estimated; it is listed in dropped and its coefficient is NaN, rather than given a number. Under unit or time
+effects, rows whose unit (or period) appears only once are dropped, repeatedly, and counted in singletons: they
+leave the slopes unchanged but would add rows and clusters to the standard errors (fixest and reghdfe do the
+same).
 
-se_naive assumes independent rows; se_cluster (CR1: G / (G - 1) x (n - 1) / (n - k) on the sandwich, k the
-regressors kept) allows any correlation within a cluster and none between clusters. Errors shared by
+se_naive assumes independent rows; se_cluster (CR1: G / (G - 1) x (n - 1) / (n - K) on the sandwich) allows
+any correlation within a cluster and none between clusters. K counts the regressors kept, plus one, plus the
+levels - 1 of each absorbed effect that is not nested in the clusters (an effect whose every level falls in one
+cluster is not counted): the convention of fixest and reghdfe, checked against pyfixest. linearmodels and an
+OLS with dummy variables count differently and give slightly larger errors for time and two-way effects. Errors shared by
 neighbouring units in the same year are correlation between clusters: cluster by a coarser unit (region)
 or check with time effects.
 
@@ -27,6 +33,12 @@ import argparse
 import numpy as np
 
 EFFECTS = ("none", "unit", "time", "twoway")
+
+
+def _nested(codes, cluster):
+    """True when every level of codes lies inside a single cluster."""
+    pairs = np.unique(np.c_[np.asarray(codes).astype(str), np.asarray(cluster).astype(str)], axis=0)
+    return len(pairs) == len(np.unique(np.asarray(codes).astype(str)))
 
 
 def _demean(a, codes):
@@ -58,6 +70,20 @@ def fit(y, X, unit, time, effects="none", cluster=None, names=None, intercept=Tr
     X = np.asarray(X, float).reshape(len(y), -1)
     names = list(names) if names is not None else [f"x{j}" for j in range(X.shape[1])]
     unit, time = np.asarray(unit), np.asarray(time)
+    cluster = None if cluster is None else np.asarray(cluster)
+    keep = np.ones(len(y), bool)
+    used = [c for c, on in ((unit, effects in ("unit", "twoway")), (time, effects in ("time", "twoway"))) if on]
+    while used:  # singletons: a level seen once carries no within information; drop them until none is left
+        single = np.zeros(len(y), bool)
+        for codes in used:
+            labels, inv, counts = np.unique(codes[keep], return_inverse=True, return_counts=True)
+            single[np.flatnonzero(keep)[counts[inv] == 1]] = True
+        if not single.any():
+            break
+        keep &= ~single
+    singletons = int((~keep).sum())
+    y, X, unit, time = y[keep], X[keep], unit[keep], time[keep]
+    cluster = None if cluster is None else cluster[keep]
     if effects == "none":
         Xw, yw = X, y
         absorbed = 0
@@ -80,18 +106,24 @@ def fit(y, X, unit, time, effects="none", cluster=None, names=None, intercept=Tr
     se_naive = np.sqrt(np.diag(XtX_inv) * (u @ u) / dof)
     off = 1 if effects == "none" and intercept else 0
     out = {"names": names, "coef": np.full(len(names), np.nan), "se_naive": np.full(len(names), np.nan),
-           "dropped": dropped, "n": n, "dof": dof}
+           "dropped": dropped, "n": n, "dof": dof, "singletons": singletons}
     out["coef"][keep] = b[off:]
     out["se_naive"][keep] = se_naive[off:]
     if cluster is not None:
-        cluster = np.asarray(cluster)
         groups = np.unique(cluster)
         G = len(groups)
+        if effects == "none":
+            K = k
+        else:
+            K = k + 1
+            for codes, used in ((unit, effects in ("unit", "twoway")), (time, effects in ("time", "twoway"))):
+                if used and not _nested(codes, cluster):
+                    K += len(np.unique(codes)) - 1
         meat = np.zeros((k, k))
         for g in groups:
             s = D[cluster == g].T @ u[cluster == g]
             meat += np.outer(s, s)
-        V = G / (G - 1) * (n - 1) / (n - k) * XtX_inv @ meat @ XtX_inv
+        V = G / (G - 1) * (n - 1) / (n - K) * XtX_inv @ meat @ XtX_inv
         out["se_cluster"] = np.full(len(names), np.nan)
         out["se_cluster"][keep] = np.sqrt(np.diag(V))[off:]
         out["clusters"] = G
@@ -152,6 +184,8 @@ def main():
         for j, n in enumerate(a.features):
             print(f"{e:<7} {n}: coef {r['coef'][j]:.4g}  se naive {r['se_naive'][j]:.3g}  "
                   f"se clustered {r['se_cluster'][j]:.3g}")
+        if r["singletons"]:
+            print(f"{e:<7} rows dropped as singletons (a unit or period seen once): {r['singletons']}")
         if r["dropped"]:
             print(f"{e:<7} not estimable (no variation left): {', '.join(r['dropped'])}")
 

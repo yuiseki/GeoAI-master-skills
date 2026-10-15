@@ -109,3 +109,17 @@ def test_lag_does_not_jump_over_a_missing_year():
 def test_lag_stops_on_two_rows_for_the_same_unit_and_period():
     with pytest.raises(ValueError, match="a"):
         lag([1, 2, 3], ["a", "a", "a"], [2020, 2020, 2021])
+
+
+def test_a_unit_seen_once_is_dropped_and_counted_under_unit_effects():
+    # unit C has one row: it says nothing about change within a unit, but would add a row and a cluster
+    unit = np.array(["A"] * 3 + ["B"] * 3 + ["C"])
+    time = np.array([0, 1, 2, 0, 1, 2, 0])
+    x = np.array([0, 1, 2, 10, 11, 13, 5.0])
+    y = np.array([1, 2, 4, 3, 5, 6, 9.0])
+    with_c = fit(y, x[:, None], unit, time, "unit", cluster=unit)
+    without = fit(y[:6], x[:6, None], unit[:6], time[:6], "unit", cluster=unit[:6])
+    assert with_c["singletons"] == 1 and with_c["n"] == 6
+    assert with_c["coef"] == pytest.approx(without["coef"])
+    assert with_c["se_cluster"] == pytest.approx(without["se_cluster"])
+    assert fit(y, x[:, None], unit, time, "none")["singletons"] == 0
