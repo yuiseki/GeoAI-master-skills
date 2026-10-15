@@ -71,7 +71,7 @@
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)
-- 予測して、評価を疑う (9 / 9)
+- 予測して、評価を疑う (10 / 10)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
@@ -92,6 +92,11 @@
     - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE
     - [x] `references/count-modeling.md`: 件数と率、ポアソンと offset、過分散と負の二項、ゼロが多いとき
     - [x] `references/compositional.md`: 合計が一定の割合、閉包、基準のカテゴリ、対数比
+  - [x] `spatiotemporal-modeling`: 空間と時間の依存を同時に持つ現象を、空間、時間、相互作用、時空間の残差に分けてモデル化し、予測先 (既知の地点の未来、未知の地点、未知の地点の未来) ごとの分け方で評価する
+    - [x] `references/structure.md`
+    - [x] `references/validation.md`
+    - [ ] 時空間の残差の過程のモデル (時空間のクリギング、ガウス過程、SPDE)
+    - [ ] 季節の位相が地点で違う相互作用
   - [x] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
     - [x] `references/baselines.md`
     - [x] `references/ets.md`
