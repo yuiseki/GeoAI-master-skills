@@ -10,8 +10,9 @@ regression calibration, and misclassification of a 0/1 value.
                               reliability of one measurement and of the mean of k.
     calibration_from_validation  in rows where the true value is known too, the regression of the true value
                               on the observed one: E[true | observed] = a + b x observed (b is the reliability
-                              under classical error). The rows may be chosen by the observed value, not by the
-                              true value or the outcome: those give a different line.
+                              under classical error). A choice of rows that depends only on the observed
+                              variables the calibration conditions on can be ignorable; one that depends on the
+                              true value, the outcome or the measurement process can bias the line.
     regression_calibration    replaces the observed predictor by a + b x observed and refits. The standard
                               errors it prints ignore that a and b were estimated: bootstrap the validation
                               rows for an interval.
@@ -157,8 +158,9 @@ def main():
         fixed = regression_calibration(y, w, a0, b)["coef"][1]
         print(f"rows {len(y)}, validation rows {len(val)}: true = {a0:.4g} + {b:.4g} x observed")
         print(f"slope on the observed value {naive:.4g}; after regression calibration {fixed:.4g}")
-        print("valid only if the validation rows were chosen at random or by the observed value alone, and the "
-              "error behaves the same outside them; the interval needs a bootstrap of the validation rows")
+        print("assumes the validation rows were chosen at random or by the observed value alone (not by the true "
+              "value or the outcome), and that the error behaves the same outside them; the interval needs a "
+              "bootstrap of the validation rows")
     else:
         for (se, sp), val in correction_grid(a.p_observed, a.se, a.sp).items():
             print(f"se {se} sp {sp}: " + ("does not fit" if val is None else f"{val:.4g}"))
