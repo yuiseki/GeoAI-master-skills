@@ -86,6 +86,8 @@
     - [x] `references/classification.md`: 二値と多クラス (macro F1、balanced accuracy、クラスごとの指標、稀なクラス)
     - [x] `references/panel-data.md`: 同じ単位の繰り返しの観測。固定効果、クラスタの標準誤差、ラグ (panel_fit.py)
     - [x] `references/multilevel-models.md`: 入れ子の構造。部分的なまとめ、ICC、ランダム傾き、2 段の入れ子、Mundlak (multilevel_fit.py)
+    - [x] `references/bayesian-modeling.md`: 共役な事前分布で事前から事後予測まで。事前予測、感度、事後予測の確かめ、被覆の模擬 (bayes_conjugate.py)
+    - [ ] MCMC (bayes_conjugate.py の解析解を真値にしたテストから)
     - [x] `references/measurement-error.md`: 潜在的な真値と測定の誤差。減衰、信頼性、回帰による較正、誤分類 (measurement_error.py)
     - [x] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR の選び方 (実装はしていない)
     - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
