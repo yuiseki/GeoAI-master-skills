@@ -1,7 +1,7 @@
 ---
 kind: dataset
 id: dehejia/nsw-lalonde
-description: National Supported Work Demonstration (NSW) の職業訓練の無作為化実験と、同じ処置群に組み合わせる観察の対照群 (PSID、CPS)。LaLonde (1986) と Dehejia と Wahba (1999、2002) が使った版。実験の答え (処置群と対照群の差) が分かっているので、観察データでの因果の推定量が、その答えに戻るかを試せる。
+description: GeoAI の分析対象のデータではなく、GeoAI でも使う統計手法を検証するための benchmark (reference dataset)。National Supported Work Demonstration (NSW) の職業訓練の無作為化実験と、同じ処置群に組み合わせる観察の対照群 (PSID、CPS)。LaLonde (1986) と Dehejia と Wahba (1999、2002) が使った版。実験の答え (処置群と対照群の差) が分かっているので、観察データでの因果の推定量が、その答えに戻るかを試せる。
 url: https://users.nber.org/~rdehejia/data/.nswdata2.html
 license: 配布元のページに、LaLonde の許可を得てここで公開する、とある。再配布の条件は書かれていない (未確認)。このリポジトリには置かず、配布元から読む
 spatial_coverage: アメリカ。実施地や住所の列は無い (地理の情報は入っていない)
@@ -47,7 +47,7 @@ tables:
 
 1970 年代のアメリカの職業訓練の無作為化実験 National Supported Work Demonstration の男性の参加者と、同じ処置群に、調査から取った「訓練を受けなかった人」を組み合わせた観察のデータ。LaLonde (1986, American Economic Review) が、観察データの推定が実験の答えを再現できないことを示し、Dehejia と Wahba (1999, JASA、2002, REStat) が傾向スコアで見直した。
 
-地理の列は無い。地理空間のデータではないが、実験の答えが分かっている数少ない公開データなので、因果の推定量の検算に使う。
+このデータは、GeoAI の分析対象のデータではない。GeoAI でも使う統計手法 (因果の推定量) を検証するための benchmark、reference dataset として置く。地理の列は無く、地理空間の問いには答えられない。実験の答えが分かっている数少ない公開データなので、推定量が既知の答えに戻るか、どの条件で戻らないかを確かめるのに使う。分析の題材を探すときの候補にはしない。
 
 ## どこから読むか
 
