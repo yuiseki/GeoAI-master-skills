@@ -1,7 +1,7 @@
 # Toolchain for the skills in .agents/skills: Python, uv, DuckDB with its spatial extension,
 # and the libraries the scripts and tests import.
-# Build:  docker build -t geoai-skills .
-# Run:    docker run --rm -it -v "$PWD":/work geoai-skills
+# Build:  docker build -t geoai-master-skills .
+# Run:    docker run --rm -it -v "$PWD":/work geoai-master-skills
 FROM python:3.12-slim-bookworm
 
 COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /uvx /usr/local/bin/

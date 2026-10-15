@@ -46,7 +46,7 @@
 
 | 固定するもの | 値 |
 |---|---|
-| イメージ | `geoai-skills-evals-codex` (Codex CLI は `CODEX_VERSION` で固定、既定 0.162.1。結果と一緒に版を記録する) |
+| イメージ | `geoai-master-skills-evals-codex` (Codex CLI は `CODEX_VERSION` で固定、既定 0.162.1。結果と一緒に版を記録する) |
 | CPU | `--cpuset-cpus=0-7 --cpus=8` (`EVAL_CPUSET` で、別の 8 論理 CPU に変えられる。並列に流すときに分ける) |
 | メモリ | `--memory=16g --memory-swap=16g` (swap に逃げない) |
 | プロセス数 | `--pids-limit=512` |
@@ -55,7 +55,7 @@
 | mount | 作業場所 → `/work` と、Codex の状態 `~/.codex-evals` → `/home/geo/.codex` だけ。元のリポジトリ、`evals/`、docker.sock、ホームは渡さない |
 
 ```sh
-docker build -f Dockerfile.evals.codex -t geoai-skills-evals-codex .
+docker build -f Dockerfile.evals.codex -t geoai-master-skills-evals-codex .
 
 # 初回だけ: ログイン (認証は ~/.codex-evals に保存。イメージには入れない。普段の ~/.codex とは別)
 evals/run_codex_docker.sh --login
@@ -74,14 +74,14 @@ Codex と同じ課題、同じ作業場所、同じ CPU とメモリの条件で
 
 | 固定するもの | 値 |
 |---|---|
-| イメージ | `geoai-skills-evals-gemini`。`agy` の版は `AGY_VERSION` で固定 (既定 1.3.5)。公式のインストーラは最新を入れ、`agy` は自己更新もするので、版が違うとビルドが失敗する。上げるときは `--build-arg AGY_VERSION=...` で意図して上げ、結果と一緒に版を記録する。root で入れるので、実行中の自己更新はできない |
+| イメージ | `geoai-master-skills-evals-gemini`。`agy` の版は `AGY_VERSION` で固定 (既定 1.3.5)。公式のインストーラは最新を入れ、`agy` は自己更新もするので、版が違うとビルドが失敗する。上げるときは `--build-arg AGY_VERSION=...` で意図して上げ、結果と一緒に版を記録する。root で入れるので、実行中の自己更新はできない |
 | 認証 | OAuth (Google アカウント) か API キー。baseline とスキルありで同じにする。下を参照 |
 | モデルと effort | OAuth: `gemini-3.8-flash-low` (effort はモデル名の末尾。3.6 Flash は一覧に無い)。API キー: `gemini-3.6-flash` と `--effort low`。`EVAL_MODEL`、`EVAL_EFFORT` で変える。一覧は `agy models` (認証方式で違う) |
 | CPU、メモリ、プロセス数、権限、mount | Codex と同じ (上の表) |
 | ログ | `--prompt` で、構造化ログ (stream-json) が標準出力に出る。ツール実行の各段階が見える |
 
 ```sh
-docker build -f Dockerfile.evals.gemini -t geoai-skills-evals-gemini .
+docker build -f Dockerfile.evals.gemini -t geoai-master-skills-evals-gemini .
 
 # 認証 (どちらか)
 evals/run_gemini_docker.sh --login      # OAuth: 表示された URL でサインインし、認可コードを貼る。トークンは ~/.gemini-evals に保存

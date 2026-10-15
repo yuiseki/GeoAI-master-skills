@@ -1,6 +1,6 @@
 # Codex CLI plus the analysis toolchain, for running the evals in evals/ under hard resource limits.
 # The toolchain lines mirror ./Dockerfile; keep the two in step when the library list changes.
-# Build:  docker build -f Dockerfile.evals.codex -t geoai-skills-evals-codex .
+# Build:  docker build -f Dockerfile.evals.codex -t geoai-master-skills-evals-codex .
 # Run:    evals/run_codex_docker.sh <workdir>     (the limits are set there, not here)
 FROM python:3.12-slim-bookworm
 

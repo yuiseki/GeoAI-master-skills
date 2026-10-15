@@ -14,11 +14,11 @@
 # e.g. -m gpt-6-luna -c model_reasoning_effort=medium.
 #
 # Environment (defaults are the eval conditions):
-#   EVAL_IMAGE=geoai-skills-evals-codex  EVAL_CPUSET=0-7  EVAL_CPUS=8  EVAL_MEMORY=16g  EVAL_PIDS=512
+#   EVAL_IMAGE=geoai-master-skills-evals-codex  EVAL_CPUSET=0-7  EVAL_CPUS=8  EVAL_MEMORY=16g  EVAL_PIDS=512
 #   EVAL_CODEX_HOME=$HOME/.codex-evals   (never $HOME/.codex)
 set -euo pipefail
 
-IMAGE=${EVAL_IMAGE:-geoai-skills-evals-codex}
+IMAGE=${EVAL_IMAGE:-geoai-master-skills-evals-codex}
 CPUSET=${EVAL_CPUSET:-0-7}
 CPUS=${EVAL_CPUS:-8}
 MEMORY=${EVAL_MEMORY:-16g}

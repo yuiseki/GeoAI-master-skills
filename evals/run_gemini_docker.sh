@@ -21,12 +21,12 @@
 # name with `docker run -e`; the key is never written to the image, /work or the command line.
 #
 # Environment (defaults are the eval conditions):
-#   EVAL_IMAGE=geoai-skills-evals-gemini  EVAL_CPUSET=0-7  EVAL_CPUS=8  EVAL_MEMORY=16g  EVAL_PIDS=512
+#   EVAL_IMAGE=geoai-master-skills-evals-gemini  EVAL_CPUSET=0-7  EVAL_CPUS=8  EVAL_MEMORY=16g  EVAL_PIDS=512
 #   EVAL_MODEL (api-key: gemini-3.6-flash, oauth: gemini-3.8-flash-low)  EVAL_EFFORT (api-key only: low)  EVAL_GEMINI_HOME=$HOME/.gemini-evals (never $HOME/.gemini)
 set -euo pipefail
 
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-IMAGE=${EVAL_IMAGE:-geoai-skills-evals-gemini}
+IMAGE=${EVAL_IMAGE:-geoai-master-skills-evals-gemini}
 CPUSET=${EVAL_CPUSET:-0-7}
 CPUS=${EVAL_CPUS:-8}
 MEMORY=${EVAL_MEMORY:-16g}

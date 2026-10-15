@@ -1,7 +1,7 @@
 # Antigravity CLI (agy) for Gemini models, plus the analysis toolchain, for running the evals in evals/ under hard
 # resource limits. The toolchain lines mirror ./Dockerfile and Dockerfile.evals.codex (same library versions, so
 # the Codex and Gemini evals compare models, not environments); keep them in step.
-# Build:  docker build -f Dockerfile.evals.gemini -t geoai-skills-evals-gemini .
+# Build:  docker build -f Dockerfile.evals.gemini -t geoai-master-skills-evals-gemini .
 # Run:    evals/run_gemini_docker.sh <workdir>     (the limits are set there, not here)
 FROM python:3.12-slim-bookworm
 
