@@ -15,7 +15,7 @@ or check with time effects.
 
 decompose splits a variable's variance into between units (the spread of unit means) and within units
 (deviations from the unit's own mean). lag takes the value of the same unit exactly k periods earlier,
-never a later one, and NaN where that period is missing.
+never a later one, and NaN where that period is missing; two rows for one unit and period stop it.
 
 Usage:
     uvx --from 'duckdb>=1.5.5' --with numpy python panel_fit.py TABLE UNIT TIME TARGET F1 [F2 ...] \\
@@ -111,7 +111,11 @@ def decompose(v, unit):
 
 def lag(v, unit, time, k=1):
     v = np.asarray(v, float)
-    at = {(u, t): x for u, t, x in zip(np.asarray(unit).tolist(), np.asarray(time).tolist(), v)}
+    at = {}
+    for u, t, x in zip(np.asarray(unit).tolist(), np.asarray(time).tolist(), v):
+        if (u, t) in at:
+            raise ValueError(f"unit {u!r} has two rows for period {t!r}")
+        at[(u, t)] = x
     return np.array([at.get((u, t - k), np.nan) for u, t in zip(np.asarray(unit).tolist(),
                                                                   np.asarray(time).tolist())])
 

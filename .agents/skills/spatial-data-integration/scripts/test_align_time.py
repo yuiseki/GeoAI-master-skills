@@ -73,3 +73,17 @@ def test_weights_of_an_old_unit_must_add_up_to_one_and_unmapped_codes_are_listed
         harmonize({"D": 1000}, [("D", "E", 0.6), ("D", "F", 0.3)])
     r = harmonize({"A": 1, "Z": 5}, [("A", "C", 1.0)])
     assert r["unmapped"] == ["Z"] and r["values"] == {"C": 1}
+
+
+def test_a_new_unit_missing_some_of_its_old_units_is_reported_not_given_a_partial_sum():
+    # B has no value: C = 100 would look like a complete merged total
+    r = harmonize({"A": 100}, [("A", "C", 1.0), ("B", "C", 1.0)])
+    assert r["incomplete"] == {"C": ["B"]}
+
+
+def test_two_values_for_the_same_key_and_time_stop_the_join():
+    dup = CENSUS + [{"key": "X", "ref": date(2020, 10, 1), "pub": date(2022, 1, 1), "value": 111}]
+    with pytest.raises(ValueError, match="X"):
+        asof_join(ROWS, "t", dup, "ref")
+    with pytest.raises(ValueError, match="X"):
+        nearest_join(ROWS, "t", dup, "ref")

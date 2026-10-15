@@ -104,3 +104,8 @@ def test_lag_takes_the_previous_time_of_the_same_unit_and_never_the_next():
 def test_lag_does_not_jump_over_a_missing_year():
     out = lag(np.array([1.0, 3]), np.array(["A", "A"]), np.array([2020, 2022]), 1)
     assert np.isnan(out[1])  # 2021 is missing; 2020 is two years back
+
+
+def test_lag_stops_on_two_rows_for_the_same_unit_and_period():
+    with pytest.raises(ValueError, match="a"):
+        lag([1, 2, 3], ["a", "a", "a"], [2020, 2020, 2021])

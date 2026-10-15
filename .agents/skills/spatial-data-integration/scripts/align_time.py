@@ -10,7 +10,10 @@
     harmonize     values by old code -> values by new code through a crosswalk (old, new, weight). A merge
                   is weight 1 from each old unit; a split shares an old unit by stated weights (area,
                   population), which is an assumption to write down. Each old unit's weights must add up
-                  to 1; codes missing from the crosswalk are listed, not dropped silently.
+                  to 1; codes missing from the crosswalk are listed (unmapped), not dropped silently, and
+                  new units that some of their old units did not reach are listed (incomplete), since
+                  their sums are partial.
+Two values for the same key and time stop the joins rather than one being picked silently.
 
 Usage (as a module):
     asof_join(rows, "date", census, "published", key="key")
@@ -26,6 +29,9 @@ def _index(values, time, key):
         by[v[key]].append(v)
     for k in by:
         by[k].sort(key=lambda v: v[time])
+        times = [v[time] for v in by[k]]
+        if len(set(times)) != len(times):
+            raise ValueError(f"key {k!r} has two values for the same time; pick one (a later version?) first")
     return by
 
 
@@ -70,4 +76,9 @@ def harmonize(values, crosswalk):
     for old, new, w in crosswalk:
         if old in values:
             out[new] += values[old] * w
-    return {"values": dict(out), "unmapped": sorted(k for k in values if k not in weights)}
+    missing = defaultdict(list)
+    for old, new, _ in crosswalk:
+        if old not in values:
+            missing[new].append(old)
+    return {"values": dict(out), "unmapped": sorted(k for k in values if k not in weights),
+            "incomplete": {k: sorted(v) for k, v in missing.items() if k in out}}
