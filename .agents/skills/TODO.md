@@ -4,7 +4,6 @@
     - [x] `references/dag-adjustment.md`
     - [x] `references/spatial.md`
     - [x] `references/sensitivity.md`
-    - [ ] 設計の後に来る推定の手法 (マッチング、IPW、DiD、IV、RDD など)。causal-design で識別できると判定した問いだけに使う。別のスキルにするかは、設計の基礎が固まってから判断する
 - データを知る (6 / 6)
   - [x] `dataset-discovery`: 使えるデータセットを選び、列、粒度、時空間範囲、注意点を実測する
     - [x] `references/index.md`: データセット、目録、サービスの索引
@@ -87,9 +86,11 @@
     - [x] `references/panel-data.md`: 同じ単位の繰り返しの観測。固定効果、クラスタの標準誤差、ラグ (panel_fit.py)
     - [x] `references/multilevel-models.md`: 入れ子の構造。部分的なまとめ、ICC、ランダム傾き、2 段の入れ子、Mundlak (multilevel_fit.py)
     - [x] `references/bayesian-modeling.md`: 共役な事前分布で事前から事後予測まで。事前予測、感度、事後予測の確かめ、被覆の模擬 (bayes_conjugate.py)
-    - [ ] MCMC (bayes_conjugate.py の解析解を真値にしたテストから)
+    - [ ] `references/mcmc.md`: MCMC。共役なモデルの解析解を真値にしたテストから。連鎖の診断 (R-hat、有効な標本の数)、事前予測と事後予測の確かめを同じ流れで。共役でない階層モデルと空間のランダム効果 (BYM など) へ
     - [x] `references/measurement-error.md`: 潜在的な真値と測定の誤差。減衰、信頼性、回帰による較正、誤分類 (measurement_error.py)
     - [x] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR の選び方 (実装はしていない)
+    - [ ] 空間ラグと空間誤差のモデルの実装 (最尤、直接効果と間接効果、LM 検定)。PySAL の spreg と照合
+    - [ ] GWR の実装 (帯域の選び方、局所の係数の不確かさ、多重比較)。mgwr と照合
     - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
     - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE
     - [x] `references/count-modeling.md`: 件数と率、ポアソンと offset、過分散と負の二項、ゼロが多いとき
@@ -97,7 +98,9 @@
   - [x] `spatiotemporal-modeling`: 空間と時間の依存を同時に持つ現象を、空間、時間、相互作用、時空間の残差に分けてモデル化し、予測先 (既知の地点の未来、未知の地点、未知の地点の未来) ごとの分け方で評価する
     - [x] `references/structure.md`
     - [x] `references/validation.md`
-    - [ ] 時空間の残差の過程のモデル (時空間のクリギング、ガウス過程、SPDE)
+    - [ ] 時空間のクリギング (分離できる共分散、時空間のバリオグラム)
+    - [ ] ガウス過程 (時空間のカーネル、大きなデータでの近似)
+    - [ ] SPDE (Matérn の場の疎な近似。Python で使える実装があるかから)
     - [ ] 季節の位相が地点で違う相互作用
   - [x] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
     - [x] `references/baselines.md`
@@ -160,7 +163,8 @@
     - [x] `references/beyond-poisson.md`
     - [ ] Cox 過程 (潜在の場) の推定
     - [ ] 観測の過程 (見つかる確率) の補正
-    - [ ] 点どうしの相互作用のモデル (Gibbs、Strauss)、時空間の点過程 (Hawkes)
+    - [ ] 時空間の点過程 (Hawkes、自己励起)。背景の強度と誘発の核を分ける
+    - [ ] 点どうしの相互作用のモデル (Gibbs、Strauss)
 - ネットワークと最適化 (2 / 2)
   - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る
     - [x] `references/building-the-graph.md`
@@ -176,6 +180,15 @@
     - [ ] 多目的 (重み付き和、パレート、ε 制約)
     - [ ] 無作為な配置の分布を基準にする、既存の配置を評価する (002)
     - [ ] 下限を先に求める (005)
+- 因果の効果を推定する (0 / 1)
+  - [ ] `causal-estimation`: 識別できると判定した因果の効果を、設計の表に従って推定する。推定量ごとの仮定、支えと重みの診断、共変量のバランス、推定量の間の比較、感度
+    - [ ] `references/adjustment-weighting.md`: 回帰による調整、IPW、AIPW (二重頑健)。傾向スコアの重なり、重みの診断、バランス
+    - [ ] `references/matching.md`: 最近傍のマッチング、キャリパー、バランス、マッチングの後の推定と標準誤差
+    - [ ] `references/did.md`: 差の差。2 期、段階的な導入 (二方向の固定効果の落とし穴)、事前の傾向、イベントスタディ
+    - [ ] `references/iv.md`: 操作変数と 2SLS。弱い操作変数、除外制約、LATE
+    - [ ] `references/rdd.md`: 回帰不連続。鋭いと曖昧、局所線形、帯域、境界の両側を比べる空間の RDD
+    - [ ] `references/synthetic-control.md`: 合成対照。処置された少数の地域、前の期間の当てはまり、置換の推論
+    - [ ] `references/spillover.md`: 曝露の写像による直接と波及の効果の推定
 - 結論を疑う (1 / 1)
   - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
     - [x] `references/maup.md`
