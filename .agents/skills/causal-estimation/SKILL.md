@@ -13,8 +13,9 @@ description: 因果の効果を識別できると判定した後に、設計の�
 |---|---|---|
 | [adjustment-weighting](references/adjustment-weighting.md) | 調整の集合で交絡が尽きる | 回帰による調整、IPW、AIPW。重なり、重み、バランス、地域で引き直す区間 (`scripts/estimate_effect.py`) |
 | [matching](references/matching.md) | 調整の集合で交絡が尽きる | ATT の最近傍マッチング (戻して選ぶ)、同点、キャリパー、線形の偏りの補正、Abadie と Imbens の標準誤差、使われた対照の数 (`scripts/match.py`) |
+| [did](references/did.md) | 平行な傾向 | 2 × 2、二方向の固定効果、Callaway と Sant'Anna の群 × 時点と集計、処置の前のセル (`scripts/did.py`) |
 
-差の差、操作変数、回帰不連続、合成対照、波及の効果は、まだ無い。識別の型がこれらなら、この表の推定量で代用しない。
+操作変数、回帰不連続、合成対照、波及の効果は、まだ無い。識別の型がこれらなら、この表の推定量で代用しない。
 
 ## 手順
 
