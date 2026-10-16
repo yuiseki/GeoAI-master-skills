@@ -11,6 +11,14 @@
     ice         the same curve for each of a sample of rows (first repeat), summarised by how
                 much each row's prediction changes over the grid: an average that hides
                 opposite effects shows up as rows going both ways.
+    shap        Shapley values of each row's prediction, computed exactly over every subset of the
+                players (features, or --group sets as one player; up to 12 players): a player left
+                out takes the values of background rows (a sample of the fold's training rows), so
+                the values add up to the prediction minus the background's mean prediction
+                (interventional SHAP). Taken on a sample of each fold's test rows. Reported: mean
+                |value|, mean value, and the correlation of a feature's values with the feature.
+                Hybrid rows mix one row's features with another's, so correlated features are
+                judged on rows the model never saw; their split of the credit is unstable.
 
 Models and folds come from compare_models.py, a copy of which sits in this directory.
 
@@ -19,6 +27,9 @@ Usage:
         --task regression --model hgb --folds-file folds.parquet [--group lonlat=lon,lat ...]
     uvx --with duckdb --with scikit-learn python explain_model.py pd TABLE ID TARGET F1 F2 ... \
         --task regression --model hgb --folds-file folds.parquet --feature F1 [--points 11]
+    uvx --with duckdb --with scikit-learn python explain_model.py shap TABLE ID TARGET F1 F2 ... \
+        --task regression --model hgb --folds-file folds.parquet [--group lonlat=lon,lat] \
+        [--explain 200 --background 100]
 """
 
 import argparse
@@ -103,9 +114,69 @@ def ice_curves(y, X, j, model_name, folds, task, points=11, sample=200, seed=0):
     return curves, rows
 
 
+def shapley_values(f, X, background, players):
+    """Exact interventional Shapley values: (rows of X) x (players). players: lists of column indices."""
+    from math import factorial
+
+    X, background = np.asarray(X, float), np.asarray(background, float)
+    P = len(players)
+    if P > 12:
+        raise SystemExit(f"{P} players: exact Shapley values need 2^P subsets; group features (--group)")
+    nx, nb = len(X), len(background)
+    v = np.empty((2 ** P, nx))
+    for mask in range(2 ** P):
+        Z = np.tile(background, (nx, 1))
+        rows = np.repeat(np.arange(nx), nb)
+        for j in range(P):
+            if mask >> j & 1:
+                Z[:, players[j]] = X[rows][:, players[j]]
+        v[mask] = f(Z).reshape(nx, nb).mean(1)
+    w = [factorial(k) * factorial(P - k - 1) / factorial(P) for k in range(P)]
+    phi = np.zeros((nx, P))
+    for mask in range(2 ** P):
+        k = bin(mask).count("1")
+        for j in range(P):
+            if not mask >> j & 1:
+                phi[:, j] += w[k] * (v[mask | 1 << j] - v[mask])
+    return phi
+
+
+def shap_summary(y, X, names, model_name, folds, task, groups=None, explain=200, background=100, seed=0):
+    """Shapley values on held-out rows, fold by fold (each fold's model, a background from its training rows)."""
+    y, X = np.asarray(y), np.asarray(X, float)
+    groups = groups or {}
+    grouped = {m for ms in groups.values() for m in ms}
+    if len(grouped) < sum(len(ms) for ms in groups.values()):
+        raise SystemExit("a feature is in two groups")
+    labels = list(groups) + [n for n in names if n not in grouped]
+    players = [[names.index(m) for m in groups[g]] for g in groups] + [[names.index(n)] for n in names
+                                                                       if n not in grouped]
+    rng = np.random.default_rng(seed)
+    phis, values, gap = [], [], 0.0
+    for repeat, splits in folds.items():
+        for k, (train, test) in enumerate(splits):
+            model = fit_fold(lambda: MODELS[model_name][task](repeat), X, y, splits, k)
+            f = lambda Z: _predict(model, Z, task)
+            bg = X[rng.choice(train, min(background, len(train)), replace=False)]
+            ex = X[rng.choice(test, min(explain, len(test)), replace=False)]
+            phi = shapley_values(f, ex, bg, players)
+            gap = max(gap, float(np.abs(phi.sum(1) - (f(ex) - f(bg).mean())).max()))
+            phis.append(phi)
+            values.append(ex)
+    phi, ex = np.vstack(phis), np.vstack(values)
+    out = {}
+    for j, (lab, cols) in enumerate(zip(labels, players)):
+        corr = float(np.corrcoef(phi[:, j], ex[:, cols[0]])[0, 1]) if len(cols) == 1 and phi[:, j].std() > 0 \
+            else float("nan")
+        out[lab] = {"mean_abs": float(np.abs(phi[:, j]).mean()), "mean": float(phi[:, j].mean()),
+                    "corr_with_value": corr}
+    out["_check"] = {"rows": len(phi), "max_efficiency_gap": gap}
+    return out
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("kind", choices=["importance", "pd", "ice"])
+    p.add_argument("kind", choices=["importance", "pd", "ice", "shap"])
     p.add_argument("table")
     p.add_argument("id")
     p.add_argument("target")
@@ -118,6 +189,8 @@ def main():
     p.add_argument("--shuffles", type=int, default=5)
     p.add_argument("--feature")
     p.add_argument("--points", type=int, default=11)
+    p.add_argument("--explain", type=int, default=200, help="shap: test rows explained per fold")
+    p.add_argument("--background", type=int, default=100, help="shap: training rows in the background")
     a = p.parse_args()
 
     import duckdb
@@ -135,11 +208,19 @@ def main():
     metric = "AUC" if a.task == "classification" else "R2"
     print(f"rows: {len(y)}, model: {a.model}, folds: {a.folds_file}, repeats: {list(folds)}")
 
-    if a.kind == "importance":
-        groups = {}
-        for g in a.group:
-            name, members = g.split("=", 1)
-            groups[name] = members.split(",")
+    groups = {}
+    for g in a.group:
+        name, members = g.split("=", 1)
+        groups[name] = members.split(",")
+    if a.kind == "shap":
+        r = shap_summary(y, X, a.features, a.model, folds, a.task, groups, a.explain, a.background)
+        check = r.pop("_check")
+        print(f"Shapley values of {check['rows']} held-out rows ({'probability' if a.task == 'classification' else 'prediction'}"
+              f" scale); largest gap between their sum and prediction minus background mean {check['max_efficiency_gap']:.2g}")
+        for k, v in sorted(r.items(), key=lambda kv: -kv[1]["mean_abs"]):
+            print(f"  {k:<24} mean |value| {v['mean_abs']:.4g}  mean {v['mean']:+.4g}  "
+                  f"correlation with the feature {v['corr_with_value']:+.2f}")
+    elif a.kind == "importance":
         imp = permutation_importance(y, X, a.features, a.model, folds, a.task, groups, a.shuffles)
         print(f"drop in {metric} when permuted on held-out rows (mean, sd over folds):")
         for k, v in sorted(imp.items(), key=lambda kv: -kv[1]["mean"]):

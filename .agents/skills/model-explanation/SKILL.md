@@ -1,6 +1,6 @@
 ---
 name: model-explanation
-description: モデルが何に頼って予測しているかを、採点と同じ分割表の、学習に使わなかった行で調べる。permutation importance (群でも)、部分依存。分割表を変えて重要度を比べ、位置や単位を覚えているだけの特徴量を見分ける。モデルを選んだ後、結論を言葉にする前に使う。
+description: モデルが何に頼って予測しているかを、採点と同じ分割表の、学習に使わなかった行で調べる。permutation importance (群でも)、部分依存、行ごとの Shapley 値 (SHAP)。分割表を変えて重要度を比べ、位置や単位を覚えているだけの特徴量を見分ける。モデルを選んだ後、結論を言葉にする前に使う。
 ---
 
 # model-explanation
@@ -11,6 +11,7 @@ description: モデルが何に頼って予測しているかを、採点と同�
 |---|---|
 | [permutation](references/permutation.md) | 特徴量 (や特徴量の群) を並べ替えたとき、点数がどれだけ落ちるか |
 | [partial-dependence](references/partial-dependence.md) | 1 つの特徴量を動かしたとき、予測の平均がどう動くか |
+| [shap](references/shap.md) | 1 行の予測を、特徴量 (や群) ごとの寄与に分ける。足し算の性質の確かめ、相関する特徴量の分け方の不安定さ |
 
 ## 手順
 
@@ -18,8 +19,9 @@ description: モデルが何に頼って予測しているかを、採点と同�
 2. `scripts/explain_model.py importance` で、各 fold の試験側の行で重要度を測る。相関の強い特徴量 (緯度と経度、似た指標) は `--group` でまとめても測る。
 3. 甘い分割表 (行を無作為に) でも測り、重要度を比べる。甘い分割表でだけ重要な特徴量は、単位や場所を覚えるのに使われている。
 4. 重要な特徴量について、`scripts/explain_model.py pd` で部分依存を見る。向きと形 (直線、飽和、しきい値) を言葉にする。 `ice` で行ごとの曲線も見て、行によって向きが逆になっていないかを確かめる。
-5. 線形モデルの係数や、別のモデルの部分依存と並べる。モデルによって形が違うなら、どちらかの形はデータの少ない所の当て推量。
-6. 書き出す。
+5. 行ごとの説明が要るなら、`scripts/explain_model.py shap` で Shapley 値を出す。相関の強い特徴量は `--group` でまとめた値を報告する。1 つずつの分け方は、当て直すたびに変わる ([shap](references/shap.md))。
+6. 線形モデルの係数や、別のモデルの部分依存と並べる。モデルによって形が違うなら、どちらかの形はデータの少ない所の当て推量。
+7. 書き出す。
 
 ```sh
 uvx --with duckdb --with scikit-learn python scripts/explain_model.py importance \
@@ -32,7 +34,7 @@ uvx --with duckdb --with scikit-learn python scripts/explain_model.py pd \
 
 モデルと分割表の読み込みは、同じ場所の `compare_models.py` を使う。
 
-テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_explain_model.py`。目的変数に関係する特徴量だけが重要になること、学習側の行で測ると雑音の特徴量まで重要に見えること、相関の強い 2 つの特徴量をまとめて並べ替えると組を保ったまま壊れること、部分依存が関係の形 (2 次曲線) をたどることを確かめている。学習側の行で測る、群を別々に並べ替える、のそれぞれで落ちることを確かめてある。
+テストは `uvx --with duckdb --with scikit-learn --with pytest pytest scripts/test_explain_model.py`。目的変数に関係する特徴量だけが重要になること、学習側の行で測ると雑音の特徴量まで重要に見えること、相関の強い 2 つの特徴量をまとめて並べ替えると組を保ったまま壊れること、部分依存が関係の形 (2 次曲線) をたどることを確かめている。学習側の行で測る、群を別々に並べ替える、のそれぞれで落ちることを確かめてある。Shapley 値は、手で計算した 2 人のゲーム、線形のモデルの閉じた形、足し算の性質で確かめ、shap の厳密な計算と TreeSHAP と照合した (`scripts/test_explain_model_crosscheck.py`、references/shap.md)。
 
 ## 重要度は因果の効果ではない
 
