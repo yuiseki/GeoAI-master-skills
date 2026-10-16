@@ -76,3 +76,28 @@ def test_padding_restores_the_interior_prediction_near_a_window_edge():
     m2, v2 = run(2 * pad)
     assert abs(m1 - m2) < 0.02 and abs(v1 - v2) < 0.02
     assert v0 > 1.3 * v2  # without padding the edge variance is too large (measured 0.176 against 0.112)
+
+
+def test_the_likelihood_peaks_near_the_true_parameters():
+    from spde import loglik, matern_nu1
+
+    rng = np.random.default_rng(3)
+    inner, pad, h = 31, 20, 0.02
+    n = inner + 2 * pad
+    rows, cols = pad + rng.integers(0, inner, 120), pad + rng.integers(0, inner, 120)
+    xy = np.c_[cols, rows] * h
+    D = np.hypot(*(xy[:, None] - xy[None]).transpose(2, 0, 1))
+    y = np.linalg.cholesky(matern_nu1(D, 1.0, KAPPA) + 0.05 * np.eye(120)) @ rng.normal(size=120)
+    cells = rows * n + cols
+    at = lambda k, s2, nv: loglik(n, n, h, cells, y, k, s2, nv)
+    top = at(KAPPA, 1.0, 0.05)
+    for other in ((KAPPA / 2, 1.0, 0.05), (2 * KAPPA, 1.0, 0.05), (KAPPA, 0.3, 0.05), (KAPPA, 1.0, 0.5)):
+        assert at(*other) < top
+
+
+def test_grid_cells_by_hand():
+    from spde import cell_of, grid_for
+
+    x0, y0, nx, ny = grid_for([0.0, 10.0], [0.0, 4.0], 2.0, 2.0)
+    assert (x0, y0, nx, ny) == (-2.0, -2.0, 8, 5)
+    assert cell_of([0.0, 10.0], [0.0, 4.0], x0, y0, nx, ny, 2.0).tolist() == [1 * 8 + 1, 3 * 8 + 6]
