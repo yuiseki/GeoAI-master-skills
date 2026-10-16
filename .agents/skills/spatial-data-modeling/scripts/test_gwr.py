@@ -87,3 +87,46 @@ def test_adjusted_critical_t_is_stricter_than_1_96():
     r = gwr(coords, y, X, 40)
     assert r["critical_t"] > 2.2
     assert (np.abs(r["tvalues"][:, 1]) > r["critical_t"]).sum() <= (np.abs(r["tvalues"][:, 1]) > 1.96).sum()
+
+
+def test_local_collinearity_by_hand_on_orthogonal_and_correlated_columns():
+    from gwr import local_collinearity
+
+    # An unbounded Gaussian kernel: every unit sees all rows with equal weight, so the local diagnostics are the
+    # global ones. Columns 1, x, z with x and z orthogonal and centred: condition number 1, VIF 1.
+    coords = _grid(4)
+    x = np.array([1.0, -1, 1, -1] * 4)
+    z = np.repeat([1.0, -1, 1, -1], 4)
+    lc = local_collinearity(coords, np.c_[np.ones(16), x, z], 1e9, "gaussian", fixed=True)
+    assert lc["condition"] == pytest.approx(np.ones(16), abs=1e-6)
+    assert lc["vif"] == pytest.approx(np.ones((16, 2)), abs=1e-6)
+    # Correlated pair with correlation r: VIF = 1 / (1 - r^2)
+    rng = np.random.default_rng(0)
+    a = rng.normal(size=16)
+    b = 0.8 * a + 0.6 * rng.normal(size=16)
+    lc = local_collinearity(coords, np.c_[np.ones(16), a, b], 1e9, "gaussian", fixed=True)
+    r = np.corrcoef(a, b)[0, 1]
+    assert lc["correlation"][:, 0] == pytest.approx(np.full(16, r), abs=1e-6)
+    assert lc["vif"][:, 0] == pytest.approx(np.full(16, 1 / (1 - r * r)), rel=1e-6)
+    assert ((lc["vdp"] >= 0) & (lc["vdp"] <= 1)).all()
+
+
+def test_collinearity_in_one_region_shows_in_the_local_condition_number_and_the_slopes_there():
+    # Both slopes are 1 everywhere. In the western third, x2 is x1 plus a little noise; elsewhere independent.
+    # The local condition number is large only in the west, and only there do the local slopes swing.
+    from gwr import local_collinearity
+
+    coords = _grid(15)
+    rng = np.random.default_rng(7)
+    x1 = rng.normal(size=225)
+    west = coords[:, 0] < 5
+    x2 = np.where(west, x1 + 0.05 * rng.normal(size=225), rng.normal(size=225))
+    X = np.c_[np.ones(225), x1, x2]
+    y = 1 + x1 + x2 + 0.5 * rng.normal(size=225)
+    lc = local_collinearity(coords, X, 25)
+    r = gwr(coords, y, X, 25)
+    deep_west, east = coords[:, 0] <= 1, coords[:, 0] >= 10
+    assert np.median(lc["condition"][deep_west]) > 10 * np.median(lc["condition"][east])
+    assert np.median(lc["condition"][deep_west]) > 30
+    assert r["params"][deep_west, 1].std() > 3 * r["params"][east, 1].std()
+    assert (lc["vdp"][deep_west][:, 1:] > 0.5).all()  # both slopes share the smallest singular value there

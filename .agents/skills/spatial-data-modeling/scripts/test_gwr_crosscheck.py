@@ -3,7 +3,9 @@
 gwr against mgwr 2.2.1 on the Georgia county data bundled with libpysal 4.15 (159 counties, UTM metres):
 PctBach on PctFB, PctBlack, PctRural (standardised), as in mgwr's examples. At the same bandwidth: local
 coefficients, standard errors, tr(S), AICc, the adjusted critical t. The selected bandwidth: ours reaches an
-AICc no worse than mgwr's golden-section search.
+AICc no worse than mgwr's golden-section search. Local collinearity against GWRResults.local_collinearity():
+correlations, VIFs and variance-decomposition proportions; the condition number with root=False, since mgwr
+weights the design's rows by w rather than sqrt(w) (Wheeler 2007 uses W^(1/2) X, our default).
 """
 
 import os
@@ -18,7 +20,7 @@ import pytest  # noqa: E402
 from mgwr.gwr import GWR  # noqa: E402
 from mgwr.sel_bw import Sel_BW  # noqa: E402
 
-from gwr import aicc, gwr, select_bandwidth  # noqa: E402
+from gwr import aicc, gwr, local_collinearity, select_bandwidth  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -50,3 +52,17 @@ def test_selected_bandwidth_is_no_worse_than_mgwr(georgia):
     ref_aicc = GWR(coords, y, F, ref_bw).fit().aicc
     assert sel["aicc"] <= ref_aicc + 1e-9
     print("mgwr bw", ref_bw, ref_aicc, "ours", sel["bw"], sel["aicc"])
+
+
+@pytest.mark.parametrize("bw,kernel", [(117, "bisquare"), (60, "bisquare"), (90, "gaussian")])
+def test_local_collinearity_matches_mgwr(georgia, bw, kernel):
+    coords, y, F = georgia
+    corr, vif, cn, vdp = GWR(coords, y, F, bw, kernel=kernel, fixed=False).fit().local_collinearity()
+    X = np.c_[np.ones(len(y)), F]
+    ours = local_collinearity(coords, X, bw, kernel, root=False)
+    np.testing.assert_allclose(ours["correlation"], corr, rtol=1e-8, atol=1e-10)
+    np.testing.assert_allclose(ours["vif"], vif, rtol=1e-8)
+    np.testing.assert_allclose(ours["condition"], cn.ravel(), rtol=1e-8)
+    np.testing.assert_allclose(ours["vdp"], vdp, rtol=1e-7, atol=1e-10)
+    wheeler = local_collinearity(coords, X, bw, kernel)["condition"]
+    assert not np.allclose(wheeler, cn.ravel(), rtol=1e-3)  # the two definitions really differ

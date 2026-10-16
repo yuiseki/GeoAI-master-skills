@@ -8,7 +8,8 @@ distance, to see whether coefficients change across space.
                have more than one dip
     output     local coefficients, standard errors and t values; tr(S), the effective number of parameters;
                AICc; the critical t adjusted for testing at every unit (da Silva and Fotheringham 2016: alpha
-               times the number of coefficients over tr(S))
+               times the number of coefficients over tr(S)); local collinearity (local_collinearity: condition
+               numbers, VIFs, variance-decomposition proportions)
 
 Local coefficients vary for reasons other than a varying process: chance (they are noisy where the bandwidth is
 small), correlated predictors (two local slopes trade off against each other), and a missing variable that
@@ -77,6 +78,41 @@ def gwr(coords, y, X, bw, kernel="bisquare", fixed=False, spherical=False, D=Non
     adj = 0.05 * k / tr_S
     return {"params": params, "bse": bse, "tvalues": params / bse, "resid": resid, "tr_S": tr_S, "rss": rss,
             "n": n, "k": k, "bw": bw, "critical_t": float(stats.t.ppf(1 - adj / 2, n - 1)), "adj_alpha": adj}
+
+
+def local_collinearity(coords, X, bw, kernel="bisquare", fixed=False, spherical=False, D=None, root=True):
+    """Wheeler (2007)'s local diagnostics of the weighted design at every unit. X includes the constant first.
+
+    correlation  weighted correlations of the slopes' columns, pairs (j, k) with 1 <= j < k
+    vif          local variance inflation factors of the slopes (the diagonal of the inverse correlation)
+    condition    local condition number: the largest over the smallest singular value of the weighted design,
+                 each column scaled to unit length. root=True weights rows by sqrt(w) (W^(1/2) X, the matrix
+                 whose cross-product the local fit inverts); root=False by w, as mgwr 2.2 does
+    vdp          variance-decomposition proportions of the smallest singular value, one per column: two or more
+                 large (above 0.5) with a large condition number mark the columns that are collinear"""
+    X = np.asarray(X, float)
+    n, k = X.shape
+    D = _distances(coords, spherical) if D is None else D
+    pairs = [(j, m) for j in range(1, k) for m in range(j + 1, k)]
+    corr = np.empty((n, len(pairs)))
+    vif = np.empty((n, k - 1))
+    cond = np.empty(n)
+    vdp = np.empty((n, k))
+    for i in range(n):
+        w = _weights(D[i], bw, kernel, fixed)
+        w = w / w.sum()
+        C = np.cov(X[:, 1:].T, aweights=w).reshape(k - 1, k - 1)
+        sd = np.sqrt(np.diag(C))
+        R = C / np.outer(sd, sd)
+        corr[i] = [R[j - 1, m - 1] for j, m in pairs]
+        vif[i] = np.diag(np.linalg.inv(R)) if k > 2 else 1.0
+        Z = X * (np.sqrt(w) if root else w)[:, None]
+        Z = Z / np.sqrt((Z ** 2).sum(0))
+        _, sv, vt = np.linalg.svd(Z, full_matrices=False)
+        cond[i] = sv[0] / sv[-1]
+        phi = (vt.T / sv) ** 2  # k x k: column j, singular value l
+        vdp[i] = phi[:, -1] / phi.sum(1)
+    return {"pairs": pairs, "correlation": corr, "vif": vif, "condition": cond, "vdp": vdp}
 
 
 def aicc(r):
@@ -180,6 +216,16 @@ def main():
         sig = int((np.abs(r["tvalues"][:, j]) > r["critical_t"]).sum())
         print(f"  {nme}: global {ols[j]:.4g}; local min {q[0]:.4g}, q1 {q[1]:.4g}, median {q[2]:.4g}, q3 {q[3]:.4g}, "
               f"max {q[4]:.4g}; units beyond the adjusted |t| {sig} of {n}")
+    lc = local_collinearity(coords, X, bw, a.kernel, a.fixed, sph)
+    cn = lc["condition"]
+    print(f"local condition number (W^1/2 X, columns scaled): median {np.median(cn):.3g}, max {cn.max():.3g}; "
+          f"units above 30: {int((cn > 30).sum())}, above 10: {int((cn > 10).sum())} of {n}")
+    if kf >= 1:
+        vmax = lc["vif"].max(0)
+        print("  largest local VIF per feature: " + ", ".join(f"{f} {v:.3g}" for f, v in zip(a.features, vmax)))
+    if (cn > 30).any():
+        print("  where the condition number is above 30, local slopes there trade off against each other: do not map "
+              "them as spatial variation (variance-decomposition proportions in --out say which columns)")
     if kf >= 2:
         cm = np.corrcoef(r["params"][:, 1:].T)
         print("correlation of local slopes (strongly negative pairs may be collinearity, not spatial variation):")
@@ -188,10 +234,13 @@ def main():
                 print(f"  {a.features[i]} / {a.features[j]}: {cm[i, j]:+.2f}")
     if a.out:
         with open(a.out, "w") as f:
-            f.write("id," + ",".join(f"b_{c},se_{c},t_{c}" for c in ["const", *a.features]) + "\n")
+            names = ["const", *a.features]
+            f.write("id," + ",".join(f"b_{c},se_{c},t_{c}" for c in names) + ",condition,"
+                    + ",".join(f"vdp_{c}" for c in names) + "\n")
             for i, row in enumerate(rows):
                 f.write(str(row[0]) + "," + ",".join(f"{r['params'][i, j]},{r['bse'][i, j]},{r['tvalues'][i, j]}"
-                                                     for j in range(X.shape[1])) + "\n")
+                                                     for j in range(X.shape[1]))
+                        + f",{cn[i]}," + ",".join(str(v) for v in lc["vdp"][i]) + "\n")
         print(f"wrote {a.out}")
 
 
