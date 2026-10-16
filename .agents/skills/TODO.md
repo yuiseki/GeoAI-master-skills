@@ -81,6 +81,7 @@
     - [x] `references/time.md`
     - [x] 実効的な標本の数と、分け方の間で採点する行を揃えること (SKILL.md の手順 6)
   - [x] `spatial-data-modeling`: 分割表で、線形、木、ブースティング、事前学習モデルなどを当てはめて比べる。回帰と分類の両方
+    - [ ] 時間と空間の両方を保つ内側の分割 (`--inner-time` は空間を見ない。時空間の分割表の内側で地域も伏せる)
     - [x] `references/linear-modeling.md`
     - [x] `references/tree-modeling.md`
     - [x] `references/boosting-modeling.md`
@@ -124,6 +125,7 @@
     - [x] `references/counts.md`
     - [x] `references/rounding.md`
   - [x] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間の被覆率を、全体とグループごとに確かめる
+    - [ ] CV+ の予測区間 (fold のモデルで、保証の付く区間を作る)
     - [x] `references/calibration.md`
     - [x] `references/intervals.md`
     - [x] `references/predictions-file.md`: 外側の予測の Parquet の形式
