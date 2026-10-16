@@ -93,3 +93,64 @@ def test_events_stacked_at_one_point_need_a_floor_on_sigma():
     floored = fit(d["t"], x, y, 300.0, WINDOW, min_sigma=2.5)
     assert free["same_place_pairs"] > 0 and free["params"][3] < 0.1
     assert floored["params"][3] >= 2.5
+
+
+# A background that varies in space
+
+def _hotspot(rng, n):
+    h = rng.random(n) < 0.2
+    return (np.where(h, rng.normal(25, 0.5, n), rng.uniform(0, 50, n)),
+            np.where(h, rng.normal(25, 0.5, n), rng.uniform(0, 50, n)))
+
+
+def test_a_uniform_background_given_explicitly_is_the_default():
+    d = simulate(0.5, 0.5, 1.0, 1.0, 100.0, WINDOW, seed=1)
+    params = (0.5, 0.4, 1.2, 1.5)
+    uniform = np.full(len(d["t"]), 1 / 2500.0)
+    assert loglik(params, d["t"], d["x"], d["y"], 100.0, WINDOW, bg=uniform) == pytest.approx(
+        loglik(params, d["t"], d["x"], d["y"], 100.0, WINDOW), rel=1e-14)
+
+
+def test_the_kernel_density_background_integrates_to_one_over_the_window():
+    from hawkes import kde_background
+
+    rng = np.random.default_rng(2)
+    f = kde_background(rng.normal(5, 3, 300), rng.uniform(0, 50, 300), WINDOW, 2.0)  # much of it near an edge
+    g = np.linspace(0.05, 49.95, 500)
+    GX, GY = np.meshgrid(g, g)
+    assert f(GX.ravel(), GY.ravel()).mean() * 2500 == pytest.approx(1.0, rel=1e-3)
+
+
+def test_with_the_true_background_a_fixed_hotspot_needs_no_triggering():
+    # The case the uniform background reads as triggering (above). Given the true background density, the fit's
+    # triggering decays to nothing (beta near 0) and the likelihood ratio against K = 0 vanishes.
+    rng = np.random.default_rng(60)
+    d = simulate(1.0, 0.0, 1.0, 1.0, 300.0, WINDOW, seed=60, background=_hotspot)
+    f = lambda x, y: 0.8 / 2500 + 0.2 * np.exp(-((x - 25) ** 2 + (y - 25) ** 2) / 0.5) / (2 * np.pi * 0.25)
+    r = fit(d["t"], d["x"], d["y"], 300.0, WINDOW, bg=f(d["x"], d["y"]))
+    assert r["lr"] < 2.0
+
+
+def test_a_background_from_earlier_events_mixed_with_uniform_separates_hotspots_from_triggering():
+    # A kernel density of an earlier period alone is lumpy where events happen anywhere, and current events
+    # between the earlier ones look triggered. Mixed with a uniform share (weight fitted), the hotspot world
+    # without triggering keeps almost no evidence for triggering (likelihood ratio 2.1 and 5.7, against 250 and
+    # 239 with a uniform background), and what is left has a mean delay far beyond the period. The uniform fit's
+    # delay (160-196 days) is also flagged. The world with triggering (K 0.5, mean delay 1) gives both back.
+    from hawkes import kde_background
+
+    for s in range(2):
+        prev = simulate(1.0, 0.0, 1.0, 1.0, 300.0, WINDOW, seed=50 + s, background=_hotspot)
+        cur = simulate(1.0, 0.0, 1.0, 1.0, 300.0, WINDOW, seed=60 + s, background=_hotspot)
+        g = kde_background(prev["x"], prev["y"], WINDOW, 0.5)(cur["x"], cur["y"])
+        mixed = fit(cur["t"], cur["x"], cur["y"], 300.0, WINDOW, bg_mix=g)
+        uniform = fit(cur["t"], cur["x"], cur["y"], 300.0, WINDOW)
+        assert mixed["lr"] < 15 and uniform["lr"] > 100
+        assert mixed["delay_too_long"] and uniform["delay_too_long"]
+        prev = simulate(0.5, 0.5, 1.0, 1.0, 300.0, WINDOW, seed=70 + s, background=_hotspot)
+        cur = simulate(0.5, 0.5, 1.0, 1.0, 300.0, WINDOW, seed=80 + s, background=_hotspot)
+        g = kde_background(prev["x"], prev["y"], WINDOW, 0.5)(cur["x"], cur["y"])
+        r = fit(cur["t"], cur["x"], cur["y"], 300.0, WINDOW, bg_mix=g)
+        assert r["params"][1] == pytest.approx(0.5, abs=0.12)
+        assert 1 / r["params"][2] == pytest.approx(1.0, rel=0.35)
+        assert not r["delay_too_long"]

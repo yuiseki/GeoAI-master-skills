@@ -15,7 +15,7 @@ description: 観測された点のパターン (事件、施設、樹木) を、
 | [beyond-poisson](references/beyond-poisson.md) | 説明変数で説明しきれない集まり: 観測していない環境 (Cox 過程の考え方) と、点どうしの引き合い (クラスタ過程)。観測の過程、マーク |
 | [cox](references/cox.md) | 集まるパターンに、Thomas 過程 (点どうしの引き合い) と対数ガウス Cox 過程 (観測していない環境) を K 関数の最小コントラストで当てる。K だけでは 2 つを見分けにくいこと、傾向も集まりに見えること (`scripts/cox.py`) |
 | [gibbs](references/gibbs.md) | 点どうしの抑制 (Strauss 過程): 最大擬似尤度、r の選び方、端の補正、模擬。集まりや強度の傾向では γ > 1 になり使えないこと (`scripts/gibbs.py`) |
-| [hawkes](references/hawkes.md) | 時空間の自己励起の過程: 背景の率と、事件が事件を呼ぶ分岐比、時間と空間の広がり。一様な背景の仮定が動かない集まりを誘発に見せること、同じ座標の事件と σ の下限 (`scripts/hawkes.py`) |
+| [hawkes](references/hawkes.md) | 時空間の自己励起の過程: 背景の率と、事件が事件を呼ぶ分岐比、時間と空間の広がり。一様な背景の仮定が動かない集まりを誘発に見せること、前の期間の密度と一様を混ぜた背景、平均の遅れの警告、同じ座標の事件と σ の下限 (`scripts/hawkes.py`) |
 
 ## 手順
 
