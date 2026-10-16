@@ -31,6 +31,8 @@
     - [x] `references/maddison-project.md`
     - [x] `references/nsw-lalonde.md`: 職業訓練の実験と観察の対照。GeoAI の分析対象ではなく、統計手法を検証するための benchmark (地理の列なし)
     - [x] `references/gsi-dem-tiles.md`
+    - [x] `references/mapterhorn.md`: 全世界の標高のラスタタイル。タイルを読んで Terrarium から標高に直せることを実測
+    - [x] `references/dynamic-world.md`: 配布元の説明から書いた (中身は未実測。実測には Earth Engine の認証が要る)
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
