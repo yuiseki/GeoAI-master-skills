@@ -30,6 +30,7 @@
     - [x] `references/osm-tokyo23-src-2026-08.md`、`gsi-evacuation-sites-jp.md`、`estat-census-mesh-2020.md`: 日本の小さめのデータセット 3 件
     - [x] `references/maddison-project.md`
     - [x] `references/card-college-proximity.md`: 大学への近さと教育の収益。操作変数を検証するための benchmark
+    - [x] `references/statsmodels-co2.md`: マウナロアの CO2 の週の値。季節のある時系列の予測を検証するための benchmark
     - [x] `references/nsw-lalonde.md`: 職業訓練の実験と観察の対照。GeoAI の分析対象ではなく、統計手法を検証するための benchmark (地理の列なし)
     - [x] `references/gsi-dem-tiles.md`
     - [x] `references/mapterhorn.md`: 全世界の標高のラスタタイル。タイルを読んで Terrarium から標高に直せることを実測
@@ -124,7 +125,8 @@
     - [x] `references/baselines.md`
     - [x] `references/ets.md`
     - [x] `references/lag-gbdt.md`
-    - [ ] SARIMA
+    - [x] `references/sarima.md`: SARIMA (airline モデルを既定)。特別な場合の閉じた形と指数平滑の漸化式で確かめ、マウナロアの CO2 で ETS と比べた
+    - [ ] 系列ごとの SARIMA の次数の選び方 (AIC と、選ぶ回数による楽観)
     - [x] 系列ごとの平均の方へ縮める前の期間 (shrunk_to_own_mean)
     - [ ] `references/timesfm.md`: TimesFM 2.5 (Apache 2.0)。3.0 は非商用
   - [x] `spatial-interpolation`: 地点で観測した連続的な値から、観測していない地点の値を推定する。平均と最近傍を基準に IDW と通常クリギングを比べ、予測地点の離れ方に合わせた分け方で評価し、凸包の中と外、距離ごとに誤差を分ける

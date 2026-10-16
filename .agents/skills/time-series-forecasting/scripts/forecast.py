@@ -11,6 +11,8 @@ Models
       seasonal_naive      the value one whole number of seasons back
       climatology         the mean of the history's values in the same phase of the season
       ets                 Holt-Winters, additive trend and season (statsmodels)
+      sarima              seasonal ARIMA (statsmodels SARIMAX, maximum likelihood); the airline model
+                          (0,1,1)(0,1,1)s unless --sarima-order / --sarima-seasonal say otherwise
     pooled (fitted on all series' history before the origin, then applied to each series):
       shrunk_persistence  y[o+h] = a + b * y[o], a and b fitted by least squares per horizon:
                           the last value pulled towards the mean as far as the data say
@@ -25,8 +27,8 @@ Before any model runs, the series are checked for level jumps (series_breaks.py)
 Usage:
     uvx --with numpy --with scipy --with scikit-learn --with statsmodels --with duckdb python forecast.py \
         TABLE SERIES_COL TIME_COL VALUE_COL --season 12 --horizons 12 --origins 24 \
-        --models naive seasonal_naive climatology shrunk_persistence ets lag_gbdt \
-        [--origin-from 300] [--report-horizons 1 12] [--break-min-level 0]
+        --models naive seasonal_naive climatology shrunk_persistence ets sarima lag_gbdt \
+        [--sarima-order 0 1 1 --sarima-seasonal 0 1 1 --sarima-trend n] [--origin-from 300] [--report-horizons 1 12] [--break-min-level 0]
 """
 
 import argparse
@@ -62,6 +64,26 @@ def ets(history, h, season, train):
         fit = ExponentialSmoothing(history, trend="add", seasonal="add",
                                    seasonal_periods=season).fit()
     return np.asarray(fit.forecast(h))
+
+
+SARIMA = {"order": (0, 1, 1), "seasonal": (0, 1, 1), "trend": "n"}
+
+
+def sarima_fit(history, season, order, seasonal, trend="n"):
+    from statsmodels.tsa.statespace.sarimax import SARIMAX
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        return SARIMAX(np.asarray(history, float), order=order, seasonal_order=(*seasonal, season),
+                       trend=trend).fit(disp=False)
+
+
+def sarima(history, h, season, train):
+    d, D = SARIMA["order"][1], SARIMA["seasonal"][1]
+    need = d + D * season + 2 * season
+    if len(history) < need:
+        raise SystemExit(f"sarima needs at least {need} periods of history (differences, then two seasons)")
+    return np.asarray(sarima_fit(history, season, SARIMA["order"], SARIMA["seasonal"], SARIMA["trend"]).forecast(h))
 
 
 def _pairs(series, o, h, lags=1, season=None):
@@ -113,6 +135,7 @@ MODELS = {
     "seasonal_naive": {"kind": "series", "fn": seasonal_naive},
     "climatology": {"kind": "series", "fn": climatology},
     "ets": {"kind": "series", "fn": ets},
+    "sarima": {"kind": "series", "fn": sarima},
     "shrunk_persistence": {"kind": "pooled", "fn": shrunk_persistence},
     "shrunk_to_own_mean": {"kind": "pooled", "fn": shrunk_to_own_mean},
     "lag_gbdt": {"kind": "pooled", "fn": lag_gbdt},
@@ -193,7 +216,11 @@ def main():
     p.add_argument("--report-horizons", type=int, nargs="*", default=[])
     p.add_argument("--break-min-level", type=float, default=0.0,
                    help="ignore level jumps between values that are both below this (see series_breaks.py)")
+    p.add_argument("--sarima-order", type=int, nargs=3, default=list(SARIMA["order"]), metavar=("p", "d", "q"))
+    p.add_argument("--sarima-seasonal", type=int, nargs=3, default=list(SARIMA["seasonal"]), metavar=("P", "D", "Q"))
+    p.add_argument("--sarima-trend", default=SARIMA["trend"], choices=["n", "c", "t", "ct"])
     a = p.parse_args()
+    SARIMA.update(order=tuple(a.sarima_order), seasonal=tuple(a.sarima_seasonal), trend=a.sarima_trend)
 
     import duckdb
 

@@ -12,8 +12,9 @@ description: 多数の系列 (国、格子、地点ごとの月や年の値) の
 | [baselines](references/baselines.md) | 前の期間、季節ナイーブ、平年値、縮めた前の期間 |
 | [ets](references/ets.md) | 指数平滑 (Holt-Winters) |
 | [lag-gbdt](references/lag-gbdt.md) | 過去の値を特徴量にした勾配ブースティング |
+| [sarima](references/sarima.md) | 季節 ARIMA (既定は airline モデル)。差分の取りすぎの見分け方 |
 
-SARIMA と TimesFM はまだ入っていない (TODO.md)。
+TimesFM はまだ入っていない。
 
 ## 手順
 
@@ -42,7 +43,7 @@ uvx --with numpy --with duckdb python scripts/series_breaks.py tmp/series.parque
 
 `--min-level` は、両方の値がこれより小さい変化を無視する。件数のように小さな数から始まる系列で、3 から 300 のような跳ねが並ぶのを防ぐ。
 
-テストは `uvx --with numpy --with scipy --with scikit-learn --with statsmodels --with duckdb --with pytest pytest scripts/test_forecast.py scripts/test_series_breaks.py`。モデルが予測の時点より後の値を受け取らないこと (受け取った履歴の長さを記録するモデルで)、季節ナイーブが季節性のある系列で前の期間に勝つこと、季節の周期より先でも正しく季節をさかのぼること、平年値が季節の位置に合うこと、傾向のある系列で平年値が偏り ETS が偏らないこと、系列をまたぐモデルが試験の期間で学習しないことを確かめている。履歴に 1 つ先の値を入れる、系列をまたぐモデルの学習に後の組を入れる、季節を 1 周期しかさかのぼらない、平年値の位置をずらす、のそれぞれで落ちることを確かめてある。
+テストは `uvx --with numpy --with scipy --with scikit-learn --with statsmodels --with duckdb --with pytest pytest scripts/test_forecast.py scripts/test_series_breaks.py`。モデルが予測の時点より後の値を受け取らないこと (受け取った履歴の長さを記録するモデルで)、季節ナイーブが季節性のある系列で前の期間に勝つこと、季節の周期より先でも正しく季節をさかのぼること、平年値が季節の位置に合うこと、傾向のある系列で平年値が偏り ETS が偏らないこと、SARIMA の特別な場合が前の期間、季節ナイーブ、手で書いた指数平滑と一致し模擬の係数が戻ること (references/sarima.md)、系列をまたぐモデルが試験の期間で学習しないことを確かめている。履歴に 1 つ先の値を入れる、系列をまたぐモデルの学習に後の組を入れる、季節を 1 周期しかさかのぼらない、平年値の位置をずらす、のそれぞれで落ちることを確かめてある。
 
 ## 実例: 国ごとの月の紛争の事件数
 
