@@ -12,7 +12,8 @@ Models
       climatology         the mean of the history's values in the same phase of the season
       ets                 Holt-Winters, additive trend and season (statsmodels)
       sarima              seasonal ARIMA (statsmodels SARIMAX, maximum likelihood); the airline model
-                          (0,1,1)(0,1,1)s unless --sarima-order / --sarima-seasonal say otherwise
+                          (0,1,1)(0,1,1)s unless --sarima-order / --sarima-seasonal say otherwise;
+                          --sarima-select aic picks p, q, P, Q per origin from that origin's history
     pooled (fitted on all series' history before the origin, then applied to each series):
       shrunk_persistence  y[o+h] = a + b * y[o], a and b fitted by least squares per horizon:
                           the last value pulled towards the mean as far as the data say
@@ -66,7 +67,24 @@ def ets(history, h, season, train):
     return np.asarray(fit.forecast(h))
 
 
-SARIMA = {"order": (0, 1, 1), "seasonal": (0, 1, 1), "trend": "n"}
+SARIMA = {"order": (0, 1, 1), "seasonal": (0, 1, 1), "trend": "n", "select": None}
+
+
+def sarima_select(history, season, d, D, trend="n", p_max=2, q_max=2, P_max=1, Q_max=1):
+    """The (p, q, P, Q) with the smallest AIC among every combination up to the maxima, with d and D given.
+    Returns the best orders, its AIC and every candidate's AIC (fits that fail are left out)."""
+    import itertools
+
+    scores = {}
+    for p_, q_, P_, Q_ in itertools.product(range(p_max + 1), range(q_max + 1), range(P_max + 1), range(Q_max + 1)):
+        try:
+            f = sarima_fit(history, season, (p_, d, q_), (P_, D, Q_), trend)
+        except Exception:
+            continue
+        if np.isfinite(f.aic):
+            scores[(p_, q_, P_, Q_)] = float(f.aic)
+    best = min(scores, key=scores.get)
+    return {"order": (best[0], d, best[1]), "seasonal": (best[2], D, best[3]), "aic": scores[best], "scores": scores}
 
 
 def sarima_fit(history, season, order, seasonal, trend="n"):
@@ -83,7 +101,12 @@ def sarima(history, h, season, train):
     need = d + D * season + 2 * season
     if len(history) < need:
         raise SystemExit(f"sarima needs at least {need} periods of history (differences, then two seasons)")
-    return np.asarray(sarima_fit(history, season, SARIMA["order"], SARIMA["seasonal"], SARIMA["trend"]).forecast(h))
+    order, seasonal = SARIMA["order"], SARIMA["seasonal"]
+    if SARIMA["select"] == "aic":  # chosen again at every origin, on the history up to it only
+        sel = sarima_select(history, season, order[1], seasonal[1], SARIMA["trend"])
+        order, seasonal = sel["order"], sel["seasonal"]
+        SARIMA.setdefault("chosen", []).append((order, seasonal))
+    return np.asarray(sarima_fit(history, season, order, seasonal, SARIMA["trend"]).forecast(h))
 
 
 def _pairs(series, o, h, lags=1, season=None):
@@ -219,8 +242,11 @@ def main():
     p.add_argument("--sarima-order", type=int, nargs=3, default=list(SARIMA["order"]), metavar=("p", "d", "q"))
     p.add_argument("--sarima-seasonal", type=int, nargs=3, default=list(SARIMA["seasonal"]), metavar=("P", "D", "Q"))
     p.add_argument("--sarima-trend", default=SARIMA["trend"], choices=["n", "c", "t", "ct"])
+    p.add_argument("--sarima-select", choices=["aic"], help="choose p, q (0-2) and P, Q (0-1) by AIC at every "
+                                                             "origin; d and D stay as given")
     a = p.parse_args()
-    SARIMA.update(order=tuple(a.sarima_order), seasonal=tuple(a.sarima_seasonal), trend=a.sarima_trend)
+    SARIMA.update(order=tuple(a.sarima_order), seasonal=tuple(a.sarima_seasonal), trend=a.sarima_trend,
+                  select=a.sarima_select)
 
     import duckdb
 
@@ -245,6 +271,12 @@ def main():
         for h in a.report_horizons:
             b = r["by_horizon"][h]
             print(f"    h={h}: MAE {b['mae']:.4g}, bias {b['bias']:+.4g}")
+    if SARIMA.get("chosen"):
+        from collections import Counter
+
+        top = Counter(SARIMA["chosen"]).most_common(5)
+        print(f"sarima orders chosen by AIC over {len(SARIMA['chosen'])} fits: "
+              + ", ".join(f"{o}{s_} x{n}" for (o, s_), n in top))
 
 
 if __name__ == "__main__":

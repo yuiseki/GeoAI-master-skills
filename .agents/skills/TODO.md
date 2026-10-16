@@ -132,7 +132,8 @@
     - [x] `references/ets.md`
     - [x] `references/lag-gbdt.md`
     - [x] `references/sarima.md`: SARIMA (airline モデルを既定)。特別な場合の閉じた形と指数平滑の漸化式で確かめ、マウナロアの CO2 で ETS と比べた
-    - [ ] 系列ごとの SARIMA の次数の選び方 (AIC と、選ぶ回数による楽観)
+    - [x] 系列ごとの SARIMA の次数の選び方 (AIC と、選ぶ回数による楽観。forecast.py --sarima-select aic)
+    - [ ] SARIMA の差分の次数の選び方 (単位根の検定)
     - [x] 系列ごとの平均の方へ縮める前の期間 (shrunk_to_own_mean)
     - [ ] `references/timesfm.md`: TimesFM 2.5 (Apache 2.0)。3.0 は非商用
   - [x] `spatial-interpolation`: 地点で観測した連続的な値から、観測していない地点の値を推定する。平均と最近傍を基準に IDW と通常クリギングを比べ、予測地点の離れ方に合わせた分け方で評価し、凸包の中と外、距離ごとに誤差を分ける

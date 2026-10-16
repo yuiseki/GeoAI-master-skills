@@ -201,3 +201,36 @@ def test_sarima_stops_on_a_short_history():
 
     with pytest.raises(SystemExit):
         sarima(np.arange(20, dtype=float), 3, 12, None)
+
+
+def test_aic_selection_recovers_the_simulated_order_most_of_the_time():
+    from forecast import sarima_select
+
+    hits = 0
+    for s in range(6):
+        y = _simulate_sarima(np.random.default_rng(40 + s), 240)
+        sel = sarima_select(y, 12, 0, 1)
+        hits += sel["order"] == (1, 0, 0) and sel["seasonal"] == (0, 1, 1)
+    assert hits >= 3
+
+
+def test_selection_is_made_on_the_history_before_each_origin():
+    import forecast
+
+    seen = []
+    real = forecast.sarima_select
+
+    def spy(history, *a, **k):
+        seen.append(len(history))
+        return real(history, *a, **k)
+
+    forecast.sarima_select = spy
+    forecast.SARIMA.update(order=(1, 0, 0), seasonal=(0, 1, 1), select="aic", chosen=[])
+    try:
+        series = {"a": _simulate_sarima(np.random.default_rng(9), 120)}
+        evaluate(series, ["sarima"], horizons=2, origins=3, season=12)
+    finally:
+        forecast.sarima_select = real
+        forecast.SARIMA.update(order=(0, 1, 1), seasonal=(0, 1, 1), select=None)
+        forecast.SARIMA.pop("chosen", None)
+    assert sorted(seen) == [116, 117, 118]
