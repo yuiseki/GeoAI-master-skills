@@ -11,7 +11,7 @@ description: 値の意味が決まった cost raster (1 m 進むコスト、た�
 
 | reference | 中身 |
 |---|---|
-| [cost-definition](references/cost-definition.md) | 値の意味と単位 (1 m あたりのコスト)、隣の cell への移動のコスト (2 cell の平均 × 移動の長さ) を選んだ理由、8 近傍の距離、非正方形の画素、CRS の確かめ方 |
+| [cost-definition](references/cost-definition.md) | 値の意味と単位 (1 m あたりのコスト)、隣の cell への移動のコスト (2 cell の平均 × 移動の長さ) を選んだ理由、8 近傍と 16 近傍の距離、非正方形の画素、CRS の確かめ方、標高で上りと下りの違う歩く時間 (`--walk tobler`) |
 | [barriers-and-nodata](references/barriers-and-nodata.md) | 通れる cell、barrier、NoData、範囲外、届かない cell の区別。対角の移動で角を抜ける規則 |
 | [validation](references/validation.md) | 答えの分かる合成の例、仮定を崩した例、GRASS GIS `r.cost` と scikit-image と scipy との照合、速さ |
 
@@ -21,9 +21,11 @@ description: 値の意味が決まった cost raster (1 m 進むコスト、た�
 2. CRS と画素の大きさを確かめる。`scripts/cost_distance.py` は、CRS の無いラスタ、経緯度のラスタ、回転した格子を止め、CRS の長さの単位をメートルに直し、ラスタの 9 点で投影の尺度 (地上の 1 m が格子で何 m か) を測って、1 から `--max-scale-error` (既定 0.01) より離れると止める。止まったら、地域に合った投影 (UTM の帯、各国の平面直角座標) に事前に変換する。画素の幅と高さは別々に読み、等しいとは仮定しない。
 3. barrier と NoData の意味を決める。barrier (通れない cell) は値で宣言する (`--barrier-value`)。NoData は、通れない cell として扱い、barrier とは別に数える (`--nodata barrier`、既定)。NoData があってはいけないなら `--nodata stop`。NoData を 0 や平均で埋めて通れるようにするかは、cost raster を作る側で決めて書く。ラスタの外へは出られないので、destination の周りは問いの範囲より広く切る。
 4. destination を確かめる。id と、ラスタの CRS の x と y の表 (CSV)。それぞれ、点を含む cell の中心に置く (ずらした最大の距離を出す)。ラスタの外、barrier や NoData の上、同じ cell に 2 つある destination は止まる。
-5. 解く。8 近傍の多始点 Dijkstra。対角の移動は、共有する 2 つの隣が両方とも通れないとき取らない (`--corner-rule both`、既定)。1 cell 幅の斜めの壁 (川や柵の線を焼いたもの) を対角で抜けないため。
+5. 解く。8 近傍の多始点 Dijkstra (`--neighbours 16` でナイトの移動を足すと、直線との差が最大 8.2% から 2.8% になる)。対角の移動は、共有する 2 つの隣が両方とも通れないとき取らない (`--corner-rule both`、既定)。1 cell 幅の斜めの壁 (川や柵の線を焼いたもの) を対角で抜けないため。
 6. 数える。全ての cell を、届いた、届かない (通れるが閉じ込められた)、barrier、NoData に分けて数え、合計が cell の数に合うことを確かめる。届かない cell を大きな数で埋めない。出力では NaN にし、状態の band に理由を残す。destination ごとに、最寄りとした cell の数を見る。
 7. 書き出す (下の節)。累積コストは、8 近傍の格子の上の値で、直線の移動より長い (一様なコストで、正方形の画素なら最大 8.2%)。
+
+上りと下りでコストが違う問い (歩く時間) は、cost raster ではなく標高から解く (`--walk tobler --direction to|from`)。目的地へ向かう時間と、目的地から出る時間は別のラスタになるので、問いに合う向きを選ぶ ([cost-definition](references/cost-definition.md))。
 
 ```sh
 uvx --with numpy --with rasterio --with pyproj python scripts/cost_distance.py tmp/cost.tif tmp/destinations.csv \
