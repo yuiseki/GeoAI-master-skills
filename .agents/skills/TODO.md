@@ -226,8 +226,9 @@
   - [x] `spatial-optimization`: 定式化、MILP と発見的な解、選んだ解からの目的の計算し直し、設定を変えたときの答えの変わり方
     - [x] `references/p-median.md`
     - [x] `references/coverage.md`
-    - [ ] 割当と輸送 (容量のある割当)
-    - [ ] LP と双対 (資源の値段)
+    - [x] `references/transport.md`: 割当と輸送 (容量のある割当)。networkx と照合 (transport.py)
+    - [x] LP と双対 (資源の値段)。片側の傾きで確かめ、退化した問題での幅も (references/transport.md)
+    - [ ] 出発地を分けない割当、容量のある施設配置 (整数計画)
     - [ ] CP-SAT (配置とスケジューリング)
     - [ ] 多目的 (重み付き和、パレート、ε 制約)
     - [ ] 無作為な配置の分布を基準にする、既存の配置を評価する (002)

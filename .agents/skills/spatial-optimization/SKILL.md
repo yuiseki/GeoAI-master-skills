@@ -11,6 +11,7 @@ description: 施設の配置などの選択問題を、決定変数、目的、�
 |---|---|
 | [p-median](references/p-median.md) | p か所を選び、需要から最寄りの施設までの重み付きの距離の合計を最小にする |
 | [coverage](references/coverage.md) | p か所を選び、一定の距離以内に入る需要の重みを最大にする |
+| [transport](references/transport.md) | 需要を容量のある施設へ、総コスト最小で割り当てる (輸送問題)。容量と需要の双対の値段、退化した問題での値段の幅 (`scripts/transport.py`) |
 
 割当、輸送、LP の双対、CP-SAT、多目的はまだ書いていない (TODO.md)。
 
