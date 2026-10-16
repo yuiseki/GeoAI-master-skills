@@ -10,6 +10,10 @@ road network, a building layer, a second release of the same data). Coordinates 
                             uniform in area (donut geomasking)
     nearest_candidate_hits  for each masked point, is the nearest candidate (house, address) the true one?
     candidates_within       how many candidates lie within a radius of each masked point (spatial k)
+    adaptive_donut          a donut whose outer radius is each point's distance to its k-th nearest
+                            candidate (the point's own house counted) and whose inner radius is a share of it:
+                            small in dense places, large in sparse ones, so every point's annulus holds at
+                            least k - 1 other candidates around its true location (Allshouse et al. 2010)
     average_releases        the mean of several independent maskings of the same points
     home_location           the most frequent night-time cell of a trace, and its centre
 
@@ -41,6 +45,22 @@ def donut_mask(xy, r_min, r_max, seed=0):
     r = np.sqrt(rng.uniform(r_min**2, r_max**2, len(xy)))
     a = rng.uniform(0, 2 * np.pi, len(xy))
     return xy + np.c_[r * np.cos(a), r * np.sin(a)]
+
+
+def adaptive_radii(xy, candidates, k, inner=0.2):
+    """Per point: (inner radius, outer radius), the outer one the distance to the k-th nearest candidate."""
+    d, _ = cKDTree(np.asarray(candidates, float)).query(np.asarray(xy, float), k)
+    r_out = np.asarray(d, float).reshape(len(xy), -1)[:, -1]
+    return inner * r_out, r_out
+
+
+def adaptive_donut(xy, candidates, k, inner=0.2, seed=0):
+    xy = np.asarray(xy, float)
+    r_in, r_out = adaptive_radii(xy, candidates, k, inner)
+    rng = np.random.default_rng(seed)
+    r = np.sqrt(r_in ** 2 + rng.random(len(xy)) * (r_out ** 2 - r_in ** 2))
+    a = rng.uniform(0, 2 * np.pi, len(xy))
+    return xy + np.c_[r * np.cos(a), r * np.sin(a)], r_out
 
 
 def nearest_candidate_hits(masked, candidates, true_index):
