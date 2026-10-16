@@ -19,7 +19,10 @@ Distances are Euclidean on --x/--y in a projected CRS (metres), or great-circle 
 
 Usage:
     uvx --from 'duckdb>=1.5.5' --with numpy --with scipy python gwr.py TABLE ID TARGET X1 [...] \\
-        (--x X --y Y | --lon LON --lat LAT) [--kernel bisquare|gaussian] [--fixed] [--bw B] [--out local.csv]
+        (--x X --y Y | --lon LON --lat LAT) [--kernel bisquare|gaussian] [--fixed] [--bw B] [--out local.csv] \
+        [--multiscale]
+    --multiscale fits MGWR (mgwr, mgwr_select): a bandwidth per coefficient by backfitting, the fit and its
+    inference in closed form.
 """
 
 import argparse
@@ -115,6 +118,84 @@ def local_collinearity(coords, X, bw, kernel="bisquare", fixed=False, spherical=
     return {"pairs": pairs, "correlation": corr, "vif": vif, "condition": cond, "vdp": vdp}
 
 
+def _univariate_hat(D, x, bw, kernel, fixed):
+    """A_j: the hat matrix of a GWR of one column x (no constant) at bandwidth bw."""
+    n = len(x)
+    A = np.empty((n, n))
+    for i in range(n):
+        wx = _weights(D[i], bw, kernel, fixed) * x
+        A[i] = x[i] * wx / (wx @ x)
+    return A
+
+
+def mgwr(coords, y, X, bws, kernel="bisquare", fixed=False, spherical=False, D=None):
+    """Multiscale GWR at given bandwidths, one per column: y = sum_j X_j beta_j(s), each beta_j smoothed at its
+    own bandwidth. Solved in closed form (Li and Fotheringham 2020): the additive model's fitted parts f = R y
+    with R from the block system [I A_1 ...; A_2 I ...] R = [A_1; A_2; ...]. The backfitting of mgwr_select
+    converges to this. R_j's trace is column j's effective number of parameters; their sum is tr(S)."""
+    y, X = np.asarray(y, float), np.asarray(X, float)
+    n, k = X.shape
+    D = _distances(coords, spherical) if D is None else D
+    A = [_univariate_hat(D, X[:, j], bws[j], kernel, fixed) for j in range(k)]
+    I = np.eye(n)
+    P = np.block([[I if a == b else A[a] for b in range(k)] for a in range(k)])
+    R = np.linalg.solve(P, np.vstack(A)).reshape(k, n, n)
+    f = R @ y  # k x n
+    params = (f / X.T).T
+    enp = np.array([np.trace(R[j]) for j in range(k)])
+    resid = y - f.sum(0)
+    rss = float(resid @ resid)
+    tr_S = float(enp.sum())
+    sigma2 = rss / (n - tr_S)
+    cct = np.stack([((R[j] / X[:, j][:, None]) ** 2).sum(1) for j in range(k)], 1)
+    bse = np.sqrt(cct * sigma2)
+    adj = 0.05 / enp  # per column: alpha / ENP_j (da Silva and Fotheringham 2016, MGWR form)
+    crit = stats.t.ppf(1 - adj / 2, n - 1)
+    return {"params": params, "bse": bse, "tvalues": params / bse, "resid": resid, "tr_S": tr_S, "rss": rss,
+            "n": n, "k": k, "bws": list(bws), "enp": enp, "critical_t": crit}
+
+
+def mgwr_select(coords, y, X, kernel="bisquare", fixed=False, spherical=False, tol=1e-5, max_iter=200):
+    """Bandwidths by backfitting (Fotheringham, Yang and Kang 2017): start from GWR at its AICc bandwidth; then,
+    column by column, add the column's part back to the residual, choose that column's bandwidth by the AICc of
+    a one-column GWR of it, and refit; until the parts change by less than tol (sqrt of the change's sum of
+    squares over the parts' sum of squares)."""
+    y, X = np.asarray(y, float), np.asarray(X, float)
+    n, k = X.shape
+    D = _distances(coords, spherical)
+    bw0 = select_bandwidth(coords, y, X, kernel, fixed, spherical)["bw"]
+    g = gwr(coords, y, X, bw0, kernel, fixed, spherical, D)
+    XB = X * g["params"]
+    err = y - XB.sum(1)
+    bws = [bw0] * k
+    history = []
+    profiles = [None] * k
+    for it in range(max_iter):
+        new = np.empty_like(XB)
+        for j in range(k):
+            target = XB[:, j] + err
+            col = X[:, [j]]
+            sel = select_bandwidth(coords, target, col, kernel, fixed, spherical)
+            bws[j], profiles[j] = sel["bw"], sel["profile"]
+            fj = col[:, 0] * gwr(coords, target, col, bws[j], kernel, fixed, spherical, D)["params"][:, 0]
+            err = target - fj
+            new[:, j] = fj
+        change = float(np.sqrt(((new - XB) ** 2).sum() / (new ** 2).sum()))
+        XB = new
+        history.append((list(bws), change))
+        if change < tol:
+            break
+    # How settled each bandwidth is: the candidates of the last iteration's one-column profile within 2 AICc of
+    # its minimum.
+    near = []
+    for prof in profiles:
+        best = min(v for _, v in prof)
+        ok = [b for b, v in prof if v <= best + 2]
+        near.append((min(ok), max(ok)))
+    return {"bws": list(bws), "gwr_bw": bw0, "iterations": len(history), "converged": history[-1][1] < tol,
+            "history": history, "params_backfit": XB / X, "within_2_aicc": near}
+
+
 def aicc(r):
     n, k = r["n"], r["tr_S"]
     llf = -n / 2 * (1 + math.log(2 * math.pi * r["rss"] / n))
@@ -176,6 +257,7 @@ def main():
     p.add_argument("--fixed", action="store_true")
     p.add_argument("--bw", type=float)
     p.add_argument("--standardise", action="store_true", help="standardise the features (comparable slopes)")
+    p.add_argument("--multiscale", action="store_true", help="MGWR: a bandwidth per coefficient, by backfitting")
     p.add_argument("--out")
     a = p.parse_args()
     if not ((a.x and a.y) or (a.lon and a.lat)):
@@ -202,6 +284,21 @@ def main():
     rss0 = ((y - X @ ols) ** 2).sum()
     k0 = X.shape[1]
     aicc0 = n * math.log(rss0 / n) + n * math.log(2 * math.pi) + n * (n + k0) / (n - k0 - 2)
+    if a.multiscale:
+        s = mgwr_select(coords, y, X, a.kernel, a.fixed, sph)
+        m = mgwr(coords, y, X, s["bws"], a.kernel, a.fixed, sph)
+        print(f"MGWR: backfitting {'converged' if s['converged'] else 'did NOT converge'} in {s['iterations']} "
+              f"iterations; GWR's single bandwidth {s['gwr_bw']:g}; tr(S) {m['tr_S']:.2f}, AICc {aicc(m):.2f} "
+              f"(global OLS {aicc0:.2f})")
+        for j, nme in enumerate(["const", *a.features]):
+            q = np.quantile(m["params"][:, j], [0, 0.5, 1])
+            lo, hi = s["within_2_aicc"][j]
+            sig = int((np.abs(m["tvalues"][:, j]) > m["critical_t"][j]).sum())
+            print(f"  {nme}: bandwidth {s['bws'][j]:g} (within 2 AICc: {lo:g} to {hi:g}), effective parameters "
+                  f"{m['enp'][j]:.2f}; local min {q[0]:.4g}, median {q[1]:.4g}, max {q[2]:.4g}; units beyond the "
+                  f"adjusted |t| {m['critical_t'][j]:.3f}: {sig} of {n}")
+        print("  a wide 'within 2 AICc' range means the data do not settle that coefficient's scale")
+        return
     if a.bw:
         bw = a.bw if a.fixed else int(a.bw)
     else:

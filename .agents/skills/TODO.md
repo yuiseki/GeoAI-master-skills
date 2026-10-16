@@ -109,7 +109,7 @@
     - [x] 空間ラグと空間誤差のモデルの実装 (最尤、直接効果と間接効果、LM 検定)。PySAL の spreg と照合 (spatial_regression.py)
     - [x] `references/gwr.md`: GWR の実装 (帯域の選び方、局所の係数の不確かさ、多重比較)。mgwr と照合 (gwr.py)
     - [x] 局所の共線性の診断 (局所の条件数、VIF、VDP)。mgwr と照合 (gwr.py の local_collinearity、references/gwr.md)
-    - [ ] MGWR (係数ごとの帯域)
+    - [x] MGWR (係数ごとの帯域)。後退当てはめと閉じた形、mgwr と照合 (gwr.py --multiscale、references/gwr.md)
     - [x] `references/regression-diagnostics.md`: 回帰の残差と計画行列の診断 (Breusch-Pagan、White、Jarque-Bera、条件数、HC3)。係数を説明や推論に使うときだけ要る。statsmodels と照合 (regression_diagnostics.py)
     - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
     - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE

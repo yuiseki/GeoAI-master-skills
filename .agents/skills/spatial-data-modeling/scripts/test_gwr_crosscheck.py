@@ -66,3 +66,42 @@ def test_local_collinearity_matches_mgwr(georgia, bw, kernel):
     np.testing.assert_allclose(ours["vdp"], vdp, rtol=1e-7, atol=1e-10)
     wheeler = local_collinearity(coords, X, bw, kernel)["condition"]
     assert not np.allclose(wheeler, cn.ravel(), rtol=1e-3)  # the two definitions really differ
+
+
+@pytest.fixture(scope="module")
+def georgia_standardised(georgia):
+    coords, y, F = georgia
+    return coords, (y - y.mean()) / y.std(), F
+
+
+def test_mgwr_closed_form_matches_mgwr_at_its_bandwidths(georgia_standardised):
+    from mgwr.gwr import MGWR
+
+    from gwr import mgwr
+
+    coords, y, F = georgia_standardised
+    sel = Sel_BW(coords, y, F, multi=True)
+    bws = sel.search()
+    exact = MGWR(coords, y, F, sel).exact_fit()
+    backfit = MGWR(coords, y, F, sel).fit()
+    ours = mgwr(coords, y.ravel(), np.c_[np.ones(len(y)), F], bws)
+    np.testing.assert_allclose(ours["params"], exact.params, atol=1e-10)
+    np.testing.assert_allclose(ours["bse"], exact.bse, rtol=1e-8)
+    np.testing.assert_allclose(ours["enp"], exact.ENP_j, rtol=1e-10)
+    np.testing.assert_allclose(ours["params"], backfit.params, atol=1e-4)  # mgwr's backfitting, tolerance 1e-5
+    np.testing.assert_allclose(ours["critical_t"], exact.critical_tval(), rtol=1e-8)
+    np.testing.assert_allclose(ours["critical_t"], backfit.critical_tval(), rtol=1e-4)  # from backfitted ENPs
+    assert aicc(ours) == pytest.approx(exact.aicc, rel=1e-10)
+
+
+def test_mgwr_bandwidths_reach_an_aicc_no_worse_than_mgwr(georgia_standardised):
+    from gwr import mgwr, mgwr_select
+
+    coords, y, F = georgia_standardised
+    X = np.c_[np.ones(len(y)), F]
+    theirs = Sel_BW(coords, y, F, multi=True).search()
+    ours = mgwr_select(coords, y.ravel(), X)
+    # Measured: ours [92, 23, 94, 145] (AICc 296.1, tr(S) 24.5), mgwr [101, 101, 117, 157] (297.1, 11.5). The
+    # foreign-born share's one-column AICc rises only from 275.1 at 22 to 278.4 at 114: mgwr's golden section
+    # stops at 101, 2.9 above the minimum that the coarse profile here finds.
+    assert aicc(mgwr(coords, y.ravel(), X, ours["bws"])) <= aicc(mgwr(coords, y.ravel(), X, list(theirs))) + 1e-6

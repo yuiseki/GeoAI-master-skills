@@ -130,3 +130,47 @@ def test_collinearity_in_one_region_shows_in_the_local_condition_number_and_the_
     assert np.median(lc["condition"][deep_west]) > 30
     assert r["params"][deep_west, 1].std() > 3 * r["params"][east, 1].std()
     assert (lc["vdp"][deep_west][:, 1:] > 0.5).all()  # both slopes share the smallest singular value there
+
+
+# Multiscale GWR
+
+def test_mgwr_with_unbounded_gaussian_kernels_is_ols():
+    from gwr import mgwr
+
+    rng = np.random.default_rng(8)
+    coords = _grid(8)
+    X = np.c_[np.ones(64), rng.normal(size=64), rng.normal(size=64)]
+    y = X @ [1.0, 2.0, -1.0] + rng.normal(size=64)
+    r = mgwr(coords, y, X, [1e9] * 3, kernel="gaussian", fixed=True)
+    np.testing.assert_allclose(r["params"], np.tile(np.linalg.lstsq(X, y, rcond=None)[0], (64, 1)), rtol=1e-6)
+    assert r["tr_S"] == pytest.approx(3, rel=1e-6)
+
+
+def _scales(seed, side=15):
+    # beta0 = 1 everywhere; beta1 rises gently west to east; beta2 is a small bump in the middle.
+    coords = _grid(side)
+    rng = np.random.default_rng(seed)
+    n = side * side
+    X = np.c_[np.ones(n), rng.normal(size=n), rng.normal(size=n)]
+    u, v = coords[:, 0] / (side - 1), coords[:, 1] / (side - 1)
+    B = np.c_[np.ones(n), 1 + u, 2 * np.exp(-((u - 0.5) ** 2 + (v - 0.5) ** 2) / 0.02)]
+    return coords, (X * B).sum(1) + 0.3 * rng.normal(size=n), X, B
+
+
+def test_mgwr_gives_each_coefficient_its_own_scale_and_recovers_them_better_than_one_bandwidth():
+    from gwr import mgwr, mgwr_select
+
+    # Measured on seeds 9-11: bandwidths [120, 50, 36], [225, 45, 37], [225, 36, 37]; GWR's one bandwidth 43-57.
+    # The constant gets a wide bandwidth. The gentle west-east slope does not: a linear trend in a coefficient is
+    # followed with little bias by a narrow window too (the first guess, that it would get a wide one, was wrong).
+    # Every coefficient is recovered with less error than by GWR.
+    for seed in (9, 10):
+        coords, y, X, B = _scales(seed)
+        s = mgwr_select(coords, y, X)
+        assert s["converged"]
+        assert s["bws"][0] >= 100 and s["bws"][0] > 2 * s["gwr_bw"]
+        m = mgwr(coords, y, X, s["bws"])
+        g = gwr(coords, y, X, s["gwr_bw"])
+        err = lambda P: np.sqrt(((P - B) ** 2).mean(0))
+        assert (err(m["params"]) < err(g["params"])).all()
+        np.testing.assert_allclose(s["params_backfit"], m["params"], atol=1e-4)  # backfitting reaches the closed form
