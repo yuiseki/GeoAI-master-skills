@@ -1,0 +1,127 @@
+"""Check a final answer's minimal structure before it is sent. It reorganises nothing and recomputes nothing: it
+reads the answer (Markdown or plain text) and, optionally, the outputs it was written from.
+
+    sections     the answer's parts, by label ("問い: ...") or heading ("## 問い"), in order
+    check        the fixed minimum, for a level of detail:
+                   問い     present, first, one line
+                   結論     present, second (the answer comes before how it was reached)
+                   データ   present; names a version or a date (or says 版は未確認)
+                   方法     present
+                   確かめていないこと  required at "full"; optional otherwise
+                 and a length budget: simple at most 8 non-empty lines, standard at most 40, full no limit
+    traceable    every number in 結論 must appear in the evidence (tool outputs, logs, the commands run), up to
+                 rounding at the conclusion's own precision (82% matches 0.8183; 0.45 does not match 0.4446).
+                 Dates are skipped, and so is a 1 that names a unit (1 人あたり). A distance in km also matches the
+                 evidence in metres (1 km against --catchment 1000). A number the evidence does not hold was computed or remembered somewhere
+                 else: find where, or take it out.
+
+Usage:
+    python3 check_report.py ANSWER.md --level simple|standard|full [--evidence OUTPUT.txt ...]
+Exit status 1 when something is missing.
+"""
+
+import argparse
+import re
+import sys
+
+REQUIRED = ["問い", "結論", "データ", "方法"]
+OPTIONAL = ["確かめていないこと"]
+LIMITS = {"simple": 8, "standard": 40, "full": None}
+_LABEL = re.compile(r"^\s*(?:#{1,6}\s*)?(問い|結論|データ|方法|確かめていないこと)\s*(?:[:：]\s*(.*))?$")
+_DATE = re.compile(r"\d{4}-\d{2}-\d{2}|\d{4}-\d{2}")
+_NUM = re.compile(r"[−-]?\d[\d,]*(?:\.\d+)?%?")
+_VERSION = re.compile(r"\d{4}-\d{2}|\d{4} ?年|版|v\d|version|\d+\.\d+")
+
+
+def sections(text):
+    """{name: [lines]} in the order they appear; a section runs until the next label or heading."""
+    out, current = {}, None
+    for line in text.splitlines():
+        m = _LABEL.match(line)
+        if m:
+            current = m.group(1)
+            out[current] = [m.group(2)] if m.group(2) else []
+        elif current is not None and line.strip():
+            out[current].append(line.strip())
+    return out
+
+
+_PER_UNIT = re.compile(r"\s*(?:[^\s\d]{1,3}\s*)?あたり|\s*[人校件台]に")
+_KM = re.compile(r"\s*km")
+
+
+def numbers_in(text, units=False):
+    """(text, value, decimals, is_percent) for each number, dates left out, and "1" used to name a unit ("1 人あたり",
+    "1 校に") left out. units=True adds a fifth item: True when the number is followed by km."""
+    text = _DATE.sub(" ", text)
+    out = []
+    for m in _NUM.finditer(text):
+        t = m.group(0)
+        after = text[m.end():m.end() + 6]
+        if t == "1" and _PER_UNIT.match(after):
+            continue
+        pct = t.endswith("%")
+        core = t.rstrip("%").replace(",", "").replace("−", "-")
+        dec = len(core.split(".")[1]) if "." in core else 0
+        item = (t, float(core), dec, pct)
+        out.append(item + (bool(_KM.match(after)),) if units else item)
+    return out
+
+
+def traceable(conclusion, evidence):
+    """The conclusion's numbers that no evidence number rounds to."""
+    ev = [v for _, v, _, _ in numbers_in(evidence)]
+    missing = []
+    for t, v, dec, pct, km in numbers_in(conclusion, units=True):
+        candidates = ev + ([e * 100 for e in ev] if pct else []) + ([e / 1000 for e in ev] if km else [])
+        if not any(abs(round(e, dec) - v) < 10 ** -(dec + 6) or abs(round(-e, dec) - v) < 10 ** -(dec + 6)
+                   for e in candidates):
+            missing.append(t)
+    return missing
+
+
+def check(text, level, evidence=None):
+    if level not in LIMITS:
+        raise ValueError(f"level is one of {list(LIMITS)}")
+    problems = []
+    s = sections(text)
+    for name in REQUIRED:
+        if name not in s or not any(x.strip() for x in s[name]):
+            problems.append(f"{name}: missing or empty")
+    order = [k for k in s if k in REQUIRED]
+    if order != [k for k in REQUIRED if k in s]:
+        problems.append(f"sections out of order: {order}; the order is {REQUIRED}")
+    if "問い" in s and len([x for x in s["問い"] if x.strip()]) > 1:
+        problems.append("問い: write the question in one line")
+    if "データ" in s and not _VERSION.search(" ".join(s["データ"])) and "未確認" not in " ".join(s["データ"]):
+        problems.append("データ: give each dataset's version or date (or write 版は未確認)")
+    if level == "full" and not any(x.strip() for x in s.get("確かめていないこと", [])):
+        problems.append("確かめていないこと: a full report says what was not checked")
+    limit = LIMITS[level]
+    lines = [x for x in text.splitlines() if x.strip()]
+    if limit is not None and len(lines) > limit:
+        problems.append(f"{len(lines)} non-empty lines for a {level} answer (at most {limit}); shorten it or "
+                        "choose the level the analysis needs")
+    if evidence is not None and "結論" in s:
+        for t in traceable(" ".join(s["結論"]), evidence):
+            problems.append(f"結論: {t} does not appear in the evidence")
+    return problems
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("answer")
+    p.add_argument("--level", choices=list(LIMITS), required=True)
+    p.add_argument("--evidence", nargs="*", default=None, help="files with the outputs and commands the answer used")
+    a = p.parse_args()
+    text = open(a.answer, encoding="utf-8").read()
+    ev = None if a.evidence is None else "\n".join(open(f, encoding="utf-8").read() for f in a.evidence)
+    problems = check(text, a.level, ev)
+    for x in problems:
+        print(x)
+    print("ok" if not problems else f"{len(problems)} problems")
+    sys.exit(1 if problems else 0)
+
+
+if __name__ == "__main__":
+    main()

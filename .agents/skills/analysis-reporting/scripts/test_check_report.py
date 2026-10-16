@@ -1,0 +1,85 @@
+"""uvx --with pytest pytest test_check_report.py"""
+
+import pytest
+
+from check_report import check, numbers_in, sections, traceable
+
+SIMPLE = """問い: 東京 23 区の中心部に、ヘリポートはいくつ記録されているか。
+結論: OurAirports に 391 件、OpenStreetMap に 83 件。両方にあるのは 68 件 (50 m 以内)。
+データ: OurAirports (2026-08-31 の凍結版)、OpenStreetMap の東京 23 区の凍結版 (2026-08-31)。範囲は 16 km × 12 km の長方形。
+方法: 両方の点を 50 m 以内で 1 対 1 に照合して数えた。
+"""
+
+EVIDENCE = """$ record_overlap.py oa.parquet osm.parquet --x x --y y --radius 50
+record 1: 391 rows, 391 with coordinates; record 2: 83 rows, 83 with coordinates
+  all: in 1 391, in 2 83, in both 68; if independent N 476 (95% 433 to 519), seen 406; completeness 1 0.82, 2 0.17
+"""
+
+
+def test_sections_are_read_from_labels_and_headings():
+    s = sections(SIMPLE)
+    assert list(s) == ["問い", "結論", "データ", "方法"]
+    md = "## 問い\n何か。\n\n## 結論\nそうだった。\n\n## データ\nX (2026-10-01)\n\n## 方法\n数えた。\n"
+    assert list(sections(md)) == ["問い", "結論", "データ", "方法"]
+
+
+def test_a_simple_answer_passes():
+    assert check(SIMPLE, "simple", EVIDENCE) == []
+
+
+def test_a_missing_section_and_a_wrong_order_are_reported():
+    no_method = SIMPLE.replace("方法: 両方の点を 50 m 以内で 1 対 1 に照合して数えた。\n", "")
+    assert any("方法" in p for p in check(no_method, "simple"))
+    swapped = "\n".join([SIMPLE.splitlines()[i] for i in (1, 0, 2, 3)])
+    assert any("order" in p for p in check(swapped, "simple"))
+
+
+def test_the_question_is_one_line():
+    two = SIMPLE.replace("問い: 東京 23 区の中心部に、", "問い: 東京 23 区の中心部に、\n")
+    assert any("問い" in p and "one line" in p for p in check(two, "simple"))
+
+
+def test_data_needs_a_version_or_a_date_or_says_it_is_unknown():
+    bad = SIMPLE.replace("(2026-08-31 の凍結版)", "").replace("の凍結版 (2026-08-31)", "")
+    assert any("データ" in p and "version" in p for p in check(bad, "simple"))
+    ok = bad.replace("OurAirports 、", "OurAirports (版は未確認)、")
+    assert not any("version" in p for p in check(ok, "simple"))
+
+
+def test_a_simple_question_is_not_written_up_as_a_long_report():
+    long = SIMPLE + "\n".join(f"方法の補足 {i}。" for i in range(15))
+    assert any("lines" in p for p in check(long, "simple"))
+    assert check(long.replace("\n方法の補足", "\n- 方法の補足"), "standard", EVIDENCE) == []
+
+
+def test_a_heavy_analysis_must_say_what_was_not_checked():
+    assert any("確かめていないこと" in p for p in check(SIMPLE, "full", EVIDENCE))
+    full = SIMPLE + "確かめていないこと: 2 つの記録が独立かは確かめていない。\n"
+    assert check(full, "full", EVIDENCE) == []
+
+
+def test_numbers_by_hand():
+    assert numbers_in("391 件、1,741 市区町村、0.82、82%、−3.7 分") == [
+        ("391", 391.0, 0, False), ("1,741", 1741.0, 0, False), ("0.82", 0.82, 2, False), ("82%", 82.0, 0, True),
+        ("−3.7", -3.7, 1, False)]
+
+
+def test_conclusion_numbers_must_come_from_the_evidence_up_to_rounding():
+    ev = "MAE 0.4446  completeness 1 0.8183  share 0.0008833"
+    assert traceable("MAE は 0.445 で、完全性は 82%。", ev) == []
+    assert traceable("学校 1 校あたり 0.00088", ev) == []
+    assert traceable("MAE は 0.45 で", ev) == ["0.45"]  # 0.4446 rounds to 0.44: no double rounding
+    assert traceable("MAE は 0.52 で", ev) == ["0.52"]
+    assert traceable("2026-08-31 の版で 0.82", ev) == []  # dates are not results
+
+
+def test_unknown_level_stops():
+    with pytest.raises(ValueError):
+        check(SIMPLE, "long")
+
+
+def test_unit_words_and_km_settings_are_not_results():
+    ev = "$ accessibility.py --catchment 1000\ndemand-weighted mean 0.000883293"
+    assert traceable("子ども 1 人あたり 0.000883、1 km 以内の学校で", ev) == []
+    assert traceable("学校 1 校に子ども約 1,130 人", ev) == ["1,130"]  # divided by hand: not in the outputs
+    assert traceable("2 km 以内で", ev) == ["2"]

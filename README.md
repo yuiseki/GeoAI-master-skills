@@ -75,7 +75,7 @@
 | 問いに応じた分析 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか。点はどんな過程から生まれたか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis、spatial-process-modeling |
 | 問いに応じた分析 | ネットワークと最適化 | 実際に歩いて何分か。道の無い面を進むと何分か。施設の容量は需要に足りるか。施設をどこに置くか | spatial-network-analysis、land-cover-cost、raster-cost-distance、spatial-accessibility-analysis、spatial-optimization |
 | 問いに応じた分析 | 因果の効果を推定する | 識別できると判定した効果は、どれだけか、どれだけ確かか。重なりと重みとバランスは足りているか | causal-estimation (調整の集合で識別する型だけ。因果を問う の後に来る) |
-| 結論を疑う、残す | 頑健性と報告 | 結論は、単位、分け方、標本、設定を変えても保たれるか。地図にどう描くか。どう成果物に残すか | robustness-analysis、thematic-mapping、analysis-reporting (未着手) |
+| 結論を疑う、残す | 頑健性と報告 | 結論は、単位、分け方、標本、設定を変えても保たれるか。地図にどう描くか。どう成果物に残すか | robustness-analysis、thematic-mapping、analysis-reporting |
 
 予測の精度、回帰の係数、パネルの固定効果、階層モデルのランダム効果、特徴量の重要度は、どれも因果の識別を保証しない。因果を言うなら、識別の設計と、そこで置いた仮定を添える。
 
@@ -98,7 +98,7 @@
 - 因果の効果の推定のうち、観察のデータでの波及の効果と、時間で変わる処置。
 - MCMC。ベイズは解析的に解けるモデルだけ。
 - 空間ラグと空間誤差のモデル、GWR の実装 (選び方の説明はある)。時空間のクリギング、ガウス過程、SPDE。Cox 過程、点どうしの相互作用、Hawkes 過程。
-- 分析を成果物にまとめる `analysis-reporting`。最適化の発展的な内容。
+- `analysis-reporting` の詳しい来歴 (数字ごとのコミット、派生物の系図)。最適化の発展的な内容。
 
 スクリプトは小さく、答えの分かる例と確立した実装で確かめてあるが、上の手法をすべて覆うものではない。エージェントがスキルを使って分析をやり遂げられるかの評価も、一部のスキルだけ。進み具合は [.agents/skills/TODO.md](.agents/skills/TODO.md)、評価は [docs/eval-status.md](docs/eval-status.md)。
 
