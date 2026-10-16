@@ -92,3 +92,48 @@ def test_distance_unit_follows_the_column_suffix():
     assert fl.distance_unit("distance_km") == "km"
     assert fl.distance_unit("network_m") == "m"
     assert fl.distance_unit("dist") == "m"
+
+
+# Bounds and baselines
+
+@pytest.mark.parametrize("seed", range(4))
+def test_the_lp_relaxation_bounds_the_optimum(seed):
+    from facility_location import lp_bound
+
+    d, w = problem(seed=seed)
+    opt_pm, _ = brute(d, w, 3, pmedian_value)
+    assert lp_bound(d, w, 3) <= opt_pm + 1e-6
+    radius = np.percentile(d, 25)
+    best_cov = max(coverage_value(d, w, list(c), radius) for c in itertools.combinations(range(d.shape[1]), 3))
+    assert lp_bound(d, w, 3, "coverage", radius) >= best_cov - 1e-6
+
+
+def test_random_baseline_matches_the_exact_distribution_over_every_choice():
+    # 9 candidates, p 3: 84 choices. The share of random draws at least as good as a given configuration
+    # converges to its share among all 84.
+    from facility_location import random_baseline, standing
+
+    d, w = problem(seed=5)
+    every = np.array([pmedian_value(d, w, list(c)) for c in itertools.combinations(range(9), 3)])
+    some = [0, 4, 7]
+    exact = np.mean(every <= pmedian_value(d, w, some))
+    base = random_baseline(d, w, 3, draws=20000, seed=1)
+    assert standing(pmedian_value(d, w, some), base) == pytest.approx(exact, abs=0.01)
+    assert standing(every.min(), base) == pytest.approx(1 / 84, abs=0.004)  # only the optimum itself
+
+
+def test_the_lp_relaxation_can_be_strictly_loose():
+    # Integer distances 1-9, unit weights, 12 demand points, 8 candidates (found by search): the relaxation opens
+    # fractions of sites and goes below (p-median) or above (coverage) every integer choice.
+    from facility_location import lp_bound
+
+    def world(seed):
+        rng = np.random.default_rng(seed)
+        return rng.integers(1, 10, (12, 8)).astype(float), np.ones(12)
+
+    d, w = world(6)
+    opt = min(pmedian_value(d, w, list(c)) for c in itertools.combinations(range(8), 2))
+    assert (opt, lp_bound(d, w, 2)) == (34.0, pytest.approx(33.0))
+    d, w = world(4)
+    best = max(coverage_value(d, w, list(c), 4) for c in itertools.combinations(range(8), 2))
+    assert (best, lp_bound(d, w, 2, "coverage", 4)) == (9.0, pytest.approx(9.5))

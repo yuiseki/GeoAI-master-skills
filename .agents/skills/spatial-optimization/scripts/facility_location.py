@@ -10,9 +10,16 @@ answer is then recomputed from the chosen sites alone. The run stops if a MILP r
 recomputes worse than the heuristic, or differs from its own reported objective: that is a wrong
 model, whatever the solver's status says.
 
+Checks on an answer without trusting the solver alone:
+    --bound      the linear relaxation (a lower bound for p-median, an upper bound for coverage): the gap between
+                 it and a solution bounds how far that solution can be from optimal
+    --random N   the objective of N random choices of p sites: where the solution, and an --existing configuration,
+                 stand among them
+
 Usage:
     uvx --with numpy --with scipy --with duckdb python facility_location.py MATRIX WEIGHTS \
-        --problem p-median|coverage --p 5 [--radius 800] [--distance network_m]
+        --problem p-median|coverage --p 5 [--radius 800] [--distance network_m] [--bound] [--random 1000] \
+        [--existing ID1,ID2,...] [--heuristic-only]
 
 MATRIX: origin (demand id), destination (candidate id), and a distance column, every pair present
 (any all-pairs distance table in this shape works). WEIGHTS: id, weight.
@@ -118,6 +125,48 @@ def coverage_milp(d, w, p, radius):
             "objective": float(-res.fun)}
 
 
+def lp_bound(d, w, p, problem_kind="p-median", radius=None):
+    """The linear relaxation (every variable continuous in [0, 1]): a lower bound on the p-median optimum, an
+    upper bound on the coverage optimum. The gap to a solution's value bounds how far that solution can be from
+    the optimum without solving the MILP."""
+    from scipy.optimize import linprog
+
+    d, w = np.asarray(d, float), np.asarray(w, float)
+    n, m = d.shape
+    if problem_kind == "p-median":
+        c = np.r_[(w[:, None] * d).ravel(), np.zeros(m)]
+        rows = np.repeat(np.arange(n), m)
+        A_eq = vstack([hstack([coo_matrix((np.ones(n * m), (rows, np.arange(n * m))), shape=(n, n * m)),
+                               csr_matrix((n, m))]),
+                       hstack([csr_matrix((1, n * m)), csr_matrix(np.ones((1, m)))])]).tocsr()
+        A_ub = hstack([coo_matrix((np.ones(n * m), (np.arange(n * m), np.arange(n * m)))),
+                       coo_matrix((-np.ones(n * m), (np.arange(n * m), np.tile(np.arange(m), n))), shape=(n * m, m))]).tocsr()
+        res = linprog(c, A_ub=A_ub, b_ub=np.zeros(n * m), A_eq=A_eq, b_eq=np.r_[np.ones(n), p], bounds=(0, 1),
+                      method="highs")
+        return float(res.fun)
+    reach = (d <= radius).astype(float)
+    c = np.r_[np.zeros(m), -w]
+    A_ub = hstack([csr_matrix(-reach), coo_matrix((np.ones(n), (np.arange(n), np.arange(n))))]).tocsr()
+    A_eq = hstack([csr_matrix(np.ones((1, m))), csr_matrix((1, n))]).tocsr()
+    res = linprog(c, A_ub=A_ub, b_ub=np.zeros(n), A_eq=A_eq, b_eq=[p], bounds=(0, 1), method="highs")
+    return float(-res.fun)
+
+
+def random_baseline(d, w, p, problem_kind="p-median", radius=None, draws=1000, seed=0):
+    """Objective values of `draws` random choices of p candidates (no replacement within a draw)."""
+    d, w = np.asarray(d, float), np.asarray(w, float)
+    rng = np.random.default_rng(seed)
+    m = d.shape[1]
+    value = (lambda o: pmedian_value(d, w, o)) if problem_kind == "p-median" else \
+        (lambda o: coverage_value(d, w, o, radius))
+    return np.array([value(rng.choice(m, p, replace=False)) for _ in range(draws)])
+
+
+def standing(value, baseline, problem_kind="p-median"):
+    """The share of random configurations at least as good as value (small is good)."""
+    return float(np.mean(baseline <= value) if problem_kind == "p-median" else np.mean(baseline >= value))
+
+
 def solve(d, w, p, problem_kind="p-median", radius=None):
     d, w = np.asarray(d, float), np.asarray(w, float)
     if problem_kind == "p-median" and np.isinf(d.min(axis=1)).any():
@@ -160,6 +209,11 @@ def main():
     p.add_argument("--p", type=int, nargs="+", required=True)
     p.add_argument("--radius", type=float)
     p.add_argument("--distance", default="network_m")
+    p.add_argument("--bound", action="store_true", help="also solve the linear relaxation: a bound on the optimum")
+    p.add_argument("--random", type=int, default=0, help="score this many random choices of p sites as a baseline")
+    p.add_argument("--existing", help="comma-separated candidate ids of an existing configuration to evaluate")
+    p.add_argument("--heuristic-only", action="store_true", help="skip the MILP (large problems); with --bound the "
+                                                                  "gap still bounds the heuristic's distance from optimal")
     a = p.parse_args()
     if a.problem == "coverage" and a.radius is None:
         p.error("coverage needs --radius")
@@ -183,13 +237,44 @@ def main():
     w = np.array([wt[o] for o in origins], float)
     print(f"demand points {len(origins)} (weight {w.sum():.0f}), candidates {len(dests)}, "
           f"distance: {a.distance}")
+    value = (lambda o: pmedian_value(d, w, o)) if a.problem == "p-median" else \
+        (lambda o: coverage_value(d, w, o, a.radius))
+    existing = None
+    if a.existing:
+        ids = [x.strip() for x in a.existing.split(",")]
+        bad = [x for x in ids if x not in di]
+        if bad:
+            raise SystemExit(f"existing sites not among the candidates: {bad[:5]}")
+        existing = [di[x] for x in ids]
     for k in a.p:
-        out = solve(d, w, k, a.problem, a.radius)
-        mi, he = out["milp"], out["heuristic"]
         u = distance_unit(a.distance)
         unit = f"weighted {u}" if a.problem == "p-median" else f"weight within {a.radius:g} {u}"
-        print(f"p={k}: MILP {mi['status']} {mi['recomputed']:.6g} {unit} ({mi['seconds']:.1f}s), "
-              f"heuristic {he['recomputed']:.6g} ({he['seconds']:.1f}s)")
+        if a.heuristic_only:
+            t = time.time()
+            ho = pmedian_heuristic(d, w, k) if a.problem == "p-median" else coverage_heuristic(d, w, k, a.radius)
+            mi = he = {"open": ho, "recomputed": value(ho), "seconds": time.time() - t, "status": "not solved"}
+            print(f"p={k}: heuristic {he['recomputed']:.6g} {unit} ({he['seconds']:.1f}s); MILP skipped")
+        else:
+            out = solve(d, w, k, a.problem, a.radius)
+            mi, he = out["milp"], out["heuristic"]
+            print(f"p={k}: MILP {mi['status']} {mi['recomputed']:.6g} {unit} ({mi['seconds']:.1f}s), "
+                  f"heuristic {he['recomputed']:.6g} ({he['seconds']:.1f}s)")
+        if a.bound:
+            t = time.time()
+            b = lp_bound(d, w, k, a.problem, a.radius)
+            gap = abs(mi["recomputed"] - b) / abs(b) if b else float("nan")
+            print(f"    linear relaxation {b:.6g} ({time.time() - t:.1f}s): the {'best' if not a.heuristic_only else 'heuristic'} "
+                  f"solution is within {gap:.2%} of the optimum")
+        if a.random:
+            base = random_baseline(d, w, k, a.problem, a.radius, a.random)
+            q = np.percentile(base, [5, 50, 95])
+            print(f"    {a.random} random choices: 5% {q[0]:.6g}, median {q[1]:.6g}, 95% {q[2]:.6g}; share at least as "
+                  f"good as the solution {standing(mi['recomputed'], base, a.problem):.4f}")
+        if existing is not None and len(existing) == k:
+            ev = value(existing)
+            rel = (ev / mi["recomputed"] - 1) if a.problem == "p-median" else (1 - ev / mi["recomputed"])
+            print(f"    existing configuration {ev:.6g} ({rel:+.1%} against the solution)"
+                  + (f"; share of random choices at least as good {standing(ev, base, a.problem):.4f}" if a.random else ""))
         if a.problem == "p-median":
             print(f"    mean distance per unit of weight: {mi['recomputed'] / w.sum():.1f} {u}")
         else:
