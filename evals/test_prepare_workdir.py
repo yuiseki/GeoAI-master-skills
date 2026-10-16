@@ -91,3 +91,28 @@ def test_render_prompt_keeps_the_skills_part_only_with_skills():
     t = "a\n{{#SKILLS}}read the skills\n{{/SKILLS}}{{#BASELINE}}no skills here\n{{/BASELINE}}b"
     assert render_prompt(t, Path("/w"), "T", "s") == "a\nread the skills\nb"
     assert render_prompt(t, Path("/w"), "T", "s", baseline=True) == "a\nno skills here\nb"
+
+
+def test_extract_table_returns_the_csv_block_of_the_task():
+    from prepare_workdir import extract_table
+    task = "## 課題 1: a\n\n表:\n\n```csv\nid,v\n1,2\n3,4\n```\n"
+    assert extract_table(task) == "id,v\n1,2\n3,4\n"
+    with pytest.raises(SystemExit):
+        extract_table("## 課題 2: b\n\n表は無い\n")
+
+
+def test_table_file_is_written_the_same_for_baseline_and_skills(repo, tmp_path):
+    # the table must reach both conditions as the same file, and the prompt must say where it is
+    (repo / "t.md").write_text("## 課題 1: a\n\n```csv\nid,v\n1,2\n```\n")
+    (repo / "tpl.md").write_text("at {{WORKDIR}}\n{{TASK}}")
+    here = Path(__file__).parent
+    outs = {}
+    for name, flag in (("s", []), ("b", ["--baseline"])):
+        outs[name] = subprocess.run(
+            ["python", str(here / "prepare_workdir.py"), "HEAD", str(tmp_path / name), "--repo", str(repo),
+             "--task", str(repo / "t.md"), "--number", "1", "--template", str(repo / "tpl.md"),
+             "--prompt-workdir", "/work", "--table-file", "task1.csv", *flag],
+            check=True, capture_output=True, text=True).stdout
+        assert (tmp_path / name / "data" / "task1.csv").read_text() == "id,v\n1,2\n"
+        assert "/work/data/task1.csv" in outs[name]
+    assert outs["s"] == outs["b"]

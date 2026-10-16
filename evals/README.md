@@ -66,6 +66,8 @@ python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md
 evals/run_codex_docker.sh --prompt <指示文> <作業場所> -m gpt-6-luna -c model_reasoning_effort=medium
 ```
 
+課題文に表 (```csv の塊) があるなら、`--table-file <名前>.csv` で、同じ表を作業場所の `data/` に置き、指示文にその場所を足す (スキルあり、なしで同じ)。指示文の中にしか無い 300 行の表は、課題 26 の 6 回のどれでもファイルに写されず、分析が流れなかった (2026-10-17)。
+
 `--prompt` を付けないと、対話の Codex が `/work` で起動する。`--dry-run` で、実行する `docker run` を表示する。Codex の自前の sandbox は、`--cap-drop=ALL` では動かないので、`--dangerously-bypass-approvals-and-sandbox` で流す。コンテナが sandbox。ネットワークは開いている (データの取得とモデルの API に必要)。
 
 ## Gemini で流す (Gemini eval)

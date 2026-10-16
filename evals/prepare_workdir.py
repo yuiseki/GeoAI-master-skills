@@ -14,6 +14,9 @@ Usage:
 With --task and --template, the filled prompt is printed after the directory is prepared.
 The prompt differs only in the paragraph about the skills (see the {{#SKILLS}} markers in the template).
 --prompt-workdir /work puts that path in the prompt, for evals/run_codex_docker.sh.
+--table-file NAME also writes the task's ```csv block to DEST/data/NAME (with or without the skills) and adds
+a line to the prompt saying where it is. A table only inside the prompt has to be copied out by the agent;
+a 300-row table was not, in any of six runs (task 26, 2026-10-17).
 """
 
 import argparse
@@ -49,6 +52,13 @@ def extract_task(text, number):
     return m.group(0).rstrip() + "\n"
 
 
+def extract_table(task):
+    m = re.search(r"^```csv\n(.*?)^```", task, re.S | re.M)
+    if not m:
+        raise SystemExit("the task has no ```csv block")
+    return m.group(1)
+
+
 def render_prompt(template, workdir, task, sha, baseline=False):
     """Keep {{#SKILLS}}..{{/SKILLS}} with skills, {{#BASELINE}}..{{/BASELINE}} without; the rest is shared."""
     keep, drop = ("BASELINE", "SKILLS") if baseline else ("SKILLS", "BASELINE")
@@ -69,15 +79,24 @@ def main():
     p.add_argument("--template")
     p.add_argument("--prompt-workdir", help="the path to write into the prompt (default: DEST); "
                    "/work when the agent runs in Docker")
+    p.add_argument("--table-file", help="write the task's csv block to DEST/data/NAME and say so in the prompt")
     a = p.parse_args()
     prepare(a.repo, a.rev, a.dest, a.baseline)
+    task = extract_task(Path(a.task).read_text(), a.number) if a.task else None
+    if a.table_file:
+        if task is None:
+            raise SystemExit("--table-file needs --task and --number")
+        (Path(a.dest) / "data").mkdir(exist_ok=True)
+        (Path(a.dest) / "data" / a.table_file).write_text(extract_table(task))
+        workdir = a.prompt_workdir or Path(a.dest).resolve()
+        task += f"\n上の表と同じ内容のファイルを {workdir}/data/{a.table_file} に置いてある。\n"
     sha = subprocess.run(["git", "-C", a.repo, "rev-parse", "--short", a.rev], check=True,
                          capture_output=True, text=True).stdout.strip()
     print(f"prepared {a.dest} from {sha}{' (baseline, no skills)' if a.baseline else ''}",
           file=sys.stderr)
     if a.task and a.template:
         print(render_prompt(Path(a.template).read_text(), a.prompt_workdir or Path(a.dest).resolve(),
-                            extract_task(Path(a.task).read_text(), a.number), sha, a.baseline))
+                            task, sha, a.baseline))
 
 
 if __name__ == "__main__":
