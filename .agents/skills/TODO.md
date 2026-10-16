@@ -218,7 +218,7 @@
 - 因果の効果を推定する (1 / 1)
   - [x] `causal-estimation`: 識別できると判定した因果の効果を、設計の表に従って推定する。推定量ごとの仮定、支えと重みの診断、共変量のバランス、推定量の間の比較、感度
     - [x] `references/adjustment-weighting.md`: 回帰による調整、IPW、AIPW (二重頑健)。傾向スコアの重なり、重みの診断、バランス
-    - [ ] `references/matching.md`: 最近傍のマッチング、キャリパー、バランス、マッチングの後の推定と標準誤差
+    - [x] `references/matching.md`: 最近傍のマッチング、キャリパー、バランス、マッチングの後の推定と標準誤差 (match.py)
     - [ ] `references/did.md`: 差の差。2 期、段階的な導入 (二方向の固定効果の落とし穴)、事前の傾向、イベントスタディ
     - [ ] `references/iv.md`: 操作変数と 2SLS。弱い操作変数、除外制約、LATE
     - [ ] `references/rdd.md`: 回帰不連続。鋭いと曖昧、局所線形、帯域、境界の両側を比べる空間の RDD
