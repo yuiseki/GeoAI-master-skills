@@ -39,3 +39,18 @@ def test_predictions_and_variances_match_pykrige(method, nugget):
     z, ss = ref.execute("points", q[:, 0], q[:, 1])
     np.testing.assert_allclose(ours["prediction"], np.asarray(z), atol=1e-8)
     np.testing.assert_allclose(ours["kriging_sd"] ** 2, np.asarray(ss), atol=1e-8)
+
+
+@pytest.mark.parametrize("angle,ratio", [(30.0, 3.0), (120.0, 2.0)])
+def test_anisotropic_kriging_matches_pykrige(angle, ratio):
+    from pykrige.ok import OrdinaryKriging
+
+    xy, v, q = _data(seed=2)
+    ours = predict(Obs(xy, v), q, "kriging", k=len(v), variogram=("exponential", 0.02, 0.6, 1800.0),
+                   anisotropy=(angle, ratio))
+    ref = OrdinaryKriging(xy[:, 0], xy[:, 1], v, variogram_model="exponential",
+                          variogram_parameters={"psill": 0.58, "range": 5400.0, "nugget": 0.02},
+                          anisotropy_scaling=ratio, anisotropy_angle=angle)
+    z, ss = ref.execute("points", q[:, 0], q[:, 1])
+    np.testing.assert_allclose(ours["prediction"], np.asarray(z), atol=1e-8)
+    np.testing.assert_allclose(ours["kriging_sd"] ** 2, np.asarray(ss), atol=1e-8)

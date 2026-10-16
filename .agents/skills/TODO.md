@@ -135,7 +135,7 @@
     - [x] `references/evaluation.md`
     - [x] `references/kriging.md`
     - [x] 大域的な勾配を除いてから補間する (ユニバーサルクリギング、`--method universal`。PyKrige と照合、references/kriging.md)
-    - [ ] 異方性
+    - [x] 異方性 (`--anisotropy 角度 比` と auto。PyKrige と照合、references/kriging.md)
     - [x] 予測地点までの距離に合わせた分け方を、スクリプトの分け方に足す (`--split target-distance`)
   - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する
   - [x] `noise-ceiling-analysis`: 目的変数の雑音から、どんなモデルでも超えられない点数の上限 (天井) を見積もる

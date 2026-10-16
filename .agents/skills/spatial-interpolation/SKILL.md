@@ -12,7 +12,7 @@ description: 地点で観測した連続的な値 (標高、気温、降水量�
 | reference | 中身 |
 |---|---|
 | [evaluation](references/evaluation.md) | 分け方 (ランダム、ブロック、距離を合わせる) と、実データの back-test |
-| [kriging](references/kriging.md) | variogram (ナゲット、シル、レンジ)、通常クリギング、区間の被覆率、大域的な勾配を除くユニバーサルクリギング (`--method universal`) |
+| [kriging](references/kriging.md) | variogram (ナゲット、シル、レンジ)、通常クリギング、区間の被覆率、大域的な勾配を除くユニバーサルクリギング (`--method universal`)、異方性 (`--anisotropy`) |
 
 ## 手順
 

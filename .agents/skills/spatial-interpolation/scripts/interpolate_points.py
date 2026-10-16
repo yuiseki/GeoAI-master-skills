@@ -16,6 +16,9 @@ Methods (all on distances in metres in a projected CRS; a geographic CRS is refu
               observations (a regression-kriging residual variogram; biased low at long lags) unless given.
               A plane extrapolates: outside the hull the prediction follows the trend instead of returning to
               the mean, which is right only if the trend continues there.
+    --anisotropy ANGLE RATIO (or auto): both krigings on geometrically anisotropic distances; the variogram's
+              range is then the range along ANGLE. auto picks (angle, ratio) on a grid (every 15 degrees; ratios
+              1 to 6) by leave-one-out kriging error on a sample of 400 observations.
 
 Every prediction point gets a row: prediction (NaN with status no_neighbors when nothing is within
 --max-dist), nearest_m (distance to the nearest observation), n_used, inside_hull (inside the convex hull of
@@ -140,9 +143,59 @@ def _hull(xy):
         return None
 
 
-def predict(obs, qxy, method, power=2.0, k=12, max_dist=None, variogram=None):
+def anisotropic(xy, angle_deg, ratio):
+    """Geometric anisotropy as PyKrige writes it: rotate by -angle (degrees, counter-clockwise from east), then
+    stretch the rotated y by ratio. Correlation then reaches ratio times farther along the angle's direction
+    than across it. Distances in the result are the anisotropic distances."""
+    a = np.radians(angle_deg)
+    c, s_ = np.cos(-a), np.sin(-a)
+    xy = np.asarray(xy, float)
+    return np.c_[c * xy[:, 0] - s_ * xy[:, 1], ratio * (s_ * xy[:, 0] + c * xy[:, 1])]
+
+
+def estimate_anisotropy(xy, v, angles=tuple(range(0, 180, 15)), ratios=(1.0, 1.5, 2.0, 3.0, 4.0, 6.0), k=12,
+                        sample=400, seed=0):
+    """The (angle, ratio) whose ordinary kriging predicts left-out observations best: for each candidate, the
+    coordinates are transformed (anisotropic()), a variogram is fitted, and every observation of a sample is
+    predicted from the others (leave one out). Ranges fitted to directional variograms were too noisy to pick
+    a direction (references/kriging.md)."""
+    xy, v = np.asarray(xy, float), np.asarray(v, float)
+    rng = np.random.default_rng(seed)
+    test = rng.choice(len(v), min(sample, len(v)), replace=False)
+    scores = {}
+    for ratio in ratios:
+        for angle in (angles if ratio != 1.0 else (0,)):
+            a = anisotropic(xy, angle, ratio)
+            vg = fit_variogram(a, v, "exponential")
+            tree = cKDTree(a)
+            _, idx = tree.query(a[test], k + 1)
+            err = []
+            for t, nb in zip(test, idx):
+                nb = nb[nb != t][:k]
+                p = predict(Obs(a[nb], v[nb]), a[t:t + 1], "kriging", k=k, variogram=vg)["prediction"][0]
+                err.append(p - v[t])
+            scores[(float(angle), float(ratio))] = float(np.sqrt(np.mean(np.square(err))))
+    best = min(scores, key=scores.get)
+    return {"angle": best[0], "ratio": best[1], "rmse": scores[best], "isotropic_rmse": scores[(0.0, 1.0)],
+            "scores": scores}
+
+
+def predict(obs, qxy, method, power=2.0, k=12, max_dist=None, variogram=None, anisotropy=None):
+    """anisotropy (angle, ratio): kriging and universal kriging on anisotropic distances (anisotropic()); the
+    neighbours are chosen by them too. nearest_m and inside_hull stay in the original metres."""
     if method not in METHODS:
         raise SystemExit(f"--method must be one of {METHODS}")
+    if anisotropy is not None and method in ("kriging", "universal"):
+        res = predict(Obs(anisotropic(obs.xy, *anisotropy), obs.v), anisotropic(qxy, *anisotropy), method, power,
+                      k, None, variogram)
+        plain = predict(obs, qxy, "nearest", max_dist=max_dist)
+        far = plain["status"] == "no_neighbors"
+        res["prediction"][far] = np.nan
+        res["kriging_sd"][far] = np.nan
+        res["status"] = plain["status"]
+        res["nearest_m"], res["inside_hull"] = plain["nearest_m"], plain["inside_hull"]
+        res["anisotropy"] = anisotropy
+        return res
     n = len(obs.v)
     tree = cKDTree(obs.xy)
     kk = 1 if method == "nearest" else min(k, n)
@@ -222,6 +275,9 @@ def main():
     p.add_argument("--k", type=int, default=12)
     p.add_argument("--max-dist", type=float)
     p.add_argument("--variogram", nargs=4, metavar=("MODEL", "NUGGET", "SILL", "RANGE"))
+    p.add_argument("--anisotropy", nargs="+", metavar="ANGLE RATIO | auto",
+                   help="kriging: the direction of longest correlation (degrees counter-clockwise from east) and the "
+                        "ratio of the longest to the shortest range; 'auto' estimates both from directional variograms")
     p.add_argument("--duplicates", default="error", choices=("error", "mean"))
     p.add_argument("--out", required=True)
     a = p.parse_args()
@@ -234,7 +290,16 @@ def main():
     q = read_points(a.pred, [a.pred_id, a.pred_x, a.pred_y])
     qxy = project(np.array([[r[1], r[2]] for r in q], float), a.pred_crs or a.crs, a.distance_crs)
     vg = (a.variogram[0], *map(float, a.variogram[1:])) if a.variogram else None
-    res = predict(o, qxy, a.method, a.power, a.k, a.max_dist, vg)
+    aniso = None
+    if a.anisotropy:
+        if a.anisotropy == ["auto"]:
+            est = estimate_anisotropy(o.xy, o.v, k=a.k)
+            aniso = (est["angle"], est["ratio"])
+            print(f"anisotropy chosen by leave-one-out kriging: angle {est['angle']:g}, ratio {est['ratio']:g}; "
+                  f"RMSE {est['rmse']:.4g} against {est['isotropic_rmse']:.4g} isotropic")
+        else:
+            aniso = (float(a.anisotropy[0]), float(a.anisotropy[1]))
+    res = predict(o, qxy, a.method, a.power, a.k, a.max_dist, vg, aniso)
     import pyarrow as pa
     import pyarrow.parquet as pq
     cols = {"id": [r[0] for r in q], "prediction": [None if np.isnan(x) else float(x) for x in res["prediction"]],
