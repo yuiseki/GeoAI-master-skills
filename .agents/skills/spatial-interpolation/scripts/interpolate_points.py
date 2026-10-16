@@ -10,6 +10,12 @@ Methods (all on distances in metres in a projected CRS; a geographic CRS is refu
               observations by weighted least squares, or given as --variogram MODEL NUGGET SILL RANGE.
               Also returns kriging_sd, the model's standard deviation; check its coverage on held-out points
               before reading it as an interval.
+    universal universal kriging over the --k nearest with a linear drift in x and y (the mean is a + b x + c y,
+              its coefficients unknown and filtered out by constraints: the weights sum to 1 and reproduce the
+              query's x and y). The variogram is fitted to the residuals of a least-squares plane over all
+              observations (a regression-kriging residual variogram; biased low at long lags) unless given.
+              A plane extrapolates: outside the hull the prediction follows the trend instead of returning to
+              the mean, which is right only if the trend continues there.
 
 Every prediction point gets a row: prediction (NaN with status no_neighbors when nothing is within
 --max-dist), nearest_m (distance to the nearest observation), n_used, inside_hull (inside the convex hull of
@@ -34,7 +40,7 @@ import pyproj
 from scipy.optimize import least_squares
 from scipy.spatial import Delaunay, cKDTree
 
-METHODS = ("mean", "nearest", "knn", "idw", "kriging")
+METHODS = ("mean", "nearest", "knn", "idw", "kriging", "universal")
 
 
 @dataclass
@@ -151,6 +157,11 @@ def predict(obs, qxy, method, power=2.0, k=12, max_dist=None, variogram=None):
     used = reach.sum(1) if method != "mean" else np.full(len(qxy), n)
     if method == "kriging" and variogram is None:
         variogram = fit_variogram(obs.xy, obs.v, "exponential")
+    centre, scale = obs.xy.mean(0), max(float(obs.xy.std(0).max()), 1e-12)  # drift columns on a unit scale
+    if method == "universal" and variogram is None:
+        F = np.c_[np.ones(n), (obs.xy - centre) / scale]
+        trend = F @ np.linalg.lstsq(F, obs.v, rcond=None)[0]
+        variogram = fit_variogram(obs.xy, obs.v - trend, "exponential")
     for q in range(len(qxy)):
         r = reach[q]
         if method == "mean":
@@ -168,18 +179,22 @@ def predict(obs, qxy, method, power=2.0, k=12, max_dist=None, variogram=None):
             m, nug, sill, rng = variogram
             pts = obs.xy[idx[q][r]]
             m_ = len(vq)
-            A = np.ones((m_ + 1, m_ + 1))
+            # drift columns: the constant (ordinary kriging), plus x and y (universal)
+            F = np.ones((m_, 1)) if method == "kriging" else np.c_[np.ones(m_), (pts - centre) / scale]
+            f0 = np.ones(1) if method == "kriging" else np.r_[1.0, (qxy[q] - centre) / scale]
+            p_ = F.shape[1]
+            A = np.zeros((m_ + p_, m_ + p_))
             A[:m_, :m_] = gamma(np.hypot(*(pts[:, None, :] - pts[None, :, :]).transpose(2, 0, 1)), m, nug, sill, rng)
-            A[m_, m_] = 0
-            b = np.ones(m_ + 1)
-            b[:m_] = gamma(dq, m, nug, sill, rng)
+            A[:m_, m_:] = F
+            A[m_:, :m_] = F.T
+            b = np.r_[gamma(dq, m, nug, sill, rng), f0]
             sol = np.linalg.lstsq(A, b, rcond=None)[0]
-            lam, mu = sol[:m_], sol[m_]
+            lam, mu = sol[:m_], sol[m_:]
             pred[q] = float(lam @ vq)
-            sd[q] = float(np.sqrt(max(lam @ b[:m_] + mu, 0.0)))
+            sd[q] = float(np.sqrt(max(lam @ b[:m_] + mu @ f0, 0.0)))
     status = np.where(np.isnan(pred), "no_neighbors", "ok")
     out = {"prediction": pred, "nearest_m": nearest, "n_used": used, "inside_hull": inside, "status": status}
-    if method == "kriging":
+    if method in ("kriging", "universal"):
         out["kriging_sd"] = sd
         out["variogram"] = variogram
     return out

@@ -21,7 +21,7 @@ a row that any method could not predict (nothing within --max-dist) is left out 
 
 For each method: n, MAE, RMSE, bias (mean of prediction − observed), overall, inside / outside the convex
 hull of the training points, by distance to the nearest training point, and for kriging the share of
-held-out values inside the nominal 90 % interval (± 1.645 kriging_sd).
+held-out values inside the nominal 90 % interval (± 1.645 kriging_sd), for ordinary and universal kriging.
 
 Usage:
     uvx --from 'duckdb>=1.5.5' --with numpy --with scipy --with pyproj --with pyarrow python evaluate_interpolation.py \\
@@ -87,9 +87,10 @@ def target_distance(obs, methods, pred_xy, power=2.0, k=12, max_dist=None, seed=
     except Exception:
         deploy_out = 1.0
     d_star = np.random.default_rng(seed).choice(deploy, n)
-    vg = fit_variogram(obs.xy, obs.v, "exponential") if "kriging" in methods else None
+    vg = fit_variogram(obs.xy, obs.v, "exponential") if "kriging" in methods else None  # universal fits its own
     pred = {m: np.full(n, np.nan) for m in methods}
-    sd, near, inside = np.full(n, np.nan), np.full(n, np.nan), np.zeros(n, bool)
+    sd = {m: np.full(n, np.nan) for m in methods}
+    near, inside = np.full(n, np.nan), np.zeros(n, bool)
     for i in range(n):
         dist = np.hypot(*(obs.xy - obs.xy[i]).T)
         dist[i] = np.inf
@@ -101,11 +102,12 @@ def target_distance(obs, methods, pred_xy, power=2.0, k=12, max_dist=None, seed=
             continue
         train = Obs(obs.xy[tr], obs.v[tr])
         for m in methods:
-            r = predict(train, obs.xy[i:i + 1], m, power=power, k=k, max_dist=max_dist, variogram=vg)
+            r = predict(train, obs.xy[i:i + 1], m, power=power, k=k, max_dist=max_dist,
+                        variogram=vg if m == "kriging" else None)
             pred[m][i] = r["prediction"][0]
             near[i], inside[i] = r["nearest_m"][0], r["inside_hull"][0]
-            if m == "kriging":
-                sd[i] = r["kriging_sd"][0]
+            if m in ("kriging", "universal"):
+                sd[m][i] = r["kriging_sd"][0]
     return pred, sd, near, inside, deploy, deploy_out
 
 
@@ -140,7 +142,7 @@ def evaluate(obs, methods, split="random", folds=10, block_m=2500.0, power=2.0, 
         return score(obs, methods, split, pred, sd, near, inside, deploy, deploy_out, match_tolerance)
     f = folds_for(obs, split, folds, block_m, seed)
     pred = {m: np.full(n, np.nan) for m in methods}
-    sd = np.full(n, np.nan)
+    sd = {m: np.full(n, np.nan) for m in methods}
     near = np.full(n, np.nan)
     inside = np.zeros(n, bool)
     for g in np.unique(f):
@@ -152,8 +154,8 @@ def evaluate(obs, methods, split="random", folds=10, block_m=2500.0, power=2.0, 
             r = predict(train, obs.xy[te], m, power=power, k=k, max_dist=max_dist)
             pred[m][te] = r["prediction"]
             near[te], inside[te] = r["nearest_m"], r["inside_hull"]
-            if m == "kriging":
-                sd[te] = r["kriging_sd"]
+            if m in ("kriging", "universal"):
+                sd[m][te] = r["kriging_sd"]
     deploy = cKDTree(obs.xy).query(pred_xy, 1)[0] if pred_xy is not None else None
     return score(obs, methods, split, pred, sd, near, inside, deploy, None, match_tolerance)
 
@@ -173,9 +175,9 @@ def score(obs, methods, split, pred, sd, near, inside, deploy, deploy_out, tol):
              "outside_hull": summary(err, scored & ~inside)}
         for lo, hi in zip(BINS[:-1], BINS[1:]):
             r[f"nearest_{lo:g}-{hi:g}m"] = summary(err, scored & (near >= lo) & (near < hi))
-        if m == "kriging":
-            ok = scored & ~np.isnan(sd)
-            r["coverage_90"] = float((np.abs(err[ok]) <= 1.645 * sd[ok]).mean()) if ok.any() else None
+        if m in ("kriging", "universal"):
+            ok = scored & ~np.isnan(sd[m])
+            r["coverage_90"] = float((np.abs(err[ok]) <= 1.645 * sd[m][ok]).mean()) if ok.any() else None
         out[m] = r
     return out
 

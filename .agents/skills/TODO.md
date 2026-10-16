@@ -134,7 +134,7 @@
   - [x] `spatial-interpolation`: 地点で観測した連続的な値から、観測していない地点の値を推定する。平均と最近傍を基準に IDW と通常クリギングを比べ、予測地点の離れ方に合わせた分け方で評価し、凸包の中と外、距離ごとに誤差を分ける
     - [x] `references/evaluation.md`
     - [x] `references/kriging.md`
-    - [ ] 大域的な勾配を除いてから補間する (回帰クリギング、ユニバーサルクリギング)
+    - [x] 大域的な勾配を除いてから補間する (ユニバーサルクリギング、`--method universal`。PyKrige と照合、references/kriging.md)
     - [ ] 異方性
     - [x] 予測地点までの距離に合わせた分け方を、スクリプトの分け方に足す (`--split target-distance`)
   - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する

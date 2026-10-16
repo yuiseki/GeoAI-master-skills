@@ -133,3 +133,55 @@ def test_kriging_far_beyond_the_range_returns_the_mean_of_the_observations():
     assert far["prediction"][0] == pytest.approx(30, abs=1e-6)
     assert far["kriging_sd"][0] > near["kriging_sd"][0]
     assert far["inside_hull"][0] == False and far["nearest_m"][0] > 10000
+
+
+# Universal kriging (a linear drift in x and y)
+
+def _plane_obs(n=40, seed=0, noise=0.0):
+    rng = np.random.default_rng(seed)
+    xy = rng.uniform(0, 10000, (n, 2))
+    v = 3 + 0.002 * xy[:, 0] - 0.001 * xy[:, 1] + noise * rng.normal(size=n)
+    return Obs(xy + [X0, Y0], v)
+
+
+def test_universal_kriging_reproduces_a_plane_anywhere_and_ordinary_kriging_does_not():
+    # The drift constraints make the weights reproduce x and y: a noise-free plane comes back exactly, even far
+    # outside the observations. Ordinary kriging returns towards the mean beyond the range.
+    o = _plane_obs()
+    q = np.array([[X0 + 5000, Y0 + 5000], [X0 + 40000, Y0 + 30000], [X0 - 20000, Y0 + 15000]])
+    truth = 3 + 0.002 * (q[:, 0] - X0) - 0.001 * (q[:, 1] - Y0)
+    vg = ("exponential", 0.0, 1.0, 2000.0)
+    uk = predict(o, q, "universal", k=40, variogram=vg)
+    ok = predict(o, q, "kriging", k=40, variogram=vg)
+    np.testing.assert_allclose(uk["prediction"], truth, atol=1e-8)
+    assert abs(ok["prediction"][1] - truth[1]) > 20  # measured: 8.2 against 53
+
+
+def test_universal_kriging_extrapolates_a_trend_with_a_field_better_than_ordinary_kriging():
+    # A west-east trend plus a smooth field: train on the west half, predict the east quarter. Ordinary kriging
+    # pulls back to the west half's mean; the drift carries the trend.
+    errs = {"universal": [], "kriging": []}
+    for s in range(5):
+        rng = np.random.default_rng(10 + s)
+        xy = rng.uniform(0, 10000, (300, 2))
+        d = np.hypot(*(xy[:, None] - xy[None]).transpose(2, 0, 1))
+        field = np.linalg.cholesky(np.exp(-d / 1000) + 1e-9 * np.eye(300)) @ rng.normal(size=300)
+        v = 0.001 * xy[:, 0] + field + 0.1 * rng.normal(size=300)
+        west, east = xy[:, 0] < 5000, xy[:, 0] > 7500
+        o = Obs(xy[west] + [X0, Y0], v[west])
+        for m in errs:
+            p = predict(o, xy[east] + [X0, Y0], m, k=30)["prediction"]
+            errs[m].append(np.sqrt(np.mean((p - v[east]) ** 2)))
+    assert np.mean(errs["universal"]) < 0.8 * np.mean(errs["kriging"])
+
+
+def test_the_residual_variogram_has_a_sill_where_the_raw_one_keeps_rising():
+    from interpolate_points import empirical_variogram
+
+    o = _plane_obs(n=300, seed=3, noise=0.3)
+    h, g_raw, _ = empirical_variogram(o.xy, o.v)
+    F = np.c_[np.ones(300), o.xy - o.xy.mean(0)]
+    r = o.v - F @ np.linalg.lstsq(F, o.v, rcond=None)[0]
+    _, g_res, _ = empirical_variogram(o.xy, r)
+    assert g_raw[-1] > 5 * g_raw[0]  # the trend makes the raw semivariance grow with distance
+    assert g_res[-1] < 1.5 * g_res[0]  # the residuals are noise: flat
