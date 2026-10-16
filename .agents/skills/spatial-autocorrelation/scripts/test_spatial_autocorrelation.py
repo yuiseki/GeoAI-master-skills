@@ -236,3 +236,72 @@ def test_bivariate_moran_rejects_too_often_when_both_variables_are_autocorrelate
         iid += bivariate_moran(rng.normal(size=len(lon)), rng.normal(size=len(lon)), nb, 199, seed)["p_sim"] <= 0.05
     assert smooth >= 15  # 18 of 20 in the run that set this
     assert iid <= 6  # 2 of 40; about 5% is the nominal rate
+
+
+# Nulls that keep the autocorrelation
+
+def _grid_nb(side=15):
+    nb = []
+    for i in range(side * side):
+        r, c = divmod(i, side)
+        nb.append(np.array([j for j in (i - side, i + side, i - 1 if c else -1, i + 1 if c < side - 1 else -1)
+                            if 0 <= j < side * side]))
+    return nb
+
+
+def _smooth(rng, side=15, scale=3.0):
+    g = np.arange(side)
+    X, Y = np.meshgrid(g, g)
+    P = np.c_[X.ravel(), Y.ravel()]
+    C = np.exp(-np.hypot(*(P[:, None] - P[None]).transpose(2, 0, 1)) / scale)
+    return np.linalg.cholesky(C + 1e-9 * np.eye(len(C))) @ rng.normal(size=len(C))
+
+
+def test_spectral_surrogates_keep_the_mean_variance_and_morans_i():
+    from spatial_autocorrelation import msr_surrogates
+
+    nb = _grid_nb()
+    x = _smooth(np.random.default_rng(0))
+    sur = msr_surrogates(x, nb, 50, seed=1)
+    A = np.zeros((225, 225))
+    for i, v in enumerate(nb):
+        A[i, v] = 1
+
+    def binary_i(v):
+        z = v - v.mean()
+        return 225 / A.sum() * z @ A @ z / (z @ z)
+
+    np.testing.assert_allclose(sur.mean(1), x.mean(), atol=1e-10)
+    np.testing.assert_allclose(sur.var(1), x.var(), rtol=1e-10)
+    np.testing.assert_allclose([binary_i(s) for s in sur], binary_i(x), rtol=1e-9)
+    assert np.mean([abs(np.corrcoef(s, x)[0, 1]) for s in sur]) < 0.3  # yet they are different maps
+
+
+def test_spectral_randomisation_keeps_the_size_where_shuffling_does_not():
+    # Two independent smooth fields: shuffling y rejects the bivariate I far too often (measured 18 of 20 in the
+    # reference); surrogates that keep x's autocorrelation reject the correlation near 5%.
+    from spatial_autocorrelation import bivariate_msr
+
+    nb = _grid_nb()
+    rej_msr, rej_shuffle = 0, 0
+    for s in range(40):
+        rng = np.random.default_rng(100 + s)
+        x, y = _smooth(rng), _smooth(rng)
+        r = bivariate_msr(x, y, nb, 199, seed=s)
+        rej_msr += r["p_r"] <= 0.05
+        rej_shuffle += bivariate_moran(x, y, nb, 199, seed=s)["p_sim"] <= 0.05
+    assert rej_msr <= 6  # 40 x 0.05 = 2 expected; 6 is the 99% binomial bound
+    assert rej_shuffle >= 15
+
+
+def test_spectral_randomisation_still_detects_a_real_relation():
+    from spatial_autocorrelation import bivariate_msr
+
+    nb = _grid_nb()
+    hits = 0
+    for s in range(10):
+        rng = np.random.default_rng(300 + s)
+        x = _smooth(rng)
+        y = x + 0.7 * _smooth(rng)
+        hits += bivariate_msr(x, y, nb, 199, seed=s)["p_r"] <= 0.05
+    assert hits >= 8

@@ -208,6 +208,51 @@ def bivariate_moran(x, y, neighbors, permutations=999, seed=0):
     return {"I_xy": observed, "p_sim": _fold(sim, observed), "r": float(np.corrcoef(x, y)[0, 1]), "n": n}
 
 
+def msr_surrogates(x, neighbors, count=999, seed=0):
+    """Moran spectral randomisation (Wagner and Dray 2015): x's centred values as coefficients on the
+    eigenvectors of the doubly centred symmetric neighbour matrix, each coefficient's sign drawn at random.
+    Every surrogate keeps x's mean, variance and its Moran's I under the symmetric binary weights exactly (the
+    I depends only on the squared coefficients); under row-standardised weights nearly."""
+    x = np.asarray(x, float)
+    n = len(x)
+    A = np.zeros((n, n))
+    for i, nb in enumerate(neighbors):
+        A[i, nb] = 1.0
+    A = np.maximum(A, A.T)
+    H = np.eye(n) - 1.0 / n
+    vals, vecs = np.linalg.eigh(H @ A @ H)
+    keep = np.abs(vecs.T @ np.ones(n)) < 1e-6 * np.sqrt(n)  # drop the constant direction
+    V = vecs[:, keep]
+    coef = V.T @ (x - x.mean())
+    rest = (x - x.mean()) - V @ coef  # zero up to rounding
+    rng = np.random.default_rng(seed)
+    signs = rng.choice([-1.0, 1.0], size=(count, V.shape[1]))
+    return x.mean() + rest + (signs * coef) @ V.T
+
+
+def bivariate_msr(x, y, neighbors, count=999, seed=0):
+    """The correlation r(x, y) and the bivariate Moran's I tested against surrogates of x that keep its spatial
+    autocorrelation (msr_surrogates), y fixed: two independent autocorrelated variables are then rejected at
+    about the nominal rate, which shuffling y is not."""
+    x, y = np.asarray(x, float), np.asarray(y, float)
+    sur = msr_surrogates(x, neighbors, count, seed)
+    r_obs = float(np.corrcoef(x, y)[0, 1])
+    r_sim = np.array([np.corrcoef(s, y)[0, 1] for s in sur])
+    W = _weights(neighbors)
+    n = len(x)
+    zy = (y - y.mean()) / y.std(ddof=1)
+    wy = W @ zy
+
+    def ixy(v):
+        z = (v - v.mean()) / v.std(ddof=1)
+        return float(z @ wy / (n - 1))
+
+    i_obs = ixy(x)
+    i_sim = np.array([ixy(s) for s in sur])
+    return {"r": r_obs, "p_r": float(((np.abs(r_sim) >= abs(r_obs)).sum() + 1) / (count + 1)),
+            "I_xy": i_obs, "p_I": float(((np.abs(i_sim) >= abs(i_obs)).sum() + 1) / (count + 1))}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("table")
@@ -264,6 +309,9 @@ def main():
               f"pseudo p {bv['p_sim']:.4f}; correlation r {bv['r']:+.3f}; Moran's I of {a.value} {g['I']:+.3f}, "
               f"of {a.y} {iy['I']:+.3f}. With both autocorrelated, the p-value is too small (see "
               "references/bivariate-moran.md)")
+        ms = bivariate_msr(x, y, nb, a.permutations, a.seed)
+        print(f"  against surrogates of {a.value} that keep its autocorrelation (Moran spectral randomisation): "
+              f"p for r {ms['p_r']:.4f}, p for I_xy {ms['p_I']:.4f}")
 
     if a.bands_km:
         print("correlogram (distance band, km: I, pseudo p, units with a neighbour in the band):")

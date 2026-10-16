@@ -168,7 +168,7 @@
     - [x] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み (Queen と Rook、島、成分。contiguity.py)
     - [x] Getis-Ord General G: 高い値どうしが集まるかの全体の検定。Moran's I と問いが違うこと、期待値を下回っても低い値の集まりとは読めないことを合成データで示した (references/getis-ord.md)
     - [x] `references/bivariate-moran.md`: 2 変数の Moran's I。2 つの変数の相関と、それぞれの自己相関が混ざること、自己相関のある変数どうしでは並べ替えの p 値が小さすぎること
-    - [ ] 自己相関を保った帰無 (場を回す、ずらす) で 2 変数の関係を検定する
+    - [x] 自己相関を保った帰無 (Moran spectral randomisation) で 2 変数の関係を検定する (bivariate_msr、references/bivariate-moran.md)
   - [x] `clustering-analysis`: 似た単位の群に分けられるか。群が戻ってくるか、既知の区分と何が違うか
     - [x] `references/kmeans.md`
     - [x] `references/density-based.md`
