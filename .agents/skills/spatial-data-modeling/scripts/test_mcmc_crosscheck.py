@@ -1,4 +1,4 @@
-"""uvx --with numpy --with scipy --with arviz --with pymc --with geopandas --with libpysal --with pytest pytest test_mcmc_crosscheck.py
+"""uvx --with numpy --with scipy --with arviz --with pymc --with pytensor --with geopandas --with libpysal --with pytest pytest test_mcmc_crosscheck.py
 
 rhat and ess_bulk against ArviZ 1.3.0 (az.rhat method="rank", az.ess method="bulk") on independent draws,
 autocorrelated chains and chains that disagree. The BYM2 model's HMC against the same model in PyMC 6.3.2

@@ -84,4 +84,4 @@ Scotlip (上と同じ 56 地区、Queen の隣接、島 3 つ、成分 4 つ。�
 
 ## テスト
 
-`uvx --with numpy --with scipy --with pytest pytest scripts/test_mcmc.py`。上の診断、既知解、ヤコビアン、SBC、HMC と BYM2 を確かめている。分けない R-hat、ランダム切片のモデルの log σ のヤコビアンを落とす、のそれぞれで落ちる。tail の R-hat を外す、Geyer の単調化を外す、のそれぞれは主のテストでは落ちず、照合のテスト (`uvx --with numpy --with scipy --with arviz --with pymc --with geopandas --with libpysal --with pytest pytest scripts/test_mcmc_crosscheck.py`、Scotlip は `GEOAI_REALDATA=1`) で落ちる。BYM2 の log σ のヤコビアンを落とすと、事前に戻るテストだけで落ちる。
+`uvx --with numpy --with scipy --with pytest pytest scripts/test_mcmc.py`。上の診断、既知解、ヤコビアン、SBC、HMC と BYM2 を確かめている。分けない R-hat、ランダム切片のモデルの log σ のヤコビアンを落とす、のそれぞれで落ちる。tail の R-hat を外す、Geyer の単調化を外す、のそれぞれは主のテストでは落ちず、照合のテスト (`uvx --with numpy --with scipy --with arviz --with pymc --with pytensor --with geopandas --with libpysal --with pytest pytest scripts/test_mcmc_crosscheck.py`、Scotlip は `GEOAI_REALDATA=1`) で落ちる。BYM2 の log σ のヤコビアンを落とすと、事前に戻るテストだけで落ちる。
