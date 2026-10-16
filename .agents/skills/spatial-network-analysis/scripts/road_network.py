@@ -8,7 +8,8 @@ Pairs that cannot reach each other are infinite, never filled with a number.
 Commands:
     build    SEGMENTS --out-edges E --out-nodes N [--classes c1,c2 | --exclude-classes ...]
     detour   E N --pairs 2000: network distance / straight-line distance between random node pairs
-    reach    E N --lon X --lat Y --within 500 1000 2000: nodes within each distance
+    reach    E N --lon X --lat Y --within 500 1000 2000 [--buffer-m 25] [--areas-out areas.parquet]:
+             nodes, street length and service-area polygons within each distance
     matrix   E N --origins O --destinations D --out M: network distance for every pair, with the
              snapping distances and the straight-line distance (input tables: id, lon, lat)
 
@@ -126,6 +127,47 @@ class Network:
         return [self.ids[cand[i]] for i in idx[:, 0]], dist[:, 0] * EARTH_M
 
 
+def service_area(net, lon, lat, within_m, buffer_m=25.0):
+    """The streets reached within within_m of the point (snapped to the largest component), as a polygon.
+
+    Every edge is a straight line between its two nodes (the bends of the street are not kept). A reached
+    edge counts whole; an edge reached only part way counts the reached part from each end. The pieces are
+    buffered by buffer_m and merged (area_edges_m2); the convex hull of their ends is the cruder alternative
+    (area_hull_m2), which also covers the blocks between the streets and any water inside. Lengths and areas
+    are in metres on a local plane centred on the point (equirectangular, fine over a few kilometres)."""
+    import shapely
+
+    node, snap_m = net.snap(np.array([lon]), np.array([lat]), largest_only=True)
+    dist = dijkstra(net.graph, directed=False, indices=[net.index[node[0]]])[0]
+    k = math.cos(math.radians(lat))
+    x = (net.lon - lon) * math.pi / 180 * EARTH_M * k
+    y = (net.lat - lat) * math.pi / 180 * EARTH_M
+    g = net.graph.tocoo()
+    pieces, length = [], 0.0
+    for i, j, w in zip(g.row, g.col, g.data):
+        if i > j:
+            continue
+        a = min(w, within_m - dist[i]) if dist[i] <= within_m else 0.0
+        b = min(w, within_m - dist[j]) if dist[j] <= within_m else 0.0
+        if a <= 0 and b <= 0:
+            continue
+        p, q = np.array([x[i], y[i]]), np.array([x[j], y[j]])
+        if a + b >= w:
+            pieces.append(shapely.LineString([p, q]))
+            length += w
+            continue
+        for start, end, part in ((p, q, a), (q, p, b)):
+            if part > 0:
+                pieces.append(shapely.LineString([start, start + (end - start) * part / w]))
+                length += part
+    lines = shapely.MultiLineString(pieces)
+    edges = shapely.unary_union([shapely.buffer(pc, buffer_m) for pc in pieces]) if pieces else shapely.Polygon()
+    hull = lines.convex_hull if pieces else shapely.Polygon()
+    return {"node": node[0], "snap_m": float(snap_m[0]), "reached_length_m": float(length),
+            "area_edges_m2": float(edges.area), "area_hull_m2": float(hull.area), "edges": edges, "hull": hull,
+            "nodes_reached": int((dist <= within_m).sum()), "origin": (lon, lat)}
+
+
 def distance_matrix(net, o_lon, o_lat, d_lon, d_lat):
     """Network distance (m) from every origin to every destination, each point snapped to the
     largest component; also the snapping distances and the straight-line distances. Network
@@ -205,6 +247,8 @@ def main():
     r.add_argument("--lon", type=float, required=True)
     r.add_argument("--lat", type=float, required=True)
     r.add_argument("--within", type=float, nargs="+", required=True)
+    r.add_argument("--buffer-m", type=float, default=25.0, help="half-width of the street band for the area")
+    r.add_argument("--areas-out", help="write the service-area polygons (WKB in lon, lat) per distance")
     a = p.parse_args()
 
     if a.cmd == "build":
@@ -266,9 +310,27 @@ def main():
                   "nearest node that is")
         dist = dijkstra(net.graph, directed=False, indices=[net.index[node[0]]])[0]
         print(f"start snapped {snap_m[0]:.1f} m to node {node[0]}")
+        rows = []
         for w in a.within:
-            m = dist <= w
-            print(f"  within {w:g} m: nodes {int(m.sum())}")
+            sa = service_area(net, a.lon, a.lat, w, a.buffer_m)
+            print(f"  within {w:g} m: nodes {sa['nodes_reached']}, street length {sa['reached_length_m'] / 1000:.2f} km, "
+                  f"area of the streets buffered by {a.buffer_m:g} m {sa['area_edges_m2'] / 1e6:.3f} km2, "
+                  f"convex hull {sa['area_hull_m2'] / 1e6:.3f} km2")
+            rows.append((w, sa))
+        if a.areas_out:
+            import duckdb
+            import pyarrow as pa
+            import shapely
+
+            k = math.cos(math.radians(a.lat))
+            back = lambda xy: np.c_[a.lon + xy[:, 0] / (math.pi / 180 * EARTH_M * k),
+                                    a.lat + xy[:, 1] / (math.pi / 180 * EARTH_M)]
+            t = pa.table({"within_m": [w for w, _ in rows for _ in (0, 1)],
+                          "method": [m for _ in rows for m in ("edges", "hull")],
+                          "area_m2": [sa[f"area_{m}_m2"] for _, sa in rows for m in ("edges", "hull")],
+                          "wkb": [shapely.to_wkb(shapely.transform(sa[m], back)) for _, sa in rows for m in ("edges", "hull")]})
+            duckdb.sql(f"copy t to '{a.areas_out}' (format parquet)")
+            print(f"wrote {a.areas_out} (WKB in lon, lat)")
 
 
 if __name__ == "__main__":

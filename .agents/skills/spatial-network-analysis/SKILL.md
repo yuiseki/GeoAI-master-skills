@@ -29,7 +29,7 @@ uvx --with numpy --with scipy --with scikit-learn --with shapely --with duckdb -
   --exclude-classes footway,steps,path,pedestrian,cycleway,bridleway,track \
   --out-edges tmp/drive_edges.parquet --out-nodes tmp/drive_nodes.parquet
 uvx ... python scripts/road_network.py reach tmp/drive_edges.parquet tmp/drive_nodes.parquet \
-  --lon 139.7774 --lat 35.7141 --within 500 1000 2000
+  --lon 139.7774 --lat 35.7141 --within 500 1000 2000 --buffer-m 25 --areas-out tmp/areas.parquet
 uvx ... python scripts/road_network.py detour tmp/drive_edges.parquet tmp/drive_nodes.parquet --pairs 2000
 uvx ... python scripts/road_network.py matrix tmp/walk_edges.parquet tmp/walk_nodes.parquet \
   --origins tmp/demand.parquet --destinations tmp/candidates.parquet --out tmp/matrix.parquet
@@ -37,7 +37,7 @@ uvx ... python scripts/road_network.py matrix tmp/walk_edges.parquet tmp/walk_no
 
 `matrix` は、出発地と目的地 (どちらも id、lon、lat の表) を最大の連結成分の節点に寄せ、全ての組の道のり、直線距離、寄せた距離を書き出す。道のりは寄せた節点の間のもので、寄せた距離は足していない。施設配置などの最適化の入力にできる。
 
-テストは `uvx --with numpy --with scipy --with scikit-learn --with shapely --with duckdb --with pytest pytest scripts/test_road_network.py`。線の長さが大円距離であること、線を connector の位置で切り、並びが順でなくても正しく切ること、折れ線の後の区間の上の connector をその区間に置くこと、最短経路が共有の connector を通ること、つながらない組が無限大であること、点を大円距離で最寄りの節点に寄せ、孤立した小片を避けられること、同じ 2 点を結ぶ道が 2 本あれば短いほうを使うことを確かめている。connector を並べ替えない、寄せるときに経度と緯度を取り違える、平行な道の長いほうを取る、節点を最初の区間にしか置かない、のそれぞれで落ちることを確かめてある。
+テストは `uvx --with numpy --with scipy --with scikit-learn --with shapely --with duckdb --with pytest pytest scripts/test_road_network.py`。線の長さが大円距離であること、線を connector の位置で切り、並びが順でなくても正しく切ること、折れ線の後の区間の上の connector をその区間に置くこと、最短経路が共有の connector を通ること、つながらない組が無限大であること、点を大円距離で最寄りの節点に寄せ、孤立した小片を避けられること、同じ 2 点を結ぶ道が 2 本あれば短いほうを使うこと、到達圏の道の長さが途中まで届いた辺の届いた部分だけを数えること (両端から届いても中央に届かない長い道の中央は数えない)、凸包が道の帯より大きく出ることを確かめている。connector を並べ替えない、寄せるときに経度と緯度を取り違える、平行な道の長いほうを取る、節点を最初の区間にしか置かない、途中まで届いた辺を数えない、両端に届いた辺を全部数える、のそれぞれで落ちることを確かめてある。
 
 `routing.py` のテストは `uvx --with numpy --with pytest pytest scripts/test_routing.py`。一方通行を無視すると走れない経路ができること、曲がれない交差点で近道が消えること、U ターンを許すかで届くかが変わること、最短の道のりと最短の時間の経路が違うこと、mph の換算、速度の無い道で止まること、モードで入る道が違うこと、届かない組が無限大であること、寄せた距離が上限を超えた点に印が付くことを確かめている。
 

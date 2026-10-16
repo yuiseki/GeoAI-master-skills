@@ -190,7 +190,8 @@
     - [x] `references/measures.md`
     - [x] `references/directions-and-time.md`: 一方通行と曲がれない交差点、速度から時間 (routing.py)
     - [x] 出発地と目的地の表から距離行列を書き出すコマンド (spatial-optimization の入力)
-    - [ ] 到達圏を面 (service area) として書き出し、面積や人口で表す (references/measures.md で未実装と書いた分)。節点の集合から面を作る方法 (凸包、辺のバッファ) で面積が変わることを測る
+    - [x] 到達圏を面 (service area) として書き出す。道の帯と凸包の 2 通りで面積が変わることを合成の格子で測った (references/measures.md)
+    - [ ] 到達圏の面を、実際の道路と人口のラスタで測る
   - [x] `land-cover-cost`: 分類済みの土地被覆の raster と、明示的な class から cost への対応表 (CSV) から、1 m あたりのコストの cost raster を作る。対応表に無いクラス、重なり、正でないコストで止まり、barrier と NoData を別の値で残し、クラスごとの数と対応表の hash を audit に書く
   - [x] `raster-cost-distance`: 意味の決まった cost raster (1 m あたりのコスト) と destination から、各 cell の最寄りの destination までの最小累積コスト。8 近傍の多始点 Dijkstra、barrier と NoData と届かない cell の区別、角を抜ける規則、非正方形の画素、CRS の尺度の検査
     - [x] `references/cost-definition.md`: 値の意味と単位、2 cell の平均 × 長さ、8 近傍の距離、CRS
