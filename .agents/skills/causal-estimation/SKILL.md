@@ -16,8 +16,9 @@ description: 因果の効果を識別できると判定した後に、設計の�
 | [did](references/did.md) | 平行な傾向 | 2 × 2、二方向の固定効果、Callaway と Sant'Anna の群 × 時点と集計、処置の前のセル (`scripts/did.py`) |
 | [iv](references/iv.md) | 操作変数 (関連、除外、独立) | 2SLS、1 段目の F と偏決定係数、Anderson-Rubin の集合、LATE (`scripts/iv.py`) |
 | [rdd](references/rdd.md) | 閾値での連続 | 鋭い RD と曖昧な RD の局所線形、帯域の感度、共変量の跳ね、偽の閾値、密度 (`scripts/rdd.py`) |
+| [synthetic-control](references/synthetic-control.md) | 処置された単位 1 つと、要因の共通 | 処置の前の結果を合わせる凸結合の重み、処置の後の差、置換の順位 (`scripts/synth.py`) |
 
-合成対照、波及の効果は、まだ無い。識別の型がこれらなら、この表の推定量で代用しない。
+波及の効果は、まだ無い。識別の型がこれらなら、この表の推定量で代用しない。
 
 ## 手順
 
