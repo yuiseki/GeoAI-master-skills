@@ -20,6 +20,7 @@ description: 基準 (平均、グループ平均、線形) と同じ分割、同
 | [measurement-error](references/measurement-error.md) | 観測値が潜在的な真値の雑音まじりの代わりのとき。古典的と Berkson の誤差、減衰と信頼性、繰り返しと検証用の標本、回帰による較正、誤分類 (`scripts/measurement_error.py`) |
 | [weights](references/weights.md) | 行ごとの重みで学習し採点する。実効的な標本の数 |
 | [error-analysis](references/error-analysis.md) | 誤差をグループや分位ごとに分けて、どこで外れているかを見る |
+| [regression-diagnostics](references/regression-diagnostics.md) | 係数を説明や検定に使うときの、残差の広がり (Breusch-Pagan、White)、形 (Jarque-Bera)、計画行列の条件数、HC3 の標準誤差 (`scripts/regression_diagnostics.py`)。予測の点数で比べるだけなら要らない |
 | [spatial-regression](references/spatial-regression.md) | 残差に空間の偏りが残るときの、空間ラグモデル、空間誤差モデル、空間フィルタ、GWR の選び方 |
 | [count-modeling](references/count-modeling.md) | 件数と率: ポアソン回帰と offset、発生率比、過分散と負の二項、ゼロが多いとき (合成データの比較) |
 | [compositional](references/compositional.md) | 合計が一定の割合 (土地利用、年齢、産業の構成): 閉包、共線性、基準のカテゴリ、対数比、0 の扱い |

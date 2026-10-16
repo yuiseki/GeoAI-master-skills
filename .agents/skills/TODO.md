@@ -103,7 +103,7 @@
     - [x] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR の選び方 (実装はしていない)
     - [ ] 空間ラグと空間誤差のモデルの実装 (最尤、直接効果と間接効果、LM 検定)。PySAL の spreg と照合
     - [ ] GWR の実装 (帯域の選び方、局所の係数の不確かさ、多重比較)。mgwr と照合
-    - [ ] 回帰の残差と計画行列の診断 (Breusch-Pagan、Jarque-Bera、条件数)。係数を説明や推論に使うときだけ要る。予測の点数で比べるときは使わない。statsmodels と照合
+    - [x] `references/regression-diagnostics.md`: 回帰の残差と計画行列の診断 (Breusch-Pagan、White、Jarque-Bera、条件数、HC3)。係数を説明や推論に使うときだけ要る。statsmodels と照合 (regression_diagnostics.py)
     - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
     - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE
     - [x] `references/count-modeling.md`: 件数と率、ポアソンと offset、過分散と負の二項、ゼロが多いとき
