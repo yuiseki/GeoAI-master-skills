@@ -121,7 +121,8 @@
     - [x] `references/st-kriging.md`: 時空間のクリギング (分離できる共分散、最尤、時空間のバリオグラム)。scikit-learn の GP と照合 (st_kriging.py)
     - [ ] 分離できない共分散 (Gneiting の族、移流) と異方性
     - [ ] ガウス過程の大きなデータでの近似 (格子のクロネッカー積、誘導点)。時空間の核の積は st_kriging.py にある
-    - [ ] SPDE (Matérn の場の疎な近似。Python で使える実装があるかから)
+    - [x] `references/spde.md`: SPDE (Matérn の場の疎な近似、規則格子、ν = 1)。解析解と密な GP と照合 (spde.py)
+    - [ ] SPDE のパラメータの推定 (疎な分解の対数行列式で尤度)、実データ、時空間の SPDE
     - [ ] 季節の位相が地点で違う相互作用
   - [x] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
     - [x] `references/baselines.md`
