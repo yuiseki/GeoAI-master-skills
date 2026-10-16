@@ -29,6 +29,7 @@
     - [x] `references/jp-admin-2026-09.md`、`osm-japan-src-2026-08.md`、`mlit-toshi-keikaku-jp.md`、`ekidata-jp.md`、`worldpop/japan.md`: 日本の凍結データセット 5 件
     - [x] `references/osm-tokyo23-src-2026-08.md`、`gsi-evacuation-sites-jp.md`、`estat-census-mesh-2020.md`: 日本の小さめのデータセット 3 件
     - [x] `references/maddison-project.md`
+    - [x] `references/card-college-proximity.md`: 大学への近さと教育の収益。操作変数を検証するための benchmark
     - [x] `references/nsw-lalonde.md`: 職業訓練の実験と観察の対照。GeoAI の分析対象ではなく、統計手法を検証するための benchmark (地理の列なし)
     - [x] `references/gsi-dem-tiles.md`
     - [x] `references/mapterhorn.md`: 全世界の標高のラスタタイル。タイルを読んで Terrarium から標高に直せることを実測
@@ -220,7 +221,7 @@
     - [x] `references/adjustment-weighting.md`: 回帰による調整、IPW、AIPW (二重頑健)。傾向スコアの重なり、重みの診断、バランス
     - [x] `references/matching.md`: 最近傍のマッチング、キャリパー、バランス、マッチングの後の推定と標準誤差 (match.py)
     - [x] `references/did.md`: 差の差。2 期、段階的な導入 (二方向の固定効果の落とし穴)、事前の傾向、イベントスタディ
-    - [ ] `references/iv.md`: 操作変数と 2SLS。弱い操作変数、除外制約、LATE
+    - [x] `references/iv.md`: 操作変数と 2SLS。弱い操作変数、除外制約、LATE
     - [ ] `references/rdd.md`: 回帰不連続。鋭いと曖昧、局所線形、帯域、境界の両側を比べる空間の RDD
     - [ ] `references/synthetic-control.md`: 合成対照。処置された少数の地域、前の期間の当てはまり、置換の推論
     - [ ] `references/spillover.md`: 曝露の写像による直接と波及の効果の推定
