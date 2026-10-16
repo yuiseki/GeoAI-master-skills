@@ -101,7 +101,8 @@
     - [x] `references/panel-data.md`: 同じ単位の繰り返しの観測。固定効果、クラスタの標準誤差、ラグ (panel_fit.py)
     - [x] `references/multilevel-models.md`: 入れ子の構造。部分的なまとめ、ICC、ランダム傾き、2 段の入れ子、Mundlak (multilevel_fit.py)
     - [x] `references/bayesian-modeling.md`: 共役な事前分布で事前から事後予測まで。事前予測、感度、事後予測の確かめ、被覆の模擬 (bayes_conjugate.py)
-    - [ ] `references/mcmc.md`: MCMC。共役なモデルの解析解を真値にしたテストから。連鎖の診断 (R-hat、有効な標本の数)、事前予測と事後予測の確かめを同じ流れで。共役でない階層モデルと空間のランダム効果 (BYM など) へ
+    - [x] `references/mcmc.md`: MCMC。共役なモデルの解析解を真値にしたテストから。連鎖の診断 (R-hat、有効な標本の数)、事前予測と事後予測の確かめを同じ流れで。共役でない階層モデルと空間のランダム効果 (BYM など) へ (mcmc.py)
+    - [ ] 空間のランダム効果 (BYM、ICAR) と、勾配を使うサンプラー (NUTS)
     - [x] `references/measurement-error.md`: 潜在的な真値と測定の誤差。減衰、信頼性、回帰による較正、誤分類 (measurement_error.py)
     - [x] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR の選び方 (実装はしていない)
     - [x] 空間ラグと空間誤差のモデルの実装 (最尤、直接効果と間接効果、LM 検定)。PySAL の spreg と照合 (spatial_regression.py)
