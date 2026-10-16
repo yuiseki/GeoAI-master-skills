@@ -301,6 +301,8 @@ def main():
         "knn_neighbors.py": ["anomaly-detection", "clustering-analysis"],
         "test_knn_neighbors.py": ["anomaly-detection", "clustering-analysis"],
         "compare_models.py": ["spatial-data-modeling", "leakage-audit", "model-explanation"],
+        "contiguity.py": ["spatial-autocorrelation", "spatial-weights-design"],
+        "test_contiguity.py": ["spatial-autocorrelation", "spatial-weights-design"],
         "test_compare_models.py": ["spatial-data-modeling", "leakage-audit", "model-explanation"],
     }
     problems = cross_skill_problems(root, skills) + copy_problems(root, COPIES)

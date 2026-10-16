@@ -75,6 +75,7 @@
       3. モデルを足して、同じ分割表で比べる (`spatial-data-modeling`)。時間の順がある系列を先まで当てるなら `time-series-forecasting`。地点 × 時刻の値を、観測の無い地点や先の時刻へ当てるなら `spatiotemporal-modeling` (既知の地点の未来、未知の地点、未知の地点の未来を、別の分け方で評価する)。地点で観測した連続的な値から観測していない地点の値を当てるなら `spatial-interpolation` (評価は予測地点の離れ方に合わせて分け、凸包の外を分けて報告する)。自分のコードで予測する場合も、先に `time-series-forecasting/scripts/series_breaks.py` で系列ごとの水準の跳ねを探し、出力を報告書に貼る。
       4. 点数を疑う。特徴量のリーク (`leakage-audit`)、測定の雑音の天井 (`noise-ceiling-analysis`)、不確かさ (`uncertainty-estimation`)、特徴量の効き方 (`model-explanation`)。
    - 構造 (問いごとに選ぶ):
+      - 近傍の重み (W) を使う統計 (自己相関、局所の指標、空間回帰) の前に、誰を誰の近傍とし、どう重みを付けるかを、届く仕組みから決め、候補を 2〜3 個作って近傍の数、島、成分、標準化による違いを確かめる: `spatial-weights-design`
       - 近い単位どうしで似ているか、どこに集まっているか: `spatial-autocorrelation`
       - 群があるか: `clustering-analysis`。軸に要約できるか: `dimensionality-reduction`
       - 外れがあるか: `anomaly-detection`

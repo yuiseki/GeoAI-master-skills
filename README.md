@@ -47,6 +47,7 @@
 | 道路に限定せず、面上の移動コストから最寄りの目的地までの最小到達コストを求めたい | raster-cost-distance |
 | 土地被覆の分類図から、クラスごとのコストを決めて cost raster を作りたい | land-cover-cost |
 | 人口や需要に対して、施設やサービスへのアクセスが足りているか、足りない場所はどこかを知りたい | spatial-accessibility-analysis |
+| Moran's I や空間回帰の前に、近傍と重みの決め方を決めて、選び方で結論が変わるかを確かめたい | spatial-weights-design |
 | 施設をどこに置くか決めたい | spatial-optimization |
 | 人口や標高、土地被覆のラスタを、区や格子や地点に集計したい | raster-data-integration、analysis-unit-design |
 | 旧市町村の人口を新市町村へ、メッシュの統計を行政区へ、境界の違う区域へ移したい | areal-interpolation、analysis-unit-design |
@@ -68,9 +69,10 @@
 | 問いを決める | 因果を問う (因果の問いのときだけ、準備の前に) | この因果効果を、このデータと仮定から識別できるか。処置、結果、推定の対象、調整する変数、してはいけない変数、識別の仮定は何か | causal-design |
 | 共通の準備 | データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか。その品質で結論を支えられるか。記録の多さは現象の多さか、観測のされやすさか。これから観測するならどこを測るか。位置を使い、共有し、公開してよいか | dataset-discovery、data-variable-semantics、data-quality-audit、observation-bias-audit、spatial-sampling-design、location-privacy |
 | 共通の準備 | 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。境界の違う区域の値をどう移すか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、areal-interpolation、spatial-feature-engineering |
+| 共通の準備 | 空間の関係を決める | 誰を誰の近傍とし、どう重みを付けるか。その選び方で結論が変わるか | spatial-weights-design |
 | 問いに応じた分析 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatiotemporal-modeling、spatial-interpolation、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation |
 | 問いに応じた分析 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか。点はどんな過程から生まれたか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis、spatial-process-modeling |
-| 問いに応じた分析 | ネットワークと最適化 | 実際に歩いて何分か。道の無い面を進むと何分か。施設をどこに置くか | spatial-network-analysis、land-cover-cost、raster-cost-distance、spatial-accessibility-analysis、spatial-optimization |
+| 問いに応じた分析 | ネットワークと最適化 | 実際に歩いて何分か。道の無い面を進むと何分か。施設の容量は需要に足りるか。施設をどこに置くか | spatial-network-analysis、land-cover-cost、raster-cost-distance、spatial-accessibility-analysis、spatial-optimization |
 | 問いに応じた分析 | 因果の効果を推定する | 識別できると判定した効果は、どれだけか、どれだけ確かか。重なりと重みとバランスは足りているか | causal-estimation (調整の集合で識別する型だけ。因果を問う の後に来る) |
 | 結論を疑う、残す | 頑健性と報告 | 結論は、単位、分け方、標本、設定を変えても保たれるか。どう成果物に残すか | robustness-analysis、analysis-reporting (未着手) |
 

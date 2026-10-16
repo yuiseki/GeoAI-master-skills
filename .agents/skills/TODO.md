@@ -74,13 +74,15 @@
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)
-- 空間の関係を決める (0 / 1)
-  - [ ] `spatial-weights-design`: 空間統計や空間回帰で、誰を誰の近傍とし、どの重みで結ぶか (W) を、使う前に設計して確かめる。面の Queen と Rook、点の k 最近傍、距離の帯、距離で減る重み。距離の単位と CRS。島と連結成分、近傍の数の分布、近傍までの距離の分布。0/1 の重みと行で標準化した重みの意味の違い (行で標準化すると、隣の多い単位の 1 つの隣の重みが小さくなる) を書き、行の標準化を既定にしない。k や距離の帯に固定の値を置かず、現象の届く範囲と実データの間隔から決める。もっともらしい W を 2〜3 個作り、結論が変わるかを並べる。選んだ W と理由を書き出す
-    - [ ] `references/contiguity.md`: 面の隣接 (Queen と Rook)、島、連結成分
-    - [ ] `references/distance-and-knn.md`: k 最近傍、距離の帯、距離で減る重み、距離の単位と CRS、近傍の数と距離の分布
-    - [ ] `references/standardization.md`: 0/1、行の標準化、対称にした重み。統計量の意味がどう変わるか
-    - [ ] `references/sensitivity.md`: W を変えた感度の並べ方
-    - [ ] 実装のとき、spatial-autocorrelation の `references/adjacency-weights.md` と `contiguity.py` との重複をどう整理するかを決める (スキルは独立なので、コピーで持つか、役目で分けるか)
+- 空間の関係を決める (1 / 1)
+  - [x] `spatial-weights-design`: 空間統計や空間回帰で、誰を誰の近傍とし、どの重みで結ぶか (W) を、使う前に設計して確かめる。面の Queen と Rook、点の k 最近傍、距離の帯、距離で減る重み。距離の単位と CRS。島と連結成分、近傍の数の分布、近傍までの距離の分布。0/1 の重みと行で標準化した重みの意味の違い (行で標準化すると、隣の多い単位の 1 つの隣の重みが小さくなる) を書き、行の標準化を既定にしない。k や距離の帯に固定の値を置かず、現象の届く範囲と実データの間隔から決める。もっともらしい W を 2〜3 個作り、結論が変わるかを並べる。選んだ W と理由を書き出す
+    - [x] `references/contiguity.md`: 面の隣接 (Queen と Rook)、島、連結成分
+    - [x] `references/distance-and-knn.md`: k 最近傍、距離の帯、距離で減る重み、距離の単位と CRS、近傍の数と距離の分布
+    - [x] `references/standardization.md`: 0/1、行の標準化、対称にした重み。統計量の意味がどう変わるか
+    - [x] `references/sensitivity.md`: W を変えた感度の並べ方
+    - [x] spatial-autocorrelation の `contiguity.py` との重複: 同じ内容のコピーで持ち、check_skills の COPIES に登録した
+    - [ ] 選んだ W を、自己相関や空間回帰のスクリプトが読めるようにする (今は Parquet に書くだけ)
+    - [ ] ネットワークの距離での近傍
 - 予測して、評価を疑う (10 / 10)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
