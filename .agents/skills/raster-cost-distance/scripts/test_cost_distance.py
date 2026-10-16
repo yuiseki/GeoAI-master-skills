@@ -385,3 +385,50 @@ def test_sixteen_neighbours_bring_paths_closer_to_straight_lines():
         worst[k] = ratio.max()
     assert worst[8] == pytest.approx(1.0824, abs=2e-3)
     assert worst[16] < 1.03  # measured below
+
+
+# Walking time over a DEM (direction-dependent)
+
+def test_tobler_speed_by_hand():
+    from cost_distance import tobler_speed
+
+    assert tobler_speed(0.0) * 3.6 == pytest.approx(6 * np.exp(-0.175))  # 5.04 km/h
+    assert tobler_speed(-0.05) * 3.6 == pytest.approx(6.0)
+    assert tobler_speed(0.2) < tobler_speed(-0.2)  # up is slower than the same grade down
+
+
+def test_walking_up_and_down_a_ramp_by_hand():
+    from cost_distance import solve_walk, tobler_speed
+
+    # A 1 x 11 strip, 10 m cells, rising 1 m per cell (10%). From the top cell's point of view:
+    z = np.arange(11, dtype=float)[None, :]
+    ok = np.ones_like(z, bool)
+    up_to_top = solve_walk(z, ok, 10.0, 10.0, [(0, 10)], "to", neighbours=8)["seconds"][0, 0]
+    down_from_top = solve_walk(z, ok, 10.0, 10.0, [(0, 10)], "from", neighbours=8)["seconds"][0, 0]
+    assert up_to_top == pytest.approx(100 / tobler_speed(0.1))
+    assert down_from_top == pytest.approx(100 / tobler_speed(-0.1))
+    assert up_to_top > down_from_top
+
+
+def test_to_one_point_is_from_it_with_the_slope_reversed():
+    from cost_distance import solve_walk
+
+    rng = np.random.default_rng(3)
+    z = np.cumsum(rng.normal(0, 2, (15, 15)), 1)
+    ok = np.ones_like(z, bool)
+    to = solve_walk(z, ok, 10.0, 10.0, [(7, 7)], "to")["seconds"]
+    frm_neg = solve_walk(-z, ok, 10.0, 10.0, [(7, 7)], "from")["seconds"]
+    np.testing.assert_allclose(to, frm_neg, rtol=1e-12)
+
+
+def test_a_steep_slope_is_climbed_faster_by_going_across_it():
+    # A plane rising 50% northwards. Straight up 200 m of map distance takes 200 / speed(0.5); the search finds
+    # a quicker path that climbs at a gentler grade by going across the slope (switchbacks on the grid).
+    from cost_distance import solve_walk, tobler_speed
+
+    n = 41
+    r, c = np.indices((n, n))
+    z = (n - 1 - r) * 5.0  # 10 m cells, 5 m rise per row northwards
+    t = solve_walk(z, np.ones((n, n), bool), 10.0, 10.0, [(0, 20)], "to")["seconds"]
+    straight = 400 / tobler_speed(0.5)
+    assert t[40, 20] < 0.95 * straight

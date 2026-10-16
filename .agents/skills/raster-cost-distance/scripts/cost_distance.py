@@ -29,6 +29,12 @@ Usage:
     uvx --with numpy --with rasterio --with pyproj python cost_distance.py COST.tif DESTINATIONS.csv \\
         --cost-unit s/m --out OUT.tif [--id id --x x --y y] [--barrier-value V] \\
         [--nodata barrier|stop] [--corner-rule both|either|allow] [--max-scale-error 0.01] [--neighbours 8|16]
+    uvx --with numpy --with rasterio --with pyproj python cost_distance.py DEM.tif DESTINATIONS.csv --walk tobler \
+        --direction to|from --neighbours 16 --out walk.tif
+
+--walk tobler reads the raster as a DEM in metres and gives walking seconds by Tobler's hiking function
+(6 exp(-3.5 |dz/dx + 0.05|) km/h along each step, from centre to centre): uphill and downhill differ, so the time
+to a destination (--direction to) is not the time from it.
 """
 
 import argparse
@@ -165,6 +171,57 @@ def solve(cost, passable, dx, dy, sources, corner="both", nodata=None, neighbour
     return {"accumulated": acc, "nearest": nearest, "status": status}
 
 
+def tobler_speed(slope):
+    """Tobler's hiking function: walking speed in m/s on a slope dz / horizontal distance (positive uphill):
+    6 exp(-3.5 |slope + 0.05|) km/h, fastest (6 km/h) on a gentle descent of 5%, 5.04 km/h on the flat."""
+    return 6.0 * np.exp(-3.5 * np.abs(np.asarray(slope, float) + 0.05)) / 3.6
+
+
+def solve_walk(dem, passable, dx, dy, sources, direction="to", neighbours=16, speed=tobler_speed):
+    """Least walking time (seconds) between each cell and the nearest source over a DEM, with a direction-
+    dependent step time: horizontal length / speed(dz / length), dz from cell centre to cell centre in the
+    direction of travel. direction "to": the time to walk from each cell to a source (the edges are reversed
+    for the search from the sources); "from": the time to walk from a source to each cell. Uphill and downhill
+    differ, so the two are not the same raster."""
+    if direction not in ("to", "from"):
+        raise SystemExit("direction is to or from")
+    z = np.asarray(dem, float)
+    passable = np.asarray(passable, bool) & np.isfinite(z)
+    h, w = z.shape
+    for i, (r, c) in enumerate(sources):
+        if not (0 <= r < h and 0 <= c < w) or not passable[r, c]:
+            raise SystemExit(f"source {i} at row {r}, col {c} is outside the grid or not passable")
+    acc = np.full((h, w), np.inf)
+    nearest = np.full((h, w), -1, int)
+    done = np.zeros((h, w), bool)
+    heap = []
+    for i, (r, c) in enumerate(sources):
+        acc[r, c], nearest[r, c] = 0.0, i
+        heap.append((0.0, i, r, c))
+    heapq.heapify(heap)
+    steps = _steps(dx, dy, neighbours)
+    while heap:
+        a, src, r, c = heapq.heappop(heap)
+        if done[r, c] or a > acc[r, c] or src != nearest[r, c]:
+            continue
+        done[r, c] = True
+        for dr, dc, d, between in steps:
+            rr, cc = r + dr, c + dc
+            if not (0 <= rr < h and 0 <= cc < w) or done[rr, cc] or not passable[rr, cc]:
+                continue
+            if between and not all(passable[r + br, c + bc] for br, bc in between):
+                continue
+            if dr and dc and not between and not (passable[r + dr, c] or passable[r, c + dc]):
+                continue
+            # the walk runs from (rr, cc) to (r, c) for "to", from (r, c) to (rr, cc) for "from"
+            dz = (z[r, c] - z[rr, cc]) if direction == "to" else (z[rr, cc] - z[r, c])
+            v = a + d / float(speed(dz / d))
+            if v < acc[rr, cc] or (v == acc[rr, cc] and src < nearest[rr, cc]):
+                acc[rr, cc], nearest[rr, cc] = v, src
+                heapq.heappush(heap, (v, src, rr, cc))
+    return {"seconds": acc, "nearest": nearest}
+
+
 def read_cost(path, band=1, barrier_value=None):
     """The band as float64, and boolean arrays of passable, barrier and NoData cells. Stops on cells
     that are none of these (zero, negative or infinite costs)."""
@@ -222,7 +279,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("cost")
     p.add_argument("destinations")
-    p.add_argument("--cost-unit", required=True, help="the unit of the cost per metre, ending in /m (s/m, min/m)")
+    p.add_argument("--cost-unit", help="the unit of the cost per metre, ending in /m (s/m, min/m)")
     p.add_argument("--out", required=True)
     p.add_argument("--band", type=int, default=1)
     p.add_argument("--id", default="id")
@@ -234,8 +291,14 @@ def main():
     p.add_argument("--max-scale-error", type=float, default=0.01)
     p.add_argument("--neighbours", type=int, choices=[8, 16], default=8,
                    help="16 adds knight's moves (2 by 1): closer to straight-line paths")
+    p.add_argument("--walk", choices=["tobler"], help="the raster is a DEM in metres; walking time by Tobler's "
+                                                        "hiking function, uphill and downhill different")
+    p.add_argument("--direction", choices=["to", "from"], default="to",
+                   help="--walk: the time from each cell to a destination (to) or from a destination (from)")
     a = p.parse_args()
-    if not a.cost_unit.endswith("/m") or a.cost_unit == "/m":
+    if a.walk:
+        return walk_main(a)
+    if not a.cost_unit or not a.cost_unit.endswith("/m") or a.cost_unit == "/m":
         p.error("--cost-unit must be a cost per metre, such as s/m")
     out_unit = a.cost_unit[:-2]
 
@@ -280,6 +343,37 @@ def main():
         for i, ((did, x, y), (r, c)) in enumerate(zip(dests, cells)):
             wr.writerow([i, did, x, y, r, c, int((res["nearest"] == i).sum())])
     print(f"wrote {a.out} and {mapping}")
+
+
+def walk_main(a):
+    import rasterio
+
+    with rasterio.open(a.cost) as ds:
+        z = ds.read(a.band).astype(float)
+        nd = ds.nodatavals[a.band - 1]
+        meta = {"crs": ds.crs, "transform": ds.transform, "height": ds.height, "width": ds.width}
+    nodata = ~np.isfinite(z)
+    if nd is not None and not (isinstance(nd, float) and math.isnan(nd)):
+        nodata |= z == nd
+    g = grid_metres(meta["crs"], meta["transform"], meta["height"], meta["width"], a.max_scale_error)
+    dests = read_destinations(a.destinations, a.id, a.x, a.y)
+    cells, shifts = place(dests, meta["transform"], meta["height"], meta["width"])
+    res = solve_walk(np.where(nodata, np.nan, z), ~nodata, g["dx"], g["dy"], cells, a.direction, a.neighbours)
+    t = res["seconds"]
+    reached = np.isfinite(t)
+    print(f"DEM: {a.cost}, {meta['height']} x {meta['width']}, pixel {g['dx']:.4g} m x {g['dy']:.4g} m; NoData "
+          f"{int(nodata.sum())}; walking time {a.direction} the nearest of {len(dests)} destinations, Tobler, "
+          f"{a.neighbours} neighbours")
+    print(f"reached {int(reached.sum())} of {t.size} cells; minutes: median {np.median(t[reached]) / 60:.4g}, "
+          f"max {t[reached].max() / 60:.4g}")
+    profile = {"driver": "GTiff", "height": meta["height"], "width": meta["width"], "count": 2, "dtype": "float64",
+               "crs": meta["crs"], "transform": meta["transform"], "nodata": float("nan")}
+    with rasterio.open(a.out, "w", **profile) as ds:
+        ds.write(np.where(reached, t, np.nan), 1)
+        ds.write(res["nearest"].astype(float), 2)
+        ds.set_band_description(1, f"walking_seconds_{a.direction}")
+        ds.set_band_description(2, "nearest_destination")
+    print(f"wrote {a.out}")
 
 
 if __name__ == "__main__":

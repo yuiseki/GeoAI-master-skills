@@ -215,8 +215,9 @@
     - [x] `references/barriers-and-nodata.md`: cell の状態、NoData を通れなくする理由、角を抜ける規則
     - [x] `references/validation.md`: 既知解、合成データで壊す、scikit-image と scipy と GRASS r.cost との照合、速さ
     - [x] 16 近傍 (ナイトの移動)。GRASS の r.cost -k と照合 (cost_distance.py --neighbours 16、references/cost-definition.md)
-    - [ ] 向きで変わるコスト (上りと下り)
-    - [ ] 実データでの確かめ
+    - [x] 向きで変わるコスト (上りと下り)。Tobler の歩行の関数 (cost_distance.py --walk tobler、references/cost-definition.md)
+    - [x] 実データでの確かめ (甲府盆地の標高で歩く時間)
+    - [ ] 土地被覆のコストと標高を組み合わせた実データ
   - [x] `spatial-accessibility-analysis`: 需要 (人口などから問いで定義した需要) に対して、施設やサービスの供給にどれだけアクセスできるか。届くか (到達性) だけでなく、施設の容量を何人で分け合うか、足りない場所はどこかを測る。出発地と需要、施設と供給と容量、移動の時間や距離の抵抗、圏域の範囲、届かない需要を数える。人口あたりの施設の数、2 段階の浮動する圏域 (2SFCA)、距離で減る重みを入れた 2SFCA、重力型のアクセス。圏域の範囲と減り方を変えた感度。範囲の端で切れた供給と需要 (端の効果)。人口を分母として機械的に使わず、問いで定義した需要として扱う
     - [x] `references/2sfca.md`: 2SFCA と、距離で減る重みを入れた型。合成した小さな距離行列で、手計算できる既知解をテストにする。PySAL の access と照合
     - [x] `references/distance-decay.md`: 減り方の関数と圏域の範囲、その感度 (合成)
