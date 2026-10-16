@@ -179,7 +179,7 @@
     - [x] `references/ripley.md`
     - [x] `references/baselines.md`
     - [ ] カーネル密度
-    - [ ] 2 種類の点の間 (クロス K) と、散らばりの検定
+    - [x] `references/cross.md`: 2 種類の点の間 (クロス K と random labelling) と、散らばりの検定 (散らばる側の p)
   - [x] `spatial-process-modeling`: 点のパターンを確率過程の生成としてモデル化する。対数線形の強度の Poisson 過程を点過程の尤度で当てはめ、格子の Poisson 回帰と比べ、模擬で確かめる
     - [x] `references/poisson-process.md`
     - [x] `references/beyond-poisson.md`

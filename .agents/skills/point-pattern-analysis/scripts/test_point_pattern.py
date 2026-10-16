@@ -72,3 +72,67 @@ def test_points_outside_the_baseline_are_counted(population):
     lon = np.array([130.55, 135.0, 150.0])  # the last two are outside the raster
     lat = np.array([39.35, 50.0, 10.0])
     assert base.outside(lon, lat) == 2
+
+
+def haversine(lon1, lat1, lon2, lat2):
+    p1, p2 = np.radians(lat1), np.radians(lat2)
+    a = np.sin((p2 - p1) / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(np.radians(lon2 - lon1) / 2) ** 2
+    return 2 * 6371.0 * np.arcsin(np.sqrt(a))
+
+
+def _two_types(seed, attract=False, n=150):
+    rng = np.random.default_rng(seed)
+    lon_a, lat_a = rng.uniform(135, 136, n), rng.uniform(35, 36, n)
+    if attract:  # each B sits within about 1 km of an A
+        k = rng.integers(0, n, n)
+        lon_b = lon_a[k] + rng.normal(scale=0.008, size=n)
+        lat_b = lat_a[k] + rng.normal(scale=0.008, size=n)
+    else:
+        lon_b, lat_b = rng.uniform(135, 136, n), rng.uniform(35, 36, n)
+    return np.r_[lon_a, lon_b], np.r_[lat_a, lat_b], np.r_[np.zeros(n, int), np.ones(n, int)]
+
+
+def test_cross_pair_counts_by_brute_force():
+    from point_pattern import cross_pair_counts
+
+    lon, lat, m = _two_types(0, n=30)
+    a, b = m == 0, m == 1
+    d = haversine(lon[a][:, None], lat[a][:, None], lon[b][None], lat[b][None])
+    for r in (2.0, 10.0):
+        assert cross_pair_counts(lon, lat, m, 0, 1, [r])[0] == int((d <= r).sum())
+
+
+def test_random_labelling_finds_attraction_between_types_but_not_independence():
+    from point_pattern import cross_label_test
+
+    att = cross_label_test(*_two_types(1, attract=True), 0, 1, [2.0], simulations=99)["radii"][0]
+    ind = cross_label_test(*_two_types(2), 0, 1, [2.0], simulations=99)["radii"][0]
+    # Random labelling keeps the positions, which already cluster around the A points, so the ratio is modest.
+    assert att["ratio"] > 1.15 and att["p_more"] <= 0.02
+    assert 0.6 < ind["ratio"] < 1.4 and ind["p_more"] > 0.05
+
+
+def test_random_labelling_is_not_fooled_by_a_shared_background():
+    # Both types crowd into the same corner (a shared background, like population): pairs between them are many,
+    # but no more than the labels shuffled over the same positions would give.
+    from point_pattern import cross_label_test
+
+    rng = np.random.default_rng(3)
+    lon = np.r_[rng.uniform(135, 135.2, 250), rng.uniform(135, 136, 50)]
+    lat = np.r_[rng.uniform(35, 35.2, 250), rng.uniform(35, 36, 50)]
+    m = rng.permutation(np.r_[np.zeros(150, int), np.ones(150, int)])
+    r = cross_label_test(lon, lat, m, 0, 1, [5.0], simulations=99)["radii"][0]
+    assert 0.8 < r["ratio"] < 1.2
+
+
+def test_points_kept_apart_look_dispersed():
+    # A jittered lattice: every point keeps its distance from the others.
+    from point_pattern import pattern_test
+
+    class Square:
+        def sample(self, n, rng):
+            return rng.uniform(135, 136, n), rng.uniform(35, 36, n)
+
+    lon, lat = np.meshgrid(np.linspace(135.05, 135.95, 10), np.linspace(35.05, 35.95, 10))  # about 9 km apart
+    r = pattern_test(lon.ravel(), lat.ravel(), Square(), [5.0], simulations=99)["radii"][0]
+    assert r["observed"] == 0 and r["p_more_dispersed"] <= 0.02 and r["p_more_clustered"] == 1.0

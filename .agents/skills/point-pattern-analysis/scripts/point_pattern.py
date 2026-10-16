@@ -16,6 +16,11 @@ Usage:
     env -u GDAL_DATA -u PROJ_DATA -u GDAL_DRIVER_PATH uvx --with numpy --with scipy --with rasterio \
         --with duckdb python point_pattern.py POINTS RASTER [--where SQL] \
         --baseline values|area --radii 5 10 20 50 [--simulations 99]
+    ... python point_pattern.py POINTS --marks COL --type-a A --type-b B --radii 5 10 20 [--simulations 99]
+
+With --marks, the pairs between type A and type B are compared with random labelling: the positions of all the
+selected points stay and their types are shuffled. It asks whether the two types sit closer (or farther) than
+if they came from one process; it does not ask whether the points cluster.
 
 POINTS is anything DuckDB reads with a point geometry column, or --lon/--lat columns.
 """
@@ -45,6 +50,34 @@ def pair_counts(lon, lat, radii_km):
     ordered = tree.count_neighbors(tree, _chord(radii_km))
     n = len(lon)
     return (np.asarray(ordered) - n) // 2  # drop self-pairs, count each pair once
+
+
+def cross_pair_counts(lon, lat, marks, a, b, radii_km):
+    """Pairs (one point of type a, one of type b) within each radius (great-circle km)."""
+    lon, lat, marks = np.asarray(lon, float), np.asarray(lat, float), np.asarray(marks)
+    ia, ib = marks == a, marks == b
+    ta, tb = cKDTree(_xyz(lon[ia], lat[ia])), cKDTree(_xyz(lon[ib], lat[ib]))
+    return np.asarray(ta.count_neighbors(tb, _chord(radii_km)))
+
+
+def cross_label_test(lon, lat, marks, a, b, radii, simulations=99, seed=0):
+    """Cross pair counts against random labelling: the positions stay, the marks are shuffled. It asks whether
+    the two types sit closer together (or farther apart) than if they came from one process; a background both
+    types follow (population, roads) shows in both sides alike."""
+    marks = np.asarray(marks)
+    obs = cross_pair_counts(lon, lat, marks, a, b, radii)
+    rng = np.random.default_rng(seed)
+    sims = np.array([cross_pair_counts(lon, lat, rng.permutation(marks), a, b, radii) for _ in range(simulations)])
+    out = []
+    for i, r in enumerate(radii):
+        s = sims[:, i]
+        med = float(np.median(s))
+        out.append({"r_km": float(r), "observed": int(obs[i]), "median": med,
+                    "low": float(np.percentile(s, 2.5)), "high": float(np.percentile(s, 97.5)),
+                    "ratio": float(obs[i] / med) if med > 0 else math.inf,
+                    "p_more": (int((s >= obs[i]).sum()) + 1) / (simulations + 1),
+                    "p_less": (int((s <= obs[i]).sum()) + 1) / (simulations + 1)})
+    return {"n_a": int((marks == a).sum()), "n_b": int((marks == b).sum()), "radii": out}
 
 
 class Baseline:
@@ -109,18 +142,23 @@ def pattern_test(lon, lat, baseline, radii, simulations=99, seed=0):
         out.append({"r_km": float(r), "observed": int(obs[i]), "median": med,
                     "low": float(np.percentile(s, 2.5)), "high": float(np.percentile(s, 97.5)),
                     "ratio": float(obs[i] / med) if med > 0 else math.inf,
-                    "p_more_clustered": (more + 1) / (simulations + 1)})
+                    "p_more_clustered": (more + 1) / (simulations + 1),
+                    "p_more_dispersed": (int((s <= obs[i]).sum()) + 1) / (simulations + 1)})
     return {"n": len(lon), "radii": out}
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("points")
-    p.add_argument("raster")
+    p.add_argument("raster", nargs="?", help="the baseline raster (not needed with --marks)")
     p.add_argument("--where", default="true")
     p.add_argument("--lon")
     p.add_argument("--lat")
-    p.add_argument("--baseline", choices=["values", "area"], required=True)
+    p.add_argument("--baseline", choices=["values", "area"])
+    p.add_argument("--marks", help="a column of point types: cross pairs of --type-a and --type-b against random "
+                                    "labelling (no raster)")
+    p.add_argument("--type-a")
+    p.add_argument("--type-b")
     p.add_argument("--radii", type=float, nargs="+", required=True)
     p.add_argument("--simulations", type=int, default=99)
     p.add_argument("--seed", type=int, default=0)
@@ -132,17 +170,33 @@ def main():
     con.sql("install spatial; load spatial; install httpfs; load httpfs;")
     xy = (f'"{a.lon}" as lon, "{a.lat}" as lat' if a.lon
           else "ST_X(geometry) as lon, ST_Y(geometry) as lat")
-    t = con.sql(f"select {xy} from '{a.points}' where {a.where}").fetchnumpy()
+    mk = f', cast("{a.marks}" as varchar) as mark' if a.marks else ""
+    t = con.sql(f"select {xy}{mk} from '{a.points}' where {a.where}").fetchnumpy()
     lon, lat = np.asarray(t["lon"], float), np.asarray(t["lat"], float)
+    if a.marks:
+        if not (a.type_a and a.type_b):
+            p.error("--marks needs --type-a and --type-b")
+        marks = np.asarray(t["mark"]).astype(str)
+        r = cross_label_test(lon, lat, marks, a.type_a, a.type_b, a.radii, a.simulations, a.seed)
+        print(f"points: {len(lon)}; {a.type_a} {r['n_a']}, {a.type_b} {r['n_b']}, other types {len(lon) - r['n_a'] - r['n_b']} "
+              f"(kept in the shuffle); random labelling, {a.simulations} shuffles")
+        print("r (km): cross pairs observed, shuffled median [95% envelope], ratio, p (more), p (fewer)")
+        for row in r["radii"]:
+            print(f"  {row['r_km']:>7g}: {row['observed']:>9} {row['median']:>11.0f} "
+                  f"[{row['low']:.0f}, {row['high']:.0f}]  {row['ratio']:.2f}  {row['p_more']:.3f}  {row['p_less']:.3f}")
+        return
+    if not (a.raster and a.baseline):
+        p.error("give a baseline raster and --baseline, or --marks")
     base = Baseline(a.raster, a.baseline)
     out = base.outside(lon, lat)
     print(f"points: {len(lon)} ({out} in no baseline cell, kept), baseline: {a.baseline}, "
           f"simulations: {a.simulations}")
     r = pattern_test(lon, lat, base, a.radii, a.simulations, a.seed)
-    print("r (km): pairs observed, simulated median [95% envelope], ratio, p (more clustered)")
+    print("r (km): pairs observed, simulated median [95% envelope], ratio, p (more clustered), p (more dispersed)")
     for row in r["radii"]:
         print(f"  {row['r_km']:>7g}: {row['observed']:>9} {row['median']:>11.0f} "
-              f"[{row['low']:.0f}, {row['high']:.0f}]  {row['ratio']:.2f}  {row['p_more_clustered']:.3f}")
+              f"[{row['low']:.0f}, {row['high']:.0f}]  {row['ratio']:.2f}  {row['p_more_clustered']:.3f}  "
+              f"{row['p_more_dispersed']:.3f}")
 
 
 if __name__ == "__main__":

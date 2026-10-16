@@ -13,6 +13,7 @@ description: 点 (事件、施設) が、比べる基準の分布 (どこにで�
 |---|---|
 | [ripley](references/ripley.md) | 距離ごとの点の組の数 (Ripley の K) と、無作為な配置との比べ方 |
 | [baselines](references/baselines.md) | 比べる基準の分布の選び方 |
+| [cross](references/cross.md) | 2 種類の点の間の組の数を、種類だけを入れ替えた配置と比べる (クロス K と random labelling) |
 
 ## 手順
 
@@ -32,7 +33,7 @@ env -u GDAL_DRIVER_PATH -u GDAL_DATA -u PROJ_DATA -u PROJ_LIB \
 
 基準のラスタは EPSG:4326 の GeoTIFF。WorldPop の人口 (dataset-discovery の references/worldpop/) がそのまま使える。anaconda の GDAL の環境変数を外す理由も、そこに書いてある。
 
-テストは `env -u GDAL_DRIVER_PATH -u GDAL_DATA -u PROJ_DATA -u PROJ_LIB uvx --with numpy --with scipy --with rasterio --with duckdb --with pytest pytest scripts/test_point_pattern.py`。距離が大円距離であること、基準から置いた点は集まって見えないこと、人口に沿って置いた点は一様な基準と比べると集まって見え、人口の基準と比べると見えないこと、面積の基準が緯度による面積の違いを入れていること、基準の外の点を数えることを確かめている。面積の重みから緯度を外す、自分自身との組を数える、基準の重みを無視する、のそれぞれで落ちることを確かめてある。
+テストは `env -u GDAL_DRIVER_PATH -u GDAL_DATA -u PROJ_DATA -u PROJ_LIB uvx --with numpy --with scipy --with rasterio --with duckdb --with pytest pytest scripts/test_point_pattern.py`。距離が大円距離であること、基準から置いた点は集まって見えないこと、人口に沿って置いた点は一様な基準と比べると集まって見え、人口の基準と比べると見えないこと、面積の基準が緯度による面積の違いを入れていること、基準の外の点を数えることを確かめている。面積の重みから緯度を外す、自分自身との組を数える、基準の重みを無視する、のそれぞれで落ちることを確かめてある。2 種類の点の組の数が総当たりと一致すること、引き寄せられた種類を random labelling が見つけ独立な種類を見つけないこと、共通の背景にだまされないこと、間隔を保った点が散らばって見えることも確かめ、組の片方を同じ種類にする、入れ替えをしない、のそれぞれで落ちる。
 
 ## 基準、境界、包絡線
 
