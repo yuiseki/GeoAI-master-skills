@@ -4,6 +4,10 @@
     - [x] `references/dag-adjustment.md`
     - [x] `references/spatial.md`
     - [x] `references/sensitivity.md`
+- 検証を計画する (1 / 1)
+  - [x] `experiment-design`: 流す前に、主張、別の説明、測る量、比べる相手、評価の作り方、判断の規則、悪い結果の意味、反証と頑健性を固定し、計画と実行の記録を分ける (SKILL.md と assets のひな形。機械検査はまだ無い)
+    - [ ] 課題 26 (evals/tasks/experiment-tasks.md、スキルより前に凍結) で、スキルなしとありを流し、どの規則が破られるかを観測する
+    - [ ] 観測した失敗に合わせた機械検査 (計画と記録の検査)。形式を埋めただけで通る検査は作らない
 - データを知る (6 / 6)
   - [x] `dataset-discovery`: 使えるデータセットを選び、列、粒度、時空間範囲、注意点を実測する
     - [x] `references/index.md`: データセット、目録、サービスの索引
