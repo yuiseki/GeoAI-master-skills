@@ -185,7 +185,8 @@
     - [x] `references/beyond-poisson.md`
     - [ ] Cox 過程 (潜在の場) の推定
     - [ ] 観測の過程 (見つかる確率) の補正
-    - [ ] 時空間の点過程 (Hawkes、自己励起)。背景の強度と誘発の核を分ける
+    - [x] `references/hawkes.md`: 時空間の点過程 (Hawkes、自己励起)。背景の強度と誘発の核を分ける (hawkes.py)
+    - [ ] Hawkes の背景を空間で変える (前の期間の密度や説明変数で)
     - [ ] 点どうしの相互作用のモデル (Gibbs、Strauss)
 - ネットワークと最適化 (5 / 5)
   - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る

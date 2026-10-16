@@ -13,6 +13,7 @@ description: 観測された点のパターン (事件、施設、樹木) を、
 |---|---|
 | [poisson-process](references/poisson-process.md) | 強度、期待数は強度の積分、斉次と非斉次の Poisson 過程、点過程の尤度、点の数で条件づけたモデル、格子に数えた Poisson 回帰との違い (格子の大きさ、原点、面積、0 のセル) |
 | [beyond-poisson](references/beyond-poisson.md) | 説明変数で説明しきれない集まり: 観測していない環境 (Cox 過程の考え方) と、点どうしの引き合い (クラスタ過程)。観測の過程、マーク |
+| [hawkes](references/hawkes.md) | 時空間の自己励起の過程: 背景の率と、事件が事件を呼ぶ分岐比、時間と空間の広がり。一様な背景の仮定が動かない集まりを誘発に見せること、同じ座標の事件と σ の下限 (`scripts/hawkes.py`) |
 
 ## 手順
 
