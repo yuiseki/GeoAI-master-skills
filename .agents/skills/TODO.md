@@ -220,8 +220,9 @@
     - [x] `references/2sfca.md`: 2SFCA と、距離で減る重みを入れた型。合成した小さな距離行列で、手計算できる既知解をテストにする。PySAL の access と照合
     - [x] `references/distance-decay.md`: 減り方の関数と圏域の範囲、その感度 (合成)
     - [x] `references/boundary-effects.md`: 分析の範囲の外の施設と需要、範囲を広げたときの変わり方 (合成)
-    - [ ] 3SFCA と修正型 (M2SFCA)
-    - [ ] 実データでの確かめ
+    - [x] 3SFCA と修正型 (M2SFCA)。3SFCA は access と照合 (accessibility.py --method、references/2sfca.md)
+    - [x] 実データでの確かめ (東京の小学校と 0〜14 歳の人口、範囲の端の効果)
+    - [ ] 道路のネットワークの時間でのアクセス
   - [x] `spatial-optimization`: 定式化、MILP と発見的な解、選んだ解からの目的の計算し直し、設定を変えたときの答えの変わり方
     - [x] `references/p-median.md`
     - [x] `references/coverage.md`

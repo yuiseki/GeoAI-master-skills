@@ -125,3 +125,56 @@ def test_cli_reports_counts_conservation_and_only_the_reported_origins(tmp_path)
     assert "reported origins 2 of 3" in out.stdout
     assert "catchment 6:" in out.stdout and "catchment 25:" in out.stdout
     assert (tmp_path / "a.csv").exists() and (tmp_path / "a.facilities.csv").exists()
+
+
+# 3SFCA and M2SFCA
+
+def test_three_step_by_hand():
+    from accessibility import fca
+
+    # Origin 0 (demand 10) reaches facilities 0 and 1; origin 1 (demand 20) reaches facility 1 only. Binary W.
+    # G: origin 0 splits 1/2, 1/2; origin 1 gives facility 1 all. Facility 0: R = 6 / (10 * 1/2) = 1.2;
+    # facility 1: R = 9 / (10 * 1/2 + 20) = 0.36. A_0 = 1/2 * 1.2 + 1/2 * 0.36 = 0.78; A_1 = 0.36.
+    W = lambda d: (d <= 10).astype(float)
+    C = np.array([[5.0, 8.0], [50.0, 3.0]])
+    r = fca(np.array([10.0, 20.0]), np.array([6.0, 9.0]), C, W, "3sfca")
+    np.testing.assert_allclose(r["access"], [0.78, 0.36])
+    np.testing.assert_allclose(r["ratio"], [1.2, 0.36])
+
+
+def test_modified_two_step_by_hand_and_its_loss_of_supply():
+    from accessibility import fca
+
+    # W linear: 1 at 0, 0.5 at 5, 0 at 10. Origins at 0 and 5 from one facility (supply 3), demands 1 and 2.
+    w = lambda d: np.clip(1 - d / 10, 0, None)
+    C = np.array([[0.0], [5.0]])
+    r = fca(np.array([1.0, 2.0]), np.array([3.0]), C, w, "m2sfca")
+    # R = 3 / (1 * 1 + 2 * 0.5) = 1.5; A = 1.5 * (1, 0.25) = (1.5, 0.375)
+    np.testing.assert_allclose(r["access"], [1.5, 0.375])
+    assert (np.array([1.0, 2.0]) * r["access"]).sum() == pytest.approx(2.25)  # less than the supply 3
+
+
+def test_three_step_conserves_supply_and_m2sfca_does_not():
+    from accessibility import fca
+
+    rng = np.random.default_rng(4)
+    P, S = rng.uniform(1, 100, 40), rng.uniform(1, 10, 7)
+    C = rng.uniform(0, 30, (40, 7))
+    w = lambda d: np.where(d <= 15, np.exp(-d / 10), 0.0)
+    for v in ("2sfca", "3sfca"):
+        r = fca(P, S, C, w, v)
+        assert (P * r["access"]).sum() == pytest.approx(S[r["demand_in_catchment"] > 0].sum(), rel=1e-12)
+    r = fca(P, S, C, w, "m2sfca")
+    assert (P * r["access"]).sum() < 0.9 * S[r["demand_in_catchment"] > 0].sum()
+
+
+def test_three_step_lowers_the_count_of_demand_that_reaches_many_facilities():
+    # A big town reaches every facility, a village one: 2SFCA counts the town's demand in full at each facility.
+    # 3SFCA splits it, so the facility near the village is less crowded and the village's access rises.
+    from accessibility import fca
+
+    W = lambda d: (d <= 10).astype(float)
+    C = np.array([[1.0, 1.0, 1.0], [50.0, 50.0, 2.0]])  # town, village
+    P, S = np.array([1000.0, 50.0]), np.array([10.0, 10.0, 10.0])
+    two, three = fca(P, S, C, W)["access"], fca(P, S, C, W, "3sfca")["access"]
+    assert three[1] > 1.5 * two[1]

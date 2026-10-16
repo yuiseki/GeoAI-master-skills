@@ -8,6 +8,14 @@ W is 1 within the catchment and 0 beyond it (binary), or decays inside it (linea
 With the same W in both steps, sum_i P_i A_i equals the supply of the facilities that have demand in reach:
 the supply is shared out, not counted twice. A is in supply units per demand unit (beds per person).
 
+Variants (--method):
+    3sfca   Wan, Zou and Sternberg (2012): each origin splits itself among the facilities it reaches by a
+            selection weight G_ij = W_ij / sum_k W_ik, and G W replaces W in both steps. Demand that can reach
+            many facilities no longer counts in full at each of them. Supply is still conserved.
+    m2sfca  Delamater (2013): step 1 as 2SFCA, step 2 A_i = sum_j R_j W_ij^2. Distance is penalised again in
+            step 2, so supply is not conserved: sum_i P_i A_i falls short of the allocated supply by the share
+            "lost" to distance (printed). Comparable across places with different travel.
+
 Gravity (Hansen): A_i = sum_j S_j f(c_ij), with no sharing among competing demand (--method hansen).
 Regional ratio: supply over demand inside each region of --region (--method ratio), no travel at all.
 
@@ -25,7 +33,7 @@ pad the study area with a ring of origins and facilities so that edge facilities
 Usage:
     uvx --with numpy --with duckdb python accessibility.py ORIGINS FACILITIES COSTS \\
         --demand COL --supply COL --catchment 30 [--decay binary|linear|gaussian|steps|power] \\
-        [--steps 10:1,20:0.6,30:0.2] [--beta 1] [--method 2sfca|hansen|ratio] [--region COL] \\
+        [--steps 10:1,20:0.6,30:0.2] [--beta 1] [--method 2sfca|3sfca|m2sfca|hansen|ratio] [--region COL] \\
         [--report COL] [--sensitivity 15 45] --out access.csv
 """
 
@@ -62,14 +70,21 @@ def weight(d, kind, catchment, steps=None, beta=None):
     return np.where(inside & np.isfinite(d), np.clip(w, 0, None), 0.0)
 
 
-def fca(demand, supply, cost, w):
-    """2SFCA with weight function w; cost is origins x facilities (inf = unreachable)."""
+def fca(demand, supply, cost, w, variant="2sfca"):
+    """2SFCA (or 3sfca, m2sfca) with weight function w; cost is origins x facilities (inf = unreachable)."""
     P, S, C = np.asarray(demand, float), np.asarray(supply, float), np.asarray(cost, float)
     W = w(C)
+    if variant == "3sfca":
+        rows = W.sum(1, keepdims=True)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            G = np.where(rows > 0, W / rows, 0.0)
+        W = G * W
+    elif variant not in ("2sfca", "m2sfca"):
+        raise SystemExit(f"unknown variant {variant}")
     D = P @ W
     with np.errstate(divide="ignore", invalid="ignore"):
         R = np.where(D > 0, S / D, np.nan)
-    A = W @ np.nan_to_num(R)
+    A = (W * W if variant == "m2sfca" else W) @ np.nan_to_num(R)
     finite = np.isfinite(C)
     status = np.where((W > 0).any(1), "served", np.where(finite.any(1), "no_facility_in_catchment", "unreachable"))
     nearest = np.where(finite.any(1), np.where(finite, C, np.inf).min(1), np.inf)
@@ -132,7 +147,7 @@ def main():
     p.add_argument("--origin-col", default="origin")
     p.add_argument("--facility-col", default="facility")
     p.add_argument("--cost-col", default="cost")
-    p.add_argument("--method", choices=["2sfca", "hansen", "ratio"], default="2sfca")
+    p.add_argument("--method", choices=["2sfca", "3sfca", "m2sfca", "hansen", "ratio"], default="2sfca")
     p.add_argument("--catchment", type=float)
     p.add_argument("--decay", choices=["binary", "linear", "gaussian", "steps", "power"], default="binary")
     p.add_argument("--steps", help="upper:weight pairs, e.g. 10:1,20:0.6,30:0.2")
@@ -142,8 +157,8 @@ def main():
     p.add_argument("--sensitivity", type=float, nargs="*", default=[])
     p.add_argument("--out", required=True)
     a = p.parse_args()
-    if a.method == "2sfca" and a.catchment is None:
-        p.error("2sfca needs --catchment (in the cost table's unit)")
+    if a.method in ("2sfca", "3sfca", "m2sfca") and a.catchment is None:
+        p.error(f"{a.method} needs --catchment (in the cost table's unit)")
     if a.decay == "steps" and not a.steps:
         p.error("--decay steps needs --steps")
     if a.decay == "power" and a.beta is None:
@@ -188,24 +203,27 @@ def main():
             A = hansen(S, C, w)
             return {"access": A, "status": np.where(np.isfinite(C).any(1), "served", "unreachable"),
                     "nearest": np.where(np.isfinite(C), C, np.inf).min(1), "in_catchment": (w(C) > 0).sum(1)}
-        return fca(P, S, C, w)
+        return fca(P, S, C, w, a.method)
 
     r = run(a.catchment)
     counts = {k: int((r["status"] == k).sum()) for k in ("served", "no_facility_in_catchment", "unreachable")}
     print(f"origins {len(oid)}: " + ", ".join(f"{k} {v}" for k, v in counts.items()))
-    if a.method == "2sfca":
+    if a.method in ("2sfca", "3sfca", "m2sfca"):
         alloc = S[r["demand_in_catchment"] > 0].sum()
         total = float((P * r["access"]).sum())
-        if not math.isclose(total, alloc, rel_tol=1e-9, abs_tol=1e-9):
+        if a.method != "m2sfca" and not math.isclose(total, alloc, rel_tol=1e-9, abs_tol=1e-9):
             raise SystemExit(f"demand-weighted accessibility {total} does not add up to the allocated supply {alloc}")
         print(f"supply {S.sum():g} = allocated {alloc:g} + unallocated {S.sum() - alloc:g} "
               f"(facilities with no demand in catchment: {int((r['facility_status'] != 'allocated').sum())})")
+        if a.method == "m2sfca":
+            print(f"m2sfca: demand-weighted accessibility {total:g} is {total / alloc:.3f} of the allocated supply "
+                  "(the rest is discounted by distance in step 2)")
     _summary(r["access"], P, report, f"catchment {a.catchment:g}" if a.catchment is not None else "no catchment")
     print(f"reported origins {int(report.sum())} of {len(oid)}")
     for c in a.sensitivity:
         _summary(run(c)["access"], P, report, f"catchment {c:g}")
     _write(a.out, oid, P, r["access"], r["status"], r["nearest"], r["in_catchment"])
-    if a.method == "2sfca":
+    if a.method in ("2sfca", "3sfca", "m2sfca"):
         fout = Path(a.out).with_suffix(".facilities" + Path(a.out).suffix)
         with open(fout, "w") as f:
             f.write("id,supply,demand_in_catchment,ratio,status\n")
