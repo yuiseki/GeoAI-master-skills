@@ -29,7 +29,7 @@ import numpy as np
 from sklearn.metrics import r2_score, roc_auc_score
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from compare_models import MODELS, load_folds  # noqa: E402
+from compare_models import MODELS, fit_fold, load_folds  # noqa: E402
 
 
 def _score(y, pred, task):
@@ -48,8 +48,8 @@ def permutation_importance(y, X, names, model_name, folds, task, groups=None, sh
     drops = {k: [] for k in sets}
     rng = np.random.default_rng(seed)
     for repeat, splits in folds.items():
-        for train, test in splits:
-            model = MODELS[model_name][task](repeat).fit(X[train], y[train])
+        for k, (train, test) in enumerate(splits):
+            model = fit_fold(lambda: MODELS[model_name][task](repeat), X, y, splits, k)
             base = _score(y[test], _predict(model, X[test], task), task)
             for k, cols in sets.items():
                 fold_drops = []
@@ -67,8 +67,9 @@ def partial_dependence(y, X, j, model_name, folds, task, points=11):
     grid = np.linspace(*np.percentile(X[:, j], [5, 95]), points)
     curves = []
     for repeat, splits in folds.items():
-        for train, test in splits:
-            model = MODELS[model_name][task](repeat).fit(X[train], y[train])
+        for k in range(len(splits)):
+            test = splits[k][1]
+            model = fit_fold(lambda: MODELS[model_name][task](repeat), X, y, splits, k)
             curve = []
             for v in grid:
                 Xg = X[test].copy()
@@ -90,11 +91,11 @@ def ice_curves(y, X, j, model_name, folds, task, points=11, sample=200, seed=0):
     rows = np.sort(rng.choice(tested, size=min(sample, len(tested)), replace=False))
     curves = np.full((len(rows), points), np.nan)
     pos = {r: i for i, r in enumerate(rows)}
-    for train, test in folds[repeat]:
+    for k, (_, test) in enumerate(folds[repeat]):
         mine = [r for r in test if r in pos]
         if not mine:
             continue
-        model = MODELS[model_name][task](repeat).fit(X[train], y[train])
+        model = fit_fold(lambda: MODELS[model_name][task](repeat), X, y, folds[repeat], k)
         for k, v in enumerate(grid):
             Xg = X[mine].copy()
             Xg[:, j] = v

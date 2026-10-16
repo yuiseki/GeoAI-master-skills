@@ -6,8 +6,14 @@ once, by a model fitted without it, and the repeat's predictions are scored toge
 repeat never tests (the first periods of time folds) are left out of the score, and n says how many
 were scored. The repeat number also seeds the models.
 
-Anything a model tunes (Ridge's penalty, the boosting's early stopping) is chosen inside the
-training rows of the fold, never on the held-out rows.
+Anything a model tunes (ridge's penalty, the boosting's number of iterations) is chosen inside the
+training rows of the fold, never on the held-out rows, and on inner folds that keep the dependence the
+outer folds keep: for outer fold k, each other fold j gives the inner split (fold j's training rows,
+fold j's test rows), both cut to fold k's training rows. Held-out groups, spatial blocks and their
+buffers, and earlier-periods-only carry over. Standardising is part of each candidate, so it is fitted
+on the inner training rows. The first fold of time folds has no earlier fold inside its training rows;
+give --inner-time COLUMN, and the inner folds are then each of the last --inner-folds periods of the
+training rows, trained on the periods before it minus --inner-gap.
 
 Regression scores: rmse, mae, r2. Classification (binary, a 0/1 target): log_loss, brier, auc, accuracy.
 Classification with any other labels (three or more classes, or text) is multiclass: each model gives a
@@ -22,16 +28,19 @@ Models (regression / classification):
     median           the training median
     group_mean       the training mean of the row's group (needs --group)
     linear           linear regression / logistic regression, on standardised features
-    ridge            RidgeCV / LogisticRegressionCV, penalty chosen by inner CV on the training rows
+    ridge            ridge / L2 logistic regression on standardised features, penalty chosen on the
+                     inner folds (13 values, squared error / log loss pooled over the inner folds)
     rf               random forest, 500 trees
-    hgb              histogram gradient boosting, early stopping on 10% of the training rows
+    hgb              histogram gradient boosting, at most 100 iterations, the number chosen on the
+                     inner folds
     tabpfn_v2        TabPFN v2 on the CPU, weights pinned to a commercially usable version
                      (needs --with tabpfn==9.1.0; see references/foundation-modeling.md)
 
 Usage:
     uvx --with duckdb --with scikit-learn python compare_models.py TABLE ID TARGET FEATURE [...] \
         --task regression|classification --models mean linear rf hgb \
-        --folds-file folds.parquet [--group COLUMN] [--weight COLUMN]
+        --folds-file folds.parquet [--group COLUMN] [--weight COLUMN] \
+        [--inner-time COLUMN [--inner-folds 3] [--inner-gap 0]]
 
 TABLE must have no missing value in the columns used, and the folds must be made from the same
 rows.
@@ -49,12 +58,7 @@ from sklearn.ensemble import (
     RandomForestClassifier,
     RandomForestRegressor,
 )
-from sklearn.linear_model import (
-    LinearRegression,
-    LogisticRegression,
-    LogisticRegressionCV,
-    RidgeCV,
-)
+from sklearn.linear_model import LinearRegression, LogisticRegression, Ridge
 from sklearn.metrics import (
     accuracy_score,
     brier_score_loss,
@@ -121,8 +125,96 @@ class GroupMean(BaseEstimator, RegressorMixin):
         return np.array([self.means_.get(k, self.overall_) for k in X[:, -1]])
 
 
+def _class_columns(est, X, classes):
+    """Probabilities in the columns of classes, whatever subset of them est saw."""
+    out = np.zeros((len(X), len(classes)))
+    out[:, np.searchsorted(classes, est.classes_)] = est.predict_proba(X)
+    return out
+
+
+def _inner_loss(task, y, pred, classes, w):
+    """Summed (weighted) squared error, or log loss with pred as columns of classes."""
+    w = np.ones(len(y)) if w is None else w
+    if task == "regression":
+        return float(np.sum(w * (y - pred) ** 2))
+    p = np.clip(pred[np.arange(len(y)), np.searchsorted(classes, y)], 1e-15, 1)
+    return float(-np.sum(w * np.log(p)))
+
+
+class InnerSearch(BaseEstimator):
+    """Choose a parameter from grid on given inner splits, then refit on all the rows.
+
+    make(param) builds a candidate (a pipeline when it standardises, so that the scaler is
+    fitted with the candidate on the inner training rows). The loss is pooled over the inner
+    validation rows: squared error for regression, log loss for classification.
+    """
+
+    uses_inner_splits = True
+
+    def __init__(self, make, grid, task):
+        self.make, self.grid, self.task = make, grid, task
+
+    def _losses(self, X, y, w, inner):
+        return [sum(self._split_loss(param, X, y, w, tr, va) for tr, va in inner) for param in self.grid]
+
+    def _split_loss(self, param, X, y, w, tr, va):
+        model = _fit(self.make(param), X[tr], y[tr], None if w is None else w[tr])
+        pred = model.predict(X[va]) if self.task == "regression" else _class_columns(model, X[va], self.classes_)
+        return _inner_loss(self.task, y[va], pred, getattr(self, "classes_", None), None if w is None else w[va])
+
+    def fit(self, X, y, sample_weight=None, inner=None):
+        if not inner:
+            raise SystemExit("no inner folds to tune on")
+        if self.task == "classification":
+            self.classes_ = np.unique(y)
+        losses = self._losses(X, y, sample_weight, inner)
+        self.best_param_ = self.grid[int(np.argmin(losses))]
+        self.model_ = _fit(self.make(self.best_param_), X, y, sample_weight)
+        return self
+
+    def predict(self, X):
+        return self.model_.predict(X)
+
+    def predict_proba(self, X):
+        return _class_columns(self.model_, X, self.classes_)
+
+
+class StagedSearch(InnerSearch):
+    """Boosting: the number of iterations (1 .. max_iter) chosen on the inner splits from the
+    staged predictions of one fit per split, then a refit with that number."""
+
+    def __init__(self, make, max_iter, task):
+        super().__init__(make, list(range(1, max_iter + 1)), task)
+        self.max_iter = max_iter
+
+    def _losses(self, X, y, w, inner):
+        total = np.zeros(self.max_iter)
+        for tr, va in inner:
+            model = _fit(self.make(self.max_iter), X[tr], y[tr], None if w is None else w[tr])
+            wv = None if w is None else w[va]
+            if self.task == "regression":
+                stages = model.staged_predict(X[va])
+            else:
+                stages = self._staged_columns(model, X[va])
+            for i, pred in enumerate(stages):
+                total[i] += _inner_loss(self.task, y[va], pred, getattr(self, "classes_", None), wv)
+        return total
+
+    def _staged_columns(self, model, X):
+        cols = np.searchsorted(self.classes_, model.classes_)
+        for p in model.staged_predict_proba(X):
+            out = np.zeros((len(X), len(self.classes_)))
+            out[:, cols] = p
+            yield out
+
+
 def scaled(model):
     return lambda seed: make_pipeline(StandardScaler(), model(seed))
+
+
+def _hgb(task, seed):
+    cls = HistGradientBoostingRegressor if task == "regression" else HistGradientBoostingClassifier
+    return StagedSearch(lambda n: cls(max_iter=n, early_stopping=False, random_state=seed), 100, task)
 
 
 MODELS = {
@@ -135,19 +227,19 @@ MODELS = {
         "classification": scaled(lambda seed: LogisticRegression(C=1e6, max_iter=5000)),
     },
     "ridge": {
-        "regression": scaled(lambda seed: RidgeCV(alphas=np.logspace(-3, 3, 13))),
-        "classification": scaled(lambda seed: LogisticRegressionCV(
-            Cs=13, l1_ratios=(0,), scoring="neg_log_loss", max_iter=5000, use_legacy_attributes=False)),
+        "regression": lambda seed: InnerSearch(
+            lambda a: make_pipeline(StandardScaler(), Ridge(alpha=a)), list(np.logspace(-3, 3, 13)), "regression"),
+        "classification": lambda seed: InnerSearch(
+            lambda c: make_pipeline(StandardScaler(), LogisticRegression(C=c, max_iter=5000)),
+            list(np.logspace(-4, 4, 13)), "classification"),
     },
     "rf": {
         "regression": lambda seed: RandomForestRegressor(n_estimators=500, random_state=seed, n_jobs=-1),
         "classification": lambda seed: RandomForestClassifier(n_estimators=500, random_state=seed, n_jobs=-1),
     },
     "hgb": {
-        "regression": lambda seed: HistGradientBoostingRegressor(
-            early_stopping=True, validation_fraction=0.1, random_state=seed),
-        "classification": lambda seed: HistGradientBoostingClassifier(
-            early_stopping=True, validation_fraction=0.1, random_state=seed),
+        "regression": lambda seed: _hgb("regression", seed),
+        "classification": lambda seed: _hgb("classification", seed),
     },
     "tabpfn_v2": {
         "regression": lambda seed: tabpfn_v2("regression", seed),
@@ -205,9 +297,42 @@ def effective_n(w):
     return float(w.sum() ** 2 / (w ** 2).sum())
 
 
-def _fit(model, X, y, w):
+def inner_splits(splits, k):
+    """Inner splits for outer fold k, as positions within its training rows: for each other fold
+    j, (fold j's training rows, fold j's test rows), both cut to fold k's training rows. Folds
+    that leave either side empty are skipped."""
+    train = splits[k][0]
+    pos = {r: i for i, r in enumerate(train.tolist())}
+    out = []
+    for j, (tr, te) in enumerate(splits):
+        if j == k:
+            continue
+        itr = np.array([pos[r] for r in tr.tolist() if r in pos], int)
+        ite = np.array([pos[r] for r in te.tolist() if r in pos], int)
+        if len(itr) and len(ite):
+            out.append((itr, ite))
+    return out
+
+
+def time_inner_splits(time, folds=3, gap=0):
+    """Inner splits from time values of the training rows: each of the last folds distinct
+    periods validated in turn, trained on the periods before it minus gap."""
+    time = np.asarray(time)
+    periods = np.unique(time)
+    out = []
+    for i in range(max(1, len(periods) - folds), len(periods)):
+        tr = np.flatnonzero(time < periods[max(0, i - gap)]) if i - gap > 0 else np.array([], int)
+        if len(tr):
+            out.append((tr, np.flatnonzero(time == periods[i])))
+    return out
+
+
+def _fit(model, X, y, w, inner=None):
     """Fit, passing sample weights to the final step of a pipeline; refuse a model that cannot
-    take them rather than silently fitting it unweighted."""
+    take them rather than silently fitting it unweighted. A model that tunes gets the inner
+    splits."""
+    if getattr(model, "uses_inner_splits", False):
+        return model.fit(X, y, sample_weight=w, inner=inner)
     if w is None:
         return model.fit(X, y)
     est = model.steps[-1][1] if hasattr(model, "steps") else model
@@ -226,15 +351,31 @@ def _proba(model, X, n_classes):
     return out
 
 
-def oof_predict(make_model, X, y, splits, task, weights=None, n_classes=None):
+def fit_fold(make_model, X, y, splits, k, weights=None, inner_time=None, inner_folds=3, inner_gap=0):
+    """The model of outer fold k, fitted on its training rows; a model that tunes does so on
+    inner_splits of the fold table, or on time_inner_splits of inner_time."""
+    train = splits[k][0]
+    model = make_model()
+    inner = None
+    if getattr(model, "uses_inner_splits", False):
+        inner = (time_inner_splits(inner_time[train], inner_folds, inner_gap) if inner_time is not None
+                 else inner_splits(splits, k))
+        if not inner:
+            raise SystemExit(f"fold {k} has no other fold inside its training rows to tune on (the first "
+                             "fold of time folds); give --inner-time")
+    return _fit(model, X[train], y[train], None if weights is None else weights[train], inner)
+
+
+def oof_predict(make_model, X, y, splits, task, weights=None, n_classes=None, inner_time=None,
+                inner_folds=3, inner_gap=0):
     """Out-of-fold predictions; NaN for a row no fold tests. With n_classes (multiclass, y coded
-    0 .. n_classes - 1), one row of class probabilities per data row."""
+    0 .. n_classes - 1), one row of class probabilities per data row. Each fold's model comes from
+    fit_fold."""
     pred = np.full(len(y) if n_classes is None else (len(y), n_classes), np.nan)
-    for train, test in splits:
+    for k, (train, test) in enumerate(splits):
         if not np.isnan(pred[test]).all():
             raise SystemExit("a row is tested by two folds of one repeat")
-        model = _fit(make_model(), X[train], y[train],
-                     None if weights is None else weights[train])
+        model = fit_fold(make_model, X, y, splits, k, weights, inner_time, inner_folds, inner_gap)
         if n_classes is not None:
             pred[test] = _proba(model, X[test], n_classes)
         elif task == "classification":
@@ -285,12 +426,14 @@ def score(y, pred, task, weights=None, labels=None):
     }
 
 
-def run(y, X, group, names, folds, task, predictions=None, weights=None):
+def run(y, X, group, names, folds, task, predictions=None, weights=None, inner_time=None,
+        inner_folds=3, inner_gap=0):
     """Scores per model, one value per repeat, on the rows the repeat tests.
 
     folds: {repeat: [(train, test), ...]}. The repeat also seeds the models.
     predictions: if a list, (repeat, model, row index, prediction) is appended for every tested row.
     weights: per-row weights, used both to fit (sample_weight) and to score.
+    inner_time: per-row time values; tuning models then tune on time_inner_splits.
     """
     y, X = np.asarray(y), np.asarray(X, float)
     labels, n_classes = None, None
@@ -310,7 +453,8 @@ def run(y, X, group, names, folds, task, predictions=None, weights=None):
             Xm = np.c_[X, codes]
         per_repeat = {}
         for repeat, splits in folds.items():
-            pred = oof_predict(lambda: MODELS[name][task](repeat), Xm, y, splits, task, weights, n_classes)
+            pred = oof_predict(lambda: MODELS[name][task](repeat), Xm, y, splits, task, weights, n_classes,
+                               inner_time, inner_folds, inner_gap)
             tested = ~np.isnan(pred) if n_classes is None else ~np.isnan(pred).any(1)
             if predictions is not None and n_classes is None:
                 predictions.extend((repeat, name, int(i), float(pred[i]))
@@ -337,13 +481,17 @@ def main():
     p.add_argument("--folds-file", required=True)
     p.add_argument("--group")
     p.add_argument("--weight", help="a column of per-row weights, used to fit and to score")
+    p.add_argument("--inner-time", help="a column: tune on the last --inner-folds periods of each fold's "
+                                        "training rows instead of on the other folds")
+    p.add_argument("--inner-folds", type=int, default=3)
+    p.add_argument("--inner-gap", type=int, default=0, help="periods left out before each inner test period")
     p.add_argument("--predictions-out",
                    help="write the out-of-fold predictions (repeat, model, id, target, prediction); "
                         "needs --with pyarrow")
     a = p.parse_args()
 
     cols = [a.id, a.target, *a.features] + ([a.group] if a.group else []) \
-        + ([a.weight] if a.weight else [])
+        + ([a.inner_time] if a.inner_time else []) + ([a.weight] if a.weight else [])
     quoted = ", ".join(f'"{c}"' for c in cols)
     rows = duckdb.sql(f"select {quoted} from '{a.table}'").fetchall()
     kept = [r for r in rows if all(v is not None for v in r)]
@@ -360,6 +508,7 @@ def main():
     X = np.array([r[2:2 + nf] for r in kept], float)
     gi = 2 + nf
     group = np.array([r[gi] for r in kept]) if a.group else None
+    inner_time = np.array([r[gi + bool(a.group)] for r in kept]) if a.inner_time else None
     weights = np.array([r[-1] for r in kept], float) if a.weight else None
     if weights is not None and (weights < 0).any():
         raise SystemExit("weights must not be negative")
@@ -370,7 +519,8 @@ def main():
     if weights is not None:
         print(f"weighted by {a.weight} (fit and score), effective rows {effective_n(weights):.1f}"
               f" of {len(weights)}")
-    for name, s in run(y, X, group, a.models, folds, a.task, preds, weights).items():
+    for name, s in run(y, X, group, a.models, folds, a.task, preds, weights, inner_time, a.inner_folds,
+                       a.inner_gap).items():
         n = s.pop("n")
         cells = "  ".join(f"{k} {np.mean(v):.4g} (sd {np.std(v):.2g})" for k, v in s.items())
         print(f"{name:<11} n {min(n)}-{max(n)}  {cells}")

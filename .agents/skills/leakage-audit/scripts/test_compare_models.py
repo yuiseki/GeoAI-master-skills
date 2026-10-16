@@ -281,3 +281,126 @@ def test_multiclass_predictions_are_one_probability_per_class():
     run(Y3, X, None, ["prior"], kfold(100, k=4, y=Y3 > 0), "classification", predictions=preds)
     assert len(preds) == 300  # 100 rows x 3 classes
     assert {p[2] for p in preds} == set(range(100))
+
+
+def _time_folds(time, periods=(7, 8, 9)):
+    return {0: [(np.flatnonzero(time < p), np.flatnonzero(time == p)) for p in periods]}
+
+
+def test_inner_splits_are_the_other_folds_inside_the_training_rows():
+    from compare_models import inner_splits
+
+    group = np.repeat(np.arange(10), 6)
+    splits = list(GroupKFold(5).split(np.zeros(60), groups=group))
+    for k, (train, test) in enumerate(splits):
+        inner = inner_splits(splits, k)
+        assert len(inner) == 4
+        for itrain, ival in inner:
+            rows_train, rows_val = train[itrain], train[ival]  # positions within the training rows
+            assert not set(rows_train) & set(test) and not set(rows_val) & set(test)
+            assert not set(group[rows_train]) & set(group[rows_val])  # whole groups held out inside too
+        assert sorted(np.concatenate([train[v] for _, v in inner])) == sorted(train)
+
+
+def test_inner_splits_of_time_folds_look_only_backwards():
+    from compare_models import inner_splits, time_inner_splits
+
+    time = np.repeat(np.arange(10), 5)
+    splits = _time_folds(time)[0]
+    assert inner_splits(splits, 0) == []  # the first test period has no earlier fold to tune on
+    for itrain, ival in inner_splits(splits, 2):
+        assert time[splits[2][0][itrain]].max() < time[splits[2][0][ival]].min()
+    inner = time_inner_splits(time[splits[0][0]], folds=3)
+    assert len(inner) == 3
+    for itrain, ival in inner:
+        assert time[splits[0][0][itrain]].max() < time[splits[0][0][ival]].min()
+        assert len(set(time[splits[0][0][ival]])) == 1
+
+
+def _grouped_world(seed=0, groups=40, per=15):
+    # Each group has its own feature vector and its own level of the target, unrelated to each
+    # other: the features identify the group but say nothing about a new group's level.
+    rng = np.random.default_rng(seed)
+    g = np.repeat(np.arange(groups), per)
+    X = rng.normal(size=(groups, 8))[g] + 0.1 * rng.normal(size=(groups * per, 8))
+    y = 3 * rng.normal(size=groups)[g] + rng.normal(size=groups * per)
+    return X, y, g
+
+
+def test_ridge_tuned_on_held_out_groups_chooses_a_larger_penalty_than_on_shuffled_rows():
+    X, y, g = _grouped_world()
+    search = MODELS["ridge"]["regression"](0)
+    grouped = list(GroupKFold(4).split(X, groups=g))
+    shuffled = list(KFold(4, shuffle=True, random_state=0).split(X))
+    a_grouped = search.fit(X, y, inner=grouped).best_param_
+    a_shuffled = MODELS["ridge"]["regression"](0).fit(X, y, inner=shuffled).best_param_
+    assert a_grouped == max(search.grid)  # the features say nothing about a new group's level
+    assert a_grouped > 10 * a_shuffled
+
+
+def test_boosting_stops_earlier_when_tuned_on_held_out_groups():
+    X, y, g = _grouped_world(seed=1)
+    grouped = list(GroupKFold(4).split(X, groups=g))
+    shuffled = list(KFold(4, shuffle=True, random_state=0).split(X))
+    n_grouped = MODELS["hgb"]["regression"](0).fit(X, y, inner=grouped).best_param_
+    n_shuffled = MODELS["hgb"]["regression"](0).fit(X, y, inner=shuffled).best_param_
+    assert n_grouped < n_shuffled / 2
+
+
+class Recorder(BaseEstimator, RegressorMixin):
+    """Remembers every row it was fitted on (by its first feature, the row number)."""
+
+    seen = []
+
+    def __init__(self, alpha=1.0):
+        self.alpha = alpha
+
+    def fit(self, X, y, sample_weight=None):
+        Recorder.seen.append(set(X[:, 0].astype(int)))
+        return self
+
+    def predict(self, X):
+        return np.full(len(X), self.alpha)
+
+
+def test_the_search_fits_its_candidates_on_inner_training_rows_only():
+    from compare_models import InnerSearch
+
+    Recorder.seen = []
+    X = np.c_[np.arange(40), np.zeros(40)]
+    y = np.full(40, 2.0)
+    inner = list(KFold(4).split(X))
+    search = InnerSearch(lambda a: Recorder(a), [0.0, 2.0, 5.0], "regression").fit(X, y, inner=inner)
+    assert search.best_param_ == 2.0
+    for (train, _), seen in zip(inner * 3, Recorder.seen[:12]):
+        assert seen == set(train)
+    assert Recorder.seen[-1] == set(range(40))  # refitted on all the training rows at the end
+
+
+def test_standardising_happens_inside_each_candidate():
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+
+    for task in ("regression", "classification"):
+        search = MODELS["ridge"][task](0)
+        candidate = search.make(search.grid[0])
+        assert isinstance(candidate, Pipeline) and isinstance(candidate.steps[0][1], StandardScaler)
+
+
+def test_tuned_models_need_inner_folds_and_time_folds_can_supply_them():
+    rng = np.random.default_rng(8)
+    time = np.repeat(np.arange(10), 20)
+    X = rng.normal(size=(200, 2))
+    y = X[:, 0] + rng.normal(size=200)
+    with pytest.raises(SystemExit, match="inner-time"):
+        run(y, X, None, ["ridge"], _time_folds(time), "regression")
+    s = run(y, X, None, ["ridge", "hgb"], _time_folds(time), "regression", inner_time=time)
+    assert s["ridge"]["n"] == [60]
+
+
+def test_tuned_classifiers_run_with_a_class_missing_from_an_inner_fold():
+    rng = np.random.default_rng(9)
+    X = rng.normal(size=(90, 2))
+    y = np.r_[np.zeros(40, int), np.ones(40, int), np.full(10, 2)]
+    s = run(y, X, None, ["ridge", "hgb"], kfold(90, k=3), "classification")
+    assert np.isfinite(s["ridge"]["log_loss"][0]) and np.isfinite(s["hgb"]["log_loss"][0])
