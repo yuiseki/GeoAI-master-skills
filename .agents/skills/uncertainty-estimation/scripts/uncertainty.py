@@ -6,9 +6,17 @@
     recalibrate  for probabilities: isotonic or Platt recalibration, cross-fitted (each row's
                  calibrator fitted on the other groups' rows), or fitted on the past only
                  (--time, --calibrate-before) as it would be in use; ECE and Brier before/after
-    intervals    for regression: split-conformal intervals from the absolute out-of-fold
-                 residuals, each row's interval built from the other rows' residuals, or from the
-                 past only (--time, --calibrate-before), and their coverage overall and by --by
+    intervals    for regression: conformal intervals from absolute residuals, and their coverage
+                 on rows whose residuals were not used to build them, overall and by --by:
+                   role column  split conformal: the quantile of the 'calibration' rows' residuals,
+                                applied to the 'test' rows (one model fitted on neither)
+                   --time       the quantile of the rows before --calibrate-before, applied to the
+                                rows from it on
+                   otherwise    each group of --calibrate-by (or of --folds random groups) gets the
+                                quantile of the other groups' residuals
+                 Building each row's interval from the other rows and measuring coverage on those
+                 same rows is not done: without ties that coverage is ceil((1 - alpha) n) / n
+                 whatever the model, so it checks nothing.
 
 The input is an out-of-fold predictions file
 (--predictions-out: repeat, model, id, target, prediction), joined to a table for --by.
@@ -17,7 +25,8 @@ Usage:
     uvx --with duckdb --with scikit-learn python uncertainty.py calibration PREDICTIONS \
         [--table TABLE --id COL --by COL] [--bins 10] [--repeat 0]
     uvx --with duckdb --with scikit-learn python uncertainty.py intervals PREDICTIONS \
-        [--table TABLE --id COL --by COL] [--alpha 0.1] [--repeat 0]
+        [--table TABLE --id COL --by COL] [--calibrate-by COL | --time COL --calibrate-before T] \
+        [--alpha 0.1] [--repeat 0]
 """
 
 import argparse
@@ -56,24 +65,38 @@ def calibration_table(y, p, bins=10):
             "bins": rows}
 
 
-def conformal_intervals(y, pred, alpha=0.1):
-    """For each row, pred +- the ceil((1 - alpha)(m + 1))-th smallest absolute residual of the
-    m = n - 1 other rows (split conformal, the row's own residual left out)."""
-    y, pred = np.asarray(y, float), np.asarray(pred, float)
+def _conformal_quantile(residuals, alpha):
+    """The ceil((1 - alpha)(m + 1))-th smallest of m absolute residuals; infinite if m is too small."""
+    r = np.sort(np.asarray(residuals, float))
+    k = math.ceil((1 - alpha) * (len(r) + 1))
+    return np.inf if k > len(r) else float(r[k - 1])
+
+
+def split_intervals(y, pred, calibrate, alpha=0.1):
+    """Split conformal: pred +- the conformal quantile of the calibration rows' absolute residuals,
+    for the other rows. Calibration rows get NaN. With one model fitted on neither set and rows that
+    are exchangeable, a new row is covered with probability between 1 - alpha and
+    1 - alpha + 1 / (m + 1)."""
+    y, pred, calibrate = np.asarray(y, float), np.asarray(pred, float), np.asarray(calibrate, bool)
+    if not calibrate.any() or calibrate.all():
+        raise SystemExit("the calibration rows must leave rows on both sides")
+    q = _conformal_quantile(np.abs(y[calibrate] - pred[calibrate]), alpha)
+    lo, hi = np.full(len(y), np.nan), np.full(len(y), np.nan)
+    lo[~calibrate], hi[~calibrate] = pred[~calibrate] - q, pred[~calibrate] + q
+    return lo, hi
+
+
+def held_out_group_intervals(y, pred, groups, alpha=0.1):
+    """For each group, pred +- the conformal quantile of the other groups' absolute residuals.
+    Coverage then measures how intervals built elsewhere carry over to a group not used to build
+    them (an empirical check; with out-of-fold residuals from several fold models no finite-sample
+    guarantee is claimed)."""
+    y, pred, groups = np.asarray(y, float), np.asarray(pred, float), np.asarray(groups)
     r = np.abs(y - pred)
-    n = len(r)
-    m = n - 1
-    k = math.ceil((1 - alpha) * (m + 1))
-    order = np.sort(r)
-    q = np.empty(n)
-    if k > m:
-        q[:] = np.inf  # too few rows for this alpha: the interval is unbounded
-    else:
-        # The k-th smallest of the others is the k-th smallest overall, unless the row's own
-        # residual is among the k smallest, in which case it is the (k+1)-th. With ties at the
-        # k-th value the (k+1)-th equals it, so the rule holds.
-        kth, k1th = order[k - 1], order[k] if k < n else np.inf
-        q = np.where(r <= kth, k1th, kth)
+    q = np.empty(len(y))
+    for g in np.unique(groups):
+        held = groups == g
+        q[held] = _conformal_quantile(r[~held], alpha)
     return pred - q, pred + q
 
 
@@ -119,20 +142,6 @@ def recalibrate(y, p, method, folds=5, seed=0, time=None, calibrate_before=None)
     return out
 
 
-def conformal_intervals_before(y, pred, time, calibrate_before, alpha=0.1):
-    """Split-conformal intervals for the rows from calibrate_before on, from the absolute
-    residuals of the rows before it. Earlier rows get NaN."""
-    y, pred, time = np.asarray(y, float), np.asarray(pred, float), np.asarray(time)
-    past = time < calibrate_before
-    r = np.sort(np.abs(y[past] - pred[past]))
-    m = len(r)
-    k = math.ceil((1 - alpha) * (m + 1))
-    q = np.inf if k > m else r[k - 1]
-    lo, hi = np.full(len(y), np.nan), np.full(len(y), np.nan)
-    lo[~past], hi[~past] = pred[~past] - q, pred[~past] + q
-    return lo, hi
-
-
 def coverage(y, lo, hi):
     y = np.asarray(y, float)
     return float(np.mean((y >= lo) & (y <= hi))) if len(y) else float("nan")
@@ -146,6 +155,8 @@ def main():
     p.add_argument("--id")
     p.add_argument("--by")
     p.add_argument("--time", help="a column of the table: calibrate on rows before --calibrate-before")
+    p.add_argument("--calibrate-by", help="intervals: a column of the table; each value's rows get the "
+                                          "quantile of the other values' rows")
     p.add_argument("--calibrate-before", type=float)
     p.add_argument("--method", choices=["isotonic", "platt"], default="isotonic")
     p.add_argument("--folds", type=int, default=5)
@@ -153,18 +164,20 @@ def main():
     p.add_argument("--alpha", type=float, default=0.1)
     p.add_argument("--repeat", type=int, default=0)
     a = p.parse_args()
-    if (a.by or a.time) and not (a.table and a.id):
-        p.error("--by and --time need --table and --id")
+    if (a.by or a.time or a.calibrate_by) and not (a.table and a.id):
+        p.error("--by, --time and --calibrate-by need --table and --id")
     if a.time and a.calibrate_before is None:
         p.error("--time needs --calibrate-before")
 
     import duckdb
 
-    extra = [f't."{c}"' if c else "null" for c in (a.by, a.time)]
+    has_role = "role" in duckdb.sql(f"select * from '{a.predictions}' limit 0").columns
+    extra = [f't."{c}"' if c else "null" for c in (a.by, a.time, a.calibrate_by)]
+    extra.append("p.role" if has_role else "null")
     src = (f"from '{a.predictions}' p join '{a.table}' t on cast(t.\"{a.id}\" as varchar) = p.id"
            if a.table else f"from '{a.predictions}' p")
-    rows = duckdb.sql(f"select p.model, p.target, p.prediction, {extra[0]}, {extra[1]} {src} "
-                      f"where p.repeat = {a.repeat} order by p.model").fetchall()
+    rows = duckdb.sql(f"select p.model, p.target, p.prediction, {', '.join(extra)} {src} "
+                      f"where p.repeat = {a.repeat} order by p.model, p.id").fetchall()
     if not rows:
         raise SystemExit(f"no predictions for repeat {a.repeat}")
     models = sorted({r[0] for r in rows})
@@ -202,10 +215,20 @@ def main():
                     print(f"  {a.by} {v}: n {int(mm.sum())}, ECE {ece(y[mm], pr[mm], a.bins):.4f} -> "
                           f"{ece(y[mm], cal[mm], a.bins):.4f}")
         else:
-            if a.time:
-                lo, hi = conformal_intervals_before(y, pr, t, a.calibrate_before, a.alpha)
+            if has_role and a.kind == "intervals" and not a.time:
+                role = np.array([r[6] for r in sel])
+                lo, hi = split_intervals(y, pr, role == "calibration", a.alpha)
+                how = "calibrated on the rows with role calibration, scored on the others"
+            elif a.time:
+                lo, hi = split_intervals(y, pr, t < a.calibrate_before, a.alpha)
+                how = "calibrated on the past"
             else:
-                lo, hi = conformal_intervals(y, pr, a.alpha)
+                held = (np.array([r[5] for r in sel]) if a.calibrate_by
+                        else recalibration_groups(len(y), a.folds, 0))
+                lo, hi = held_out_group_intervals(y, pr, held, a.alpha)
+                how = (f"held out by {a.calibrate_by}" if a.calibrate_by
+                       else f"held out by {a.folds} random groups")
+            print(f"{model}: {how}")
             m = ~np.isnan(lo)
             width = float(np.median(hi[m] - lo[m]))
             print(f"{model}: n {int(m.sum())}, promised {1 - a.alpha:.0%}, "
