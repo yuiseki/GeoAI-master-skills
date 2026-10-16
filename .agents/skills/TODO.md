@@ -139,14 +139,15 @@
     - [x] `references/counts.md`
     - [x] `references/rounding.md`
   - [x] `uncertainty-estimation`: 確率の較正 (Brier、ECE) と予測区間の被覆率を、全体とグループごとに確かめる
-    - [ ] CV+ の予測区間 (fold のモデルで、保証の付く区間を作る)
+    - [x] `references/cv-plus-and-cqr.md`: CV+ の予測区間 (fold のモデルで、保証の付く区間を作る) と CQR。MAPIE と照合 (conformal.py)
     - [x] `references/calibration.md`
     - [x] `references/intervals.md`
     - [x] `references/predictions-file.md`: 外側の予測の Parquet の形式
     - [x] `references/input-uncertainty.md`: 入力と前処理の不確かさが後へ伝わること
     - [x] 較正し直す (isotonic、Platt)、交差フィットと時間順
     - [x] 時間順の区間
-    - [ ] 分位点の区間と CQR (006)
+    - [x] 分位点の区間と CQR (references/cv-plus-and-cqr.md。幅で割る score も)
+    - [ ] グループごとの共形予測 (Mondrian)。地域ごとの被覆を約束するため
     - [x] 実効的な標本の数 (references/intervals.md に書いた)
   - [x] `model-explanation`: 試験側の行での permutation importance (群でも) と部分依存で、モデルが何に頼っているかを調べる
     - [x] `references/permutation.md`
