@@ -188,7 +188,8 @@
   - [x] `spatial-process-modeling`: 点のパターンを確率過程の生成としてモデル化する。対数線形の強度の Poisson 過程を点過程の尤度で当てはめ、格子の Poisson 回帰と比べ、模擬で確かめる
     - [x] `references/poisson-process.md`
     - [x] `references/beyond-poisson.md`
-    - [ ] Cox 過程 (潜在の場) の推定
+    - [x] `references/cox.md`: Cox 過程とクラスタ過程の K 関数の最小コントラスト (Thomas、LGCP)。pointpats と照合 (cox.py)
+    - [ ] 潜在の場そのものの推定 (LGCP の場の地図、ラプラス近似か MCMC)、説明変数のある Cox 過程
     - [ ] 観測の過程 (見つかる確率) の補正
     - [x] `references/hawkes.md`: 時空間の点過程 (Hawkes、自己励起)。背景の強度と誘発の核を分ける (hawkes.py)
     - [ ] Hawkes の背景を空間で変える (前の期間の密度や説明変数で)
