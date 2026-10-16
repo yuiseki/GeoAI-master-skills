@@ -18,14 +18,16 @@ regression (CQR).
              they are narrow and under-covers where they are wide. --scaled divides the score by the width
              (CQR-r) so the correction grows with it.
 
-Both guarantees are marginal (averaged over all rows), not per region or per row, and both need the new rows to
+--mondrian COL calibrates within each value of COL (Mondrian conformal prediction, Vovk et al. 2005): coverage
+is then promised per value, given exchangeability within it; a value with few rows gets a wide or infinite
+interval. Without it, both guarantees are marginal (averaged over all rows), not per region or per row, and both need the new rows to
 come from the same process as the training rows. Rows near each other in space or time are not exchangeable
 with rows far away: hold out whole regions or periods (--test-by) to see what the interval does there.
 
 Usage:
     uvx --with duckdb --with numpy --with scikit-learn --with pyarrow python conformal.py {cv-plus,cqr} TABLE --target Y \\
         --features A,B,C (--role COL | --test-by COL) [--fold-by COL | --folds 5] [--model linear|hgb] \\
-        [--alpha 0.1] [--scaled] [--by COL] [--id COL] [--where SQL] [--out intervals.parquet]
+        [--alpha 0.1] [--scaled] [--mondrian COL] [--by COL] [--id COL] [--where SQL] [--out intervals.parquet]
     --role: cv-plus reads 'train' and 'test'; cqr reads 'train', 'calibration' and 'test'.
     --test-by: each value's rows in turn are the test rows, the others the training rows (cqr puts every
     --calibration-every-th of them in calibration, default 3).
@@ -49,21 +51,40 @@ def rank_quantile(v, alpha, upper=True):
     return v[k - 1] if k >= 1 else np.full(v.shape[1:], -np.inf) if v.ndim > 1 else -np.inf
 
 
-def cv_plus(residuals, fold, test_pred, alpha=0.1):
+def cv_plus(residuals, fold, test_pred, alpha=0.1, groups=None, test_groups=None):
     """residuals (n,) out-of-fold |y - prediction|; fold (n,) each row's fold index; test_pred (K, m) fold k's
-    model's predictions at the m new rows."""
+    model's predictions at the m new rows. groups / test_groups (Mondrian): each new row's interval uses only
+    the training rows of its own group (infinite when the group has too few)."""
     residuals = np.asarray(residuals, float)
     test_pred = np.asarray(test_pred, float)
-    at = test_pred[np.asarray(fold)]  # (n, m): row i's fold model at each new row
-    return (rank_quantile(at - residuals[:, None], alpha, upper=False),
-            rank_quantile(at + residuals[:, None], alpha, upper=True))
+    fold = np.asarray(fold)
+    if groups is None:
+        at = test_pred[fold]  # (n, m): row i's fold model at each new row
+        return (rank_quantile(at - residuals[:, None], alpha, upper=False),
+                rank_quantile(at + residuals[:, None], alpha, upper=True))
+    groups, test_groups = np.asarray(groups), np.asarray(test_groups)
+    lo, hi = np.empty(test_pred.shape[1]), np.empty(test_pred.shape[1])
+    for g in np.unique(test_groups):
+        mine, rows = test_groups == g, groups == g
+        at = test_pred[fold[rows]][:, mine]
+        lo[mine] = rank_quantile(at - residuals[rows, None], alpha, upper=False)
+        hi[mine] = rank_quantile(at + residuals[rows, None], alpha, upper=True)
+    return lo, hi
 
 
-def cqr(y_cal, lo_cal, hi_cal, lo_test, hi_test, alpha=0.1, scaled=False):
+def cqr(y_cal, lo_cal, hi_cal, lo_test, hi_test, alpha=0.1, scaled=False, groups=None, test_groups=None):
     """scaled: divide each score by its interval's width, and widen each new interval in proportion to its own
-    width (Sesia and Candes 2020's CQR-r): the correction then follows the noise too."""
+    width (Sesia and Candes 2020's CQR-r): the correction then follows the noise too. groups / test_groups
+    (Mondrian): each new row's correction comes from the calibration rows of its own group."""
     y_cal, lo_cal, hi_cal = (np.asarray(v, float) for v in (y_cal, lo_cal, hi_cal))
     lo_test, hi_test = np.asarray(lo_test, float), np.asarray(hi_test, float)
+    if groups is not None:
+        groups, test_groups = np.asarray(groups), np.asarray(test_groups)
+        lo, hi = np.empty(len(lo_test)), np.empty(len(lo_test))
+        for g in np.unique(test_groups):
+            c, t = groups == g, test_groups == g
+            lo[t], hi[t] = cqr(y_cal[c], lo_cal[c], hi_cal[c], lo_test[t], hi_test[t], alpha, scaled)
+        return lo, hi
     score = np.maximum(lo_cal - y_cal, y_cal - hi_cal)
     if not scaled:
         q = rank_quantile(score, alpha, upper=True)
@@ -98,7 +119,7 @@ def _model(model, quantile=None):
     raise ValueError(f"unknown model {model}")
 
 
-def fit_cv_plus(X, y, X_test, folds, model="linear", alpha=0.1):
+def fit_cv_plus(X, y, X_test, folds, model="linear", alpha=0.1, groups=None, test_groups=None):
     X, y, X_test, folds = np.asarray(X, float), np.asarray(y, float), np.asarray(X_test, float), np.asarray(folds)
     keys = np.unique(folds)
     index = np.searchsorted(keys, folds)
@@ -109,10 +130,10 @@ def fit_cv_plus(X, y, X_test, folds, model="linear", alpha=0.1):
         f = _model(model).fit(X[~m], y[~m])
         residuals[m] = np.abs(y[m] - f.predict(X[m]))
         test_pred[k] = f.predict(X_test)
-    return cv_plus(residuals, index, test_pred, alpha)
+    return cv_plus(residuals, index, test_pred, alpha, groups, test_groups)
 
 
-def fit_cqr(X, y, role, X_test, model="hgb", alpha=0.1, scaled=False, raw=None):
+def fit_cqr(X, y, role, X_test, model="hgb", alpha=0.1, scaled=False, raw=None, groups=None, test_groups=None):
     """raw: a dict that gets the quantile models' own coverage of the calibration rows, before the correction."""
     X, y, X_test, role = np.asarray(X, float), np.asarray(y, float), np.asarray(X_test, float), np.asarray(role)
     tr, cal = role == "train", role == "calibration"
@@ -126,7 +147,8 @@ def fit_cqr(X, y, role, X_test, model="hgb", alpha=0.1, scaled=False, raw=None):
         raw.setdefault("crossed", []).append(int((hc < lc).sum() + (ht < lt).sum()))
         raw.setdefault("covered", []).append(int(((y[cal] >= lc) & (y[cal] <= hc)).sum()))
         raw.setdefault("rows", []).append(int(cal.sum()))
-    return cqr(y[cal], lc, hc, lt, ht, alpha, scaled)
+    return cqr(y[cal], lc, hc, lt, ht, alpha, scaled, None if groups is None else np.asarray(groups)[cal],
+               test_groups)
 
 
 def _report(y, lo, hi, by, alpha):
@@ -154,6 +176,8 @@ def main():
     p.add_argument("--model", choices=["linear", "hgb"], default=None)
     p.add_argument("--alpha", type=float, default=0.1)
     p.add_argument("--scaled", action="store_true", help="cqr: scale the correction by each interval's width")
+    p.add_argument("--mondrian", help="a column: each row's interval is calibrated on rows of its own value only "
+                                      "(coverage promised per value; infinite where a value has too few rows)")
     p.add_argument("--by")
     p.add_argument("--id")
     p.add_argument("--where", default="true")
@@ -167,7 +191,7 @@ def main():
     import duckdb
 
     feats = [f.strip() for f in a.features.split(",")]
-    extra = [c for c in (a.role, a.test_by, a.fold_by, a.by, a.id) if c]
+    extra = [c for c in (a.role, a.test_by, a.fold_by, a.by, a.id, a.mondrian) if c]
     cols = ", ".join(f'"{c}"' for c in [a.target, *feats, *dict.fromkeys(extra)])
     rel = duckdb.sql(f"select {cols} from '{a.table}' where {a.where}")
     df = {c: np.array(v) for c, v in zip(rel.columns, zip(*rel.fetchall()))}
@@ -185,12 +209,15 @@ def main():
             return col[a.fold_by][m]
         return rng.permutation(np.arange(int(m.sum())) % a.folds)
 
+    gr = col[a.mondrian] if a.mondrian else None
+
     def one(train, test):
+        gtr, gte = (None, None) if gr is None else (gr[train], gr[test])
         if a.kind == "cv-plus":
-            return fit_cv_plus(X[train], y[train], X[test], folds_of(train), model, a.alpha)
+            return fit_cv_plus(X[train], y[train], X[test], folds_of(train), model, a.alpha, gtr, gte)
         idx = rng.permutation(int(train.sum()))
         role = np.where(idx % a.calibration_every == 0, "calibration", "train")
-        return fit_cqr(X[train], y[train], role, X[test], model, a.alpha, a.scaled, raw)
+        return fit_cqr(X[train], y[train], role, X[test], model, a.alpha, a.scaled, raw, gtr, gte)
 
     lo, hi = np.full(len(y), np.nan), np.full(len(y), np.nan)
     raw = {}
@@ -202,7 +229,8 @@ def main():
             l, h = one(train, test)
         else:
             train = np.isin(r, ["train", "calibration"])
-            l, h = fit_cqr(X[train], y[train], r[train], X[test], model, a.alpha, a.scaled, raw)
+            l, h = fit_cqr(X[train], y[train], r[train], X[test], model, a.alpha, a.scaled, raw,
+                           None if gr is None else gr[train], None if gr is None else gr[test])
         unused = int((~train & ~test).sum())
         print(f"train {int(train.sum())}, test {int(test.sum())}, other roles {unused} (left out)")
         lo[test], hi[test] = l, h
@@ -213,7 +241,8 @@ def main():
             lo[test], hi[test] = one(~test, test)
         print(f"each of {len(set(g))} values of {a.test_by} held out in turn")
     m = ~np.isnan(lo)
-    print(f"{a.kind}, model {model}, alpha {a.alpha:g}" + (", scaled" if a.scaled else ""))
+    print(f"{a.kind}, model {model}, alpha {a.alpha:g}" + (", scaled" if a.scaled else "")
+          + (f", calibrated within each value of {a.mondrian}" if a.mondrian else ""))
     if raw:
         print(f"the quantile models alone covered {sum(raw['covered'])} of {sum(raw['rows'])} calibration rows "
               f"({sum(raw['covered']) / sum(raw['rows']):.3f}) before the correction; rows where they cross "

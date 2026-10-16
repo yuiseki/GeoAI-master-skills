@@ -150,7 +150,7 @@
     - [x] 較正し直す (isotonic、Platt)、交差フィットと時間順
     - [x] 時間順の区間
     - [x] 分位点の区間と CQR (references/cv-plus-and-cqr.md。幅で割る score も)
-    - [ ] グループごとの共形予測 (Mondrian)。地域ごとの被覆を約束するため
+    - [x] グループごとの共形予測 (Mondrian)。地域ごとの被覆を約束するため (conformal.py --mondrian、references/cv-plus-and-cqr.md)
     - [x] 実効的な標本の数 (references/intervals.md に書いた)
   - [x] `model-explanation`: 試験側の行での permutation importance (群でも) と部分依存で、モデルが何に頼っているかを調べる
     - [x] `references/permutation.md`

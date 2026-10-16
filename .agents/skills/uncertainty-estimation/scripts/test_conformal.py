@@ -138,3 +138,38 @@ def test_scaled_cqr_swaps_crossed_quantiles():
                  alpha=0.25, scaled=True)
     # scores / widths: -1/2, -0.5/1, -1/2; ceil(0.75 * 4) = 3rd smallest = -0.5; the test row [0, 1] shrinks by half
     assert lo.tolist() == [0.5] and hi.tolist() == [0.5]
+
+
+def test_mondrian_cv_plus_by_hand_uses_only_the_rows_of_the_new_rows_group():
+    residuals = np.array([1.0, 3.0, 0.5, 2.0, 10.0, 20.0])
+    fold = np.array([0, 0, 1, 1, 0, 1])
+    groups = np.array(["a", "a", "a", "a", "b", "b"])
+    test_pred = np.array([[10.0, 10.0], [12.0, 12.0]])
+    lo, hi = cv_plus(residuals, fold, test_pred, alpha=0.2, groups=groups, test_groups=np.array(["a", "b"]))
+    assert (lo[0], hi[0]) == (7.0, 14.0)  # the four "a" rows: the same as the unconditional example above
+    assert lo[1] == -np.inf and hi[1] == np.inf  # two "b" rows: ceil(0.8 * 3) = 3 > 2
+
+
+def test_mondrian_cqr_covers_each_group_when_the_noise_differs_by_group():
+    # Group "quiet" has noise 0.3, "noisy" 3, the quantile models see no group feature. One correction for all
+    # rows under-covers the noisy group; one per group covers both near 90%.
+    hits = {"pooled": {"quiet": [], "noisy": []}, "mondrian": {"quiet": [], "noisy": []}}
+    for s in range(10):
+        rng = np.random.default_rng(4000 + s)
+
+        def world(n):
+            g = np.where(rng.random(n) < 0.5, "quiet", "noisy")
+            X = rng.normal(size=(n, 2))
+            return X, X @ np.array([1.0, 2.0]) + np.where(g == "noisy", 3.0, 0.3) * rng.normal(size=n), g
+
+        X, y, g = world(1200)
+        Xt, yt, gt = world(1000)
+        role = np.where(np.arange(1200) % 2 == 0, "calibration", "train")
+        for name, kw in (("pooled", {}), ("mondrian", {"groups": g, "test_groups": gt})):
+            lo, hi = fit_cqr(X, y, role, Xt, model="linear", alpha=0.1, **kw)
+            for grp in ("quiet", "noisy"):
+                m = gt == grp
+                hits[name][grp].append(np.mean((yt[m] >= lo[m]) & (yt[m] <= hi[m])))
+    assert np.mean(hits["pooled"]["noisy"]) < 0.85 and np.mean(hits["pooled"]["quiet"]) > 0.95
+    for grp in ("quiet", "noisy"):
+        assert np.mean(hits["mondrian"][grp]) == pytest.approx(0.9, abs=0.025)
