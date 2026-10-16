@@ -74,6 +74,13 @@
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)
+- 空間の関係を決める (0 / 1)
+  - [ ] `spatial-weights-design`: 空間統計や空間回帰で、誰を誰の近傍とし、どの重みで結ぶか (W) を、使う前に設計して確かめる。面の Queen と Rook、点の k 最近傍、距離の帯、距離で減る重み。距離の単位と CRS。島と連結成分、近傍の数の分布、近傍までの距離の分布。0/1 の重みと行で標準化した重みの意味の違い (行で標準化すると、隣の多い単位の 1 つの隣の重みが小さくなる) を書き、行の標準化を既定にしない。k や距離の帯に固定の値を置かず、現象の届く範囲と実データの間隔から決める。もっともらしい W を 2〜3 個作り、結論が変わるかを並べる。選んだ W と理由を書き出す
+    - [ ] `references/contiguity.md`: 面の隣接 (Queen と Rook)、島、連結成分
+    - [ ] `references/distance-and-knn.md`: k 最近傍、距離の帯、距離で減る重み、距離の単位と CRS、近傍の数と距離の分布
+    - [ ] `references/standardization.md`: 0/1、行の標準化、対称にした重み。統計量の意味がどう変わるか
+    - [ ] `references/sensitivity.md`: W を変えた感度の並べ方
+    - [ ] 実装のとき、spatial-autocorrelation の `references/adjacency-weights.md` と `contiguity.py` との重複をどう整理するかを決める (スキルは独立なので、コピーで持つか、役目で分けるか)
 - 予測して、評価を疑う (10 / 10)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
@@ -96,6 +103,7 @@
     - [x] `references/spatial-regression.md`: 空間ラグ、空間誤差モデル、GWR の選び方 (実装はしていない)
     - [ ] 空間ラグと空間誤差のモデルの実装 (最尤、直接効果と間接効果、LM 検定)。PySAL の spreg と照合
     - [ ] GWR の実装 (帯域の選び方、局所の係数の不確かさ、多重比較)。mgwr と照合
+    - [ ] 回帰の残差と計画行列の診断 (Breusch-Pagan、Jarque-Bera、条件数)。係数を説明や推論に使うときだけ要る。予測の点数で比べるときは使わない。statsmodels と照合
     - [x] `references/weights.md`: 重み付きの学習と採点、実効的な標本の数
     - [x] `references/error-analysis.md`: グループ、分位ごとの偏り、MAE、RMSE
     - [x] `references/count-modeling.md`: 件数と率、ポアソンと offset、過分散と負の二項、ゼロが多いとき
@@ -144,6 +152,8 @@
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
     - [x] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
     - [x] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み (Queen と Rook、島、成分。contiguity.py)
+    - [ ] Getis-Ord General G: 高い値どうし、低い値どうしが集まるかの全体の検定。Moran's I と問いが違うこと (似た値の集まりか、高い値の集中か) を合成データで示す
+    - [ ] 2 変数の Moran's I: ある単位の X と、隣の Y の関係。2 つの変数の相関と、それぞれの自己相関が混ざることを分けて示す
   - [x] `clustering-analysis`: 似た単位の群に分けられるか。群が戻ってくるか、既知の区分と何が違うか
     - [x] `references/kmeans.md`
     - [x] `references/density-based.md`
@@ -171,12 +181,13 @@
     - [ ] 観測の過程 (見つかる確率) の補正
     - [ ] 時空間の点過程 (Hawkes、自己励起)。背景の強度と誘発の核を分ける
     - [ ] 点どうしの相互作用のモデル (Gibbs、Strauss)
-- ネットワークと最適化 (4 / 4)
+- ネットワークと最適化 (4 / 5)
   - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る
     - [x] `references/building-the-graph.md`
     - [x] `references/measures.md`
     - [x] `references/directions-and-time.md`: 一方通行と曲がれない交差点、速度から時間 (routing.py)
     - [x] 出発地と目的地の表から距離行列を書き出すコマンド (spatial-optimization の入力)
+    - [ ] 到達圏を面 (service area) として書き出し、面積や人口で表す (references/measures.md で未実装と書いた分)。節点の集合から面を作る方法 (凸包、辺のバッファ) で面積が変わることを測る
   - [x] `land-cover-cost`: 分類済みの土地被覆の raster と、明示的な class から cost への対応表 (CSV) から、1 m あたりのコストの cost raster を作る。対応表に無いクラス、重なり、正でないコストで止まり、barrier と NoData を別の値で残し、クラスごとの数と対応表の hash を audit に書く
   - [x] `raster-cost-distance`: 意味の決まった cost raster (1 m あたりのコスト) と destination から、各 cell の最寄りの destination までの最小累積コスト。8 近傍の多始点 Dijkstra、barrier と NoData と届かない cell の区別、角を抜ける規則、非正方形の画素、CRS の尺度の検査
     - [x] `references/cost-definition.md`: 値の意味と単位、2 cell の平均 × 長さ、8 近傍の距離、CRS
@@ -185,6 +196,10 @@
     - [ ] 16 近傍 (ナイトの移動)
     - [ ] 向きで変わるコスト (上りと下り)
     - [ ] 実データでの確かめ
+  - [ ] `spatial-accessibility-analysis`: 需要 (人口などから問いで定義した需要) に対して、施設やサービスの供給にどれだけアクセスできるか。届くか (到達性) だけでなく、施設の容量を何人で分け合うか、足りない場所はどこかを測る。出発地と需要、施設と供給と容量、移動の時間や距離の抵抗、圏域の範囲、届かない需要を数える。人口あたりの施設の数、2 段階の浮動する圏域 (2SFCA)、距離で減る重みを入れた 2SFCA、重力型のアクセス。圏域の範囲と減り方を変えた感度。範囲の端で切れた供給と需要 (端の効果)。人口を分母として機械的に使わず、問いで定義した需要として扱う
+    - [ ] `references/2sfca.md`: 2SFCA と、距離で減る重みを入れた型。合成した小さな距離行列で、手計算できる既知解をテストにする
+    - [ ] `references/distance-decay.md`: 減り方の関数と圏域の範囲、その感度
+    - [ ] `references/boundary-effects.md`: 分析の範囲の外の施設と需要、範囲を広げたときの変わり方
   - [x] `spatial-optimization`: 定式化、MILP と発見的な解、選んだ解からの目的の計算し直し、設定を変えたときの答えの変わり方
     - [x] `references/p-median.md`
     - [x] `references/coverage.md`
@@ -208,7 +223,7 @@
     - [x] `references/maup.md`
     - [x] `references/inference.md`: 効果の大きさと有意、検出力、分析の自由度、探索と確認
     - [x] 格子の原点をずらす区切り方の効果
-- 残す (0 / 1)
+- 残す (0 / 2)
   - [ ] `analysis-reporting`: 仮説、データ、方法、評価、反証、限界、結論を成果物として残す
     - [ ] 問いと使い道を、最初に 1 行で残す
     - [ ] 採用した手法と、それを選んだ理由を残す
@@ -220,3 +235,7 @@
     - [ ] 確かめていないことを、未確認のまま残す
     - [ ] 地図を成果物に含めるときの最低限の metadata (値の単位、CRS、分類の方法と区切り、データの版と日付)
     - [ ] 単純な分析を、不必要に長い報告にしない (分析の重さに合わせた長さ)
+  - [ ] `thematic-mapping`: 空間の値や分析の結果を、量と意味を壊さず、比べられる地図にどう表すか。値の種類 (連続値、件数、率、クラス、残差、変化) を先に決め、件数をそのまま塗ってよいかを疑う。順序の色、中央から分かれる色、クラスの色を使い分け、虹色 (rainbow、jet) を避ける理由を書く (明るさが値の順に並ばず、見かけの境界ができる)。欠損、NoData、範囲外を値 0 と別に描く。区切り方 (等間隔、分位、自然な区切り、意味のある固定の線) で見え方が変わることを示す。複数の地域や時点を並べるなら、区切りと色の尺度を共通にするか個別にするかを書く。凡例に単位を書き、CRS、データの版と日付、区切り方を残す。面積や人口の違いによる見かけの差を、地図だけで現象の差と読まない。区切り方は分布の形の表から機械的に選ばず、値の意味、問い、比べる目的から決める
+    - [ ] `references/classification.md`: 区切り方ごとの見え方の違い (同じデータを複数の区切りで)
+    - [ ] `references/color-and-scale.md`: 値の種類と色の対応、欠損と 0 の描き分け
+    - [ ] `references/comparable-maps.md`: 複数の地図を並べるときの区切りと尺度
