@@ -224,7 +224,7 @@
     - [x] `references/iv.md`: 操作変数と 2SLS。弱い操作変数、除外制約、LATE
     - [x] `references/rdd.md`: 回帰不連続。鋭いと曖昧、局所線形、帯域、境界の両側を比べる空間の RDD
     - [x] `references/synthetic-control.md`: 合成対照。処置された少数の地域、前の期間の当てはまり、置換の推論
-    - [ ] `references/spillover.md`: 曝露の写像による直接と波及の効果の推定
+    - [x] `references/spillover.md`: 曝露の写像による直接と波及の効果の推定
 - 結論を疑う (1 / 1)
   - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す
     - [x] `references/maup.md`
