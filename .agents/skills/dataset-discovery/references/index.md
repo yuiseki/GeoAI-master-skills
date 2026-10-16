@@ -30,6 +30,7 @@
 | [worldpop/japan.md](worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
 | [mapterhorn](mapterhorn.md) | 全世界の標高のラスタタイル (Terrarium の可逆 WebP、PMTiles)。z0〜12 は 1 ファイル、z13 以上は地域ごと。151 の配布元の DEM を合わせたもの | 全世界の陸域 (海は 0) | 版 0.0.13、2026-10-16 取得 |
 | [dynamic-world](dynamic-world.md) | Sentinel-2 のシーンごとの 10 m の土地被覆 (9 クラスの確率とラベル)。Earth Engine の中だけ。未実測 | 全世界の陸域 | 2015-06-27 から、ほぼ実時間 |
+| [esa-worldcover](esa-worldcover.md) | 全世界の陸域の 10 m の土地被覆の分類図 (11 クラス)。3 度のタイルの COG、EPSG:4326。AWS の公開 S3 から認証なしで読める | 全世界の陸域 (外洋は NoData) | 2020 (v100)、2021 (v200) |
 
 ## サービス
 
