@@ -72,7 +72,8 @@
     - [x] `references/validation.md`
     - [x] `references/auxiliary.md`
     - [ ] 用途で絞った補助データ (住宅の建物、住宅地) での back-test
-    - [ ] 統計的な補間 (pycnophylactic、回帰で重みを推定する方法) との比較
+    - [x] `references/pycnophylactic.md`: pycnophylactic との比較 (tobler と照合、国勢調査のメッシュの back-test)
+    - [ ] 回帰で重みを推定する方法との比較
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)

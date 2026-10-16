@@ -13,6 +13,7 @@ description: ある区域で集計された値 (人口、世帯、件数) を、
 |---|---|
 | [validation](references/validation.md) | 細かい真値での back-test の組み方と、東京 23 区での実測 |
 | [auxiliary](references/auxiliary.md) | 補助データで配る方法の仮定と落とし穴 (実測) |
+| [pycnophylactic](references/pycnophylactic.md) | 区域の総量を保つ滑らかな面 (Tobler)。tobler との照合、国勢調査のメッシュでの back-test (改善は 5〜7%) (`scripts/pycno.py`) |
 
 ## 手順
 
