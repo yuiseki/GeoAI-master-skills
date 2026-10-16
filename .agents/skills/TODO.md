@@ -192,7 +192,8 @@
     - [ ] 観測の過程 (見つかる確率) の補正
     - [x] `references/hawkes.md`: 時空間の点過程 (Hawkes、自己励起)。背景の強度と誘発の核を分ける (hawkes.py)
     - [ ] Hawkes の背景を空間で変える (前の期間の密度や説明変数で)
-    - [ ] 点どうしの相互作用のモデル (Gibbs、Strauss)
+    - [x] `references/gibbs.md`: 点どうしの抑制 (Strauss 過程)。最大擬似尤度、模擬、GNZ の公式で確かめた (gibbs.py)
+    - [ ] 説明変数のある Gibbs 過程、距離で弱まる相互作用、尤度 (模擬による) での推定
 - ネットワークと最適化 (5 / 5)
   - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る
     - [x] `references/building-the-graph.md`
