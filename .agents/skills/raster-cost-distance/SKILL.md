@@ -1,13 +1,13 @@
 ---
 name: raster-cost-distance
-description: 値の意味が決まった cost raster (1 m 進むコスト、たとえば秒/m) と 1 つ以上の destination から、各 cell から最もコストの小さい destination までの最小累積コストと、その destination を求める。面の上をどの cell にも動けて、cell ごとに進みにくさが違うときに使う。道路などのグラフに移動を拘束するなら、このスキルではない。cost raster を作ること (土地被覆や傾斜からの換算、道路や川の焼き込み) も扱わない。
+description: 値の意味が決まった cost raster (1 m 進むコスト、たとえば秒/m) と 1 つ以上の destination から、各 cell から最もコストの小さい destination までの最小累積コストと、その destination を求める。面の上をどの cell にも動けて、cell ごとに進みにくさが違うときに使う。道路などのグラフに移動を拘束するなら、このスキルではない。cost raster を作ること (土地被覆からの換算、道路や川の焼き込み) は扱わない。標高の傾斜で上りと下りの歩く時間を変えること (Tobler の歩行の関数) は扱う。
 ---
 
 # raster-cost-distance
 
 直線距離は、森や沼や山の進みにくさを知らない。面の上を自由に動けるが、場所ごとに 1 m 進む時間が違うなら、cost raster の上の最小累積コストで測る。答えは、cost raster の値の意味と単位、格子の距離の測り方、通れない cell の扱いで決まる。この 3 つを先に決めて書く。
 
-このスキルが答えるのは、「この cost raster の上で、各 cell から最寄りの destination まで、最小でどれだけのコストか、それはどの destination か」まで。cost raster は、すでに意味の決まったものを受け取る。土地被覆の分類から速さへの換算、標高から傾斜の補正、道路や川の焼き込み、人口との重ね合わせは、このスキルの外。
+このスキルが答えるのは、「この cost raster の上で、各 cell から最寄りの destination まで、最小でどれだけのコストか、それはどの destination か」まで。cost raster は、すでに意味の決まったものを受け取る。土地被覆の分類から速さへの換算、道路や川の焼き込み、人口との重ね合わせは、このスキルの外。標高から傾斜で歩く時間を変えることだけは、`--walk tobler` で扱う (cost raster の代わりに標高のラスタを受け取る)。
 
 | reference | 中身 |
 |---|---|
@@ -40,8 +40,8 @@ uvx --with numpy --with rasterio --with pyproj python scripts/cost_distance.py t
 
 ## まだできないこと
 
-- 8 近傍だけ。16 近傍 (ナイトの移動) は無い。
-- 向きで変わるコスト (上りと下り) は無い。コストは cell の値だけで決まる。
+- 32 近傍以上の移動は無い (16 近傍まで)。
+- 向きで変わるコストは、Tobler の歩行の関数 (`--walk tobler`) だけ。ほかの向きの関数 (車いす、自転車) は無い。
 - 経緯度のラスタと、尺度の大きくずれる投影は扱わず、止まる。再投影はしない。
 - 道路や鉄道のネットワークと面の移動を組み合わせる経路は無い。
 - 全ての cell を Python のループで解く。100 万 cell で約 6 秒 (validation)。
