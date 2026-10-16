@@ -149,3 +149,65 @@ def test_shapley_values_are_taken_on_held_out_rows_with_a_training_background():
     assert r["x"]["mean_abs"] > 1.2 and r["noise"]["mean_abs"] < 0.1
     assert r["_check"]["max_efficiency_gap"] < 1e-8
     assert r["x"]["corr_with_value"] > 0.99  # the value rises with the feature
+
+
+# Conditional Shapley values
+
+def _gaussian_conditional_phi(beta, mean, cov, x, players):
+    """Closed form for a linear model and Gaussian features: v(S) = beta' E[X | X_S = x_S]."""
+    from itertools import combinations
+    from math import factorial
+
+    p = len(beta)
+    P = len(players)
+
+    def v(S):
+        cols = [c for j in S for c in players[j]]
+        if not cols:
+            return float(beta @ mean)
+        rest = [c for c in range(p) if c not in cols]
+        e = np.array(mean, float)
+        e[cols] = x[cols]
+        if rest:
+            e[rest] = mean[rest] + cov[np.ix_(rest, cols)] @ np.linalg.solve(cov[np.ix_(cols, cols)], x[cols] - mean[cols])
+        return float(beta @ e)
+
+    phi = np.zeros(P)
+    for j in range(P):
+        others = [i for i in range(P) if i != j]
+        for r in range(P):
+            for S in combinations(others, r):
+                w = factorial(r) * factorial(P - r - 1) / factorial(P)
+                phi[j] += w * (v(list(S) + [j]) - v(list(S)))
+    return phi
+
+
+def test_conditional_values_approach_the_gaussian_closed_form():
+    from explain_model import shapley_values
+
+    # The nearest-neighbour mean is noisy: with 4,000 background rows and 100 neighbours the largest error was
+    # 0.11-0.12 (Monte Carlo, not bias: the left-out feature's conditional sd 0.6 times its coefficient 2 over
+    # sqrt(100)); with 40,000 rows and 2,000 neighbours 0.02-0.04.
+    rng = np.random.default_rng(12)
+    cov = np.array([[1.0, 0.8, 0.0], [0.8, 1.0, 0.3], [0.0, 0.3, 1.0]])
+    bg = rng.multivariate_normal(np.zeros(3), cov, 40000)
+    beta = np.array([1.0, 0.0, 2.0])  # the model ignores the second feature
+    f = lambda Z: Z @ beta
+    x = np.array([[1.2, 0.9, -0.5], [-0.7, -1.0, 0.4]])
+    est = shapley_values(f, x, bg, [[0], [1], [2]], method="conditional", neighbours=2000)
+    exact = np.array([_gaussian_conditional_phi(beta, np.zeros(3), cov, xi, [[0], [1], [2]]) for xi in x])
+    np.testing.assert_allclose(est, exact, atol=0.08)
+    assert np.abs(exact[:, 1]).min() > 0.2  # the ignored feature gets credit: it predicts the first and the third
+    inter = shapley_values(f, x, bg[:500], [[0], [1], [2]])
+    assert np.abs(inter[:, 1]).max() < 1e-12  # interventional: none
+
+
+def test_conditional_values_still_add_up():
+    from explain_model import shapley_values
+
+    rng = np.random.default_rng(13)
+    bg = rng.normal(size=(300, 3))
+    f = lambda Z: np.sin(Z[:, 0]) + Z[:, 1] * Z[:, 2]
+    x = rng.normal(size=(5, 3))
+    phi = shapley_values(f, x, bg, [[0], [1], [2]], method="conditional")
+    np.testing.assert_allclose(phi.sum(1), f(x) - f(bg).mean(), atol=1e-12)

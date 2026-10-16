@@ -161,7 +161,7 @@
     - [x] `references/permutation.md`
     - [x] `references/partial-dependence.md`
     - [x] `references/shap.md`: SHAP 値。行ごとの説明。部分集合を数え上げる厳密な介入型。shap と照合 (explain_model.py shap)
-    - [ ] 条件付きの SHAP (相関を保った置き換え)
+    - [x] 条件付きの SHAP (近傍の経験的な条件付き分布、正規の閉じた形で確かめた。explain_model.py shap --conditional)
     - [x] 行ごとの部分依存の曲線 (ICE)
 - 構造を探す (6 / 6)
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)

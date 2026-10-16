@@ -19,6 +19,9 @@
                 |value|, mean value, and the correlation of a feature's values with the feature.
                 Hybrid rows mix one row's features with another's, so correlated features are
                 judged on rows the model never saw; their split of the credit is unstable.
+                --conditional keeps the dependence instead: a left-out feature takes values from
+                the background rows nearest on the kept features (an empirical conditional mean), so
+                a feature the model ignores still gets credit when it predicts one the model uses.
 
 Models and folds come from compare_models.py, a copy of which sits in this directory.
 
@@ -114,17 +117,36 @@ def ice_curves(y, X, j, model_name, folds, task, points=11, sample=200, seed=0):
     return curves, rows
 
 
-def shapley_values(f, X, background, players):
-    """Exact interventional Shapley values: (rows of X) x (players). players: lists of column indices."""
+def shapley_values(f, X, background, players, method="interventional", neighbours=None):
+    """Exact Shapley values: (rows of X) x (players). players: lists of column indices.
+
+    interventional: a player left out takes every background row's values (the features' dependence ignored).
+    conditional: for a subset S, only the background rows nearest to the explained row on S's features
+    (standardised by the background's sd) are used, so the values left out stay plausible given the ones kept
+    (the empirical method of Aas, Jullum and Loland 2021). neighbours: how many (default a tenth of the
+    background, at least 5)."""
     from math import factorial
 
     X, background = np.asarray(X, float), np.asarray(background, float)
     P = len(players)
     if P > 12:
         raise SystemExit(f"{P} players: exact Shapley values need 2^P subsets; group features (--group)")
+    if method not in ("interventional", "conditional"):
+        raise SystemExit("method is interventional or conditional")
     nx, nb = len(X), len(background)
+    k = neighbours or max(5, nb // 10)
+    sd = background.std(0)
+    sd[sd == 0] = 1.0
     v = np.empty((2 ** P, nx))
     for mask in range(2 ** P):
+        cols = [c for j in range(P) if mask >> j & 1 for c in players[j]]
+        if method == "conditional" and 0 < len(cols) < X.shape[1]:
+            d = ((((X[:, None, cols] - background[None, :, cols]) / sd[cols]) ** 2).sum(-1))
+            near = np.argsort(d, axis=1)[:, :k]  # (nx, k)
+            Z = background[near].reshape(nx * k, -1).copy()
+            Z[:, cols] = np.repeat(X[:, cols], k, axis=0)
+            v[mask] = f(Z).reshape(nx, k).mean(1)
+            continue
         Z = np.tile(background, (nx, 1))
         rows = np.repeat(np.arange(nx), nb)
         for j in range(P):
@@ -141,7 +163,8 @@ def shapley_values(f, X, background, players):
     return phi
 
 
-def shap_summary(y, X, names, model_name, folds, task, groups=None, explain=200, background=100, seed=0):
+def shap_summary(y, X, names, model_name, folds, task, groups=None, explain=200, background=100, seed=0,
+                 method="interventional"):
     """Shapley values on held-out rows, fold by fold (each fold's model, a background from its training rows)."""
     y, X = np.asarray(y), np.asarray(X, float)
     groups = groups or {}
@@ -159,7 +182,7 @@ def shap_summary(y, X, names, model_name, folds, task, groups=None, explain=200,
             f = lambda Z: _predict(model, Z, task)
             bg = X[rng.choice(train, min(background, len(train)), replace=False)]
             ex = X[rng.choice(test, min(explain, len(test)), replace=False)]
-            phi = shapley_values(f, ex, bg, players)
+            phi = shapley_values(f, ex, bg, players, method)
             gap = max(gap, float(np.abs(phi.sum(1) - (f(ex) - f(bg).mean())).max()))
             phis.append(phi)
             values.append(ex)
@@ -191,6 +214,8 @@ def main():
     p.add_argument("--points", type=int, default=11)
     p.add_argument("--explain", type=int, default=200, help="shap: test rows explained per fold")
     p.add_argument("--background", type=int, default=100, help="shap: training rows in the background")
+    p.add_argument("--conditional", action="store_true",
+                   help="shap: keep the features' dependence (nearest background rows on the kept features)")
     a = p.parse_args()
 
     import duckdb
@@ -213,7 +238,8 @@ def main():
         name, members = g.split("=", 1)
         groups[name] = members.split(",")
     if a.kind == "shap":
-        r = shap_summary(y, X, a.features, a.model, folds, a.task, groups, a.explain, a.background)
+        r = shap_summary(y, X, a.features, a.model, folds, a.task, groups, a.explain, a.background,
+                         method="conditional" if a.conditional else "interventional")
         check = r.pop("_check")
         print(f"Shapley values of {check['rows']} held-out rows ({'probability' if a.task == 'classification' else 'prediction'}"
               f" scale); largest gap between their sum and prediction minus background mean {check['max_efficiency_gap']:.2g}")
