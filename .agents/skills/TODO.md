@@ -170,12 +170,13 @@
     - [ ] 観測の過程 (見つかる確率) の補正
     - [ ] 時空間の点過程 (Hawkes、自己励起)。背景の強度と誘発の核を分ける
     - [ ] 点どうしの相互作用のモデル (Gibbs、Strauss)
-- ネットワークと最適化 (3 / 3)
+- ネットワークと最適化 (4 / 4)
   - [x] `spatial-network-analysis`: 道路からネットワークを作り、道のりの距離、到達圏、迂回率を測る
     - [x] `references/building-the-graph.md`
     - [x] `references/measures.md`
     - [x] `references/directions-and-time.md`: 一方通行と曲がれない交差点、速度から時間 (routing.py)
     - [x] 出発地と目的地の表から距離行列を書き出すコマンド (spatial-optimization の入力)
+  - [x] `land-cover-cost`: 分類済みの土地被覆の raster と、明示的な class から cost への対応表 (CSV) から、1 m あたりのコストの cost raster を作る。対応表に無いクラス、重なり、正でないコストで止まり、barrier と NoData を別の値で残し、クラスごとの数と対応表の hash を audit に書く
   - [x] `raster-cost-distance`: 意味の決まった cost raster (1 m あたりのコスト) と destination から、各 cell の最寄りの destination までの最小累積コスト。8 近傍の多始点 Dijkstra、barrier と NoData と届かない cell の区別、角を抜ける規則、非正方形の画素、CRS の尺度の検査
     - [x] `references/cost-definition.md`: 値の意味と単位、2 cell の平均 × 長さ、8 近傍の距離、CRS
     - [x] `references/barriers-and-nodata.md`: cell の状態、NoData を通れなくする理由、角を抜ける規則
