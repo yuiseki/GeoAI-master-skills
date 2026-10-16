@@ -25,6 +25,8 @@ description: 単位に付いた値 (目的変数、特徴量、モデルの残�
 | コレログラム (距離の帯ごとの Moran's I) | どの距離まで似ているか | `--bands-km` |
 | local Moran (LISA) | どの単位が、似た値の集まり (HH、LL) や、周りと逆の値 (HL、LH) にあるか | `--local-out` |
 | Getis-Ord Gi* | どこに高い値、低い値が集まっているか (ホットスポット)。references/getis-ord.md | `--hotspots-out` |
+| Getis-Ord General G | 全体として、高い値どうしが隣り合っているか (0 以上の値)。期待値を下回っても、低い値の集まりとは読めない。references/getis-ord.md | `--general-g` |
+| 2 変数の Moran's I | ある単位の X と、隣の Y が似ているか。2 変数の相関と、それぞれの自己相関が混ざる。references/bivariate-moran.md | `--y COL` |
 | 隣接の重み | 面の Queen と Rook、k 近傍と距離の帯との違い、島とつながりの成分、行標準化、境界の隙間と重なり。references/adjacency-weights.md、`scripts/contiguity.py` |
 
 ```sh
@@ -78,7 +80,7 @@ WDI の 2022 年の平均寿命 (207 か国、位置は Natural Earth の `LABEL
 
 ## 確かめたこと
 
-テスト (`uvx --with duckdb --with scikit-learn --with esda --with libpysal --with pytest pytest scripts/test_spatial_autocorrelation.py`) で、同じ近傍を PySAL (esda 2.10.0、libpysal 4.15.0) に渡し、global Moran's I、その期待値、local Moran の値と象限が一致することを確かめている。孤立した単位がある場合も一致する。距離の帯の近傍は総当たりの haversine と一致する。近傍の木への経度と緯度の取り違え、行の標準化の省略、帯の下限の無視、象限の取り違えのそれぞれで落ちることを確かめてある。
+テスト (`uvx --with duckdb --with scikit-learn --with esda --with libpysal --with pytest pytest scripts/test_spatial_autocorrelation.py`) で、同じ近傍を PySAL (esda 2.10.0、libpysal 4.15.0) に渡し、global Moran's I、その期待値、local Moran の値と象限が一致することを確かめている。孤立した単位がある場合も一致する。距離の帯の近傍は総当たりの haversine と一致する。近傍の木への経度と緯度の取り違え、行の標準化の省略、帯の下限の無視、象限の取り違えのそれぞれで落ちることを確かめてある。General G と 2 変数の Moran's I も esda (`G`、`Moran_BV`) と一致し、2 変数の I は同じ変数どうしなら Moran's I に等しい。合成の格子で、高い値の塊では G が期待値の 3 倍を超え、低い値の塊では期待値を下回らず、高い値と低い値が交互の格子では半分を下回ること、無関係で自己相関のある 2 変数では 2 変数の I の並べ替えの検定が 20 回中 15 回以上で p ≤ 0.05 になり、自己相関の無い 2 変数では 40 回中 6 回以下であることを確かめている。G の重みを行で標準化する、G の分母から自分どうしの積を除かない、2 変数の I で y を標準化しない、のそれぞれで落ちる。
 
 ## モデリングとのつながり
 

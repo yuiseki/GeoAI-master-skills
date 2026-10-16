@@ -152,8 +152,9 @@
   - [x] `spatial-autocorrelation`: 単位に付いた値が近い単位どうしで似ているかを測る (Moran's I、コレログラム、局所 Moran)
     - [x] `references/getis-ord.md`: Getis-Ord Gi* のホットスポット
     - [x] `references/adjacency-weights.md`: 境界を共有するかで取る近傍の重み (Queen と Rook、島、成分。contiguity.py)
-    - [ ] Getis-Ord General G: 高い値どうし、低い値どうしが集まるかの全体の検定。Moran's I と問いが違うこと (似た値の集まりか、高い値の集中か) を合成データで示す
-    - [ ] 2 変数の Moran's I: ある単位の X と、隣の Y の関係。2 つの変数の相関と、それぞれの自己相関が混ざることを分けて示す
+    - [x] Getis-Ord General G: 高い値どうしが集まるかの全体の検定。Moran's I と問いが違うこと、期待値を下回っても低い値の集まりとは読めないことを合成データで示した (references/getis-ord.md)
+    - [x] `references/bivariate-moran.md`: 2 変数の Moran's I。2 つの変数の相関と、それぞれの自己相関が混ざること、自己相関のある変数どうしでは並べ替えの p 値が小さすぎること
+    - [ ] 自己相関を保った帰無 (場を回す、ずらす) で 2 変数の関係を検定する
   - [x] `clustering-analysis`: 似た単位の群に分けられるか。群が戻ってくるか、既知の区分と何が違うか
     - [x] `references/kmeans.md`
     - [x] `references/density-based.md`

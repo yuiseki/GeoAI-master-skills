@@ -1,5 +1,13 @@
 """Spatial autocorrelation of one value: global Moran's I, a correlogram by distance band, and
-local Moran (LISA) clusters.
+local Moran (LISA) clusters. Also Getis-Ord General G (are high values, or low values, concentrated
+among neighbours; non-negative values only) and the bivariate Moran's I of the value against the
+neighbours' --y (the value at a unit against another variable around it).
+
+The bivariate I mixes three things: the plain correlation of the two variables, and the spatial
+autocorrelation of each. Its permutation p-value shuffles --y freely, which breaks y's own
+autocorrelation; when both variables are autocorrelated, that null is too easy to reject. Report the
+correlation and each variable's Moran's I next to it, and do not read its p-value as evidence of a
+spatial link between the two.
 
 Neighbours are taken by great-circle distance (sphere of radius 6,371 km), so they are right at any
 latitude and across the antimeridian. Weights are row-standardised; a unit with no neighbour has a
@@ -16,7 +24,7 @@ Usage:
     uvx --with duckdb --with scikit-learn --with pyarrow python spatial_autocorrelation.py \
         TABLE ID VALUE (--lon COL --lat COL | --geometry COL) [--k 6] \
         [--bands-km 0 500 1000 2000 4000] [--permutations 999] [--local-out lisa.parquet] \
-        [--hotspots-out gi.parquet]
+        [--hotspots-out gi.parquet] [--general-g] [--y COL]
 
 VALUE can be a target, a feature, or a model's residual (target - prediction).
 """
@@ -158,6 +166,48 @@ def getis_ord(x, neighbors):
     return z
 
 
+def general_g(x, neighbors, permutations=999, seed=0):
+    """Getis-Ord General G with binary weights: the share of all cross products x_i x_j (i != j) that
+    falls on neighbouring pairs. Above its expectation (the share of pairs that are neighbours), high
+    values sit next to high values; below it, low values sit together."""
+    x = np.asarray(x, float)
+    if (x < 0).any():
+        raise SystemExit("General G needs non-negative values (counts, rates, amounts)")
+    n = len(x)
+    W = _weights(neighbors)
+    W.data[:] = 1.0  # binary
+    s0 = W.sum()
+    if s0 == 0:
+        raise SystemExit("no unit has a neighbour")
+
+    def stat(v):
+        den = v.sum() ** 2 - (v * v).sum()
+        return float(v @ (W @ v) / den)
+
+    observed = stat(x)
+    rng = np.random.default_rng(seed)
+    sim = np.array([stat(rng.permutation(x)) for _ in range(permutations)])
+    return {"G": observed, "EG": float(s0 / (n * (n - 1))), "p_sim": _fold(sim, observed), "n": n}
+
+
+def bivariate_moran(x, y, neighbors, permutations=999, seed=0):
+    """Bivariate Moran's I: x at each unit against the row-standardised neighbour average of y, both
+    standardised (ddof 1), divided by n - 1 (as esda's Moran_BV). The permutation shuffles y only."""
+    x, y = np.asarray(x, float), np.asarray(y, float)
+    n = len(x)
+    W = _weights(neighbors)
+    zx = (x - x.mean()) / x.std(ddof=1)
+    zy = (y - y.mean()) / y.std(ddof=1)
+
+    def stat(v):
+        return float(zx @ (W @ v) / (n - 1))
+
+    observed = stat(zy)
+    rng = np.random.default_rng(seed)
+    sim = np.array([stat(rng.permutation(zy)) for _ in range(permutations)])
+    return {"I_xy": observed, "p_sim": _fold(sim, observed), "r": float(np.corrcoef(x, y)[0, 1]), "n": n}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("table")
@@ -172,6 +222,8 @@ def main():
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--local-out")
     p.add_argument("--hotspots-out", help="write Getis-Ord Gi* z-scores per unit")
+    p.add_argument("--general-g", action="store_true", help="Getis-Ord General G (non-negative values)")
+    p.add_argument("--y", help="a second column: bivariate Moran's I of VALUE against the neighbours' Y")
     a = p.parse_args()
 
     import duckdb
@@ -185,7 +237,8 @@ def main():
         xy = f'"{a.lon}" as lon, "{a.lat}" as lat'
     else:
         raise SystemExit("give --lon and --lat, or --geometry")
-    t = con.sql(f'select "{a.id}" as id, "{a.value}" as v, {xy} from \'{a.table}\'').fetchnumpy()
+    ycol = f', "{a.y}" as y' if a.y else ""
+    t = con.sql(f'select "{a.id}" as id, "{a.value}" as v{ycol}, {xy} from \'{a.table}\'').fetchnumpy()
     for k, v in t.items():
         if np.ma.isMaskedArray(v) and v.mask.any():
             raise SystemExit(f"{k} has {int(v.mask.sum())} missing values; drop those rows first")
@@ -196,6 +249,21 @@ def main():
     g = moran(x, nb, a.permutations, a.seed)
     print(f"global Moran's I, {a.k} nearest neighbours: I {g['I']:.3f} (E[I] {g['EI']:.4f}),"
           f" pseudo p {g['p_sim']:.4f}")
+
+    if a.general_g:
+        gg = general_g(x, nb, a.permutations, a.seed)
+        side = "high values together" if gg["G"] > gg["EG"] else "low values together"
+        print(f"Getis-Ord General G, {a.k} nearest neighbours (binary): G {gg['G']:.5g} (E[G] {gg['EG']:.5g}, "
+              f"{side}), pseudo p {gg['p_sim']:.4f}")
+
+    if a.y:
+        y = np.asarray(t["y"], float)
+        bv = bivariate_moran(x, y, nb, a.permutations, a.seed)
+        iy = moran(y, nb, a.permutations, a.seed)
+        print(f"bivariate Moran's I of {a.value} against the neighbours' {a.y}: I_xy {bv['I_xy']:+.3f}, "
+              f"pseudo p {bv['p_sim']:.4f}; correlation r {bv['r']:+.3f}; Moran's I of {a.value} {g['I']:+.3f}, "
+              f"of {a.y} {iy['I']:+.3f}. With both autocorrelated, the p-value is too small (see "
+              "references/bivariate-moran.md)")
 
     if a.bands_km:
         print("correlogram (distance band, km: I, pseudo p, units with a neighbour in the band):")

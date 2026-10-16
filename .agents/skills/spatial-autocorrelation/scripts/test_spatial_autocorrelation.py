@@ -8,7 +8,7 @@ import math
 import numpy as np
 import pytest
 
-from spatial_autocorrelation import band_neighbors, knn_neighbors, local_moran, moran
+from spatial_autocorrelation import band_neighbors, bivariate_moran, general_g, knn_neighbors, local_moran, moran
 
 esda = pytest.importorskip("esda")
 libpysal = pytest.importorskip("libpysal")
@@ -149,3 +149,90 @@ def test_correction_drops_chance_hits_and_keeps_a_planted_hotspot():
     x[hot] += 4
     p_hot = adjust_p(gi_p_values(getis_ord(x, nb)), "fdr")
     assert (p_hot[hot] <= 0.05).mean() > 0.8
+
+
+# Getis-Ord General G
+
+
+def test_general_g_matches_esda(field):
+    lon, lat, x = field
+    x = x - x.min() + 1  # non-negative
+    nb = knn_neighbors(lon, lat, 6)
+    w = libpysal.weights.W({i: list(n) for i, n in enumerate(nb)}, silence_warnings=True)
+    ref = esda.G(x, w, permutations=0)
+    ours = general_g(x, nb, permutations=99)
+    assert ours["G"] == pytest.approx(ref.G, rel=1e-12)
+    assert ours["EG"] == pytest.approx(ref.EG, rel=1e-12)
+
+
+def _grid(n=20):
+    r, c = np.divmod(np.arange(n * n), n)
+    lon, lat = c * 0.1, 40 + r * 0.1
+    return lon, lat, r, c
+
+
+def test_general_g_rises_for_a_high_block_but_does_not_fall_for_a_low_block():
+    # Moran's I is strongly positive for both. G is far above its expectation for a block of high values;
+    # for a block of low values in a uniform high background it is still above (the highs elsewhere now
+    # sit together), so G below E[G] does not mean "low values cluster".
+    lon, lat, r, c = _grid()
+    rng = np.random.default_rng(1)
+    corner = (r < 6) & (c < 6)
+    high = np.where(corner, 20 + rng.uniform(0, 1, len(r)), rng.uniform(1, 2, len(r)))
+    low = np.where(corner, 0.01, 20 + rng.uniform(0, 1, len(r)))
+    nb = knn_neighbors(lon, lat, 8)
+    gh, gl = general_g(high, nb, 199), general_g(low, nb, 199)
+    assert moran(high, nb, 199)["I"] > 0.5 and moran(low, nb, 199)["I"] > 0.5
+    assert gh["G"] > 3 * gh["EG"] and gh["p_sim"] < 0.01
+    assert gl["EG"] < gl["G"] < 1.2 * gl["EG"]
+
+
+def test_general_g_falls_when_high_values_sit_among_low_ones():
+    lon, lat, r, c = _grid()
+    x = np.where((r + c) % 2 == 0, 20.0, 1.0)  # checkerboard: every rook neighbour of a high is low
+    nb = knn_neighbors(lon, lat, 4)  # on this grid the 4 nearest are the rook neighbours
+    g = general_g(x, nb, 199)
+    assert g["G"] < 0.5 * g["EG"] and g["p_sim"] < 0.01
+    assert moran(x, nb, 199)["I"] < -0.8
+
+
+def test_general_g_refuses_negative_values():
+    with pytest.raises(SystemExit):
+        general_g(np.array([1.0, -1.0, 2.0]), [np.array([1]), np.array([0]), np.array([1])])
+
+
+# bivariate Moran's I
+
+
+def test_bivariate_moran_matches_esda(field):
+    lon, lat, x = field
+    y = np.roll(x, 3) + np.random.default_rng(5).normal(size=len(x))
+    nb = knn_neighbors(lon, lat, 6)
+    ref = esda.Moran_BV(x, y, to_w(nb), permutations=0)
+    assert bivariate_moran(x, y, nb, permutations=9)["I_xy"] == pytest.approx(ref.I, rel=1e-12)
+
+
+def test_bivariate_moran_of_a_variable_with_itself_is_its_moran(field):
+    lon, lat, x = field
+    nb = knn_neighbors(lon, lat, 6)
+    assert bivariate_moran(x, x, nb, 9)["I_xy"] == pytest.approx(moran(x, nb, 9)["I"], rel=1e-12)
+
+
+def test_bivariate_moran_rejects_too_often_when_both_variables_are_autocorrelated():
+    # Two unrelated smooth fields (gradients in random directions plus noise). Shuffling y destroys its
+    # autocorrelation, so the permutation test calls them related far more often than 5% of the time.
+    lon, lat, _, _ = _grid(15)
+    nb = knn_neighbors(lon, lat, 6)
+    smooth = 0
+    for seed in range(20):
+        rng = np.random.default_rng(seed)
+        a, b = rng.uniform(0, 2 * np.pi, 2)
+        x = np.cos(a) * lon + np.sin(a) * (lat - 40) + rng.normal(scale=0.3, size=len(lon))
+        y = np.cos(b) * lon + np.sin(b) * (lat - 40) + rng.normal(scale=0.3, size=len(lon))
+        smooth += bivariate_moran(x, y, nb, 199, seed)["p_sim"] <= 0.05
+    iid = 0
+    for seed in range(40):
+        rng = np.random.default_rng(100 + seed)
+        iid += bivariate_moran(rng.normal(size=len(lon)), rng.normal(size=len(lon)), nb, 199, seed)["p_sim"] <= 0.05
+    assert smooth >= 15  # 18 of 20 in the run that set this
+    assert iid <= 6  # 2 of 40; about 5% is the nominal rate
