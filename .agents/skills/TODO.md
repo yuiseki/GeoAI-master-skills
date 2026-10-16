@@ -222,7 +222,7 @@
     - [x] `references/matching.md`: 最近傍のマッチング、キャリパー、バランス、マッチングの後の推定と標準誤差 (match.py)
     - [x] `references/did.md`: 差の差。2 期、段階的な導入 (二方向の固定効果の落とし穴)、事前の傾向、イベントスタディ
     - [x] `references/iv.md`: 操作変数と 2SLS。弱い操作変数、除外制約、LATE
-    - [ ] `references/rdd.md`: 回帰不連続。鋭いと曖昧、局所線形、帯域、境界の両側を比べる空間の RDD
+    - [x] `references/rdd.md`: 回帰不連続。鋭いと曖昧、局所線形、帯域、境界の両側を比べる空間の RDD
     - [ ] `references/synthetic-control.md`: 合成対照。処置された少数の地域、前の期間の当てはまり、置換の推論
     - [ ] `references/spillover.md`: 曝露の写像による直接と波及の効果の推定
 - 結論を疑う (1 / 1)
