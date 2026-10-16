@@ -163,3 +163,5 @@ select * replace (ST_SetCRS(geometry, 'EPSG:4326') as geometry) from airports
 コードは目安。 IATA コードは 9,057 件、ICAO コードは 10,473 件にあるが、利用者が入力したもので、IATA の登録簿と照合されていない。
 
 型は列名で決めてある。 `regions.local_code` の `02` は文字列のまま。自分で CSV を読み直すと数値の 2 になる。
+
+東京 23 区の中心部 (EPSG:6677 の x −18,000〜−2,000、y −40,000〜−28,000) のヘリポートは 391 件で、OpenStreetMap の東京 23 区の凍結版の `aeroway` が `helipad` か `heliport` の 83 件のうち 68 件と、50 m 以内で 1 対 1 に重なった (2026-10-16)。OSM にあって OurAirports に無いものが 15 件ある。
