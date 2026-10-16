@@ -132,3 +132,18 @@ def test_grass_r_cost_cuts_corners_through_a_diagonal_wall(tmp_path):
     allow = solve(cost, ~wall, 10.0, 10.0, [(5, 0)], corner="allow")["accumulated"]
     assert np.allclose(acc[~wall] * 10, allow[~wall])
     assert np.isinf(solve(cost, ~wall, 10.0, 10.0, [(5, 0)])["accumulated"][upper]).all()
+
+
+@pytest.mark.skipif(GRASS is None, reason="GRASS GIS (grass) is not on the PATH")
+@pytest.mark.parametrize("seed,blocked", [(0, 0.0), (1, 0.0), (0, 0.2), (2, 0.2)])
+def test_grass_r_cost_knights_moves_match(tmp_path, seed, blocked):
+    # r.cost -k adds knight's moves at the mean of the four cells crossed, as here, and (with barriers) does
+    # not take one across an impassable cell between: the same cells are reached at the same cost.
+    cost, passable, starts = _world(seed, blocked=blocked)
+    t = Affine(10, 0, 380_000, 0, -10, 3_950_000)
+    acc, near = _grass(tmp_path, np.where(passable, cost, np.nan), t, [_centre(t, r, c) for r, c in starts],
+                       extra="-k")
+    ours = solve(cost, passable, 10.0, 10.0, starts, corner="allow", neighbours=16)
+    reached = np.isfinite(ours["accumulated"])
+    assert (reached == (passable & np.isfinite(acc))).all()
+    assert np.allclose(ours["accumulated"][reached], acc[reached] * 10, rtol=1e-9)

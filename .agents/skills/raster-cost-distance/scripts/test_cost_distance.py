@@ -346,3 +346,42 @@ def test_cli_barrier_value_and_nodata_stop_policy(tmp_path):
     cost[0, 2] = -1
     out = _cli(tmp_path, cost, [("a", 0, 0)], "--barrier-value", "999", "--nodata", "stop", nodata=-1)
     assert out.returncode != 0 and "NoData" in out.stderr
+
+
+# 16 neighbours (knight's moves)
+
+def test_a_knights_move_by_hand():
+    from cost_distance import solve
+
+    # 3 rows x 2 cols, 1 m pixels. From (0, 0) to (2, 1): the segment runs a quarter of sqrt(5) m in each of
+    # (0, 0), (1, 0), (1, 1), (2, 1).
+    cost = np.array([[1.0, 9.0], [2.0, 3.0], [9.0, 4.0]])
+    acc = solve(cost, np.ones((3, 2), bool), 1.0, 1.0, [(0, 0)], neighbours=16)["accumulated"]
+    knight = np.sqrt(5) * (1 + 2 + 3 + 4) / 4
+    other = 1.0 * (1 + 2) / 2 + np.sqrt(2) * (2 + 4) / 2  # down, then diagonal
+    assert knight < other and acc[2, 1] == pytest.approx(knight)
+
+
+def test_a_knights_move_is_not_taken_across_a_barrier():
+    from cost_distance import solve
+
+    cost = np.ones((3, 2))
+    passable = np.ones((3, 2), bool)
+    passable[1, 1] = False  # one of the two cells between
+    acc = solve(cost, passable, 1.0, 1.0, [(0, 0)], neighbours=16)["accumulated"]
+    assert acc[2, 1] == pytest.approx(1 + np.sqrt(2))  # down, then diagonal; never the knight's line
+
+
+def test_sixteen_neighbours_bring_paths_closer_to_straight_lines():
+    from cost_distance import solve
+
+    n = 101
+    worst = {}
+    for k in (8, 16):
+        acc = solve(np.ones((n, n)), np.ones((n, n), bool), 1.0, 1.0, [(50, 50)], neighbours=k)["accumulated"]
+        r, c = np.indices((n, n))
+        d = np.hypot(r - 50, c - 50)
+        ratio = acc[d > 20] / d[d > 20]
+        worst[k] = ratio.max()
+    assert worst[8] == pytest.approx(1.0824, abs=2e-3)
+    assert worst[16] < 1.03  # measured below

@@ -28,7 +28,7 @@ that holds it; the largest such shift is printed.
 Usage:
     uvx --with numpy --with rasterio --with pyproj python cost_distance.py COST.tif DESTINATIONS.csv \\
         --cost-unit s/m --out OUT.tif [--id id --x x --y y] [--barrier-value V] \\
-        [--nodata barrier|stop] [--corner-rule both|either|allow] [--max-scale-error 0.01]
+        [--nodata barrier|stop] [--corner-rule both|either|allow] [--max-scale-error 0.01] [--neighbours 8|16]
 """
 
 import argparse
@@ -80,12 +80,23 @@ def grid_metres(crs, transform, height, width, max_scale_error=0.01):
             "scale_error": worst, "crs": c.name}
 
 
-def _steps(dx, dy):
-    return [(dr, dc, math.hypot(dr * dy, dc * dx)) for dr in (-1, 0, 1) for dc in (-1, 0, 1) if (dr, dc) != (0, 0)]
+def _steps(dx, dy, neighbours=8):
+    """(dr, dc, length in metres, cells crossed between the two ends). A knight's move (2 by 1) runs a quarter
+    of its length in each of four cells: the start, the end, and the two between."""
+    out = [(dr, dc, math.hypot(dr * dy, dc * dx), ()) for dr in (-1, 0, 1) for dc in (-1, 0, 1) if (dr, dc) != (0, 0)]
+    if neighbours == 16:
+        for dr, dc in ((2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), (-1, 2), (-1, -2)):
+            sr, sc = (1 if dr > 0 else -1), (1 if dc > 0 else -1)
+            between = ((sr, 0), (sr, dc)) if abs(dr) == 2 else ((0, sc), (dr, sc))
+            out.append((dr, dc, math.hypot(dr * dy, dc * dx), between))
+    elif neighbours != 8:
+        raise SystemExit("neighbours is 8 or 16")
+    return out
 
 
-def solve(cost, passable, dx, dy, sources, corner="both", nodata=None):
-    """Multi-source Dijkstra on the 8-neighbour grid.
+def solve(cost, passable, dx, dy, sources, corner="both", nodata=None, neighbours=8):
+    """Multi-source Dijkstra on the 8-neighbour grid (or 16 with knight's moves: the step costs its length times
+    the mean of the four cells it crosses, and is not taken when either cell between is impassable).
 
     cost: cost per metre in each cell (read only where passable). passable: bool array. dx, dy: pixel
     width and height in metres. sources: (row, col) of each destination, in order; a tie between two
@@ -120,22 +131,28 @@ def solve(cost, passable, dx, dy, sources, corner="both", nodata=None):
         acc[r, c], nearest[r, c] = 0.0, i
         heap.append((0.0, i, r, c))
     heapq.heapify(heap)
-    steps = _steps(dx, dy)
+    steps = _steps(dx, dy, neighbours)
     while heap:
         a, src, r, c = heapq.heappop(heap)
         if done[r, c] or a > acc[r, c] or src != nearest[r, c]:
             continue
         done[r, c] = True
         here = cost[r, c]
-        for dr, dc, d in steps:
+        for dr, dc, d, between in steps:
             rr, cc = r + dr, c + dc
             if not (0 <= rr < h and 0 <= cc < w) or done[rr, cc] or not passable[rr, cc]:
                 continue
-            if dr and dc and corner != "allow":
-                side_a, side_b = passable[r + dr, c], passable[r, c + dc]
-                if (corner == "both" and not side_a and not side_b) or (corner == "either" and not (side_a and side_b)):
+            if between:
+                (ar, ac), (br, bc) = between
+                if not (passable[r + ar, c + ac] and passable[r + br, c + bc]):
                     continue
-            v = a + d * (here + cost[rr, cc]) / 2
+                v = a + d * (here + cost[r + ar, c + ac] + cost[r + br, c + bc] + cost[rr, cc]) / 4
+            else:
+                if dr and dc and corner != "allow":
+                    side_a, side_b = passable[r + dr, c], passable[r, c + dc]
+                    if (corner == "both" and not side_a and not side_b) or (corner == "either" and not (side_a and side_b)):
+                        continue
+                v = a + d * (here + cost[rr, cc]) / 2
             if v < acc[rr, cc] or (v == acc[rr, cc] and src < nearest[rr, cc]):
                 acc[rr, cc], nearest[rr, cc] = v, src
                 heapq.heappush(heap, (v, src, rr, cc))
@@ -215,6 +232,8 @@ def main():
     p.add_argument("--nodata", choices=["barrier", "stop"], default="barrier")
     p.add_argument("--corner-rule", choices=["both", "either", "allow"], default="both")
     p.add_argument("--max-scale-error", type=float, default=0.01)
+    p.add_argument("--neighbours", type=int, choices=[8, 16], default=8,
+                   help="16 adds knight's moves (2 by 1): closer to straight-line paths")
     a = p.parse_args()
     if not a.cost_unit.endswith("/m") or a.cost_unit == "/m":
         p.error("--cost-unit must be a cost per metre, such as s/m")
@@ -226,7 +245,7 @@ def main():
     g = grid_metres(meta["crs"], meta["transform"], meta["height"], meta["width"], a.max_scale_error)
     dests = read_destinations(a.destinations, a.id, a.x, a.y)
     cells, shifts = place(dests, meta["transform"], meta["height"], meta["width"])
-    res = solve(cost, passable, g["dx"], g["dy"], cells, a.corner_rule, nodata)
+    res = solve(cost, passable, g["dx"], g["dy"], cells, a.corner_rule, nodata, a.neighbours)
 
     st = res["status"]
     counts = {name: int((st == code).sum()) for name, code in
