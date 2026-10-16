@@ -178,7 +178,7 @@
   - [x] `point-pattern-analysis`: 点が、比べる基準の分布で無作為に置いた場合と比べて、どの距離で集まっているかを調べる
     - [x] `references/ripley.md`
     - [x] `references/baselines.md`
-    - [ ] カーネル密度
+    - [x] `references/kernel-density.md`: カーネル密度。帯域の交差検証と端の補正 (kernel_density.py)
     - [x] `references/cross.md`: 2 種類の点の間 (クロス K と random labelling) と、散らばりの検定 (散らばる側の p)
   - [x] `spatial-process-modeling`: 点のパターンを確率過程の生成としてモデル化する。対数線形の強度の Poisson 過程を点過程の尤度で当てはめ、格子の Poisson 回帰と比べ、模擬で確かめる
     - [x] `references/poisson-process.md`

@@ -13,6 +13,7 @@ description: 点 (事件、施設) が、比べる基準の分布 (どこにで�
 |---|---|
 | [ripley](references/ripley.md) | 距離ごとの点の組の数 (Ripley の K) と、無作為な配置との比べ方 |
 | [baselines](references/baselines.md) | 比べる基準の分布の選び方 |
+| [kernel-density](references/kernel-density.md) | 点の強度の地図。帯域の交差検証、端の補正、帯域で山の数が変わること (`scripts/kernel_density.py`) |
 | [cross](references/cross.md) | 2 種類の点の間の組の数を、種類だけを入れ替えた配置と比べる (クロス K と random labelling) |
 
 ## 手順
