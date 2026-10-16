@@ -264,4 +264,4 @@
     - [x] `references/color-and-scale.md`: 値の種類と色の対応、欠損と 0 の描き分け
     - [x] `references/comparable-maps.md`: 複数の地図を並べるときの区切りと尺度
     - [ ] 点の大きさの地図、ラスタの地図
-    - [ ] 色覚の多様性での見え方の確かめ
+    - [x] 色覚の多様性での見え方の確かめ (cvd.py、colorspacious と照合、references/color-and-scale.md)

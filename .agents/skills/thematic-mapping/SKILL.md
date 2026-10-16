@@ -12,7 +12,7 @@ description: 空間の値や分析の結果 (件数、率、水準、クラス�
 | reference | 中身 |
 |---|---|
 | [classification](references/classification.md) | 区切り方ごとの見え方 (歪んだ値で、クラスの割合と入れ替わる単位の数)、Fisher-Jenks、mapclassify との照合 |
-| [color-and-scale](references/color-and-scale.md) | 値の種類と色の型、虹色を避ける理由、NoData と 0、件数をそのまま塗るか |
+| [color-and-scale](references/color-and-scale.md) | 値の種類と色の型、虹色を避ける理由、NoData と 0、件数をそのまま塗るか、色覚の多様性での見え方 (`scripts/cvd.py`) |
 | [comparable-maps](references/comparable-maps.md) | 複数の地域や時点を並べるときの、共通の区切りと個別の区切り |
 
 ## 手順
