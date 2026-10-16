@@ -45,7 +45,7 @@
   - [x] `spatial-sampling-design`: どこを、何地点、どう観測するか。枠、単純無作為、格子、層別、集落、空間的に均衡した抽出、包含確率、行きやすさの偏り
     - [x] `references/designs.md`: 同じ 100 地点での方法ごとの精度と偏り (合成)
     - [x] `references/sample-size.md`: 標本の大きさの計算 (精度の目標から、sample_size.py)
-    - [ ] 一般化ランダム層別 (GRTS) と、均衡した抽出の分散の推定
+    - [x] 一般化ランダム層別 (GRTS) と、均衡した抽出の分散の推定 (局所平均)。繰り返しの抽出で確かめた (sample_points.py、references/designs.md)
   - [x] `location-privacy`: 分析できる位置情報を、そのまま使い、共有し、公開してよいか。再識別、自宅の推定、結合、配慮の要る場所、集計と秘匿、ずらす、時間の集計、アクセスの制限、結論の変わり方
     - [x] `references/risks.md`: 何が人を指すか。同意、規約、ライセンス、倫理の区別
     - [x] `references/protections.md`: 守り方ごとの再識別のしやすさと分析の結論の変わり方 (合成の町)
