@@ -66,7 +66,7 @@ uvx --from 'duckdb>=1.5.5' --with numpy --with scipy python scripts/spatial_regr
 
 ## このリポジトリで確かめていないこと
 
-- GWR は実装していない。
+- GWR は gwr.md と `scripts/gwr.py`。
 - 空間ダービン (SDM、Wx を足す型)、一般化モーメント法の推定、ラグと誤差を同時に持つ型 (SAC) は無い。
 - 効果の標準誤差 (模擬による) は出さない。
 - 実データでの、W を変えた感度は測っていない。

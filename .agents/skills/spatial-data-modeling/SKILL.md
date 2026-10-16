@@ -22,6 +22,7 @@ description: 基準 (平均、グループ平均、線形) と同じ分割、同
 | [error-analysis](references/error-analysis.md) | 誤差をグループや分位ごとに分けて、どこで外れているかを見る |
 | [regression-diagnostics](references/regression-diagnostics.md) | 係数を説明や検定に使うときの、残差の広がり (Breusch-Pagan、White)、形 (Jarque-Bera)、計画行列の条件数、HC3 の標準誤差 (`scripts/regression_diagnostics.py`)。予測の点数で比べるだけなら要らない |
 | [spatial-regression](references/spatial-regression.md) | 残差に空間の偏りが残るときの、空間ラグモデル、空間誤差モデル、空間フィルタ、GWR の選び方。ラグと誤差の最尤、LM 検定、直接効果と間接効果 (`scripts/spatial_regression.py`) |
+| [gwr](references/gwr.md) | 係数が場所で違うかを見る地理的加重回帰。核と帯域、AICc の曲線、tr(S)、調整した臨界の t、局所の傾きが共線で動くこと (`scripts/gwr.py`) |
 | [count-modeling](references/count-modeling.md) | 件数と率: ポアソン回帰と offset、発生率比、過分散と負の二項、ゼロが多いとき (合成データの比較) |
 | [compositional](references/compositional.md) | 合計が一定の割合 (土地利用、年齢、産業の構成): 閉包、共線性、基準のカテゴリ、対数比、0 の扱い |
 
