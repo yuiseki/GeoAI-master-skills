@@ -1,0 +1,70 @@
+# OpenCode CLI plus the analysis toolchain, for running the evals in evals/ under hard resource limits.
+# The toolchain lines mirror ./Dockerfile, Dockerfile.evals.codex and Dockerfile.evals.gemini (same library
+# versions, so the evals compare agents and models, not environments); keep them in step.
+# Build:  docker build -f Dockerfile.evals.opencode -t geoai-master-skills-evals-opencode .
+# Run:    evals/run_opencode_docker.sh <workdir>     (the limits are set there, not here)
+FROM python:3.12-slim-bookworm
+
+# Pinned for reproducibility; override with --build-arg OPENCODE_VERSION=... (and the two digests) and record
+# it with the results. The official image (ghcr.io/anomalyco/opencode) is not used as the base because it does
+# not carry the Python toolchain below; the binary is the same release asset the official installer downloads.
+# Digests are the ones GitHub publishes for the v1.19.3 assets (checked against the downloads on 2026-10-17).
+ARG OPENCODE_VERSION=1.19.3
+ARG OPENCODE_SHA256_X64=13a8fb2978302071b86f9d7e00da9c8895f9cd846978379c3bdc6a5333536c9b
+ARG OPENCODE_SHA256_ARM64=7900818a6a98881edbbadab4b7525940eff3b9750040c200481f9f56cacee405
+ARG TARGETARCH
+
+COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /uvx /usr/local/bin/
+
+RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-certificates curl \
+ && rm -rf /var/lib/apt/lists/*
+
+# The glibc build (the base image is Debian), installed as root in /usr/local/bin so the unprivileged user
+# cannot update it. User state lives in the container's /home/geo and is thrown away with the container.
+RUN case "${TARGETARCH:-$(dpkg --print-architecture)}" in \
+      amd64) asset=opencode-linux-x64.tar.gz; sum=${OPENCODE_SHA256_X64} ;; \
+      arm64) asset=opencode-linux-arm64.tar.gz; sum=${OPENCODE_SHA256_ARM64} ;; \
+      *) echo "unsupported arch" >&2; exit 1 ;; \
+    esac \
+ && curl -fsSL -o /tmp/opencode.tar.gz \
+    "https://github.com/anomalyco/opencode/releases/download/v${OPENCODE_VERSION}/${asset}" \
+ && echo "${sum}  /tmp/opencode.tar.gz" | sha256sum -c - \
+ && tar -xzf /tmp/opencode.tar.gz -C /usr/local/bin opencode \
+ && rm /tmp/opencode.tar.gz \
+ && chmod 0755 /usr/local/bin/opencode \
+ && { test "$(/usr/local/bin/opencode --version)" = "${OPENCODE_VERSION}" \
+      || { echo "opencode is $(/usr/local/bin/opencode --version), not ${OPENCODE_VERSION}" >&2; exit 1; }; }
+
+# rasterio is pinned below 1.5: 1.5.x reads GeoTIFFs with libertiff, which gave CRS and nodata None
+# (measured 2026-10-14 on the WorldPop rasters in task 11).
+RUN uv venv /opt/venv && VIRTUAL_ENV=/opt/venv uv pip install --no-cache \
+    'duckdb>=1.5.5' numpy scipy scikit-learn pandas pyarrow statsmodels networkx \
+    shapely 'rasterio==1.4.1' esda libpysal pyyaml pytest
+
+# The thread counts are cooperative; the hard limits come from docker run (see run_opencode_docker.sh).
+# OPENCODE_DISABLE_AUTOUPDATE: no update checks. OPENCODE_DISABLE_CLAUDE_CODE: do not read ~/.claude or
+# .claude (prompt and skills); the other agents do not read them either. OPENCODE_DISABLE_LSP_DOWNLOAD: no
+# language servers fetched in the middle of a run.
+ENV PATH=/opt/venv/bin:$PATH \
+    UV_CACHE_DIR=/opt/uv-cache \
+    HOME=/home/geo \
+    OMP_NUM_THREADS=8 \
+    OPENBLAS_NUM_THREADS=8 \
+    MKL_NUM_THREADS=8 \
+    NUMEXPR_NUM_THREADS=8 \
+    OPENCODE_DISABLE_AUTOUPDATE=1 \
+    OPENCODE_DISABLE_CLAUDE_CODE=1 \
+    OPENCODE_DISABLE_LSP_DOWNLOAD=1
+
+# Commands may run in a login shell, and Debian's /etc/profile resets PATH; put the venv back.
+RUN echo 'export PATH=/opt/venv/bin:$PATH' > /etc/profile.d/venv.sh
+
+RUN useradd --uid 1000 --create-home --home-dir /home/geo geo \
+ && mkdir -p /opt/uv-cache /work && chown -R geo /opt/uv-cache /work /home/geo
+USER geo
+RUN python -c "import duckdb; c = duckdb.connect(); c.sql('install spatial; install httpfs')" \
+ && uvx --from 'duckdb>=1.5.5' python -c "import duckdb" \
+ && chmod -R a+rwX /opt/uv-cache
+
+WORKDIR /work
+CMD ["bash"]

@@ -1,8 +1,10 @@
 """How much work a run took, read from the agent's own log: tokens, tool calls, failed calls, wall minutes.
 
 A run directory holds prompt.md, log (the agent's output) and exit (written when it ended), as the
-matrix scripts leave them. Codex writes a text log; agy (Gemini eval) writes stream-json.
-Compare tokens only within one agent: the two CLIs count them differently.
+matrix scripts leave them. Codex writes a text log; agy (Gemini eval) writes stream-json; OpenCode writes
+one JSON event per line (`opencode run --format json`). Compare tokens only within one agent: the CLIs
+count them differently. For OpenCode the tokens are the sum over its model requests (step_finish), cache
+reads included.
 
     python evals/effort.py RUN_DIR [RUN_DIR ...]      # one TSV row per run
 """
@@ -42,11 +44,30 @@ def parse_agy(text):
     return {"tokens": tokens, "calls": len(tools), "failed_calls": len(errors)}
 
 
+def parse_opencode(text):
+    calls = failed = 0
+    tokens = None
+    for line in text.splitlines():
+        try:
+            j = json.loads(line)
+        except ValueError:
+            continue
+        if j.get("type") == "tool_use":
+            calls += 1
+            failed += (j.get("part", {}).get("state", {}).get("status") == "error")
+        elif j.get("type") == "step_finish":
+            t = (j.get("part", {}).get("tokens") or {}).get("total")
+            if t is not None:
+                tokens = (tokens or 0) + t
+    return {"tokens": tokens, "calls": calls, "failed_calls": failed}
+
+
 def run_effort(run_dir):
     d = Path(run_dir)
     text = (d / "log").read_text(errors="replace")
-    agent = "agy" if text.lstrip().startswith('{"event"') else "codex"
-    e = (parse_agy if agent == "agy" else parse_codex)(text)
+    head = text.lstrip()
+    agent = "agy" if head.startswith('{"event"') else "opencode" if head.startswith('{"type"') else "codex"
+    e = {"agy": parse_agy, "opencode": parse_opencode, "codex": parse_codex}[agent](text)
     done = d / "exit"
     minutes = round((done.stat().st_mtime - (d / "prompt.md").stat().st_mtime) / 60, 1) if done.exists() else None
     return {"run": d.name, "agent": agent, "exit": done.read_text().strip() if done.exists() else None,

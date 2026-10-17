@@ -3,7 +3,7 @@
 import json
 import os
 
-from effort import parse_agy, parse_codex, run_effort
+from effort import parse_agy, parse_codex, parse_opencode, run_effort
 
 CODEX_LOG = """codex
 まず確認します。
@@ -77,3 +77,44 @@ def test_run_effort_picks_the_parser_and_measures_wall_minutes(tmp_path):
     g = run_effort(tmp_path / "agy-run")
     assert c["agent"] == "codex" and c["calls"] == 3 and c["minutes"] == 5.5 and c["exit"] == "0"
     assert g["agent"] == "agy" and g["tokens"] == 164235 and g["minutes"] == 5.5
+
+
+def oc_line(type_, **body):
+    return json.dumps({"type": type_, "timestamp": 1, "sessionID": "ses_x", **body})
+
+
+def oc_step(total):
+    return oc_line("step_finish", part={"type": "step-finish", "reason": "stop",
+                                        "tokens": {"total": total, "input": 1, "output": 1}})
+
+
+OPENCODE_LOG = "\n".join([
+    oc_line("step_start", part={"type": "step-start"}),
+    oc_line("tool_use", part={"tool": "bash", "state": {"status": "completed"}}),
+    oc_line("tool_use", part={"tool": "bash", "state": {"status": "error"}}),
+    oc_step(8000),
+    oc_line("tool_use", part={"tool": "write", "state": {"status": "completed"}}),
+    oc_line("text", part={"text": "done"}),
+    oc_step(8380),
+])
+
+
+def test_opencode_sums_the_steps_and_counts_failed_tools():
+    # each step_finish reports the tokens of one model request; the run's total is their sum
+    e = parse_opencode(OPENCODE_LOG)
+    assert e == {"tokens": 16380, "calls": 3, "failed_calls": 1}
+
+
+def test_opencode_that_stopped_on_an_api_error_reports_none_tokens():
+    err = oc_line("error", error={"name": "APIError", "data": {"statusCode": 429}})
+    assert parse_opencode(err) == {"tokens": None, "calls": 0, "failed_calls": 0}
+
+
+def test_run_effort_recognises_an_opencode_log(tmp_path):
+    d = tmp_path / "oc-run"
+    d.mkdir()
+    (d / "prompt.md").write_text("p")
+    (d / "log").write_text(OPENCODE_LOG)
+    (d / "exit").write_text("0\n")
+    r = run_effort(d)
+    assert r["agent"] == "opencode" and r["tokens"] == 16380 and r["calls"] == 3

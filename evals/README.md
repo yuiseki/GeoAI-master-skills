@@ -98,6 +98,29 @@ evals/run_gemini_docker.sh --prompt <指示文> <作業場所> > <ログ.jsonl>
 
 `~/.gemini-evals` に、OAuth のトークンが入る。普段の `~/.gemini` とは別。設定は、実行のたびに書き直す。`--dry-run` で、実行する `docker run` を表示する。
 
+## OpenCode で流す
+
+Codex、Gemini と同じ課題、作業場所、CPU、メモリ、プロセス数、権限、分析ライブラリの版で、OpenCode を流す。当面の eval の既定は、API キーの要らない無料のモデル (`opencode/deepseek-v4.1-flash-free`、`opencode/glm-5.3-flash-free`)。フロンティアのモデルより弱いので、スキルの効きの差が出やすい。
+
+| 固定するもの | 値 |
+|---|---|
+| イメージ | `geoai-master-skills-evals-opencode`。OpenCode は公式のリリースのバイナリを `OPENCODE_VERSION` (既定 1.19.3) と sha256 で固定。公式のイメージ (`ghcr.io/anomalyco/opencode`) は Python の分析環境を持たないので、土台にしない |
+| モデル | `EVAL_MODEL` (既定 `opencode/deepseek-v4.1-flash-free`)。`opencode/glm-5.3-flash-free` も同じ runner で流せる。一覧はコンテナの中で `opencode models opencode` |
+| 設定、認証、状態 | 普段の `~/.config/opencode`、`~/.local/share/opencode`、`OPENCODE_*` の環境変数は持ち込まない。状態はコンテナの中に置き、`--rm` で消える (実行どうしで会話が見えない)。設定は `OPENCODE_CONFIG_CONTENT` で渡し、共有を止め (`"share": "disabled"`)、更新を確かめない |
+| 許可 | `opencode run --auto`。非対話の実行では、確認を求める許可 (作業場所の外のパス、同じ呼び出しの 3 回の繰り返し) は、`--auto` が無いと全て拒否される。コンテナが sandbox。明示の拒否 (`.env` の読み取り) は残る。`--pure` で外のプラグインを読まない |
+| 自動で読むもの | 作業場所の `AGENTS.md` (指示として) と `.agents/skills/*/SKILL.md` (スキルの道具として)。スキルありの作業場所にだけあるので、違いは作業場所の中身だけ。`.claude` は `OPENCODE_DISABLE_CLAUDE_CODE=1` で読まない (OpenCode 1.19.3 の文書による) |
+| ログ | `--prompt` で、プロンプトを標準入力から渡し、`--format json` の 1 行 1 イベントが標準出力に出る。`effort.py` が読む |
+
+```sh
+docker build -f Dockerfile.evals.opencode -t geoai-master-skills-evals-opencode .
+
+python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md --number 9 \
+  --template evals/prompts/agent-task.md --prompt-workdir /work > <指示文>
+EVAL_MODEL=opencode/glm-5.3-flash-free evals/run_opencode_docker.sh --prompt <指示文> <作業場所> > <ログ.jsonl>
+```
+
+無料のモデルは、混んでいると急に止まる。smoke test (2026-10-17) では、`glm-5.3-flash-free` の 1 回目が 429 (`Upstream request failed: Endpoint is unavailable.`、`isRetryable: true`) で、終了コード 1、ログは `"type": "error"` のイベント 1 行だけだった (2 回目は通った)。終了コードが 0 でない実行と、ログに `"type": "error"` のある実行は、採点に数えない。matrix のスクリプトは、どちらかで止めるか、その実行だけ流し直す。
+
 ## なぜ `evals/` を渡さないか
 
 rubric には答えが書いてある。エージェントが clone して、リポジトリの中を読むと、答えが見える。`prepare_workdir.py` は、`git archive` (`.gitattributes` の `evals/ export-ignore` を守る) で用意し、さらに `evals/` を自分で消す。属性が抜けても漏れない。maplibre-agent-skills は、モデルに SKILL.md だけをシステムプロンプトとして渡す方式 (promptfoo) なので、そもそもモデルが `evals/` を読めない。ここは、エージェントが作業場所を歩くので、作業場所から消す。
