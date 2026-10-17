@@ -21,6 +21,8 @@
 | `run_gemini_docker.sh` | 同じ条件で、Gemini を流す (中で使う CLI は Antigravity CLI の `agy`)。イメージは `../Dockerfile.evals.gemini` |
 | `run_codex_docker.sh` | 作業場所を Docker (`../Dockerfile.evals.codex`) に閉じ込めて Codex を流す。CPU、メモリ、プロセス数の上限はここで強制する (テスト付き) |
 | `prepare_workdir.py` | エージェントの作業場所を、`evals/` なしで用意する (テスト付き) |
+| `score_points.py` | 予測の点と正解の点を、半径 (m) の中で 1 対 1 に組にして、適合率、再現率、F1 を出す。課題 28 (アンダーパス) の採点に使う (テスト付き) |
+| `tasks/underpass28-truth.csv` | 課題 28 の正解 (23 区の 99 点)。作業場所は `--hide mlit-underpass` で作り、データカードを消す |
 | `results/agent-runs.md` | これまでの実行の一覧 (成果物の本体は、リポジトリの外) |
 | `results/overview.md` | 設計、結果、直したこと、残った隙のまとめ |
 
