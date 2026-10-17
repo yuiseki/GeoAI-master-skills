@@ -42,7 +42,25 @@ def prepare(repo, rev, dest, baseline):
         (dest / "projects").mkdir(exist_ok=True)
     if (dest / "evals").exists():
         raise SystemExit("evals/ is present in the working copy")
+    leaks = pointers_into_evals(dest)
+    if leaks:
+        raise SystemExit("files outside evals/ point into the results or the tasks: " + ", ".join(leaks))
     return dest
+
+
+def pointers_into_evals(dest):
+    """Files that cite evals/results/ or evals/tasks/. A summary of results kept outside evals/
+    carries the answers into the agent's copy even though evals/ itself is removed."""
+    leaks = []
+    for p in sorted(dest.rglob("*")):
+        if p.is_file() and not p.is_symlink():
+            try:
+                text = p.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                continue
+            if "evals/results/" in text or "evals/tasks/" in text:
+                leaks.append(str(p.relative_to(dest)))
+    return leaks
 
 
 def extract_task(text, number):

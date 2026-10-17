@@ -107,7 +107,7 @@
 - 最適化のうち、整数計画の容量のある施設配置、CP-SAT、多目的 (パレート、ε 制約)、下限と無作為な配置を基準にした評価。
 - `analysis-reporting` の詳しい来歴 (数字ごとのコミット、派生物の系図、採らなかった手法、地図の metadata)。今あるのは、最終回答の 4 つの枠と、その検査だけ。
 
-スクリプトは小さく、答えの分かる例と確立した実装で確かめてあるが、上の手法をすべて覆うものではない。エージェントがスキルを使って分析をやり遂げられるかの評価も、一部のスキルだけ。進み具合は [.agents/skills/TODO.md](.agents/skills/TODO.md)、評価は [docs/eval-status.md](docs/eval-status.md)。
+スクリプトは小さく、答えの分かる例と確立した実装で確かめてあるが、上の手法をすべて覆うものではない。エージェントがスキルを使って分析をやり遂げられるかの評価も、一部のスキルだけ。進み具合は [.agents/skills/TODO.md](.agents/skills/TODO.md)、評価は [evals/status.md](evals/status.md)。
 
 ## 動かすために
 
@@ -120,7 +120,7 @@
 
 主なモデルのスクリプト (パネルの固定効果、階層モデル、DAG の調整の集合、空間回帰、GWR と MGWR、MCMC、クリギング、時空間の分解、点過程、共形予測、SHAP など) は、確立した実装 (pyfixest、statsmodels、networkx、pgmpy、PySAL の spreg と mgwr と pointpats と access と tobler、PyKrige、PyMC、scikit-learn、MAPIE、shap、tick、scipy) と数値を突き合わせてある。DAG は無作為なグラフで、それ以外は合成データと実データで照合した。外部の実装が無いもの (波及の効果の一部、条件付きの SHAP など) は、閉じた形や解析解で確かめ、reference にそう書いた。各スクリプトの `test_*_crosscheck.py` と、reference の「外部の実装との照合」の節にある。
 
-スクリプトが正しく動くことと、エージェントがスキルを使って分析をやり遂げられることは別の話。後者をどこまで評価したかは [docs/eval-status.md](docs/eval-status.md) にある。独立に評価したスキルは、まだ一部だけ。
+スクリプトが正しく動くことと、エージェントがスキルを使って分析をやり遂げられることは別の話。後者をどこまで評価したかは [evals/status.md](evals/status.md) にある。独立に評価したスキルは、まだ一部だけ。
 
 ## 関連するスキル集
 

@@ -116,3 +116,21 @@ def test_table_file_is_written_the_same_for_baseline_and_skills(repo, tmp_path):
         assert (tmp_path / name / "data" / "task1.csv").read_text() == "id,v\n1,2\n"
         assert "/work/data/task1.csv" in outs[name]
     assert outs["s"] == outs["b"]
+
+
+@pytest.mark.parametrize("ref", ["evals/results/x-2026-10-17.md", "evals/tasks/small-rubric-3.md"])
+def test_refuses_a_copy_whose_files_point_into_the_results_or_the_tasks(repo, tmp_path, ref):
+    # an index of results kept outside evals/ (docs/eval-status.md was one) hands the answers to the agent
+    (repo / "docs" / "status.md").write_text(f"see `{ref}`: the court is in the palace\n")
+    git(repo, "add", "-A")
+    git(repo, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "leak")
+    with pytest.raises(SystemExit, match="docs/status.md"):
+        prepare(repo, "HEAD", tmp_path / "w", baseline=False)
+
+
+def test_the_repository_itself_makes_a_clean_copy(tmp_path):
+    # the tracked files as they stand, committed or not (stash create makes a commit without touching the tree)
+    repo = Path(__file__).resolve().parent.parent
+    rev = subprocess.run(["git", "-C", str(repo), "stash", "create"], check=True, capture_output=True,
+                         text=True).stdout.strip() or "HEAD"
+    prepare(repo, rev, tmp_path / "w", baseline=False)

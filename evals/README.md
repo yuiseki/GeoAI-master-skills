@@ -123,7 +123,7 @@ EVAL_MODEL=opencode/glm-5.3-flash-free evals/run_opencode_docker.sh --prompt <�
 
 ## なぜ `evals/` を渡さないか
 
-rubric には答えが書いてある。エージェントが clone して、リポジトリの中を読むと、答えが見える。`prepare_workdir.py` は、`git archive` (`.gitattributes` の `evals/ export-ignore` を守る) で用意し、さらに `evals/` を自分で消す。属性が抜けても漏れない。maplibre-agent-skills は、モデルに SKILL.md だけをシステムプロンプトとして渡す方式 (promptfoo) なので、そもそもモデルが `evals/` を読めない。ここは、エージェントが作業場所を歩くので、作業場所から消す。
+rubric には答えが書いてある。エージェントが clone して、リポジトリの中を読むと、答えが見える。`prepare_workdir.py` は、`git archive` (`.gitattributes` の `evals/ export-ignore` を守る) で用意し、さらに `evals/` を自分で消す。属性が抜けても漏れない。`evals/` の外のファイルが `evals/results/` か `evals/tasks/` を指していたら、作業場所を作らずに止まる。結果の索引を `docs/` に置いていたとき、スキルありの作業場所に課題 27 の答えが入っていた (流す前に見つけた)。評価の索引と状況は `evals/status.md` に置く。maplibre-agent-skills は、モデルに SKILL.md だけをシステムプロンプトとして渡す方式 (promptfoo) なので、そもそもモデルが `evals/` を読めない。ここは、エージェントが作業場所を歩くので、作業場所から消す。
 
 ## 正解と手間の両方を記録する
 
