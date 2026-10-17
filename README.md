@@ -35,7 +35,7 @@
 | 時間とともに変わる値の先を当てたい | time-series-forecasting |
 | 地点ごとに繰り返し観測した値を、観測の無い地点や先の時刻へ予測したい | spatiotemporal-modeling |
 | 観測した地点の値から、観測していない地点の値を推定したい | spatial-interpolation |
-| 分析を流す前に、何が出たら主張を認め、何が出たら認めないかを決めておきたい | experiment-design |
+| 分析を流す前に、何が出たら主張を認め、何が出たら認めないかを決めておきたい。問いの読み方で答えが変わりうるので、主にする読み方を先に決めたい | experiment-design |
 | 自分のモデルの点数が高すぎる気がする | leakage-audit、cross-validation-design、noise-ceiling-analysis |
 | 予測にどれだけ自信を持てるか示したい | uncertainty-estimation |
 | どの特徴量がどう効いているか説明したい | model-explanation |
@@ -70,7 +70,7 @@
 | 区分 | 段階 | 答える問い | スキル |
 |---|---|---|---|
 | 問いを決める | 因果を問う (因果の問いのときだけ、準備の前に) | この因果効果を、このデータと仮定から識別できるか。処置、結果、推定の対象、調整する変数、してはいけない変数、識別の仮定は何か | causal-design |
-| 問いを決める | 検証を計画する (結論が比較の結果で決まるとき、流す前に) | 何を主張とし、どの結果なら支持し、どの結果なら退けるか。同じ結果を説明できる別の理由は何か。結果を見た後に何を変えたか | experiment-design |
+| 問いを決める | 検証を計画する (結論が比較の結果や問いの読み方で決まるとき、流す前に) | 何を主張とし、どの結果なら支持し、どの結果なら退けるか。同じ結果を説明できる別の理由は何か。結果を見た後に何を変えたか | experiment-design |
 | 共通の準備 | データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか。その品質で結論を支えられるか。記録の多さは現象の多さか、観測のされやすさか。これから観測するならどこを測るか。位置を使い、共有し、公開してよいか | dataset-discovery、data-variable-semantics、data-quality-audit、observation-bias-audit、spatial-sampling-design、location-privacy |
 | 共通の準備 | 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。境界の違う区域の値をどう移すか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、areal-interpolation、spatial-feature-engineering |
 | 共通の準備 | 空間の関係を決める | 誰を誰の近傍とし、どう重みを付けるか。その選び方で結論が変わるか | spatial-weights-design |

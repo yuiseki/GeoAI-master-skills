@@ -33,6 +33,7 @@ TODO.md で `x / x` の段階も、ほとんどのスキルは「実測済み」
 | spatial-interpolation | ad01b7b | db696ee | 0af78f0 |
 | observation-bias-audit | 629a884 | 961a200 | 6c877bd |
 | experiment-design | 17860d8 (課題と解答)、9c63a79 (解答の数字の訂正) | d315f8e | 2026-10-17 (結果は `evals/results/experiment-design-2026-10-17.md`) |
+| experiment-design の位置づけ (問いの読み方で答えが変わる問いにも使う。AGENTS.md の手順 7、description、analysis-reporting の結論の欄) | 課題 28 (c7633b5)、課題 29 (8d89f90) は改訂の前に凍結。課題 26、27 は改訂の前に結果を読んだので測定に使わない | 2026-10-17 (この表の行と同じ commit) | 流していない |
 
 ## 独立の評価の一覧
 
