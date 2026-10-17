@@ -119,7 +119,9 @@ python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md
 EVAL_MODEL=opencode/glm-5.3-flash-free evals/run_opencode_docker.sh --prompt <指示文> <作業場所> > <ログ.jsonl>
 ```
 
-無料のモデルは、混んでいると急に止まる。smoke test (2026-10-17) では、`glm-5.3-flash-free` の 1 回目が 429 (`Upstream request failed: Endpoint is unavailable.`、`isRetryable: true`) で、終了コード 1、ログは `"type": "error"` のイベント 1 行だけだった (2 回目は通った)。ログに `"type": "error"` のある実行 (rate limit など、提供側の失敗) は、採点に数えない。matrix のスクリプトは、そこで止めるか、その実行だけ流し直す。
+無料のモデルは、混んでいると急に止まる。smoke test (2026-10-17) では、`glm-5.3-flash-free` の 1 回目が 429 (`Upstream request failed: Endpoint is unavailable.`、`isRetryable: true`) で、終了コード 1、ログは `"type": "error"` のイベント 1 行だけだった (2 回目は通った)。ログに `"type": "error"` のある実行と、stderr に `Rate limit exceeded` のある実行は、提供側の失敗として採点に数えない。matrix のスクリプトは、そこで止めるか、その実行だけ流し直す。
+
+2026-10-17 には、4〜5 本を同時に流していた 14:25 に、全部の実行が同時に黙った。`Rate limit exceeded` は JSON のイベントには出ず、opencode はイベントを出さずに待って再試行を続ける (1 行も出ない実行になる)。runner は `--print-logs` で opencode のログを stderr に出すので、stderr をファイルに残して見る。止めて 50 分たっても、1 本だけの小さな問い合わせが同じ理由で返らなかった。制限の単位と戻るまでの時間は未確認。また、opencode を PID 1 で動かすと SIGTERM で止まらず、`timeout` が効かなかった。runner は `--init` を付ける。
 
 時間の上限 (`timeout` で包んだときの終了コード 124) は、提供側の失敗ではなく、エージェントの振る舞いとして数える。流し直しで置き換えず、上限の時点で残っていた報告を「時間切れ」と添えて採点し、手間の表にも載せる。OpenCode の bash の道具は、呼び出しごとに `timeout` を指定しないと 120 秒で打ち切る (1.19.3 の既定。最大は 600 秒。Codex には無い)。課題 27 (2026-10-17) では、glm のスキルありの 2 回が 90 分の上限に届いた。1 回は `timeout` を一度も指定せず、打ち切りの後に処理を裏で走らせて `sleep` で待ち続け、もう 1 回は長い読み込みを何度も流し直した。2 回とも、約 167k トークンで文脈が要約された。runner の設定は変えず、この差もエージェントと道具の違いとして読む。上限をエージェントに知らせるときは、`prepare_workdir.py --time-limit MIN` で指示文に 1 行足し (baseline とスキルありで同じ文)、matrix のスクリプトで同じ分数の `timeout` をかける。
 

@@ -98,3 +98,19 @@ def test_refuses_a_workdir_holding_evals_or_git(home, workdir):
 def test_refuses_a_missing_prompt_file(home, workdir, tmp_path):
     r = run("--prompt", str(tmp_path / "none.md"), "--dry-run", str(workdir), home=home)
     assert r.returncode == 2
+
+
+def test_an_init_process_forwards_the_stop_signal(home, workdir, tmp_path):
+    # opencode as PID 1 ignored SIGTERM: `timeout 60m` did not end runs hung on a silent provider (task 27, 2026-10-17)
+    p = tmp_path / "p.md"
+    p.write_text("go")
+    out = run("--prompt", str(p), "--dry-run", str(workdir), home=home).stdout
+    assert " --init " in out
+
+
+def test_prompt_runs_print_their_logs_so_a_silent_rate_limit_shows(home, workdir, tmp_path):
+    # "Rate limit exceeded" never reaches the JSON events: opencode waits and retries quietly; only the log says so
+    p = tmp_path / "p.md"
+    p.write_text("go")
+    out = run("--prompt", str(p), "--dry-run", str(workdir), home=home).stdout
+    assert "--print-logs" in out

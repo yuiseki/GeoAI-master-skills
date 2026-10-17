@@ -53,6 +53,9 @@ fi
 # Hard limits. --memory-swap equal to --memory leaves no swap to escape into.
 docker_args=(
   run --rm
+  # an init as PID 1 passes SIGTERM on; opencode as PID 1 ignored it, so `timeout` could not end a run that
+  # hung on a silent provider
+  --init
   --cpuset-cpus="$CPUSET" --cpus="$CPUS"
   --memory="$MEMORY" --memory-swap="$MEMORY"
   --pids-limit="$PIDS"
@@ -63,10 +66,11 @@ docker_args=(
 
 # The container is the sandbox. In `opencode run`, a permission that would ask (a path outside /work, a call
 # repeated three times) is rejected unless --auto approves it; explicit denials (.env files) still hold.
-# --pure: no external plugins.
+# --pure: no external plugins. --print-logs: the log goes to stderr; a rate limit ("Rate limit exceeded") shows only
+# there, since opencode keeps retrying without a JSON event and the run just goes quiet.
 if [[ -n "$prompt" ]]; then
   cmd=(docker "${docker_args[@]}" -i "$IMAGE"
-       opencode run --format json --auto --pure --dir /work --model "$MODEL" "$@")
+       opencode run --format json --auto --pure --print-logs --dir /work --model "$MODEL" "$@")
   prompt_in=$(realpath "$prompt")
 else
   cmd=(docker "${docker_args[@]}" -it "$IMAGE" opencode /work --model "$MODEL" "$@")
