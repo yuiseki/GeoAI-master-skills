@@ -129,6 +129,7 @@ def main():
     p.add_argument("--palette")
     p.add_argument("--geometry", default="geometry")
     p.add_argument("--png")
+    p.add_argument("--font", help="font family for the map's text; by default a Japanese font only when the text needs one")
     a = p.parse_args()
     palette = a.palette or DEFAULT[a.kind]
     check_palette(a.kind, palette)
@@ -186,6 +187,19 @@ def main():
         from matplotlib.patches import Patch, PathPatch
         from matplotlib.path import Path as MPath
 
+        if a.kind == "category":
+            labels = [f"{v:g} ({n})" for v, n in zip(b, counts)]
+        else:
+            labels = [f"{b[i]:.4g} to {b[i + 1]:.4g} ({counts[i]})" for i in range(len(counts))]
+        legend_title = f"{a.value} ({a.unit})"
+        caption = f"{a.method or 'category'} classes; CRS {a.crs}; {a.source}"
+        text = " ".join(labels + [legend_title, caption, f"NoData ({int((~ok).sum())})"])
+        font = None
+        if a.font or not text.isascii():
+            # without a Japanese font matplotlib only warns and saves empty boxes: stop before drawing instead
+            from cjk_font import use_cjk_font
+
+            font = use_cjk_font(text, a.font)
         cmap = plt.get_cmap(palette, len(counts))
         fig, ax = plt.subplots(figsize=(8, 8))
         idx = np.full(len(ids), -1)
@@ -202,18 +216,13 @@ def main():
         ax.autoscale_view()
         ax.set_aspect("equal")
         ax.set_axis_off()
-        if a.kind == "category":
-            labels = [f"{v:g} ({n})" for v, n in zip(b, counts)]
-        else:
-            labels = [f"{b[i]:.4g} to {b[i + 1]:.4g} ({counts[i]})" for i in range(len(counts))]
         handles = [Patch(facecolor=cmap(i), label=lab) for i, lab in enumerate(labels)]
         handles.append(Patch(facecolor=(0.85, 0.85, 0.85), hatch="//", label=f"NoData ({int((~ok).sum())})"))
-        ax.legend(handles=handles, title=f"{a.value} ({a.unit})", loc="lower left", fontsize=8)
-        caption = f"{a.method or 'category'} classes; CRS {a.crs}; {a.source}"
+        ax.legend(handles=handles, title=legend_title, loc="lower left", fontsize=8)
         ax.set_title(caption, fontsize=8)
         meta = {"value": a.value, "kind": a.kind, "unit": a.unit, "crs": a.crs, "source": a.source,
                 "method": a.method or "category", "classes": len(counts), "breaks": b, "units_per_class": counts,
-                "nodata_units": int((~ok).sum()), "palette": palette, "made": date.today().isoformat()}
+                "nodata_units": int((~ok).sum()), "palette": palette, "font": font, "made": date.today().isoformat()}
         fig.savefig(a.png, dpi=150, bbox_inches="tight", metadata={"Description": json.dumps(meta)})
         Path(a.png).with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n")
         print(f"wrote {a.png} and {Path(a.png).with_suffix('.json')}")

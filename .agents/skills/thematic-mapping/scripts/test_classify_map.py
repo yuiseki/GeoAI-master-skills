@@ -124,3 +124,32 @@ def test_cli_refuses_a_category_with_numeric_classes(tmp_path):
     out = _cli(tmp_path, p, "id", "v", "--kind", "category", "--method", "quantile", "--classes", "3",
                "--crs", "EPSG:6677", "--source", "s", "--unit", "class")
     assert out.returncode != 0 and "category" in out.stderr
+
+
+def test_cli_stops_when_the_font_cannot_draw_the_japanese_labels(tmp_path):
+    # without a Japanese font matplotlib only warns and saves empty boxes; the map must not be written
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False)
+    out = _cli(tmp_path, p, "id", "v", "--kind", "rate", "--unit", "人/km²", "--method", "equal", "--classes", "2",
+               "--crs", "EPSG:6677", "--source", "国勢調査 2020", "--png", str(tmp_path / "m.png"),
+               "--font", "DejaVu Sans")
+    assert out.returncode != 0 and "人" in out.stderr
+    assert not (tmp_path / "m.png").exists()
+
+
+def test_cli_ascii_labels_keep_the_default_font(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False)
+    out = _cli(tmp_path, p, "id", "v", "--kind", "rate", "--unit", "per km2", "--method", "equal", "--classes", "2",
+               "--crs", "EPSG:6677", "--source", "synthetic", "--png", str(tmp_path / "m.png"))
+    assert out.returncode == 0, out.stderr
+    assert json.loads((tmp_path / "m.json").read_text())["font"] is None
+
+
+@pytest.mark.skipif(__import__("cjk_font").pick_font(__import__("cjk_font").installed()) is None,
+                    reason="no Japanese font on this machine")
+def test_cli_draws_japanese_labels_with_a_japanese_font_and_records_it(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False)
+    out = _cli(tmp_path, p, "id", "v", "--kind", "rate", "--unit", "人/km²", "--method", "equal", "--classes", "2",
+               "--crs", "EPSG:6677", "--source", "国勢調査 2020", "--png", str(tmp_path / "m.png"))
+    assert out.returncode == 0, out.stderr
+    assert "missing from font" not in out.stderr
+    assert json.loads((tmp_path / "m.json").read_text())["font"]

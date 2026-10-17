@@ -276,6 +276,7 @@
     - [x] `references/comparable-maps.md`: 複数の地図を並べるときの区切りと尺度
     - [ ] 点の大きさの地図、ラスタの地図
     - [x] 色覚の多様性での見え方の確かめ (cvd.py、colorspacious と照合、references/color-and-scale.md)
+    - [x] 日本語の単位や版の文字を、フォントを確かめてから描く (cjk_font.py、classify_map.py --font)
   - [x] `analysis-visualize`: 分析の結果 (分布、関係、条件の比較、時系列、残差) を、結論を強めも弱めもせずに読める図にする (MVP。日本語のフォントを確かめる cjk_font.py)
     - [x] `references/japanese-text.md`: 日本語の文字が抜ける仕組み、eval の環境で測ったこと、matplotlib-fontja と使用許諾
     - [ ] 図ごとの JSON (問い、出どころ、版、n、区間の意味) を書き出し、確かめるスクリプト
