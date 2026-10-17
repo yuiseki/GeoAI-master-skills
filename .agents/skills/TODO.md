@@ -257,7 +257,7 @@
     - [x] `references/maup.md`
     - [x] `references/inference.md`: 効果の大きさと有意、検出力、分析の自由度、探索と確認
     - [x] 格子の原点をずらす区切り方の効果
-- 残す (2 / 2)
+- 残す (3 / 3)
   - [x] `analysis-reporting`: 最終回答に、問い、結論、データ、方法を固定の順で置き、詳細度を分析の重さで変える (MVP。check_report.py)
     - [x] `references/levels.md`: 詳細度の 3 段階、数字の扱い、実際の分析から書いた例
     - [x] 問いを、最初に 1 行で残す (使い道は未対応)
@@ -276,3 +276,8 @@
     - [x] `references/comparable-maps.md`: 複数の地図を並べるときの区切りと尺度
     - [ ] 点の大きさの地図、ラスタの地図
     - [x] 色覚の多様性での見え方の確かめ (cvd.py、colorspacious と照合、references/color-and-scale.md)
+  - [x] `analysis-visualize`: 分析の結果 (分布、関係、条件の比較、時系列、残差) を、結論を強めも弱めもせずに読める図にする (MVP。日本語のフォントを確かめる cjk_font.py)
+    - [x] `references/japanese-text.md`: 日本語の文字が抜ける仕組み、eval の環境で測ったこと、matplotlib-fontja と使用許諾
+    - [ ] 図ごとの JSON (問い、出どころ、版、n、区間の意味) を書き出し、確かめるスクリプト
+    - [ ] 条件の比較の図 (fold ごとの点と組の線) を、保存した評価の結果から描くスクリプト
+    - [ ] 保存した PNG の文字の抜けを、画像から確かめる方法

@@ -50,6 +50,7 @@
 | 人口や需要に対して、施設やサービスへのアクセスが足りているか、足りない場所はどこかを知りたい | spatial-accessibility-analysis |
 | Moran's I や空間回帰の前に、近傍と重みの決め方を決めて、選び方で結論が変わるかを確かめたい | spatial-weights-design |
 | 値や結果を、誤解を生まない塗り分け図にしたい (区切り方、色、比べられる凡例) | thematic-mapping |
+| 分析の結果 (分布、関係、条件の比較、時系列、残差) を、誤解を生まない図にしたい。日本語の文字を抜けずに描きたい | analysis-visualize |
 | 施設をどこに置くか決めたい | spatial-optimization |
 | 人口や標高、土地被覆のラスタを、区や格子や地点に集計したい | raster-data-integration、analysis-unit-design |
 | 旧市町村の人口を新市町村へ、メッシュの統計を行政区へ、境界の違う区域へ移したい | areal-interpolation、analysis-unit-design |
