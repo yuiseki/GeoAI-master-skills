@@ -17,6 +17,9 @@ The prompt differs only in the paragraph about the skills (see the {{#SKILLS}} m
 --table-file NAME also writes the task's ```csv block to DEST/data/NAME (with or without the skills) and adds
 a line to the prompt saying where it is. A table only inside the prompt has to be copied out by the agent;
 a 300-row table was not, in any of six runs (task 26, 2026-10-17).
+
+--time-limit MIN adds a line to the prompt: the run is cut off after MIN minutes and the report left in
+projects/ at that point is what gets graded. The runner must enforce the same limit (timeout MINm).
 """
 
 import argparse
@@ -98,6 +101,7 @@ def main():
     p.add_argument("--prompt-workdir", help="the path to write into the prompt (default: DEST); "
                    "/work when the agent runs in Docker")
     p.add_argument("--table-file", help="write the task's csv block to DEST/data/NAME and say so in the prompt")
+    p.add_argument("--time-limit", type=int, metavar="MIN", help="tell the agent the run is cut off after MIN minutes")
     a = p.parse_args()
     prepare(a.repo, a.rev, a.dest, a.baseline)
     task = extract_task(Path(a.task).read_text(), a.number) if a.task else None
@@ -108,6 +112,12 @@ def main():
         (Path(a.dest) / "data" / a.table_file).write_text(extract_table(task))
         workdir = a.prompt_workdir or Path(a.dest).resolve()
         task += f"\n上の表と同じ内容のファイルを {workdir}/data/{a.table_file} に置いてある。\n"
+    if a.time_limit:
+        if task is None:
+            raise SystemExit("--time-limit needs --task and --number")
+        workdir = a.prompt_workdir or Path(a.dest).resolve()
+        task += (f"\n時間の上限: この実行は {a.time_limit} 分で打ち切られる。打ち切られた時点で "
+                 f"{workdir}/projects/ にある報告を採点する。\n")
     sha = subprocess.run(["git", "-C", a.repo, "rev-parse", "--short", a.rev], check=True,
                          capture_output=True, text=True).stdout.strip()
     print(f"prepared {a.dest} from {sha}{' (baseline, no skills)' if a.baseline else ''}",

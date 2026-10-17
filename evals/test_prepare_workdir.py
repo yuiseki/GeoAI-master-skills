@@ -118,6 +118,27 @@ def test_table_file_is_written_the_same_for_baseline_and_skills(repo, tmp_path):
     assert outs["s"] == outs["b"]
 
 
+def test_time_limit_is_stated_the_same_for_baseline_and_skills(repo, tmp_path):
+    # the runner kills the run at the limit; the agent must be told, in both conditions alike
+    (repo / "t.md").write_text("## 課題 1: a\n\nq\n")
+    (repo / "tpl.md").write_text("at {{WORKDIR}}\n{{TASK}}")
+    here = Path(__file__).parent
+    outs = {}
+    for name, flag in (("s", []), ("b", ["--baseline"])):
+        outs[name] = subprocess.run(
+            ["python", str(here / "prepare_workdir.py"), "HEAD", str(tmp_path / name), "--repo", str(repo),
+             "--task", str(repo / "t.md"), "--number", "1", "--template", str(repo / "tpl.md"),
+             "--prompt-workdir", "/work", "--time-limit", "60", *flag],
+            check=True, capture_output=True, text=True).stdout
+        assert "60 分" in outs[name] and "/work/projects/" in outs[name]
+    assert outs["s"] == outs["b"]
+    without = subprocess.run(
+        ["python", str(here / "prepare_workdir.py"), "HEAD", str(tmp_path / "n"), "--repo", str(repo),
+         "--task", str(repo / "t.md"), "--number", "1", "--template", str(repo / "tpl.md"), "--baseline"],
+        check=True, capture_output=True, text=True).stdout
+    assert "分で打ち切" not in without
+
+
 @pytest.mark.parametrize("ref", ["evals/results/x-2026-10-17.md", "evals/tasks/small-rubric-3.md"])
 def test_refuses_a_copy_whose_files_point_into_the_results_or_the_tasks(repo, tmp_path, ref):
     # an index of results kept outside evals/ (docs/eval-status.md was one) hands the answers to the agent
