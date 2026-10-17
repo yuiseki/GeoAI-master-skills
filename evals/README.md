@@ -55,6 +55,7 @@
 | 権限 | `--cap-drop=ALL --security-opt=no-new-privileges`。非 root (`geo`) |
 | 環境変数 | `OMP_NUM_THREADS` など 4 つを 8 (協調の上限)。DuckDB は課題の指示で `SET threads=8` |
 | mount | 作業場所 → `/work` と、Codex の状態 `~/.codex-evals` → `/home/geo/.codex` だけ。元のリポジトリ、`evals/`、docker.sock、ホームは渡さない |
+| 自動で読むもの | 作業場所の `AGENTS.md` の本文と、`.agents/skills/*/SKILL.md` の名前、description、場所 (スキルの一覧として)。作業場所に `.git` が無くても読む (0.162.1、`codex debug prompt-input` で 2026-10-17 に確かめた。baseline の作業場所では、このリポジトリのスキルは 0)。Codex に付いているスキル (`~/.codex/skills/.system` の imagegen など) は両方の条件に見える |
 
 ```sh
 docker build -f Dockerfile.evals.codex -t geoai-master-skills-evals-codex .
@@ -110,7 +111,7 @@ Codex、Gemini と同じ課題、作業場所、CPU、メモリ、プロセス�
 | モデル | `EVAL_MODEL` (既定 `opencode/deepseek-v4.1-flash-free`)。`opencode/glm-5.3-flash-free` も同じ runner で流せる。一覧はコンテナの中で `opencode models opencode` |
 | 設定、認証、状態 | 普段の `~/.config/opencode`、`~/.local/share/opencode`、`OPENCODE_*` の環境変数は持ち込まない。状態はコンテナの中に置き、`--rm` で消える (実行どうしで会話が見えない)。設定は `OPENCODE_CONFIG_CONTENT` で渡し、共有を止め (`"share": "disabled"`)、更新を確かめない |
 | 許可 | `opencode run --auto`。非対話の実行では、確認を求める許可 (作業場所の外のパス、同じ呼び出しの 3 回の繰り返し) は、`--auto` が無いと全て拒否される。コンテナが sandbox。明示の拒否 (`.env` の読み取り) は残る。`--pure` で外のプラグインを読まない |
-| 自動で読むもの | 作業場所の `AGENTS.md` (指示として) と `.agents/skills/*/SKILL.md` (スキルの道具として)。スキルありの作業場所にだけあるので、違いは作業場所の中身だけ。`.claude` は `OPENCODE_DISABLE_CLAUDE_CODE=1` で読まない (OpenCode 1.19.3 の文書による) |
+| 自動で読むもの | 作業場所の `AGENTS.md` (指示として) と `.agents/skills/*/SKILL.md` (スキルの道具として)。スキルありの作業場所にだけあるので、違いは作業場所の中身だけ。Codex も同じ 2 つを読む (上の Codex の表)。`.claude` は `OPENCODE_DISABLE_CLAUDE_CODE=1` で読まない (OpenCode 1.19.3 の文書による) |
 | ログ | `--prompt` で、プロンプトを標準入力から渡し、`--format json` の 1 行 1 イベントが標準出力に出る。`effort.py` が読む |
 
 ```sh
