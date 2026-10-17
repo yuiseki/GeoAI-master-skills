@@ -18,6 +18,9 @@ The prompt differs only in the paragraph about the skills (see the {{#SKILLS}} m
 a line to the prompt saying where it is. A table only inside the prompt has to be copied out by the agent;
 a 300-row table was not, in any of six runs (task 26, 2026-10-17).
 
+--hide NAME removes the files named after NAME and every line that mentions it, for a task graded against a
+dataset whose card would give away part of the answer (task 28 and mlit-underpass).
+
 --time-limit MIN adds a line to the prompt: the run is cut off after MIN minutes and the report left in
 projects/ at that point is what gets graded. The runner must enforce the same limit (timeout MINm).
 """
@@ -30,7 +33,7 @@ import sys
 from pathlib import Path
 
 
-def prepare(repo, rev, dest, baseline):
+def prepare(repo, rev, dest, baseline, hide=()):
     repo, dest = Path(repo), Path(dest)
     if dest.exists() and any(dest.iterdir()):
         raise SystemExit(f"{dest} is not empty; refusing to write into it")
@@ -45,10 +48,31 @@ def prepare(repo, rev, dest, baseline):
         (dest / "projects").mkdir(exist_ok=True)
     if (dest / "evals").exists():
         raise SystemExit("evals/ is present in the working copy")
+    for name in hide:
+        hide_name(dest, name)
     leaks = pointers_into_evals(dest)
     if leaks:
         raise SystemExit("files outside evals/ point into the results or the tasks: " + ", ".join(leaks))
     return dest
+
+
+def hide_name(dest, name):
+    """Remove every file whose name contains NAME and every line that mentions it, then make sure none is left.
+    For a task graded against a dataset the repository describes (its card can hold counts of the answer)."""
+    for p in sorted(dest.rglob("*"), reverse=True):
+        if p.is_file() and name in p.name:
+            p.unlink()
+    for p in sorted(dest.rglob("*")):
+        if p.is_file() and not p.is_symlink():
+            try:
+                text = p.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                continue
+            if name in text:
+                p.write_text("".join(l for l in text.splitlines(keepends=True) if name not in l), encoding="utf-8")
+    left = [str(p.relative_to(dest)) for p in dest.rglob("*") if name in p.name]
+    if left:
+        raise SystemExit(f"{name} is still in the working copy: {left}")
 
 
 def pointers_into_evals(dest):
@@ -101,9 +125,11 @@ def main():
     p.add_argument("--prompt-workdir", help="the path to write into the prompt (default: DEST); "
                    "/work when the agent runs in Docker")
     p.add_argument("--table-file", help="write the task's csv block to DEST/data/NAME and say so in the prompt")
+    p.add_argument("--hide", action="append", default=[], metavar="NAME",
+                   help="remove files named after NAME and lines mentioning it (a dataset the task keeps as its answer)")
     p.add_argument("--time-limit", type=int, metavar="MIN", help="tell the agent the run is cut off after MIN minutes")
     a = p.parse_args()
-    prepare(a.repo, a.rev, a.dest, a.baseline)
+    prepare(a.repo, a.rev, a.dest, a.baseline, a.hide)
     task = extract_task(Path(a.task).read_text(), a.number) if a.task else None
     if a.table_file:
         if task is None:

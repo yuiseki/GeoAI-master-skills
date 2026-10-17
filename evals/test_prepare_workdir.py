@@ -139,6 +139,21 @@ def test_time_limit_is_stated_the_same_for_baseline_and_skills(repo, tmp_path):
     assert "分で打ち切" not in without
 
 
+def test_hide_removes_a_dataset_the_task_keeps_as_its_answer(repo, tmp_path):
+    # task 28 grades against mlit-underpass: its card (with the counts) and every line naming it must be gone
+    refs = repo / ".agents" / "skills" / "x" / "references"
+    refs.mkdir()
+    (refs / "secret-set.md").write_text("Tokyo has 153 points\n")
+    (refs / "index.md").write_text("| [other](other.md) | a |\n| [secret-set](secret-set.md) | answer |\n")
+    git(repo, "add", "-A")
+    git(repo, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "card")
+    dest = tmp_path / "w"
+    prepare(repo, "HEAD", dest, baseline=False, hide=["secret-set"])
+    assert not (dest / ".agents/skills/x/references/secret-set.md").exists()
+    assert (dest / ".agents/skills/x/references/index.md").read_text() == "| [other](other.md) | a |\n"
+    assert not any("secret-set" in p.read_text() for p in dest.rglob("*") if p.is_file())
+
+
 @pytest.mark.parametrize("ref", ["evals/results/x-2026-10-17.md", "evals/tasks/small-rubric-3.md"])
 def test_refuses_a_copy_whose_files_point_into_the_results_or_the_tasks(repo, tmp_path, ref):
     # an index of results kept outside evals/ (docs/eval-status.md was one) hands the answers to the agent
