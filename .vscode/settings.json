@@ -1,7 +1,11 @@
 {
   "cSpell.words": [
     "AIPW",
+    "duckdb",
     "evals",
+    "frontmatter",
+    "GEOAI",
+    "HDBSCAN",
     "Krige",
     "LGCP",
     "MAPIE",
@@ -11,13 +15,18 @@
     "networkx",
     "pgmpy",
     "pointpats",
+    "pycache",
     "pyfixest",
+    "REALDATA",
     "scikit",
     "scipy",
     "SFCA",
     "SPDE",
     "spreg",
+    "STAC",
     "statsmodels",
+    "textlint",
+    "textlintrc",
     "Tobler"
   ]
 }
