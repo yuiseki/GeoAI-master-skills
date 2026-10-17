@@ -3,12 +3,12 @@ kind: dataset
 id: yuiseki/mlit-underpass
 description: 国土交通省 道路局の「全国のアンダーパス箇所マップ」の点。前後の区間より大きく低くなる道路の区間 (アンダーパス部) 3,841 か所を、全国と都道府県ごとの GeoParquet にしたもの。1 行が 1 つの箇所。
 url: https://huggingface.co/datasets/yuiseki/mlit-underpass
-card_revision: e16afd6ab4dacf7046819d80075b6cba63442b40
+card_revision: 4d00072aa88696cfa7026c4cef7d600bc96f9f13
 license: CC BY 4.0 (元は国土交通省のサイトの利用規約による PDL1.0)。出典の表示と、加工したことの明記が要る
 formats:
 - GeoParquet 1.1 (全国 1 ファイルと都道府県ごと 47 ファイル)
 - GeoJSON (元の 10 ブロック)
-crs: 経度と緯度 (EPSG:4326 として描かれている。配布元は CRS を書いていない)
+crs: OGC:CRS84 (経度と緯度。ファイルは CRS を書かず、GeoParquet の既定の CRS84 になる。配布元は CRS を書いていないが、地図はこの順で描いている)
 spatial_coverage: 日本全国。国と地方公共団体が管理する道路だけで、高速道路会社の道路は入っていない
 temporal_coverage: 地図の時点は令和 7 年 3 月 31 日 (2025-03-31)。点ごとの日付は無い
 as_of:
@@ -66,7 +66,7 @@ tables:
     type: DOUBLE
     meaning: 緯度 (配布元のまま)
   - name: geometry
-    type: BLOB (WKB)
+    type: GEOMETRY('OGC:CRS84') (DuckDB 1.5.6 で読んだとき。中身は WKB)
     meaning: lon と lat と同じ点。全行で一致した (実測)
 ---
 
@@ -87,18 +87,20 @@ hf://datasets/yuiseki/mlit-underpass/raw/2026-10-17/                    元の 1
 ```
 
 - カード: <https://huggingface.co/datasets/yuiseki/mlit-underpass>
+- 取得と変換のコード: <https://github.com/yuiseki/mlit-underpass>
 - 配布元: <https://www.mlit.go.jp/road/saigai/underpass/map/map.html> (地図)、<https://www.mlit.go.jp/road/road_fr4_000208.html> (件数と時点)、<https://www.mlit.go.jp/road/content/002022076.pdf> (都道府県別の表)。
 - 出典の表示: 出典：「全国のアンダーパス箇所マップ」（国土交通省）（https://www.mlit.go.jp/road/saigai/underpass/map/map.html）をもとに作成。変えたなら「加工して作成」と書き、国が作ったように見せない。
 
 ## DuckDB で読む
 
-DuckDB 1.5.6 は、このファイルをそのまま読むと `Geoparquet column 'geometry' has invalid CRS` で止まる (2026-10-17、版 e16afd6)。`geo` メタデータの `crs` が文字列 `"EPSG:4326"` で、GeoParquet 1.1 の仕様 (PROJJSON のオブジェクトか null) に合わないため。pyarrow は読める。GeoParquet の変換を切って、`lon` と `lat` から点を作る。
+版 4d00072 から、DuckDB 1.5.6 でそのまま読める。`geometry` は `GEOMETRY('OGC:CRS84')` の列になる (2026-10-17 に全国と都道府県ごとのファイルで実測)。
 
 ```sql
-set enable_geoparquet_conversion = false;
-select id, name, route, manager, pref_code, ST_Point(lon, lat) as geom
+select id, name, route, manager, pref_code, geometry
 from 'hf://datasets/yuiseki/mlit-underpass/parquet/national.parquet';
 ```
+
+前の版 e16afd6 は、`geo` メタデータの `crs` が文字列 `"EPSG:4326"` で、GeoParquet 1.1 の仕様 (PROJJSON のオブジェクトか、省略して CRS84) に合わず、DuckDB 1.5.6 は `Geoparquet column 'geometry' has invalid CRS` で止まった。版 4d00072 では `crs` を省いただけで、`geometry` を含む全ての列の値は前の版と同じ (pyarrow で比べた)。前の版を読むなら、`set enable_geoparquet_conversion = false` にして `ST_Point(lon, lat)` で点を作る。
 
 ## 件数
 
