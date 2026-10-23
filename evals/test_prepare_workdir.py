@@ -1,5 +1,6 @@
 """Tests for prepare_workdir.py: the agent's working copy must never contain evals/."""
 
+import re
 import subprocess
 from pathlib import Path
 
@@ -183,3 +184,27 @@ def test_the_repository_keeps_analyses_out_of_git_but_the_sample_in():
     assert not ignored("projects/sample-project/README.md") and not ignored("artifacts/sample-project/README.md")
     assert (repo / "projects" / "sample-project" / "README.md").exists()
     assert (repo / "artifacts" / "sample-project" / "README.md").exists()
+
+
+def test_hard_tasks_and_rubric_cover_the_same_numbered_tasks_with_pinned_datasets():
+    repo = Path(__file__).resolve().parent.parent
+    tasks = (repo / "evals" / "tasks" / "hard-tasks.md").read_text()
+    rubric = (repo / "evals" / "tasks" / "hard-rubric.md").read_text()
+
+    heading = re.compile(r"^## 課題 (\d+):", re.MULTILINE)
+    task_numbers = [int(n) for n in heading.findall(tasks)]
+    rubric_numbers = [int(n) for n in heading.findall(rubric)]
+    assert task_numbers == list(range(30, 45))
+    assert rubric_numbers == task_numbers
+
+    task_sections = re.split(r"^## 課題 \d+:", tasks, flags=re.MULTILINE)[1:]
+    for section in task_sections:
+        assert all(label in section for label in ("問い:", "使い道:", "使うデータ:", "範囲:"))
+    rubric_sections = re.split(r"^## 課題 \d+:", rubric, flags=re.MULTILINE)[1:]
+    for section in rubric_sections:
+        assert "採点の項目:" in section and "実測: 未。" in section
+
+    pinned = set(re.findall(r"^\| `([^`]+)` \| `([^`]+)` \|$", tasks, re.MULTILINE))
+    pinned_names = {name for name, revision in pinned if revision}
+    used = set(re.findall(r"`(yuiseki/[^`]+)`", tasks))
+    assert used <= pinned_names
