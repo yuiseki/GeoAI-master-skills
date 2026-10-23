@@ -1,0 +1,22 @@
+{
+  "question": "台東区の街路の違いは、どこに現れるか (PC1: 41%)",
+  "kind": "diverging",
+  "value": "value",
+  "unit": "250m格子",
+  "n": 173,
+  "nodata": 0,
+  "counts": null,
+  "scale": [
+    -6.487463167979181,
+    6.487463167979181
+  ],
+  "categories": null,
+  "crs": "OGC:CRS84",
+  "source": "study-geoai-algo-py original scripts and versioned data",
+  "geometry_source": "みちよみの cell_250m ID から復元した格子",
+  "data_version": "みちよみ e4966cdceff6 / 撮影年 1970〜2026",
+  "font": "Noto Sans CJK JP",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "method": "12特徴量を標準化した PCA の第1主成分",
+  "outline": true
+}

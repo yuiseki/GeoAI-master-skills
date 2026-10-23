@@ -1,0 +1,29 @@
+{
+  "question": "台東区の町丁目は、どのような型に分かれたか",
+  "kind": "category",
+  "value": "value",
+  "unit": "町丁目",
+  "n": 108,
+  "nodata": 0,
+  "counts": {
+    "飲食・商業": 24,
+    "住宅の多い町": 65,
+    "宿泊": 4,
+    "文化・緑": 15
+  },
+  "scale": null,
+  "categories": {
+    "0": "飲食・商業",
+    "1": "住宅の多い町",
+    "2": "宿泊",
+    "3": "文化・緑"
+  },
+  "crs": "OGC:CRS84",
+  "source": "study-geoai-algo-py original scripts and versioned data",
+  "geometry_source": "国勢調査2020の町丁目境界",
+  "data_version": "国勢調査2020 / Overture 2026-09-23.1 / みちよみ e4966cdceff6",
+  "font": "Noto Sans CJK JP",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "method": "標準化した9特徴量の k-means、k=4、n_init=20、seed=0",
+  "outline": true
+}

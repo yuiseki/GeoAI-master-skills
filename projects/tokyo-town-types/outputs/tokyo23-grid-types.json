@@ -1,0 +1,33 @@
+{
+  "question": "東京23区の1km格子では、どの型がどこにあるか",
+  "kind": "category",
+  "value": "value",
+  "unit": "格子",
+  "n": 631,
+  "nodata": 0,
+  "counts": {
+    "都心寄りの混在地": 225,
+    "人口・建物が少ない": 37,
+    "住宅地": 225,
+    "外れ値 (1格子)": 1,
+    "無電柱化が多い": 103,
+    "緑・文化": 40
+  },
+  "scale": null,
+  "categories": {
+    "0": "都心寄りの混在地",
+    "1": "人口・建物が少ない",
+    "2": "住宅地",
+    "3": "外れ値 (1格子)",
+    "4": "無電柱化が多い",
+    "5": "緑・文化"
+  },
+  "crs": "OGC:CRS84",
+  "source": "study-geoai-algo-py original scripts and versioned data",
+  "geometry_source": "日本の標準地域メッシュ (3次メッシュ)",
+  "data_version": "Overture 2026-09-23.1 / みちよみ e4966cdceff6 / WorldPop R2025A / OpenCelliD 2024-06-14",
+  "font": "Noto Sans CJK JP",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "method": "標準化した10特徴量の k-means、k=6、n_init=20、seed=0",
+  "outline": true
+}
