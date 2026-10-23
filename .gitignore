@@ -6,5 +6,11 @@ __pycache__/
 node_modules/
 /projects/*
 !/projects/sample-project/
+!/projects/tokyo-mobile-speed-prediction/
+!/projects/taito-shelter-planning/
+!/projects/tokyo-undergrounding-classification/
+!/projects/tokyo-town-types/
+!/projects/taito-bus-operations/
+!/projects/japan-climate-analysis/
 /artifacts/*
 !/artifacts/sample-project/
