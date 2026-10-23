@@ -4,3 +4,7 @@ __pycache__/
 .env
 .pytest_cache/
 node_modules/
+/projects/*
+!/projects/sample-project/
+/artifacts/*
+!/artifacts/sample-project/

@@ -170,3 +170,16 @@ def test_the_repository_itself_makes_a_clean_copy(tmp_path):
     rev = subprocess.run(["git", "-C", str(repo), "stash", "create"], check=True, capture_output=True,
                          text=True).stdout.strip() or "HEAD"
     prepare(repo, rev, tmp_path / "w", baseline=False)
+
+
+def test_the_repository_keeps_analyses_out_of_git_but_the_sample_in():
+    # agents work in projects/<name>/ and artifacts/<name>/; only the sample layout is tracked
+    repo = Path(__file__).resolve().parent.parent
+
+    def ignored(path):
+        return subprocess.run(["git", "-C", str(repo), "check-ignore", "-q", path]).returncode == 0
+
+    assert ignored("projects/some-analysis/report.md") and ignored("artifacts/some-analysis/big.parquet")
+    assert not ignored("projects/sample-project/README.md") and not ignored("artifacts/sample-project/README.md")
+    assert (repo / "projects" / "sample-project" / "README.md").exists()
+    assert (repo / "artifacts" / "sample-project" / "README.md").exists()
