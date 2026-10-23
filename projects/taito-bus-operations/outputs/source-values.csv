@@ -1,0 +1,4 @@
+kind,condition,value,lower,upper,n_trips
+vehicle,折り返し 0 分,14,,,171
+vehicle,折り返し 3 分,17,,,171
+driver,乗務員数,,33,35,171

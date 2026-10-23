@@ -1,0 +1,27 @@
+{
+  "question": "90%予測区間は、関東の降水量と気温をどれだけ覆ったか",
+  "kind": "comparison",
+  "source_values": "outputs/source-values.csv",
+  "source": "study-geoai-algo-py/case-studies/006-japan-climate/README.md",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "source_rows": 6,
+  "data_version": "AgERA5 1979-01〜2025-12。実験結果 2026-09-29",
+  "n": {
+    "grid_month_rows": 39720,
+    "approximately_independent_months": 120
+  },
+  "interval_meaning": "各点は2016〜2025年の90%予測区間の被覆率。モデル間の不確かさ区間ではない",
+  "axes": {
+    "x": "予測区間の作り方",
+    "y": "試験期間の被覆率 (%)"
+  },
+  "axis_limits": {
+    "y": [
+      0,
+      100
+    ]
+  },
+  "font": "Noto Sans CJK JP",
+  "generated_on": "2026-10-23",
+  "limitation": "月ごとの被覆率は示さないため、元コードの coverage.png の方が季節差を詳しく読める"
+}

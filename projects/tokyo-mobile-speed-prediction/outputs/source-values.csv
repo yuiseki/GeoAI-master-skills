@@ -1,0 +1,8 @@
+kind,label,estimate,lower,upper,n
+model,線形回帰,0.059,,,2246
+model,ランダムフォレスト,0.055,,,2246
+model,HistGradientBoosting,0.095,,,2246
+model,XGBoost,0.068,,,2246
+model,LightGBM,-0.009,,,2246
+model,CatBoost,0.081,,,2246
+baseline,縮めた前四半期,,0.12,0.16,1745

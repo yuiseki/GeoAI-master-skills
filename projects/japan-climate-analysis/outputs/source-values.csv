@@ -1,0 +1,7 @@
+variable,method,coverage_percent,n_grid_months,effective_months
+降水量,平年値区間,87.1,39720,120
+降水量,分位点 GBDT,80.3,39720,120
+降水量,CQR,91.5,39720,120
+気温,平年値区間,56.9,39720,120
+気温,分位点 GBDT,76.0,39720,120
+気温,CQR,84.6,39720,120

@@ -1,0 +1,26 @@
+{
+  "question": "街の特徴を使うモデルは、前四半期の基準を超えたか",
+  "kind": "comparison",
+  "source_values": "outputs/source-values.csv",
+  "source": "study-geoai-algo-py/case-studies/001-mobile-speed/README.md",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "source_rows": 7,
+  "data_version": "実験結果 2026-09-29。各入力データの版は元事例を参照",
+  "n": {
+    "models": 2246,
+    "shrunken_previous_quarter": 1745
+  },
+  "interval_meaning": "灰色は元事例に記録された縮めた前四半期の R² の範囲。推定区間ではない",
+  "axes": {
+    "x": "モデルまたは基準",
+    "y": "測定回数で重み付けした R²"
+  },
+  "axis_limits": {
+    "y": [
+      -0.03,
+      0.2
+    ]
+  },
+  "font": "Noto Sans CJK JP",
+  "generated_on": "2026-10-23"
+}

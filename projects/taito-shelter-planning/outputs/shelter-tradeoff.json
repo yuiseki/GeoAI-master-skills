@@ -1,0 +1,32 @@
+{
+  "question": "浸水リスクをどこまで許すと、近くに拠点を置けるか",
+  "kind": "relationship",
+  "source_values": "outputs/source-values.csv",
+  "source": "study-geoai-algo-py/case-studies/002-shelter-planning/README.md and src/012-B-epsilon-constraint/README.md",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "source_rows": 4,
+  "data_version": "実験結果 2026-09-29。人口は WorldPop 2025",
+  "n": {
+    "open_sites": 13,
+    "pareto_solutions_total": 34,
+    "shown": 4
+  },
+  "interval_meaning": "区間は描いていない。線は選抜した4点を結ぶ案内線で、未掲載点を補間しない",
+  "axes": {
+    "x": "浸水ランク合計の上限",
+    "y": "400 m 以内の人口割合 (%)"
+  },
+  "axis_limits": {
+    "x": [
+      -1,
+      35
+    ],
+    "y": [
+      0,
+      60
+    ]
+  },
+  "font": "Noto Sans CJK JP",
+  "generated_on": "2026-10-23",
+  "limitation": "全34点の形と各候補地の位置は、元コードの front-taito.png と配置出力の方が詳しい"
+}

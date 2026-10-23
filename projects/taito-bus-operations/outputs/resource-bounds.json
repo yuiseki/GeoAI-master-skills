@@ -1,0 +1,30 @@
+{
+  "question": "めぐりん171便に必要な車両と乗務員は何人か",
+  "kind": "comparison_and_bounds",
+  "source_values": "outputs/source-values.csv",
+  "source": "study-geoai-algo-py/case-studies/005-bus-operations/README.md",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "source_rows": 3,
+  "data_version": "実験結果 2026-09-29。GTFS-JP の版は元事例要約では未確認",
+  "n": {
+    "weekday_trips": 171
+  },
+  "interval_meaning": "33人は不可能と示せた下限、35人は制限時間内に見つかった実行可能解。統計的区間ではない",
+  "axes": {
+    "left": "折り返し時間 (分) と必要車両数 (台)",
+    "right": "必要乗務員数 (人)"
+  },
+  "axis_limits": {
+    "vehicles_y": [
+      0,
+      20
+    ],
+    "drivers_x": [
+      0,
+      40
+    ]
+  },
+  "font": "Noto Sans CJK JP",
+  "generated_on": "2026-10-23",
+  "limitation": "便ごとのつながりと勤務の実行可能性は、元コードの blocks と duties のガント図の方が詳しい"
+}
