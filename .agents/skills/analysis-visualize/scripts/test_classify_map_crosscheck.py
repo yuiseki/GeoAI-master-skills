@@ -7,7 +7,6 @@ value (mapclassify's bins are upper-inclusive, as ours).
 import mapclassify
 import numpy as np
 import pytest
-
 from classify_map import assign, breaks
 
 

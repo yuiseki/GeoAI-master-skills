@@ -215,7 +215,8 @@ def main():
             m = groups[ok] == gv
             own = assign(vals[ok][m], breaks(vals[ok][m], a.method, a.classes, a.thresholds, centre))
             k = len(b) - 1
-            share = lambda c: [round(float(x), 3) for x in np.bincount(c, minlength=k) / len(c)]
+            def share(c, nclasses=k):
+                return [round(float(x), 3) for x in np.bincount(c, minlength=nclasses) / len(c)]
             print(f"  {gv}: shared {share(cls[m])}, own {share(own)}")
 
     if a.png:

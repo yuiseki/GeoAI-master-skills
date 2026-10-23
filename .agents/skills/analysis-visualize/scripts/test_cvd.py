@@ -2,8 +2,6 @@
 
 import matplotlib
 import numpy as np
-import pytest
-
 from cvd import lab, report, simulate
 
 

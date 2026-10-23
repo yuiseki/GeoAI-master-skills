@@ -7,7 +7,6 @@ fourth decimal, which moves L*a*b* by up to 0.02.
 
 import numpy as np
 import pytest
-
 from cvd import lab, simulate
 
 cs = pytest.importorskip("colorspacious")

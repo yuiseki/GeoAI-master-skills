@@ -7,9 +7,17 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-
-from classify_map import (EDGE, assign, breaks, changed_share, check_palette, drop_degenerate_holes, fisher_jenks,
-                          fmt_break, label_point)
+from classify_map import (
+    EDGE,
+    assign,
+    breaks,
+    changed_share,
+    check_palette,
+    drop_degenerate_holes,
+    fisher_jenks,
+    fmt_break,
+    label_point,
+)
 
 X = np.array([1.0, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
@@ -132,7 +140,7 @@ def _write(tmp_path, values, areas_grow=True, names=None):
 
 def _cli(tmp_path, *args):
     return subprocess.run([sys.executable, str(Path(__file__).with_name("classify_map.py")), *args],
-                          capture_output=True, text=True)
+                          check=False, capture_output=True, text=True)
 
 
 def test_cli_warns_when_counts_follow_area_and_keeps_nodata_apart(tmp_path):
