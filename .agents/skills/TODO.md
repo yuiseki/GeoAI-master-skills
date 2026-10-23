@@ -42,6 +42,10 @@
     - [x] `references/esa-worldcover.md`: 10 m の土地被覆の分類図。公開 S3 のタイルを読み、NoData と海の値、窓ごとのクラスの数を実測
     - [x] `references/ksj-l01-land-price.md`: 地価公示 2019〜2026 年。前年の番号での年の結び方を変動率で確かめ、新しい地点の変動率が 0.0 であること、.prj と座標の食い違いを実測
     - [x] `references/mlit-underpass.md`: 全国のアンダーパス箇所マップ 3,841 点。重複の組、市区町村の面との結合を実測。GeoParquet の CRS が文字列で DuckDB 1.5.6 が読めなかった版 e16afd6 と、直った版 4d00072
+    - [x] `references/npa-traffic-accidents.md`: 警察庁の交通事故の個票 2019〜2025 年。度分秒の座標、警察の都道府県コードと 3 桁の市区町村コードから code5 への結合、年のファイルに前の年の事故が入ること、補充票と死傷者数の一致を実測
+    - [x] `references/mlit-1km-fromto-2022-01.md`: 1 km メッシュの月ごとの滞在人口 2019〜2021 年。国勢調査のメッシュとの結合、政令指定都市が区のコードだけで入ること、時間帯と日の区分の関係を実測
+    - [x] `references/ksj-n07-bus-route.md`: 国土数値情報のバスルート 2022 年版。首都圏の版が全国版の部分集合であること、事業者の違う同じ線と、重なりで長さが約 27% 増えることを実測
+    - [x] `references/ksj-p11-bus-stop.md`: 国土数値情報のバス停 2022 年版。首都圏の版が全国版の部分集合であること、系統と区分のリスト、ファイルの都道府県と点の位置が食い違う停留所、市区町村の面との結合を実測
     - [x] `references/dynamic-world.md`: 配布元の説明から書いた (中身は未実測。実測には Earth Engine の認証が要る)
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
