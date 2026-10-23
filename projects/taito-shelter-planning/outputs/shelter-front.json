@@ -1,0 +1,24 @@
+{
+  "question": "浸水を抑えると、400 m 以内の人口はどう変わるか",
+  "kind": "pareto",
+  "source": "study-geoai-algo-py 6880b32c; WorldPop 2025; KSJ A31a; OSM",
+  "data_version": "WorldPop 2025; その他の版未確認; 2026-10-23再計算",
+  "input": "front-data.json",
+  "font": "Noto Sans CJK JP",
+  "x_label": "13拠点の浸水ランクの和",
+  "y_label": "400 m 以内の人口 (人)",
+  "n": 35,
+  "front_n": 34,
+  "method_counts": {
+    "ε 制約法": 34,
+    "重み付き和": 12
+  },
+  "x_range": [
+    0.0,
+    35.7
+  ],
+  "y_range": [
+    0.0,
+    114048.2
+  ]
+}

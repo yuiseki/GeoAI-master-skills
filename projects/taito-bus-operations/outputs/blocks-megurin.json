@@ -1,0 +1,19 @@
+{
+  "question": "めぐりん171便を17台で回す割当",
+  "kind": "schedule",
+  "source": "study-geoai-algo-py 6880b32c; めぐりん GTFS-JP",
+  "data_version": "公開GTFSの版未確認; 2026-10-23再計算",
+  "input": "blocks-data.json",
+  "font": "Noto Sans CJK JP",
+  "x_label": "時刻",
+  "y_label": "車両",
+  "n": 171,
+  "groups": 17,
+  "kind_counts": {
+    "運行": 171
+  },
+  "time_range": [
+    25140.0,
+    75300.0
+  ]
+}

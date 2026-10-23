@@ -284,6 +284,7 @@
   - [x] `analysis-visualize`: 分析の結果 (分布、関係、条件の比較、時系列、残差) を、結論を強めも弱めもせずに読める図にする (MVP。日本語のフォントを確かめる cjk_font.py)
     - [x] `references/japanese-text.md`: 日本語の文字が抜ける仕組み、eval の環境で測ったこと、matplotlib-fontja と使用許諾
     - [x] `references/spatial-results.md`: 分析済みの類型と主成分得点を、名前付き凡例と来歴のある地図にする
+    - [x] `references/result-figures.md`: 全パレート解と時刻割当を、分析済みの値から検証付きで描く
     - [ ] 図ごとの JSON (問い、出どころ、版、n、区間の意味) を書き出し、確かめるスクリプト
     - [ ] 条件の比較の図 (fold ごとの点と組の線) を、保存した評価の結果から描くスクリプト
     - [ ] 保存した PNG の文字の抜けを、画像から確かめる方法
