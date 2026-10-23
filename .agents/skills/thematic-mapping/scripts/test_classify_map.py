@@ -8,7 +8,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from classify_map import assign, breaks, changed_share, check_palette, fisher_jenks
+from classify_map import (EDGE, assign, breaks, changed_share, check_palette, drop_degenerate_holes, fisher_jenks,
+                          fmt_break, label_point)
 
 X = np.array([1.0, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
@@ -72,19 +73,60 @@ def test_palette_must_fit_the_kind_of_value():
             check_palette(kind, name)
 
 
-def _write(tmp_path, values, areas_grow=True):
+def test_zero_area_holes_are_dropped_and_real_holes_kept():
+    # jp-admin's 23 wards carry 2,492 interior rings of zero area (seams of the small areas they were built from);
+    # drawn with an edge they show as streaks inside the ward
+    import shapely
+
+    shell = [(0, 0), (10, 0), (10, 10), (0, 10)]
+    seam = [(2, 2), (5, 2), (8, 2), (5, 2)]   # a ring that encloses nothing
+    real = [(6, 6), (8, 6), (8, 8), (6, 8)]
+    poly, n = drop_degenerate_holes(shapely.Polygon(shell, [seam, real]))
+    assert n == 1 and len(poly.interiors) == 1 and poly.area == pytest.approx(96)
+
+
+def test_legend_numbers_are_written_out_not_in_e_notation():
+    assert fmt_break(13028.695264) == "13,029" and fmt_break(5867.82) == "5,868"
+    assert fmt_break(16.4) == "16.4" and fmt_break(0.000123) == "0.000123" and fmt_break(-2.5) == "-2.5"
+
+
+def test_label_point_lies_inside_the_biggest_part():
+    import shapely
+
+    u = shapely.Polygon([(0, 0), (10, 0), (10, 10), (8, 10), (8, 2), (2, 2), (2, 10), (0, 10)])  # centroid outside
+    islet = shapely.box(100, 100, 101, 101)
+    pt = label_point(shapely.MultiPolygon([u, islet]))
+    assert u.contains(pt) and not u.centroid.within(u)
+
+
+def test_boundaries_stand_out_from_every_class_colour():
+    # white edges vanish on the lightest class, and neighbours of one class merge into one patch
+    import matplotlib
+    from matplotlib.colors import to_rgb
+
+    def lum(c):
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+    for palette in ("YlOrRd", "viridis", "Blues"):
+        cmap = matplotlib.colormaps[palette]
+        lightest = max(lum(cmap(x)) for x in np.linspace(0, 1, 9))
+        assert lightest - lum(to_rgb(EDGE)) > 0.5
+
+
+def _write(tmp_path, values, areas_grow=True, names=None):
     import duckdb
     import shapely
 
     rows = []
     for i, v in enumerate(values):
         g = shapely.box(i * 10, 0, i * 10 + (1 + i if areas_grow else 1), 1 + (i if areas_grow else 0))
-        rows.append((str(i), None if v is None else float(v), g.wkt))
+        rows.append((str(i), None if v is None else float(v), g.wkt, names[i] if names else f"u{i}"))
     con = duckdb.connect()
     con.sql("install spatial; load spatial;")
-    con.sql("create table t (id varchar, v double, wkt varchar)")
-    con.executemany("insert into t values (?, ?, ?)", rows)
-    con.sql(f"copy (select id, v, ST_GeomFromText(wkt) as geometry from t) to '{tmp_path}/u.parquet' (format parquet)")
+    con.sql("create table t (id varchar, v double, wkt varchar, name varchar)")
+    con.executemany("insert into t values (?, ?, ?, ?)", rows)
+    con.sql(f"copy (select id, v, name, ST_GeomFromText(wkt) as geometry from t) to '{tmp_path}/u.parquet' "
+            "(format parquet)")
     return str(tmp_path / "u.parquet")
 
 
@@ -153,3 +195,33 @@ def test_cli_draws_japanese_labels_with_a_japanese_font_and_records_it(tmp_path)
     assert out.returncode == 0, out.stderr
     assert "missing from font" not in out.stderr
     assert json.loads((tmp_path / "m.json").read_text())["font"]
+
+
+def test_cli_labels_units_with_the_named_column_and_records_it(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False, names=["alpha", "beta", "gamma", "delta"])
+    out = _cli(tmp_path, p, "id", "v", "--kind", "rate", "--unit", "per km2", "--method", "equal", "--classes", "2",
+               "--crs", "EPSG:6677", "--source", "synthetic", "--label", "name", "--png", str(tmp_path / "m.png"))
+    assert out.returncode == 0, out.stderr
+    meta = json.loads((tmp_path / "m.json").read_text())
+    assert meta["labels"] == "name" and meta["labelled_units"] == 4 and meta["boundary"] == EDGE
+
+
+def test_cli_labels_few_units_by_id_unless_told_not_to(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False)
+    args = ["id", "v", "--kind", "rate", "--unit", "per km2", "--method", "equal", "--classes", "2",
+            "--crs", "EPSG:6677", "--source", "synthetic", "--png", str(tmp_path / "m.png")]
+    out = _cli(tmp_path, p, *args)
+    assert out.returncode == 0, out.stderr
+    assert json.loads((tmp_path / "m.json").read_text())["labels"] == "id" and "--label" in out.stdout
+    out = _cli(tmp_path, p, *args, "--no-labels")
+    assert out.returncode == 0, out.stderr
+    assert json.loads((tmp_path / "m.json").read_text())["labels"] is None
+
+
+def test_cli_checks_the_font_against_the_labels_too(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False, names=["千代田区", "b", "c", "d"])
+    out = _cli(tmp_path, p, "id", "v", "--kind", "rate", "--unit", "per km2", "--method", "equal", "--classes", "2",
+               "--crs", "EPSG:6677", "--source", "synthetic", "--label", "name", "--png", str(tmp_path / "m.png"),
+               "--font", "DejaVu Sans")
+    assert out.returncode != 0 and "千" in out.stderr
+    assert not (tmp_path / "m.png").exists()

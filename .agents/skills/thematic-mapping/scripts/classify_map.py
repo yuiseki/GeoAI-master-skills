@@ -14,13 +14,18 @@ shared by all groups and under bins computed per group (the second makes every g
 For a count, the correlation of the value with the polygon's area is printed: big units hold big counts.
 Missing values are NoData, drawn apart from 0 and counted.
 
+Each unit is outlined in a dark grey (EDGE), so that neighbours of one class stay apart, and labelled with
+--label COL (a name column) at a point inside its biggest part; with no --label, up to LABEL_MAX units are
+labelled by ID, and --no-labels draws none. Interior rings of zero area (seams left when the polygons were
+built from smaller ones) are left out of the drawing: outlined, they look like streaks; their number is printed.
+
 Output: with --png, the map, and a JSON of the same name with the unit, kind, CRS, source, method, breaks,
-counts per class, NoData units and palette (also in the PNG's Description).
+counts per class, NoData units, palette, label column and font (also in the PNG's Description).
 
 Usage:
     uvx --with numpy --with duckdb --with shapely --with matplotlib python classify_map.py TABLE ID VALUE \\
         --kind rate --unit "per 1,000" --method quantile --classes 5 --crs EPSG:6677 --source "census 2020" \\
-        [--compare equal jenks] [--groups year] [--thresholds 10 20] [--palette viridis] [--png map.png]
+        [--compare equal jenks] [--groups year] [--thresholds 10 20] [--palette viridis] [--label name] [--png map.png]
 """
 
 import argparse
@@ -107,6 +112,29 @@ def assign(x, b):
     return np.searchsorted(np.asarray(b[1:-1], float), np.asarray(x, float), side="left")
 
 
+EDGE = "#404040"   # unit outlines: dark enough to show on the lightest class colour, thin enough not to hide a unit
+LABEL_MAX = 50     # with no --label, label units by ID only when there are this few
+
+
+def drop_degenerate_holes(poly, rel=1e-9):
+    """poly without the interior rings whose area is at most rel times the polygon's; and how many were dropped."""
+    import shapely
+
+    keep = [r for r in poly.interiors if shapely.Polygon(r).area > rel * shapely.Polygon(poly.exterior).area]
+    return shapely.Polygon(poly.exterior, keep), len(poly.interiors) - len(keep)
+
+
+def fmt_break(x):
+    """A class edge for the legend: whole numbers with thousands separators from 1,000 up, else 4 significant digits."""
+    return f"{x:,.0f}" if abs(x) >= 1000 else f"{x:.4g}"
+
+
+def label_point(geom):
+    """A point inside the biggest part of geom (a centroid can fall outside a bent or holed unit)."""
+    part = max(getattr(geom, "geoms", [geom]), key=lambda g: g.area)
+    return part.point_on_surface()
+
+
 def changed_share(a, b):
     return float(np.mean(np.asarray(a) != np.asarray(b)))
 
@@ -129,6 +157,8 @@ def main():
     p.add_argument("--palette")
     p.add_argument("--geometry", default="geometry")
     p.add_argument("--png")
+    p.add_argument("--label", help="column whose values name the units on the map (e.g. name)")
+    p.add_argument("--no-labels", action="store_true", help="draw no labels")
     p.add_argument("--font", help="font family for the map's text; by default a Japanese font only when the text needs one")
     a = p.parse_args()
     palette = a.palette or DEFAULT[a.kind]
@@ -143,12 +173,21 @@ def main():
 
     con = duckdb.connect()
     con.sql("install spatial; load spatial;")
+    label_col = None if a.no_labels else a.label
     gcol = f', "{a.groups}"' if a.groups else ""
-    rows = con.sql(f'select "{a.id}", "{a.value}", ST_AsWKB("{a.geometry}"){gcol} from \'{a.table}\'').fetchall()
+    lcol = f', "{label_col}"' if label_col else ""
+    rows = con.sql(f'select "{a.id}", "{a.value}", ST_AsWKB("{a.geometry}"){gcol}{lcol} '
+                   f'from \'{a.table}\'').fetchall()
     ids = [r[0] for r in rows]
     vals = np.array([np.nan if r[1] is None else float(r[1]) for r in rows])
     geoms = [shapely.from_wkb(bytes(r[2])) for r in rows]
     groups = np.array([str(r[3]) for r in rows]) if a.groups else None
+    if not a.no_labels and not label_col and len(ids) <= LABEL_MAX:
+        label_col = a.id
+        print(f"units labelled by {a.id}; give --label with a name column for readable labels, or --no-labels")
+    names = None
+    if label_col:
+        names = ["" if r[-1] is None else str(r[-1]) for r in rows] if lcol else [str(i) for i in ids]
     ok = np.isfinite(vals)
     print(f"units {len(ids)}: with a value {int(ok.sum())}, NoData {int((~ok).sum())}; {a.value} ({a.kind}, {a.unit})")
 
@@ -190,10 +229,10 @@ def main():
         if a.kind == "category":
             labels = [f"{v:g} ({n})" for v, n in zip(b, counts)]
         else:
-            labels = [f"{b[i]:.4g} to {b[i + 1]:.4g} ({counts[i]})" for i in range(len(counts))]
+            labels = [f"{fmt_break(b[i])} to {fmt_break(b[i + 1])} ({counts[i]})" for i in range(len(counts))]
         legend_title = f"{a.value} ({a.unit})"
         caption = f"{a.method or 'category'} classes; CRS {a.crs}; {a.source}"
-        text = " ".join(labels + [legend_title, caption, f"NoData ({int((~ok).sum())})"])
+        text = " ".join(labels + [legend_title, caption, f"NoData ({int((~ok).sum())})"] + (names or []))
         font = None
         if a.font or not text.isascii():
             # without a Japanese font matplotlib only warns and saves empty boxes: stop before drawing instead
@@ -204,15 +243,27 @@ def main():
         fig, ax = plt.subplots(figsize=(8, 8))
         idx = np.full(len(ids), -1)
         idx[ok] = cls
+        seams = 0
         for g, c in zip(geoms, idx):
             for poly in getattr(g, "geoms", [g]):
+                poly, n = drop_degenerate_holes(poly)
+                seams += n
                 verts = [np.asarray(poly.exterior.coords)] + [np.asarray(r.coords) for r in poly.interiors]
                 codes = []
                 for v in verts:
                     codes += [MPath.MOVETO] + [MPath.LINETO] * (len(v) - 2) + [MPath.CLOSEPOLY]
                 path = MPath(np.concatenate(verts), codes)
                 face = (0.85, 0.85, 0.85) if c < 0 else cmap(int(c))
-                ax.add_patch(PathPatch(path, facecolor=face, edgecolor="white", lw=0.3, hatch="//" if c < 0 else None))
+                ax.add_patch(PathPatch(path, facecolor=face, edgecolor=EDGE, lw=0.4, hatch="//" if c < 0 else None))
+        if seams:
+            print(f"left out {seams} interior rings of zero area (seams, not holes)")
+        if names:
+            from matplotlib import patheffects
+
+            halo = [patheffects.withStroke(linewidth=2, foreground="white")]
+            for g, nm in zip(geoms, names):
+                pt = label_point(g)
+                ax.text(pt.x, pt.y, nm, ha="center", va="center", fontsize=6, path_effects=halo)
         ax.autoscale_view()
         ax.set_aspect("equal")
         ax.set_axis_off()
@@ -222,7 +273,8 @@ def main():
         ax.set_title(caption, fontsize=8)
         meta = {"value": a.value, "kind": a.kind, "unit": a.unit, "crs": a.crs, "source": a.source,
                 "method": a.method or "category", "classes": len(counts), "breaks": b, "units_per_class": counts,
-                "nodata_units": int((~ok).sum()), "palette": palette, "font": font, "made": date.today().isoformat()}
+                "nodata_units": int((~ok).sum()), "palette": palette, "boundary": EDGE, "labels": label_col,
+                "labelled_units": len(names) if names else 0, "zero_area_rings_left_out": seams, "font": font, "made": date.today().isoformat()}
         fig.savefig(a.png, dpi=150, bbox_inches="tight", metadata={"Description": json.dumps(meta)})
         Path(a.png).with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n")
         print(f"wrote {a.png} and {Path(a.png).with_suffix('.json')}")
