@@ -1,5 +1,9 @@
 """Check a final answer's minimal structure before it is sent. It reorganises nothing and recomputes nothing: it
-reads the answer (Markdown or plain text) and, optionally, the outputs it was written from.
+reads the answer and, optionally, the outputs it was written from.
+
+    format       the answer is a Markdown file (.md) with no HTML page markup (<!DOCTYPE>, <html>, <body>, <script>,
+                 <style>, <iframe>, <div>). A figure goes in as a PNG (![...](outputs/map.png)); an interactive HTML
+                 page, when one was asked for, is a separate file the report links to, not the report.
 
     sections     the answer's parts, by label ("問い: ...") or heading ("## 問い"), in order
     check        the fixed minimum, for a level of detail:
@@ -28,6 +32,7 @@ REQUIRED = ["問い", "結論", "データ", "方法"]
 OPTIONAL = ["確かめていないこと"]
 LIMITS = {"simple": 8, "standard": 40, "full": None}
 _LABEL = re.compile(r"^\s*(?:#{1,6}\s*)?(問い|結論|データ|方法|確かめていないこと)\s*(?:[:：]\s*(.*))?$")
+_PAGE = re.compile(r"<\s*(?:!doctype|html|head|body|script|style|iframe|div)\b", re.IGNORECASE)
 _DATE = re.compile(r"\d{4}-\d{2}-\d{2}|\d{4}-\d{2}")
 _NUM = re.compile(r"[−-]?\d[\d,]*(?:\.\d+)?%?")
 _VERSION = re.compile(r"\d{4}-\d{2}|\d{4} ?年|版|v\d|version|\d+\.\d+")
@@ -80,6 +85,18 @@ def traceable(conclusion, evidence):
     return missing
 
 
+def format_problems(path, text):
+    """The report must be Markdown: a .md file, not an HTML page."""
+    problems = []
+    if not str(path).lower().endswith(".md"):
+        problems.append(f"{path}: write the report in Markdown (.md), not as HTML, a notebook or another format")
+    tags = sorted({m.group(0).lower() for m in _PAGE.finditer(text)})
+    if tags:
+        problems.append(f"HTML page markup in the report ({', '.join(tags)}): write it in Markdown; put figures in as "
+                        "PNG images and link an interactive page as a separate file")
+    return problems
+
+
 def check(text, level, evidence=None):
     if level not in LIMITS:
         raise ValueError(f"level is one of {list(LIMITS)}")
@@ -116,7 +133,7 @@ def main():
     a = p.parse_args()
     text = open(a.answer, encoding="utf-8").read()
     ev = None if a.evidence is None else "\n".join(open(f, encoding="utf-8").read() for f in a.evidence)
-    problems = check(text, a.level, ev)
+    problems = format_problems(a.answer, text) + check(text, a.level, ev)
     for x in problems:
         print(x)
     print("ok" if not problems else f"{len(problems)} problems")

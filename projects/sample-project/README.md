@@ -7,11 +7,11 @@
 ```
 projects/<名前>/
   README.md               問いと使い道、どこに何があるか、再現の手順 (コマンドとライブラリの版)
-  report.md               報告 (最終回答)
+  report.md               報告 (最終回答)。Markdown で書く。HTML やノートブックにしない
   EXPERIMENT_PLAN.md      計画を作る分析なら (流す前に固定したもの)
   EXPERIMENT_TRACKER.md   実行の記録
   scripts/                自分で書いたコード
-  outputs/                報告が引く小さな表と図 (CSV、JSON、PNG)
+  outputs/                報告が引く小さな表と図 (CSV、JSON、PNG)。図は PNG にして report.md に貼る
 
 artifacts/<名前>/          大きな生成物 (取り出したデータ、中間の Parquet、ラスタ、模擬の結果)
 ```

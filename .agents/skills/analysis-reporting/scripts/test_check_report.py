@@ -2,7 +2,11 @@
 
 import pytest
 
-from check_report import check, numbers_in, sections, traceable
+import subprocess
+import sys
+from pathlib import Path
+
+from check_report import check, format_problems, numbers_in, sections, traceable
 
 SIMPLE = """問い: 東京 23 区の中心部に、ヘリポートはいくつ記録されているか。
 結論: OurAirports に 391 件、OpenStreetMap に 83 件。両方にあるのは 68 件 (50 m 以内)。
@@ -83,3 +87,24 @@ def test_unit_words_and_km_settings_are_not_results():
     assert traceable("子ども 1 人あたり 0.000883、1 km 以内の学校で", ev) == []
     assert traceable("学校 1 校に子ども約 1,130 人", ev) == ["1,130"]  # divided by hand: not in the outputs
     assert traceable("2 km 以内で", ev) == ["2"]
+
+
+def test_the_report_is_a_markdown_file():
+    # asked only to "visualise the burger shops", an agent wrote its report as an HTML page
+    assert format_problems("projects/x/report.md", SIMPLE) == []
+    assert format_problems("projects/x/report.html", SIMPLE)
+    assert format_problems("projects/x/report.ipynb", SIMPLE)
+
+
+def test_html_page_markup_in_the_report_is_refused():
+    page = "<!DOCTYPE html>\n<html><body>\n" + SIMPLE + "<script src=\"map.js\"></script></body></html>\n"
+    assert any("HTML" in x for x in format_problems("report.md", page))
+    assert format_problems("report.md", SIMPLE + "\n![分布](outputs/map.png)\n") == []
+
+
+def test_command_line_stops_on_an_html_report(tmp_path):
+    f = tmp_path / "report.html"
+    f.write_text(SIMPLE, encoding="utf-8")
+    r = subprocess.run([sys.executable, str(Path(__file__).with_name("check_report.py")), str(f), "--level", "simple"],
+                       capture_output=True, text=True)
+    assert r.returncode == 1 and "Markdown" in r.stdout
