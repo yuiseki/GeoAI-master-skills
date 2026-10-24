@@ -30,6 +30,8 @@
 
 まだ問いが決まっていない場合は `research-question-generation` で、データと既存課題から次の高難易度課題の候補を作り、棄却して proposal として残す。正式な課題への追加や、その問いの分析は行わない。
 
+候補を人が比較するための短い記録は [タスクカード](evals/curriculum/task-cards/README.md) に置く。カードは正式課題ではない。
+
 | やりたいこと | 読むスキル |
 |---|---|
 | 国や地域ごとの指標を、他の指標から予測したい | eda-and-baseline、cross-validation-design、spatial-data-modeling |

@@ -3,6 +3,7 @@
 
 import copy
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
@@ -66,6 +67,13 @@ def test_known_good_reaches_critic_not_auto_adoption(candidate, context):
     result = MODULE.evaluate(candidate, catalog, history)
     assert result["status"] == "critic_review"
     assert result["reasons"] == []
+
+
+def test_tree_cover_task_card_candidate_is_reviewable(context):
+    path = ROOT / "evals/curriculum/proposals/2026-10-24-tokyo-tree-cover-presence.json"
+    proposal = json.loads(path.read_text())
+    result = MODULE.evaluate(proposal, *context)
+    assert result == {"status": "critic_review", "reasons": []}
 
 
 def test_trivial_single_table_maximum_is_rejected(candidate, context):
