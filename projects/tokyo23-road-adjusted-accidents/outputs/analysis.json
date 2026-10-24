@@ -1,0 +1,286 @@
+{
+  "question": "2025年東京23区の道路延長と2020年夜間人口を考慮しても人身事故が多い1kmメッシュ",
+  "made": "2026-10-24",
+  "sources": {
+    "npa": "hf://datasets/yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838/parquet/2025/honhyo.parquet",
+    "osm": "hf://datasets/yuiseki/osm-japan-src-2026-08@9a9b4a77e89e28a66bf15781644a16b63501f622/parquet/planet_osm_line.parquet",
+    "census": "hf://datasets/yuiseki/estat-census-mesh-2020@6c486c8649484e09e549c0c99b5fa89b4f416edb/parquet/T001140.parquet",
+    "admin": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet"
+  },
+  "osm_snapshot_year": 2026,
+  "crs": {
+    "accident": "OGC:CRS84",
+    "osm": "EPSG:3857",
+    "length": "EPSG:6677",
+    "ward": "EPSG:4612",
+    "mesh": "JGD2011 third-level mesh"
+  },
+  "method": "NB2 MLE on log(road_km+0.25), log(population+1000); rank by predictive upper-tail p; BH q exploratory",
+  "accounting": {
+    "tokyo_2025_accident_rows": 29492,
+    "with_geometry": 29490,
+    "in_23_ward_polygons": 20948,
+    "multiple_ward_matches": 0,
+    "accidents_in_center_inside_meshes": 20603,
+    "accidents_outside_center_inside_meshes": 345,
+    "census_rows": 11158,
+    "census_unique_meshes": 10972,
+    "center_inside_ward_meshes": 580,
+    "road_bbox_highway_candidates": 380353,
+    "road_selected_segments": 224747,
+    "road_intersecting_center_inside_meshes": 159571,
+    "road_length_km_in_meshes": 17207.85909619166,
+    "primary_meshes": 565,
+    "primary_accidents": 20347,
+    "excluded_population_below_1000": 15,
+    "excluded_road_below_0_5km_with_population": 0,
+    "minimum_primary_road_km": 3.1583671084660003
+  },
+  "model": {
+    "coefficients": [
+      -0.9683979194753521,
+      1.0860535623993732,
+      0.08622504746595988
+    ],
+    "alpha": 0.23804367793341286,
+    "log_likelihood": -2375.346011780919
+  },
+  "population_only_model": {
+    "coefficients": [
+      -0.27910747093270133,
+      0.3954140885341926
+    ],
+    "alpha": 0.3046518323184686,
+    "log_likelihood": -2444.5912953959546
+  },
+  "residual_moran_knn_in_sample": {
+    "4": {
+      "i": 0.5371099236429905,
+      "pseudo_p_two_sided": 0.001,
+      "k": 4,
+      "permutations": 999,
+      "seed": 31
+    },
+    "8": {
+      "i": 0.4841954494183965,
+      "pseudo_p_two_sided": 0.001,
+      "k": 8,
+      "permutations": 999,
+      "seed": 31
+    },
+    "12": {
+      "i": 0.442042261765402,
+      "pseudo_p_two_sided": 0.001,
+      "k": 12,
+      "permutations": 999,
+      "seed": 31
+    }
+  },
+  "top10": [
+    {
+      "mesh": "53394536",
+      "population": 15154,
+      "accidents": 183,
+      "road_km": 33.67296982588695,
+      "road_km_without_service_motorway": 25.491565304710953,
+      "expected": 40.224216384222935,
+      "observed_expected": 4.549498199094258,
+      "upper_tail_p": 1.8554389467237736e-05,
+      "bh_q": 0.010483230048989321,
+      "upper_tail_p_display": "0.0000186"
+    },
+    {
+      "mesh": "53393596",
+      "population": 6277,
+      "accidents": 107,
+      "road_km": 28.51660071110611,
+      "road_km_without_service_motorway": 22.60571410605214,
+      "expected": 31.39483868216448,
+      "observed_expected": 3.408203529352329,
+      "upper_tail_p": 0.0008430317821099528,
+      "bh_q": 0.15841704264403844,
+      "upper_tail_p_display": "0.0008430"
+    },
+    {
+      "mesh": "53394526",
+      "population": 5519,
+      "accidents": 89,
+      "road_km": 24.642705219582425,
+      "road_km_without_service_motorway": 21.15174397433778,
+      "expected": 26.577684206704713,
+      "observed_expected": 3.3486739968694526,
+      "upper_tail_p": 0.0011029590445638098,
+      "bh_q": 0.15841704264403844,
+      "upper_tail_p_display": "0.0011030"
+    },
+    {
+      "mesh": "53394506",
+      "population": 8603,
+      "accidents": 95,
+      "road_km": 25.586059243764797,
+      "road_km_without_service_motorway": 16.94930520789386,
+      "expected": 28.613219541034965,
+      "observed_expected": 3.3201436791745165,
+      "upper_tail_p": 0.0011570716400141998,
+      "bh_q": 0.15841704264403844,
+      "upper_tail_p_display": "0.0011571"
+    },
+    {
+      "mesh": "53393692",
+      "population": 31688,
+      "accidents": 88,
+      "road_km": 21.922702231461997,
+      "road_km_without_service_motorway": 21.56503973355153,
+      "expected": 26.93485169615148,
+      "observed_expected": 3.267142547978969,
+      "upper_tail_p": 0.0014019207313631721,
+      "bh_q": 0.15841704264403844,
+      "upper_tail_p_display": "0.0014019"
+    },
+    {
+      "mesh": "53393682",
+      "population": 17471,
+      "accidents": 64,
+      "road_km": 17.494228314111748,
+      "road_km_without_service_motorway": 14.552635357542258,
+      "expected": 20.13035328150757,
+      "observed_expected": 3.1792785305359037,
+      "upper_tail_p": 0.0021498193152358945,
+      "bh_q": 0.20244131885138006,
+      "upper_tail_p_display": "0.0021498"
+    },
+    {
+      "mesh": "53393683",
+      "population": 14162,
+      "accidents": 40,
+      "road_km": 11.200633487582365,
+      "road_km_without_service_motorway": 8.72949509256993,
+      "expected": 12.298768303186371,
+      "observed_expected": 3.252358204816069,
+      "upper_tail_p": 0.002540960010530334,
+      "bh_q": 0.2050917722785198,
+      "upper_tail_p_display": "0.0025410"
+    },
+    {
+      "mesh": "53394527",
+      "population": 22669,
+      "accidents": 116,
+      "road_km": 31.96594366551513,
+      "road_km_without_service_motorway": 22.49211556390626,
+      "expected": 39.30426908454264,
+      "observed_expected": 2.9513333462705154,
+      "upper_tail_p": 0.003112724014860912,
+      "bh_q": 0.2198361335495519,
+      "upper_tail_p_display": "0.0031127"
+    },
+    {
+      "mesh": "53394525",
+      "population": 9187,
+      "accidents": 96,
+      "road_km": 29.511275356375787,
+      "road_km_without_service_motorway": 22.346815590092696,
+      "expected": 33.53425117371232,
+      "observed_expected": 2.8627447054865183,
+      "upper_tail_p": 0.004279998257441613,
+      "bh_q": 0.26868877949494574,
+      "upper_tail_p_display": "0.0042800"
+    },
+    {
+      "mesh": "53393694",
+      "population": 21096,
+      "accidents": 71,
+      "road_km": 22.735933560946194,
+      "road_km_without_service_motorway": 15.863304038821195,
+      "expected": 27.07943469332695,
+      "observed_expected": 2.621915885766115,
+      "upper_tail_p": 0.00928678814191334,
+      "bh_q": 0.5213726505823529,
+      "upper_tail_p_display": "0.0092868"
+    }
+  ],
+  "top10_by_count": [
+    "53394536",
+    "53394601",
+    "53394527",
+    "53394622",
+    "53393596",
+    "53394641",
+    "53394535",
+    "53394652",
+    "53393547",
+    "53394525"
+  ],
+  "top10_population_only": [
+    "53394536",
+    "53394611",
+    "53394601",
+    "53393596",
+    "53394526",
+    "53394509",
+    "53394621",
+    "53394506",
+    "53394525",
+    "53393598"
+  ],
+  "top10_road_at_least_1km": [
+    "53394536",
+    "53393596",
+    "53394526",
+    "53394506",
+    "53393692",
+    "53393682",
+    "53393683",
+    "53394527",
+    "53394525",
+    "53393694"
+  ],
+  "top10_without_service_motorway": [
+    "53394536",
+    "53394506",
+    "53393596",
+    "53394527",
+    "53394526",
+    "53394525",
+    "53394518",
+    "53393694",
+    "53394535",
+    "53393682"
+  ],
+  "top10_poisson": [
+    "53394536",
+    "53393596",
+    "53394527",
+    "53394506",
+    "53393692",
+    "53394526",
+    "53394525",
+    "53394535",
+    "53394601",
+    "53393682"
+  ],
+  "top10_overlap": {
+    "count": 4,
+    "population_only": 5,
+    "without_service_motorway": 8
+  },
+  "sensitivity_models": {
+    "road_at_least_1km": {
+      "coefficients": [
+        -0.9683979194753521,
+        1.0860535623993732,
+        0.08622504746595988
+      ],
+      "alpha": 0.23804367793341286,
+      "log_likelihood": -2375.346011780919
+    },
+    "without_service_motorway": {
+      "coefficients": [
+        -0.23386001367660939,
+        0.9113966309095335,
+        0.10316085856890986
+      ],
+      "alpha": 0.24187396846282602,
+      "log_likelihood": -2380.127772322063
+    }
+  }
+}

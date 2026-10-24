@@ -1,0 +1,32 @@
+{
+  "value": "surprise",
+  "kind": "level",
+  "unit": "-log10(NB2 upper-tail p)",
+  "crs": "JGD2011 3rd mesh (lon/lat)",
+  "source": "NPA 389500a / OSM 9a9b4a7 / census 6c486c8 / admin e6c87b1, 2026-10-24",
+  "method": "equal",
+  "classes": 5,
+  "breaks": [
+    0.0019579661674800843,
+    0.9478735196680114,
+    1.8937890731685425,
+    2.839704626669074,
+    3.785620180169605,
+    4.731535733670136
+  ],
+  "units_per_class": [
+    497,
+    57,
+    6,
+    4,
+    1
+  ],
+  "nodata_units": 15,
+  "palette": "cividis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": null,
+  "made": "2026-10-24"
+}
