@@ -131,7 +131,19 @@ def evaluate(candidate, catalog, history):
         if dataset not in catalog:
             reasons.append(f"unknown_dataset:{dataset}")
     joins = candidate["joins"]
-    if len(ids) < 2 or not joins:
+    if len(ids) == 1:
+        design = candidate.get("single_source_design")
+        required_design = (
+            "measurement_problem", "comparison", "decision_consequence",
+            "why_simple_summary_fails",
+        )
+        if not isinstance(design, dict) or not all(
+                isinstance(design.get(key), str) and design[key].strip()
+                for key in required_design):
+            reasons.append("no_integration")
+        if joins:
+            reasons.append("invalid_join")
+    elif len(ids) < 2 or not joins:
         reasons.append("no_integration")
     else:
         adjacency = {dataset: set() for dataset in ids}

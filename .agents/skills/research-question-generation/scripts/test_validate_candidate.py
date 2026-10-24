@@ -87,6 +87,32 @@ def test_trivial_single_table_maximum_is_rejected(candidate, context):
     assert "trivial_solver" in result["reasons"]
 
 
+def test_single_source_observation_audit_reaches_critic(candidate, context):
+    audit = copy.deepcopy(candidate)
+    audit["question"] = "UCDP GED の位置精度別の扱いで、事件と死者の地域別分布はどれだけ変わるか？"
+    audit["datasets"] = ["yuiseki/ucdp-ged"]
+    audit["joins"] = []
+    audit["required_variables"] = [
+        {"dataset": "yuiseki/ucdp-ged", "table": "ged", "column": "where_prec"},
+        {"dataset": "yuiseki/ucdp-ged", "table": "ged", "column": "best"},
+        {"dataset": "yuiseki/ucdp-ged", "table": "ged", "column": "geometry"},
+    ]
+    audit["single_source_design"] = {
+        "measurement_problem": "粗い位置の代表点を実際の事件地点として扱う誤差",
+        "comparison": "位置精度別の除外・集計単位変更で地域順位を比較",
+        "decision_consequence": "人道支援の地域別監視単位を選ぶ",
+        "why_simple_summary_fails": "精度別件数だけでは地域順位の不安定性を評価できない",
+    }
+    assert MODULE.evaluate(audit, *context) == {"status": "critic_review", "reasons": []}
+
+
+def test_single_source_without_audit_design_is_rejected(candidate, context):
+    audit = copy.deepcopy(candidate)
+    audit["datasets"] = ["yuiseki/ucdp-ged"]
+    audit["joins"] = []
+    assert "no_integration" in MODULE.evaluate(audit, *context)["reasons"]
+
+
 def test_impossible_operating_frequency_is_rejected(candidate, context):
     bad = copy.deepcopy(candidate)
     bad["question"] = "バス停の運行頻度の因果効果で移動が改善したか？"
