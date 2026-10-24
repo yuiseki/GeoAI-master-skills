@@ -1,0 +1,32 @@
+{
+  "value": "posterior_low",
+  "kind": "rate",
+  "unit": "人身事故件数/夜間人口1万人",
+  "crs": "JGD2011 3rd mesh (lon/lat)",
+  "source": "NPA 389500a / census 6c486c8 / admin e6c87b1, 2026-10-24",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    2.1821032897875576,
+    8.362364290181763,
+    11.598473955164057,
+    15.391944886005323,
+    21.976359252097065,
+    301.32856327352476
+  ],
+  "units_per_class": [
+    113,
+    113,
+    113,
+    113,
+    113
+  ],
+  "nodata_units": 15,
+  "palette": "cividis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "made": "2026-10-24"
+}

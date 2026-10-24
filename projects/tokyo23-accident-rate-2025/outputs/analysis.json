@@ -1,0 +1,207 @@
+{
+  "question": "2025年の東京23区で2020年夜間人口を考えても人身事故が多い1kmメッシュ",
+  "made": "2026-10-24",
+  "sources": {
+    "npa": "hf://datasets/yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838/parquet/2025/honhyo.parquet",
+    "census": "hf://datasets/yuiseki/estat-census-mesh-2020@6c486c8649484e09e549c0c99b5fa89b4f416edb/parquet/T001140.parquet",
+    "admin": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet"
+  },
+  "crs": {
+    "accident": "OGC:CRS84",
+    "ward": "EPSG:4612",
+    "mesh": "JGD2011 third-level mesh"
+  },
+  "method": "Gamma-Poisson empirical Bayes; pooled prior mean, NB marginal MLE for shape; one-sided 95% lower posterior rate",
+  "posterior_interval_level": 0.9,
+  "unit": "annual police-recorded injury accidents per 10,000 2020 night-time residents",
+  "prior": {
+    "alpha": 2.2199786205737437,
+    "beta": 0.1066025070587644,
+    "pooled_rate": 20.824825623941333
+  },
+  "accounting": {
+    "npa_2025_file_rows": 287023,
+    "occurred_2025_in_file": 278247,
+    "tokyo_police_occurrence_2025": 29492,
+    "geometry_present": 29490,
+    "within_23_ward_polygons": 20948,
+    "within_50m_of_mesh_edge_approx": 3874,
+    "multiple_ward_matches": 0,
+    "ward_code_101_to_123": 20941,
+    "census_prefecture_rows": 11158,
+    "census_unique_meshes": 10972,
+    "center_inside_23_wards": 580,
+    "center_inside_zero_accidents": 2,
+    "accidents_in_center_inside_meshes": 20603,
+    "accidents_in_other_or_no_population_meshes": 345,
+    "accidents_without_census_mesh": 214,
+    "accidents_in_mesh_with_center_outside_23_wards": 131,
+    "primary_population_at_least_1000": 565,
+    "primary_accidents": 20347,
+    "below_1000_population_meshes": 15,
+    "below_1000_population_accidents": 256
+  },
+  "top10": [
+    {
+      "mesh": "53394611",
+      "population": 1157,
+      "accidents": 79,
+      "raw_rate": 682.800345721694,
+      "posterior_rate": 365.35790664341766,
+      "posterior_low": 301.32856327352476,
+      "posterior_high": 434.4986103077527,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53394621",
+      "population": 2341,
+      "accidents": 66,
+      "raw_rate": 281.9307988039299,
+      "posterior_rate": 200.2332745053947,
+      "posterior_low": 162.09460762014163,
+      "posterior_high": 241.70658772219628,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53393596",
+      "population": 6277,
+      "accidents": 107,
+      "raw_rate": 170.4635972598375,
+      "posterior_rate": 148.7397599363407,
+      "posterior_low": 126.12904997094832,
+      "posterior_high": 172.89814808588142,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53394509",
+      "population": 4750,
+      "accidents": 83,
+      "raw_rate": 174.73684210526315,
+      "posterior_rate": 146.52615417966763,
+      "posterior_low": 121.43165754690355,
+      "posterior_high": 173.57439769976477,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53394526",
+      "population": 5519,
+      "accidents": 89,
+      "raw_rate": 161.26109802500454,
+      "posterior_rate": 138.52639533296923,
+      "posterior_low": 115.56345603124646,
+      "posterior_high": 163.21499546211953,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53394601",
+      "population": 8122,
+      "accidents": 118,
+      "raw_rate": 145.28441270623,
+      "posterior_rate": 130.8441995934658,
+      "posterior_low": 111.85335728052573,
+      "posterior_high": 151.07199526138956,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53394518",
+      "population": 2671,
+      "accidents": 47,
+      "raw_rate": 175.96405840509172,
+      "posterior_rate": 131.70898693712522,
+      "posterior_low": 102.42371548894467,
+      "posterior_high": 164.03349267740535,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53394536",
+      "population": 15154,
+      "accidents": 183,
+      "raw_rate": 120.76019532796622,
+      "posterior_rate": 114.19216543409652,
+      "posterior_low": 100.75016078715606,
+      "posterior_high": 128.33496820556223,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53394506",
+      "population": 8603,
+      "accidents": 95,
+      "raw_rate": 110.42659537370685,
+      "posterior_rate": 100.54786073138717,
+      "posterior_low": 84.382626239309,
+      "posterior_high": 117.88838841986012,
+      "in_primary_top10": true
+    },
+    {
+      "mesh": "53394519",
+      "population": 3237,
+      "accidents": 43,
+      "raw_rate": 132.8390485016991,
+      "posterior_rate": 105.08881049674726,
+      "posterior_low": 80.77106041477886,
+      "posterior_high": 132.04576679557186,
+      "in_primary_top10": true
+    }
+  ],
+  "top10_by_count": [
+    "53394536",
+    "53394601",
+    "53394527",
+    "53394622",
+    "53393596",
+    "53394641",
+    "53394535",
+    "53394652",
+    "53393547",
+    "53394525"
+  ],
+  "top10_by_raw_rate": [
+    "53394611",
+    "53394621",
+    "53394518",
+    "53394509",
+    "53393596",
+    "53394526",
+    "53394601",
+    "53394519",
+    "53394536",
+    "53393675"
+  ],
+  "sensitivity": {
+    "500": {
+      "eligible_meshes": 570,
+      "top10": [
+        "53394600",
+        "53394611",
+        "53394621",
+        "53393596",
+        "53394509",
+        "53394526",
+        "53394601",
+        "53394518",
+        "53394536",
+        "53394506"
+      ],
+      "prior_alpha": 1.8697080277745213,
+      "prior_beta": 0.08930492319215795
+    },
+    "2000": {
+      "eligible_meshes": 558,
+      "top10": [
+        "53394621",
+        "53393596",
+        "53394509",
+        "53394526",
+        "53394601",
+        "53394536",
+        "53394518",
+        "53394506",
+        "53394525",
+        "53394519"
+      ],
+      "prior_alpha": 2.540563628943495,
+      "prior_beta": 0.12265664255862228
+    }
+  },
+  "map_class_change_share_quantile_vs_equal": 0.7982300884955752
+}
