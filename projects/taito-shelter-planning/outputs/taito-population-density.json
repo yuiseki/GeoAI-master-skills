@@ -1,0 +1,32 @@
+{
+  "value": "density",
+  "kind": "level",
+  "unit": "人/km²",
+  "crs": "OGC:CRS84",
+  "source": "census 2020; study-geoai 6880b32c",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    348.44327760033934,
+    12257.782370223884,
+    21068.749310798692,
+    28534.687003178067,
+    32230.98477931461,
+    48747.67065809687
+  ],
+  "units_per_class": [
+    22,
+    21,
+    22,
+    21,
+    22
+  ],
+  "nodata_units": 0,
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "made": "2026-10-24"
+}

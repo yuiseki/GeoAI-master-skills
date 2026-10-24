@@ -1,0 +1,32 @@
+{
+  "value": "underground_share",
+  "kind": "rate",
+  "unit": "割合 (0–1)",
+  "crs": "OGC:CRS84",
+  "source": "michiyomi e4966cdceff6; study-geoai 6880b32c",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    0.0,
+    0.0,
+    0.003043718871056998,
+    0.019945786300926527,
+    0.15448402160974267,
+    0.8996763754045307
+  ],
+  "units_per_class": [
+    63,
+    2,
+    33,
+    32,
+    33
+  ],
+  "nodata_units": 32,
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "made": "2026-10-24"
+}
