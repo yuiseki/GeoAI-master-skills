@@ -1,0 +1,87 @@
+{
+  "mode": "exploration",
+  "question": "東京23区で、アンダーパスの道路区間を通れないと仮定すると、洪水向け指定緊急避難場所への徒歩経路が大きく迂回・断絶する高齢者の多い1kmメッシュはどこか？",
+  "decision_use": "自治体が代替避難経路と案内表示の現地確認を優先する地区を選ぶ",
+  "target_quantity": "アンダーパス区間閉鎖前後の最寄り洪水向け指定緊急避難場所までの徒歩距離の増分、到達不能、影響を受ける65歳以上人数のメッシュ単位の候補値",
+  "unit": "東京都23区の2020年国勢調査3次メッシュ。居住者の個別位置は分からない",
+  "time_alignment": "高齢者数と行政界は2020年、アンダーパスは2025年3月末、道路は2026年8月、指定緊急避難場所は2026年10月。閉鎖は観測された出来事ではなく仮想シナリオ",
+  "claim_type": "scenario",
+  "datasets": [
+    "yuiseki/mlit-underpass",
+    "yuiseki/gsi-evacuation-sites-jp",
+    "yuiseki/estat-census-mesh-2020",
+    "yuiseki/osm-japan-src-2026-08",
+    "yuiseki/jp-admin-2026-09"
+  ],
+  "source_versions": {
+    "yuiseki/mlit-underpass": "4d00072aa88696cfa7026c4cef7d600bc96f9f13",
+    "yuiseki/gsi-evacuation-sites-jp": "d8ad2169789b71c951e8808b2e54a953030aae07",
+    "yuiseki/estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+    "yuiseki/osm-japan-src-2026-08": "9a9b4a77e89e28a66bf15781644a16b63501f622",
+    "yuiseki/jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135"
+  },
+  "joins": [
+    {"left": "yuiseki/mlit-underpass", "right": "yuiseki/osm-japan-src-2026-08", "how": "CRSを揃え、候補道路区間へ点を寄せる。曖昧な点は保留", "why": "閉鎖シナリオの対象道路を定義"},
+    {"left": "yuiseki/gsi-evacuation-sites-jp", "right": "yuiseki/osm-japan-src-2026-08", "how": "flood=trueの施設点を徒歩網へスナップ", "why": "到達先を定義"},
+    {"left": "yuiseki/estat-census-mesh-2020", "right": "yuiseki/osm-japan-src-2026-08", "how": "3次メッシュの複数代表点を徒歩網へスナップ", "why": "起点と需要の感度を測る"},
+    {"left": "yuiseki/jp-admin-2026-09", "right": "yuiseki/estat-census-mesh-2020", "how": "23区の境界とメッシュの中心または面を照合", "why": "対象範囲と境界効果を定義"}
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/mlit-underpass", "table": "underpass", "column": "geometry"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "flood"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "geometry"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "HTKSYORI"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140019", "evidence_file": "projects/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
+    {"dataset": "yuiseki/osm-japan-src-2026-08", "table": "planet_osm_line", "column": "osm_id"},
+    {"dataset": "yuiseki/osm-japan-src-2026-08", "table": "planet_osm_line", "column": "way", "evidence_file": "projects/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "geometry"}
+  ],
+  "methodological_decisions": [
+    "アンダーパス代表点をどの道路区間に対応させるか。車道と歩道を区別し、対応不能は除外する",
+    "閉鎖する区間の長さと徒歩ネットワークの通行規則を先に固定する",
+    "人口をメッシュ内のどこに置くかと、秘匿年齢をどう扱うかを決める",
+    "到達不能を距離の大きい値でなく別の結果として扱う",
+    "最寄り1施設だけでなく閉鎖後の代替施設を探索する"
+  ],
+  "failure_modes": [
+    "アンダーパスの点は区間長と歩道の位置を表さない",
+    "OSMの立体交差、歩行禁止、接続欠けが偽の断絶を作る",
+    "市区町村境界の外の避難場所と道路を切ると端効果が出る",
+    "2020年の住民と2025年以降の施設・道路の時点がずれる",
+    "人口内訳の秘匿とメッシュ内の居住位置が順位を変える"
+  ],
+  "robustness_checks": [
+    "閉鎖する区間とスナップ距離の候補を変える",
+    "中心点と複数の代表点で同じ候補が残るか比べる",
+    "近隣区・都県境の施設を含める範囲を変える",
+    "閉鎖なし、1箇所ずつ閉鎖、複数箇所同時閉鎖を分ける"
+  ],
+  "simplest_solver": {
+    "method": "閉鎖なしで最寄りの洪水向け避難場所まで直線距離を測る",
+    "why_insufficient": "道路の閉鎖が引き起こす迂回、代替経路、非連結を表せず、既存の遠さだけを再発見する"
+  },
+  "unknowns": [
+    "実際にいつ冠水・閉鎖するか、徒歩の通行が止まるか",
+    "各指定緊急避難場所の収容能力と災害時の開設可否",
+    "各居住者の位置、身体能力、避難手段、個別の安全性"
+  ],
+  "novelty": {
+    "closest_task": 37,
+    "difference_dimension": "network_resilience_scenario",
+    "substantive_difference": "既存課題は平時の避難場所への遠さ。これは特定道路区間の閉鎖で増える迂回と到達不能を問う。閉鎖は観測された災害ではなく仮想のストレステスト"
+  },
+  "prediction": {
+    "main_result": "閉鎖前から遠い地区と、閉鎖で初めて遠くなる地区の順位は一致しない",
+    "difficulty": "アンダーパス代表点を車道・歩道の正しい区間へ対応させること",
+    "fragile_assumption": "車道アンダーパスの閉鎖を歩行経路にも適用できるという仮定",
+    "needed_capabilities": ["dataset-discovery", "analysis-unit-design", "data-variable-semantics", "spatial-network-analysis", "robustness-analysis", "analysis-reporting"]
+  },
+  "rubric": [
+    "閉鎖前後で同じ徒歩網・需要・避難場所を使い、変化分を示す",
+    "アンダーパス点と道路区間の対応の成功・失敗件数と曖昧さを示す",
+    "非連結、スナップ失敗、年齢秘匿をゼロや無限距離と混ぜない",
+    "代表点、閉鎖区間、スナップ、境界の感度で順位を比較する",
+    "閉鎖や冠水の実測、収容能力、個人の避難困難を主張しない"
+  ]
+}

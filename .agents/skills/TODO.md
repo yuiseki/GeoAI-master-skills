@@ -1,3 +1,7 @@
+- 次の課題を発見する (1 / 1)
+  - [x] `research-question-generation`: 利用可能なデータ、分析手順、課題履歴と過去の失敗から、方法論的に価値のある候補を作り、硬い棄却と批評を通して proposal だけを残す
+    - [x] `references/candidate.md`: 候補の形式と変数・結合の証拠
+    - [x] `references/critic.md`: 棄却、8観点の批評、最小解法と pilot
 - 因果を問う (1 / 1)
   - [x] `causal-design`: 因果の問いのときだけ、データに手を付ける前に使う。因果の効果を推定する前に、このデータと仮定から識別できるかを判断する。設計の表、DAG と調整の集合、地図の上の支え、隣への波及、空間的な交絡、未観測の交絡への感度
     - [x] `references/potential-outcomes.md`
