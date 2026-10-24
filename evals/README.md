@@ -17,6 +17,10 @@
 |---|---|
 | `tasks/tasks.md` | 教科書的な課題 (問いと使い道だけ)。課題 1〜8 は、スキルを直すために結果を読んだので、評価としては汚染済み。課題 9〜11 は、直す前の保留 |
 | `tasks/rubric.md` | 課題ごとの、拾うべき落とし穴と実測値 (解答) |
+| `tasks/medium-tasks.md` | 中難易度課題。対象量と限界を明示し、地図・集計と小さい感度確認で現地調査候補を作る。1 回に 1 課題を渡す |
+| `tasks/medium-rubric.md` | 中難易度課題の採点観点。エージェントには渡さない |
+| `tasks/hard-tasks.md` | 高難易度の正式課題。中難易度と同じ固定版一覧を持つ |
+| `curriculum/task-cards/` | 提案・レビュー履歴。正式課題と混同しない |
 | `prompts/agent-task.md` | エージェントへの指示の雛形 (`{{WORKDIR}}`、`{{SHA}}`、`{{TASK}}`) |
 | `run_gemini_docker.sh` | 同じ条件で、Gemini を流す (中で使う CLI は Antigravity CLI の `agy`)。イメージは `../Dockerfile.evals.gemini` |
 | `run_codex_docker.sh` | 作業場所を Docker (`../Dockerfile.evals.codex`) に閉じ込めて Codex を流す。CPU、メモリ、プロセス数の上限はここで強制する (テスト付き) |

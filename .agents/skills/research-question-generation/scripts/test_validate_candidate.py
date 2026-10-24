@@ -76,6 +76,14 @@ def test_tree_cover_task_card_candidate_is_reviewable(context):
     assert result == {"status": "critic_review", "reasons": []}
 
 
+def test_medium_tasks_are_part_of_duplicate_history(context):
+    _, history = context
+    assert MODULE.duplicate_reason(
+        "東京都の西多摩地域で、高齢者が多いのに一定の直線距離内の食料品店の記録が少ない 1 km メッシュはどこですか？",
+        history,
+    ) == "near_duplicate:M2"
+
+
 def test_trivial_single_table_maximum_is_rejected(candidate, context):
     bad = copy.deepcopy(candidate)
     bad["question"] = "東京都で病院が一番多い区はどこ？"
