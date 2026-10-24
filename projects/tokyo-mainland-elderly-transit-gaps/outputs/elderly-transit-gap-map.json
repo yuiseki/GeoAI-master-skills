@@ -1,0 +1,53 @@
+{
+  "question": "東京都本土で65歳以上が多く駅とバス停の両方から歩いて遠い3次メッシュ",
+  "made": "2026-10-24",
+  "sources": {
+    "census": "hf://datasets/yuiseki/estat-census-mesh-2020@6c486c8649484e09e549c0c99b5fa89b4f416edb/parquet/T001140.parquet",
+    "bus": [
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/11.parquet",
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/12.parquet",
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/13.parquet",
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/14.parquet",
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/19.parquet"
+    ],
+    "station": "hf://datasets/yuiseki/ekidata-jp@a33321099406b47338be0d03a4887059473fde0c/parquet/2026-10-05/station.2026-07-31.parquet",
+    "osm": "hf://datasets/yuiseki/osm-japan-src-2026-08@9a9b4a77e89e28a66bf15781644a16b63501f622/parquet/planet_osm_line.parquet",
+    "admin": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet"
+  },
+  "geometry_crs": "JGD2011 3rd mesh longitude/latitude",
+  "distance_crs": "EPSG:6677",
+  "unit": "mesh",
+  "value": "age65_gap_priority",
+  "definition": "age65 if bus_m > 800 and rail_m > 1500, else 0; unknown is NoData",
+  "method": "fixed",
+  "breaks": [
+    0,
+    1,
+    250,
+    500,
+    1000,
+    1839
+  ],
+  "legend_labels": [
+    "0–1",
+    "2–250",
+    "251–500",
+    "501–1,000",
+    "1,001以上"
+  ],
+  "units_per_class": [
+    1146,
+    88,
+    12,
+    7,
+    9
+  ],
+  "nodata_units": 118,
+  "total_units": 1380,
+  "fixed_vs_equal_changed_share": 0.09033280507131537,
+  "palette": "YlOrRd",
+  "boundary": "#404040",
+  "font": "Noto Sans CJK JP",
+  "zero_area_rings_left_out": 0,
+  "renderer": "project plot.py; classifications/path/font from analysis-visualize skill"
+}
