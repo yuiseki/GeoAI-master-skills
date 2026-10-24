@@ -30,6 +30,10 @@
       - [x] `references/worldpop/population.md`
       - [ ] `references/worldpop/age-sex.md`
       - [ ] `references/worldpop/urbanisation.md`
+    - [x] `references/ghsl/README.md`: JRC の製品別タイル、引用、人口と建物面積の画素原点の違い
+      - [x] `references/ghsl/population.md`: E2020 の日本周辺タイルを実読
+      - [x] `references/ghsl/built-surface.md`: E2020 の日本周辺タイルを実読
+    - [x] `references/microsoft-building-footprints.md`: 固定した索引と日本の小さい建物輪郭タイルを実読
     - [x] `references/planetary-computer/README.md`: STAC API、匿名の SAS 署名の 3 つの方法
       - [ ] コレクションごとのファイル (Sentinel-2 L2A、Landsat C2 L2、HLS、NASADEM、Copernicus DEM、ESA WorldCover、Impact Observatory の土地被覆)
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認

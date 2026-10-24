@@ -13,6 +13,8 @@
 | [unhcr-refugee-stats](unhcr-refugee-stats.md) | 出身国 × 庇護国 × 年の難民などの人数 | 国の組、座標なし | 1951〜2025、版ごと |
 | [overture/](overture/README.md) | 目録。行政区域、道路と交差点、POI、建物など | 全世界 | 月ごとの版 |
 | [worldpop/](worldpop/README.md) | 目録。人口の格子 (100 m、1 km)、年齢・性別、都市化度 | 全世界、国ごと | 2015〜2030 |
+| [ghsl/](ghsl/README.md) | 目録。JRC の居住人口と建物面積の推計格子。30 秒角の日本周辺タイルを実読 | 全世界をタイルに分割 | R2023A、1975〜2030。2025・2030 は投影 |
+| [microsoft-building-footprints](microsoft-building-footprints.md) | 画像から推定した建物輪郭。日本の1タイルを実読 | 全世界の収録地域。日本の索引203タイル | 索引は2026-08-13。画像の撮影年は場所による |
 | [planetary-computer/](planetary-computer/README.md) | 目録。衛星画像、標高、土地被覆のラスタ (COG、匿名の SAS 署名が要る) | 全世界 | コレクションごと |
 | [mlit-nlftp/](mlit-nlftp/README.md) | 目録。国土数値情報 (鉄道、医療機関、浸水想定、将来推計人口など) | 日本 | 年ごと |
 | [tokyo-ckan/](tokyo-ckan/README.md) | 目録。東京都と区市町村のオープンデータ (施設一覧、統計表) | 東京都 | データセットごと |

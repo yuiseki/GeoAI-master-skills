@@ -1,4 +1,4 @@
-"""uvx --from 'duckdb>=1.5.5' --with pytest pytest test_profile_layer.py"""
+"""uvx --from pytest --with 'duckdb>=1.5.5' pytest test_profile_layer.py"""
 
 import duckdb
 
