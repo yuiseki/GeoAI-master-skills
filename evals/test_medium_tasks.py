@@ -15,11 +15,20 @@ class MediumTaskTests(unittest.TestCase):
         rubric = (ROOT / "tasks/medium-rubric.md").read_text()
         task_ids = re.findall(r"^## 課題 (\d+):", tasks, re.MULTILINE)
         rubric_ids = re.findall(r"^## 課題 (\d+):", rubric, re.MULTILINE)
-        self.assertEqual(task_ids, ["1", "2"])
+        self.assertEqual(task_ids, ["1", "2", "3"])
         self.assertEqual(rubric_ids, task_ids)
         for section in re.split(r"^## 課題 \d+:", tasks, flags=re.MULTILINE)[1:]:
             for field in ("問い:", "使い道:", "使うデータ:", "範囲:", "提出:"):
                 self.assertIn(field, section)
+        self.assertIn("公表登録", tasks)
+        self.assertNotIn("熱海市", tasks)
+
+    def test_subagent_review_preserves_unverified_pilot_status(self):
+        review = (ROOT / "curriculum/reviews/2026-10-25-subagent-topics.md").read_text()
+        self.assertIn("提供情報・未再検証", review)
+        self.assertIn("中難易度課題 3", review)
+        for number in range(1, 6):
+            self.assertIn(f"候補{number}", review)
 
     def test_cards_disclose_review_and_evidence_status(self):
         cards = ROOT / "curriculum/task-cards"

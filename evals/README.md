@@ -21,6 +21,8 @@
 | `tasks/medium-rubric.md` | 中難易度課題の採点観点。エージェントには渡さない |
 | `tasks/hard-tasks.md` | 高難易度の正式課題。中難易度と同じ固定版一覧を持つ |
 | `curriculum/task-cards/` | 提案・レビュー履歴。正式課題と混同しない |
+| `curriculum/incoming/` | 外部から受け取った候補の原文。検証・採用を意味しない |
+| `curriculum/reviews/` | 候補の採否と修正理由。元の pilot 数値は再検証まで答えにしない |
 | `prompts/agent-task.md` | エージェントへの指示の雛形 (`{{WORKDIR}}`、`{{SHA}}`、`{{TASK}}`) |
 | `run_gemini_docker.sh` | 同じ条件で、Gemini を流す (中で使う CLI は Antigravity CLI の `agy`)。イメージは `../Dockerfile.evals.gemini` |
 | `run_codex_docker.sh` | 作業場所を Docker (`../Dockerfile.evals.codex`) に閉じ込めて Codex を流す。CPU、メモリ、プロセス数の上限はここで強制する (テスト付き) |
