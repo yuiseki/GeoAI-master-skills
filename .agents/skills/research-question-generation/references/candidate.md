@@ -5,6 +5,7 @@
 | 欄 | 意味 |
 |---|---|
 | `mode` | `exploration` または `digging`。後者は `history_anchor` に既存の報告と、意外だった観測を記す |
+| `social_problem`, `working_hypothesis` | 誰のどの不利益を、誰の判断で減らしたいか。仮説は観測できる差や方向と反証条件を書く。形式検査の必須欄ではないが、Critic で中身を確認する |
 | `question`, `decision_use` | 世界について問う文と、誰が何に使うか。方法名だけの文にはしない |
 | `target_quantity`, `unit`, `time_alignment` | estimand に相当する対象量、1行の意味、入力の時点差と主期間 |
 | `datasets` | 利用するデータセット ID の配列。データを名だけ並べず、各データが答えに何を供給するかも検討する |

@@ -1,0 +1,43 @@
+{
+  "mode": "exploration",
+  "social_problem": "区境近くの住民が洪水時に自区の施設だけを案内された場合、徒歩で近い隣区の指定緊急避難場所を候補にできず、遠回りになる可能性がある。区をまたぐ共同案内・受入協議の優先順位を決めたい",
+  "working_hypothesis": "23区内の区どうしの境界から1km以内の居住メッシュでは、隣区の施設を候補に加えると最短徒歩距離が500m以上短くなる人口割合が、区境から離れたメッシュより高い。差がないか逆方向なら棄却する",
+  "question": "東京23区で、洪水向け指定緊急避難場所の候補を登録された自区の施設に限る場合と隣区の施設も含める場合で、徒歩距離が大きく変わる居住メッシュと区境はどこか？",
+  "decision_use": "区の防災担当者が隣区との施設利用協議と共同の避難案内を現地確認する区境を選ぶ",
+  "target_quantity": "同じ居住起点から自区登録施設と隣区を含む施設への最短徒歩距離の差、500m以上短縮するメッシュ内の人口と割合。到達不能は距離差と別に示す",
+  "unit": "東京23区の2020年国勢調査3次メッシュ。施設の所属は登録区を主とし、地点が入る区を感度確認する",
+  "time_alignment": "人口と行政界の面は2020年、道路は2026年8月、施設は2026年10月の固定版。実際の洪水時や避難案内の運用を表さない",
+  "claim_type": "scenario",
+  "datasets": ["yuiseki/gsi-evacuation-sites-jp", "yuiseki/estat-census-mesh-2020", "yuiseki/osm-japan-src-2026-08", "yuiseki/jp-admin-2026-09"],
+  "source_versions": {
+    "yuiseki/gsi-evacuation-sites-jp": "d8ad2169789b71c951e8808b2e54a953030aae07",
+    "yuiseki/estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+    "yuiseki/osm-japan-src-2026-08": "9a9b4a77e89e28a66bf15781644a16b63501f622",
+    "yuiseki/jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135"
+  },
+  "joins": [
+    {"left": "yuiseki/gsi-evacuation-sites-jp", "right": "yuiseki/jp-admin-2026-09", "how": "common_idから登録区のcode5を取得し、地点が入る区とも照合", "why": "自区・隣区の候補集合を作る"},
+    {"left": "yuiseki/estat-census-mesh-2020", "right": "yuiseki/jp-admin-2026-09", "how": "KEY_CODEからメッシュ面を復元し、中心点と区境の距離を照合", "why": "居住起点と区境群を決める"},
+    {"left": "yuiseki/gsi-evacuation-sites-jp", "right": "yuiseki/osm-japan-src-2026-08", "how": "CRSを揃え施設点を徒歩可能道路へ接続", "why": "同じ網で候補施設への道のりを測る"},
+    {"left": "yuiseki/estat-census-mesh-2020", "right": "yuiseki/osm-japan-src-2026-08", "how": "メッシュ内の複数代表点を徒歩可能道路へ接続", "why": "起点の置き方と到達不能を確認する"}
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "common_id"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "flood"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "geometry"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140001"},
+    {"dataset": "yuiseki/osm-japan-src-2026-08", "table": "planet_osm_line", "column": "osm_id"},
+    {"dataset": "yuiseki/osm-japan-src-2026-08", "table": "planet_osm_line", "column": "way", "evidence_file": "projects/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "code5"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "geometry"}
+  ],
+  "methodological_decisions": ["自区の定義を登録区と施設点の所属区のどちらにするか", "徒歩可能道とメッシュ内の人口位置", "区境から1kmと短縮500mの閾値", "到達不能、区外道路・施設、重複施設の扱い"],
+  "failure_modes": ["登録区と地点の所属区が異なる", "道路網の切断やスナップ失敗が偽の遠回りを作る", "区境から近いメッシュの中心でも居住地は区境から離れうる", "人口2020と施設・道路2026の時点差"],
+  "robustness_checks": ["登録区と地点所属区を入れ替える", "メッシュ中心と複数代表点を比べる", "区境距離と短縮距離の閾値を変える", "23区外を含める場合と含めない場合を分ける"],
+  "simplest_solver": {"method": "自区と隣区の施設への直線距離だけを比べる", "why_insufficient": "川や線路などによる迂回、徒歩網での非連結、区境をまたぐ道路の接続を表せない"},
+  "unknowns": ["洪水時の経路の安全性と浸水深", "施設の開設・収容能力と区外住民の受入可否", "実際の避難案内と住民の移動行動", "メッシュ内の個人の居住位置"],
+  "novelty": {"closest_task": 37, "difference_dimension": "cross_boundary_guidance_scenario", "substantive_difference": "既存課題は避難場所までの通常の遠さ。この案は施設候補を自区に限るか隣区まで広げるかという案内条件の差と、区境の協議優先度を問う"},
+  "prediction": {"main_result": "区境沿いでも川などで分断された場所と接続のよい場所で短縮幅が違う", "difficulty": "登録区と実際の位置が異なる施設、およびメッシュ内居住位置", "fragile_assumption": "自区のみを案内するという比較条件が実際の案内を表すとは限らない", "needed_capabilities": ["dataset-discovery", "data-variable-semantics", "analysis-unit-design", "spatial-network-analysis", "robustness-analysis"]},
+  "rubric": ["同じ起点と徒歩網で自区限定と隣区追加の距離を比較する", "施設の登録区・地点所属区の食い違いと結合失敗を数える", "非連結と0短縮を分け、人口とメッシュ数を別々に示す", "代表点・区境・短縮の閾値を変えた順位の重なりを示す", "協議候補と実際に安全で利用できる避難先を混同しない"]
+}
