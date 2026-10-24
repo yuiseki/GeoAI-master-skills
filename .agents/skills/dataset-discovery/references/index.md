@@ -35,6 +35,16 @@
 | [mapterhorn](mapterhorn.md) | 全世界の標高のラスタタイル (Terrarium の可逆 WebP、PMTiles)。z0〜12 は 1 ファイル、z13 以上は地域ごと。151 の配布元の DEM を合わせたもの | 全世界の陸域 (海は 0) | 版 0.0.13、2026-10-16 取得 |
 | [dynamic-world](dynamic-world.md) | Sentinel-2 のシーンごとの 10 m の土地被覆 (9 クラスの確率とラベル)。Earth Engine の中だけ。未実測 | 全世界の陸域 | 2015-06-27 から、ほぼ実時間 |
 | [esa-worldcover](esa-worldcover.md) | 全世界の陸域の 10 m の土地被覆の分類図 (11 クラス)。3 度のタイルの COG、EPSG:4326。AWS の公開 S3 から認証なしで読める | 全世界の陸域 (外洋は NoData) | 2020 (v100)、2021 (v200) |
+| [ctrees-agb-100m](ctrees-agb-100m.md) | 地上部バイオマス密度と不確実性の 100 m 年次 COG。CC BY 4.0、全球全期間は約 1.90 TB | 全球の植生域 | 2000〜2025 年 |
+| [esa-cci-biomass-v7](esa-cci-biomass-v7.md) | 森林の木本地上部バイオマスと不確実性の 100 m 地図。利用無料、再配布は未確認 | 全球 | 2005〜2012、2015〜2024 年 |
+| [nasa-gedi-l4a-v3](nasa-gedi-l4a-v3.md) | LiDAR の約 25 m フットプリントでの AGB 密度予測と誤差。現地実測ではない | 南北 51.6 度の軌道上 | 2019〜2025 年の観測 |
+| [nasa-gedi-l4b-v2-1](nasa-gedi-l4b-v2-1.md) | GEDI 観測を 1 km 格子にまとめた AGB 密度と標準誤差。約 2.2 GB | 南北約 52 度の有効セル | 2019〜2023 年の観測を統合 |
+| [jaxa-japan-biomass](jaxa-japan-biomass.md) | 約 10 m の日本の森林 AGB・炭素蓄積・樹高。登録が必要、再配布は未確認 | 日本の森林 | 2016〜2022 年の入力から作った単時期 |
+| [gfw-forest-carbon-net-flux](gfw-forest-carbon-net-flux.md) | 森林の温室効果ガス純フラックス。年別ではなく期間累積。CC BY 4.0 | 全球の森林 | 2001〜2025 年の累積 (v20260327) |
+| [gfw-biomass-stock-2000](gfw-biomass-stock-2000.md) | 旧 WHRC 由来の木本 AGB 密度。無料で閲覧できるが個別ライセンスは未確認 | 全球とされる | 2000 年 |
+| [usfs-biomass-2008](usfs-biomass-2008.md) | USDA Forest Service の 250 m 森林バイオマス。CONUS の AGB ZIP は約 142 MB | 米国本土、アラスカなど | 2008 年版 |
+| [usfs-bigmap-2018](usfs-bigmap-2018.md) | USDA Forest Service FIA BIGMAP の30m森林バイオマス。総量と327樹種 | 米国本土 | 2018年版 |
+| [canada-scanfi-v2](canada-scanfi-v2.md) | カナダ 30 m 森林 AGB など。Open Government Licence、2020 年 AGB は約 6.67 GB | カナダ | 1985〜2025 年の 5 年刻み |
 | [ksj-l01-land-price](ksj-l01-land-price.md) | 地価公示の標準地の点と公示価格 (円/m²)、対前年変動率、地積、用途地域など。年をまたぐには前年の番号で結ぶ | 日本の標準地 (約 2.6 万点) | 2019〜2026 年の各年 1 月 1 日、2026-10-16 取得 |
 | [mlit-underpass](mlit-underpass.md) | 国土交通省の全国のアンダーパス箇所マップの点 (名前、路線、管理者)。国と地方公共団体の道路だけ | 日本 (3,841 点) | 地図は 2025-03-31、2026-10-17 取得 |
 | [npa-traffic-accidents](npa-traffic-accidents.md) | 警察庁の人身事故の個票 (本票は事故 1 件 1 行、補充票、高速票)。座標、市区町村、当事者 A と B、死傷 | 日本 (年に約 29〜38 万件) | 2019〜2025 年 |

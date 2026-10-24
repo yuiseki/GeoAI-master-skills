@@ -55,6 +55,16 @@
     - [x] `references/ksj-n07-bus-route.md`: 国土数値情報のバスルート 2022 年版。首都圏の版が全国版の部分集合であること、事業者の違う同じ線と、重なりで長さが約 27% 増えることを実測
     - [x] `references/ksj-p11-bus-stop.md`: 国土数値情報のバス停 2022 年版。首都圏の版が全国版の部分集合であること、系統と区分のリスト、ファイルの都道府県と点の位置が食い違う停留所、市区町村の面との結合を実測
     - [x] `references/dynamic-world.md`: 配布元の説明から書いた (中身は未実測。実測には Earth Engine の認証が要る)
+    - [x] `references/ctrees-agb-100m.md`: 公開 S3 の一覧で全球 COG の容量を実測。画素は未実読
+    - [x] `references/esa-cci-biomass-v7.md`: 無償利用、目録容量、再配布条件の未確認を記録
+    - [x] `references/nasa-gedi-l4a-v3.md`: フットプリント予測、Earthdata Login、容量未確認を記録
+    - [x] `references/nasa-gedi-l4b-v2-1.md`: 約 2.2 GB の格子推定値と凍結候補を記録
+    - [x] `references/jaxa-japan-biomass.md`: 登録、無償利用、対象期間と再配布未確認を記録
+    - [x] `references/gfw-forest-carbon-net-flux.md`: API の現行版、CC BY 4.0、期間累積値を確認
+    - [x] `references/gfw-biomass-stock-2000.md`: API の個別ライセンス欠落と再配布保留を記録
+    - [x] `references/usfs-biomass-2008.md`: 公表された ZIP 容量と別製品 BIGMAP の違いを記録
+    - [x] `references/usfs-bigmap-2018.md`: 無償の30m総量・樹種別地図。容量と再配布条件は未確認
+    - [x] `references/canada-scanfi-v2.md`: 公式配布一覧の 2020 年 AGB 容量と再配布条件を確認
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する
