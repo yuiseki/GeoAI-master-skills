@@ -23,6 +23,7 @@
 | [mlit-nlftp/](mlit-nlftp/README.md) | 目録。国土数値情報 (鉄道、医療機関、浸水想定、将来推計人口など) | 日本 | 年ごと |
 | [tokyo-ckan/](tokyo-ckan/README.md) | 目録。東京都と区市町村のオープンデータ (施設一覧、統計表) | 東京都 | データセットごと |
 | [fao-ferspas/](fao-ferspas/README.md) | 目録。FAO の農業・食料・気候のラスタ (COG) | 全世界 | コレクションごと |
+| [agera5-japan-monthly-temperature-1979-2026](agera5-japan-monthly-temperature-1979-2026.md) | AgERA5 月別平均最高・最低気温を日本周辺0.1度格子中心にしたGeoParquet (CC BY 4.0) | 東経122〜154度、北緯20〜46度 | 1979-01〜2026-07、571か月 |
 | [jp-admin-2026-09](jp-admin-2026-09.md) | 都道府県と市区町村の面、コード、名前、2020 年の人口と世帯数 (CC BY 4.0) | 日本 | 名前 2026-09、面と人口 2020 |
 | [osm-japan-src-2026-08](osm-japan-src-2026-08.md) | OpenStreetMap の日本全国 (点、線、面、道路)。GeoParquet、EPSG:3857 | 日本 | 2026-08-31 で凍結 |
 | [mlit-toshi-keikaku-jp](mlit-toshi-keikaku-jp.md) | 都市計画決定GISデータ。用途地域 (容積率、建蔽率)、都市計画道路、公園、地区計画など 25 レイヤー | 日本 (自治体が提供した分) | 令和 7 年度版 |

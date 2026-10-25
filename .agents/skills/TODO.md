@@ -48,6 +48,7 @@
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
+    - [x] `references/agera5-japan-monthly-temperature-1979-2026.md`: C3S CC BY 4.0 の月別最高・最低気温571時点を日本周辺GeoParquet化し、全月の値ハッシュを照合して公開
     - [x] `references/jp-admin-2026-09.md`、`osm-japan-src-2026-08.md`、`mlit-toshi-keikaku-jp.md`、`ekidata-jp.md`、`worldpop/japan.md`: 日本の凍結データセット 5 件
     - [x] `references/osm-tokyo23-src-2026-08.md`、`gsi-evacuation-sites-jp.md`、`estat-census-mesh-2020.md`: 日本の小さめのデータセット 3 件
     - [x] `references/maddison-project.md`
