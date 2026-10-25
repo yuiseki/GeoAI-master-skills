@@ -16,11 +16,11 @@
 - データを知る (6 / 6)
   - [x] `dataset-discovery`: 使えるデータセットを選び、列、粒度、時空間範囲、注意点を実測する
     - [x] `references/index.md`: データセット、目録、サービスの索引
-    - [x] `references/natural-earth.md`
-    - [x] `references/worldbank-wdi.md`
-    - [x] `references/ourairports.md`
-    - [x] `references/ucdp-ged.md`
-    - [x] `references/unhcr-refugee-stats.md`
+    - [x] `references/huggingface/yuiseki/natural-earth.md`
+    - [x] `references/huggingface/yuiseki/worldbank-wdi.md`
+    - [x] `references/huggingface/yuiseki/ourairports.md`
+    - [x] `references/huggingface/yuiseki/ucdp-ged.md`
+    - [x] `references/huggingface/yuiseki/unhcr-refugee-stats.md`
     - [x] `references/overture/README.md`: 目録の引き方、S3 の Parquet の読み方、ライセンス
       - [x] `references/overture/divisions.md`
       - [x] `references/overture/transportation.md`
@@ -42,6 +42,7 @@
       - [x] `references/global-nature-watch/tree-cover-loss-drivers.md`: 森林損失の主因
       - [x] `references/global-nature-watch/forest-typology-2020.md`: 森林タイプの基準図、分類図、検証標本
     - [x] `references/huggingface/yuiseki/README.md`: 公開 GeoParquet の版の探し方と元データのカードとの境界
+      - [x] `references/worldpop/japan.md`: 日本の WorldPop 人口格子の固定版
       - [x] `references/huggingface/yuiseki/esa-worldcover-tokyo-2021-100m.md`: 東京周辺の土地被覆100 m集計
       - [x] `references/huggingface/yuiseki/ghsl-japan-core-2020-30arcsec.md`: 東アジアの GHSL 人口・建物面積
       - [x] `references/huggingface/yuiseki/forty-hokkaido-east-2020.md`: 東北海道の森林タイプ分類面
@@ -55,24 +56,41 @@
       - [x] `references/huggingface/yuiseki/ctrees-agb-hokkaido-east-100m.md`: 東北海道の2010年・2025年AGBと不確実性の集計面
       - [x] `references/huggingface/yuiseki/gebco-2026-hokkaido-east-15as.md`: 東北海道沖のGEBCO 2026標高セル
       - [x] `references/huggingface/yuiseki/worldpop-kor-population-2015-2030-1km-r2025a.md`: 韓国の年次人口推計格子
+      - [x] `references/huggingface/yuiseki/natural-earth.md`: Hugging Face に固定した 国、州・省、都市、海岸線、陸海、湖、川、道路などの小縮尺ベクター
+      - [x] `references/huggingface/yuiseki/worldbank-wdi.md`: Hugging Face に固定した 国・年・約1,400指標の世界開発指標
+      - [x] `references/huggingface/yuiseki/ourairports.md`: Hugging Face に固定した 空港、滑走路、無線施設などの全世界表
+      - [x] `references/huggingface/yuiseki/ucdp-ged.md`: Hugging Face に固定した 1989年以降の組織的暴力事件
+      - [x] `references/huggingface/yuiseki/unhcr-refugee-stats.md`: Hugging Face に固定した 出身国・庇護国・年ごとの難民等の統計
+      - [x] `references/huggingface/yuiseki/jp-admin-2026-09.md`: Hugging Face に固定した 日本の都道府県・市区町村の境界と人口
+      - [x] `references/huggingface/yuiseki/osm-japan-src-2026-08.md`: Hugging Face に固定した OpenStreetMap 日本全国スナップショット
+      - [x] `references/huggingface/yuiseki/mlit-toshi-keikaku-jp.md`: Hugging Face に固定した 都市計画決定 GIS の全国 GeoParquet
+      - [x] `references/huggingface/yuiseki/ekidata-jp.md`: Hugging Face に固定した 鉄道事業者、路線、駅、隣接駅
+      - [x] `references/huggingface/yuiseki/osm-tokyo23-src-2026-08.md`: Hugging Face に固定した OpenStreetMap 東京23区スナップショット
+      - [x] `references/huggingface/yuiseki/gsi-evacuation-sites-jp.md`: Hugging Face に固定した 指定緊急避難場所と指定避難所
+      - [x] `references/huggingface/yuiseki/estat-census-mesh-2020.md`: Hugging Face に固定した 2020年国勢調査 1 km メッシュ12表
+      - [x] `references/huggingface/yuiseki/maddison-project.md`: Hugging Face に固定した 国ごとの長期 GDP・人口推計
+      - [x] `references/huggingface/yuiseki/mlit-underpass.md`: Hugging Face に固定した 全国の道路アンダーパス箇所
+      - [x] `references/huggingface/yuiseki/npa-traffic-accidents.md`: Hugging Face に固定した 2019〜2025年の人身事故統計票
+      - [x] `references/huggingface/yuiseki/mlit-1km-fromto-2022-01.md`: Hugging Face に固定した 1 kmメッシュ・市区町村別の月次滞在人口
+      - [x] `references/huggingface/yuiseki/ksj-n07-bus-route.md`: Hugging Face に固定した 全国のバスルート線
+      - [x] `references/huggingface/yuiseki/ksj-p11-bus-stop.md`: Hugging Face に固定した 全国のバス停と事業者・系統
+      - [x] `references/huggingface/yuiseki/ksj-l01-land-price.md`: Hugging Face に固定した 2019〜2026年の地価公示標準地
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
-    - [x] `references/jp-admin-2026-09.md`、`osm-japan-src-2026-08.md`、`mlit-toshi-keikaku-jp.md`、`ekidata-jp.md`、`worldpop/japan.md`: 日本の凍結データセット 5 件
-    - [x] `references/osm-tokyo23-src-2026-08.md`、`gsi-evacuation-sites-jp.md`、`estat-census-mesh-2020.md`: 日本の小さめのデータセット 3 件
-    - [x] `references/maddison-project.md`
+    - [x] `references/huggingface/yuiseki/maddison-project.md`
     - [x] `references/card-college-proximity.md`: 大学への近さと教育の収益。操作変数を検証するための benchmark
     - [x] `references/statsmodels-co2.md`: マウナロアの CO2 の週の値。季節のある時系列の予測を検証するための benchmark
     - [x] `references/nsw-lalonde.md`: 職業訓練の実験と観察の対照。GeoAI の分析対象ではなく、統計手法を検証するための benchmark (地理の列なし)
     - [x] `references/gsi-dem-tiles.md`
     - [x] `references/mapterhorn.md`: 全世界の標高のラスタタイル。タイルを読んで Terrarium から標高に直せることを実測
     - [x] `references/esa-worldcover.md`: 10 m の土地被覆の分類図。公開 S3 のタイルを読み、NoData と海の値、窓ごとのクラスの数を実測
-    - [x] `references/ksj-l01-land-price.md`: 地価公示 2019〜2026 年。前年の番号での年の結び方を変動率で確かめ、新しい地点の変動率が 0.0 であること、.prj と座標の食い違いを実測
-    - [x] `references/mlit-underpass.md`: 全国のアンダーパス箇所マップ 3,841 点。重複の組、市区町村の面との結合を実測。GeoParquet の CRS が文字列で DuckDB 1.5.6 が読めなかった版 e16afd6 と、直った版 4d00072
-    - [x] `references/npa-traffic-accidents.md`: 警察庁の交通事故の個票 2019〜2025 年。度分秒の座標、警察の都道府県コードと 3 桁の市区町村コードから code5 への結合、年のファイルに前の年の事故が入ること、補充票と死傷者数の一致を実測
-    - [x] `references/mlit-1km-fromto-2022-01.md`: 1 km メッシュの月ごとの滞在人口 2019〜2021 年。国勢調査のメッシュとの結合、政令指定都市が区のコードだけで入ること、時間帯と日の区分の関係を実測
-    - [x] `references/ksj-n07-bus-route.md`: 国土数値情報のバスルート 2022 年版。首都圏の版が全国版の部分集合であること、事業者の違う同じ線と、重なりで長さが約 27% 増えることを実測
-    - [x] `references/ksj-p11-bus-stop.md`: 国土数値情報のバス停 2022 年版。首都圏の版が全国版の部分集合であること、系統と区分のリスト、ファイルの都道府県と点の位置が食い違う停留所、市区町村の面との結合を実測
+    - [x] `references/huggingface/yuiseki/ksj-l01-land-price.md`: 地価公示 2019〜2026 年。前年の番号での年の結び方を変動率で確かめ、新しい地点の変動率が 0.0 であること、.prj と座標の食い違いを実測
+    - [x] `references/huggingface/yuiseki/mlit-underpass.md`: 全国のアンダーパス箇所マップ 3,841 点。重複の組、市区町村の面との結合を実測。GeoParquet の CRS が文字列で DuckDB 1.5.6 が読めなかった版 e16afd6 と、直った版 4d00072
+    - [x] `references/huggingface/yuiseki/npa-traffic-accidents.md`: 警察庁の交通事故の個票 2019〜2025 年。度分秒の座標、警察の都道府県コードと 3 桁の市区町村コードから code5 への結合、年のファイルに前の年の事故が入ること、補充票と死傷者数の一致を実測
+    - [x] `references/huggingface/yuiseki/mlit-1km-fromto-2022-01.md`: 1 km メッシュの月ごとの滞在人口 2019〜2021 年。国勢調査のメッシュとの結合、政令指定都市が区のコードだけで入ること、時間帯と日の区分の関係を実測
+    - [x] `references/huggingface/yuiseki/ksj-n07-bus-route.md`: 国土数値情報のバスルート 2022 年版。首都圏の版が全国版の部分集合であること、事業者の違う同じ線と、重なりで長さが約 27% 増えることを実測
+    - [x] `references/huggingface/yuiseki/ksj-p11-bus-stop.md`: 国土数値情報のバス停 2022 年版。首都圏の版が全国版の部分集合であること、系統と区分のリスト、ファイルの都道府県と点の位置が食い違う停留所、市区町村の面との結合を実測
     - [x] `references/gebco-2025.md`: 全球15秒角の標高と海底地形。配布条件と容量を確認、画素は未実読
     - [x] `references/jaxa-aw3d30.md`: 登録制の全球DSM。地域別の版と再配布の未確認点を記録
     - [x] `references/koppen-geiger-2023.md`: Figshare v2 の固定版と CC BY 4.0、現行 V3 との差を記録。ZIP は未実読

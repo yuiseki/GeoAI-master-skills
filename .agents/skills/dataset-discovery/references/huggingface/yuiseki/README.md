@@ -9,14 +9,14 @@ crs: データセットごとに異なる
 spatial_coverage: データセットごとに異なる
 temporal_coverage: データセットごとに異なる
 as_of:
-  checked: 2026-10-25
+  checked: 2026-10-26
 contents:
 - yuiseki が Hugging Face に凍結した GeoParquet と原資料・変換コードへの入口
 ---
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-25 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=100&full=true` を照合し、公開79件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版32件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
@@ -34,4 +34,23 @@ contents:
 | [gebco-2026-hokkaido-east-15as](gebco-2026-hokkaido-east-15as.md) | 東北海道沖の15秒角標高 | GEBCO 2026 の切り出し。既存の[2025年版](../../gebco-2025.md)とは別 |
 | [worldpop-kor-population-2015-2030-1km-r2025a](worldpop-kor-population-2015-2030-1km-r2025a.md) | 韓国の2015〜2030年の年次人口推計 | WorldPop R2025A の変換 |
 
+| [natural-earth](natural-earth.md) | 国、州・省、都市、海岸線、陸海、湖、川、道路などの小縮尺ベクター | Natural Earth v5.1.2 の変換 |
+| [worldbank-wdi](worldbank-wdi.md) | 国・年・約1,400指標の世界開発指標 | World Bank WDI。CC BYでない指標は除外 |
+| [ourairports](ourairports.md) | 空港、滑走路、無線施設などの全世界表 | OurAirports の 2026-08-31 凍結版 |
+| [ucdp-ged](ucdp-ged.md) | 1989年以降の組織的暴力事件 | UCDP GED v26.1 |
+| [unhcr-refugee-stats](unhcr-refugee-stats.md) | 出身国・庇護国・年ごとの難民等の統計 | UNHCR の 2026-10-04 取得版 |
+| [jp-admin-2026-09](jp-admin-2026-09.md) | 日本の都道府県・市区町村の境界と人口 | e-Stat、国土地理院等の加工 |
+| [osm-japan-src-2026-08](osm-japan-src-2026-08.md) | OpenStreetMap 日本全国スナップショット | ODbL 1.0。2026-08-31 planet から抽出 |
+| [mlit-toshi-keikaku-jp](mlit-toshi-keikaku-jp.md) | 都市計画決定 GIS の全国 GeoParquet | 国土交通省、PDL 1.0 |
+| [ekidata-jp](ekidata-jp.md) | 鉄道事業者、路線、駅、隣接駅 | 駅データ.jp 無料版の取得版 |
+| [osm-tokyo23-src-2026-08](osm-tokyo23-src-2026-08.md) | OpenStreetMap 東京23区スナップショット | ODbL 1.0。2026-08-31 planet から抽出 |
+| [gsi-evacuation-sites-jp](gsi-evacuation-sites-jp.md) | 指定緊急避難場所と指定避難所 | 国土地理院。PDL 1.0 相当 |
+| [estat-census-mesh-2020](estat-census-mesh-2020.md) | 2020年国勢調査 1 km メッシュ12表 | e-Stat。CC BY 4.0 |
+| [maddison-project](maddison-project.md) | 国ごとの長期 GDP・人口推計 | Maddison Project Database 2018/2020/2023 |
+| [mlit-underpass](mlit-underpass.md) | 全国の道路アンダーパス箇所 | 国土交通省。PDL 1.0 |
+| [npa-traffic-accidents](npa-traffic-accidents.md) | 2019〜2025年の人身事故統計票 | 警察庁。PDL 1.0 |
+| [mlit-1km-fromto-2022-01](mlit-1km-fromto-2022-01.md) | 1 kmメッシュ・市区町村別の月次滞在人口 | 国土交通省 全国の人流オープンデータ |
+| [ksj-n07-bus-route](ksj-n07-bus-route.md) | 全国のバスルート線 | 国土数値情報 N07、CC BY 4.0 相当 |
+| [ksj-p11-bus-stop](ksj-p11-bus-stop.md) | 全国のバス停と事業者・系統 | 国土数値情報 P11、CC BY 4.0 相当 |
+| [ksj-l01-land-price](ksj-l01-land-price.md) | 2019〜2026年の地価公示標準地 | 国土数値情報 L01、年ごとの許諾確認が必要 |
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
