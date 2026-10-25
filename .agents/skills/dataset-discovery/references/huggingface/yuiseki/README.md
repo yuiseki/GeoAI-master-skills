@@ -59,4 +59,5 @@ contents:
 | [wikidata-gazetteer](wikidata-gazetteer.md) | Wikidata の12百万地理項目と多言語名称 (CC0) | Wikidata 2026-08-31 ダンプ |
 | [wikipedia-geotagged](wikipedia-geotagged.md) | 座標タグ付き英語・日本語 Wikipedia 記事 (CC BY-SA 4.0) | Wikipedia 2026-09-01 ダンプ |
 | [wikivoyage-geotagged](wikivoyage-geotagged.md) | 座標タグ付き英語 Wikivoyage 記事 (CC BY-SA 4.0) | Wikivoyage 2026-09-01 ダンプ |
+| [opencellid](opencellid.md) | 世界の携帯電話セル推定位置 (CC BY-SA 4.0) | OpenCelliD 2026-10-06 スナップショット |
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
