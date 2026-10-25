@@ -15,7 +15,7 @@
 | [overture/](overture/README.md) | 目録。行政区域、道路と交差点、POI、建物など | 全世界 | 月ごとの版 |
 | [worldpop/](worldpop/README.md) | 目録。人口の格子 (100 m、1 km)、年齢・性別、都市化度 | 全世界、国ごと | 2015〜2030 |
 | [ghsl/](ghsl/README.md) | 目録。JRC の居住人口と建物面積の推計格子。30 秒角の日本周辺タイルを実読 | 全世界をタイルに分割 | R2023A、1975〜2030。2025・2030 は投影 |
-| [microsoft-building-footprints](microsoft-building-footprints.md) | 画像から推定した建物輪郭。日本の1タイルを実読 | 全世界の収録地域。日本の索引203タイル | 索引は2026-08-13。画像の撮影年は場所による |
+| [microsoft-building-footprints](microsoft-building-footprints.md) | 東京東部・関東2タイルの GeoParquet と原典 GeoJSONL gzip を公開 (5,781,554件) | 東京東部・関東 | 2026-08-13 の索引スナップショット |
 | [planetary-computer/](planetary-computer/README.md) | 目録。衛星画像、標高、土地被覆のラスタ (COG、匿名の SAS 署名が要る) | 全世界 | コレクションごと |
 | [global-nature-watch/](global-nature-watch/README.md) | 目録。草地、植生攪乱、森林損失要因、森林タイプ。API と許諾はレイヤーごと | 全球を中心にレイヤーごと | 年次図、速報、2020 年基準図 |
 | [forest-typology-validation-2020](forest-typology-validation-2020.md) | ForTy 2020 検証標本 9,100点と専門家合意済み 8,190点の GeoParquet | 全球の標本地点 | ForTy v1 2020、GVFT v0.6 |

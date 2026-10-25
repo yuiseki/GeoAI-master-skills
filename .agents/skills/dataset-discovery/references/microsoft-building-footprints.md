@@ -33,11 +33,11 @@ tables:
   - name: height
     type: DOUBLE
     meaning: 推定高さ。単位はメートル
-    missing: -1 は高さの推定値が無いこと。日本の試読タイルの全 1804 行が -1
+    missing: -1 は高さの推定値が無いこと。試読した日本タイルと東京東部・関東の2タイルでは全件が -1
   - name: confidence
     type: DOUBLE
     meaning: 検出信頼度の指標。建物の高さの確信度ではない
-    missing: -1 は未提供。日本の試読タイルの全 1804 行が -1
+    missing: -1 は未提供。試読した日本タイルと東京東部・関東の2タイルでは全件が -1
 ---
 
 # Microsoft Global ML Building Footprints
@@ -57,3 +57,7 @@ tables:
 公式 README は、古い画像や検出確率の低い画像を処理対象から外しており、四角い欠落域が生じると記す。輪郭の数を建物の真の棟数や人口曝露の確定値とせず、地元の台帳や別データとの重なり、空白、重複をサンプルで確かめる。日本の全タイルの精度や建物 ID の安定性は未確認。
 
 [Microsoft の公式 README](https://github.com/microsoft/GlobalMLBuildingFootprints#license)は CDLA Permissive 2.0 と明記する。[ライセンス本文](https://cdla.dev/permissive-2-0/)は、データを共有する場合にライセンス本文を添える条件を置く。分析結果と元データの再配布を区別し、二次情報の別ライセンス表記をそのまま採らない。
+
+## GeoParquet 派生配布
+
+[東京東部・関東の2タイル](https://huggingface.co/datasets/yuiseki/microsoft-building-footprints-kanto-2026-08-13)を 2026-08-13 索引から固定し、原典 GeoJSON Lines gzip と GeoParquet を公開した。対象 QuadKey は `133002112` と `133002113`。実測値は合計 5,781,554 件（4,011,210 件、1,770,344 件）、全件 Polygon、null geometry は 0 件。`ST_IsValid` が false の形状は 68 件あり、原典を変えずに保持した。高さと confidence は全件 `-1`。ファイル別の境界、件数、SHA-256 は Hugging Face の `parquet/profile.json` と `raw/2026-08-13/MANIFEST.json` にある。CDLA-Permissive-2.0 の本文もリポジトリの `LICENSE` に同梱した。
