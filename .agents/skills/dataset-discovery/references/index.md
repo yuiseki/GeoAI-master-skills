@@ -10,6 +10,7 @@
 | [worldbank-wdi](worldbank-wdi.md) | 国 × 年の開発指標 約 1,400 | 国、座標なし | 1960〜2025、版ごと |
 | [ourairports](ourairports.md) | 空港、ヘリポート、飛行場の点と IATA / ICAO コード | 全世界の点 | 2026-08-31 で凍結 |
 | [ucdp-ged](ucdp-ged.md) | 組織的暴力の事件の点と死者数 | 全世界の点 (精度はまちまち) | 1989〜2025、版ごと |
+| [usgs-comcat-2025-m45](usgs-comcat-2025-m45.md) | USGS ComCat のM4.5以上の地震8,502件をGeoParquet化。優先ネットワークus | 全球の点 | 2025年、2026-10-25に固定 |
 | [unhcr-refugee-stats](unhcr-refugee-stats.md) | 出身国 × 庇護国 × 年の難民などの人数 | 国の組、座標なし | 1951〜2025、版ごと |
 | [overture/](overture/README.md) | 目録。行政区域、道路と交差点、POI、建物など | 全世界 | 月ごとの版 |
 | [worldpop/](worldpop/README.md) | 目録。人口の格子 (100 m、1 km)、年齢・性別、都市化度 | 全世界、国ごと | 2015〜2030 |
