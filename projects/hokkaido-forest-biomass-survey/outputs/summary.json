@@ -1,0 +1,1113 @@
+{
+  "date": "2026-10-26",
+  "duckdb_version": "2.0.0",
+  "inputs": {
+    "ctrees": {
+      "url": "https://huggingface.co/datasets/yuiseki/ctrees-agb-hokkaido-east-100m/resolve/e0edd7cd9812847d1740cf1b35ac84885cde3bef/data/parquet/ctrees_agb_hokkaido_east_2010_2025_1km.parquet",
+      "revision": "e0edd7cd9812847d1740cf1b35ac84885cde3bef",
+      "rows": 43550
+    },
+    "forty": {
+      "url": "https://huggingface.co/datasets/yuiseki/forty-hokkaido-east-2020/resolve/7247d816be42065330e34909dd9ffcb66d8876bb/data/parquet/forty_east_hokkaido_2020.parquet",
+      "revision": "7247d816be42065330e34909dd9ffcb66d8876bb",
+      "rows": 63630
+    }
+  },
+  "spatial_checks": {
+    "ctrees_invalid": 0,
+    "forty_invalid": 0,
+    "ctrees_duplicate_keys": 0,
+    "forty_duplicate_keys": 0
+  },
+  "ctrees_bbox_candidates": 10230,
+  "area_intersections_positive": 95492,
+  "cells_without_area_overlap": 574,
+  "cells_covered_95pct": 9336,
+  "cells_forest_80pct": 4033,
+  "cells_eligible_main": 2547,
+  "cells_pixel_counts_differ": 0,
+  "cells_center_multiple": 0,
+  "cells_center_unassigned": 750,
+  "uncertainty_p75_mg_ha": 50.370500802993774,
+  "variants": {
+    "raw": [
+      {
+        "cell_row": 280,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 264,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 283,
+        "cell_col": 171
+      },
+      {
+        "cell_row": 268,
+        "cell_col": 204
+      },
+      {
+        "cell_row": 242,
+        "cell_col": 193
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 170
+      },
+      {
+        "cell_row": 266,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 263,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 253,
+        "cell_col": 139
+      },
+      {
+        "cell_row": 286,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 281,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 135
+      },
+      {
+        "cell_row": 277,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 274,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 262,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 283,
+        "cell_col": 169
+      },
+      {
+        "cell_row": 267,
+        "cell_col": 146
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 148
+      }
+    ],
+    "forest_0_5": [
+      {
+        "cell_row": 280,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 264,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 283,
+        "cell_col": 171
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 170
+      },
+      {
+        "cell_row": 266,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 263,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 286,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 281,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 135
+      },
+      {
+        "cell_row": 277,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 274,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 262,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 283,
+        "cell_col": 169
+      },
+      {
+        "cell_row": 267,
+        "cell_col": 146
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 302,
+        "cell_col": 129
+      },
+      {
+        "cell_row": 272,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 291,
+        "cell_col": 156
+      }
+    ],
+    "forest_0_8_main": [
+      {
+        "cell_row": 280,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 170
+      },
+      {
+        "cell_row": 266,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 263,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 286,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 281,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 135
+      },
+      {
+        "cell_row": 277,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 274,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 262,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 302,
+        "cell_col": 129
+      },
+      {
+        "cell_row": 272,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 291,
+        "cell_col": 156
+      },
+      {
+        "cell_row": 284,
+        "cell_col": 169
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 140
+      },
+      {
+        "cell_row": 270,
+        "cell_col": 191
+      },
+      {
+        "cell_row": 260,
+        "cell_col": 180
+      }
+    ],
+    "forest_0_9": [
+      {
+        "cell_row": 280,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 170
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 263,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 286,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 281,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 135
+      },
+      {
+        "cell_row": 277,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 274,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 302,
+        "cell_col": 129
+      },
+      {
+        "cell_row": 291,
+        "cell_col": 156
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 140
+      },
+      {
+        "cell_row": 270,
+        "cell_col": 191
+      },
+      {
+        "cell_row": 260,
+        "cell_col": 180
+      },
+      {
+        "cell_row": 264,
+        "cell_col": 199
+      },
+      {
+        "cell_row": 254,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 292,
+        "cell_col": 137
+      }
+    ],
+    "forest_center": [
+      {
+        "cell_row": 280,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 264,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 283,
+        "cell_col": 171
+      },
+      {
+        "cell_row": 268,
+        "cell_col": 204
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 170
+      },
+      {
+        "cell_row": 266,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 263,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 253,
+        "cell_col": 139
+      },
+      {
+        "cell_row": 286,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 281,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 135
+      },
+      {
+        "cell_row": 277,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 274,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 262,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 283,
+        "cell_col": 169
+      },
+      {
+        "cell_row": 267,
+        "cell_col": 146
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 302,
+        "cell_col": 129
+      }
+    ],
+    "uncertainty_p75": [
+      {
+        "cell_row": 280,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 170
+      },
+      {
+        "cell_row": 266,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 263,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 286,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 281,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 135
+      },
+      {
+        "cell_row": 277,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 274,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 262,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 302,
+        "cell_col": 129
+      },
+      {
+        "cell_row": 272,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 291,
+        "cell_col": 156
+      },
+      {
+        "cell_row": 284,
+        "cell_col": 169
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 140
+      },
+      {
+        "cell_row": 270,
+        "cell_col": 191
+      },
+      {
+        "cell_row": 260,
+        "cell_col": 180
+      }
+    ],
+    "pixels_100": [
+      {
+        "cell_row": 280,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 170
+      },
+      {
+        "cell_row": 266,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 263,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 286,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 281,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 135
+      },
+      {
+        "cell_row": 277,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 274,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 262,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 302,
+        "cell_col": 129
+      },
+      {
+        "cell_row": 272,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 291,
+        "cell_col": 156
+      },
+      {
+        "cell_row": 284,
+        "cell_col": 169
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 140
+      },
+      {
+        "cell_row": 270,
+        "cell_col": 191
+      },
+      {
+        "cell_row": 260,
+        "cell_col": 180
+      }
+    ],
+    "forest_0_8_top50": [
+      {
+        "cell_row": 280,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 170
+      },
+      {
+        "cell_row": 266,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 263,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 286,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 281,
+        "cell_col": 127
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 135
+      },
+      {
+        "cell_row": 277,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 274,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 262,
+        "cell_col": 126
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 302,
+        "cell_col": 129
+      },
+      {
+        "cell_row": 272,
+        "cell_col": 131
+      },
+      {
+        "cell_row": 291,
+        "cell_col": 156
+      },
+      {
+        "cell_row": 284,
+        "cell_col": 169
+      },
+      {
+        "cell_row": 298,
+        "cell_col": 140
+      },
+      {
+        "cell_row": 270,
+        "cell_col": 191
+      },
+      {
+        "cell_row": 260,
+        "cell_col": 180
+      },
+      {
+        "cell_row": 264,
+        "cell_col": 199
+      },
+      {
+        "cell_row": 254,
+        "cell_col": 148
+      },
+      {
+        "cell_row": 282,
+        "cell_col": 128
+      },
+      {
+        "cell_row": 292,
+        "cell_col": 137
+      },
+      {
+        "cell_row": 257,
+        "cell_col": 139
+      },
+      {
+        "cell_row": 246,
+        "cell_col": 189
+      },
+      {
+        "cell_row": 265,
+        "cell_col": 179
+      },
+      {
+        "cell_row": 261,
+        "cell_col": 164
+      },
+      {
+        "cell_row": 257,
+        "cell_col": 141
+      },
+      {
+        "cell_row": 267,
+        "cell_col": 201
+      },
+      {
+        "cell_row": 265,
+        "cell_col": 134
+      },
+      {
+        "cell_row": 257,
+        "cell_col": 140
+      },
+      {
+        "cell_row": 252,
+        "cell_col": 157
+      },
+      {
+        "cell_row": 254,
+        "cell_col": 163
+      },
+      {
+        "cell_row": 271,
+        "cell_col": 196
+      },
+      {
+        "cell_row": 262,
+        "cell_col": 177
+      },
+      {
+        "cell_row": 255,
+        "cell_col": 151
+      },
+      {
+        "cell_row": 299,
+        "cell_col": 132
+      },
+      {
+        "cell_row": 278,
+        "cell_col": 180
+      },
+      {
+        "cell_row": 254,
+        "cell_col": 147
+      },
+      {
+        "cell_row": 253,
+        "cell_col": 136
+      },
+      {
+        "cell_row": 268,
+        "cell_col": 198
+      },
+      {
+        "cell_row": 292,
+        "cell_col": 155
+      },
+      {
+        "cell_row": 264,
+        "cell_col": 132
+      },
+      {
+        "cell_row": 264,
+        "cell_col": 200
+      },
+      {
+        "cell_row": 307,
+        "cell_col": 130
+      },
+      {
+        "cell_row": 258,
+        "cell_col": 138
+      },
+      {
+        "cell_row": 247,
+        "cell_col": 160
+      },
+      {
+        "cell_row": 271,
+        "cell_col": 141
+      },
+      {
+        "cell_row": 260,
+        "cell_col": 183
+      }
+    ]
+  },
+  "overlap_main": {
+    "raw": 13,
+    "forest_0_5": 16,
+    "forest_0_8_main": 20,
+    "forest_0_9": 16,
+    "forest_center": 14,
+    "uncertainty_p75": 20,
+    "pixels_100": 20
+  },
+  "stable_main_count": 12,
+  "stable_main_ids": [
+    {
+      "cell_row": 258,
+      "cell_col": 148
+    },
+    {
+      "cell_row": 263,
+      "cell_col": 179
+    },
+    {
+      "cell_row": 274,
+      "cell_col": 128
+    },
+    {
+      "cell_row": 277,
+      "cell_col": 179
+    },
+    {
+      "cell_row": 278,
+      "cell_col": 170
+    },
+    {
+      "cell_row": 280,
+      "cell_col": 177
+    },
+    {
+      "cell_row": 281,
+      "cell_col": 127
+    },
+    {
+      "cell_row": 282,
+      "cell_col": 126
+    },
+    {
+      "cell_row": 282,
+      "cell_col": 127
+    },
+    {
+      "cell_row": 286,
+      "cell_col": 131
+    },
+    {
+      "cell_row": 298,
+      "cell_col": 135
+    },
+    {
+      "cell_row": 302,
+      "cell_col": 129
+    }
+  ],
+  "main_top20": [
+    {
+      "cell_row": 280,
+      "cell_col": 177,
+      "lon": 144.57777777742487,
+      "lat": 43.50666666671709,
+      "drop": 61.64700077295302,
+      "forest_frac": 0.93952837099439,
+      "cover_frac": 0.9999999999374696,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 38.26900058269501
+    },
+    {
+      "cell_row": 282,
+      "cell_col": 127,
+      "lon": 144.13333333298092,
+      "lat": 43.48888888893933,
+      "drop": 58.754001693725584,
+      "forest_frac": 1.0,
+      "cover_frac": 1.0,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 40.87300079345703
+    },
+    {
+      "cell_row": 278,
+      "cell_col": 170,
+      "lon": 144.51555555520272,
+      "lat": 43.524444444494854,
+      "drop": 35.14000068664549,
+      "forest_frac": 0.987409500122153,
+      "cover_frac": 1.0000000050336901,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 46.59200073242187
+    },
+    {
+      "cell_row": 266,
+      "cell_col": 127,
+      "lon": 144.13333333298092,
+      "lat": 43.631111111161395,
+      "drop": 34.910000820159894,
+      "forest_frac": 0.8754262887425238,
+      "cover_frac": 0.9999999992930474,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 45.750000705718996
+    },
+    {
+      "cell_row": 282,
+      "cell_col": 126,
+      "lon": 144.12444444409203,
+      "lat": 43.48888888893933,
+      "drop": 34.888000946044926,
+      "forest_frac": 1.0,
+      "cover_frac": 1.0,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 45.90100080490112
+    },
+    {
+      "cell_row": 263,
+      "cell_col": 179,
+      "lon": 144.59555555520262,
+      "lat": 43.657777777828045,
+      "drop": 34.09099990844726,
+      "forest_frac": 0.9800859355860377,
+      "cover_frac": 0.9999999999999996,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 49.891000804901125
+    },
+    {
+      "cell_row": 286,
+      "cell_col": 131,
+      "lon": 144.16888888853646,
+      "lat": 43.4533333333838,
+      "drop": 29.790000114440915,
+      "forest_frac": 1.0000000000000002,
+      "cover_frac": 1.0000000000000002,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 36.964000644683836
+    },
+    {
+      "cell_row": 281,
+      "cell_col": 127,
+      "lon": 144.13333333298092,
+      "lat": 43.49777777782821,
+      "drop": 28.799000625610347,
+      "forest_frac": 1.0,
+      "cover_frac": 1.0,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 47.41700065612793
+    },
+    {
+      "cell_row": 298,
+      "cell_col": 135,
+      "lon": 144.20444444409196,
+      "lat": 43.34666666671727,
+      "drop": 28.244000587463404,
+      "forest_frac": 0.9785852852906366,
+      "cover_frac": 1.0000000000000002,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 46.241000957489014
+    },
+    {
+      "cell_row": 277,
+      "cell_col": 179,
+      "lon": 144.59555555520262,
+      "lat": 43.53333333338372,
+      "drop": 28.1260001373291,
+      "forest_frac": 0.990700027830306,
+      "cover_frac": 1.0,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 47.36800060272217
+    },
+    {
+      "cell_row": 274,
+      "cell_col": 128,
+      "lon": 144.14222222186982,
+      "lat": 43.560000000050366,
+      "drop": 27.88100116729737,
+      "forest_frac": 1.0,
+      "cover_frac": 1.0,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 43.69100078582764
+    },
+    {
+      "cell_row": 262,
+      "cell_col": 126,
+      "lon": 144.12444444409203,
+      "lat": 43.66666666671692,
+      "drop": 27.69499972343445,
+      "forest_frac": 0.8468047724981568,
+      "cover_frac": 1.0000000002184628,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 46.91300078392029
+    },
+    {
+      "cell_row": 258,
+      "cell_col": 148,
+      "lon": 144.3199999996474,
+      "lat": 43.70222222227243,
+      "drop": 27.278000354766846,
+      "forest_frac": 1.0000000000000002,
+      "cover_frac": 1.0000000000000002,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 38.319000568389896
+    },
+    {
+      "cell_row": 302,
+      "cell_col": 129,
+      "lon": 144.15111111075868,
+      "lat": 43.31111111116175,
+      "drop": 27.096000633239754,
+      "forest_frac": 0.9948072005042137,
+      "cover_frac": 0.9999999999999999,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 46.98600074768066
+    },
+    {
+      "cell_row": 272,
+      "cell_col": 131,
+      "lon": 144.16888888853643,
+      "lat": 43.57777777782812,
+      "drop": 27.075000171661372,
+      "forest_frac": 0.8542174152825787,
+      "cover_frac": 1.0000000004061034,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 44.17200078964233
+    },
+    {
+      "cell_row": 291,
+      "cell_col": 156,
+      "lon": 144.39111111075843,
+      "lat": 43.40888888893942,
+      "drop": 26.84100082397461,
+      "forest_frac": 0.9762788601339736,
+      "cover_frac": 1.0,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 36.962000617980955
+    },
+    {
+      "cell_row": 284,
+      "cell_col": 169,
+      "lon": 144.50666666631383,
+      "lat": 43.47111111116157,
+      "drop": 26.66700043201446,
+      "forest_frac": 0.8023764190857227,
+      "cover_frac": 0.9999999970120599,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 34.77300057411194
+    },
+    {
+      "cell_row": 298,
+      "cell_col": 140,
+      "lon": 144.24888888853638,
+      "lat": 43.34666666671727,
+      "drop": 26.491001033782965,
+      "forest_frac": 0.9958159178632527,
+      "cover_frac": 1.0000000000000002,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 33.36600065231323
+    },
+    {
+      "cell_row": 270,
+      "cell_col": 191,
+      "lon": 144.70222222186916,
+      "lat": 43.595555555605884,
+      "drop": 26.13800041198732,
+      "forest_frac": 0.9899844449949653,
+      "cover_frac": 1.0000000000477416,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 47.93600067138672
+    },
+    {
+      "cell_row": 260,
+      "cell_col": 180,
+      "lon": 144.60444444409154,
+      "lat": 43.68444444449467,
+      "drop": 26.10099922180177,
+      "forest_frac": 0.9841788794990209,
+      "cover_frac": 0.9999999964682313,
+      "valid_pixels_2010": 100,
+      "valid_pixels_2025": 100,
+      "uncertainty_mean_2025_mg_ha": 50.239000663757324
+    }
+  ],
+  "interpretation": "Derived screening of model estimates, not observed forest loss or carbon emissions."
+}
