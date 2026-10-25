@@ -38,6 +38,7 @@
 | [maddison-project](maddison-project.md) | 国ごとの 1 人あたり実質 GDP と人口の長期の推計 (2018、2020、2023 年版) | 世界の国 | 西暦 1〜2022 年 |
 | [worldpop/japan.md](worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
 | [worldpop/korea.md](worldpop/korea.md) | 韓国の1 km年次人口推計16年分をGeoParquet化し、ライセンスの適用範囲を明記 | 韓国 | 2015〜2030、R2025A v1 |
+| [worldpop/indonesia.md](worldpop/indonesia.md) | インドネシアの1 km年次人口推計16年分をGeoParquet化。派生DBはODbLを保守的適用 | インドネシア | 2015〜2030、R2025A v1 |
 | [mapterhorn](mapterhorn.md) | 全世界の標高のラスタタイル (Terrarium の可逆 WebP、PMTiles)。z0〜12 は 1 ファイル、z13 以上は地域ごと。151 の配布元の DEM を合わせたもの | 全世界の陸域 (海は 0) | 版 0.0.13、2026-10-16 取得 |
 | [dynamic-world](dynamic-world.md) | Sentinel-2 のシーンごとの 10 m の土地被覆 (9 クラスの確率とラベル)。Earth Engine の中だけ。未実測 | 全世界の陸域 | 2015-06-27 から、ほぼ実時間 |
 | [esa-worldcover](esa-worldcover.md) | 全世界の 10 m 土地被覆図 (11 クラス)。東京周辺の10×10画素集約 GeoParquet を公開済み | 全世界の陸域、派生データは東京周辺 | 2020 (v100)、2021 (v200) |
