@@ -39,6 +39,7 @@
       - [ ] コレクションごとのファイル (Sentinel-2 L2A、Landsat C2 L2、HLS、NASADEM、Copernicus DEM、ESA WorldCover、Impact Observatory の土地被覆)
     - [x] `references/global-nature-watch/README.md`: GNW の目録、API キー、レイヤーごとの許諾
       - [x] `references/global-nature-watch/gpw-grasslands.md`: 草地の年次分類と配布元の容量
+      - [x] `references/global-nature-watch/gpw-grasslands-hokkaido-east-2018-2020.md`: Zenodo CC BY 4.0の3年分を北海道東部で抽出し、GeoParquetと検証済みクロップを公開
       - [x] `references/global-nature-watch/integrated-disturbance-alerts.md`: 全球の植生攪乱速報
       - [x] `references/global-nature-watch/tree-cover-loss-drivers.md`: 森林損失の主因
       - [x] `references/global-nature-watch/forest-typology-2020.md`: 森林タイプの基準図、分類図、検証標本

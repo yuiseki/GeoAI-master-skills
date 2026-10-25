@@ -18,6 +18,7 @@
 | [microsoft-building-footprints](microsoft-building-footprints.md) | 東京東部・関東2タイルの GeoParquet と原典 GeoJSONL gzip を公開 (5,781,554件) | 東京東部・関東 | 2026-08-13 の索引スナップショット |
 | [planetary-computer/](planetary-computer/README.md) | 目録。衛星画像、標高、土地被覆のラスタ (COG、匿名の SAS 署名が要る) | 全世界 | コレクションごと |
 | [global-nature-watch/](global-nature-watch/README.md) | 目録。草地、植生攪乱、森林損失要因、森林タイプ。API と許諾はレイヤーごと | 全球を中心にレイヤーごと | 年次図、速報、2020 年基準図 |
+| [gpw-grasslands-hokkaido-east-2018-2020](global-nature-watch/gpw-grasslands-hokkaido-east-2018-2020.md) | Global Pasture Watchの草地クラス3年分を約250m格子に集約。CC BY 4.0、切り出し原典も同梱 | 北海道東部 (141.9995–144.002°E, 41.998–44.0005°N) | 2018〜2020、Zenodo v2-beta |
 | [forest-typology-validation-2020](forest-typology-validation-2020.md) | ForTy 2020 検証標本 9,100点と専門家合意済み 8,190点の GeoParquet | 全球の標本地点 | ForTy v1 2020、GVFT v0.6 |
 | [mlit-nlftp/](mlit-nlftp/README.md) | 目録。国土数値情報 (鉄道、医療機関、浸水想定、将来推計人口など) | 日本 | 年ごと |
 | [tokyo-ckan/](tokyo-ckan/README.md) | 目録。東京都と区市町村のオープンデータ (施設一覧、統計表) | 東京都 | データセットごと |
