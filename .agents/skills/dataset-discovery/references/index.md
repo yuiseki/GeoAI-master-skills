@@ -60,7 +60,7 @@
 | [virtual-shizuoka/](virtual-shizuoka/README.md) | 目録。静岡県の航空レーザー等の公開点群。2025年の1タイルを実読 | 静岡県の公開済み範囲 | 2019〜2025年の年別ディレクトリ |
 | [timezone-boundary-builder-2026d](timezone-boundary-builder.md) | IANA タイムゾーンの境界。now版 GeoJSON を実読 | 全球 | 2026d版 |
 | [mobility-database/](mobility-database/README.md) | 目録。GTFS と GTFS-RT の供給元、公開 URL、認証、ライセンス URL。CSV 6,686行を実読 | 世界の登録フィード | 2026-10-25 取得 |
-| [ibtracs-v04r01](ibtracs-v04r01.md) | NOAA の熱帯低気圧の経路。last3years CSV 24,554観測行を実読 | 全球の熱帯低気圧 | v04r01、継続更新 |
+| [ibtracs-v04r01](ibtracs-v04r01.md) | NOAA の熱帯低気圧経路。since1980 311,935観測行の GeoParquet と原典 CSV | 全球の熱帯低気圧 | v04r01、2026-10-25 固定 |
 | [hydrosheds/](hydrosheds/README.md) | 目録。階層流域と河川網。Greenland の v1 流域・河川を実読。原データの再配布制限あり | 全球の対象陸域 | v1 系列 |
 | [hydrosheds/hydrobasins-v1](hydrosheds/hydrobasins-v1.md) | Greenland のレベル6・12流域面を実読。下流流域 ID を持つ | Greenland の試料 | v1.c |
 | [hydrosheds/hydrorivers-v1](hydrosheds/hydrorivers-v1.md) | Greenland の河川区間を実読。レベル12流域に全行結合 | Greenland の試料 | v1.0 |
