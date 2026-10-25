@@ -27,13 +27,13 @@ tables:
 ## 料金、規模、取得経路
 
 - [GFW Data API のデータセット情報](https://data-api.globalforestwatch.org/dataset/gfw_forest_carbon_net_flux)を2026-10-25に実際に取得した。`is_downloadable=true`、ライセンスは CC BY 4.0、説明の期間は2001〜2025年。APIの `latest` は `v20260327` を返した。`latest` は将来動くため、再現には版を固定する。
-- 同APIの[版の資産一覧](https://data-api.globalforestwatch.org/dataset/gfw_forest_carbon_net_flux/v20260327)にCOGとラスタタイルがある。画像本体のファイルサイズと認証なし取得の可否は未確認。データの閲覧は無料だが、APIキー、リクエスト制限、ストレージや通信費は利用経路ごとに確認する。[API仕様](https://data-api.globalforestwatch.org/docs)にはAOIによるGeoTIFFのダウンロードと集計がある。
+- 2026-10-26に[v20260327の資産一覧](https://data-api.globalforestwatch.org/dataset/gfw_forest_carbon_net_flux/v20260327)を再照会し、7つのCOGと8つのラスタタイルを確認。COGは `net_flux_forest_extent_per_hectare_v1_4_3_2001_2025.tif` など。S3オブジェクトへの匿名HEADは403、APIのGeoTIFFダウンロードは有効なAPIキーが無いと403になった。公式[API仕様](https://data-api.globalforestwatch.org/docs)に認証とAPIキー作成手順、AOIダウンロード手段がある。取得にはユーザーのGFW APIキーが必要。
 - WRI の旧[紹介ページ](https://datasets.wri.org/datasets/gfw-forest-carbon-net-flux)は2001〜2023年の版を説明しており、記事の2001〜2019年とも違う。分析にはAPIの版を採用し、期間の違う地図を混ぜない。
 - 来歴は [Harris らと Gibbs らのモデル](https://data-api.globalforestwatch.org/dataset/gfw_forest_carbon_net_flux)に基づく純フラックス推定。森林の成長による吸収と攪乱による排出を組み合わせた派生値で、直接観測ではない。
 
 ## Hugging Face への凍結
 
-CC BY 4.0 なのでライセンス上は候補。ただしファイル実容量と元データへのアクセス条件が未確認で、数GB級か判断できない。AOI抽出であれば、元版、閾値、期間、単位、元ファイル、処理コード、出典を固定してから検討する。
+CC BY 4.0 なのでライセンス上は候補。版、資産、値の意味は確認済みだが、APIキーが無く、COGの容量とAOIデータ本体は未取得。キーを設定した後に地域と閾値を選び、元版、期間、単位、取得ファイルのチェックサム、処理コード、出典を固定してGeoParquet化する。
 
 ## 注意
 

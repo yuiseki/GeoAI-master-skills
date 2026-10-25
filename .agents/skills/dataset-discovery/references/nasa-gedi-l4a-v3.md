@@ -30,9 +30,9 @@ tables:
 
 ## 料金、規模、取得経路
 
-- [ORNL DAAC の製品ページ](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=2508)は無制限のオープン共有と表示し、ダウンロードには Earthdata Login が必要。データ使用料はない。
+- [ORNL DAAC の製品ページ](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=2508)は無制限のオープン共有と表示し、ダウンロードには Earthdata Login が必要。データ使用料はない。2026-10-26にCMRでDOIからcollection concept ID `C4212593885-ORNL_CLOUD` を特定した。
 - [製品ガイド](https://daac.ornl.gov/GEDI/guides/GEDI_L4A_AGB_Density_V3.html)によると、軌道ごとのHDF5を大量に配る。v3の合計バイト数は未確認。参考として、別版の v2.1 は研究チームが約14 TBを取得したと[ORNL DAAC の資料](https://daac.ornl.gov/VEGETATION/guides/GEDI_HighQuality_Shots_Rasters.html)にあるが、v3の容量として転記しない。
-- 検索・範囲指定は [NASA CMR Search API](https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html) の granules でできる。ファイル本体は ORNL DAAC 経由。API 検索と認証付きダウンロードの実動作は未確認。
+- 検索は [NASA CMR Search API](https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html) の granules でできる。2026-10-26の匿名検索では、日本周辺bbox `122,20,154,46` と交差するgranuleが8,455件、東京bbox `139.4,35.5,140.0,36.0` では223件。これはフットプリント数ではなくgranule数であり、bboxとの交差件数。ファイル本体はORNL DAACのprotected URLで、匿名アクセスは403。API検索は確認済み、認証付きダウンロードは未実施。
 
 ## Hugging Face への凍結
 
