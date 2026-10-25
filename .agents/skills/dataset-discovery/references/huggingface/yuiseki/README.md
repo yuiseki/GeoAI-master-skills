@@ -76,4 +76,5 @@ contents:
 | [osm-tokyo23-qa-2026-08](osm-tokyo23-qa-2026-08.md) | 東京23区のOSM質問応答比較 (ODbL 1.0) | OpenStreetMap 2026-08 スナップショット |
 | [un-wpp](un-wpp.md) | 国連WPP2024の1950〜2100年人口推計と人口学的表 (CC BY 3.0 IGO) | UN DESA Population Division WPP2024 |
 
+| [text2geoql](text2geoql.md) | 自然言語からOverpass QLを生成するGeoAI学習ペア (ODbL 1.0) | OpenStreetMap由来の合成クエリ |
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
