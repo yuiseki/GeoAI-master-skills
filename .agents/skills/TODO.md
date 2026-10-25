@@ -399,3 +399,4 @@
       - [x] `references/huggingface/yuiseki/mlit-river-basin-overviews.md`: 国土交通省の一級水系・河川流域概要の公開本文。 政府標準利用規約（第1.0版）。引用される第三者資料の権利は別途尊重
       - [x] `references/huggingface/yuiseki/estat-jumin-idou.md`: e-Stat 住民基本台帳人口移動報告の統計表スナップショット。 政府標準利用規約（第1.0版）に適合。e-Stat API取得時に必要な出典表示を維持
       - [x] `references/huggingface/yuiseki/edgar-ghg-countries.md`: EDGAR 2026 の国別・部門別温室効果ガス排出量ファイル。 CC BY 4.0 対象ガスのみ。化石起源 CO2（NC-ND）は含めず、出典と対象範囲を明記
+      - [x] `references/huggingface/yuiseki/faostat.md`: FAOSTAT の農業・食料・土地利用・気候等の統計スナップショット。 CC BY 4.0。FAO を出典表示し、個別ドメインの注記も保持

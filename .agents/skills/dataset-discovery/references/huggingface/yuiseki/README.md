@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版66件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版67件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
@@ -104,3 +104,5 @@ Hugging Face のカードに表示されたライセンスだけで、元デー�
 | [estat-jumin-idou](estat-jumin-idou.md) | e-Stat 住民基本台帳人口移動報告の統計表スナップショット。 | 政府標準利用規約（第1.0版）に適合。e-Stat API取得時に必要な出典表示を維持 |
 
 | [edgar-ghg-countries](edgar-ghg-countries.md) | EDGAR 2026 の国別・部門別温室効果ガス排出量ファイル。 | CC BY 4.0 対象ガスのみ。化石起源 CO2（NC-ND）は含めず、出典と対象範囲を明記 |
+
+| [faostat](faostat.md) | FAOSTAT の農業・食料・土地利用・気候等の統計スナップショット。 | CC BY 4.0。FAO を出典表示し、個別ドメインの注記も保持 |
