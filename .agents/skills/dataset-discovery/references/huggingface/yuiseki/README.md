@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版57件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版58件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
@@ -86,3 +86,5 @@ Hugging Face のカードに表示されたライセンスだけで、元デー�
 | [gpw-grasslands-hokkaido-east-2018-2020-250m](gpw-grasslands-hokkaido-east-2018-2020-250m.md) | Global Pasture Watch 草地分類の東北海道 2018〜2020年版。 | CC BY 4.0。Parente et al. と Zenodo の元データを出典表示 |
 
 | [worldpop-idn-population-2015-2030-1km-r2025a](worldpop-idn-population-2015-2030-1km-r2025a.md) | WorldPop R2025A のインドネシア年次人口推計 1 km 格子。 | ODbL 1.0 の派生データ。WorldPop 元データの条件も併記し、派生データベースの Share-Alike と帰属表示を守る |
+
+| [agera5-japan-monthly-temperature-1979-2026](agera5-japan-monthly-temperature-1979-2026.md) | AgERA5 日本周辺の月平均最高・最低気温の格子。 | CC BY 4.0。Copernicus Climate Change Service / ECMWF と FAO GIS catalogue を出典表示 |
