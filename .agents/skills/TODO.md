@@ -394,3 +394,4 @@
       - [x] `references/huggingface/yuiseki/pwt.md`: Penn World Table 11.0 の国・年別マクロ経済指標。 CC BY 4.0。Feenstra, Inklaar, Timmer (2015) と PWT 11.0 の DOI を引用
       - [x] `references/huggingface/yuiseki/undp-hdr.md`: UNDP Human Development Report 2025 の複合指標と時系列。 CC BY 3.0 IGO。UNDP HDR 2025 を出典表示し IGO の条件に従う
       - [x] `references/huggingface/yuiseki/gsj-reports.md`: 産業技術総合研究所 地質調査総合センターの公開報告ページ抽出テキスト。 CC BY 4.0。第三者資料の引用表示を本文から保持
+      - [x] `references/huggingface/yuiseki/nilim-disaster-reports.md`: 国土技術政策総合研究所の災害調査報告から権利確認できた本文。 CC BY 4.0。本文中の第三者図表・引用の表示も維持
