@@ -32,10 +32,10 @@ GHSL の公式説明では、GHS-POP は国勢調査・行政区別人口を建�
 
 ```math
 \widehat{P}^{\mathrm{area}}_m=\sum_c P_c\frac{A(c\cap m)}{A(c)},\qquad
-\widehat{P}^{\mathrm{center}}_m=\sum_{c:\,\operatorname{center}(c)\in m}P_c.
+\widehat{P}^{\mathrm{center}}_m=\sum_{c:\,x_c\in m}P_c.
 ```
 
-ここで $P_c$ は GHSL セル $c$ の推計人数、$A$ は EPSG:6933 上の面積、$m$ は国勢調査メッシュである。面積按分は各セル内の人口が一様に分布する仮定を置き、実際の住居位置を復元しない。合成格子で面積の保存・重複の検出をテストし、実データでは格子原点・セル数・入力人口合計を確認した。[合成テスト](scripts/test_analyze.py)、[全国監査](outputs/full-summary.json)。
+ここで $P_c$ は GHSL セル $c$ の推計人数、$x_c$ は同セルの中心点、$A$ は EPSG:6933 上の面積、$m$ は国勢調査メッシュである。面積按分は各セル内の人口が一様に分布する仮定を置き、実際の住居位置を復元しない。合成格子で面積の保存・重複の検出をテストし、実データでは格子原点・セル数・入力人口合計を確認した。[合成テスト](scripts/test_analyze.py)、[全国監査](outputs/full-summary.json)。
 
 ### 3.2 候補の評価
 
