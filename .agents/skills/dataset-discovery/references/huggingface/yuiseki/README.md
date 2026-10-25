@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。以下はこのディレクトリに置いた72件で、GeoAI での用途と実ファイルを確認した。別の目録にある `worldpop/japan.md` に別途掲載した WorldPop 日本版 も含め、未掲載候補は下に判断理由を記す。固定 SHA を含む `read` URL は移動しない版を指す。固定 SHA のない既存カードを更新するときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。以下はこのディレクトリに置いた72件で、GeoAI での用途と実ファイルを確認した。別の目録にある WorldPop 日本版 (`worldpop/japan.md`) も含め、未掲載候補は下に判断理由を記す。固定 SHA を含む `read` URL は移動しない版を指す。固定 SHA のない既存カードを更新するときは API の `sha` と `siblings` を再確認する。
 
 ## 未掲載の候補
 
@@ -33,6 +33,7 @@ contents:
 | `un-docs` | 国連の Rights and Permissions 条件で、自由な再配布許諾を確定できない。地理用途も限定的。 |
 | `un-statistical-yearbook`, `undata-sdmx` | 国連の利用条件と元データ提供機関・compiler の条件が混在する。`undata-sdmx` は制限行を除外しているが、残り全体の再配布条件も一律には確定できない。 |
 
+
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
 | [esa-worldcover-tokyo-2021-100m](esa-worldcover-tokyo-2021-100m.md) | 10 m 分類を 100 m セルに集計 | [ESA WorldCover](../../esa-worldcover.md)の派生 |
@@ -48,7 +49,6 @@ contents:
 | [ctrees-agb-hokkaido-east-100m](ctrees-agb-hokkaido-east-100m.md) | 東北海道の2010年・2025年のAGB集計 | [CTrees 全球版](../../ctrees-agb-100m.md)の切り出し・集計 |
 | [gebco-2026-hokkaido-east-15as](gebco-2026-hokkaido-east-15as.md) | 東北海道沖の15秒角標高 | GEBCO 2026 の切り出し。既存の[2025年版](../../gebco-2025.md)とは別 |
 | [worldpop-kor-population-2015-2030-1km-r2025a](worldpop-kor-population-2015-2030-1km-r2025a.md) | 韓国の2015〜2030年の年次人口推計 | WorldPop R2025A の変換 |
-
 | [natural-earth](natural-earth.md) | 国、州・省、都市、海岸線、陸海、湖、川、道路などの小縮尺ベクター | Natural Earth v5.1.2 の変換 |
 | [worldbank-wdi](worldbank-wdi.md) | 国・年・約1,400指標の世界開発指標 | World Bank WDI。CC BYでない指標は除外 |
 | [ourairports](ourairports.md) | 空港、滑走路、無線施設などの全世界表 | OurAirports の 2026-08-31 凍結版 |
@@ -69,7 +69,6 @@ contents:
 | [ksj-p11-bus-stop](ksj-p11-bus-stop.md) | 全国のバス停と事業者・系統 | 国土数値情報 P11、CC BY 4.0 相当 |
 | [ksj-l01-land-price](ksj-l01-land-price.md) | 2019〜2026年の地価公示標準地 | 国土数値情報 L01、年ごとの許諾確認が必要 |
 | [geonames](geonames.md) | CC BY 4.0 の世界地名辞書、別名、行政階層 | GeoNames 2026-10-01 の固定スナップショット |
-
 | [wikidata-gazetteer](wikidata-gazetteer.md) | Wikidata の12百万地理項目と多言語名称 (CC0) | Wikidata 2026-08-31 ダンプ |
 | [wikipedia-geotagged](wikipedia-geotagged.md) | 座標タグ付き英語・日本語 Wikipedia 記事 (CC BY-SA 4.0) | Wikipedia 2026-09-01 ダンプ |
 | [wikivoyage-geotagged](wikivoyage-geotagged.md) | 座標タグ付き英語 Wikivoyage 記事 (CC BY-SA 4.0) | Wikivoyage 2026-09-01 ダンプ |
@@ -80,7 +79,6 @@ contents:
 | [estat-census-mesh-500m-2020](estat-census-mesh-500m-2020.md) | 2020年国勢調査の500mメッシュ12表 (CC BY 4.0) | e-Stat 令和2年国勢調査 |
 | [gsi-global-map-jp](gsi-global-map-jp.md) | 地球地図日本の行政界・道路・河川など複数版 | 国土地理院 地球地図日本 |
 | [nfgis-2024](nfgis-2024.md) | 林野庁 国有林GIS 2024、複数の平面直角座標系 | 林野庁の2024年度版データ |
-
 | [meta-move-dist](meta-move-dist.md) | Meta の地域別移動距離分布、2026年日次集計 (CC BY 4.0) | Data for Good at Meta / HDX |
 | [meta-range-maps-2022-05](meta-range-maps-2022-05.md) | Meta のCOVID-19期の地域別移動指標、2020〜2022年 (CC BY 4.0) | Data for Good at Meta / HDX |
 | [geo-triples-japan](geo-triples-japan.md) | 日本の空間関係 triple と言語評価データ (ODbL 1.0) | OSM / Natural Earth 由来の GeoAI benchmark |
@@ -90,44 +88,25 @@ contents:
 | [osm-tokyo23-questions](osm-tokyo23-questions.md) | 東京23区のOSM空間質問215件 (ODbL 1.0) | OpenStreetMap 2026-08 スナップショット |
 | [osm-tokyo23-qa-2026-08](osm-tokyo23-qa-2026-08.md) | 東京23区のOSM質問応答比較 (ODbL 1.0) | OpenStreetMap 2026-08 スナップショット |
 | [un-wpp](un-wpp.md) | 国連WPP2024の1950〜2100年人口推計と人口学的表 (CC BY 3.0 IGO) | UN DESA Population Division WPP2024 |
-
 | [text2geoql](text2geoql.md) | 自然言語からOverpass QLを生成するGeoAI学習ペア (ODbL 1.0) | OpenStreetMap由来の合成クエリ |
 | [env-redlist-jp](env-redlist-jp.md) | 日本の絶滅危惧種リスト第5次、公開分類群 (CC BY 4.0) | 環境省 いきものログ |
+| [gsi-dem-fuji-z14-100m-2026-10-25](gsi-dem-fuji-z14-100m-2026-10-25.md) | 国土地理院 DEM10B から作成した富士山周辺の100 m標高セル。 | PDL 1.0 相当。国土地理院を出典表示し、派生データであることを明記する |
+| [gpw-grasslands-hokkaido-east-2018-2020-250m](gpw-grasslands-hokkaido-east-2018-2020-250m.md) | Global Pasture Watch 草地分類の東北海道 2018〜2020年版。 | CC BY 4.0。Parente et al. と Zenodo の元データを出典表示 |
+| [worldpop-idn-population-2015-2030-1km-r2025a](worldpop-idn-population-2015-2030-1km-r2025a.md) | WorldPop R2025A のインドネシア年次人口推計 1 km 格子。 | ODbL 1.0 の派生データ。WorldPop 元データの条件も併記し、派生データベースの Share-Alike と帰属表示を守る |
+| [agera5-japan-monthly-temperature-1979-2026](agera5-japan-monthly-temperature-1979-2026.md) | AgERA5 日本周辺の月平均最高・最低気温の格子。 | CC BY 4.0。Copernicus Climate Change Service / ECMWF と FAO GIS catalogue を出典表示 |
+| [pwt](pwt.md) | Penn World Table 11.0 の国・年別マクロ経済指標。 | CC BY 4.0。Feenstra, Inklaar, Timmer (2015) と PWT 11.0 の DOI を引用 |
+| [undp-hdr](undp-hdr.md) | UNDP Human Development Report 2025 の複合指標と時系列。 | CC BY 3.0 IGO。UNDP HDR 2025 を出典表示し IGO の条件に従う |
+| [gsj-reports](gsj-reports.md) | 産業技術総合研究所 地質調査総合センターの公開報告ページ抽出テキスト。 | CC BY 4.0。第三者資料の引用表示を本文から保持 |
+| [nilim-disaster-reports](nilim-disaster-reports.md) | 国土技術政策総合研究所の災害調査報告から権利確認できた本文。 | CC BY 4.0。本文中の第三者図表・引用の表示も維持 |
+| [moni1000-reports](moni1000-reports.md) | 環境省モニタリングサイト1000の公開調査報告テキスト。 | 政府標準利用規約（第1.0版）。出典表示と第三者権利の条件を守る |
+| [mlit-river-basin-overviews](mlit-river-basin-overviews.md) | 国土交通省の一級水系・河川流域概要の公開本文。 | 政府標準利用規約（第1.0版）。引用される第三者資料の権利は別途尊重 |
+| [estat-jumin-idou](estat-jumin-idou.md) | e-Stat 住民基本台帳人口移動報告の統計表スナップショット。 | 政府標準利用規約（第1.0版）に適合。e-Stat API取得時に必要な出典表示を維持 |
+| [edgar-ghg-countries](edgar-ghg-countries.md) | EDGAR 2026 の国別・部門別温室効果ガス排出量ファイル。 | CC BY 4.0 対象ガスのみ。化石起源 CO2（NC-ND）は含めず、出典と対象範囲を明記 |
+| [faostat](faostat.md) | FAOSTAT の農業・食料・土地利用・気候等の統計スナップショット。 | CC BY 4.0。FAO を出典表示し、個別ドメインの注記も保持 |
+| [ilostat](ilostat.md) | ILOSTAT の労働市場・雇用統計の指標ファイルと辞書。 | CC BY 4.0。ILOSTAT を出典表示し、指標定義・分類辞書を併用 |
+| [geo-triples-tokyo23](geo-triples-tokyo23.md) | 東京23区・地理関係 triple、英日テキスト、評価質問からなる GeoAI ベンチマーク。 | ODbL 1.0。OpenStreetMap contributors を表示し、派生データベースにも Share-Alike を適用 |
+| [gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2](gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2.md) | GFW Forest Flux Model v1.3.2 の東北海道 2001〜2023年累積純炭素フラックス。 | CC0 1.0。無帰属でも再利用可能だが、Gibbs et al. と Dataverse DOI の引用を推奨 |
+| [egov-laws-jp](egov-laws-jp.md) | e-Gov 法令検索の法令改正履歴と XML・テキストを収録する日本語コーパス。 | CC BY 4.0。法律本文は著作権法第13条により著作物でなく、デジタル庁の付加情報は PDL 1.0 |
+| [osm-wiki](osm-wiki.md) | OpenStreetMap Wiki の8言語ページを抽出した地理タグ・地物知識テキスト。 | CC BY-SA 2.0。OSM Wiki 著者を出典表示し、Share-Alike を維持 |
 
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
-
-| [gsi-dem-fuji-z14-100m-2026-10-25](gsi-dem-fuji-z14-100m-2026-10-25.md) | 国土地理院 DEM10B から作成した富士山周辺の100 m標高セル。 | PDL 1.0 相当。国土地理院を出典表示し、派生データであることを明記する |
-
-| [gpw-grasslands-hokkaido-east-2018-2020-250m](gpw-grasslands-hokkaido-east-2018-2020-250m.md) | Global Pasture Watch 草地分類の東北海道 2018〜2020年版。 | CC BY 4.0。Parente et al. と Zenodo の元データを出典表示 |
-
-| [worldpop-idn-population-2015-2030-1km-r2025a](worldpop-idn-population-2015-2030-1km-r2025a.md) | WorldPop R2025A のインドネシア年次人口推計 1 km 格子。 | ODbL 1.0 の派生データ。WorldPop 元データの条件も併記し、派生データベースの Share-Alike と帰属表示を守る |
-
-| [agera5-japan-monthly-temperature-1979-2026](agera5-japan-monthly-temperature-1979-2026.md) | AgERA5 日本周辺の月平均最高・最低気温の格子。 | CC BY 4.0。Copernicus Climate Change Service / ECMWF と FAO GIS catalogue を出典表示 |
-
-| [pwt](pwt.md) | Penn World Table 11.0 の国・年別マクロ経済指標。 | CC BY 4.0。Feenstra, Inklaar, Timmer (2015) と PWT 11.0 の DOI を引用 |
-
-| [undp-hdr](undp-hdr.md) | UNDP Human Development Report 2025 の複合指標と時系列。 | CC BY 3.0 IGO。UNDP HDR 2025 を出典表示し IGO の条件に従う |
-
-| [gsj-reports](gsj-reports.md) | 産業技術総合研究所 地質調査総合センターの公開報告ページ抽出テキスト。 | CC BY 4.0。第三者資料の引用表示を本文から保持 |
-
-| [nilim-disaster-reports](nilim-disaster-reports.md) | 国土技術政策総合研究所の災害調査報告から権利確認できた本文。 | CC BY 4.0。本文中の第三者図表・引用の表示も維持 |
-
-| [moni1000-reports](moni1000-reports.md) | 環境省モニタリングサイト1000の公開調査報告テキスト。 | 政府標準利用規約（第1.0版）。出典表示と第三者権利の条件を守る |
-
-| [mlit-river-basin-overviews](mlit-river-basin-overviews.md) | 国土交通省の一級水系・河川流域概要の公開本文。 | 政府標準利用規約（第1.0版）。引用される第三者資料の権利は別途尊重 |
-
-| [estat-jumin-idou](estat-jumin-idou.md) | e-Stat 住民基本台帳人口移動報告の統計表スナップショット。 | 政府標準利用規約（第1.0版）に適合。e-Stat API取得時に必要な出典表示を維持 |
-
-| [edgar-ghg-countries](edgar-ghg-countries.md) | EDGAR 2026 の国別・部門別温室効果ガス排出量ファイル。 | CC BY 4.0 対象ガスのみ。化石起源 CO2（NC-ND）は含めず、出典と対象範囲を明記 |
-
-| [faostat](faostat.md) | FAOSTAT の農業・食料・土地利用・気候等の統計スナップショット。 | CC BY 4.0。FAO を出典表示し、個別ドメインの注記も保持 |
-
-| [ilostat](ilostat.md) | ILOSTAT の労働市場・雇用統計の指標ファイルと辞書。 | CC BY 4.0。ILOSTAT を出典表示し、指標定義・分類辞書を併用 |
-
-| [geo-triples-tokyo23](geo-triples-tokyo23.md) | 東京23区・地理関係 triple、英日テキスト、評価質問からなる GeoAI ベンチマーク。 | ODbL 1.0。OpenStreetMap contributors を表示し、派生データベースにも Share-Alike を適用 |
-
-| [gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2](gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2.md) | GFW Forest Flux Model v1.3.2 の東北海道 2001〜2023年累積純炭素フラックス。 | CC0 1.0。無帰属でも再利用可能だが、Gibbs et al. と Dataverse DOI の引用を推奨 |
-
-| [egov-laws-jp](egov-laws-jp.md) | e-Gov 法令検索の法令改正履歴と XML・テキストを収録する日本語コーパス。 | CC BY 4.0。法律本文は著作権法第13条により著作物でなく、デジタル庁の付加情報は PDL 1.0 |
-
-| [osm-wiki](osm-wiki.md) | OpenStreetMap Wiki の8言語ページを抽出した地理タグ・地物知識テキスト。 | CC BY-SA 2.0。OSM Wiki 著者を出典表示し、Share-Alike を維持 |
