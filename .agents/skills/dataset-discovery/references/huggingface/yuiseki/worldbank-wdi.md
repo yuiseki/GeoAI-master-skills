@@ -3,6 +3,7 @@ kind: dataset
 id: yuiseki/worldbank-wdi
 description: 世界銀行の世界開発指標。国と年ごとの人口、GDP、保健、教育、環境など約 1,400 指標。座標は無い。
 url: https://huggingface.co/datasets/yuiseki/worldbank-wdi
+card_revision: d0b1ad8c98643db75c767c0ff96db800126f4954
 license: CC BY 4.0 に世界銀行の紛争解決条項 (調停と仲裁) が加わる。指標ごとに出典の表示が要る。ライセンスが CC BY でない 74 指標は除いてある
 formats:
 - Parquet
@@ -18,7 +19,7 @@ contents:
 - 注記
 tables:
 - name: data
-  read: hf://datasets/yuiseki/worldbank-wdi/parquet/2026-10-01/data.parquet
+  read: hf://datasets/yuiseki/worldbank-wdi@d0b1ad8c98643db75c767c0ff96db800126f4954/parquet/2026-10-01/data.parquet
   grain: 1 つの値 (国または集計単位 × 指標 × 年)。空の値は行にならない
   rows: 8790085
   id:

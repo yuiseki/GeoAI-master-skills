@@ -20,7 +20,7 @@ contents:
 - 都市計画の用途地域、建蔽率、容積率、最寄り駅と道路距離ほか、年によって 128〜148 の元の列
 tables:
 - name: land_price
-  read: hf://datasets/yuiseki/ksj-l01-land-price/parquet/<year>.parquet
+  read: hf://datasets/yuiseki/ksj-l01-land-price@7e32fd1266b1eea107d83ebecd6974e94744c3a7/parquet/<year>.parquet
   grain: 1 つの標準地の 1 年 (その年の 1 月 1 日時点の価格)
   rows: 207087
   id: []

@@ -20,7 +20,7 @@ contents:
 - 指定避難所の点と、福祉避難所の区別
 tables:
 - name: sites
-  read: hf://datasets/yuiseki/gsi-evacuation-sites-jp/parquet/sites.parquet
+  read: hf://datasets/yuiseki/gsi-evacuation-sites-jp@d8ad2169789b71c951e8808b2e54a953030aae07/parquet/sites.parquet
   grain: 1 つの指定緊急避難場所 (命を守るために、まず逃げる場所)
   rows: 115872
   id:

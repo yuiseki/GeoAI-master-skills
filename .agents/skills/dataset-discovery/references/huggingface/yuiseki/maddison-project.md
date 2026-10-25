@@ -21,7 +21,7 @@ contents:
 - 2018 年版の地域の集計と、1990 年の米ドルの系列
 tables:
 - name: full_data_2023
-  read: hf://datasets/yuiseki/maddison-project/parquet/2023/full_data.parquet
+  read: hf://datasets/yuiseki/maddison-project@d424892d83ebc97431db4d3a43e95c71af2ae4bb/parquet/2023/full_data.parquet
   grain: 国 × 年。どの国かに値がある年は全ての国に行があり、ほとんどの行は空
   rows: 131144
   id:

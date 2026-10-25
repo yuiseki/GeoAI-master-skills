@@ -23,7 +23,7 @@ contents:
 - 都道府県の表
 tables:
 - name: station
-  read: hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/station.2026-07-31.parquet
+  read: hf://datasets/yuiseki/ekidata-jp@a33321099406b47338be0d03a4887059473fde0c/parquet/2026-10-05/station.2026-07-31.parquet
   grain: 路線ごとの 1 駅。乗換駅は路線の数だけ行がある
   rows: 10962
   id:

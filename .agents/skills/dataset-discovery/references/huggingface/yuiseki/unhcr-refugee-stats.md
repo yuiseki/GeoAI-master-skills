@@ -3,6 +3,7 @@ kind: dataset
 id: yuiseki/unhcr-refugee-stats
 description: UNHCR の難民統計。年ごと、出身国と庇護国の組ごとの難民、庇護申請者、国内避難民、無国籍者の数。座標は無い。
 url: https://huggingface.co/datasets/yuiseki/unhcr-refugee-stats
+card_revision: 5f3eea4ac1314223df73dcdf614ebe224a5fe632
 license: CC BY 4.0 に UNHCR の Terms of Use for Datasets が加わる。表示の書式と Terms の URL の掲示が要る
 formats:
 - Parquet
@@ -18,7 +19,7 @@ contents:
 - 年齢と性別の内訳
 tables:
 - name: population
-  read: hf://datasets/yuiseki/unhcr-refugee-stats/parquet/2026-10-04/population.parquet
+  read: hf://datasets/yuiseki/unhcr-refugee-stats@5f3eea4ac1314223df73dcdf614ebe224a5fe632/parquet/2026-10-04/population.parquet
   grain: 1 年 × 1 出身国 × 1 庇護国の年末の人数
   rows: 138893
   id:

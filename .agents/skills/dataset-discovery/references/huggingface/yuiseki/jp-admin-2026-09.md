@@ -21,7 +21,7 @@ contents:
 - 世帯数
 tables:
 - name: municipalities
-  read: hf://datasets/yuiseki/jp-admin-2026-09/municipalities.parquet
+  read: hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet
   grain: 1 つの市区町村。政令指定都市は、親の市と、その区が別の行になる (171 区)
   rows: 1918
   id:

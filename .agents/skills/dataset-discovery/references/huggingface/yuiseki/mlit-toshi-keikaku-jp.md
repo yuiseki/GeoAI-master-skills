@@ -25,7 +25,7 @@ contents:
 - 立地適正化計画ほか 25 レイヤー
 tables:
 - name: youto
-  read: hf://datasets/yuiseki/mlit-toshi-keikaku-jp/parquet/fy2025/youto.parquet
+  read: hf://datasets/yuiseki/mlit-toshi-keikaku-jp@39fdb22f42b7619b753b5389bc107aaadf8ba614/parquet/fy2025/youto.parquet
   grain: 1 つの用途地域の面 (決定の 1 区画)
   rows: 102159
   id: []

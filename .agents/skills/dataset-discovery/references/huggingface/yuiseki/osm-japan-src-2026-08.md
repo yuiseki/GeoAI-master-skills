@@ -22,7 +22,7 @@ contents:
 - 切り出しの境界
 tables:
 - name: planet_osm_point
-  read: hf://datasets/yuiseki/osm-japan-src-2026-08/parquet/planet_osm_point.parquet
+  read: hf://datasets/yuiseki/osm-japan-src-2026-08@9a9b4a77e89e28a66bf15781644a16b63501f622/parquet/planet_osm_point.parquet
   grain: OSM の 1 つのノード (タグのあるもの)
   rows: 3720141
   id:

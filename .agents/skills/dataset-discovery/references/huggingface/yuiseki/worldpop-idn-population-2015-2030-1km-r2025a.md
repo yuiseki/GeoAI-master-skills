@@ -16,7 +16,7 @@ contents:
 - "固定版データ。詳細な派生・利用条件は本文を参照"
 tables:
 - name: data
-  read: https://huggingface.co/datasets/yuiseki/worldpop-idn-population-2015-2030-1km-r2025a/resolve/b70415daf2035015bbc72ff5b89baf47ba4d08d/data/population.parquet
+  read: https://huggingface.co/datasets/yuiseki/worldpop-idn-population-2015-2030-1km-r2025a/resolve/main/data/population.parquet
   grain: "人口セル1件・年ごと"
   rows: null
   id: []

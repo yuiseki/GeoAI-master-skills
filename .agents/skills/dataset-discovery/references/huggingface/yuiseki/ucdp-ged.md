@@ -3,6 +3,7 @@ kind: dataset
 id: yuiseki/ucdp-ged
 description: Uppsala Conflict Data Program が記録した、1989 年以降の組織的暴力の事件。1 件ごとの場所、日付、当事者、死者数。
 url: https://huggingface.co/datasets/yuiseki/ucdp-ged
+card_revision: d72fe7eb368fef2d4b804affad07a132571f60f8
 license: CC BY 4.0。UCDP が版ごとに挙げる論文の引用が条件
 formats:
 - Parquet
@@ -18,7 +19,7 @@ contents:
 - 位置の精度
 tables:
 - name: ged
-  read: hf://datasets/yuiseki/ucdp-ged/parquet/26.1/ged.parquet
+  read: hf://datasets/yuiseki/ucdp-ged@d72fe7eb368fef2d4b804affad07a132571f60f8/parquet/26.1/ged.parquet
   grain: 1 件の事件 (点と期間)
   rows: 417968
   id:

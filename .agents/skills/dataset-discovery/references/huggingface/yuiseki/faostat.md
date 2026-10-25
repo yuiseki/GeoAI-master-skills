@@ -16,7 +16,7 @@ contents:
 - "固定版データ。利用条件と解釈上の注意は本文を参照"
 tables:
 - name: data
-  read: https://huggingface.co/datasets/yuiseki/faostat/resolve/1908be260630c5b5156a1a694aaa6570b4086318/raw/2026-10-04/Land_Use_E_All_Data_(Normalized).zip
+  read: https://huggingface.co/datasets/yuiseki/faostat/resolve/1908be260630c5b5156a1a694aaa6570b4086318/raw/2026-10-04/Inputs_LandUse_E_All_Data_(Normalized).zip
   grain: "国・項目・年の観測値1件"
   rows: null
   id: []

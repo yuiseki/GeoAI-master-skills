@@ -19,7 +19,7 @@ contents:
 - 点から判定した都道府県 (配布元には無い列)
 tables:
 - name: underpass
-  read: hf://datasets/yuiseki/mlit-underpass/parquet/national.parquet
+  read: hf://datasets/yuiseki/mlit-underpass@4d00072aa88696cfa7026c4cef7d600bc96f9f13/parquet/national.parquet
   grain: 1 つのアンダーパスの箇所 (配布元の地図の 1 つの点)
   rows: 3841
   id:

@@ -16,7 +16,22 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版72件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。以下はこのディレクトリに置いた72件で、GeoAI での用途と実ファイルを確認した。別の目録にある `worldpop/japan.md` に別途掲載した WorldPop 日本版 も含め、未掲載候補は下に判断理由を記す。固定 SHA を含む `read` URL は移動しない版を指す。固定 SHA のない既存カードを更新するときは API の `sha` と `siblings` を再確認する。
+
+## 未掲載の候補
+
+次の14件は同じ公開一覧で確認したが、地理・GeoAIでの用途が薄い、既存カードと重複する、または再配布条件を確定できないため、この目録には含めない。ライセンス名が Hub に表示されていることだけで再配布を許可されたとは判断しない。
+
+| データセット | 判断理由 |
+|---|---|
+| `g-uc`, `onomatopoeia-ja`, `sake_qa`, `scp-jp-plain` | 会話・言語・創作テキストで、地理的な主題や GeoAI 用途が薄い。`g-uc` はライセンス表示もない。 |
+| `onomatopoeia-ja-flat`, `open2ch-livejupiter-qa` | 地理用途が薄く、再配布ライセンス表示も確認できない。 |
+| `ksj-n07-bus-route-greater-tokyo`, `ksj-p11-bus-stop-greater-tokyo` | CC BY 4.0 の地域別切り出しだが、同じ2022年版の全国データに含まれるため、全国カードで代替できる。 |
+| `osm-wikidata-brand-tokyo23` | ODbL の地域別切り出し。日本版のブランド対応表カードと主題・スキーマが重なる。 |
+| `ne-admin0-10m` | Public Domain だが Natural Earth 5.1.1 の行政界に限定され、より新しい v5.1.2 の全レイヤーカードと重なる。 |
+| `rinya-forest-inventory` | PDL 1.0 で再利用可能。ただし公開概要は1文書・3ページのみで、より広い調査報告カードを優先する。 |
+| `un-docs` | 国連の Rights and Permissions 条件で、自由な再配布許諾を確定できない。地理用途も限定的。 |
+| `un-statistical-yearbook`, `undata-sdmx` | 国連の利用条件と元データ提供機関・compiler の条件が混在する。`undata-sdmx` は制限行を除外しているが、残り全体の再配布条件も一律には確定できない。 |
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|

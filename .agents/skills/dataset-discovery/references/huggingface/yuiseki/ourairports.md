@@ -3,6 +3,7 @@ kind: dataset
 id: yuiseki/ourairports-2026-08
 description: 全世界の空港、ヘリポート、飛行場の点と、IATA と ICAO のコード、滑走路、無線施設。2026-08-31 の凍結。
 url: https://huggingface.co/datasets/yuiseki/ourairports-2026-08
+card_revision: 6c1d115e83a7865005260e4b1ed70eda86d95107
 license: public domain
 formats:
 - GeoParquet
@@ -20,7 +21,7 @@ contents:
 - コメント
 tables:
 - name: airports
-  read: hf://datasets/yuiseki/ourairports-2026-08/parquet/airports.parquet
+  read: hf://datasets/yuiseki/ourairports-2026-08@6c1d115e83a7865005260e4b1ed70eda86d95107/parquet/airports.parquet
   grain: 1 か所 (空港、ヘリポート、飛行場など)。ほとんどは小さな飛行場とヘリポートで、旅客の空港ではない
   rows: 86002
   id:

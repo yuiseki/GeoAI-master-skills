@@ -20,7 +20,7 @@ contents:
 - 区の境界の面
 tables:
 - name: planet_osm_polygon
-  read: hf://datasets/yuiseki/osm-tokyo23-src-2026-08/parquet/planet_osm_polygon.parquet
+  read: hf://datasets/yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664/parquet/planet_osm_polygon.parquet
   grain: 1 つの面。マルチポリゴンのリレーションは、負の osm_id を共有する複数の行になる
   rows: 1437105
   id:

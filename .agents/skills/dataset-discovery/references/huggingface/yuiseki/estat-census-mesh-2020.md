@@ -22,7 +22,7 @@ contents:
 - 住宅の所有と建て方
 tables:
 - name: T001140
-  read: hf://datasets/yuiseki/estat-census-mesh-2020/parquet/T001140.parquet
+  read: hf://datasets/yuiseki/estat-census-mesh-2020@6c486c8649484e09e549c0c99b5fa89b4f416edb/parquet/T001140.parquet
   grain: 都道府県 × 1 km メッシュ。都道府県の境をまたぐメッシュは、都道府県ごとに別の行
   rows: 177861
   id:

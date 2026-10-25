@@ -3,6 +3,7 @@ kind: dataset
 id: yuiseki/natural-earth
 description: 全世界の小縮尺ベクター (国、州・省、都市、海岸線、陸、海、湖、川、道路など)。1 レイヤーが 1 つの GeoParquet。
 url: https://huggingface.co/datasets/yuiseki/natural-earth
+card_revision: efdd0668c57c9d42307e12eacbf66d8d151de5b9
 license: public domain
 formats:
 - GeoParquet
@@ -22,7 +23,7 @@ contents:
 - 市街地
 tables:
 - name: ne_10m_admin_0_countries
-  read: hf://datasets/yuiseki/natural-earth/parquet/v5.1.2/10m_cultural/ne_10m_admin_0_countries.parquet
+  read: hf://datasets/yuiseki/natural-earth@efdd0668c57c9d42307e12eacbf66d8d151de5b9/parquet/v5.1.2/10m_cultural/ne_10m_admin_0_countries.parquet
   grain: 1 つの国または地域 (属領や係争地を含む)
   rows: 258
   id:
