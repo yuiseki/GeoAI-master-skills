@@ -74,4 +74,5 @@ contents:
 | [osm-wikidata-brand-jp](osm-wikidata-brand-jp.md) | OSMとWikidataの日本ブランド対応表 (ODbL 1.0 / CC0) | OpenStreetMap と Wikidata |
 | [osm-tag-corpus](osm-tag-corpus.md) | OpenStreetMapタグの多言語説明コーパス (ODbL 1.0) | OpenStreetMap タグ資料 |
 | [osm-tokyo23-questions](osm-tokyo23-questions.md) | 東京23区のOSM空間質問215件 (ODbL 1.0) | OpenStreetMap 2026-08 スナップショット |
+| [osm-tokyo23-qa-2026-08](osm-tokyo23-qa-2026-08.md) | 東京23区のOSM質問応答比較 (ODbL 1.0) | OpenStreetMap 2026-08 スナップショット |
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。

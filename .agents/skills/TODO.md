@@ -93,6 +93,7 @@
       - [x] `references/huggingface/yuiseki/osm-wikidata-brand-jp.md`: 空間データまたはGeoAI向け言語・評価データの固定版
       - [x] `references/huggingface/yuiseki/osm-tag-corpus.md`: 空間データまたはGeoAI向け言語・評価データの固定版
       - [x] `references/huggingface/yuiseki/osm-tokyo23-questions.md`: 空間データまたはGeoAI向け言語・評価データの固定版
+      - [x] `references/huggingface/yuiseki/osm-tokyo23-qa-2026-08.md`: 空間データまたはGeoAI向け言語・評価データの固定版
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
