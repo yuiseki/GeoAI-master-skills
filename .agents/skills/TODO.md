@@ -41,6 +41,17 @@
       - [x] `references/global-nature-watch/integrated-disturbance-alerts.md`: 全球の植生攪乱速報
       - [x] `references/global-nature-watch/tree-cover-loss-drivers.md`: 森林損失の主因
       - [x] `references/global-nature-watch/forest-typology-2020.md`: 森林タイプの基準図、分類図、検証標本
+    - [x] `references/huggingface/yuiseki/README.md`: 公開 GeoParquet の版の探し方と元データのカードとの境界
+      - [x] `references/huggingface/yuiseki/esa-worldcover-tokyo-2021-100m.md`: 東京周辺の土地被覆100 m集計
+      - [x] `references/huggingface/yuiseki/ghsl-japan-core-2020-30arcsec.md`: 東アジアの GHSL 人口・建物面積
+      - [x] `references/huggingface/yuiseki/forty-hokkaido-east-2020.md`: 東北海道の森林タイプ分類面
+      - [x] `references/huggingface/yuiseki/koppen-geiger-east-asia-1991-2020.md`: 東アジアの気候区分面
+      - [x] `references/huggingface/yuiseki/kontur-population-2023-11-01-22km.md`: 全球 H3 r4 の人口推計
+      - [x] `references/huggingface/yuiseki/microsoft-building-footprints-kanto-2026-08-13.md`: 関東周辺の建物輪郭2タイル
+      - [x] `references/huggingface/yuiseki/usgs-comcat-2025-m45.md`: 2025年の M4.5以上の地震点
+      - [x] `references/huggingface/yuiseki/forest-typology-validation-2020.md`: ForTy の層別検証点
+      - [x] `references/huggingface/yuiseki/timezone-boundary-builder-2026d.md`: 3種類のタイムゾーン境界
+      - [x] `references/huggingface/yuiseki/ibtracs-v04r01.md`: 1980年以降の熱帯低気圧経路点
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
