@@ -84,6 +84,7 @@
       - [x] `references/huggingface/yuiseki/estat-boundary-2020.md`: 公開データの固定版とライセンス条件
       - [x] `references/huggingface/yuiseki/estat-census-mesh-250m-2020.md`: 公開データの固定版とライセンス条件
       - [x] `references/huggingface/yuiseki/estat-census-mesh-500m-2020.md`: 公開データの固定版とライセンス条件
+      - [x] `references/huggingface/yuiseki/gsi-global-map-jp.md`: 公開データの固定版とライセンス条件
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット

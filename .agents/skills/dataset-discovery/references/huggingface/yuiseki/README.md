@@ -64,4 +64,5 @@ contents:
 | [estat-boundary-2020](estat-boundary-2020.md) | 2020年国勢調査の小地域境界と人口・世帯 (CC BY 4.0) | e-Stat 令和2年国勢調査 |
 | [estat-census-mesh-250m-2020](estat-census-mesh-250m-2020.md) | 2020年国勢調査の250mメッシュ12表 (CC BY 4.0) | e-Stat 令和2年国勢調査 |
 | [estat-census-mesh-500m-2020](estat-census-mesh-500m-2020.md) | 2020年国勢調査の500mメッシュ12表 (CC BY 4.0) | e-Stat 令和2年国勢調査 |
+| [gsi-global-map-jp](gsi-global-map-jp.md) | 地球地図日本の行政界・道路・河川など複数版 | 国土地理院 地球地図日本 |
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
