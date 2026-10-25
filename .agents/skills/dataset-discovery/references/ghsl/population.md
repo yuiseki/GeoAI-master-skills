@@ -1,19 +1,21 @@
 ---
 kind: dataset
 id: ghsl/population
-description: GHSL R2023A の居住人口。各画素の推計人数であり、国勢調査の画素別実測ではない。
+description: GHSL R2023A の居住人口。各画素の推計人数であり、国勢調査の画素別実測ではない。日本周辺5タイルの GeoParquet 派生版を公開。
 url: https://human-settlement.emergency.copernicus.eu/ghs_pop2023.php
 license: CC BY 4.0。GHSL R2023A の査読論文と GHS-POP 製品の引用が必要
 formats:
+- GeoParquet
 - GeoTIFF を含む zip
 crs: EPSG:4326（今回読んだ 30 秒角）。Mollweide 版も配布される
-spatial_coverage: 全世界をタイルに分割。実読は日本の一部を含む R6_C32 のみ
+spatial_coverage: 全世界をタイルに分割。公開した派生版は日本周辺の R5_C32, R5_C33, R6_C31, R6_C32, R6_C33 の5タイル
 temporal_coverage: 1975 年から 2020 年まで 5 年刻みの推計、2025 年と 2030 年は投影。実読は E2020 のみ
 as_of:
   release: R2023A
   epoch: E2020
   version: V1_0
-  checked: 2026-10-24
+  checked: 2026-10-25
+  hub_revision: 4ee767429ee03ea47a9003c547f92c320474e350
 contents:
 - 画素ごとの居住人口の推計人数
 tables:
@@ -33,6 +35,12 @@ tables:
 ---
 
 # GHS-POP R2023A
+
+## GeoParquet 派生版
+
+[Hugging Face](https://huggingface.co/datasets/yuiseki/ghsl-japan-core-2020-30arcsec) に2020年 E2020、30秒角の5タイルを公開した。各タイルの全1,440,000画素を、値を変えずに画素範囲の EPSG:4326 Polygon として格納し、5ファイル合計は7,200,000地物。0を含め全セルを残し、原典ラスタの画素値 SHA-256 と GeoParquet の値列 SHA-256 が各タイルですべて一致した。
+
+列は `tile_code`、ゼロ始まり `cell_row`・`cell_col`、`population_estimate` (persons per cell)、`geometry`。5タイルは日本周辺を含む10度角の原典タイル全体で、隣接国・海域も含み、日本全域は覆わない。原典 ZIP、マニフェスト、CC BY 4.0 の帰属と製品 DOI も同じ Hub データセットに含む。公開 revision: `4ee767429ee03ea47a9003c547f92c320474e350`。
 
 [公式の製品ページ](https://human-settlement.emergency.copernicus.eu/ghs_pop2023.php)によると、人口は CIESIN GPWv4.11 の国勢調査・行政区別人口を建物分布で細分した推計である。国勢調査の画素別の観測値ではない。2025年と2030年は投影なので、過去からの実測変化と混ぜない。
 
