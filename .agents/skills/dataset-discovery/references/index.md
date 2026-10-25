@@ -71,5 +71,6 @@
 | [valhalla](services/valhalla.md) | 経路の距離と所要時間 | 確かめていない |
 | [taginfo](services/taginfo.md) | OSM のタグの辞書と使用数 | 2026-01-29 まで |
 | [usgs-earthquake-catalog](usgs-earthquake-catalog.md) | USGS FDSN Event API で地震イベントを検索する。取得結果は更新される | 2026-10-25 に照会 |
+| [nasa-gibs](nasa-gibs.md) | NASA GIBS の表示用衛星画像などを WMTS・WMS で取得する。元製品と許諾はレイヤーごと | 2026-10-25 に目録と1タイルを実読 |
 
 Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。

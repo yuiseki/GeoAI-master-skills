@@ -64,6 +64,7 @@
     - [x] `references/koppen-geiger-2023.md`: Figshare v2 の固定版と CC BY 4.0、現行 V3 との差を記録。ZIP は未実読
     - [x] `references/kontur-population-20231101.md`: HDX の固定版。22kmの GeoPackage 71,283行を実読
     - [x] `references/usgs-earthquake-catalog.md`: 更新型 FDSN Event API の小規模クエリと版を確認
+    - [x] `references/nasa-gibs.md`: WMTS・WMS の目録と表示用タイルを実読。元製品ごとの許諾と best の可変性を記録
     - [x] `references/plateau/README.md`: 都市別 CityGML の目録 API と都市ごとの版を記録
     - [x] `references/virtual-shizuoka/README.md`: 公開 S3 の年別目録と2025年の点群1タイルを実読。CRS は未特定
     - [x] `references/timezone-boundary-builder.md`: 2026d の now 版 GeoJSON を実読。境界データの ODbL を確認
