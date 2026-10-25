@@ -303,6 +303,7 @@
 - 残す (2 / 2)
   - [x] `analysis-reporting`: 最終回答に、問い、結論、データ、方法を固定の順で置き、詳細度を分析の重さで変える (MVP。check_report.py)
     - [x] `references/levels.md`: 詳細度の 3 段階、数字の扱い、実際の分析から書いた例
+    - [x] `references/github-markdown.md`: GFM と GitHub の数式・Mermaid、表・PNG の使い分けと公式文書
     - [x] 問いを、最初に 1 行で残す (使い道は未対応)
     - [ ] 採用した手法と、それを選んだ理由を残す
     - [ ] 検討したが採用しなかった手法と診断を、その理由とともに残す

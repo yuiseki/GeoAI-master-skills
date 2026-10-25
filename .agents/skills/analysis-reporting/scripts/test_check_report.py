@@ -102,6 +102,45 @@ def test_html_page_markup_in_the_report_is_refused():
     assert format_problems("report.md", SIMPLE + "\n![分布](outputs/map.png)\n") == []
 
 
+def test_github_markdown_table_math_mermaid_and_png_are_allowed():
+    report = """## 問い
+2 地域の到達率はどう違うか。
+
+## 結論
+到達率は甲が 80%、乙が 60%。
+
+## データ
+調査票 (2026-10-01)、2 地域。
+
+## 方法
+到達率は到達件数を対象件数で割った。
+| 地域 | 到達率 |
+|---|---:|
+| 甲 | 80% |
+| 乙 | 60% |
+```math
+r = n_{reached} / n_{eligible}
+```
+```mermaid
+flowchart LR
+  A[調査票] --> B[到達率]
+```
+![地域別の到達率](outputs/rate.png)
+"""
+    assert format_problems("report.md", report) == []
+    assert check(report, "standard", "80% 60%") == []
+
+
+def test_fenced_content_counts_toward_simple_line_limit():
+    report = SIMPLE + "```mermaid\nflowchart LR\n  A --> B\n  B --> C\n  C --> D\n```\n"
+    assert any("lines" in p for p in check(report, "simple", EVIDENCE))
+
+
+def test_html_page_markup_remains_forbidden_even_in_fenced_content():
+    report = SIMPLE + "```html\n<div>interactive map</div>\n```\n"
+    assert any("HTML" in p for p in format_problems("report.md", report))
+
+
 def test_command_line_stops_on_an_html_report(tmp_path):
     f = tmp_path / "report.html"
     f.write_text(SIMPLE, encoding="utf-8")
