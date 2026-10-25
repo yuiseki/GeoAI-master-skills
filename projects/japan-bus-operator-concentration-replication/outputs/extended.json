@@ -1,0 +1,53 @@
+{
+  "sources": {
+    "stops": "https://huggingface.co/datasets/yuiseki/ksj-p11-bus-stop-jp/resolve/442223b4544103a922f21081c070dd5c69e4c23e/parquet/bus_stop.parquet",
+    "census": "https://huggingface.co/datasets/yuiseki/estat-census-mesh-2020/resolve/6c486c8649484e09e549c0c99b5fa89b4f416edb/parquet/T001140.parquet",
+    "saved_mesh": "artifacts/japan-bus-operator-concentration-replication/meshes.csv"
+  },
+  "mode": "exploratory post-result extension",
+  "within_mesh": {
+    "eligible_meshes": 145909,
+    "stop_meshes": 77963,
+    "single_meshes": 58629,
+    "stop_older_population": 30787683,
+    "single_older_population": 16602283,
+    "no_stop_older_population": 4516585,
+    "single_share": 0.5392508101372877
+  },
+  "age75_800m": {
+    "eligible_meshes": 145027,
+    "stop_meshes": 94554,
+    "single_meshes": 67116,
+    "stop_older_population": 16734660,
+    "single_older_population": 7689344,
+    "no_stop_older_population": 1497523,
+    "single_share": 0.4594861204231218
+  },
+  "age75_top20_overlap_with_age65": 19,
+  "single_kind_800m": {
+    "community": {
+      "meshes": 24156,
+      "older_people": 2807601
+    },
+    "mixed": {
+      "meshes": 223,
+      "older_people": 60006
+    },
+    "private": {
+      "meshes": 40518,
+      "older_people": 11031786
+    },
+    "public": {
+      "meshes": 2464,
+      "older_people": 993371
+    }
+  },
+  "single_route_pairs_median": 1,
+  "single_route_pairs_one_meshes": 37022,
+  "single_route_pairs_observed_meshes": 67361,
+  "suppressed_age65_by_operator_count": {
+    "0": 22621,
+    "1": 7229,
+    "2+": 810
+  }
+}
