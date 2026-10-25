@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版68件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版69件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
@@ -108,3 +108,5 @@ Hugging Face のカードに表示されたライセンスだけで、元デー�
 | [faostat](faostat.md) | FAOSTAT の農業・食料・土地利用・気候等の統計スナップショット。 | CC BY 4.0。FAO を出典表示し、個別ドメインの注記も保持 |
 
 | [ilostat](ilostat.md) | ILOSTAT の労働市場・雇用統計の指標ファイルと辞書。 | CC BY 4.0。ILOSTAT を出典表示し、指標定義・分類辞書を併用 |
+
+| [geo-triples-tokyo23](geo-triples-tokyo23.md) | 東京23区・地理関係 triple、英日テキスト、評価質問からなる GeoAI ベンチマーク。 | ODbL 1.0。OpenStreetMap contributors を表示し、派生データベースにも Share-Alike を適用 |

@@ -96,6 +96,7 @@
       - [x] `references/huggingface/yuiseki/osm-tokyo23-qa-2026-08.md`: 空間データまたはGeoAI向け言語・評価データの固定版
       - [x] `references/huggingface/yuiseki/un-wpp.md`: 国連人口推計と2024年投影の固定表
       - [x] `references/huggingface/yuiseki/text2geoql.md`: 再利用条件を確認した地理・GeoAIデータの固定版
+      - [x] `references/huggingface/yuiseki/geo-triples-tokyo23.md`: 東京23区・地理関係 triple、英日テキスト、評価質問からなる GeoAI ベンチマーク。 ODbL 1.0。OpenStreetMap contributors を表示し、派生データベースにも Share-Alike を適用
       - [x] `references/huggingface/yuiseki/gsi-dem-fuji-z14-100m-2026-10-25.md`: 国土地理院 DEM10B から作成した富士山周辺の100 m標高セル。 PDL 1.0 相当。国土地理院を出典表示し、派生データであることを明記する
       - [x] `references/huggingface/yuiseki/gpw-grasslands-hokkaido-east-2018-2020-250m.md`: Global Pasture Watch 草地分類の東北海道 2018〜2020年版。 CC BY 4.0。Parente et al. と Zenodo の元データを出典表示
       - [x] `references/huggingface/yuiseki/worldpop-idn-population-2015-2030-1km-r2025a.md`: WorldPop R2025A のインドネシア年次人口推計 1 km 格子。 ODbL 1.0 の派生データ。WorldPop 元データの条件も併記し、派生データベースの Share-Alike と帰属表示を守る
