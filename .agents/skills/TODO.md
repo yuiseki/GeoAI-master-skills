@@ -77,6 +77,7 @@
       - [x] `references/huggingface/yuiseki/ksj-l01-land-price.md`: Hugging Face に固定した 2019〜2026年の地価公示標準地
       - [x] `references/huggingface/yuiseki/geonames.md`: GeoNames の日付固定版、別名と行政階層
       - [x] `references/huggingface/yuiseki/wikidata-gazetteer.md`: 公開データの固定版とライセンス条件
+      - [x] `references/huggingface/yuiseki/wikipedia-geotagged.md`: 公開データの固定版とライセンス条件
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
