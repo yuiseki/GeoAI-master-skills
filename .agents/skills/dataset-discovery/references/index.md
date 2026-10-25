@@ -37,7 +37,7 @@
 | [worldpop/japan.md](worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
 | [mapterhorn](mapterhorn.md) | 全世界の標高のラスタタイル (Terrarium の可逆 WebP、PMTiles)。z0〜12 は 1 ファイル、z13 以上は地域ごと。151 の配布元の DEM を合わせたもの | 全世界の陸域 (海は 0) | 版 0.0.13、2026-10-16 取得 |
 | [dynamic-world](dynamic-world.md) | Sentinel-2 のシーンごとの 10 m の土地被覆 (9 クラスの確率とラベル)。Earth Engine の中だけ。未実測 | 全世界の陸域 | 2015-06-27 から、ほぼ実時間 |
-| [esa-worldcover](esa-worldcover.md) | 全世界の陸域の 10 m の土地被覆の分類図 (11 クラス)。3 度のタイルの COG、EPSG:4326。AWS の公開 S3 から認証なしで読める | 全世界の陸域 (外洋は NoData) | 2020 (v100)、2021 (v200) |
+| [esa-worldcover](esa-worldcover.md) | 全世界の 10 m 土地被覆図 (11 クラス)。東京周辺の10×10画素集約 GeoParquet を公開済み | 全世界の陸域、派生データは東京周辺 | 2020 (v100)、2021 (v200) |
 | [ctrees-agb-100m](ctrees-agb-100m.md) | 地上部バイオマス密度と不確実性の 100 m 年次 COG。CC BY 4.0、全球全期間は約 1.90 TB | 全球の植生域 | 2000〜2025 年 |
 | [esa-cci-biomass-v7](esa-cci-biomass-v7.md) | 森林の木本地上部バイオマスと不確実性の 100 m 地図。利用無料、再配布は未確認 | 全球 | 2005〜2012、2015〜2024 年 |
 | [nasa-gedi-l4a-v3](nasa-gedi-l4a-v3.md) | LiDAR の約 25 m フットプリントでの AGB 密度予測と誤差。現地実測ではない | 南北 51.6 度の軌道上 | 2019〜2025 年の観測 |
