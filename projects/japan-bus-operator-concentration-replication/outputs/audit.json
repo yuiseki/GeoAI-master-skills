@@ -1,0 +1,58 @@
+{
+  "datasets": {
+    "census": {
+      "revision": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+      "url": "https://huggingface.co/datasets/yuiseki/estat-census-mesh-2020/resolve/6c486c8649484e09e549c0c99b5fa89b4f416edb/parquet/T001140.parquet"
+    },
+    "stops": {
+      "revision": "442223b4544103a922f21081c070dd5c69e4c23e",
+      "url": "https://huggingface.co/datasets/yuiseki/ksj-p11-bus-stop-jp/resolve/442223b4544103a922f21081c070dd5c69e4c23e/parquet/bus_stop.parquet"
+    },
+    "admin": {
+      "revision": "e6c87b1d7095c17422147962185071a986e13135",
+      "url": "https://huggingface.co/datasets/yuiseki/jp-admin-2026-09/resolve/e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet"
+    }
+  },
+  "census_rows": 177861,
+  "inhabited_meshes": 176964,
+  "suppressed_age_meshes": 30660,
+  "stop_rows": 278515,
+  "operator_strings": 1445,
+  "municipality_rows": 1741,
+  "join": {
+    "within_one": 172109,
+    "within_multiple": 15,
+    "nearest": 4840
+  },
+  "radii": {
+    "500": {
+      "eligible_meshes": 145909,
+      "stop_meshes": 68206,
+      "single_meshes": 52457,
+      "stop_older_population": 29523039,
+      "single_older_population": 17284277,
+      "no_stop_older_population": 5781229,
+      "single_share": 0.5854504680226179
+    },
+    "800": {
+      "eligible_meshes": 145909,
+      "stop_meshes": 94843,
+      "single_meshes": 67361,
+      "stop_older_population": 32397947,
+      "single_older_population": 14892764,
+      "no_stop_older_population": 2906321,
+      "single_share": 0.459682337278964
+    },
+    "1000": {
+      "eligible_meshes": 145909,
+      "stop_meshes": 103542,
+      "single_meshes": 69443,
+      "stop_older_population": 33054345,
+      "single_older_population": 13345015,
+      "no_stop_older_population": 2249923,
+      "single_share": 0.40372952481738783
+    }
+  },
+  "municipalities_with_mesh": 1740,
+  "method": "spherical haversine on mesh center; P11 operator distinct strings; age65 population weighted"
+}

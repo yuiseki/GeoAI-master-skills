@@ -1,0 +1,160 @@
+{
+  "municipalities": 1740,
+  "with_stop_population": 1666,
+  "share_100pct_with_denominator_10000": 29,
+  "largest_100pct": [
+    {
+      "code5": "07204",
+      "name": "いわき市",
+      "older_people": 89781
+    },
+    {
+      "code5": "01205",
+      "name": "室蘭市",
+      "older_people": 30140
+    },
+    {
+      "code5": "14214",
+      "name": "伊勢原市",
+      "older_people": 27377
+    },
+    {
+      "code5": "25202",
+      "name": "彦根市",
+      "older_people": 23891
+    },
+    {
+      "code5": "38203",
+      "name": "宇和島市",
+      "older_people": 23598
+    }
+  ],
+  "top_20_by_single_population": [
+    {
+      "code5": "27100",
+      "name": "大阪市",
+      "older_people": 356785
+    },
+    {
+      "code5": "23100",
+      "name": "名古屋市",
+      "older_people": 339898
+    },
+    {
+      "code5": "40130",
+      "name": "福岡市",
+      "older_people": 251874
+    },
+    {
+      "code5": "14100",
+      "name": "横浜市",
+      "older_people": 224577
+    },
+    {
+      "code5": "40100",
+      "name": "北九州市",
+      "older_people": 200995
+    },
+    {
+      "code5": "22100",
+      "name": "静岡市",
+      "older_people": 193249
+    },
+    {
+      "code5": "27140",
+      "name": "堺市",
+      "older_people": 189395
+    },
+    {
+      "code5": "22130",
+      "name": "浜松市",
+      "older_people": 186001
+    },
+    {
+      "code5": "01100",
+      "name": "札幌市",
+      "older_people": 183067
+    },
+    {
+      "code5": "28201",
+      "name": "姫路市",
+      "older_people": 127925
+    },
+    {
+      "code5": "04100",
+      "name": "仙台市",
+      "older_people": 122111
+    },
+    {
+      "code5": "13111",
+      "name": "大田区",
+      "older_people": 116194
+    },
+    {
+      "code5": "28100",
+      "name": "神戸市",
+      "older_people": 109981
+    },
+    {
+      "code5": "14201",
+      "name": "横須賀市",
+      "older_people": 109613
+    },
+    {
+      "code5": "16201",
+      "name": "富山市",
+      "older_people": 103978
+    },
+    {
+      "code5": "27210",
+      "name": "枚方市",
+      "older_people": 98216
+    },
+    {
+      "code5": "09201",
+      "name": "宇都宮市",
+      "older_people": 96040
+    },
+    {
+      "code5": "38201",
+      "name": "松山市",
+      "older_people": 89817
+    },
+    {
+      "code5": "07204",
+      "name": "いわき市",
+      "older_people": 89781
+    },
+    {
+      "code5": "34100",
+      "name": "広島市",
+      "older_people": 84896
+    }
+  ],
+  "top20_overlap_vs_800m": {
+    "500": 16,
+    "1000": 17
+  },
+  "operator_count_distribution_800m": {
+    "0": {
+      "meshes": 51066,
+      "older_people": 2906321
+    },
+    "1": {
+      "meshes": 67361,
+      "older_people": 14892764
+    },
+    "2": {
+      "meshes": 21408,
+      "older_people": 10609703
+    },
+    "3": {
+      "meshes": 4393,
+      "older_people": 4305179
+    },
+    "4+": {
+      "meshes": 1681,
+      "older_people": 2590301
+    }
+  }
+}

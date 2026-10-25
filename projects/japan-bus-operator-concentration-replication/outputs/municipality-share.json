@@ -1,0 +1,32 @@
+{
+  "value": "share_pct",
+  "kind": "rate",
+  "unit": "%（停留所圏の65歳以上人口）",
+  "crs": "EPSG:4612",
+  "source": "P11 2022・国勢調査2020・行政界2020／固定版",
+  "method": "fixed",
+  "classes": 5,
+  "breaks": [
+    0.0,
+    20.0,
+    40.0,
+    60.0,
+    80.0,
+    100.0
+  ],
+  "units_per_class": [
+    232,
+    271,
+    328,
+    220,
+    615
+  ],
+  "nodata_units": 75,
+  "palette": "YlOrRd",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 402704,
+  "font": "Noto Sans CJK JP",
+  "made": "2026-10-26"
+}
