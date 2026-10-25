@@ -27,6 +27,9 @@ tables:
   - name: pixels_10
     type: USMALLINT
     meaning: 樹木被覆に分類された10 m画素の数。面積率には valid_pixels で割る
+  - name: pixels_50
+    type: USMALLINT
+    meaning: 市街地に分類された10 m画素の数。建物棟数や居住人口ではない
   - name: valid_pixels
     type: USMALLINT
     meaning: 有効な10 m画素の数
@@ -37,4 +40,4 @@ tables:
 
 # 東京周辺の WorldCover 100 m 集計
 
-2026-10-25 に SHA 固定の Parquet メタデータを実読し、360,000 行と `tile_code`、`cell_row`、`cell_col`、`valid_pixels`、`nodata_pixels`、`pixels_10` など、EPSG:4326 の面を確認した。`data/parquet/profile.json` は元の10 m画素3,600万件・NoData 0 と報告するが、画素を全数照合したわけではない。樹林率を使うなら `pixels_10 / valid_pixels` と定義し、クラス20の低木を含めるかは別に決める。樹冠の日陰、気温、個人の暑熱曝露は直接測っていない。[元データのカード](../../esa-worldcover.md)も参照する。
+2026-10-25 に SHA 固定の Parquet メタデータを実読し、360,000 行と `tile_code`、`cell_row`、`cell_col`、`valid_pixels`、`nodata_pixels`、`pixels_10`、`pixels_50` など、EPSG:4326 の面を確認した。`data/parquet/profile.json` は元の10 m画素3,600万件・NoData 0 と報告するが、画素を全数照合したわけではない。樹木分類画素率は `pixels_10 / valid_pixels`、市街地分類画素率は `pixels_50 / valid_pixels` と定義する。どちらも樹冠の日陰、建物棟数、居住人数、気温、個人の暑熱曝露は直接測っていない。[元データのカード](../../esa-worldcover.md)も参照する。
