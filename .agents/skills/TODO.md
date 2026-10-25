@@ -61,6 +61,7 @@
     - [x] `references/ksj-n07-bus-route.md`: 国土数値情報のバスルート 2022 年版。首都圏の版が全国版の部分集合であること、事業者の違う同じ線と、重なりで長さが約 27% 増えることを実測
     - [x] `references/ksj-p11-bus-stop.md`: 国土数値情報のバス停 2022 年版。首都圏の版が全国版の部分集合であること、系統と区分のリスト、ファイルの都道府県と点の位置が食い違う停留所、市区町村の面との結合を実測
     - [x] `references/gebco-2025.md`: 全球15秒角の標高と海底地形。配布条件と容量を確認、画素は未実読
+    - [x] `references/gebco-2026-hokkaido-east-15as.md`: CEDA OGL v3 / GEBCO public domainを確認し、東北海道の原典画素518,400個をGeoParquet化して実測
     - [x] `references/jaxa-aw3d30.md`: 登録制の全球DSM。地域別の版と再配布の未確認点を記録
     - [x] `references/koppen-geiger-2023.md`: Figshare v2 の固定版と CC BY 4.0、現行 V3 との差を記録。ZIP は未実読
     - [x] `references/kontur-population-20231101.md`: HDX の固定版。22kmの GeoPackage 71,283行を実読

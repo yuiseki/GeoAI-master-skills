@@ -55,6 +55,7 @@
 | [ksj-n07-bus-route](ksj-n07-bus-route.md) | 国土数値情報のバスルートの線と事業者 (系統、本数は無い)。首都圏 4 都県の版もある | 日本 (354,208 本) | 2022-08 ごろの資料、2026-10-23 取得 |
 | [ksj-p11-bus-stop](ksj-p11-bus-stop.md) | 国土数値情報のバス停の点、事業者、通る系統とバスの区分 (本数は無い)。首都圏 4 都県の版もある | 日本 (278,515 か所) | 2022-08 ごろの資料、2026-10-23 取得 |
 | [gebco-2025](gebco-2025.md) | 全球15秒角の海底地形・陸域標高とデータ由来の TID Grid。画素未実読 | 全球 | 2025年版。元測量時点は場所による |
+| [gebco-2026-hokkaido-east-15as](gebco-2026-hokkaido-east-15as.md) | GEBCO 2026 の北海道東部 15 秒角格子 518,400 画素を GeoParquet 化。CEDA OGL v3 / GEBCO public domain | 143–146°E、42–45°N | 2026年版 |
 | [jaxa-aw3d30](jaxa-aw3d30.md) | JAXA の約30m DSM。登録が必要。画素未実読 | 全球の陸域 | 主な元画像2006〜2011年、地域ごとに版が異なる |
 | [koppen-geiger-2023](koppen-geiger-2023.md) | 1991〜2020年の東アジア気候区分。2,255,263セルを13,480ポリゴンの GeoParquet にした | 東アジア (日本・近隣国の一部) | Figshare v2、CC BY 4.0 |
 | [kontur-population-20231101](kontur-population-20231101.md) | Kontur の全球22km H3人口推計71,283セルを GeoParquet 化して公開 | 全球 | 2023-11-01版 |
