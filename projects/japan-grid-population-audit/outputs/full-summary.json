@@ -1,0 +1,538 @@
+{
+  "scope": "full",
+  "source_versions": {
+    "census": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+    "ghsl": "4ee767429ee03ea47a9003c547f92c320474e350",
+    "worldcover_not_used_here": "6f006f64483b65b20f06c775b87db7a8d57a6fda"
+  },
+  "tools": {
+    "duckdb": "2.0.0",
+    "numpy": "2.5.4",
+    "pyproj": "3.8.0"
+  },
+  "crs": {
+    "input": "JGD2011 mesh code and GHSL EPSG:4326 lon-lat",
+    "area": "EPSG:6933, always_xy"
+  },
+  "census_audit": {
+    "input_rows": 177861,
+    "unique_meshes": 176964,
+    "duplicate_mesh_codes": 897,
+    "population_total": 126146099
+  },
+  "ghsl_tiles": {
+    "R5_C32": {
+      "rows": 1440000,
+      "zero_cells": 1325325,
+      "population_sum": 12661036.518253796,
+      "bounds": [
+        129.9920828408574,
+        39.09958337887517,
+        139.99208280124958,
+        49.09958333862925
+      ],
+      "geometry_sample_bounds": [
+        129.9920828408574,
+        49.09125000532946,
+        130.00041617415772,
+        49.09958333862925
+      ],
+      "url": "https://huggingface.co/datasets/yuiseki/ghsl-japan-core-2020-30arcsec/resolve/4ee767429ee03ea47a9003c547f92c320474e350/data/parquet/population/R5_C32.parquet"
+    },
+    "R5_C33": {
+      "rows": 1440000,
+      "zero_cells": 1364130,
+      "population_sum": 9029435.33619204,
+      "bounds": [
+        139.99208280124958,
+        39.09958337887517,
+        149.99208276164177,
+        49.09958333862925
+      ],
+      "geometry_sample_bounds": [
+        139.99208280124958,
+        49.09125000532946,
+        140.0004161345499,
+        49.09958333862925
+      ],
+      "url": "https://huggingface.co/datasets/yuiseki/ghsl-japan-core-2020-30arcsec/resolve/4ee767429ee03ea47a9003c547f92c320474e350/data/parquet/population/R5_C33.parquet"
+    },
+    "R6_C31": {
+      "rows": 1440000,
+      "zero_cells": 1165279,
+      "population_sum": 182843434.48870432,
+      "bounds": [
+        119.9920828804652,
+        29.099583419121082,
+        129.9920828408574,
+        39.09958337887517
+      ],
+      "geometry_sample_bounds": [
+        119.9920828804652,
+        39.09125004557537,
+        120.00041621376553,
+        39.09958337887517
+      ],
+      "url": "https://huggingface.co/datasets/yuiseki/ghsl-japan-core-2020-30arcsec/resolve/4ee767429ee03ea47a9003c547f92c320474e350/data/parquet/population/R6_C31.parquet"
+    },
+    "R6_C32": {
+      "rows": 1440000,
+      "zero_cells": 1225054,
+      "population_sum": 101978025.44040896,
+      "bounds": [
+        129.9920828408574,
+        29.099583419121082,
+        139.99208280124958,
+        39.09958337887517
+      ],
+      "geometry_sample_bounds": [
+        129.9920828408574,
+        39.09125004557537,
+        130.00041617415772,
+        39.09958337887517
+      ],
+      "url": "https://huggingface.co/datasets/yuiseki/ghsl-japan-core-2020-30arcsec/resolve/4ee767429ee03ea47a9003c547f92c320474e350/data/parquet/population/R6_C32.parquet"
+    },
+    "R6_C33": {
+      "rows": 1440000,
+      "zero_cells": 1399503,
+      "population_sum": 11707036.603593854,
+      "bounds": [
+        139.99208280124958,
+        29.099583419121082,
+        149.99208276164177,
+        39.09958337887517
+      ],
+      "geometry_sample_bounds": [
+        139.99208280124958,
+        39.09125004557537,
+        140.0004161345499,
+        39.09958337887517
+      ],
+      "url": "https://huggingface.co/datasets/yuiseki/ghsl-japan-core-2020-30arcsec/resolve/4ee767429ee03ea47a9003c547f92c320474e350/data/parquet/population/R6_C33.parquet"
+    }
+  },
+  "coverage_counts": {
+    "full_positive": 175000,
+    "full_zero": 0,
+    "partial": 0,
+    "outside": 1964
+  },
+  "excluded_census_population": {
+    "partial": 0,
+    "outside": 1574690,
+    "full_zero": 0
+  },
+  "fully_covered_positive_meshes": 175000,
+  "pilot_block_meshes": 100,
+  "evaluation_meshes": 174900,
+  "artifact": "artifacts/japan-grid-population-audit/full-mesh-results.csv.gz",
+  "metrics": {
+    "ghsl_area": {
+      "n": 174900,
+      "census_sum": 122726894.0,
+      "estimate_sum": 119584494.63957787,
+      "estimate_to_census_ratio": 0.9743951854560734,
+      "bias_mean_people": -17.966834536432913,
+      "mae_people": 206.034540396171,
+      "median_abs_error_people": 30.359167098009255,
+      "p90_abs_error_people": 496.9893540043467,
+      "median_abs_log1p_error": 0.40597869915774254
+    },
+    "ghsl_center": {
+      "n": 174900,
+      "census_sum": 122726894.0,
+      "estimate_sum": 119812851.62744986,
+      "estimate_to_census_ratio": 0.976255877765878,
+      "bias_mean_people": -16.66119138107576,
+      "mae_people": 293.2358185704855,
+      "median_abs_error_people": 35.724402121249994,
+      "p90_abs_error_people": 715.2020997118481,
+      "median_abs_log1p_error": 0.5345776123324131
+    }
+  },
+  "rankings": [
+    {
+      "fraction": 0.05,
+      "method": "ghsl_area",
+      "eligible_meshes": 174900,
+      "k": 8745,
+      "overlap": 7330,
+      "recall": 0.8381932532875929,
+      "census_population_recovered": 0.9595016779327442
+    },
+    {
+      "fraction": 0.05,
+      "method": "ghsl_center",
+      "eligible_meshes": 174900,
+      "k": 8745,
+      "overlap": 6641,
+      "recall": 0.7594053744997141,
+      "census_population_recovered": 0.9260872241082821
+    },
+    {
+      "fraction": 0.1,
+      "method": "ghsl_area",
+      "eligible_meshes": 174900,
+      "k": 17490,
+      "overlap": 15300,
+      "recall": 0.8747855917667239,
+      "census_population_recovered": 0.9734522846647277
+    },
+    {
+      "fraction": 0.1,
+      "method": "ghsl_center",
+      "eligible_meshes": 174900,
+      "k": 17490,
+      "overlap": 14437,
+      "recall": 0.8254431103487707,
+      "census_population_recovered": 0.9538589841912574
+    },
+    {
+      "fraction": 0.2,
+      "method": "ghsl_area",
+      "eligible_meshes": 174900,
+      "k": 34980,
+      "overlap": 30964,
+      "recall": 0.8851915380217267,
+      "census_population_recovered": 0.9855008046793748
+    },
+    {
+      "fraction": 0.2,
+      "method": "ghsl_center",
+      "eligible_meshes": 174900,
+      "k": 34980,
+      "overlap": 29766,
+      "recall": 0.8509433962264151,
+      "census_population_recovered": 0.9758046743524545
+    }
+  ],
+  "low_population": {
+    "100": 96211,
+    "1000": 150640
+  },
+  "prefecture_summary": [
+    {
+      "prefecture": "01",
+      "meshes": 19799,
+      "area_mae_people": 87.57767445099608,
+      "ghsl_area_recall10": 0.8747474747474747,
+      "ghsl_center_recall10": 0.8474747474747475
+    },
+    {
+      "prefecture": "02",
+      "meshes": 3538,
+      "area_mae_people": 117.93437546813647,
+      "ghsl_area_recall10": 0.8615819209039548,
+      "ghsl_center_recall10": 0.8022598870056498
+    },
+    {
+      "prefecture": "03",
+      "meshes": 6653,
+      "area_mae_people": 63.87439832318557,
+      "ghsl_area_recall10": 0.8273273273273273,
+      "ghsl_center_recall10": 0.7837837837837838
+    },
+    {
+      "prefecture": "04",
+      "meshes": 4569,
+      "area_mae_people": 160.1164974179343,
+      "ghsl_area_recall10": 0.862144420131291,
+      "ghsl_center_recall10": 0.8293216630196937
+    },
+    {
+      "prefecture": "05",
+      "meshes": 4105,
+      "area_mae_people": 72.76820432487246,
+      "ghsl_area_recall10": 0.8588807785888077,
+      "ghsl_center_recall10": 0.8102189781021898
+    },
+    {
+      "prefecture": "06",
+      "meshes": 3246,
+      "area_mae_people": 108.97841407364344,
+      "ghsl_area_recall10": 0.8215384615384616,
+      "ghsl_center_recall10": 0.7569230769230769
+    },
+    {
+      "prefecture": "07",
+      "meshes": 6543,
+      "area_mae_people": 102.69344120466677,
+      "ghsl_area_recall10": 0.8412213740458016,
+      "ghsl_center_recall10": 0.7969465648854962
+    },
+    {
+      "prefecture": "08",
+      "meshes": 5033,
+      "area_mae_people": 196.91174450287915,
+      "ghsl_area_recall10": 0.8174603174603174,
+      "ghsl_center_recall10": 0.7321428571428571
+    },
+    {
+      "prefecture": "09",
+      "meshes": 4055,
+      "area_mae_people": 160.07171445662613,
+      "ghsl_area_recall10": 0.854679802955665,
+      "ghsl_center_recall10": 0.7906403940886699
+    },
+    {
+      "prefecture": "10",
+      "meshes": 3015,
+      "area_mae_people": 180.66801493012022,
+      "ghsl_area_recall10": 0.8410596026490066,
+      "ghsl_center_recall10": 0.7185430463576159
+    },
+    {
+      "prefecture": "11",
+      "meshes": 2997,
+      "area_mae_people": 784.1535934705669,
+      "ghsl_area_recall10": 0.8133333333333334,
+      "ghsl_center_recall10": 0.6066666666666667
+    },
+    {
+      "prefecture": "12",
+      "meshes": 4577,
+      "area_mae_people": 454.0392048896488,
+      "ghsl_area_recall10": 0.8384279475982532,
+      "ghsl_center_recall10": 0.7794759825327511
+    },
+    {
+      "prefecture": "13",
+      "meshes": 1431,
+      "area_mae_people": 1567.8624494551443,
+      "ghsl_area_recall10": 0.7013888888888888,
+      "ghsl_center_recall10": 0.4513888888888889
+    },
+    {
+      "prefecture": "14",
+      "meshes": 1802,
+      "area_mae_people": 1186.102965663216,
+      "ghsl_area_recall10": 0.7348066298342542,
+      "ghsl_center_recall10": 0.5138121546961326
+    },
+    {
+      "prefecture": "15",
+      "meshes": 5246,
+      "area_mae_people": 143.16776355525738,
+      "ghsl_area_recall10": 0.8495238095238096,
+      "ghsl_center_recall10": 0.8
+    },
+    {
+      "prefecture": "16",
+      "meshes": 1814,
+      "area_mae_people": 190.07988552565132,
+      "ghsl_area_recall10": 0.8351648351648352,
+      "ghsl_center_recall10": 0.7582417582417582
+    },
+    {
+      "prefecture": "17",
+      "meshes": 2254,
+      "area_mae_people": 149.7929215339544,
+      "ghsl_area_recall10": 0.8805309734513275,
+      "ghsl_center_recall10": 0.8097345132743363
+    },
+    {
+      "prefecture": "18",
+      "meshes": 1717,
+      "area_mae_people": 133.56081501588588,
+      "ghsl_area_recall10": 0.877906976744186,
+      "ghsl_center_recall10": 0.7965116279069767
+    },
+    {
+      "prefecture": "19",
+      "meshes": 1687,
+      "area_mae_people": 126.20966372643714,
+      "ghsl_area_recall10": 0.8698224852071006,
+      "ghsl_center_recall10": 0.7633136094674556
+    },
+    {
+      "prefecture": "20",
+      "meshes": 5148,
+      "area_mae_people": 113.95428745677538,
+      "ghsl_area_recall10": 0.8524271844660194,
+      "ghsl_center_recall10": 0.7747572815533981
+    },
+    {
+      "prefecture": "21",
+      "meshes": 3992,
+      "area_mae_people": 139.29380001874114,
+      "ghsl_area_recall10": 0.8625,
+      "ghsl_center_recall10": 0.7775
+    },
+    {
+      "prefecture": "22",
+      "meshes": 4158,
+      "area_mae_people": 377.91292657799113,
+      "ghsl_area_recall10": 0.7884615384615384,
+      "ghsl_center_recall10": 0.7067307692307693
+    },
+    {
+      "prefecture": "23",
+      "meshes": 3934,
+      "area_mae_people": 521.7524457224905,
+      "ghsl_area_recall10": 0.8197969543147208,
+      "ghsl_center_recall10": 0.6700507614213198
+    },
+    {
+      "prefecture": "24",
+      "meshes": 3042,
+      "area_mae_people": 209.36581816917138,
+      "ghsl_area_recall10": 0.7967213114754098,
+      "ghsl_center_recall10": 0.7377049180327869
+    },
+    {
+      "prefecture": "25",
+      "meshes": 1830,
+      "area_mae_people": 237.0939599046277,
+      "ghsl_area_recall10": 0.8469945355191257,
+      "ghsl_center_recall10": 0.7595628415300546
+    },
+    {
+      "prefecture": "26",
+      "meshes": 2534,
+      "area_mae_people": 266.018942962337,
+      "ghsl_area_recall10": 0.9094488188976378,
+      "ghsl_center_recall10": 0.8307086614173228
+    },
+    {
+      "prefecture": "27",
+      "meshes": 1498,
+      "area_mae_people": 1453.1149002363954,
+      "ghsl_area_recall10": 0.7533333333333333,
+      "ghsl_center_recall10": 0.48
+    },
+    {
+      "prefecture": "28",
+      "meshes": 5116,
+      "area_mae_people": 316.5849486268616,
+      "ghsl_area_recall10": 0.890625,
+      "ghsl_center_recall10": 0.83203125
+    },
+    {
+      "prefecture": "29",
+      "meshes": 1608,
+      "area_mae_people": 225.02664626582444,
+      "ghsl_area_recall10": 0.8757763975155279,
+      "ghsl_center_recall10": 0.7515527950310559
+    },
+    {
+      "prefecture": "30",
+      "meshes": 2230,
+      "area_mae_people": 136.82219936136832,
+      "ghsl_area_recall10": 0.8475336322869955,
+      "ghsl_center_recall10": 0.7847533632286996
+    },
+    {
+      "prefecture": "31",
+      "meshes": 1763,
+      "area_mae_people": 119.038695777209,
+      "ghsl_area_recall10": 0.847457627118644,
+      "ghsl_center_recall10": 0.7909604519774012
+    },
+    {
+      "prefecture": "32",
+      "meshes": 4046,
+      "area_mae_people": 58.27772432948167,
+      "ghsl_area_recall10": 0.817283950617284,
+      "ghsl_center_recall10": 0.7901234567901234
+    },
+    {
+      "prefecture": "33",
+      "meshes": 4816,
+      "area_mae_people": 135.01645801335036,
+      "ghsl_area_recall10": 0.8713692946058091,
+      "ghsl_center_recall10": 0.8236514522821576
+    },
+    {
+      "prefecture": "34",
+      "meshes": 5482,
+      "area_mae_people": 172.20230112789127,
+      "ghsl_area_recall10": 0.8724954462659381,
+      "ghsl_center_recall10": 0.8360655737704918
+    },
+    {
+      "prefecture": "35",
+      "meshes": 3941,
+      "area_mae_people": 115.14538192556553,
+      "ghsl_area_recall10": 0.8607594936708861,
+      "ghsl_center_recall10": 0.8278481012658228
+    },
+    {
+      "prefecture": "36",
+      "meshes": 2121,
+      "area_mae_people": 102.66391827831404,
+      "ghsl_area_recall10": 0.8215962441314554,
+      "ghsl_center_recall10": 0.7934272300469484
+    },
+    {
+      "prefecture": "37",
+      "meshes": 1596,
+      "area_mae_people": 180.2284593978778,
+      "ghsl_area_recall10": 0.8125,
+      "ghsl_center_recall10": 0.675
+    },
+    {
+      "prefecture": "38",
+      "meshes": 3283,
+      "area_mae_people": 136.83961793886587,
+      "ghsl_area_recall10": 0.8541033434650456,
+      "ghsl_center_recall10": 0.8024316109422492
+    },
+    {
+      "prefecture": "39",
+      "meshes": 3101,
+      "area_mae_people": 81.57440615892686,
+      "ghsl_area_recall10": 0.8617363344051447,
+      "ghsl_center_recall10": 0.797427652733119
+    },
+    {
+      "prefecture": "40",
+      "meshes": 3735,
+      "area_mae_people": 374.9037350046104,
+      "ghsl_area_recall10": 0.8743315508021391,
+      "ghsl_center_recall10": 0.7834224598930482
+    },
+    {
+      "prefecture": "41",
+      "meshes": 1820,
+      "area_mae_people": 134.86123601331397,
+      "ghsl_area_recall10": 0.8461538461538461,
+      "ghsl_center_recall10": 0.7802197802197802
+    },
+    {
+      "prefecture": "42",
+      "meshes": 3257,
+      "area_mae_people": 133.37357697673062,
+      "ghsl_area_recall10": 0.852760736196319,
+      "ghsl_center_recall10": 0.7975460122699386
+    },
+    {
+      "prefecture": "43",
+      "meshes": 4403,
+      "area_mae_people": 129.74770949691262,
+      "ghsl_area_recall10": 0.8526077097505669,
+      "ghsl_center_recall10": 0.8027210884353742
+    },
+    {
+      "prefecture": "44",
+      "meshes": 3888,
+      "area_mae_people": 93.40425009683406,
+      "ghsl_area_recall10": 0.8868894601542416,
+      "ghsl_center_recall10": 0.8329048843187661
+    },
+    {
+      "prefecture": "45",
+      "meshes": 3399,
+      "area_mae_people": 102.98842790688381,
+      "ghsl_area_recall10": 0.8647058823529412,
+      "ghsl_center_recall10": 0.8117647058823529
+    },
+    {
+      "prefecture": "46",
+      "meshes": 5078,
+      "area_mae_people": 97.0355305131355,
+      "ghsl_area_recall10": 0.8562992125984252,
+      "ghsl_center_recall10": 0.8188976377952756
+    }
+  ]
+}

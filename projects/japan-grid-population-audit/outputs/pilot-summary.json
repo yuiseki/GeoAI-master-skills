@@ -1,0 +1,154 @@
+{
+  "scope": "pilot",
+  "source_versions": {
+    "census": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+    "ghsl": "4ee767429ee03ea47a9003c547f92c320474e350",
+    "worldcover_not_used_here": "6f006f64483b65b20f06c775b87db7a8d57a6fda"
+  },
+  "tools": {
+    "duckdb": "2.0.0",
+    "numpy": "2.5.4",
+    "pyproj": "3.8.0"
+  },
+  "crs": {
+    "input": "JGD2011 mesh code and GHSL EPSG:4326 lon-lat",
+    "area": "EPSG:6933, always_xy"
+  },
+  "census_audit": {
+    "input_rows": 177861,
+    "unique_meshes": 176964,
+    "duplicate_mesh_codes": 897,
+    "population_total": 126146099
+  },
+  "ghsl_tiles": {
+    "R6_C32": {
+      "rows": 1440000,
+      "zero_cells": 1225054,
+      "population_sum": 101978025.44040896,
+      "bounds": [
+        129.9920828408574,
+        29.099583419121082,
+        139.99208280124958,
+        39.09958337887517
+      ],
+      "geometry_sample_bounds": [
+        129.9920828408574,
+        39.09125004557537,
+        130.00041617415772,
+        39.09958337887517
+      ],
+      "url": "https://huggingface.co/datasets/yuiseki/ghsl-japan-core-2020-30arcsec/resolve/4ee767429ee03ea47a9003c547f92c320474e350/data/parquet/population/R6_C32.parquet"
+    }
+  },
+  "coverage_counts": {
+    "full_positive": 100,
+    "full_zero": 0,
+    "partial": 0,
+    "outside": 0
+  },
+  "excluded_census_population": {
+    "partial": 0,
+    "outside": 0,
+    "full_zero": 0
+  },
+  "fully_covered_positive_meshes": 100,
+  "pilot_block_meshes": 100,
+  "evaluation_meshes": 100,
+  "artifact": "artifacts/japan-grid-population-audit/pilot-mesh-results.csv.gz",
+  "metrics": {
+    "ghsl_area": {
+      "n": 100,
+      "census_sum": 1844515.0,
+      "estimate_sum": 1641601.5002618257,
+      "estimate_to_census_ratio": 0.8899908649492283,
+      "bias_mean_people": -2029.1349973817426,
+      "mae_people": 3745.7941439112915,
+      "median_abs_error_people": 2747.5306934603714,
+      "p90_abs_error_people": 8126.5522021751485,
+      "median_abs_log1p_error": 0.1790429855695752
+    },
+    "ghsl_center": {
+      "n": 100,
+      "census_sum": 1844515.0,
+      "estimate_sum": 1644268.6981466322,
+      "estimate_to_census_ratio": 0.8914368807771323,
+      "bias_mean_people": -2002.4630185336812,
+      "mae_people": 6536.336370661188,
+      "median_abs_error_people": 6133.315812263846,
+      "p90_abs_error_people": 13015.643309097826,
+      "median_abs_log1p_error": 0.4066366828302952
+    }
+  },
+  "rankings": [
+    {
+      "fraction": 0.05,
+      "method": "ghsl_area",
+      "eligible_meshes": 100,
+      "k": 5,
+      "overlap": 1,
+      "recall": 0.2,
+      "census_population_recovered": 0.8594711203006075
+    },
+    {
+      "fraction": 0.05,
+      "method": "ghsl_center",
+      "eligible_meshes": 100,
+      "k": 5,
+      "overlap": 1,
+      "recall": 0.2,
+      "census_population_recovered": 0.7876799580071311
+    },
+    {
+      "fraction": 0.1,
+      "method": "ghsl_area",
+      "eligible_meshes": 100,
+      "k": 10,
+      "overlap": 3,
+      "recall": 0.3,
+      "census_population_recovered": 0.8573831270460484
+    },
+    {
+      "fraction": 0.1,
+      "method": "ghsl_center",
+      "eligible_meshes": 100,
+      "k": 10,
+      "overlap": 2,
+      "recall": 0.2,
+      "census_population_recovered": 0.8100165852974842
+    },
+    {
+      "fraction": 0.2,
+      "method": "ghsl_area",
+      "eligible_meshes": 100,
+      "k": 20,
+      "overlap": 8,
+      "recall": 0.4,
+      "census_population_recovered": 0.8859804369850364
+    },
+    {
+      "fraction": 0.2,
+      "method": "ghsl_center",
+      "eligible_meshes": 100,
+      "k": 20,
+      "overlap": 6,
+      "recall": 0.3,
+      "census_population_recovered": 0.8398970745133901
+    }
+  ],
+  "low_population": {
+    "100": 1,
+    "1000": 3
+  },
+  "pilot_top20": {
+    "ghsl_area": {
+      "overlap": 8,
+      "recall": 0.4,
+      "census_population_recovered": 0.8859804369850364
+    },
+    "ghsl_center": {
+      "overlap": 6,
+      "recall": 0.3,
+      "census_population_recovered": 0.8398970745133901
+    }
+  }
+}
