@@ -56,7 +56,12 @@ tables:
 
 ## Hugging Face への凍結
 
-CC BY 4.0 でライセンス上は候補。分類図だけでも約 25.65 GB、相対確信度図は約 331.50 GB なので、全量複製の前に利用者が必要とする範囲、出典表示、版、元の MD5、ファイル構成を検討する。現時点では凍結していない。
+分類図全量は約 25.65 GB、相対確信度図は約 331.50 GB のため、ここでは全量を複製せず、Figshare の `55T` UTM タイルアーカイブ（`raster_55T.zip`、7,709,724 bytes、MD5 `8f4a3f0eb7dfc6f78f1f7ddd14d4635e`）から東北海道の連続する6 GeoTIFFを選んだ。選択した6タイルを北向きの10 m EPSG:32655グリッドへ正規化し、6クラス分類をポリゴン化して GeoParquet に変換した。結果は63,630ポリゴンで、元モザイク70,026,240画素を再ラスタ化した結果と全画素一致した。
+
+- 公開先: [ForTy 2020 East Hokkaido 10 m GeoParquet](https://huggingface.co/datasets/yuiseki/forty-hokkaido-east-2020)
+- 格納物: GeoParquet、特徴数・クラス別件数のプロファイル、元の Figshare タイル ZIP と SHA-256 マニフェスト、帰属表記
+- ライセンス: 元データの CC BY 4.0 を継承。原著者名と DOI をデータカードおよび `ATTRIBUTION.txt` に記載
+- 派生範囲: UTM 55N の行8–9・列1–3、東北海道。全球図の代替ではない
 
 ## 利用上の注意
 

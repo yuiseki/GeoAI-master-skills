@@ -34,7 +34,7 @@ contents:
 - [Global Pasture Watch の年次草地分類](gpw-grasslands.md)
 - [全球の植生攪乱統合アラート](integrated-disturbance-alerts.md)
 - [森林損失の主因](tree-cover-loss-drivers.md)
-- [ForTy 森林タイプ 2020](forest-typology-2020.md)
+- [ForTy 森林タイプ 2020](forest-typology-2020.md)（東北海道6タイルの GeoParquet 派生版を公開）
 - [ForTy 2020 の検証標本 GeoParquet](../forest-typology-validation-2020.md)
 
 既存の [森林炭素純フラックス](../gfw-forest-carbon-net-flux.md)と[2000年の木本バイオマス](../gfw-biomass-stock-2000.md)は既に別カードにあるため、ここでは重複させない。自然地図 `sbtn_natural_lands` は 2026-10-25 時点で GFW Data API の目録にあるが、版一覧が空で、同 API から取得できる固定版を確認できなかったため追加していない。
