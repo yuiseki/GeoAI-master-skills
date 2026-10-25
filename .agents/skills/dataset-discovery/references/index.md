@@ -57,7 +57,7 @@
 | [gebco-2025](gebco-2025.md) | 全球15秒角の海底地形・陸域標高とデータ由来の TID Grid。画素未実読 | 全球 | 2025年版。元測量時点は場所による |
 | [jaxa-aw3d30](jaxa-aw3d30.md) | JAXA の約30m DSM。登録が必要。画素未実読 | 全球の陸域 | 主な元画像2006〜2011年、地域ごとに版が異なる |
 | [koppen-geiger-2023](koppen-geiger-2023.md) | Köppen-Geiger 気候区分。Figshare v2 固定。ZIP は未実読 | 全球の陸域 | 基準期間・将来シナリオ別 |
-| [kontur-population-20231101](kontur-population-20231101.md) | H3 の人口推計。22km版の71,283セルを実読 | 全球 | 2023-11-01版 |
+| [kontur-population-20231101](kontur-population-20231101.md) | Kontur の全球22km H3人口推計71,283セルを GeoParquet 化して公開 | 全球 | 2023-11-01版 |
 | [plateau/](plateau/README.md) | 目録。都市・年度別の CityGML 3D都市モデル | 日本の公開都市 | 都市・元資料ごと |
 | [virtual-shizuoka/](virtual-shizuoka/README.md) | 目録。静岡県の航空レーザー等の公開点群。2025年の1タイルを実読 | 静岡県の公開済み範囲 | 2019〜2025年の年別ディレクトリ |
 | [timezone-boundary-builder-2026d](timezone-boundary-builder.md) | 3種類の境界を検証した GeoParquet と原典 ZIP を公開 (419/301/65行) | 全球 | 2026d、2026-10-25 固定 |
