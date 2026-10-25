@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版63件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版64件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
@@ -98,3 +98,5 @@ Hugging Face のカードに表示されたライセンスだけで、元デー�
 | [nilim-disaster-reports](nilim-disaster-reports.md) | 国土技術政策総合研究所の災害調査報告から権利確認できた本文。 | CC BY 4.0。本文中の第三者図表・引用の表示も維持 |
 
 | [moni1000-reports](moni1000-reports.md) | 環境省モニタリングサイト1000の公開調査報告テキスト。 | 政府標準利用規約（第1.0版）。出典表示と第三者権利の条件を守る |
+
+| [mlit-river-basin-overviews](mlit-river-basin-overviews.md) | 国土交通省の一級水系・河川流域概要の公開本文。 | 政府標準利用規約（第1.0版）。引用される第三者資料の権利は別途尊重 |
