@@ -49,6 +49,7 @@
 | [nasa-gedi-l4b-v2-1](nasa-gedi-l4b-v2-1.md) | GEDI 観測を 1 km 格子にまとめた AGB 密度と標準誤差。約 2.2 GB | 南北約 52 度の有効セル | 2019〜2023 年の観測を統合 |
 | [jaxa-japan-biomass](jaxa-japan-biomass.md) | 約 10 m の日本の森林 AGB・炭素蓄積・樹高。登録が必要、再配布は未確認 | 日本の森林 | 2016〜2022 年の入力から作った単時期 |
 | [gfw-forest-carbon-net-flux](gfw-forest-carbon-net-flux.md) | 森林の温室効果ガス純フラックス。年別ではなく期間累積。CC BY 4.0 | 全球の森林 | 2001〜2025 年の累積 (v20260327) |
+| [gfw-forest-carbon-net-flux-hokkaido-east-v1-3-2](gfw-forest-carbon-net-flux-hokkaido-east-v1-3-2.md) | Dataverse v1.3.2のCC0 1.0累積純フラックスをGeoParquet化 | 東北海道 (143–146°E, 42–45°N) | 2001〜2023累積、2024-04-02 source tile |
 | [gfw-biomass-stock-2000](gfw-biomass-stock-2000.md) | 旧 WHRC 由来の木本 AGB 密度。無料で閲覧できるが個別ライセンスは未確認 | 全球とされる | 2000 年 |
 | [usfs-biomass-2008](usfs-biomass-2008.md) | USDA Forest Service の 250 m 森林バイオマス。CONUS の AGB ZIP は約 142 MB | 米国本土、アラスカなど | 2008 年版 |
 | [usfs-bigmap-2018](usfs-bigmap-2018.md) | USDA Forest Service FIA BIGMAP の30m森林バイオマス。総量と327樹種 | 米国本土 | 2018年版 |

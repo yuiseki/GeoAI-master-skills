@@ -90,6 +90,7 @@
     - [x] `references/nasa-gedi-l4b-v2-1.md`: 約 2.2 GB の格子推定値と凍結候補を記録
     - [x] `references/jaxa-japan-biomass.md`: 登録、無償利用、対象期間と再配布未確認を記録
     - [x] `references/gfw-forest-carbon-net-flux.md`: API の現行版、CC BY 4.0、期間累積値を確認
+    - [x] `references/gfw-forest-carbon-net-flux-hokkaido-east-v1-3-2.md`: DataverseのCC0旧版を東北海道GeoParquetにし、原典と全出力値を照合して公開
     - [x] `references/gfw-biomass-stock-2000.md`: API の個別ライセンス欠落と再配布保留を記録
     - [x] `references/usfs-biomass-2008.md`: 公表された ZIP 容量と別製品 BIGMAP の違いを記録
     - [x] `references/usfs-bigmap-2018.md`: 無償の30m総量・樹種別地図。容量と再配布条件は未確認
