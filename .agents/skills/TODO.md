@@ -75,6 +75,7 @@
       - [x] `references/huggingface/yuiseki/ksj-n07-bus-route.md`: Hugging Face に固定した 全国のバスルート線
       - [x] `references/huggingface/yuiseki/ksj-p11-bus-stop.md`: Hugging Face に固定した 全国のバス停と事業者・系統
       - [x] `references/huggingface/yuiseki/ksj-l01-land-price.md`: Hugging Face に固定した 2019〜2026年の地価公示標準地
+      - [x] `references/huggingface/yuiseki/geonames.md`: GeoNames の日付固定版、別名と行政階層
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット

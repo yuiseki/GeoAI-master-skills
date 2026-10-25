@@ -53,4 +53,7 @@ contents:
 | [ksj-n07-bus-route](ksj-n07-bus-route.md) | 全国のバスルート線 | 国土数値情報 N07、CC BY 4.0 相当 |
 | [ksj-p11-bus-stop](ksj-p11-bus-stop.md) | 全国のバス停と事業者・系統 | 国土数値情報 P11、CC BY 4.0 相当 |
 | [ksj-l01-land-price](ksj-l01-land-price.md) | 2019〜2026年の地価公示標準地 | 国土数値情報 L01、年ごとの許諾確認が必要 |
+| [geonames](geonames.md) | CC BY 4.0 の世界地名辞書、別名、行政階層 | 固定版の内容と利用条件は個別カードを参照 |
+| [geonames](geonames.md) | CC BY 4.0 の世界地名辞書、別名、行政階層 | GeoNames 2026-10-01 の固定スナップショット |
+
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
