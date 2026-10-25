@@ -30,6 +30,7 @@
 | [gsi-evacuation-sites-jp](gsi-evacuation-sites-jp.md) | 指定緊急避難場所 (災害の種類ごとの指定) と指定避難所の点 | 日本 | 2026-10-06 取得 |
 | [estat-census-mesh-2020](estat-census-mesh-2020.md) | 令和 2 年国勢調査の 1 km メッシュの統計 (人口、世帯、年齢、就業、住宅など 12 表) | 日本 | 2020-10-01 |
 | [gsi-dem-tiles](gsi-dem-tiles.md) | 国土地理院の標高タイル (ズームとタイル番号で 256 × 256 画素の標高をテキストで返す) | 日本の陸域 | 随時更新、2026-10-14 取得 |
+| [gsi-dem-fuji-z14-100m-2026-10-25](gsi-dem-fuji-z14-100m-2026-10-25.md) | 富士山周辺のGSI DEM10Bを約100 m格子に集約したGeoParquet。原典タイル100枚を同梱 | 富士山周辺 (138.604–138.823°E, 35.264–35.443°N) | 2026-10-25取得 |
 | [nsw-lalonde](nsw-lalonde.md) | GeoAI の分析対象ではなく、GeoAI でも使う統計手法を検証するための benchmark。職業訓練の無作為化実験 NSW と観察の対照 (PSID、CPS)。実験の答えが分かっている。地理の列は無い | アメリカの人、座標なし | 1974、1975、1978 年の所得 |
 | [card-college-proximity](card-college-proximity.md) | GeoAI の分析対象ではなく、操作変数を検証するための benchmark。Card (1995) の教育、賃金、1966 年の大学への近さ。教科書の答え (0.132) が分かっている | アメリカの人、地域の印だけ | 1966 年と 1976 年 |
 | [statsmodels-co2](statsmodels-co2.md) | GeoAI の分析対象ではなく、季節のある時系列の予測を検証するための benchmark。マウナロアの CO2 の週の値。強い季節と上昇の傾向。statsmodels に同梱 | 1 地点 | 1958-03〜2001-12、週 |

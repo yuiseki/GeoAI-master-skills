@@ -53,6 +53,7 @@
     - [x] `references/statsmodels-co2.md`: マウナロアの CO2 の週の値。季節のある時系列の予測を検証するための benchmark
     - [x] `references/nsw-lalonde.md`: 職業訓練の実験と観察の対照。GeoAI の分析対象ではなく、統計手法を検証するための benchmark (地理の列なし)
     - [x] `references/gsi-dem-tiles.md`
+      - [x] `references/gsi-dem-fuji-z14-100m-2026-10-25.md`: DEM10Bテキストタイル100枚、約100 m集約GeoParquetをPDL1.0の出典・加工表示付きで公開
     - [x] `references/mapterhorn.md`: 全世界の標高のラスタタイル。タイルを読んで Terrarium から標高に直せることを実測
     - [x] `references/esa-worldcover.md`: 10 m の土地被覆の分類図。公開 S3 のタイルを読み、NoData と海の値、窓ごとのクラスの数を実測
     - [x] `references/ksj-l01-land-price.md`: 地価公示 2019〜2026 年。前年の番号での年の結び方を変動率で確かめ、新しい地点の変動率が 0.0 であること、.prj と座標の食い違いを実測
