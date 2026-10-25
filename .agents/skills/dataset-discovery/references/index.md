@@ -59,10 +59,16 @@
 | [plateau/](plateau/README.md) | 目録。都市・年度別の CityGML 3D都市モデル | 日本の公開都市 | 都市・元資料ごと |
 | [virtual-shizuoka/](virtual-shizuoka/README.md) | 目録。静岡県の航空レーザー等の公開点群。2025年の1タイルを実読 | 静岡県の公開済み範囲 | 2019〜2025年の年別ディレクトリ |
 | [timezone-boundary-builder-2026d](timezone-boundary-builder.md) | IANA タイムゾーンの境界。now版 GeoJSON を実読 | 全球 | 2026d版 |
+| [mobility-database/](mobility-database/README.md) | 目録。GTFS と GTFS-RT の供給元、公開 URL、認証、ライセンス URL。CSV 6,686行を実読 | 世界の登録フィード | 2026-10-25 取得 |
+| [ibtracs-v04r01](ibtracs-v04r01.md) | NOAA の熱帯低気圧の経路。last3years CSV 24,554観測行を実読 | 全球の熱帯低気圧 | v04r01、継続更新 |
+| [hydrosheds/](hydrosheds/README.md) | 目録。階層流域と河川網。Greenland の v1 流域・河川を実読。原データの再配布制限あり | 全球の対象陸域 | v1 系列 |
+| [hydrosheds/hydrobasins-v1](hydrosheds/hydrobasins-v1.md) | Greenland のレベル6・12流域面を実読。下流流域 ID を持つ | Greenland の試料 | v1.c |
+| [hydrosheds/hydrorivers-v1](hydrosheds/hydrorivers-v1.md) | Greenland の河川区間を実読。レベル12流域に全行結合 | Greenland の試料 | v1.0 |
+| [global-fishing-watch/](global-fishing-watch/README.md) | 目録。非商用の漁業活動推定など。API は token が必要で実データは未取得 | AIS 等の観測できる海域 | 2026-10-21 から latest は v5 |
 
 ## サービス
 
-データを持たずに、問いを投げて答えを得る自前のサービス。呼び方、制限、つまずきやすい点が [services/](services/README.md) にある。
+データを持たずに、問いを投げて答えを得る自前または外部のサービス。自前のサービスの呼び方、制限、つまずきやすい点は [services/](services/README.md) にある。
 
 | reference | できること | 時点 |
 |---|---|---|
@@ -72,5 +78,6 @@
 | [taginfo](services/taginfo.md) | OSM のタグの辞書と使用数 | 2026-01-29 まで |
 | [usgs-earthquake-catalog](usgs-earthquake-catalog.md) | USGS FDSN Event API で地震イベントを検索する。取得結果は更新される | 2026-10-25 に照会 |
 | [nasa-gibs](nasa-gibs.md) | NASA GIBS の表示用衛星画像などを WMTS・WMS で取得する。元製品と許諾はレイヤーごと | 2026-10-25 に目録と1タイルを実読 |
+| [nasa-firms](nasa-firms.md) | 衛星の火災・熱異常の検出点。公開 KMZ を実読。CSV API は無料 MAP_KEY が必要 | 2026-10-25 に米国の7日間 KMZ を実読 |
 
 Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。

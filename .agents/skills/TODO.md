@@ -65,6 +65,13 @@
     - [x] `references/kontur-population-20231101.md`: HDX の固定版。22kmの GeoPackage 71,283行を実読
     - [x] `references/usgs-earthquake-catalog.md`: 更新型 FDSN Event API の小規模クエリと版を確認
     - [x] `references/nasa-gibs.md`: WMTS・WMS の目録と表示用タイルを実読。元製品ごとの許諾と best の可変性を記録
+    - [x] `references/mobility-database/README.md`: 公開 CSV 6,686行を実読。フィード本体と目録メタデータの許諾を区別
+    - [x] `references/ibtracs-v04r01.md`: last3years の観測24,554行を実読。since1980 は容量のみ確認
+    - [x] `references/nasa-firms.md`: 公開 KMZ の検出点を実読。鍵が必要な CSV API は未実測と記録
+    - [x] `references/hydrosheds/README.md`: v1 の製品別許諾と版の区別
+      - [x] `references/hydrosheds/hydrobasins-v1.md`: Greenland のレベル6・12の流域面を実読
+      - [x] `references/hydrosheds/hydrorivers-v1.md`: Greenland の河川区間を実読、レベル12の流域に全行結合
+    - [x] `references/global-fishing-watch/README.md`: CC BY-NC、API 認証、v5 への更新を記録。実データは未取得
     - [x] `references/plateau/README.md`: 都市別 CityGML の目録 API と都市ごとの版を記録
     - [x] `references/virtual-shizuoka/README.md`: 公開 S3 の年別目録と2025年の点群1タイルを実読。CRS は未特定
     - [x] `references/timezone-boundary-builder.md`: 2026d の now 版 GeoJSON を実読。境界データの ODbL を確認
