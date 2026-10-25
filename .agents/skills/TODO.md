@@ -59,6 +59,14 @@
     - [x] `references/mlit-1km-fromto-2022-01.md`: 1 km メッシュの月ごとの滞在人口 2019〜2021 年。国勢調査のメッシュとの結合、政令指定都市が区のコードだけで入ること、時間帯と日の区分の関係を実測
     - [x] `references/ksj-n07-bus-route.md`: 国土数値情報のバスルート 2022 年版。首都圏の版が全国版の部分集合であること、事業者の違う同じ線と、重なりで長さが約 27% 増えることを実測
     - [x] `references/ksj-p11-bus-stop.md`: 国土数値情報のバス停 2022 年版。首都圏の版が全国版の部分集合であること、系統と区分のリスト、ファイルの都道府県と点の位置が食い違う停留所、市区町村の面との結合を実測
+    - [x] `references/gebco-2025.md`: 全球15秒角の標高と海底地形。配布条件と容量を確認、画素は未実読
+    - [x] `references/jaxa-aw3d30.md`: 登録制の全球DSM。地域別の版と再配布の未確認点を記録
+    - [x] `references/koppen-geiger-2023.md`: Figshare v2 の固定版と CC BY 4.0、現行 V3 との差を記録。ZIP は未実読
+    - [x] `references/kontur-population-20231101.md`: HDX の固定版。22kmの GeoPackage 71,283行を実読
+    - [x] `references/usgs-earthquake-catalog.md`: 更新型 FDSN Event API の小規模クエリと版を確認
+    - [x] `references/plateau/README.md`: 都市別 CityGML の目録 API と都市ごとの版を記録
+    - [x] `references/virtual-shizuoka/README.md`: 公開 S3 の年別目録と2025年の点群1タイルを実読。CRS は未特定
+    - [x] `references/timezone-boundary-builder.md`: 2026d の now 版 GeoJSON を実読。境界データの ODbL を確認
     - [x] `references/dynamic-world.md`: 配布元の説明から書いた (中身は未実測。実測には Earth Engine の認証が要る)
     - [x] `references/ctrees-agb-100m.md`: 公開 S3 の一覧で全球 COG の容量を実測。画素は未実読
     - [x] `references/esa-cci-biomass-v7.md`: 無償利用、目録容量、再配布条件の未確認を記録

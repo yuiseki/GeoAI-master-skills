@@ -52,6 +52,13 @@
 | [mlit-1km-fromto-2022-01](mlit-1km-fromto-2022-01.md) | 1 km メッシュと市区町村ごとの月ごとの滞在人口 (平日と休日、昼と深夜、居住地別) | 日本 | 2019-01〜2021-12 |
 | [ksj-n07-bus-route](ksj-n07-bus-route.md) | 国土数値情報のバスルートの線と事業者 (系統、本数は無い)。首都圏 4 都県の版もある | 日本 (354,208 本) | 2022-08 ごろの資料、2026-10-23 取得 |
 | [ksj-p11-bus-stop](ksj-p11-bus-stop.md) | 国土数値情報のバス停の点、事業者、通る系統とバスの区分 (本数は無い)。首都圏 4 都県の版もある | 日本 (278,515 か所) | 2022-08 ごろの資料、2026-10-23 取得 |
+| [gebco-2025](gebco-2025.md) | 全球15秒角の海底地形・陸域標高とデータ由来の TID Grid。画素未実読 | 全球 | 2025年版。元測量時点は場所による |
+| [jaxa-aw3d30](jaxa-aw3d30.md) | JAXA の約30m DSM。登録が必要。画素未実読 | 全球の陸域 | 主な元画像2006〜2011年、地域ごとに版が異なる |
+| [koppen-geiger-2023](koppen-geiger-2023.md) | Köppen-Geiger 気候区分。Figshare v2 固定。ZIP は未実読 | 全球の陸域 | 基準期間・将来シナリオ別 |
+| [kontur-population-20231101](kontur-population-20231101.md) | H3 の人口推計。22km版の71,283セルを実読 | 全球 | 2023-11-01版 |
+| [plateau/](plateau/README.md) | 目録。都市・年度別の CityGML 3D都市モデル | 日本の公開都市 | 都市・元資料ごと |
+| [virtual-shizuoka/](virtual-shizuoka/README.md) | 目録。静岡県の航空レーザー等の公開点群。2025年の1タイルを実読 | 静岡県の公開済み範囲 | 2019〜2025年の年別ディレクトリ |
+| [timezone-boundary-builder-2026d](timezone-boundary-builder.md) | IANA タイムゾーンの境界。now版 GeoJSON を実読 | 全球 | 2026d版 |
 
 ## サービス
 
@@ -63,5 +70,6 @@
 | [nominatim](services/nominatim.md) | 地名から座標と OSM の ID を引く | 2025-09-14 で止まっている |
 | [valhalla](services/valhalla.md) | 経路の距離と所要時間 | 確かめていない |
 | [taginfo](services/taginfo.md) | OSM のタグの辞書と使用数 | 2026-01-29 まで |
+| [usgs-earthquake-catalog](usgs-earthquake-catalog.md) | USGS FDSN Event API で地震イベントを検索する。取得結果は更新される | 2026-10-25 に照会 |
 
 Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。
