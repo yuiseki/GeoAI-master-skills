@@ -52,6 +52,9 @@
       - [x] `references/huggingface/yuiseki/forest-typology-validation-2020.md`: ForTy の層別検証点
       - [x] `references/huggingface/yuiseki/timezone-boundary-builder-2026d.md`: 3種類のタイムゾーン境界
       - [x] `references/huggingface/yuiseki/ibtracs-v04r01.md`: 1980年以降の熱帯低気圧経路点
+      - [x] `references/huggingface/yuiseki/ctrees-agb-hokkaido-east-100m.md`: 東北海道の2010年・2025年AGBと不確実性の集計面
+      - [x] `references/huggingface/yuiseki/gebco-2026-hokkaido-east-15as.md`: 東北海道沖のGEBCO 2026標高セル
+      - [x] `references/huggingface/yuiseki/worldpop-kor-population-2015-2030-1km-r2025a.md`: 韓国の年次人口推計格子
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット

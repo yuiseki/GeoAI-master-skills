@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-25 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=100&full=true` を照合した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた新しい固定版に絞る。既存の凍結データのカードは [親索引](../../index.md)に残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-25 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=100&full=true` を照合し、公開79件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
@@ -30,5 +30,8 @@ contents:
 | [forest-typology-validation-2020](forest-typology-validation-2020.md) | 森林タイプ検証標本 | 分類図ではなく評価用標本 |
 | [timezone-boundary-builder-2026d](timezone-boundary-builder-2026d.md) | 3 種のタイムゾーン境界 | [元データ](../../timezone-boundary-builder.md)の変換 |
 | [ibtracs-v04r01](ibtracs-v04r01.md) | 1980 年以降の熱帯低気圧経路 | [NOAA の元データ](../../ibtracs-v04r01.md)の変換 |
+| [ctrees-agb-hokkaido-east-100m](ctrees-agb-hokkaido-east-100m.md) | 東北海道の2010年・2025年のAGB集計 | [CTrees 全球版](../../ctrees-agb-100m.md)の切り出し・集計 |
+| [gebco-2026-hokkaido-east-15as](gebco-2026-hokkaido-east-15as.md) | 東北海道沖の15秒角標高 | GEBCO 2026 の切り出し。既存の[2025年版](../../gebco-2025.md)とは別 |
+| [worldpop-kor-population-2015-2030-1km-r2025a](worldpop-kor-population-2015-2030-1km-r2025a.md) | 韓国の2015〜2030年の年次人口推計 | WorldPop R2025A の変換 |
 
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
