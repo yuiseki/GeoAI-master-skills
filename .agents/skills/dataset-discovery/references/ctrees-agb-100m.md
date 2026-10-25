@@ -42,6 +42,7 @@ tables:
 全球・全期間の複製は約1.90 TBなので対象外。日本など対象範囲、対象年、AGBと不確実性を選んだ切り出しなら候補。ただし切り出した結果は派生物なので、原本の版、取得日、切り出し範囲、画素変換の有無、各ファイルのハッシュ、CC BY 4.0 の表示を記録する。数GBに収まるかは切り出し後の実測が必要。公開版を作ったわけではない。
 
 2026-10-25 に東北海道の矩形 (東経143〜147度、北緯42〜46度) を作成し、[Hugging Face に公開](https://huggingface.co/datasets/yuiseki/ctrees-agb-hokkaido-east-100m)した。2010年と2025年のAGB・不確実性を、各10×10画素のブロックに集約した GeoParquet (43,550行) と、4枚の切り出し GeoTIFF を含む。全球の元COGを丸ごと保存せず、AWS の COG を `/vsicurl/` で窓読みした。
+- 公開可否は、AWS Open Data Registry の CC BY 4.0 表記に加え、[データセット DOI の DataCite rights metadata](https://api.datacite.org/dois/10.82924/7vmb-zv66) が `cc-by-4.0` と記録していることを根拠にした。帰属表示、DOI、改変内容をカードと `source/ATTRIBUTION.txt` に記載。
 
 - 実測した元ラスターは EPSG:4326、405,000×202,500、int16、0.0008888889度格子。4つの年・変数で有効画素数はそれぞれ4,231,515。元値は10で割って Mg/ha にし、NoData の -9999 を除外した。スケールとNoDataの扱いは[CTrees公式アクセスノートブック](https://github.com/ctrees-products/open-data-examples/blob/main/CTrees_Above_Ground_Biomass_Data_Access.ipynb)に基づく。
 - 10×10画素セルは北緯44度で南北約989 m、東西約712 m。1 km は概数であり、セルは正方形・等面積ではない。海など両年とも全画素がNoDataのセルは出力から除いた。
