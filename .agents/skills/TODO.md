@@ -96,6 +96,7 @@
       - [x] `references/huggingface/yuiseki/osm-tokyo23-qa-2026-08.md`: 空間データまたはGeoAI向け言語・評価データの固定版
       - [x] `references/huggingface/yuiseki/un-wpp.md`: 国連人口推計と2024年投影の固定表
       - [x] `references/huggingface/yuiseki/text2geoql.md`: 再利用条件を確認した地理・GeoAIデータの固定版
+      - [x] `references/huggingface/yuiseki/egov-laws-jp.md`: e-Gov 法令検索の法令改正履歴と XML・テキストを収録する日本語コーパス。 CC BY 4.0。法律本文は著作権法第13条により著作物でなく、デジタル庁の付加情報は PDL 1.0
       - [x] `references/huggingface/yuiseki/gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2.md`: GFW Forest Flux Model v1.3.2 の東北海道 2001〜2023年累積純炭素フラックス。 CC0 1.0。無帰属でも再利用可能だが、Gibbs et al. と Dataverse DOI の引用を推奨
       - [x] `references/huggingface/yuiseki/geo-triples-tokyo23.md`: 東京23区・地理関係 triple、英日テキスト、評価質問からなる GeoAI ベンチマーク。 ODbL 1.0。OpenStreetMap contributors を表示し、派生データベースにも Share-Alike を適用
       - [x] `references/huggingface/yuiseki/gsi-dem-fuji-z14-100m-2026-10-25.md`: 国土地理院 DEM10B から作成した富士山周辺の100 m標高セル。 PDL 1.0 相当。国土地理院を出典表示し、派生データであることを明記する
