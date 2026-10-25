@@ -388,3 +388,4 @@
     - [ ] 条件の比較の図 (fold ごとの点と組の線) を、保存した評価の結果から描くスクリプト
     - [ ] 保存した PNG の文字の抜けを、画像から確かめる方法
       - [x] `references/huggingface/yuiseki/gsi-dem-fuji-z14-100m-2026-10-25.md`: 国土地理院 DEM10B から作成した富士山周辺の100 m標高セル。 PDL 1.0 相当。国土地理院を出典表示し、派生データであることを明記する
+      - [x] `references/huggingface/yuiseki/gpw-grasslands-hokkaido-east-2018-2020-250m.md`: Global Pasture Watch 草地分類の東北海道 2018〜2020年版。 CC BY 4.0。Parente et al. と Zenodo の元データを出典表示
