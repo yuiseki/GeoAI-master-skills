@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版71件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版72件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
@@ -114,3 +114,5 @@ Hugging Face のカードに表示されたライセンスだけで、元デー�
 | [gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2](gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2.md) | GFW Forest Flux Model v1.3.2 の東北海道 2001〜2023年累積純炭素フラックス。 | CC0 1.0。無帰属でも再利用可能だが、Gibbs et al. と Dataverse DOI の引用を推奨 |
 
 | [egov-laws-jp](egov-laws-jp.md) | e-Gov 法令検索の法令改正履歴と XML・テキストを収録する日本語コーパス。 | CC BY 4.0。法律本文は著作権法第13条により著作物でなく、デジタル庁の付加情報は PDL 1.0 |
+
+| [osm-wiki](osm-wiki.md) | OpenStreetMap Wiki の8言語ページを抽出した地理タグ・地物知識テキスト。 | CC BY-SA 2.0。OSM Wiki 著者を出典表示し、Share-Alike を維持 |
