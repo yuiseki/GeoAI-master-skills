@@ -17,6 +17,7 @@
 | [microsoft-building-footprints](microsoft-building-footprints.md) | 画像から推定した建物輪郭。日本の1タイルを実読 | 全世界の収録地域。日本の索引203タイル | 索引は2026-08-13。画像の撮影年は場所による |
 | [planetary-computer/](planetary-computer/README.md) | 目録。衛星画像、標高、土地被覆のラスタ (COG、匿名の SAS 署名が要る) | 全世界 | コレクションごと |
 | [global-nature-watch/](global-nature-watch/README.md) | 目録。草地、植生攪乱、森林損失要因、森林タイプ。API と許諾はレイヤーごと | 全球を中心にレイヤーごと | 年次図、速報、2020 年基準図 |
+| [forest-typology-validation-2020](forest-typology-validation-2020.md) | ForTy 2020 検証標本 9,100点と専門家合意済み 8,190点の GeoParquet | 全球の標本地点 | ForTy v1 2020、GVFT v0.6 |
 | [mlit-nlftp/](mlit-nlftp/README.md) | 目録。国土数値情報 (鉄道、医療機関、浸水想定、将来推計人口など) | 日本 | 年ごと |
 | [tokyo-ckan/](tokyo-ckan/README.md) | 目録。東京都と区市町村のオープンデータ (施設一覧、統計表) | 東京都 | データセットごと |
 | [fao-ferspas/](fao-ferspas/README.md) | 目録。FAO の農業・食料・気候のラスタ (COG) | 全世界 | コレクションごと |

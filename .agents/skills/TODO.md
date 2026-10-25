@@ -41,6 +41,7 @@
       - [x] `references/global-nature-watch/integrated-disturbance-alerts.md`: 全球の植生攪乱速報
       - [x] `references/global-nature-watch/tree-cover-loss-drivers.md`: 森林損失の主因
       - [x] `references/global-nature-watch/forest-typology-2020.md`: 森林タイプの基準図、分類図、検証標本
+    - [x] `references/forest-typology-validation-2020.md`: GVFT 2020 の検証標本を GeoParquet で凍結、全地点と専門家合意済みを分けて公開
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
