@@ -28,6 +28,7 @@
       - [ ] `references/overture/buildings.md`
     - [x] `references/worldpop/README.md`: STAC API、year と datetime、Range が効かない配布元、HF の日本の凍結版
       - [x] `references/worldpop/population.md`
+      - [x] `references/worldpop/korea.md`: 韓国1 km・2015〜2030のGeoParquetを公開。原典のCC BY宣言とWorldPopのODbL例外を区別
       - [ ] `references/worldpop/age-sex.md`
       - [ ] `references/worldpop/urbanisation.md`
     - [x] `references/ghsl/README.md`: JRC の製品別タイル、引用、人口と建物面積の画素原点の違い
