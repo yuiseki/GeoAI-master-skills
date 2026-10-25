@@ -397,3 +397,4 @@
       - [x] `references/huggingface/yuiseki/nilim-disaster-reports.md`: 国土技術政策総合研究所の災害調査報告から権利確認できた本文。 CC BY 4.0。本文中の第三者図表・引用の表示も維持
       - [x] `references/huggingface/yuiseki/moni1000-reports.md`: 環境省モニタリングサイト1000の公開調査報告テキスト。 政府標準利用規約（第1.0版）。出典表示と第三者権利の条件を守る
       - [x] `references/huggingface/yuiseki/mlit-river-basin-overviews.md`: 国土交通省の一級水系・河川流域概要の公開本文。 政府標準利用規約（第1.0版）。引用される第三者資料の権利は別途尊重
+      - [x] `references/huggingface/yuiseki/estat-jumin-idou.md`: e-Stat 住民基本台帳人口移動報告の統計表スナップショット。 政府標準利用規約（第1.0版）に適合。e-Stat API取得時に必要な出典表示を維持
