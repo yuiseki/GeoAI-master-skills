@@ -87,6 +87,7 @@
       - [x] `references/huggingface/yuiseki/gsi-global-map-jp.md`: 公開データの固定版とライセンス条件
       - [x] `references/huggingface/yuiseki/nfgis-2024.md`: 国有林の林班・小班・林道の2024年度版
       - [x] `references/huggingface/yuiseki/meta-move-dist.md`: 空間データまたはGeoAI向け言語・評価データの固定版
+      - [x] `references/huggingface/yuiseki/meta-range-maps-2022-05.md`: 空間データまたはGeoAI向け言語・評価データの固定版
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット

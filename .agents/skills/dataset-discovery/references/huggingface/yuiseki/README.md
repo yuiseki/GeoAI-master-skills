@@ -68,4 +68,5 @@ contents:
 | [nfgis-2024](nfgis-2024.md) | 林野庁 国有林GIS 2024、複数の平面直角座標系 | 林野庁の2024年度版データ |
 
 | [meta-move-dist](meta-move-dist.md) | Meta の地域別移動距離分布、2026年日次集計 (CC BY 4.0) | Data for Good at Meta / HDX |
+| [meta-range-maps-2022-05](meta-range-maps-2022-05.md) | Meta のCOVID-19期の地域別移動指標、2020〜2022年 (CC BY 4.0) | Data for Good at Meta / HDX |
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
