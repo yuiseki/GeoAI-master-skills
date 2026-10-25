@@ -96,6 +96,20 @@
       - [x] `references/huggingface/yuiseki/osm-tokyo23-qa-2026-08.md`: 空間データまたはGeoAI向け言語・評価データの固定版
       - [x] `references/huggingface/yuiseki/un-wpp.md`: 国連人口推計と2024年投影の固定表
       - [x] `references/huggingface/yuiseki/text2geoql.md`: 再利用条件を確認した地理・GeoAIデータの固定版
+      - [x] `references/huggingface/yuiseki/gsi-dem-fuji-z14-100m-2026-10-25.md`: 国土地理院 DEM10B から作成した富士山周辺の100 m標高セル。 PDL 1.0 相当。国土地理院を出典表示し、派生データであることを明記する
+      - [x] `references/huggingface/yuiseki/gpw-grasslands-hokkaido-east-2018-2020-250m.md`: Global Pasture Watch 草地分類の東北海道 2018〜2020年版。 CC BY 4.0。Parente et al. と Zenodo の元データを出典表示
+      - [x] `references/huggingface/yuiseki/worldpop-idn-population-2015-2030-1km-r2025a.md`: WorldPop R2025A のインドネシア年次人口推計 1 km 格子。 ODbL 1.0 の派生データ。WorldPop 元データの条件も併記し、派生データベースの Share-Alike と帰属表示を守る
+      - [x] `references/huggingface/yuiseki/agera5-japan-monthly-temperature-1979-2026.md`: AgERA5 日本周辺の月平均最高・最低気温の格子。 CC BY 4.0。Copernicus Climate Change Service / ECMWF と FAO GIS catalogue を出典表示
+      - [x] `references/huggingface/yuiseki/pwt.md`: Penn World Table 11.0 の国・年別マクロ経済指標。 CC BY 4.0。Feenstra, Inklaar, Timmer (2015) と PWT 11.0 の DOI を引用
+      - [x] `references/huggingface/yuiseki/undp-hdr.md`: UNDP Human Development Report 2025 の複合指標と時系列。 CC BY 3.0 IGO。UNDP HDR 2025 を出典表示し IGO の条件に従う
+      - [x] `references/huggingface/yuiseki/gsj-reports.md`: 産業技術総合研究所 地質調査総合センターの公開報告ページ抽出テキスト。 CC BY 4.0。第三者資料の引用表示を本文から保持
+      - [x] `references/huggingface/yuiseki/nilim-disaster-reports.md`: 国土技術政策総合研究所の災害調査報告から権利確認できた本文。 CC BY 4.0。本文中の第三者図表・引用の表示も維持
+      - [x] `references/huggingface/yuiseki/moni1000-reports.md`: 環境省モニタリングサイト1000の公開調査報告テキスト。 政府標準利用規約（第1.0版）。出典表示と第三者権利の条件を守る
+      - [x] `references/huggingface/yuiseki/mlit-river-basin-overviews.md`: 国土交通省の一級水系・河川流域概要の公開本文。 政府標準利用規約（第1.0版）。引用される第三者資料の権利は別途尊重
+      - [x] `references/huggingface/yuiseki/estat-jumin-idou.md`: e-Stat 住民基本台帳人口移動報告の統計表スナップショット。 政府標準利用規約（第1.0版）に適合。e-Stat API取得時に必要な出典表示を維持
+      - [x] `references/huggingface/yuiseki/edgar-ghg-countries.md`: EDGAR 2026 の国別・部門別温室効果ガス排出量ファイル。 CC BY 4.0 対象ガスのみ。化石起源 CO2（NC-ND）は含めず、出典と対象範囲を明記
+      - [x] `references/huggingface/yuiseki/faostat.md`: FAOSTAT の農業・食料・土地利用・気候等の統計スナップショット。 CC BY 4.0。FAO を出典表示し、個別ドメインの注記も保持
+      - [x] `references/huggingface/yuiseki/ilostat.md`: ILOSTAT の労働市場・雇用統計の指標ファイルと辞書。 CC BY 4.0。ILOSTAT を出典表示し、指標定義・分類辞書を併用
       - [x] `references/huggingface/yuiseki/env-redlist-jp.md`: 第5次レッドリストの公開済み分類群。許諾の確認できない過去版は除外
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
@@ -387,17 +401,3 @@
     - [ ] 図ごとの JSON (問い、出どころ、版、n、区間の意味) を書き出し、確かめるスクリプト
     - [ ] 条件の比較の図 (fold ごとの点と組の線) を、保存した評価の結果から描くスクリプト
     - [ ] 保存した PNG の文字の抜けを、画像から確かめる方法
-      - [x] `references/huggingface/yuiseki/gsi-dem-fuji-z14-100m-2026-10-25.md`: 国土地理院 DEM10B から作成した富士山周辺の100 m標高セル。 PDL 1.0 相当。国土地理院を出典表示し、派生データであることを明記する
-      - [x] `references/huggingface/yuiseki/gpw-grasslands-hokkaido-east-2018-2020-250m.md`: Global Pasture Watch 草地分類の東北海道 2018〜2020年版。 CC BY 4.0。Parente et al. と Zenodo の元データを出典表示
-      - [x] `references/huggingface/yuiseki/worldpop-idn-population-2015-2030-1km-r2025a.md`: WorldPop R2025A のインドネシア年次人口推計 1 km 格子。 ODbL 1.0 の派生データ。WorldPop 元データの条件も併記し、派生データベースの Share-Alike と帰属表示を守る
-      - [x] `references/huggingface/yuiseki/agera5-japan-monthly-temperature-1979-2026.md`: AgERA5 日本周辺の月平均最高・最低気温の格子。 CC BY 4.0。Copernicus Climate Change Service / ECMWF と FAO GIS catalogue を出典表示
-      - [x] `references/huggingface/yuiseki/pwt.md`: Penn World Table 11.0 の国・年別マクロ経済指標。 CC BY 4.0。Feenstra, Inklaar, Timmer (2015) と PWT 11.0 の DOI を引用
-      - [x] `references/huggingface/yuiseki/undp-hdr.md`: UNDP Human Development Report 2025 の複合指標と時系列。 CC BY 3.0 IGO。UNDP HDR 2025 を出典表示し IGO の条件に従う
-      - [x] `references/huggingface/yuiseki/gsj-reports.md`: 産業技術総合研究所 地質調査総合センターの公開報告ページ抽出テキスト。 CC BY 4.0。第三者資料の引用表示を本文から保持
-      - [x] `references/huggingface/yuiseki/nilim-disaster-reports.md`: 国土技術政策総合研究所の災害調査報告から権利確認できた本文。 CC BY 4.0。本文中の第三者図表・引用の表示も維持
-      - [x] `references/huggingface/yuiseki/moni1000-reports.md`: 環境省モニタリングサイト1000の公開調査報告テキスト。 政府標準利用規約（第1.0版）。出典表示と第三者権利の条件を守る
-      - [x] `references/huggingface/yuiseki/mlit-river-basin-overviews.md`: 国土交通省の一級水系・河川流域概要の公開本文。 政府標準利用規約（第1.0版）。引用される第三者資料の権利は別途尊重
-      - [x] `references/huggingface/yuiseki/estat-jumin-idou.md`: e-Stat 住民基本台帳人口移動報告の統計表スナップショット。 政府標準利用規約（第1.0版）に適合。e-Stat API取得時に必要な出典表示を維持
-      - [x] `references/huggingface/yuiseki/edgar-ghg-countries.md`: EDGAR 2026 の国別・部門別温室効果ガス排出量ファイル。 CC BY 4.0 対象ガスのみ。化石起源 CO2（NC-ND）は含めず、出典と対象範囲を明記
-      - [x] `references/huggingface/yuiseki/faostat.md`: FAOSTAT の農業・食料・土地利用・気候等の統計スナップショット。 CC BY 4.0。FAO を出典表示し、個別ドメインの注記も保持
-      - [x] `references/huggingface/yuiseki/ilostat.md`: ILOSTAT の労働市場・雇用統計の指標ファイルと辞書。 CC BY 4.0。ILOSTAT を出典表示し、指標定義・分類辞書を併用
