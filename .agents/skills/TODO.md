@@ -300,7 +300,7 @@
     - [x] `references/maup.md`
     - [x] `references/inference.md`: 効果の大きさと有意、検出力、分析の自由度、探索と確認
     - [x] 格子の原点をずらす区切り方の効果
-- 残す (2 / 2)
+- 残す (3 / 3)
   - [x] `analysis-reporting`: 最終回答に、問い、結論、データ、方法を固定の順で置き、詳細度を分析の重さで変える (MVP。check_report.py)
     - [x] `references/levels.md`: 詳細度の 3 段階、数字の扱い、実際の分析から書いた例
     - [x] `references/github-markdown.md`: GFM と GitHub の数式・Mermaid、表・PNG の使い分けと公式文書
@@ -314,6 +314,11 @@
     - [x] 確かめていないことを、未確認のまま残す (重い分析では必須)
     - [ ] 地図を成果物に含めるときの最低限の metadata (値の単位、CRS、分類の方法と区切り、データの版と日付)
     - [x] 単純な分析を、不必要に長い報告にしない (分析の重さに合わせた長さ)
+  - [x] `research-paper-writing`: 依頼がある場合だけ、分析済みの証拠から日本語の `paper.md` を構成し、主張・図表・文献の来歴と限界を示す
+    - [x] `references/claims-and-evidence.md`: 主張と分析出力・実験記録の対応
+    - [x] `references/citations.md`: 確認済み文献だけの引用と未調査の扱い
+    - [x] `references/github-markdown.md`: GitHub の表・数式・Mermaid・PNG と公式文書
+    - [x] `scripts/check_paper.py`: 機械的に検査できる Markdown 構造とローカル図の参照
   - [x] `analysis-visualize`: 分析済みの結果を図や地図にする。分布、関係、時系列、残差、パレート前線、時刻割当、類型・連続値の塗り分けを扱う
     - [x] `references/thematic-mapping.md`: 値の種類、区切り、色、NoData、比較可能な塗り分け図の手順
     - [x] `references/classification.md`: 区切り方ごとの見え方の違い (同じデータを複数の区切りで)

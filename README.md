@@ -83,13 +83,13 @@
 | 問いに応じた分析 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか。点はどんな過程から生まれたか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis、spatial-process-modeling |
 | 問いに応じた分析 | ネットワークと最適化 | 実際に歩いて何分か。道の無い面を進むと何分か。施設の容量は需要に足りるか。施設をどこに置くか | spatial-network-analysis、land-cover-cost、raster-cost-distance、spatial-accessibility-analysis、spatial-optimization |
 | 問いに応じた分析 | 因果の効果を推定する | 識別できると判定した効果は、どれだけか、どれだけ確かか。重なりと重みとバランスは足りているか | causal-estimation (調整の集合で識別する型だけ。因果を問う の後に来る) |
-| 結論を疑う、残す | 頑健性と報告 | 結論は、単位、分け方、標本、設定を変えても保たれるか。図や地図にどう描くか。どう成果物に残すか | robustness-analysis、analysis-visualize、analysis-reporting |
+| 結論を疑う、残す | 頑健性と報告 | 結論は、単位、分け方、標本、設定を変えても保たれるか。図や地図にどう描くか。どう成果物に残すか。依頼がある場合に論文化するか | robustness-analysis、analysis-visualize、analysis-reporting、research-paper-writing (論文執筆のみ) |
 
 予測の精度、回帰の係数、パネルの固定効果、階層モデルのランダム効果、特徴量の重要度は、どれも因果の識別を保証しない。因果を言うなら、識別の設計と、そこで置いた仮定を添える。
 
 ## 作業場所
 
-分析は `projects/<名前>/` の中でだけ行い、大きな生成物は `artifacts/<同じ名前>/` に置く。名前は `projects/` の中を見て、重ならないものを付ける。構成の例は [projects/sample-project/README.md](projects/sample-project/README.md)。どちらも中身は git に入れない (例だけが入っている)。
+分析は `projects/<名前>/` の中でだけ行い、大きな生成物は `artifacts/<同じ名前>/` に置く。研究論文の執筆を頼まれた場合だけ、日本語の `paper.md` を追加する。名前は `projects/` の中を見て、重ならないものを付ける。構成の例は [projects/sample-project/README.md](projects/sample-project/README.md)。どちらも中身は原則 git に入れない (例と公開を選んだ成果物を除く)。
 
 ## 扱う範囲と扱わない範囲
 

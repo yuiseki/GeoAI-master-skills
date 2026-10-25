@@ -8,6 +8,7 @@
 projects/<名前>/
   README.md               問いと使い道、どこに何があるか、再現の手順 (コマンドとライブラリの版)
   report.md               報告 (最終回答)。Markdown で書く。HTML やノートブックにしない
+  paper.md                研究論文の執筆を依頼された場合だけ作る日本語の論文。GitHub で読める Markdown
   EXPERIMENT_PLAN.md      計画を作る分析なら (流す前に固定したもの)
   EXPERIMENT_TRACKER.md   実行の記録
   scripts/                自分で書いたコード
@@ -16,6 +17,6 @@ projects/<名前>/
 artifacts/<名前>/          大きな生成物 (取り出したデータ、中間の Parquet、ラスタ、模擬の結果)
 ```
 
-- 報告の数字は `outputs/` か `artifacts/<名前>/` のファイルから写し、そのパスを報告に書く。
+- 報告と論文の数字は `outputs/` か `artifacts/<名前>/` のファイルから写し、そのパスを本文に書く。論文を書く段階で分析し直さない。
 - 大きなファイルは `artifacts/<名前>/` に置き、`projects/<名前>/` には置かない。読む人が報告とコードだけを見られるようにするため。
 - `projects/` と `artifacts/` の中身は git に入れない (この例だけが入っている)。
