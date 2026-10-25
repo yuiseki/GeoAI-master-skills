@@ -25,9 +25,10 @@
 
 ## データ
 
-- みちよみの Mapillary 街路画像を VLM が読み取ったデータです。欠損・隔離データを除き、台東区32,593シーン、東京23区988,619シーンを使用しています。
+- みちよみの Mapillary 街路画像を VLM が読み取ったデータです。欠損・隔離データを除き、台東区32,593シーン、東京23区988,619シーンを使用しています。配布データの版は未確認です。
 - 無電柱化済みの割合は台東区11.6%、23区21.4%で、クラスに偏りがあります。
 - 目的変数と特徴量が同じ VLM の読み取りに由来するため、正解は現地確認された無電柱化台帳ではありません。
+- 移植元は[`study-geoai-algo-py` 事例003（commit 6880b32）](https://github.com/yuiseki/study-geoai-algo-py/blob/6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/003-undergrounding/README.md)です。
 
 ## 方法
 
@@ -37,15 +38,8 @@
 - 図は元事例の分割別 AUC を `outputs/source-values.csv` に転記し、`scripts/plot.py` で作りました。来歴は `outputs/auc-by-split.json` にあります。
 - 地図は固定した元コードの `tasks.undergrounded` と250m格子の定義を `scripts/reproduce_map.py` で再実行し、`analysis-visualize/scripts/classify_map.py` で描きました。形と値の中間表は `tmp/taito-underground-share.parquet`、階級・件数・CRS・データ版は地図と同名の JSON にあります。座標は経緯度 (OGC:CRS84)、地図で距離や面積は測っていません。
 
-## 可視化の選択
-
-AUC の図は空間分割による評価低下、2枚の地図は観測されたラベルの空間分布と階級選択への感度を読むためのものです。特徴量の効き方には元コードの `dependence-taito.png` と SHAP の `map-*-taito.png`、確率の較正には `reliability-*.png` の方が適しています。地図の高い割合は、地中化工事の効果やモデルの予測精度を意味しません。
-
 ## 確かめていないこと
 
 - VLMラベルと実際の無電柱化状況の一致、街灯数が電柱の代理になっているか、年による割合変化の原因は未確認です。
 - 地図用のシーン抽出と格子集計は再実行しましたが、AUC のモデル評価と SHAP は今回再実行していません。格子内の撮影位置・年の偏り、格子幅や30シーン閾値を変えたときの頑健性、現地台帳との照合は未確認です。
-
-## 出典
-
-- [`study-geoai-algo-py` の事例003（commit 6880b32）](https://github.com/yuiseki/study-geoai-algo-py/blob/6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/003-undergrounding/README.md)
+- 地図の高い割合は工事の効果や予測精度を意味しません。特徴量の効き方や確率較正を読むには、元コードの `dependence-taito.png`、SHAP 地図、`reliability-*.png` に相当する図が必要です。

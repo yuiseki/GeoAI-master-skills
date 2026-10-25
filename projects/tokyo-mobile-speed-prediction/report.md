@@ -13,13 +13,14 @@
 
 ![街の特徴を使うモデルと前四半期基準のR²](outputs/model-r2.png)
 
-図は元事例に記録されたモデル別 R² と前四半期基準の範囲を比較しています。灰色の帯は推定区間ではありません。
+図は元事例のモデル別 R² と前四半期基準の範囲を比較します。灰色の帯は推定区間ではありません。
 
 ## データ
 
 - Ookla Speedtest の東京23区2,246タイル、中央値93Mbps。タイルはズーム16で約610m四方です。
 - OpenCelliD は86,795セル、周辺環境は WorldPop、Overture、みちよみ等から作成した特徴量です。
-- 数字は移植元が2026-09-29にまとめた実験結果です。データ本体はこのプロジェクトへ複製していません。
+- 数字は移植元が2026-09-29にまとめた実験結果です。元データの版は未確認で、データ本体はこのプロジェクトへ複製していません。
+- 移植元は[`study-geoai-algo-py` 事例001（commit 6880b32）](https://github.com/yuiseki/study-geoai-algo-py/blob/6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/001-mobile-speed/README.md)です。
 
 ## 方法
 
@@ -28,15 +29,8 @@
 - 三つの四半期をまとめた目的変数や基地局特徴量の追加も比較し、分割の乱数による揺れとモデル差を照合しました。
 - 図は元事例の数値を `outputs/source-values.csv` に転記し、`scripts/plot.py` で作りました。来歴と軸の設定は `outputs/model-r2.json` にあります。
 
-## 可視化の選択
-
-今回の図はモデルと基準の比較には向いています。場所ごとの残差を確かめる用途では、元コードの `src/004-E-speed-evaluation/output/errors-by-tile.png` の方が適しています。生成済み画像は元リポジトリに含まれていません。
-
 ## 確かめていないこと
 
 - 事業者別の速度、端末、時間帯、基地局の実位置と混雑度を使った場合の改善余地は未確認です。
 - 今回は移植元の分析を再実行しておらず、数値は固定した元レポートから転記しています。
-
-## 出典
-
-- [`study-geoai-algo-py` の事例001（commit 6880b32）](https://github.com/yuiseki/study-geoai-algo-py/blob/6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/001-mobile-speed/README.md)
+- 場所ごとの残差は今回の図から読めません。元コードの `src/004-E-speed-evaluation/output/errors-by-tile.png` に相当する図が必要ですが、生成済み画像は元リポジトリに含まれていません。

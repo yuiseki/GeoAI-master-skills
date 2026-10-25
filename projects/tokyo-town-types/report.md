@@ -25,7 +25,7 @@
 
 ![台東区と東京23区で観測されたシルエット係数の範囲](outputs/silhouette-ranges.png)
 
-横軸はシルエット係数の理論上の全範囲です。線は試した設定での最小値と最大値で、推定区間ではありません。
+横軸はシルエット係数の理論上の全範囲です。線は試した設定での最小値と最大値で、推定区間ではありません。この図だけで地理的な型の境界は決まりません。
 
 ## データ
 
@@ -33,6 +33,8 @@
 - Overture Places は台東区15,971点、23区361,206点です。
 - みちよみの街路特徴は250m格子に集約し、撮影30枚以上の台東区173格子、23区7,152格子を使いました。
 - 元コードが固定している主な版は、国勢調査2020、Overture 2026-09-23.1、みちよみ `e4966cdceff6`、WorldPop R2025A、OpenCelliD 2024-06-14です。元の実験結果は2026-09-29、今回の再実行は2026-10-23です。個々の写真の撮影年は1970〜2026年が混在します。
+- 移植元は[`study-geoai-algo-py` 事例004（commit 6880b32）](https://github.com/yuiseki/study-geoai-algo-py/blob/6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/004-town-types/README.md)です。
+- 街路画像の特徴量は、みちよみ (finalvent/michiyomi-tokyo-streetscape、CC BY-SA 4.0) による © Mapillary contributors (CC BY-SA 4.0) のデータを加工したものです。元データには国土数値情報と東京都建設局のデータも含まれます。詳細は移植元の各実験READMEを参照してください。
 
 ## 方法
 
@@ -42,16 +44,8 @@
 - 町丁目と1km格子の分類、街路PCAは、元コードの固定コミット `6880b32` の特徴量取得と設定を `scripts/reproduce_maps.py` で再実行しました。元コードの DuckDB 1.5.5 を使い、町丁目108、23区の格子631、台東区の街路格子173と各類型の件数が元事例と一致したことを確認しました。
 - 地図は `analysis-visualize/scripts/spatial_result_map.py` で描きました。単位ごとの計算結果と形は再生成時だけ `tmp/` に置き、各PNGの隣に出典・版・方法・標本数・欠損数を記録したJSONを残しました。シルエット係数の図は元事例の値を `outputs/source-values.csv` に転記し、`scripts/plot.py` で作りました。
 
-## 可視化の選択
-
-再生成した地図は、元コードの地図と同じ単位・分類結果を使い、類型名と件数、欠損数、データ版を読めるようにしました。元コードの `clusters-taito.png` と `pc1-taito.png` は分布を見る目的では同等ですが、凡例は番号だけです。元コードの `dpmm-tokyo23-1km.png`、PCAのバイプロットやスクリープロットは今回の3枚には含めていないため、手法間の違いや軸の診断には元コードの方が詳しいです。
-
 ## 確かめていないこと
 
 - 類型を用いた具体的な施策の効果、住民が認識する地域像との一致、公平性への影響は検証していません。
 - DBSCAN・DPMMと23区のPCAは今回再実行していません。町丁目と格子の地図は別々の特徴量集合と単位で作った分類であり、色や番号の一致は同じ型を意味しません。
-
-## 出典
-
-- [`study-geoai-algo-py` の事例004（commit 6880b32）](https://github.com/yuiseki/study-geoai-algo-py/blob/6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/004-town-types/README.md)
-- 街路画像の特徴量は、みちよみ (finalvent/michiyomi-tokyo-streetscape、CC BY-SA 4.0) による © Mapillary contributors (CC BY-SA 4.0) のデータを加工したものです。元データには国土数値情報と東京都建設局のデータも含まれます。詳細は移植元の各実験READMEを参照してください。
+- 手法間の地図の違いや主成分の診断は、この地図だけでは評価できません。元コードの `dpmm-tokyo23-1km.png`、PCAのバイプロットとスクリープロットが必要です。
