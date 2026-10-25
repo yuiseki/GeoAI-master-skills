@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版60件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。全件が地理データとは限らないため、以下は GeoAI での用途と実ファイルの確認ができた固定版61件に絞る。先にカード化したデータは[親索引](../../index.md)にも残す。カードの `read` に記した SHA は移動しない版を指す。後続の更新を調べるときは API の `sha` と `siblings` を再確認する。
 
 | カード | 内容 | 元データとの関係 |
 |---|---|---|
@@ -92,3 +92,5 @@ Hugging Face のカードに表示されたライセンスだけで、元デー�
 | [pwt](pwt.md) | Penn World Table 11.0 の国・年別マクロ経済指標。 | CC BY 4.0。Feenstra, Inklaar, Timmer (2015) と PWT 11.0 の DOI を引用 |
 
 | [undp-hdr](undp-hdr.md) | UNDP Human Development Report 2025 の複合指標と時系列。 | CC BY 3.0 IGO。UNDP HDR 2025 を出典表示し IGO の条件に従う |
+
+| [gsj-reports](gsj-reports.md) | 産業技術総合研究所 地質調査総合センターの公開報告ページ抽出テキスト。 | CC BY 4.0。第三者資料の引用表示を本文から保持 |
