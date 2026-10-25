@@ -58,7 +58,7 @@
 | [kontur-population-20231101](kontur-population-20231101.md) | H3 の人口推計。22km版の71,283セルを実読 | 全球 | 2023-11-01版 |
 | [plateau/](plateau/README.md) | 目録。都市・年度別の CityGML 3D都市モデル | 日本の公開都市 | 都市・元資料ごと |
 | [virtual-shizuoka/](virtual-shizuoka/README.md) | 目録。静岡県の航空レーザー等の公開点群。2025年の1タイルを実読 | 静岡県の公開済み範囲 | 2019〜2025年の年別ディレクトリ |
-| [timezone-boundary-builder-2026d](timezone-boundary-builder.md) | IANA タイムゾーンの境界。now版 GeoJSON を実読 | 全球 | 2026d版 |
+| [timezone-boundary-builder-2026d](timezone-boundary-builder.md) | 3種類の境界を検証した GeoParquet と原典 ZIP を公開 (419/301/65行) | 全球 | 2026d、2026-10-25 固定 |
 | [mobility-database/](mobility-database/README.md) | 目録。GTFS と GTFS-RT の供給元、公開 URL、認証、ライセンス URL。CSV 6,686行を実読 | 世界の登録フィード | 2026-10-25 取得 |
 | [ibtracs-v04r01](ibtracs-v04r01.md) | NOAA の熱帯低気圧経路。since1980 311,935観測行の GeoParquet と原典 CSV | 全球の熱帯低気圧 | v04r01、2026-10-25 固定 |
 | [hydrosheds/](hydrosheds/README.md) | 目録。階層流域と河川網。Greenland の v1 流域・河川を実読。原データの再配布制限あり | 全球の対象陸域 | v1 系列 |
