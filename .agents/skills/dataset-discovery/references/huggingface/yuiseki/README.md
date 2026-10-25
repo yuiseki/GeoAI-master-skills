@@ -70,4 +70,5 @@ contents:
 | [meta-move-dist](meta-move-dist.md) | Meta の地域別移動距離分布、2026年日次集計 (CC BY 4.0) | Data for Good at Meta / HDX |
 | [meta-range-maps-2022-05](meta-range-maps-2022-05.md) | Meta のCOVID-19期の地域別移動指標、2020〜2022年 (CC BY 4.0) | Data for Good at Meta / HDX |
 | [geo-triples-japan](geo-triples-japan.md) | 日本の空間関係 triple と言語評価データ (ODbL 1.0) | OSM / Natural Earth 由来の GeoAI benchmark |
+| [geo-triples-jp-gov](geo-triples-jp-gov.md) | 日本の自治体公開資料に基づく空間関係 benchmark (CC BY 4.0) | 自治体等の公開資料 |
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
