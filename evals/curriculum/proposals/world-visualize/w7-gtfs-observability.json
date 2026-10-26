@@ -1,0 +1,141 @@
+{
+ "mode": "exploration",
+ "social_problem": "公共交通の時刻表のオープンデータ (GTFS) が無い地域の住民は、経路の検索や交通の計画、研究から取り残される。交通のデータの公開を支援する国際機関や開発の援助機関が、登録の件数の多い国を見るだけでは、条件の割に公開が少ない国と都市を見落とす。",
+ "working_hypothesis": "登録された GTFS の範囲 (bbox) に住む人の割合は所得と関係する (pilot で相関 0.71) が、所得の割に割合の低い国がまとまってある。範囲の巨大な記録を外すか、状態 (有効、廃止) をどう扱うかで、外れの上位が入れ替わる。範囲の扱いを変えても外れの上位 10 か国が 8 以上変わらないなら、この判断は効かないとして退ける。",
+ "question": "人口と所得から見て、公共交通の時刻表のオープンデータの登録が少ない国と都市はどこか。その答えは、フィードの範囲と状態の扱いでどう変わるか？",
+ "decision_use": "交通のデータの公開を支援する国際機関と援助機関が、公開の働きかけと目録への登録の確認を優先する国と都市を選ぶ。公共交通そのものが無いかどうかは判断しない。",
+ "target_quantity": "国ごとの、有効な GTFS のフィードの範囲に住む人口の割合と、所得から期待される割合との差。H3 r4 セルごとの、範囲に入るフィードの数。",
+ "unit": "国 (Natural Earth の国の面と ISO 2 文字コード) と H3 r4 セル。",
+ "time_alignment": "目録は 2026-10-20 の状態 (sha256 0d90eb4e…、2026-10-25 と 10-26 に取得して一致)。人口は 2023 年、所得は WDI の各国の最新年。目録は上書きされるので、凍結の版が要る。",
+ "claim_type": "descriptive",
+ "datasets": [
+  "mobility-database",
+  "yuiseki/kontur-population-2023-11-01-22km",
+  "yuiseki/natural-earth",
+  "yuiseki/worldbank-wdi"
+ ],
+ "source_versions": {
+  "mobility-database": "feeds_v2.csv sha256 0d90eb4ea0364ae4d66580f3b264763ecc9667850829cd161e09184982cca3e4 (Hugging Face への凍結は未)",
+  "yuiseki/kontur-population-2023-11-01-22km": "2e7291f8c2d4b9c06bb4ff0e43be14e538e0600d",
+  "yuiseki/natural-earth": "efdd0668c57c9d42307e12eacbf66d8d151de5b9",
+  "yuiseki/worldbank-wdi": "d0b1ad8c98643db75c767c0ff96db800126f4954"
+ },
+ "joins": [
+  {
+   "left": "mobility-database",
+   "right": "yuiseki/kontur-population-2023-11-01-22km",
+   "how": "フィードの bbox に中心が入る H3 r4 セルを数える。巨大な bbox (pilot で最大 15 億平方度の誤った記録) を上限で外す",
+   "why": "登録の範囲を人口の格子にそろえる"
+  },
+  {
+   "left": "mobility-database",
+   "right": "yuiseki/natural-earth",
+   "how": "location.country_code (ISO 2 文字) を ISO_A2_EH に結ぶ",
+   "why": "国の件数と、国の面の上の範囲を比べる (国の記録と範囲の位置が食い違う)"
+  },
+  {
+   "left": "yuiseki/kontur-population-2023-11-01-22km",
+   "right": "yuiseki/natural-earth",
+   "how": "H3 r4 セルを国の面に割り当てる。中心が面に入らない沿岸のセル (pilot で 7,060 個、人口の 5.8%) の扱いを、最寄りの国、面積按分、除外で比べる",
+   "why": "国ごとの集計と国境の描画に要る。沿岸の扱いが沿岸の危険の量を直接変える"
+  },
+  {
+   "left": "yuiseki/natural-earth",
+   "right": "yuiseki/worldbank-wdi",
+   "how": "ISO_A3_EH を country_code に結び、1 人あたり GDP を付ける",
+   "why": "期待される割合の基準を作る"
+  }
+ ],
+ "required_variables": [
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "h3"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "population"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "ISO_A3_EH"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "geometry"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "country_code"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "indicator_code"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "value"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "year"
+  }
+ ],
+ "methodological_decisions": [
+  "フィードの状態 (active、inactive、deprecated、future) の扱い",
+  "bbox の大きさの上限と、bbox の無い記録 (pilot で 650 行) の扱い",
+  "国の件数で数えるか、範囲の人口で数えるか",
+  "期待値のモデル (所得、都市人口、人口の規模)",
+  "GTFS Realtime と認証の要るフィードを数えるか"
+ ],
+ "failure_modes": [
+  "地球全体ほどの bbox の記録で、範囲の人口が 93% になる",
+  "国のコードと範囲の位置が食い違う (オランダは自国の登録が 0 件なのに隣国の範囲に 18% が入る)",
+  "登録が無いことを、データが公開されていないことと読む (目録に載らない公開もある)",
+  "目録が上書きされ、版を固定しないと再現できない"
+ ],
+ "robustness_checks": [
+  "bbox の上限を 5、25、100 平方度と無しで比べる",
+  "状態の扱いを 2 通りで比べる",
+  "期待値のモデルを所得だけと、所得と都市人口で比べる",
+  "件数で数えた場合との上位の重なり"
+ ],
+ "simplest_solver": {
+  "method": "国ごとに GTFS のフィードの件数を数えて並べる",
+  "why_insufficient": "件数は米国、フランスなどの多い国を並べるだけで、条件の割に少ない国が見えない。pilot では、件数で 0 の香港とイスラエルが範囲では 100% になり、件数と範囲で国の順が食い違った"
+ },
+ "unknowns": [
+  "目録に載らずに公開されている GTFS",
+  "公共交通の運行の実態",
+  "フィードの中身の質"
+ ],
+ "novelty": {
+  "closest_task": "M2",
+  "difference_dimension": "data_observability_residual",
+  "substantive_difference": "中難易度 2 は 1 つの地域の店の記録の少なさ。この候補は全球の交通のデータの登録を、人口と所得から期待される量と比べ、範囲の扱いが答えをどう変えるかを問う。W4 (基地局の記録) と組になる"
+ },
+ "prediction": {
+  "main_result": "所得の割に登録の少ない国に、韓国、湾岸の国、ロシア、ギリシャ、アルゼンチンが入る。範囲の上限で上位が大きく入れ替わる",
+  "difficulty": "bbox の質と国のコードの食い違い",
+  "fragile_assumption": "範囲の人口が公開の度合いを表すこと",
+  "needed_capabilities": [
+   "目録の正規化",
+   "格子への集計",
+   "期待値からの外れの検出"
+  ]
+ },
+ "rubric": [
+  "巨大な bbox と bbox の無い記録を見つけて扱った",
+  "国のコードと範囲の位置の食い違いを確かめた",
+  "登録の無さを公開の無さや交通の無さと書かなかった",
+  "期待値のモデルを複数比べた",
+  "目録の版 (sha256、取得日) を書いた"
+ ]
+}

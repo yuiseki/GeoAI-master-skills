@@ -13,8 +13,9 @@
 | `tz.parquet` | `timezone-boundary-builder-2026d@cc26444…/parquet/timezones.parquet` |
 | `unhcr.parquet` | `unhcr-refugee-stats@5f3eea4…/parquet/2026-10-04/population.parquet` |
 | `wdi.parquet` | `worldbank-wdi@d0b1ad8…/parquet/2026-10-01/data.parquet` |
+| `feeds_v2.csv` | Mobility Database の目録 (sha256 `0d90eb4e…`、Last-Modified 2026-10-20)。Hugging Face への凍結は未 |
 | `wiki_coords.parquet` | `fetch_wiki.py` が `wikipedia-geotagged@24e53f6…` の英語版と日本語版から座標の列だけを取る |
 
-順番: `base.py`、`base2.py` (セルを国に割り当てる) の後に、各 `pilot_*.py`。`pilot_refugee_dist.py` は `pilot_refugee.py` の作った表を使う。`pilot_tz.py` は `uvx --with tzdata==2025.2` で流した。どれも `uvx --from 'duckdb>=1.5.5' python -I <スクリプト>` で、`pilot.duckdb` を作業ディレクトリに作る。
+順番: `base.py`、`base2.py` (セルを国に割り当てる) の後に、各 `pilot_*.py`。`pilot_refugee_dist.py` は `pilot_refugee.py` の、`pilot_air_residual.py` は `pilot_air.py` の表 (`ap`) と `pilot_gtfs.py` の表 (`gdp`) を使う。`pilot_tz.py` は `uvx --with tzdata==2025.2` で流した。どれも `uvx --from 'duckdb>=1.5.5' python -I <スクリプト>` で、`pilot.duckdb` を作業ディレクトリに作る。
 
 作業ディレクトリに標準ライブラリと同じ名前の `.py` (`types.py` など) があると、DuckDB の import が壊れる。`python -I` で流すか、空のディレクトリで流す。

@@ -19,6 +19,7 @@
 | `yuiseki/worldbank-wdi` | `d0b1ad8c98643db75c767c0ff96db800126f4954` (`parquet/2026-10-01/`) |
 | `yuiseki/timezone-boundary-builder-2026d` | `cc26444397089df7b2e8bc02d40f4ed9d9936aae` |
 | `yuiseki/unhcr-refugee-stats` | `5f3eea4ac1314223df73dcdf614ebe224a5fe632` (`parquet/2026-10-04/`) |
+| Mobility Database の目録 (課題 W7) | `feeds_v2.csv`、sha256 `0d90eb4ea0364ae4d66580f3b264763ecc9667850829cd161e09184982cca3e4` (Last-Modified 2026-10-20)。Hugging Face への凍結は未 |
 
 ## 共通の提出の形
 
@@ -44,6 +45,7 @@
 使うデータ: `yuiseki/ibtracs-v04r01`、`yuiseki/ourairports-2026-08`、`yuiseki/kontur-population-2023-11-01-22km`、`yuiseki/natural-earth`。
 範囲: 全球。
 提出: 格子の層 (強風の通過の回数、条件を満たす空港までの距離、人口) と国の層。空港の条件と距離を変えたときの人数の変わり方。
+あわせて問う (変形): 強風の有無によらず、人口の密度と所得から見て、定期便のある空港が異常に遠い人口の集まりはどこか。期待される距離からの外れを格子の層にする。
 
 ## 課題 W3: 致死的な暴力の近くに住む人の地図は、何を数えるかで変わるか
 
@@ -76,3 +78,11 @@
 使うデータ: `yuiseki/unhcr-refugee-stats`、`yuiseki/natural-earth`、`yuiseki/worldbank-wdi`。
 範囲: 全世界の出身国と庇護国の組。1990〜2025 年の年末の人数。
 提出: 流れの層 (年、出身国、庇護国、人数、距離、隣接か) と、年ごとの距離と隣の国の割合、その分解の表。
+
+## 課題 W7: 公共交通の時刻表のオープンデータの登録が、条件の割に少ない国と都市
+
+問い: 人口と所得から見て、公共交通の時刻表のオープンデータ (GTFS) の登録が少ない国と都市はどこか。その答えは、フィードの範囲と状態の扱いでどう変わるか？
+使い道: 交通のデータの公開を支援する国際機関と援助機関が、公開の働きかけと目録への登録の確認を優先する国と都市を選ぶ。公共交通そのものが無いかどうかは判断しない。
+使うデータ: Mobility Database の目録 `feeds_v2.csv` (上の sha256 のもの)、`yuiseki/kontur-population-2023-11-01-22km`、`yuiseki/natural-earth`、`yuiseki/worldbank-wdi`。
+範囲: 全球。
+提出: 国の層 (範囲に住む人口の割合、期待される割合、その差) と格子の層 (範囲に入るフィードの数)。範囲と状態の扱いを変えたときの上位の変わり方。

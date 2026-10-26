@@ -4,7 +4,7 @@
 
 入力: [データ目録](../../../.agents/skills/dataset-discovery/references/index.md) のうち全球・国の単位のデータの frontmatter と本文、Parquet の実際の列 (frontmatter に無い列はファイルの末尾のメタデータで確かめた)、課題 30〜44 と中難易度 1〜3、既存の proposal と task card、`research-question-generation` の gate と Critic。社会課題と反証できる作業仮説を問いより先に書いた。
 
-結果: 検討 12 件、棄却 6 件、残す 6 件。残した 6 件は [課題文](../../tasks/world-visualize-tasks.md) と [人間側の記録](../../tasks/world-visualize-rubric.md) に置いた。依頼に合わせて proposal を 1 件に絞らず、課題の候補の一覧として残した。正式な `hard-tasks.md` には足していない。
+結果: 検討 12 件、棄却 6 件、残す 6 件。後から、別のエージェントの案 6 件を加えた (下の「追加」)。残した 6 件は [課題文](../../tasks/world-visualize-tasks.md) と [人間側の記録](../../tasks/world-visualize-rubric.md) に置いた。依頼に合わせて proposal を 1 件に絞らず、課題の候補の一覧として残した。正式な `hard-tasks.md` には足していない。
 
 ## 全体の判断
 
@@ -32,3 +32,16 @@
 ## pilot
 
 スクリプトは [world-visualize-pilots/](world-visualize-pilots/README.md)。数字は人間側の記録に写した。pilot は小さい範囲の存在の確認で、課題の答えではない。予想 (各候補の JSON の `prediction`) は、pilot の後に書き直していない。ただし W2 は、F の pilot で危険の層が要ると分かってから作った探索の候補である。
+
+## 追加: 別のエージェントの案 (2026-10-26)
+
+| 案 | 判定 | 理由 |
+|---|---|---|
+| 1 熱帯低気圧の経路と、その後の市街地の拡大 | データ待ち | GHSL の全球の時系列が凍結されていない。因果の問いとして書くかを先に決める |
+| 2 国外にある上流の人口 | データ待ち | HydroBASINS の全球が凍結されておらず、v1 のライセンスで元データを単独で再配布できない |
+| 3 森林バイオマスの 3 製品の食い違い | データ待ち | CTrees と ESA CCI の全球が凍結されておらず、GEDI は Earthdata Login が要る |
+| 4 市街地の拡大と地形 | データ待ち | GHSL の全球の時系列と、解像度のそろった全球の DEM が無い |
+| 5 GTFS の公開の空白 | W7 として残す (目録の凍結待ち) | pilot で、bbox の上限 (93% と 13.7%)、国のコードと範囲の食い違い (オランダ) が答えを変えた。検査は `unknown_dataset:mobility-database` だけで止まった |
+| 6 人口の割に空港が遠い場所 | W2 の変形にまとめた | pilot で期待値のモデルが弱く (決定係数 0.12)、外れの上位を空域の閉じたウクライナが占めた。単独の課題にすると出来事を地理の空白と取り違える |
+
+データ待ちの 4 件の問いと注意は、[人間側の記録](../../tasks/world-visualize-rubric.md) の末尾に置いた。
