@@ -23,7 +23,7 @@
 
 | 原則 | 道具 |
 |---|---|
-| 2 格子を四角に戻す | `context_map.py squares` (行、列、中心の x と y から GeoParquet の四角。中心が格子から外れたら止まる) |
+| 2 格子を四角に戻す | `context_map.py squares` (行、列、中心の x と y から GeoParquet の四角。中心が格子から外れたら止まる。メモリの上限 `--max-memory-gb`、既定 4) |
 | 1、4 背景の層 | `--context` (GeoParquet か ST_Read で読めるファイル、hf:// も可)、`--context-name`、`--context-where`、`--context-crs`、`--context-source`、CRS が違うときの `--accept-crs-difference` |
 | 3 縦横の比 | `--crs` が経度と緯度の CRS なら自動。JSON の `aspect` |
 | 5 凡例 | 常に地図の外 |
@@ -49,7 +49,9 @@ uvx --with numpy --with duckdb --with shapely --with matplotlib python scripts/c
 
 北海道東部の 10,230 の格子 (1 辺 0.00889 度) で、この 2 つのコマンドの図は手で組んだ図と同じ読み方ができた (2026-10-26)。縁取りは自動で外れた (中央の幅 4.4 ピクセル)。本図で重なっていた番号 3 組は、拡大図で読めるので `zoomed_in_inset` に分かれ、`text_overlaps` は 0 件だった。
 
-テストは `uvx --with numpy --with duckdb --with shapely --with matplotlib --with pytest pytest scripts/test_context_map.py` と `scripts/test_classify_map.py`。
+`squares` は、格子の間隔を中心の組の傾きの中央値で決める。組は全部で n (n − 1) / 2 あり、以前の版は全ての組をリストにしていた。東京 23 区の 100 m の格子 (66,460 セル) では約 22 億組になり、終わらないままメモリを使い続けた (2026-10-26)。今の版は、組が 20 万 (`MAX_PAIRS`) を超えたら種を固定した 20 万組の抽出で中央値を取る。66,460 セルで 1.8 秒、最大の常駐メモリ 148 MB だった。さらにコマンドはデータ領域の上限 (`RLIMIT_DATA`、`--max-memory-gb`、既定 4 GB) の下で動き、超える入力は `MemoryError` で止まる。アドレス空間の上限 (`RLIMIT_AS`) は DuckDB が仮想メモリを先に取るため、4 GB でも何も書かずに落ちた (終了コード 139) ので使わない。
+
+テストは `uvx --with numpy --with duckdb --with shapely --with matplotlib --with pytest pytest scripts/test_context_map.py` と `scripts/test_classify_map.py`。4 万セルの格子が既定の上限の下で 120 秒以内に終わること、抽出の分岐でも外れた中心で止まること、上限を 0.2 GB にすると `MemoryError` で止まることを確かめている。全ての組をリストにする以前の実装に戻すと、4 万セルのテストが `MemoryError` で落ちる (上限があるので機械のメモリは使い切らない)。
 
 ## 道具に入れていないこと
 

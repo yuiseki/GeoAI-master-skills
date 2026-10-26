@@ -121,3 +121,48 @@ def test_cli_turns_cell_centres_into_squares(tmp_path):
     got = con.sql(f"select id, v, ST_Area(geometry) from '{tmp_path / 'sq.parquet'}' order by id").fetchall()
     assert [g[0] for g in got] == [0, 1, 2] and got[2][1] == 3.0
     assert all(g[2] == pytest.approx(STEP ** 2) for g in got)
+
+
+def _grid_csv(path, n_side):
+    rows = [(r, c) for r in range(n_side) for c in range(n_side)]
+    path.write_text("id,r,c,x,y\n" + "".join(f"{i},{r},{c},{1000 + c * 100 + 50},{2000 + r * 100 + 50}\n"
+                                             for i, (r, c) in enumerate(rows)))
+    return len(rows)
+
+
+def test_many_cells_run_in_bounded_memory_and_time(tmp_path):
+    # 40,000 cells: all pairs of centres would be 800 million slopes (several GB); the command must finish
+    # under its default memory limit, with the step right.
+    import duckdb
+
+    n = _grid_csv(tmp_path / "big.csv", 200)
+    out = subprocess.run([sys.executable, str(Path(__file__).with_name("context_map.py")), "squares", str(tmp_path / "big.csv"),
+                          "--row", "r", "--col", "c", "--x", "x", "--y", "y", "--out", str(tmp_path / "big.parquet")],
+                         capture_output=True, text=True, timeout=120)
+    assert out.returncode == 0, out.stderr[-2000:]
+    con = duckdb.connect()
+    con.sql("load spatial")
+    got = con.sql(f"select count(*), min(ST_Area(geometry)), max(ST_Area(geometry)) from '{tmp_path / 'big.parquet'}'").fetchall()[0]
+    assert got == (n, pytest.approx(10000.0), pytest.approx(10000.0))
+
+
+def test_sampled_slope_still_ignores_a_misplaced_centre():
+    import context_map as cm
+
+    side = 30  # 900 cells: 404,550 pairs, more than MAX_PAIRS, so the sampled branch runs
+    rows = np.repeat(np.arange(side), side).astype(float)
+    cols = np.tile(np.arange(side), side).astype(float)
+    x, y = 500 + cols * 100.0, 800 + rows * 100.0
+    assert side * side * (side * side - 1) // 2 > cm.MAX_PAIRS
+    assert fit_grid(rows, cols, x, y)["step"] == pytest.approx(100.0)
+    x2 = x.copy(); x2[0] += 37
+    with pytest.raises(ValueError, match="off the grid"):
+        fit_grid(rows, cols, x2, y)
+
+
+def test_memory_limit_stops_the_command_with_an_error(tmp_path):
+    _grid_csv(tmp_path / "small.csv", 3)
+    out = subprocess.run([sys.executable, str(Path(__file__).with_name("context_map.py")), "squares", str(tmp_path / "small.csv"),
+                          "--row", "r", "--col", "c", "--x", "x", "--y", "y", "--out", str(tmp_path / "s.parquet"),
+                          "--max-memory-gb", "0.2"], capture_output=True, text=True, timeout=120)
+    assert out.returncode != 0 and "MemoryError" in out.stderr

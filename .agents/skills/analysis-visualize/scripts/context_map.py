@@ -9,7 +9,11 @@ Functions used by classify_map.py, and a command that turns grid-cell centres in
   (at 43 degrees north, east-west distances look 37% too long).
 - fit_grid: the squares of a regular grid, rebuilt from the cell centres and the row and column numbers.
   A centre off the grid, or cells not square in the map's units, stops the run instead of drawing gaps.
-  With a single row (or column) squareness cannot be checked, and the result says so.
+  With a single row (or column) squareness cannot be checked, and the result says so. The step is the
+  median slope over at most MAX_PAIRS pairs of centres (all pairs when there are few, a seeded sample
+  otherwise), so memory and time grow with the number of cells, not with its square.
+- squares: the command runs under an address-space limit (--max-memory-gb, default 4): a run that would
+  need more stops with MemoryError instead of taking the machine's memory.
 - check_context_crs: a background layer in another CRS stops the run, unless the difference is declared
   (it is recorded with the map).
 - label_areas: names of the background areas, only for areas big enough in the view, on a white box.
@@ -21,6 +25,7 @@ Functions used by classify_map.py, and a command that turns grid-cell centres in
 
 import argparse
 import math
+import resource
 
 import numpy as np
 
@@ -28,6 +33,7 @@ GEOGRAPHIC = {"EPSG:4326", "OGC:CRS84", "CRS84", "EPSG:4612", "EPSG:6668", "EPSG
 LAND = "#efece6"   # background areas, under the values
 WATER = "#dbe9f2"  # what is not in any background area
 LINE = "#4d4d4d"   # background boundaries, over the values
+MAX_PAIRS = 200_000  # pairs of centres used for the median slope; all pairs below this
 
 
 def aspect(crs, ymin, ymax):
@@ -45,9 +51,17 @@ def fit_grid(rows, cols, x, y, tol=1e-3):
     x, y = np.asarray(x, float), np.asarray(y, float)
 
     def slope(i, v):
-        # median of the pairwise slopes (Theil-Sen): one misplaced centre cannot move it
-        d = [(v[a] - v[b]) / (i[a] - i[b]) for a in range(len(i)) for b in range(a) if i[a] != i[b]]
-        return float(np.median(d)) if d else None
+        # median of the pairwise slopes (Theil-Sen): one misplaced centre cannot move it. All pairs of n
+        # centres are n (n - 1) / 2 (2.2 billion for 66,460 cells), so above MAX_PAIRS a seeded sample is used.
+        n = len(i)
+        if n * (n - 1) // 2 <= MAX_PAIRS:
+            a, b = np.triu_indices(n, 1)
+        else:
+            rng = np.random.default_rng(0)
+            a, b = rng.integers(0, n, 2 * MAX_PAIRS), rng.integers(0, n, 2 * MAX_PAIRS)
+        keep = i[a] != i[b]
+        a, b = a[keep][:MAX_PAIRS], b[keep][:MAX_PAIRS]
+        return float(np.median((v[a] - v[b]) / (i[a] - i[b]))) if len(a) else None
 
     sx, sy = slope(cols, x), slope(rows, y)
     if sx is None and sy is None:
@@ -163,8 +177,18 @@ def text_overlaps(fig, texts, legends=()):
     return found
 
 
+def limit_memory(gb):
+    """Cap this process's address space, so that an input too big for the method stops it with MemoryError."""
+    if gb and gb > 0:
+        cap = int(gb * 1024 ** 3)
+        soft, hard = resource.getrlimit(resource.RLIMIT_DATA)
+        resource.setrlimit(resource.RLIMIT_DATA, (cap if hard == resource.RLIM_INFINITY else min(cap, hard), hard))
+
+
 def squares_command(a):
     import csv
+
+    limit_memory(a.max_memory_gb)
 
     import duckdb
 
@@ -191,6 +215,8 @@ def main():
     s.add_argument("table")
     for k in ("row", "col", "x", "y", "out"):
         s.add_argument(f"--{k}", required=True)
+    s.add_argument("--max-memory-gb", type=float, default=4.0,
+                   help="address-space limit of this process in GB (0 for none); a run that needs more stops")
     a = p.parse_args()
     squares_command(a)
 
