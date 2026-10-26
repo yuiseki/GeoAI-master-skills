@@ -151,6 +151,7 @@
     - [x] `references/jaxa-aw3d30.md`: 登録制の全球DSM。地域別の版と再配布の未確認点を記録
     - [x] `references/koppen-geiger-2023.md`: Figshare v2 の固定版と CC BY 4.0、現行 V3 との差を記録。ZIP は未実読
     - [x] `references/kontur-population-20231101.md`: HDX の固定版。22kmの GeoPackage 71,283行を実読
+    - [x] `references/jma-obsdl.md`: 気象庁の過去の気象データ・ダウンロードの要求の形と CSV の読み方。東京都 31 観測所の日別の降水量 1974〜2025 年を取得して実測
     - [x] `references/usgs-earthquake-catalog.md`: 更新型 FDSN Event API の小規模クエリと版を確認
     - [x] `references/nasa-gibs.md`: WMTS・WMS の目録と表示用タイルを実読。元製品ごとの許諾と best の可変性を記録
     - [x] `references/mobility-database/README.md`: 公開 CSV 6,686行を実読。フィード本体と目録メタデータの許諾を区別
