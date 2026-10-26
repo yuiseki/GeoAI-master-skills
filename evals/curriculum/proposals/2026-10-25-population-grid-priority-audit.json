@@ -1,0 +1,93 @@
+{
+  "mode": "exploration",
+  "social_problem": "統計の更新が遅い地域で人口集積地を現地調査する担当者が、全球の格子人口推計をそのまま使うと、調査すべき地区を取り違える可能性がある。日本の詳細な国勢調査を比較対象に、その取り違えの条件を調べる。",
+  "working_hypothesis": "GHSL と国勢調査の差は一様ではなく、格子の合わせ方と低人口セルの扱いで人口上位地区の選定が変わる。東京周辺では土地被覆が混在するメッシュほど不一致が大きいと予想するが、面積按分・中心点割当および土地被覆別の差がほぼ同じなら棄却する。",
+  "question": "日本本土で GHSL 2020 の居住人口推計を国勢調査の1kmメッシュ人口の代わりに用いると、人口集積地区の現地調査候補はどれだけ入れ替わるか。その不一致は東京周辺で土地被覆の構成によって偏るか？",
+  "decision_use": "統計が公開されない・更新が遅い地域で、人口集積地区の初動の現地調査を計画する防災・人道支援担当者が、全球格子人口を単独で使ってよいか、照合を要する場所を判断する参考にする。日本での結果を他国の誤差率と断定しない。",
+  "target_quantity": "国勢調査の3次メッシュごとの常住人口と、GHSL E2020のセル人数を同じメッシュへ面積按分した推計との差、および人口上位候補集合の一致率。東京周辺の補助分析では、WorldCover 2021の市街地分類画素の割合・土地被覆の混在度ごとに不一致を比べる。",
+  "unit": "国勢調査の3次メッシュ8桁コード。都道府県をまたぐ同一コードの人口を合算する。主分析は日本本土とGHSL 5タイルの完全な重なり、補助分析は WorldCover 凍結版の東京周辺0.5度矩形内に完全に入るメッシュ。",
+  "time_alignment": "国勢調査は2020-10-01、GHSLはR2023AのE2020推計で元入力の観測日は一律でない。WorldCoverは2021 v200なので補助分析の土地被覆は1年ずれる。変化や因果効果は推定しない。",
+  "claim_type": "descriptive",
+  "datasets": [
+    "yuiseki/estat-census-mesh-2020",
+    "yuiseki/ghsl-japan-core-2020-30arcsec",
+    "yuiseki/esa-worldcover-tokyo-2021-100m"
+  ],
+  "source_versions": {
+    "yuiseki/estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+    "yuiseki/ghsl-japan-core-2020-30arcsec": "4ee767429ee03ea47a9003c547f92c320474e350",
+    "yuiseki/esa-worldcover-tokyo-2021-100m": "6f006f64483b65b20f06c775b87db7a8d57a6fda"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/estat-census-mesh-2020",
+      "right": "yuiseki/ghsl-japan-core-2020-30arcsec",
+      "how": "KEY_CODEからJGD2011の3次メッシュ面を復元し、EPSG:4326のGHSLセル面と交差させ、等積投影で求めたGHSLセル側の交差面積比で人数を配分する",
+      "why": "異なる原点と幅の格子間で、足せる量である人口を保存して比較する"
+    },
+    {
+      "left": "yuiseki/estat-census-mesh-2020",
+      "right": "yuiseki/esa-worldcover-tokyo-2021-100m",
+      "how": "東京周辺のメッシュと100mセル面を重ね、市街地分類画素数と有効画素数を面積で集計する",
+      "why": "人口差が土地被覆の構成によって偏るかを、GHSLとは別の分類図で診断する"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "prefecture"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140001"},
+    {"dataset": "yuiseki/ghsl-japan-core-2020-30arcsec", "table": "population_R5_C32", "column": "population_estimate"},
+    {"dataset": "yuiseki/ghsl-japan-core-2020-30arcsec", "table": "population_R5_C32", "column": "cell_row"},
+    {"dataset": "yuiseki/esa-worldcover-tokyo-2021-100m", "table": "worldcover_100m", "column": "pixels_50"},
+    {"dataset": "yuiseki/esa-worldcover-tokyo-2021-100m", "table": "worldcover_100m", "column": "valid_pixels"}
+  ],
+  "methodological_decisions": [
+    "国勢調査の都県境で二重になるメッシュ行を合算し、人口0の未掲載メッシュを調査域内だけ補う",
+    "GHSLのセル人数を面積按分する際、海・タイル境界・未覆域を数え、総量の保存を確認する",
+    "局所での誤差と調査候補集合の一致を分け、中心点割当を簡単な基準として並べる",
+    "人口の小さいセルに率だけを使わず、絶対人数の差と候補の取りこぼしを併記する",
+    "東京補助分析の市街地分類画素率を、GHSLの建物面積とは独立の地図として扱うが、2021年という時点差を残す"
+  ],
+  "failure_modes": [
+    "GHSLは国勢調査・行政人口を入力にするため、国勢調査との照合は独立した外部検証ではない",
+    "国勢調査は人口0のメッシュを行として持たず、都県境メッシュは複数行ある",
+    "JGD2011とGHSLの格子原点・幅が異なり、整数の行列番号では結べない",
+    "GHSLの5タイルは沖縄・一部島しょを覆わず、部分被覆セルの人数を0にすると誤差を作る",
+    "WorldCoverの市街地クラスは人が住む建物の実測ではなく、2020年との時点差もある"
+  ],
+  "robustness_checks": [
+    "面積按分とGHSLセル中心点割当を同一メッシュで比較する",
+    "上位候補の割合を5%、10%、20%と変え、境界メッシュと低人口メッシュの除外を変える",
+    "人口差を絶対人数、対数比、順位、候補集合の取りこぼしで並べる",
+    "全国の異なる地域・都市度のブロックで再現し、東京pilotを確認的な評価から外す",
+    "東京補助分析では市街地分類割合のほか、土地被覆クラスの混在度を比較する"
+  ],
+  "simplest_solver": {
+    "method": "GHSLと国勢調査の人口合計を都道府県ごとに比較する",
+    "why_insufficient": "行政人口の合計が近くても、格子内への配分や候補メッシュの入れ替わりは見えない。異なる格子を面積で整合しなければ、推計の差と格子変換による差も区別できない。"
+  },
+  "unknowns": [
+    "GHSLの入力に使われた日本の行政人口の正確な時点と粒度。国勢調査との独立性は主張できない",
+    "WorldCover 2021の分類誤差と、その誤差が人口差に与える影響",
+    "日本以外での精度、実際の災害曝露、昼間人口、個々の居住位置、現地調査の実施可能性"
+  ],
+  "novelty": {
+    "closest_task": 30,
+    "difference_dimension": "population_surface_substitution_and_spatial_measurement_audit",
+    "substantive_difference": "課題30は人口を分母として事故の多い地区を探す。この候補はその分母にも使われ得る全球格子人口を国勢調査の代わりにしたときの地区選定の安定性を測る。既存の人口・建物面積の時系列乖離案とも異なり、建物が減らないという製品特性に依存しない。"
+  },
+  "prediction": {
+    "main_result": "GHSLと国勢調査の差は一様でなく、格子整合法と低人口メッシュの扱いで人口上位候補の重なりが変わる。東京周辺では土地被覆が混在するメッシュで不一致が大きい可能性がある。",
+    "difficulty": "都県境の重複行と未掲載の0人口メッシュ、異なる原点の格子の面積保存型結合",
+    "fragile_assumption": "GHSLと国勢調査の差を独立した予測誤差と解釈したり、市街地分類を居住密度の真値と見なすこと",
+    "needed_capabilities": ["dataset-discovery", "data-variable-semantics", "analysis-unit-design", "spatial-data-integration", "raster-data-integration", "robustness-analysis", "research-paper-writing"]
+  },
+  "rubric": [
+    "固定版と入力範囲、都県境の重複・0メッシュ・タイル端の扱いを追跡できる",
+    "人口の量を保存して格子を移し、面積按分と中心点基準を同じ対象で比較する",
+    "総量差だけでなく地区別差と上位候補の入れ替わりを報告する",
+    "土地被覆との関係を補助分析に限定し、製品間の時点差と分類誤差を示す",
+    "GHSLと国勢調査の入力依存、他国への外挿不可、災害リスク非推定を明記する",
+    "論文化する場合は数値の保存出力と事前・探索的比較を分け、未確認の新規性を主張しない"
+  ]
+}

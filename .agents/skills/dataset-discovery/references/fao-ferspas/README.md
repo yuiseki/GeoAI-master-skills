@@ -52,4 +52,4 @@ select count(*) from 'https://stac.yuiseki.net/fao-ferspas/items.parquet';
 - 57 のバケットのうち 3 つは匿名だと 403: `fao-gismgr-asis-data` (18,917 ファイル、農業ストレス指数など)、`fao-gismgr-rdms-data` (1,245)、`fao-gismgr-seap-data` (1)。
 - 読めるバケットのファイルは COG で、範囲を部分読みできる。AgERA5 の月別は 1 ファイルが 1 か月の全球 (3,600 × 1,800、0.1 度、float32、欠損値 -9999)。日本の範囲の 1 か月を約 4 秒で読めた。
 - ライセンスはコレクションごと。2026-10-26 に目録を実照会した結果、AgERA5 の降水と基準蒸発散量、日別の最高・最低気温は CC-BY-SA-4.0、月別平均最高気温 `AGERA5-TMAX-AVG-M` と月別平均最低気温 `AGERA5-TMIN-AVG-M` は CC-BY-4.0。隣のコレクションからライセンスを推測しない。
-- 月別平均最高・最低気温の日本周辺GeoParquet切り出しは [別reference](../agera5-japan-monthly-temperature-1979-2026.md) と [Hugging Face](https://huggingface.co/datasets/yuiseki/agera5-japan-monthly-temperature-1979-2026) にある。
+- 月別平均最高・最低気温の日本周辺GeoParquet切り出しは [別reference](../../references/huggingface/yuiseki/agera5-japan-monthly-temperature-1979-2026.md) と [Hugging Face](https://huggingface.co/datasets/yuiseki/agera5-japan-monthly-temperature-1979-2026) にある。

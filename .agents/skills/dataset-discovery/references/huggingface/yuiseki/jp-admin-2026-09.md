@@ -1,0 +1,148 @@
+---
+kind: dataset
+id: yuiseki/jp-admin-2026-09
+description: 日本の 47 都道府県と 1,918 市区町村の名前、コード、面、2020 年国勢調査の人口と世帯数を結んだもの。市区町村より細かい単位は無い。
+url: https://huggingface.co/datasets/yuiseki/jp-admin-2026-09
+card_revision: e6c87b1d7095c17422147962185071a986e13135
+license: CC-BY-4.0
+formats:
+- GeoParquet 1.1
+crs: EPSG:4612
+spatial_coverage: 日本 47 都道府県、1,918 市区町村。面、人口、世帯数が空の自治体が 9 ある
+temporal_coverage: 名前とコードは 2026-09、面と人口と世帯数は 2020 年国勢調査
+as_of:
+  names_and_codes: 2026-09
+  boundaries_and_counts: 2020-10-01
+contents:
+- 行政区域の名前とコード
+- 代表点
+- 行政区域の面
+- 人口
+- 世帯数
+tables:
+- name: municipalities
+  read: hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet
+  grain: 1 つの市区町村。政令指定都市は、親の市と、その区が別の行になる (171 区)
+  rows: 1918
+  id:
+  - lg_code
+  - code5
+  join_keys:
+  - column: code5
+    type: VARCHAR
+    meaning: 5 桁の市区町村コード。区は区のコードを持つ
+    unique: true
+    joins:
+    - mlit-toshi-keikaku-jp:*.Citycode
+    note: 1,918 行で重複が無い (実測)。全国の合計を取るときは、親と区が重なるので ward is null に絞る
+  - column: pref_code
+    type: VARCHAR
+    meaning: 2 桁の都道府県コード (文字列)
+    joins:
+    - ekidata-jp:station.pref_cd (整数。型を揃える)
+    cast: ekidata-jp の pref_cd は整数。cast(pref_code as integer) で揃える
+  no_key:
+  - name: osm_id
+    note: OpenStreetMap とは ID で結べない。コードか空間結合で結ぶ
+  columns:
+  - name: lg_code
+    type: VARCHAR
+    meaning: 地方公共団体コード 6 桁 (住所基盤登録簿)
+  - name: name
+    type: VARCHAR
+    meaning: 市区町村名。区は 浜松市中央区 のように市名つき
+  - name: ward
+    type: VARCHAR
+    meaning: 政令指定都市の区の名前。親の市の行では空
+  - name: population
+    type: BIGINT
+    meaning: 2020 年国勢調査の人口 (小地域の合計)。推計ではない。空は調べていないこと
+    missing: NULL は調べていない (9 行。北方領土の 6 村と浜松市の新しい 3 区)。0 ではない
+  - name: households
+    type: BIGINT
+    meaning: 2020 年国勢調査の世帯数
+    missing: NULL は調べていない (9 行)
+  - name: geometry_source
+    type: VARCHAR
+    meaning: 面の出所。census small areas、union of its wards、none
+  - name: rep_lon
+    type: DOUBLE
+    meaning: 住所基盤登録簿の代表点の経度。rep_lat が緯度
+  - name: geometry
+    type: geometry:EPSG:4612
+    meaning: 市区町村の面 (EPSG:4612)。海を含まない
+    missing: NULL は面が無い (9 行)
+    note: 隣の市区町村の面と、境界で重なっている。「接する」「隣接する」組は、ST_Touches ではなく ST_Intersects で取る。ST_Touches は重なった組を数えず、8 割の組を取り逃がす (2026-10-14 実測)。海を含まないので、海の上を含む OSM の区域とは隣接の組が違う (東京 23 区で、ここは 56 組、OSM は 57 組。差は大田区と江戸川区で、OSM では海の上でだけ接する)
+- name: prefectures
+  read: hf://datasets/yuiseki/jp-admin-2026-09/prefectures.parquet
+  grain: 1 つの都道府県
+  rows: 47
+  id:
+  - pref_code
+  columns:
+  - name: population
+    type: BIGINT
+    meaning: 2020 年国勢調査の人口。市区町村の ward is null の行の合計と一致する
+    missing: 欠損なし (47 行すべてに値がある)
+---
+
+# jp-admin-2026-09 (日本の都道府県と市区町村)
+
+日本の 47 都道府県と 1,918 市区町村の、コード、名前 (漢字、かな、ローマ字)、面、2020 年国勢調査の人口と世帯数。市区町村より細かい単位は無い。
+分析では、点や格子を行政区に集計するときの境界、人口で割る分母、日本の地域の結合キーに使う。
+
+## どこから読むか
+
+Hugging Face の `yuiseki/jp-admin-2026-09`。2 つのファイルがある。
+
+```
+hf://datasets/yuiseki/jp-admin-2026-09/prefectures.parquet
+hf://datasets/yuiseki/jp-admin-2026-09/municipalities.parquet
+```
+
+- カード: <https://huggingface.co/datasets/yuiseki/jp-admin-2026-09>
+- 作り方は GitHub の `yuiseki/jp-admin-2026-09` (入力は 2 つの凍結データセットを、コミットで固定して読む)。
+
+## 粒度と範囲
+
+2026-10-13 に実測した。
+
+| 項目 | 値 |
+|---|---|
+| 単位 | 1 つの都道府県、1 つの市区町村 |
+| 行数 | `prefectures` 47、`municipalities` 1,918 (政令指定都市の区 171 を含む) |
+| CRS | `geometry` は `GEOMETRY('EPSG:4612')` (JGD2000 の経度、緯度)。GeoParquet 1.1、`bbox` 列付き |
+| 範囲 | 日本全国 |
+| 時点 | 名前とコードは 2026-09 の住所基盤登録簿、面と人口は 2020 年国勢調査 |
+| ライセンス | CC BY 4.0。出典の表示が要る (カードに文例がある) |
+
+主な列は、`lg_code` (6 桁)、`code5` (5 桁)、`pref_code`、`pref` `county` `city` `ward` (それぞれ `_kana`、`_roma` 付き)、`name`、`efct_date`、`rep_lon` `rep_lat` (代表点)、`population`、`households`、`small_areas`、`geometry_source`、`geometry`、`bbox`。
+
+## 気をつけること
+
+- 市区町村の表には、政令指定都市の親 (札幌市など) と、その区が両方入っている。全国の合計は `ward is null` の行で取る。実測で、`ward is null` の行の `population` の合計は 126,146,099 で、`prefectures` の合計と一致し、令和 2 年国勢調査の公表値と同じ (カードによる)。
+- 面と人口が空の行がある。`geometry` が空なのは 9 行で、`geometry_source` が `none`。北方領土の 6 村 (国勢調査が調べていない) と、2024 年に浜松市にできた 3 区 (2020 年の国勢調査より後)。空は 0 ではなく、調べていないことを表す。
+- 名前は 2026-09、面は 2020 年で、時点が 6 年違う。この間に変わった市区町村は、現在の名前に古い形が付く。
+- 面は国勢調査の小地域を溶かしたもの。海を含まないので、海岸の点が面に入らないことがある (下の結合の例)。
+- 溶かした継ぎ目が、面積 0 の内側の輪 (穴の形をした線) として残っている。東京 23 区の 23 行で合わせて 2,492 個 (江東区 313、大田区 279、港区 218 など。2026-10-23 実測、shapely で数えた)。面積も包含も変わらないが、縁取りして描くと区の中に筋が出る。描く前に、面積 0 の輪を外す。全国の数は数えていない。
+- OSM の区の境界 (osm-tokyo23-src、YuisekinGeoSPARQL) は東京湾の海の上を含み、ここの面とは隣接の組が違う。東京 23 区で `ST_Intersects` の組は、ここが 56、OSM が 57 で、差は大田区と江戸川区の 1 組だけ。OSM の江戸川区は南端が北緯 35.531 度 (ここは 35.637 度) で、湾を約 12 km 南へ延びて羽田の大田区に接する。ここの面では、2 区は約 0.063 度離れている (2026-10-14 実測)。どちらの隣接を使うかは問いに合わせて決め、使った方を書く。
+- 政令指定都市の親 20 件の面は、区の面を合わせたもの (`geometry_source` が `union of its wards`)。
+- 隣の市区町村の面は、境界で重なっている。隣接の判定は `ST_Intersects` を使う。`ST_Touches` (境界だけが接する) は、重なった組を隣として数えない。`ward is null` の 1,741 で、`ST_Intersects` が真の組は 4,428 で、`ST_Touches` が真なのは 803 だった。残りの 3,625 組 (82%) は、面積のある重なりで、`ST_Touches` では隣接を取り逃がす。重なりの大きさを EPSG:6933 で測り直すと (2026-10-14)、4,428 組の中央値は 0.0000013 m² で、ほとんどは境界の誤差の細片。0.01 km² を超える 573 組は全て県の境をまたぐ組で、県の境の重なりは合計 55 km² (最大は大阪市と尼崎市の 1.25 km²)。県の中の重なりは合計 0.0000005 km²。以前の「0.05 km² 以下が 9 割、最大約 1.5 km²」は度を km に直した概算で、県の中と県の境を分けていなかった。県をまたいで値を配る、面積を足すときは、県の境の重なりで二重に数える。隣接の表や、空間の重みを作るときは、`ST_Intersects` で取る。点だけで接する組 (角どうし) を外すかは、問いに合わせて決める。外し方は未確認。全組の判定は、DuckDB で約 40 秒かかった。
+
+- 面は、EPSG:4612 のままでは全国 1,909 件が全て有効 (`ST_IsValid`)。ただし、等積の EPSG:6933 に座標を移すと、東京 23 区の面の 23 のうち 22 が無効 (自己交差) になった (shapely 2.2.0、pyproj 3.8.0、2026-10-14)。境界の点が密で、移した後の丸めで交わる。面積を測る前に、移した後の形を `make_valid` で直す。
+
+## ほかのデータとの結合
+
+- 結合キーは `code5` (5 桁の市区町村コード)。`mlit-toshi-keikaku-jp` の `Citycode` と結べる。実測で、`youto` の 1,215 の `Citycode` はすべて `code5` に一致した。
+- 空間結合では、座標系の名前が揃っていないとエラーになる。ekidata-jp の点 (`OGC:CRS84`) をそのまま入れると、DuckDB 1.5 は座標系が互換でないと拒む。名前だけ揃える (どちらも経度、緯度で、差は駅の位置の精度より小さい)。
+
+```sql
+load spatial;
+select count(*) from (
+  select ST_SetCRS(geometry, 'EPSG:4612') as g
+  from 'hf://datasets/yuiseki/ekidata-jp/parquet/2026-10-05/station.2026-07-31.parquet' where e_status = 0
+) s join 'hf://datasets/yuiseki/jp-admin-2026-09/municipalities.parquet' m
+  on ST_Within(s.g, m.geometry) and m.ward is null;
+```
+
+運行中の駅 10,465 のうち、10,464 が面に入った。入らなかった 1 駅は、長崎県の海沿いの千綿駅 (2026-10-13 実測)。入った駅では、駅の `pref_cd` と面の `pref_code` が全部一致した。

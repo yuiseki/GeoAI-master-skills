@@ -34,4 +34,4 @@ operations:
 
 例: `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-01-01&endtime=2020-01-08&minmagnitude=5&limit=5`
 
-固定したデータ例は[USGS ComCat 2025 M4.5+](usgs-comcat-2025-m45.md)を参照する。件数を比べる前に検知率、マグニチュード型、深さ・震央の精度、後からの改訂を確認する。同じ URL でも後日同じ結果になる保証はない。長期間・全球の無制限取得は避け、期間と件数を区切る。[USGS の著作権 FAQ](https://www.usgs.gov/faqs/are-usgs-reportspublications-copyrighted)を参照する。
+固定したデータ例は[USGS ComCat 2025 M4.5+](huggingface/yuiseki/usgs-comcat-2025-m45.md)を参照する。件数を比べる前に検知率、マグニチュード型、深さ・震央の精度、後からの改訂を確認する。同じ URL でも後日同じ結果になる保証はない。長期間・全球の無制限取得は避け、期間と件数を区切る。[USGS の著作権 FAQ](https://www.usgs.gov/faqs/are-usgs-reportspublications-copyrighted)を参照する。

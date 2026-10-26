@@ -17,8 +17,6 @@ contents:
 children:
 - population.md
 - japan.md
-- korea.md
-- indonesia.md
 ---
 
 # WorldPop
@@ -29,8 +27,8 @@ children:
 |---|---|
 | [population.md](population.md) | 総人口 (100 m、1 km) |
 | [japan.md](japan.md) | 日本だけの凍結版。総人口、年齢・性別 (1 km)、都市化度。COG で範囲を読める |
-| [korea.md](korea.md) | 韓国の1 km年次人口推計16年分をGeoParquet化。派生DBはODbLを保守的適用 |
-| [indonesia.md](indonesia.md) | インドネシアの1 km年次人口推計16年分をGeoParquet化。派生DBはODbLを保守的適用 |
+| [韓国の固定版](../../references/huggingface/yuiseki/worldpop-kor-population-2015-2030-1km-r2025a.md) | 韓国の1 km年次人口推計16年分をGeoParquet化。派生DBはODbLを保守的適用 |
+| [インドネシアの固定版](../../references/huggingface/yuiseki/worldpop-idn-population-2015-2030-1km-r2025a.md) | インドネシアの1 km年次人口推計16年分をGeoParquet化。派生DBはODbLを保守的適用 |
 
 年齢・性別 (Age and Sex Structures) と都市化度 (Degree of Urbanisation) は、日本の分だけ `japan.md` にある。全世界の分はまだ書いていない (TODO.md)。韓国とインドネシアの人口推計は、それぞれ国別のGeoParquetとして公開済み。
 

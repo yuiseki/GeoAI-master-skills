@@ -1,0 +1,115 @@
+{
+  "input_artifact": "artifacts/japan-grid-population-audit/tokyo-landcover-mesh.csv.gz",
+  "analysis": "exploratory diagnostic after main land-cover bins; not a causal or predictive test",
+  "outcome": "absolute difference between log1p GHSL and log1p census population, people",
+  "spatial_weights": "spherical k-nearest meshes; row-standardized; k=4,8,12; zero islands by construction",
+  "moran_permutations": 999,
+  "moran_seed": 0,
+  "moran": [
+    {
+      "k": 4,
+      "field": "built_share",
+      "I": 0.6664516132949722,
+      "EI": -0.0005268703898840885,
+      "p_sim": 0.001,
+      "n": 1899,
+      "islands": 0
+    },
+    {
+      "k": 4,
+      "field": "abs_log1p_error",
+      "I": 0.4298873528198467,
+      "EI": -0.0005268703898840885,
+      "p_sim": 0.001,
+      "n": 1899,
+      "islands": 0
+    },
+    {
+      "k": 8,
+      "field": "built_share",
+      "I": 0.6147613835028836,
+      "EI": -0.0005268703898840885,
+      "p_sim": 0.001,
+      "n": 1899,
+      "islands": 0
+    },
+    {
+      "k": 8,
+      "field": "abs_log1p_error",
+      "I": 0.32909542028184374,
+      "EI": -0.0005268703898840885,
+      "p_sim": 0.001,
+      "n": 1899,
+      "islands": 0
+    },
+    {
+      "k": 12,
+      "field": "built_share",
+      "I": 0.570946560586718,
+      "EI": -0.0005268703898840885,
+      "p_sim": 0.001,
+      "n": 1899,
+      "islands": 0
+    },
+    {
+      "k": 12,
+      "field": "abs_log1p_error",
+      "I": 0.28169082162987247,
+      "EI": -0.0005268703898840885,
+      "p_sim": 0.001,
+      "n": 1899,
+      "islands": 0
+    }
+  ],
+  "grid_sweep": [
+    {
+      "scale": 1,
+      "shift": 0,
+      "complete_blocks": 1899,
+      "represented_meshes": 1899,
+      "r_built_vs_abs_log_error": -0.3407802544152194
+    },
+    {
+      "scale": 2,
+      "shift": 0,
+      "complete_blocks": 448,
+      "represented_meshes": 1792,
+      "r_built_vs_abs_log_error": -0.42693401545863424
+    },
+    {
+      "scale": 2,
+      "shift": 1,
+      "complete_blocks": 418,
+      "represented_meshes": 1672,
+      "r_built_vs_abs_log_error": -0.4228515621951047
+    },
+    {
+      "scale": 4,
+      "shift": 0,
+      "complete_blocks": 97,
+      "represented_meshes": 1552,
+      "r_built_vs_abs_log_error": -0.41032347567178623
+    },
+    {
+      "scale": 4,
+      "shift": 2,
+      "complete_blocks": 89,
+      "represented_meshes": 1424,
+      "r_built_vs_abs_log_error": -0.28888594287526476
+    },
+    {
+      "scale": 8,
+      "shift": 0,
+      "complete_blocks": 15,
+      "represented_meshes": 960,
+      "r_built_vs_abs_log_error": 0.2256328966002778
+    },
+    {
+      "scale": 8,
+      "shift": 4,
+      "complete_blocks": 17,
+      "represented_meshes": 1088,
+      "r_built_vs_abs_log_error": -0.27408624036206175
+    }
+  ]
+}

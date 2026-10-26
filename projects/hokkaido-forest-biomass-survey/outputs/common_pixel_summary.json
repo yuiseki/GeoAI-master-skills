@@ -1,0 +1,258 @@
+{
+  "date": "2026-10-26",
+  "input_revision": "e0edd7cd9812847d1740cf1b35ac84885cde3bef",
+  "raw_source_sha256": {
+    "2010": "c00b996a88af80621fda6c82d19fb38fbb1599dca8c94131733ba1cfdd5b21c6",
+    "2025": "07f370a54985d7dec86c0cdc0413a4778c9959ab7b8b38bee6dce442b6fefa51"
+  },
+  "raster": {
+    "shape": [
+      4500,
+      4500
+    ],
+    "crs": "EPSG:4326",
+    "file_nodata_metadata": null,
+    "used_sentinel": -9999,
+    "transform": [
+      0.0008888888888879225,
+      0.0,
+      142.99999999964882,
+      0.0,
+      -0.0008888888888879249,
+      46.00000000004772,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "cells_audited": 10230,
+  "cells_mask_mismatch": 0,
+  "cells_no_common_pixels": 0,
+  "max_abs_delta_vs_aggregated_mg_ha": 2.342224132867443e-06,
+  "eligible_spatial_population": 4033,
+  "top20_common_mask_overlap": 20,
+  "top20_common_mask": [
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 156.793,
+      "new_mean": 95.146,
+      "drop": 61.647000000000006,
+      "cell_row": 280,
+      "cell_col": 177,
+      "aggregated_drop": 61.64700077295302,
+      "delta_vs_aggregated": -7.729530153710584e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 160.72899999999998,
+      "new_mean": 101.975,
+      "drop": 58.754,
+      "cell_row": 282,
+      "cell_col": 127,
+      "aggregated_drop": 58.754001693725584,
+      "delta_vs_aggregated": -1.6937255864490908e-06
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 165.107,
+      "new_mean": 129.967,
+      "drop": 35.139999999999986,
+      "cell_row": 278,
+      "cell_col": 170,
+      "aggregated_drop": 35.14000068664549,
+      "delta_vs_aggregated": -6.866455066756316e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 166.301,
+      "new_mean": 131.39100000000002,
+      "drop": 34.90999999999999,
+      "cell_row": 266,
+      "cell_col": 127,
+      "aggregated_drop": 34.910000820159894,
+      "delta_vs_aggregated": -8.201599044355135e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 162.66500000000002,
+      "new_mean": 127.777,
+      "drop": 34.88800000000001,
+      "cell_row": 282,
+      "cell_col": 126,
+      "aggregated_drop": 34.888000946044926,
+      "delta_vs_aggregated": -9.460449135190174e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 187.68800000000002,
+      "new_mean": 153.597,
+      "drop": 34.09100000000001,
+      "cell_row": 263,
+      "cell_col": 179,
+      "aggregated_drop": 34.09099990844726,
+      "delta_vs_aggregated": 9.155274938166258e-08
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 117.928,
+      "new_mean": 88.138,
+      "drop": 29.79,
+      "cell_row": 286,
+      "cell_col": 131,
+      "aggregated_drop": 29.790000114440915,
+      "delta_vs_aggregated": -1.1444091541079615e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 165.512,
+      "new_mean": 136.71300000000002,
+      "drop": 28.798999999999978,
+      "cell_row": 281,
+      "cell_col": 127,
+      "aggregated_drop": 28.799000625610347,
+      "delta_vs_aggregated": -6.256103688428993e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 159.91400000000002,
+      "new_mean": 131.67000000000002,
+      "drop": 28.244000000000007,
+      "cell_row": 298,
+      "cell_col": 135,
+      "aggregated_drop": 28.244000587463404,
+      "delta_vs_aggregated": -5.874633970393006e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 165.80599999999998,
+      "new_mean": 137.68,
+      "drop": 28.125999999999998,
+      "cell_row": 277,
+      "cell_col": 179,
+      "aggregated_drop": 28.1260001373291,
+      "delta_vs_aggregated": -1.373291027562118e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 144.507,
+      "new_mean": 116.626,
+      "drop": 27.880999999999993,
+      "cell_row": 274,
+      "cell_col": 128,
+      "aggregated_drop": 27.88100116729737,
+      "delta_vs_aggregated": -1.167297376980514e-06
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 164.419,
+      "new_mean": 136.724,
+      "drop": 27.695000000000004,
+      "cell_row": 262,
+      "cell_col": 126,
+      "aggregated_drop": 27.69499972343445,
+      "delta_vs_aggregated": 2.765655544578749e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 122.69800000000001,
+      "new_mean": 95.42,
+      "drop": 27.278,
+      "cell_row": 258,
+      "cell_col": 148,
+      "aggregated_drop": 27.278000354766846,
+      "delta_vs_aggregated": -3.5476684701052363e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 166.63,
+      "new_mean": 139.534,
+      "drop": 27.096000000000004,
+      "cell_row": 302,
+      "cell_col": 129,
+      "aggregated_drop": 27.096000633239754,
+      "delta_vs_aggregated": -6.332397504138498e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 146.51500000000001,
+      "new_mean": 119.44000000000001,
+      "drop": 27.075,
+      "cell_row": 272,
+      "cell_col": 131,
+      "aggregated_drop": 27.075000171661372,
+      "delta_vs_aggregated": -1.7166137311619423e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 111.779,
+      "new_mean": 84.938,
+      "drop": 26.840999999999998,
+      "cell_row": 291,
+      "cell_col": 156,
+      "aggregated_drop": 26.84100082397461,
+      "delta_vs_aggregated": -8.239746129845571e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 105.96,
+      "new_mean": 79.29299999999999,
+      "drop": 26.666999999999994,
+      "cell_row": 284,
+      "cell_col": 169,
+      "aggregated_drop": 26.66700043201446,
+      "delta_vs_aggregated": -4.3201446686680356e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 104.715,
+      "new_mean": 78.224,
+      "drop": 26.491000000000007,
+      "cell_row": 298,
+      "cell_col": 140,
+      "aggregated_drop": 26.491001033782965,
+      "delta_vs_aggregated": -1.03378295790435e-06
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 163.972,
+      "new_mean": 137.834,
+      "drop": 26.138000000000012,
+      "cell_row": 270,
+      "cell_col": 191,
+      "aggregated_drop": 26.13800041198732,
+      "delta_vs_aggregated": -4.119873082686354e-07
+    },
+    {
+      "common_pixels": 100,
+      "mask_mismatch_pixels": 0,
+      "old_mean": 178.01600000000002,
+      "new_mean": 151.91500000000002,
+      "drop": 26.101,
+      "cell_row": 260,
+      "cell_col": 180,
+      "aggregated_drop": 26.10099922180177,
+      "delta_vs_aggregated": 7.781982276355848e-07
+    }
+  ],
+  "main_top20_with_mask_mismatch": 0,
+  "limitation": "Common mask fixes changing valid locations, not CTrees model error or ForTy classification error."
+}

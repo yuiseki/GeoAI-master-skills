@@ -1,0 +1,186 @@
+{
+  "source_versions": {
+    "worldcover": "6f006f64483b65b20f06c775b87db7a8d57a6fda"
+  },
+  "tools": {
+    "duckdb": "2.0.0",
+    "numpy": "2.5.4",
+    "pyproj": "3.8.0"
+  },
+  "data_audit": {
+    "cells": 360000,
+    "valid_pixels": 36000000,
+    "class_pixel_totals": {
+      "10": 4144307,
+      "20": 0,
+      "30": 1129541,
+      "40": 2609586,
+      "50": 22492729,
+      "60": 211416,
+      "70": 0,
+      "80": 5401271,
+      "90": 11150,
+      "95": 0,
+      "100": 0
+    },
+    "bounds": [
+      139.5,
+      35.5,
+      140.0,
+      36.0
+    ],
+    "url": "https://huggingface.co/datasets/yuiseki/esa-worldcover-tokyo-2021-100m/resolve/6f006f64483b65b20f06c775b87db7a8d57a6fda/data/parquet/esa_worldcover_tokyo_2021_v200_100m.parquet"
+  },
+  "join_audit": {
+    "input_population_meshes": 175000,
+    "pilot_excluded": 100,
+    "outside_cover_rectangle": 173001,
+    "partial_cover": 0,
+    "zero_cover_pixels": 0,
+    "included": 1899
+  },
+  "outcome": "Absolute log1p difference in people, descriptive association only",
+  "overall": {
+    "n": 1899,
+    "median_abs_log1p_error": 0.2357224677950711,
+    "median_abs_error_people": 1680.3271648123064,
+    "census_population_sum": 18580473
+  },
+  "built_share_bins": [
+    {
+      "min_inclusive": 0,
+      "max_exclusive": 0.25,
+      "n": 115,
+      "median_abs_log1p_error": 0.7306997828970037,
+      "median_abs_error_people": 298.0112174773392,
+      "census_population_sum": 55005
+    },
+    {
+      "min_inclusive": 0.25,
+      "max_exclusive": 0.5,
+      "n": 256,
+      "median_abs_log1p_error": 0.555766403555594,
+      "median_abs_error_people": 1061.4688864741374,
+      "census_population_sum": 564178
+    },
+    {
+      "min_inclusive": 0.5,
+      "max_exclusive": 0.75,
+      "n": 444,
+      "median_abs_log1p_error": 0.23852750606644157,
+      "median_abs_error_people": 1498.894758336477,
+      "census_population_sum": 2726326
+    },
+    {
+      "min_inclusive": 0.75,
+      "max_exclusive": 1.0000001,
+      "n": 1084,
+      "median_abs_log1p_error": 0.1824084635662837,
+      "median_abs_error_people": 2189.516888304923,
+      "census_population_sum": 15234964
+    }
+  ],
+  "mixedness_bins": [
+    {
+      "min_inclusive": 0,
+      "max_exclusive": 0.1,
+      "n": 541,
+      "median_abs_log1p_error": 0.18338556646935977,
+      "median_abs_error_people": 2499.0294771380177,
+      "census_population_sum": 8979268
+    },
+    {
+      "min_inclusive": 0.1,
+      "max_exclusive": 0.2,
+      "n": 425,
+      "median_abs_log1p_error": 0.18182022211664162,
+      "median_abs_error_people": 1868.2638399993411,
+      "census_population_sum": 4972805
+    },
+    {
+      "min_inclusive": 0.2,
+      "max_exclusive": 0.4,
+      "n": 471,
+      "median_abs_log1p_error": 0.23723353595459606,
+      "median_abs_error_people": 1392.4386686431244,
+      "census_population_sum": 3417860
+    },
+    {
+      "min_inclusive": 0.4,
+      "max_exclusive": 1.0000001,
+      "n": 462,
+      "median_abs_log1p_error": 0.5303488185019702,
+      "median_abs_error_people": 1035.1435871125345,
+      "census_population_sum": 1210540
+    }
+  ],
+  "built_share_bins_min100": [
+    {
+      "min_inclusive": 0,
+      "max_exclusive": 0.25,
+      "n": 93,
+      "median_abs_log1p_error": 0.6220855257259919,
+      "median_abs_error_people": 327.2631242099467,
+      "census_population_sum": 53930
+    },
+    {
+      "min_inclusive": 0.25,
+      "max_exclusive": 0.5,
+      "n": 253,
+      "median_abs_log1p_error": 0.5515290486477831,
+      "median_abs_error_people": 1044.416880097531,
+      "census_population_sum": 564140
+    },
+    {
+      "min_inclusive": 0.5,
+      "max_exclusive": 0.75,
+      "n": 435,
+      "median_abs_log1p_error": 0.2327671454885838,
+      "median_abs_error_people": 1447.6092874032183,
+      "census_population_sum": 2726216
+    },
+    {
+      "min_inclusive": 0.75,
+      "max_exclusive": 1.0000001,
+      "n": 1080,
+      "median_abs_log1p_error": 0.18162448597462877,
+      "median_abs_error_people": 2181.3965385437496,
+      "census_population_sum": 15234880
+    }
+  ],
+  "mixedness_bins_min100": [
+    {
+      "min_inclusive": 0,
+      "max_exclusive": 0.1,
+      "n": 539,
+      "median_abs_log1p_error": 0.18317333272119818,
+      "median_abs_error_people": 2499.0294771380177,
+      "census_population_sum": 8979266
+    },
+    {
+      "min_inclusive": 0.1,
+      "max_exclusive": 0.2,
+      "n": 424,
+      "median_abs_log1p_error": 0.18014179593781243,
+      "median_abs_error_people": 1873.8694183017142,
+      "census_population_sum": 4972799
+    },
+    {
+      "min_inclusive": 0.2,
+      "max_exclusive": 0.4,
+      "n": 458,
+      "median_abs_log1p_error": 0.22893109885813168,
+      "median_abs_error_people": 1367.8725906931222,
+      "census_population_sum": 3417430
+    },
+    {
+      "min_inclusive": 0.4,
+      "max_exclusive": 1.0000001,
+      "n": 440,
+      "median_abs_log1p_error": 0.5062027380103413,
+      "median_abs_error_people": 1064.5428727917347,
+      "census_population_sum": 1209671
+    }
+  ],
+  "artifact": "artifacts/japan-grid-population-audit/tokyo-landcover-mesh.csv.gz"
+}

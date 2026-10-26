@@ -1,0 +1,45 @@
+## Japan: 3,845 cells, 48 features (1991-2020 normals)
+
+   k   inertia   silhouette (mean of 5 seeds)   range
+    2      85500        0.442   0.442-0.442
+    3      64998        0.330   0.330-0.331
+    4      56956        0.283   0.257-0.289
+    5      50621        0.276   0.276-0.277
+    6      45233        0.275   0.275-0.275
+    7      41012        0.286   0.286-0.286
+    8      37889        0.276   0.245-0.285
+    9      35260        0.245   0.245-0.247
+   10      33193        0.241   0.240-0.242
+   best silhouette at k = 2; described below: k = 2 and k = 3
+
+   type  cells   Jan tmax  Aug tmax  Jan rain  Jul rain  year rain  main regions
+      0   2117       6.8C     28.7C     102mm     253mm     1917mm  Kyushu-Okinawa 21%, Chubu 20%, Kinki 16%
+      1   1728      -2.5C     23.6C     100mm     183mm     1541mm  Hokkaido 50%, Tohoku 31%, Chubu 14%
+
+   type  cells   Jan tmax  Aug tmax  Jan rain  Jul rain  year rain  main regions
+      0   1418       8.2C     29.3C      91mm     244mm     1863mm  Kyushu-Okinawa 29%, Kinki 18%, Chugoku 17%
+      1   1183      -3.9C     22.8C      84mm     154mm     1369mm  Hokkaido 73%, Tohoku 19%, Chubu 5%
+      2   1244       2.5C     26.5C     128mm     259mm     1978mm  Tohoku 38%, Chubu 33%, Kanto 9%
+
+   adjusted Rand index against the 8 regions: 0.300 (k = 8: 0.339)
+   agreement between seeds (ARI to seed 0): 1.000, 0.988, 0.985, 0.999
+
+## the same k on two periods
+   ARI 1981-2000 against 2006-2025, each fitted on its own: 0.870; cells that change type: 4.6%
+   the later normals on the earlier centres: 12.1% of cells fall in another type
+      type 2 -> 0: 253 cells
+      type 1 -> 2: 214 cells
+
+## the same on four whitened principal components
+   silhouette by k: 2: 0.234, 3: 0.284, 4: 0.308, 5: 0.326, 6: 0.310, 7: 0.303, 8: 0.293, 9: 0.295, 10: 0.271
+   k = 5 (best above 2); ARI against the 8 regions 0.300, against the k = 5 types on the 48 features 0.451
+
+   type  cells   Jan tmax  Aug tmax  Jan rain  Jul rain  year rain  main regions
+      0   1109       6.6C     29.1C      73mm     230mm     1667mm  Chugoku 20%, Kinki 19%, Kanto 17%
+      1   1108      -3.7C     23.0C      79mm     145mm     1310mm  Hokkaido 75%, Tohoku 23%, Chubu 2%
+      2    720       3.6C     26.4C     103mm     313mm     2281mm  Chubu 41%, Kyushu-Okinawa 18%, Kanto 16%
+      3    553       2.5C     27.3C     191mm     246mm     2062mm  Tohoku 43%, Chubu 42%, Chugoku 10%
+      4    355       8.3C     27.3C     113mm     209mm     1801mm  Kyushu-Okinawa 37%, Hokkaido 11%, Chugoku 11%
+
+figures: /Workspaces/tmp/_exp/GeoAI-master-skills/projects/japan-climate-analysis/outputs
+credit: AgERA5 (Copernicus Climate Change Service), via FAO FERSPAS: precipitation and reference evapotranspiration CC BY-SA 4.0, temperatures CC BY 4.0

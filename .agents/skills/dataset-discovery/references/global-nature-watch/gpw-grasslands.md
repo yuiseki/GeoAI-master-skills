@@ -36,4 +36,4 @@ tables:
 
 草地面積は分類モデルの推定で、現地で確認した面積ではない。自然・半自然の草地と管理草地を混ぜると保全上の問いが変わる。年を比較する際は製品の版、クラス定義、境界、NoData をそろえる。実ファイルの画素分布と欠損率は未実測。
 
-Zenodo v2-beta の 2018〜2020 年の dominant-class COG は CC BY 4.0 で再配布できる。2026-10-25、東北海道の範囲読みにより原典各16 GBの COG 全体を取得せず、対象画素のクロップを作成した。GeoParquet は10×10ソース画素ごとのクラス数を含み、クロップ元のMD5、クロップと変換物のSHA-256を残して [Hugging Face](https://huggingface.co/datasets/yuiseki/gpw-grasslands-hokkaido-east-2018-2020-250m) に固定した。年別の範囲・分類値とライセンスは[東北海道の固定版カード](gpw-grasslands-hokkaido-east-2018-2020.md)を参照。これは GFW API の別製品 `gpw_grasslands_2024` とは異なる配布物であり、Zenodo の許諾を GFW API の `license: null` に当てはめない。
+Zenodo v2-beta の 2018〜2020 年の dominant-class COG は CC BY 4.0 で再配布できる。2026-10-25、東北海道の範囲読みにより原典各16 GBの COG 全体を取得せず、対象画素のクロップを作成した。GeoParquet は10×10ソース画素ごとのクラス数を含み、クロップ元のMD5、クロップと変換物のSHA-256を残して [Hugging Face](https://huggingface.co/datasets/yuiseki/gpw-grasslands-hokkaido-east-2018-2020-250m) に固定した。年別の範囲・分類値とライセンスは[東北海道の固定版カード](../../references/huggingface/yuiseki/gpw-grasslands-hokkaido-east-2018-2020-250m.md)を参照。これは GFW API の別製品 `gpw_grasslands_2024` とは異なる配布物であり、Zenodo の許諾を GFW API の `license: null` に当てはめない。

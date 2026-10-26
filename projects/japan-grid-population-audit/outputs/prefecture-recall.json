@@ -1,0 +1,20 @@
+{
+  "question": "都道府県内の人口上位10%候補の一致率は面積按分と中心点割当でどう違うか",
+  "source": "outputs/full-summary.json",
+  "source_versions": {
+    "census": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+    "ghsl": "4ee767429ee03ea47a9003c547f92c320474e350",
+    "worldcover_not_used_here": "6f006f64483b65b20f06c775b87db7a8d57a6fda"
+  },
+  "units": "46 prefectures with at least 20 eligible meshes; Okinawa absent from fixed GHSL tiles",
+  "n": 46,
+  "x": "GHSL centroid-assignment recall at prefecture-local top 10%",
+  "y": "GHSL equal-area allocation recall at prefecture-local top 10%",
+  "axis_range": [
+    0,
+    1
+  ],
+  "reference_line": "equal recall",
+  "intervals": "none",
+  "font": "Noto Sans CJK JP"
+}

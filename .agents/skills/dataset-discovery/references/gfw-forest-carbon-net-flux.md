@@ -28,7 +28,7 @@ tables:
 
 - [GFW Data API のデータセット情報](https://data-api.globalforestwatch.org/dataset/gfw_forest_carbon_net_flux)を2026-10-25に実際に取得した。`is_downloadable=true`、ライセンスは CC BY 4.0、説明の期間は2001〜2025年。APIの `latest` は `v20260327` を返した。`latest` は将来動くため、再現には版を固定する。
 - 2026-10-26に[v20260327の資産一覧](https://data-api.globalforestwatch.org/dataset/gfw_forest_carbon_net_flux/v20260327)を再照会し、7つのCOGと8つのラスタタイルを確認。COGは `net_flux_forest_extent_per_hectare_v1_4_3_2001_2025.tif` など。S3オブジェクトへの匿名HEADは403、APIのGeoTIFFダウンロードは有効なAPIキーが無いと403になった。公式[API仕様](https://data-api.globalforestwatch.org/docs)に認証とAPIキー作成手順、AOIダウンロード手段がある。取得にはユーザーのGFW APIキーが必要。
-- 最新版とは別に、論文で使われた旧Dataverse版1.3.2 (2001〜2023年) が公開され、Dataverseの個別metadataではCC0 1.0。東北海道切り出しを[別reference](gfw-forest-carbon-net-flux-hokkaido-east-v1-3-2.md) と [Hugging Face](https://huggingface.co/datasets/yuiseki/gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2) に公開した。旧版のライセンスや値を現行API版に適用しない。
+- 最新版とは別に、論文で使われた旧Dataverse版1.3.2 (2001〜2023年) が公開され、Dataverseの個別metadataではCC0 1.0。東北海道切り出しを[別reference](huggingface/yuiseki/gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2.md) と [Hugging Face](https://huggingface.co/datasets/yuiseki/gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2) に公開した。旧版のライセンスや値を現行API版に適用しない。
 - WRI の旧[紹介ページ](https://datasets.wri.org/datasets/gfw-forest-carbon-net-flux)は2001〜2023年の版を説明しており、記事の2001〜2019年とも違う。分析にはAPIの版を採用し、期間の違う地図を混ぜない。
 - 来歴は [Harris らと Gibbs らのモデル](https://data-api.globalforestwatch.org/dataset/gfw_forest_carbon_net_flux)に基づく純フラックス推定。森林の成長による吸収と攪乱による排出を組み合わせた派生値で、直接観測ではない。
 

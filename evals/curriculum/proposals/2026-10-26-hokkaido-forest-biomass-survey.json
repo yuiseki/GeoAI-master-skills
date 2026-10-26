@@ -1,0 +1,57 @@
+{
+  "mode": "exploration",
+  "social_problem": "森林の地上部蓄積を現地で点検する人員は限られる。モデル上の減少を実際の森林劣化と早合点すると、自治体や森林管理者の調査先を誤る。",
+  "working_hypothesis": "2010年と2025年の推定AGB差だけで選んだ上位調査候補は、2020年の森林分類面積、有効画素、推定不確実性を考慮すると一部入れ替わる。妥当な森林面積率・画素数の設定と分類境界の扱いを変えても候補集合がほぼ同じなら、この仮説を退ける。",
+  "question": "北海道東部で、2010年から2025年に地上部バイオマス密度が低下したように見える区域のうち、森林分類・有効画素・推定不確実性の扱いを変えても現地照合の優先候補に残る約1km区域はどこか？",
+  "decision_use": "自治体・森林管理者が、森林蓄積の変化を現地で確かめる区域の優先順位を決める際の一次スクリーニング。伐採や炭素クレジットの認定には使わない。",
+  "target_quantity": "CTrees集計面ごとの2010年と2025年の推定AGB密度の差（Mg/ha）、2020年ForTy森林クラス1〜3との交差面積率、両年の有効画素数と推定不確実性を条件とした候補集合の一致率・入れ替わり。真の蓄積減少量ではない。",
+  "unit": "CTrees集計版のcell_row×cell_colで一意な10×10元画素の面。角度格子なので正確な1km正方形ではない。",
+  "time_alignment": "CTreesの2010年・2025年の年次モデル推定とForTyの2020年基準分類を重ねる。2020年の森林クラスが両端年にも同じだったとは仮定しない。",
+  "claim_type": "descriptive_screening",
+  "datasets": ["yuiseki/ctrees-agb-hokkaido-east-100m", "yuiseki/forty-hokkaido-east-2020"],
+  "source_versions": {
+    "yuiseki/ctrees-agb-hokkaido-east-100m": "e0edd7cd9812847d1740cf1b35ac84885cde3bef",
+    "yuiseki/forty-hokkaido-east-2020": "7247d816be42065330e34909dd9ffcb66d8876bb"
+  },
+  "joins": [{"left": "yuiseki/ctrees-agb-hokkaido-east-100m", "right": "yuiseki/forty-hokkaido-east-2020", "how": "面をEPSG:32655にそろえて交差面積を計算し、CTrees集計面内のForTyクラス1〜3の割合を作る。未分類・境界・重複面を別に数える", "why": "モデル上のAGB差が、2020年に森林と分類された面の中にあるかを判定する"}],
+  "required_variables": [
+    {"dataset": "yuiseki/ctrees-agb-hokkaido-east-100m", "table": "agb_blocks", "column": "cell_row"},
+    {"dataset": "yuiseki/ctrees-agb-hokkaido-east-100m", "table": "agb_blocks", "column": "cell_col"},
+    {"dataset": "yuiseki/ctrees-agb-hokkaido-east-100m", "table": "agb_blocks", "column": "agb_mean_2010_mg_ha"},
+    {"dataset": "yuiseki/ctrees-agb-hokkaido-east-100m", "table": "agb_blocks", "column": "agb_mean_2025_mg_ha"},
+    {"dataset": "yuiseki/ctrees-agb-hokkaido-east-100m", "table": "agb_blocks", "column": "valid_pixels_2025"},
+    {"dataset": "yuiseki/ctrees-agb-hokkaido-east-100m", "table": "agb_blocks", "column": "uncertainty_mean_2025_mg_ha"},
+    {"dataset": "yuiseki/forty-hokkaido-east-2020", "table": "forest_types", "column": "class_code"},
+    {"dataset": "yuiseki/forty-hokkaido-east-2020", "table": "forest_types", "column": "class_name"}
+  ],
+  "methodological_decisions": [
+    "ForTyの森林クラス1〜3をどの面積率以上なら候補とするかを、結果を見る前に決める",
+    "同じ集計面の2010年と2025年で有効画素が異なる場合、平均差をどう扱うかを決める",
+    "森林面積とAGB密度の積を総量に直すか、密度差だけを使うかを用途から決める",
+    "推定不確実性の平均を差の標準誤差と誤認せず、品質情報としてどう使うかを決める"
+  ],
+  "failure_modes": [
+    "CTreesはモデル推定であり、両年に共通する系統誤差や入力変化が差を生む",
+    "両年の有効画素の集合が違えば集計面の平均との差は同じ場所の変化ではない",
+    "ForTyは2020年分類で、2010年と2025年の森林状態を保証しない",
+    "森林分類面の細かな境界と集計面のCRS差が森林面積率を変える",
+    "2025年の画素不確実性の平均は2010→2025差の不確実性ではない"
+  ],
+  "robustness_checks": [
+    "森林面積率の閾値を複数の妥当な値で変え、上位候補の重なりを比べる",
+    "境界上の森林分類を面積按分と中心点割当で比べる",
+    "両年の有効画素数が一致する面だけに絞り、さらに元100m画素の共通マスクを確認する",
+    "推定不確実性の高い面を別扱いにし、単純な減少量順位との違いを示す"
+  ],
+  "simplest_solver": {"method": "集計版のAGB平均の2010年と2025年の差を並べる", "why_insufficient": "非森林・分類の境界・年ごとに異なる有効画素・モデル不確実性を混ぜ、現地調査候補として誤解を招く"},
+  "unknowns": ["実際の伐採・火災・病虫害の有無と原因", "現地で測ったAGBの真値とモデル差の誤差", "調査費用、所有者の立入許可、道路からの到達性", "2020年ForTy森林分類の地点ごとの真偽", "森林炭素量・排出量の確定値"],
+  "novelty": {"closest_task": "evals/curriculum/task-cards/2026-10-24-persistent-land-cover-change.md", "difference_dimension": "forest_inventory_screening_under_model_error", "substantive_difference": "既存の土地被覆カードは年次分類の緑地→人工面の判定規則を問う。本案は異なる製品の2020年森林分類で、2010/2025年の連続量AGB推定の見かけの低下を現地照合候補として絞る際の順位の安定性と観測限界を問う。森林蓄積の真の減少を証明する課題ではない。"},
+  "prediction": {"main_result": "森林面積率と有効画素の条件を掛けると、生のAGB差上位候補の一部は外れる", "difficulty": "異なるCRSと面の粒度で森林面積率を作り、未分類・重複・境界を数えること", "fragile_assumption": "CTrees集計面の両年平均が同じ元画素集合を表すという仮定", "needed_capabilities": ["dataset-discovery", "data-variable-semantics", "analysis-unit-design", "spatial-data-integration", "robustness-analysis"]},
+  "rubric": [
+    "CTrees両年とForTyの固定版、CRS、時点、元単位を明記し、交差面積と未分類・重複を数える",
+    "生の差の順位と森林分類・有効画素・品質条件後の候補集合を同じ分母で比較する",
+    "両年の有効画素の違い、元画素の共通マスクの可否と不確実性の意味を明示する",
+    "面積率閾値、境界割当、品質条件を変えたときの候補重なりを示す",
+    "モデル上の変化を実際の森林減少やその原因、確定した炭素排出量と呼ばない"
+  ]
+}

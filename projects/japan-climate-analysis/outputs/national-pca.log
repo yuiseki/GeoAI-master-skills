@@ -1,0 +1,45 @@
+## Japan: 3,845 land cells of 0.1 degree, 48 features (4 variables x 12 monthly normals, 1991-2020)
+
+   component   variance   cumulative   eigenvalue   parallel-analysis bar
+           1      72.6%        72.6%        34.87         1.24
+           2      12.4%        85.0%         5.93         1.22
+           3       5.9%        90.8%         2.81         1.19
+           4       3.4%        94.3%         1.64         1.18
+           5       1.6%        95.8%         0.76         1.17
+           6       1.1%        96.9%         0.52         1.15
+   components above the bar: 4
+
+   component 1 (72.6%): loading by month
+               J     F     M     A     M     J     J     A     S     O     N     D
+     rain   +0.01  +0.05  +0.10  +0.11  +0.11  +0.12  +0.09  -0.01  +0.08  +0.05  -0.00  -0.02
+      et0   +0.16  +0.16  +0.16  +0.16  +0.15  +0.13  +0.16  +0.16  +0.16  +0.16  +0.15  +0.15
+     tmax   +0.17  +0.17  +0.17  +0.16  +0.16  +0.15  +0.15  +0.16  +0.16  +0.17  +0.17  +0.17
+     tmin   +0.16  +0.16  +0.16  +0.16  +0.17  +0.17  +0.17  +0.16  +0.16  +0.16  +0.16  +0.16
+
+   component 2 (12.4%): loading by month
+               J     F     M     A     M     J     J     A     S     O     N     D
+     rain   +0.30  +0.34  +0.32  +0.26  +0.24  +0.18  +0.29  +0.30  +0.27  +0.26  +0.32  +0.27
+      et0   -0.06  -0.04  -0.05  -0.05  -0.03  -0.03  -0.01  +0.01  -0.04  -0.06  -0.06  -0.06
+     tmax   -0.02  -0.02  -0.03  -0.03  -0.02  -0.01  -0.01  -0.02  -0.04  -0.03  -0.01  -0.01
+     tmin   -0.02  -0.02  -0.03  -0.05  -0.04  -0.03  -0.02  -0.04  -0.04  -0.04  -0.03  -0.03
+
+   component 3 (5.9%): loading by month
+               J     F     M     A     M     J     J     A     S     O     N     D
+     rain   +0.38  +0.25  -0.03  -0.20  -0.24  -0.22  -0.18  -0.18  -0.25  -0.14  +0.30  +0.42
+      et0   +0.04  -0.01  -0.03  -0.06  -0.05  +0.14  +0.01  +0.03  +0.10  +0.11  +0.11  +0.08
+     tmax   -0.03  -0.05  -0.08  -0.12  -0.13  -0.09  -0.10  -0.06  -0.03  -0.03  -0.03  -0.03
+     tmin   +0.11  +0.10  +0.09  +0.07  +0.06  +0.05  +0.05  +0.09  +0.10  +0.11  +0.12  +0.11
+
+## do the axes hold?
+   1981-2000 against 2006-2025        |cos| PC1-3: 0.997, 0.991, 0.987; in the other PC1-PC2 plane: 0.997, 0.991, 0.020
+   east (2308) against west (1537)    |cos| PC1-3: 0.903, 0.712, 0.811; in the other PC1-PC2 plane: 0.945, 0.813, 0.143
+   east against all of Japan          |cos| PC1-3: 0.996, 0.991, 0.964; in the other PC1-PC2 plane: 0.997, 0.991, 0.040
+
+## the later period on the earlier axes (mean score shift, in standard deviations)
+   PC1: +0.21  (cells moving up: 100%)
+   PC2: +0.15  (cells moving up: 76%)
+   PC3: +0.30  (cells moving up: 97%)
+   for scale: the mean daily maximum over Japan went from 14.04 to 14.96 C (+0.92)
+
+figures: /Workspaces/tmp/_exp/GeoAI-master-skills/projects/japan-climate-analysis/outputs
+credit: AgERA5 (Copernicus Climate Change Service), via FAO FERSPAS: precipitation and reference evapotranspiration CC BY-SA 4.0, temperatures CC BY 4.0

@@ -1,0 +1,19 @@
+{
+  "question": "候補面はどこにあり、単純順位と主条件でどう違うか",
+  "sources": [
+    "outputs/summary.json",
+    "outputs/cell_metrics.csv"
+  ],
+  "ctrees_revision": "e0edd7cd9812847d1740cf1b35ac84885cde3bef",
+  "forty_revision": "7247d816be42065330e34909dd9ffcb66d8876bb",
+  "counts": {
+    "stable": 12,
+    "main_other": 8,
+    "raw_only": 7
+  },
+  "background_n": 2547,
+  "crs": "EPSG:4326 coordinates shown; no area measured on this figure",
+  "unit": "one CTrees aggregation cell center per point",
+  "font": "Noto Sans CJK JP",
+  "warning": "model-estimate screening; not observed forest loss"
+}
