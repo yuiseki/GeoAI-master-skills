@@ -21,6 +21,7 @@ description: 数値やクラスのコードを持つ機械可読なラスタ (�
 | [resampling](references/resampling.md) | 再標本化と再投影の方法ごとの、値と総量の変わり方 (実測)。rasterio と GDAL の癖 |
 | [zonal-aggregation](references/zonal-aggregation.md) | 面への集計。画素を面に入れる規則、交差の面積と近似の差、境界の画素、総量の保存、解像度による違い (実測) |
 | [time-aggregation](references/time-aggregation.md) | 月ごと、日ごとのラスタを期間にまとめる。量、率、状態、月の長さ、欠けたスライス、時間帯、空間と時間の順序 |
+| [regular-grid](references/regular-grid.md) | 単位が細かい規則格子 (100 万セルなど) のとき。画素の中心をセルに入れる方法と、画素とセルの大きさが近いときのまだら (`scripts/raster_to_grid.py`) |
 
 ## 手順
 
@@ -28,7 +29,7 @@ description: 数値やクラスのコードを持つ機械可読なラスタ (�
 2. ラスタの中身を数える。`scripts/inspect_raster.py` で、CRS、画素の大きさ (地理座標なら中心でのメートル)、範囲、affine の変換 (回転の項が 0 で、北が上か。`aggregate_raster.py` は回転したラスタを扱わずに止まる)、型、NoData の値、scale と offset、有効な画素と NoData と NaN の数、有効な値の中の 0 の数、最小、最大、合計、整数なら値ごとの数を出す。大きなファイルは `--bbox` で窓だけを読む (範囲はラスタの CRS で書く)。
 3. 画素の意味を決めて書く (下の表と [raster-semantics](references/raster-semantics.md))。1 画素が何を表すか、値の単位、連続値かクラスか、量 (面積に比例して足せる。人口、件数) か水準 (足せない。標高、気温、密度)、NoData が何を指すか (観測が無い、海、人が住んでいない)、空間の支持 (画素の面積の代表値か、中心の点の値か)、時点か期間か。説明に書いてなければ「未確認」と書き、手順 2 の数字から推した理由を添える。
 4. 単位とラスタの関係を数える。単位あたりの画素の数 (単位の面積を画素の面積で割る)、単位がラスタの範囲から出ていないか。単位が数画素しか持たないなら、どの規則で数えても値は荒い (手順 6)。
-5. 単位に付ける。ラスタは動かさず、単位の座標をラスタの CRS に移す。`scripts/aggregate_raster.py` に、ラスタ、単位の表、単位の ID、量か水準かクラスか (`--kind`、既定値は無い)、単位の CRS (`--units-crs`、既定値は無い) を渡す。
+5. 単位に付ける。単位が細かい規則格子 (投影座標系の正方形のセルが数十万以上) なら、セルを多角形として測る代わりに、画素の中心を格子の座標系に移して、入ったセルで数える (`scripts/raster_to_grid.py`、[regular-grid](references/regular-grid.md))。それ以外は、ラスタは動かさず、単位の座標をラスタの CRS に移す。`scripts/aggregate_raster.py` に、ラスタ、単位の表、単位の ID、量か水準かクラスか (`--kind`、既定値は無い)、単位の CRS (`--units-crs`、既定値は無い) を渡す。
    - 量は合計、水準は面積で重みを付けた平均と最小と最大、クラスは面積の割合と最も多いクラス。
    - 画素を面に入れる規則は、中心が面の中にあるか (`--method centre`)、画素の面積のうち面に入る割合を細かい格子で測るか (`--method fraction`)、画素と面の交差の面積で重みを付けるか (`--method exact`)。`all_touched` は多めに数える幅を測るためだけに使う。単位が画素に比べて小さいとき、細長いときは exact か fraction を使う。単位が十分大きければ中心の規則との差は小さいが、一度測って書く ([zonal-aggregation](references/zonal-aggregation.md))。
    - 点に値を付けるなら、点を含む画素の値を読む。点が画素の境界にあるとき、点の位置の精度が画素より粗いときは、周りの画素の値の幅も書く。

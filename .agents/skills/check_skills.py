@@ -303,6 +303,10 @@ def main():
         "compare_models.py": ["spatial-data-modeling", "leakage-audit", "model-explanation"],
         "contiguity.py": ["spatial-autocorrelation", "spatial-weights-design"],
         "test_contiguity.py": ["spatial-autocorrelation", "spatial-weights-design"],
+        "raster_to_grid.py": ["grid-risk-mapping", "raster-data-integration"],
+        "test_raster_to_grid.py": ["grid-risk-mapping", "raster-data-integration"],
+        "grid_distance.py": ["grid-risk-mapping", "spatial-feature-engineering"],
+        "test_grid_distance.py": ["grid-risk-mapping", "spatial-feature-engineering"],
         "test_compare_models.py": ["spatial-data-modeling", "leakage-audit", "model-explanation"],
     }
     problems = cross_skill_problems(root, skills) + copy_problems(root, COPIES)

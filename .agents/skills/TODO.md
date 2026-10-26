@@ -196,6 +196,7 @@
     - [x] `references/resampling.md`
     - [x] `references/zonal-aggregation.md`
     - [x] `references/time-aggregation.md`: 時間の次元を持つラスタ (月ごとの気温など) の期間の集計 (aggregate_time.py)
+    - [x] `references/regular-grid.md`: 細かい規則格子へ画素の中心で入れる (raster_to_grid.py。grid-risk-mapping とコピーで共有)
     - [x] 面積の割合を、多角形と画素の交差で正確に測る方法との比較 (`--method exact`、zonal-aggregation.md)
   - [x] `areal-interpolation`: ある区域の集計値を、境界の違う別の区域へ移す。値の種類 (量、比、水準) を決め、仮定 (一様、補助データ) を書き、覆われ方と総量の保存を数え、細かい真値での back-test で誤差を測る
     - [x] `references/validation.md`
@@ -206,6 +207,7 @@
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)
+    - [x] 規則格子の全てのセルから線や点までの距離 (grid_distance.py。grid-risk-mapping とコピーで共有)
 - 空間の関係を決める (1 / 1)
   - [x] `spatial-weights-design`: 空間統計や空間回帰で、誰を誰の近傍とし、どの重みで結ぶか (W) を、使う前に設計して確かめる。面の Queen と Rook、点の k 最近傍、距離の帯、距離で減る重み。距離の単位と CRS。島と連結成分、近傍の数の分布、近傍までの距離の分布。0/1 の重みと行で標準化した重みの意味の違い (行で標準化すると、隣の多い単位の 1 つの隣の重みが小さくなる) を書き、行の標準化を既定にしない。k や距離の帯に固定の値を置かず、現象の届く範囲と実データの間隔から決める。もっともらしい W を 2〜3 個作り、結論が変わるかを並べる。選んだ W と理由を書き出す
     - [x] `references/contiguity.md`: 面の隣接 (Queen と Rook)、島、連結成分
@@ -215,7 +217,7 @@
     - [x] spatial-autocorrelation の `contiguity.py` との重複: 同じ内容のコピーで持ち、check_skills の COPIES に登録した
     - [ ] 選んだ W を、自己相関や空間回帰のスクリプトが読めるようにする (今は Parquet に書くだけ)
     - [ ] ネットワークの距離での近傍
-- 予測して、評価を疑う (10 / 10)
+- 予測して、評価を疑う (11 / 11)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
@@ -256,6 +258,12 @@
     - [x] SPDE のパラメータの最尤推定 (疎な分解の対数行列式) と実データ (山梨県の標高)
     - [ ] SPDE の ν = 1 以外の滑らかさ、三角形の網、時空間の SPDE
     - [ ] 季節の位相が地点で違う相互作用
+  - [x] `grid-risk-mapping`: 細かい規則格子のセルごとに、次の期間に事象が起きる起こりやすさを予測し、面積の予算での捕捉率 (capture@k) で評価して、順位の地図にする
+    - [x] `references/grid-and-features.md`: 格子、ラスタと線と点のセルへの付け方、周りの集計、画素とセルの大きさが近いときのまだら
+    - [x] `references/capture.md`: capture@k、端のセル、同点の崩し方、ブロックの引き直し、粗い単位の上限
+    - [x] `references/history-and-level.md`: 前の期間だけの履歴、並べ替えの反証、期間で変わる確率の水準、秋田県の例
+    - [ ] 環境変数で流す実データのテスト (秋田県の例を、このスキルの scripts だけで流し直す)
+    - [ ] 観測の無い地域へ当てはめる評価 (地域を伏せる)
   - [x] `time-series-forecasting`: 系列ごとに先の期間を、予測の距離ごとに当てる。前の期間、季節ナイーブ、平年値、縮めた前の期間を基準にする
     - [x] `references/baselines.md`
     - [x] `references/ets.md`
