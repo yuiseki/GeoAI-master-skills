@@ -1,0 +1,221 @@
+<meta charset="utf-8">
+<title>秋田クマ出没リスク地図</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Kaku+Gothic+New:wght@700&display=swap">
+<style>/*MAPLIBRE_CSS*/</style>
+<style>
+/* Layout: a working map that fills the screen, with a side sheet (left on wide screens, below the map on phones)
+   holding the legend, the reading of the cell under the pointer, the checks against later reports, and sources. */
+:root {
+  --bg: #eef1ee;
+  --sheet: #fbfcfb;
+  --ink: #1b2520;
+  --muted: #5b6a62;
+  --line: #d3dbd6;
+  --accent: #8c3a16;
+  --chip: #e5ebe7;
+  --font-display: "Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --font-body: "BIZ UDPGothic", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+  --step--1: 0.8rem;
+  --step-0: 0.9rem;
+  --step-1: 1.05rem;
+  --step-2: 1.35rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #101613; --sheet: #161d19; --ink: #e3e9e5; --muted: #9baba2; --line: #2a3530; --accent: #e8955d; --chip: #222b26; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #101613; --sheet: #161d19; --ink: #e3e9e5; --muted: #9baba2; --line: #2a3530; --accent: #e8955d; --chip: #222b26; color-scheme: dark; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; }
+.app { display: grid; grid-template-columns: minmax(300px, 360px) 1fr; height: 100%; }
+.sheet { background: var(--sheet); border-right: 1px solid var(--line); overflow-y: auto; padding-block: 18px 28px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+#map { min-height: 0; height: 100%; }
+h1 { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.3; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--font-display); font-size: var(--step-1); margin: 0 0 6px; }
+.kicker { font-size: var(--step--1); color: var(--muted); letter-spacing: 0.04em; margin: 0 0 4px; }
+p { margin: 0; }
+.muted { color: var(--muted); font-size: var(--step--1); }
+section { display: flex; flex-direction: column; gap: 8px; }
+.legend { display: grid; grid-template-columns: 18px 1fr auto; gap: 4px 10px; align-items: center; font-variant-numeric: tabular-nums; }
+.sw { width: 18px; height: 14px; border-radius: 2px; border: 1px solid var(--line); }
+.legend .area { color: var(--muted); font-size: var(--step--1); text-align: right; }
+.readout { background: var(--chip); border-radius: 6px; padding: 10px 12px; min-height: 3.2em; font-variant-numeric: tabular-nums; }
+.readout strong { font-size: var(--step-1); }
+.controls { display: flex; flex-direction: column; gap: 8px; }
+.controls label { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+.controls input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); }
+.controls input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; }
+.jump { display: flex; flex-wrap: wrap; gap: 6px; }
+.jump button { font: inherit; font-size: var(--step--1); border: 1px solid var(--line); background: var(--sheet); color: var(--ink); border-radius: 999px; padding: 2px 10px; cursor: pointer; }
+.jump button:hover { border-color: var(--accent); color: var(--accent); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+table.checks { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: var(--step--1); }
+table.checks th, table.checks td { text-align: left; padding: 4px 6px 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.checks td.num { text-align: right; }
+.table-wrap { overflow-x: auto; }
+.note { border-left: 3px solid var(--accent); padding-left: 10px; }
+.sources { font-size: var(--step--1); color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+.place { font-family: var(--font-body); font-size: 12px; font-weight: 700; color: #1b2520; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff; pointer-events: none; white-space: nowrap; }
+.maplibregl-ctrl-attrib { font-size: 11px; }
+@media (max-width: 760px) {
+  html, body { height: auto; }
+  .app { grid-template-columns: 1fr; grid-template-rows: 64vh auto; height: auto; }
+  #map { height: 64vh; }
+  .sheet { border-right: 0; border-top: 1px solid var(--line); order: 2; padding-right: max(16px, env(safe-area-inset-right, 0px)); overflow: visible; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="app">
+  <aside class="sheet" aria-label="地図の説明と操作">
+    <header>
+      <p class="kicker">100 m セル × 熊の年度 2026 (2026 年 4 月〜2027 年 3 月)</p>
+      <h1>秋田クマ出没リスク地図</h1>
+    </header>
+    <p>秋田県の 1,168,211 個の 100 m セルを、2026 年度にクマの出没が通報される起こりやすさの順に並べ、色で分けました。2023〜2025 年度に通報のあったセルが、森、農地、建物、道路、川、標高、人口の点でどんな場所かを学習したモデルの予測です。</p>
+    <p class="note">色は確率ではなく、県内での順位です。リスクは「クマがいる確率」ではなく、「人の近くで見られて通報される起こりやすさ」です。通報の点は、クマの居場所ではなく、通報された住所や目印にあります。</p>
+
+    <section aria-labelledby="h-legend">
+      <h2 id="h-legend">凡例</h2>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <section aria-labelledby="h-here">
+      <h2 id="h-here">この地点</h2>
+      <div class="readout" id="readout" aria-live="polite">地図の上を指すか、タップすると、その 100 m セルの順位が出ます。</div>
+    </section>
+
+    <section aria-labelledby="h-layers">
+      <h2 id="h-layers">表示</h2>
+      <div class="controls">
+        <label for="opacity">リスクの濃さ <input type="range" id="opacity" min="0" max="100" value="85"></label>
+        <label for="show-reports"><input type="checkbox" id="show-reports" checked> 2026 年 4〜9 月に通報のあったセル</label>
+        <label for="show-lines"><input type="checkbox" id="show-lines" checked> 主な道路と川</label>
+        <label for="show-names"><input type="checkbox" id="show-names" checked> 市町村名</label>
+      </div>
+      <div class="jump" id="jump" aria-label="市町村へ移動"></div>
+    </section>
+
+    <section aria-labelledby="h-checks">
+      <h2 id="h-checks">どれくらい当たるか</h2>
+      <p>予測より後の年度の通報で確かめた結果です。数字は「リスク上位 5% のセル (584 km²) に、その年度に通報のあったセルの何割が入ったか」。でたらめに選べば 5% です。</p>
+      <div class="table-wrap"><table class="checks" id="checks"></table></div>
+      <p class="muted" id="checks-note"></p>
+    </section>
+
+    <section class="sources" aria-labelledby="h-src">
+      <h2 id="h-src">出典</h2>
+      <p>通報: 秋田県「ツキノワグマ等情報マップシステム『クマダス』データ」(CC BY 4.0) を加工して作成。2026-09-30 時点の版。</p>
+      <p>土地被覆: © ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium</p>
+      <p>人口: WorldPop (R2025A、2020 年、CC BY 4.0)。標高: 国土地理院の標高タイルを加工して作成。</p>
+      <p>道路、川、建物: © OpenStreetMap contributors (ODbL、2026-08-31)。市町村の境界: 令和 2 年国勢調査の小地域の境界から作った jp-admin-2026-09 (CC BY 4.0)。</p>
+    </section>
+  </aside>
+  <div id="map" role="region" aria-label="リスクの地図"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
+<script>
+const CHECKS = /*CHECKS_JSON*/null;
+const EPSG6678 = "+proj=tmerc +lat_0=40 +lon_0=140.833333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs";
+
+function fmtPct(x) { return (x * 100).toFixed(1) + "%"; }
+
+function renderChecks() {
+  const t = document.getElementById("checks");
+  if (!CHECKS) { t.innerHTML = "<tr><td>まだ確かめていません。</td></tr>"; return; }
+  const head = "<tr><th>確かめた年度</th>" + CHECKS.columns.map(c => `<th>${c.label}</th>`).join("") + "</tr>";
+  const rows = CHECKS.rows.map(r => `<tr><td>${r.label}</td>` + r.values.map(v => `<td class="num">${v === null ? "" : fmtPct(v)}</td>`).join("") + "</tr>").join("");
+  t.innerHTML = head + rows;
+  document.getElementById("checks-note").textContent = CHECKS.note;
+}
+
+async function main() {
+  renderChecks();
+  const info = await (await fetch("risk.json")).json();
+  const rank = new Uint8Array(await (await fetch(info.grid.rank_file)).arrayBuffer());
+  const g = info.grid;
+  const labels = await (await fetch("labels.json")).json();
+
+  const legend = document.getElementById("legend");
+  const classes = info.classes.map((l, k) => ({ label: l, colour: info.colours[k], cells: info.cells_per_class[l] })).reverse();
+  legend.innerHTML = classes.map(c => `<span class="sw" style="background:${c.colour}"></span><span>${c.label}</span><span class="area">${(c.cells / 100).toLocaleString("ja-JP", { maximumFractionDigits: 0 })} km²</span>`).join("");
+
+  const map = new maplibregl.Map({
+    container: "map",
+    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#dfe6ee" } }] },
+    bounds: [[139.65, 38.85], [141.0, 40.55]],
+    maxBounds: [[138.9, 38.4], [141.8, 41.0]],
+    minZoom: 7, maxZoom: 16, attributionControl: false, dragRotate: false, pitchWithRotate: false,
+  });
+  map.touchZoomRotate.disableRotation();
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
+  map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: "通報: 秋田県クマダス / © ESA WorldCover / WorldPop / 国土地理院 / © OpenStreetMap contributors" }));
+
+  map.on("load", () => {
+    map.addSource("base", { type: "image", url: "base.jpg", coordinates: info.coordinates });
+    map.addLayer({ id: "base", type: "raster", source: "base", paint: { "raster-fade-duration": 0 } });
+    map.addSource("risk", { type: "image", url: info.image, coordinates: info.coordinates });
+    map.addLayer({ id: "risk", type: "raster", source: "risk", paint: { "raster-resampling": "nearest", "raster-opacity": 0.85, "raster-fade-duration": 0 } });
+    map.addSource("rivers", { type: "geojson", data: "rivers.geojson" });
+    map.addLayer({ id: "rivers", type: "line", source: "rivers", paint: { "line-color": "#5b8fb8", "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.6, 13, 2] } });
+    map.addSource("roads", { type: "geojson", data: "roads.geojson" });
+    map.addLayer({ id: "roads", type: "line", source: "roads", paint: {
+      "line-color": ["match", ["get", "kind"], "motorway", "#6b5a7a", "trunk", "#6b5a7a", "#7d7468"],
+      "line-width": ["interpolate", ["linear"], ["zoom"], 8, ["match", ["get", "kind"], "motorway", 1.4, "trunk", 1.2, 0.5], 13, ["match", ["get", "kind"], "motorway", 3, "trunk", 2.6, 1.6]] } });
+    map.addSource("munis", { type: "geojson", data: "municipalities.geojson" });
+    map.addLayer({ id: "munis", type: "line", source: "munis", paint: { "line-color": "#3c4a43", "line-width": 1, "line-dasharray": [3, 2], "line-opacity": 0.7 } });
+    map.addSource("reports", { type: "geojson", data: "reports2026.geojson" });
+    map.addLayer({ id: "reports", type: "circle", source: "reports", paint: {
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, 1.2, 12, 3, 15, 6],
+      "circle-color": "#123a6e", "circle-stroke-color": "#ffffff", "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 8, 0, 12, 1] } });
+  });
+
+  const markers = labels.map(l => {
+    const el = document.createElement("div");
+    el.className = "place";
+    el.textContent = l.name;
+    return new maplibregl.Marker({ element: el }).setLngLat([l.lon, l.lat]).addTo(map);
+  });
+
+  const jump = document.getElementById("jump");
+  labels.slice().sort((a, b) => a.name.localeCompare(b.name, "ja")).forEach(l => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = l.name;
+    b.addEventListener("click", () => map.flyTo({ center: [l.lon, l.lat], zoom: 12, essential: true }));
+    jump.appendChild(b);
+  });
+
+  const readout = document.getElementById("readout");
+  function readAt(lngLat) {
+    const [x, y] = proj4("EPSG:4326", EPSG6678, [lngLat.lng, lngLat.lat]);
+    const ix = Math.floor((x - g.x0) / g.size), iy = Math.floor((y - g.y0) / g.size);
+    if (ix < 0 || iy < 0 || ix >= g.nx || iy >= g.ny || rank[iy * g.nx + ix] === 0) {
+      readout.textContent = "ここは秋田県のセルの外です。";
+      return;
+    }
+    const r = rank[iy * g.nx + ix];
+    const lo = (r - 1) * 0.5, hi = r * 0.5;
+    const cls = hi <= 1 ? 5 : hi <= 5 ? 4 : hi <= 10 ? 3 : hi <= 25 ? 2 : hi <= 50 ? 1 : 0;
+    readout.innerHTML = `<strong>上位 ${lo.toFixed(1)}〜${hi.toFixed(1)}%</strong><br>${info.classes[cls]} のセル<br><span class="muted">セル (${ix}, ${iy})、${lngLat.lat.toFixed(4)}°N ${lngLat.lng.toFixed(4)}°E</span>`;
+  }
+  map.on("mousemove", e => readAt(e.lngLat));
+  map.on("click", e => readAt(e.lngLat));
+
+  document.getElementById("opacity").addEventListener("input", e => { if (map.getLayer("risk")) map.setPaintProperty("risk", "raster-opacity", e.target.value / 100); });
+  document.getElementById("show-reports").addEventListener("change", e => { if (map.getLayer("reports")) map.setLayoutProperty("reports", "visibility", e.target.checked ? "visible" : "none"); });
+  document.getElementById("show-lines").addEventListener("change", e => { ["roads", "rivers"].forEach(id => map.getLayer(id) && map.setLayoutProperty(id, "visibility", e.target.checked ? "visible" : "none")); });
+  document.getElementById("show-names").addEventListener("change", e => { markers.forEach(m => { m.getElement().hidden = !e.target.checked; }); });
+}
+
+proj4.defs("EPSG:6678", EPSG6678);
+main().catch(err => {
+  document.getElementById("readout").textContent = "地図のデータを読めませんでした。ページを読み込み直してください。(" + err.message + ")";
+});
+</script>

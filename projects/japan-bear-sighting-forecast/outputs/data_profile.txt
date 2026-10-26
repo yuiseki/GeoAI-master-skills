@@ -1,0 +1,29 @@
+Akita bear reports by calendar year in the weekly table (year, reports)
+  2022, 856
+  2023, 3837
+  2024, 1526
+  2025, 13641
+  2026, 3440
+Akita: summer Jun-Aug, autumn Sep-Dec, Oct-Nov by year (year, summer, autumn, oct_nov)
+  2022, 615, 53, 14
+  2023, 794, 2800, 2069
+  2024, 799, 338, 98
+  2025, 2623, 10388, 8744
+  2026, 2051, 74, None
+Akita: municipalities, weeks, rows, zero share of cells, mean and variance of the weekly count
+  25, 233, 5825, 0.553, 4.0, 416.0
+Gifu: reports by fiscal year in the monthly table (fiscal year starting April, reports)
+  2014, 1283
+  2015, 442
+  2016, 381
+  2017, 485
+  2018, 269
+  2019, 806
+  2020, 598
+  2021, 304
+  2022, 253
+  2023, 661
+  2024, 674
+  2025, 721
+Gifu: municipalities, months, rows
+  42, 144, 6048

@@ -1,0 +1,96 @@
+{
+ "n": 32,
+ "bonferroni_threshold": 0.005555555555555556,
+ "measures": {
+  "T_now": {
+   "rho": 0.25733137829912023,
+   "p_two_sided": 0.06309369063093691,
+   "per_region_rho": {
+    "akita": 1.0,
+    "gifu": -0.133,
+    "ishikawa": 0.314,
+    "kyoto": 0.285
+   }
+  },
+  "T_last": {
+   "rho": 0.022727272727272724,
+   "p_two_sided": 0.8592140785921408,
+   "per_region_rho": {
+    "akita": 0.0,
+    "gifu": 0.706,
+    "ishikawa": -0.257,
+    "kyoto": -0.491
+   }
+  },
+  "T_yoy": {
+   "rho": 0.2855571847507331,
+   "p_two_sided": 0.1643835616438356,
+   "per_region_rho": {
+    "akita": 0.8,
+    "gifu": -0.476,
+    "ishikawa": 0.257,
+    "kyoto": 0.661
+   }
+  },
+  "dT": {
+   "rho": -0.2848240469208211,
+   "p_two_sided": 0.15698430156984303,
+   "per_region_rho": {
+    "akita": -0.6,
+    "gifu": 0.622,
+    "ishikawa": -0.429,
+    "kyoto": -0.673
+   }
+  },
+  "SRF_now": {
+   "rho": 0.16678885630498533,
+   "p_two_sided": 0.36106389361063895,
+   "per_region_rho": {
+    "akita": 1.0,
+    "gifu": -0.028,
+    "ishikawa": -0.086,
+    "kyoto": -0.03
+   }
+  },
+  "SRF_last": {
+   "rho": -0.0469208211143695,
+   "p_two_sided": 0.7726227377262274,
+   "per_region_rho": {
+    "akita": -0.6,
+    "gifu": 0.573,
+    "ishikawa": -0.086,
+    "kyoto": -0.358
+   }
+  },
+  "SRF_yoy": {
+   "rho": 0.23863636363636362,
+   "p_two_sided": 0.25907409259074093,
+   "per_region_rho": {
+    "akita": 0.8,
+    "gifu": -0.469,
+    "ishikawa": -0.143,
+    "kyoto": 0.503
+   }
+  },
+  "P_now": {
+   "rho": -0.12096774193548386,
+   "p_two_sided": 0.41445855414458554,
+   "per_region_rho": {
+    "akita": -1.0,
+    "gifu": 0.14,
+    "ishikawa": 0.086,
+    "kyoto": -0.03
+   }
+  },
+  "P_last": {
+   "rho": 0.21187683284457476,
+   "p_two_sided": 0.14488551144885511,
+   "per_region_rho": {
+    "akita": 0.8,
+    "gifu": -0.063,
+    "ishikawa": -0.029,
+    "kyoto": 0.782
+   }
+  }
+ }
+}

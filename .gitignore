@@ -14,6 +14,11 @@ node_modules/
 !/projects/japan-climate-analysis/
 !/projects/elderly-transit-100m-allocation/
 !/projects/record-vs-occurrence/
+!/projects/japan-bear-sighting-forecast/
+!/projects/akita-bear-risk-grid-100m/
+!/projects/bear-risk-transfer/
+!/projects/bear-outbreak-weather/
+!/projects/bear-risk-sources/
 !/projects/taito-accident-trends-by-role/
 /artifacts/*
 !/artifacts/sample-project/

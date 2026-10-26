@@ -1,0 +1,27 @@
+{
+ "horizon1": {
+  "seasonal_naive": {
+   "diff": 0.018722018722018736,
+   "lo": -0.07639524827024825,
+   "hi": 0.11331349206349205,
+   "n_origins": 117
+  },
+  "muni_mean": {
+   "diff": 0.3668295877891659,
+   "lo": 0.28948189077618386,
+   "hi": 0.44027458554925075,
+   "n_origins": 117
+  },
+  "decision": "undetermined"
+ },
+ "other_horizons_direction_only": {
+  "h2": {
+   "seasonal_naive": -0.27818477818477816,
+   "muni_mean": 0.0856418648705654
+  },
+  "h3": {
+   "seasonal_naive": -0.4951159951159951,
+   "muni_mean": -0.11651700285281903
+  }
+ }
+}

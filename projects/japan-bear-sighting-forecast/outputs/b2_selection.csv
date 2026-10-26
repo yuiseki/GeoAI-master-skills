@@ -1,0 +1,8 @@
+model,mean_mae_over_horizons,role
+hgb_nb,3.495,frozen
+hgb,3.531,candidate
+hier_hgb,3.704,candidate
+glm_nb,4.183,candidate
+glm,4.532,candidate
+naive,3.759,baseline
+mean_short,4.536,baseline

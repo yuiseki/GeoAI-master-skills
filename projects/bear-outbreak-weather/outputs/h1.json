@@ -1,0 +1,40 @@
+{
+ "n": 32,
+ "regions": {
+  "gifu": 12,
+  "kyoto": 10,
+  "ishikawa": 6,
+  "akita": 4
+ },
+ "H1": {
+  "rho": -0.2848240469208211,
+  "p_perm_one_sided": 0.0827917208279172,
+  "per_region_rho": {
+   "akita": -0.6000000000000001,
+   "gifu": 0.6223776223776225,
+   "ishikawa": -0.4285714285714286,
+   "kyoto": -0.6727272727272726
+  },
+  "regions_negative": 3,
+  "decision": "undetermined"
+ },
+ "robust_whole_year": {
+  "rho": -0.2994868035190616,
+  "p": 0.07329267073292671
+ },
+ "robust_detrended": {
+  "rho": -0.249633431085044,
+  "p": 0.098990100989901
+ },
+ "falsification_future_dT": {
+  "rho": -0.3837597330367074,
+  "p_two_sided": 0.0552944705529447,
+  "n": 30
+ },
+ "leave_one_region_out_rho": {
+  "without_akita": -0.05692391899288451,
+  "without_gifu": -0.7263157894736841,
+  "without_kyoto": -0.1609260304912479,
+  "without_ishikawa": -0.24991452991452992
+ }
+}

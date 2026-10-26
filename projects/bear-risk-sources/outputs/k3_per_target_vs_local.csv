@@ -1,0 +1,6 @@
+variant,akita,gifu,ishikawa,kyoto
+base,0.306,0.285,0.201,0.263
+bldg_ovt,0.407,0.316,0.224,0.258
+clim,0.438,0.49,0.47,0.334
+combo_clim_bldgovt,0.445,0.512,0.494,0.306
+LOCAL (その地域で学習、参考),,0.648,0.622,0.472
