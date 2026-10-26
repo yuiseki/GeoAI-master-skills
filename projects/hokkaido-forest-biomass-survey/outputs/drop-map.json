@@ -1,0 +1,63 @@
+{
+  "question": "CTreesの推定AGB密度の差は、解析範囲のどこで正 (低下) で、どこで負か",
+  "sources": [
+    "outputs/cell_metrics.csv",
+    "outputs/summary.json",
+    "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet"
+  ],
+  "ctrees_revision": "e0edd7cd9812847d1740cf1b35ac84885cde3bef",
+  "forty_revision": "7247d816be42065330e34909dd9ffcb66d8876bb",
+  "jp_admin_revision": "e6c87b1d7095c17422147962185071a986e13135",
+  "crs": "EPSG:4326 degrees for cells; jp-admin boundaries are EPSG:4612 drawn without transformation (difference about 1 m, below the drawn line width)",
+  "aspect": "1/cos(43.587 deg)",
+  "cells_drawn": 10230,
+  "cell_size_deg": 0.008888888888879997,
+  "duckdb_version": "2.0.0",
+  "font": "Noto Sans CJK JP",
+  "warning": "model-estimate screening; not observed forest loss",
+  "value": "drop = agb_2010 - agb_2025 (Mg/ha, model means)",
+  "kind": "change",
+  "breaks_mg_ha": [
+    -20,
+    -10,
+    -5,
+    -2,
+    2,
+    5,
+    10,
+    20
+  ],
+  "breaks_reason": "fixed, symmetric around 0; ±2 Mg/ha shown as near zero",
+  "class_counts": [
+    11,
+    97,
+    519,
+    1657,
+    5279,
+    1114,
+    955,
+    503,
+    95
+  ],
+  "nodata": 0,
+  "palette": "BrBG reversed (brown = drop, green = gain)",
+  "municipality_labels": [
+    "釧路市",
+    "網走市",
+    "美幌町",
+    "津別町",
+    "斜里町",
+    "清里町",
+    "小清水町",
+    "大空町",
+    "厚岸町",
+    "浜中町",
+    "標茶町",
+    "弟子屈町",
+    "鶴居村",
+    "別海町",
+    "中標津町",
+    "標津町",
+    "羅臼町"
+  ]
+}

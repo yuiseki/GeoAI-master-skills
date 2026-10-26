@@ -5,7 +5,7 @@
 - [計画](EXPERIMENT_PLAN.md): 既存pilot後に、全件面積交差の前に主比較を固定。純粋な事前登録ではない。
 - [実行記録](EXPERIMENT_TRACKER.md): 成功・失敗・実装変更を記録。
 - [短い報告](report.md) / [日本語論文](paper.md)
-- [主結果](outputs/summary.json)、[面ごとの結果](outputs/cell_metrics.csv)、[共通画素監査](outputs/common_pixel_summary.json)、[候補位置図](outputs/candidate-map.png)
+- [主結果](outputs/summary.json)、[面ごとの結果](outputs/cell_metrics.csv)、[共通画素監査](outputs/common_pixel_summary.json)、地図 ([推定AGB差](outputs/drop-map.png)、[森林率](outputs/forest-map.png)、[候補の集計面](outputs/candidate-cells-map.png)、点だけの旧版[候補位置図](outputs/candidate-map.png))、[候補の市町村表](outputs/candidate-municipalities.csv)
 
 ## 再実行
 
@@ -16,6 +16,7 @@ uvx --with pytest --with duckdb --with shapely --with numpy --with rasterio --wi
 uvx --with duckdb --with shapely python projects/hokkaido-forest-biomass-survey/scripts/analyze.py
 uvx --with numpy --with rasterio python projects/hokkaido-forest-biomass-survey/scripts/common_pixels.py
 uvx --with matplotlib python projects/hokkaido-forest-biomass-survey/scripts/plot.py
+uvx --with duckdb --with shapely --with numpy --with matplotlib python projects/hokkaido-forest-biomass-survey/scripts/maps.py
 python3 .agents/skills/research-paper-writing/scripts/check_paper.py projects/hokkaido-forest-biomass-survey/paper.md
 ```
 

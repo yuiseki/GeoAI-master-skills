@@ -1,0 +1,42 @@
+{
+  "question": "分類図はどこを覆い、覆う面のどこが森林率の主条件 (0.8) を満たすか",
+  "sources": [
+    "outputs/cell_metrics.csv",
+    "outputs/summary.json",
+    "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet"
+  ],
+  "ctrees_revision": "e0edd7cd9812847d1740cf1b35ac84885cde3bef",
+  "forty_revision": "7247d816be42065330e34909dd9ffcb66d8876bb",
+  "jp_admin_revision": "e6c87b1d7095c17422147962185071a986e13135",
+  "crs": "EPSG:4326 degrees for cells; jp-admin boundaries are EPSG:4612 drawn without transformation (difference about 1 m, below the drawn line width)",
+  "aspect": "1/cos(43.587 deg)",
+  "cells_drawn": 10230,
+  "cell_size_deg": 0.008888888888879997,
+  "duckdb_version": "2.0.0",
+  "font": "Noto Sans CJK JP",
+  "warning": "model-estimate screening; not observed forest loss",
+  "value": "forest_frac = ForTy class 1-3 area / cell area, shown only where cover_frac >= 0.95",
+  "kind": "rate",
+  "breaks": [
+    0.5,
+    0.8,
+    0.9
+  ],
+  "breaks_reason": "the thresholds compared in the analysis",
+  "classes": [
+    "分類図と交差なし",
+    "分類図の覆い95%未満",
+    "森林率 0.5 未満",
+    "0.5 〜 0.8",
+    "0.8 〜 0.9",
+    "0.9 以上"
+  ],
+  "class_counts": [
+    574,
+    320,
+    4133,
+    1170,
+    378,
+    3655
+  ]
+}
