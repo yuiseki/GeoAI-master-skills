@@ -8,6 +8,7 @@ node_modules/
 !/projects/sample-project/
 !/projects/__exp/
 !/projects/_bear/
+!/projects/_flood/
 !/projects/_evacuation_shelter/
 !/projects/_telecom/
 !/projects/_traffic_accident/
