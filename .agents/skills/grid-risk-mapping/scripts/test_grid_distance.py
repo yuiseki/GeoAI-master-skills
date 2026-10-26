@@ -68,3 +68,13 @@ def test_command_line_with_points_and_lines(tmp_path):
     assert r.returncode == 0, r.stderr
     o = np.load(tmp_path / "o.npz")
     assert o["count"][9, 5] == 2 and o["distance"][9, 5] == 0 and o["distance"][0, 5] == 900
+
+
+def test_a_zero_length_line_marks_its_cell_instead_of_breaking():
+    # river data can hold a line whose two points are the same; segmentize refuses it
+    g = gd.GridSpec(0, 0, 5, 5, 100)
+    lines = [LineString([(250, 250), (250, 250)]), LineString([(5, 50), (495, 50)])]
+    pres = gd.line_presence(g, lines)
+    assert pres[2, 2] and pres[0].all() and pres.sum() == 6
+    multi = shapely.MultiLineString([[(50, 450), (50, 450)], [(150, 450), (450, 450)]])
+    assert gd.line_presence(g, [multi])[4].all()

@@ -44,7 +44,10 @@ def line_presence(grid, lines, step=20.0):
     pres = np.zeros((grid.ny, grid.nx), dtype=bool)
     if len(lines) == 0:
         return pres
-    xy = shapely.get_coordinates(shapely.segmentize(np.asarray(lines, dtype=object), step))
+    parts = shapely.get_parts(np.asarray(lines, dtype=object))
+    # a part of zero length (its points all the same) cannot be segmentized: it marks the cell of its point
+    flat = shapely.length(parts) == 0
+    xy = np.vstack([shapely.get_coordinates(shapely.segmentize(parts[~flat], step)), shapely.get_coordinates(parts[flat])])
     ix, iy, ok = grid.index(xy[:, 0], xy[:, 1])
     pres[iy[ok], ix[ok]] = True
     return pres
