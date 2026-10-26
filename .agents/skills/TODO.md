@@ -115,6 +115,13 @@
       - [x] `references/huggingface/yuiseki/faostat.md`: FAOSTAT の農業・食料・土地利用・気候等の統計スナップショット。 CC BY 4.0。FAO を出典表示し、個別ドメインの注記も保持
       - [x] `references/huggingface/yuiseki/ilostat.md`: ILOSTAT の労働市場・雇用統計の指標ファイルと辞書。 CC BY 4.0。ILOSTAT を出典表示し、指標定義・分類辞書を併用
       - [x] `references/huggingface/yuiseki/env-redlist-jp.md`: 第5次レッドリストの公開済み分類群。許諾の確認できない過去版は除外
+      - [x] `references/huggingface/yuiseki/ksj-a31a-flood-tokyo23.md`: 東京23区にかかる河川ごとの洪水浸水想定の面 (浸水深、継続時間、家屋倒壊)
+      - [x] `references/huggingface/yuiseki/akita-kumadas-wildlife-sighting.md`: 秋田県のクマ・イノシシ・シカの出没通報 2022〜2026年
+      - [x] `references/huggingface/yuiseki/gifu-bear-sighting.md`: 岐阜県のクマ出没通報 FY2014〜FY2025、年度ごとの12表
+      - [x] `references/huggingface/yuiseki/ishikawa-bear-incident.md`: 石川県のクマ出没、要因別の5表 (重なりあり) と2025年の目撃
+      - [x] `references/huggingface/yuiseki/kyoto-bear-sighting.md`: 京都府のクマ目撃 FY2009〜FY2018
+      - [x] `references/huggingface/yuiseki/nagaoka-bear-sighting.md`: 長岡市のクマ目撃・痕跡 FY2014〜FY2015
+      - [x] `references/huggingface/yuiseki/kamisunagawa-higuma-sighting.md`: 上砂川町のヒグマ出没 FY2024〜FY2026途中
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット

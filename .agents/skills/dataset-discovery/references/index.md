@@ -17,7 +17,7 @@
 | [microsoft-building-footprints](microsoft-building-footprints.md) | 東京東部・関東2タイルの GeoParquet と原典 GeoJSONL gzip を公開 (5,781,554件) | 東京東部・関東 | 2026-08-13 の索引スナップショット |
 | [planetary-computer/](planetary-computer/README.md) | 目録。衛星画像、標高、土地被覆のラスタ (COG、匿名の SAS 署名が要る) | 全世界 | コレクションごと |
 | [global-nature-watch/](global-nature-watch/README.md) | 目録。草地、植生攪乱、森林損失要因、森林タイプ。API と許諾はレイヤーごと | 全球を中心にレイヤーごと | 年次図、速報、2020 年基準図 |
-| [huggingface/yuiseki/](huggingface/yuiseki/README.md) | 目録。yuiseki の公開一覧のうち地理分析向けに確認した固定版72件。元データのカードとは区別 | 東京周辺、日本、東アジア、韓国、全球など | 個別のデータ時点と commit SHA に固定 |
+| [huggingface/yuiseki/](huggingface/yuiseki/README.md) | 目録。yuiseki の公開一覧のうち地理分析向けに確認した固定版79件。元データのカードとは区別 | 東京周辺、日本、東アジア、韓国、全球など | 個別のデータ時点と commit SHA に固定 |
 | [mlit-nlftp/](mlit-nlftp/README.md) | 目録。国土数値情報 (鉄道、医療機関、浸水想定、将来推計人口など) | 日本 | 年ごと |
 | [tokyo-ckan/](tokyo-ckan/README.md) | 目録。東京都と区市町村のオープンデータ (施設一覧、統計表) | 東京都 | データセットごと |
 | [fao-ferspas/](fao-ferspas/README.md) | 目録。FAO の農業・食料・気候のラスタ (COG) | 全世界 | コレクションごと |

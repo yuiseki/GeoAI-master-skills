@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開87件を確認した。以下はこのディレクトリに置いた72件で、GeoAI での用途と実ファイルを確認した。別の目録にある WorldPop 日本版 (`worldpop/japan.md`) も含め、未掲載候補は下に判断理由を記す。固定 SHA を含む `read` URL は移動しない版を指す。固定 SHA のない既存カードを更新するときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開94件を確認した (2026-10-26 の午後に7件増えた分を含む)。以下はこのディレクトリに置いた79件で、GeoAI での用途と実ファイルを確認した。別の目録にある WorldPop 日本版 (`worldpop/japan.md`) も含め、未掲載候補は下に判断理由を記す。固定 SHA を含む `read` URL は移動しない版を指す。固定 SHA のない既存カードを更新するときは API の `sha` と `siblings` を再確認する。
 
 ## 未掲載の候補
 
@@ -108,5 +108,12 @@ contents:
 | [gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2](gfw-forest-carbon-net-flux-hokkaido-east-2001-2023-v1-3-2.md) | GFW Forest Flux Model v1.3.2 の東北海道 2001〜2023年累積純炭素フラックス。 | CC0 1.0。無帰属でも再利用可能だが、Gibbs et al. と Dataverse DOI の引用を推奨 |
 | [egov-laws-jp](egov-laws-jp.md) | e-Gov 法令検索の法令改正履歴と XML・テキストを収録する日本語コーパス。 | CC BY 4.0。法律本文は著作権法第13条により著作物でなく、デジタル庁の付加情報は PDL 1.0 |
 | [osm-wiki](osm-wiki.md) | OpenStreetMap Wiki の8言語ページを抽出した地理タグ・地物知識テキスト。 | CC BY-SA 2.0。OSM Wiki 著者を出典表示し、Share-Alike を維持 |
+| [ksj-a31a-flood-tokyo23](ksj-a31a-flood-tokyo23.md) | 東京23区にかかる河川ごとの洪水浸水想定の面 (浸水深、継続時間、家屋倒壊) | 国土数値情報 A31a 令和7年度版の切り出し。CC BY 4.0 |
+| [akita-kumadas-wildlife-sighting](akita-kumadas-wildlife-sighting.md) | 秋田県のクマ・イノシシ・シカの出没通報 2022〜2026年 | 秋田県クマダス。毎月上書きの 2026-09-30 時点。CC BY 4.0 |
+| [gifu-bear-sighting](gifu-bear-sighting.md) | 岐阜県のクマ出没通報 FY2014〜FY2025、年度ごとの12表 | 岐阜県クママップ (過去)。CC BY 2.1 JP を 4.0 で |
+| [ishikawa-bear-incident](ishikawa-bear-incident.md) | 石川県のクマ出没、要因別の5表 (重なりあり) と2025年の目撃 | 石川県クマ出没データ。CC BY |
+| [kyoto-bear-sighting](kyoto-bear-sighting.md) | 京都府のクマ目撃 FY2009〜FY2018 | 京都府クマ目撃情報の統合版。CC BY 4.0 |
+| [nagaoka-bear-sighting](nagaoka-bear-sighting.md) | 長岡市のクマ目撃・痕跡 FY2014〜FY2015 | 長岡市クマ出没情報。CC BY 4.0、改変表示の形が決まっている |
+| [kamisunagawa-higuma-sighting](kamisunagawa-higuma-sighting.md) | 上砂川町のヒグマ出没 FY2024〜FY2026途中 | 上砂川町ヒグマ出没マップ (BODIK)。CC BY 4.0 |
 
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
