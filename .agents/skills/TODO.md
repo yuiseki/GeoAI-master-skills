@@ -119,6 +119,7 @@
       - [x] `references/huggingface/yuiseki/env-redlist-jp.md`: 第5次レッドリストの公開済み分類群。許諾の確認できない過去版は除外
       - [x] `references/huggingface/yuiseki/ksj-a31a-flood-tokyo23.md`: 東京23区にかかる河川ごとの洪水浸水想定の面 (浸水深、継続時間、家屋倒壊)
       - [x] `references/huggingface/yuiseki/tokyo-flood-record-jp.md`: 東京都の浸水実績の面と点 1974〜2019年 (43年分)、被害の棟数と世帯数、雨量
+      - [x] `references/huggingface/yuiseki/jma-tokyo-daily-rain.md`: 東京都の気象庁 31 観測所の日別の降水量 1974〜2025年
       - [x] `references/huggingface/yuiseki/akita-kumadas-wildlife-sighting.md`: 秋田県のクマ・イノシシ・シカの出没通報 2022〜2026年
       - [x] `references/huggingface/yuiseki/gifu-bear-sighting.md`: 岐阜県のクマ出没通報 FY2014〜FY2025、年度ごとの12表
       - [x] `references/huggingface/yuiseki/ishikawa-bear-incident.md`: 石川県のクマ出没、要因別の5表 (重なりあり) と2025年の目撃
