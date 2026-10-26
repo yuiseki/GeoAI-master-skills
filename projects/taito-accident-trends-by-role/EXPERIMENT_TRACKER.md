@@ -10,3 +10,4 @@
 | R006 | B5 | exploratory | done | outputs/hotspots.csv | 1 回目の結果を見た後、地点の名前に首都高速の名前が出たため、名付けから motorway を除いた。前半と後半を年平均 (3 年と 4 年で割る) にした。地点の選び方と半径は変えていない | 20 m で 12/15、50 m で 9/15 が 30 m 以内に残る |
 | R007 | B6 | exploratory | done | outputs/towns.csv, outputs/town-rate-quantile.json | 階級は classify_map.py で決めたが、出力の地図は経度・緯度のまま縦横比が歪み、凡例が地図に重なったため、同じ区切りで plot.py で EPSG:6677 に描き直した | 分位と等間隔で 77.8% の町丁の色が変わる |
 | R008 | - | - | done | outputs/deaths.csv | 1 回目の後、亡くなった人の種別 (人身損傷程度) を足した | 16 件のうち歩行者 11 人 |
+| R009 | B5, B6 | exploratory | done | outputs/hotspots-map.json, outputs/town-rate.json | analysis-visualize の map-context (c341bac) に合わせて地図を描き直した。地点に町丁の名前を足し、町丁の上位 5 を枠と番号で強調し、凡例を地図の外へ出し、文字の重なりを数えた。値と選び方は変えていない | 文字の重なりは 3 枚とも 0 件 (入谷と 8、上野と 1・2 の重なりを、番号の位置と地名の省略で直した後) |

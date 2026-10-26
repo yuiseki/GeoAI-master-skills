@@ -341,6 +341,11 @@ def main():
         (select coalesce(sum(ST_Length(ST_Intersection(r.g, t.g))), 0) from road_m r where ST_Intersects(r.g, t.g)) / 1000 as road_km,
         ST_Area(t.g) / 1e6 as area_km2, t.g_lonlat as geometry
         from towns t""")
+    # Principle 12 of map-context: name every census town holding each hotspot centre.
+    for h in hot:
+        h["town"] = con.execute(f"""select coalesce(string_agg(S_NAME, '/' order by S_NAME), '区外')
+            from towns where ST_Covers(g, ST_Point({h['x']}, {h['y']}))""").fetchall()[0][0]
+    files["hotspots"] = write_csv("hotspots.csv", hot)
     in_towns = con.execute("select sum(accidents) from town_counts").fetchall()[0][0]
     audit.update(points_in_towns=int(in_towns), points_outside_towns=len(prow) - int(in_towns))
     con.sql(f"""copy (select KEY_CODE, S_NAME, JINKO, accidents, ped, road_km, area_km2,

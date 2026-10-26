@@ -30,6 +30,13 @@ ART = ROOT / "artifacts/taito-accident-trends-by-role"
 OUT = PROJECT / "outputs"
 sys.path.insert(0, str(ROOT / ".agents/skills/analysis-visualize/scripts"))
 from cjk_font import use_cjk_font  # noqa: E402
+from context_map import text_overlaps  # noqa: E402
+
+# Roads are OGC:CRS84 and the ward and towns JGD2000 (EPSG:4612); both are reprojected to EPSG:6677 as if
+# the datums were the same. The difference (about 1 m, per map-context) is under a road line's width here.
+CRS_NOTE = {"map_crs": "EPSG:6677", "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+            "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい"}
+NUMBER_BOX = dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.9)
 
 SOURCE = ("出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。"
           "背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)")
@@ -51,12 +58,12 @@ def read_csv(name):
         return list(csv.DictReader(f))
 
 
-def save(fig, name, question, inputs, n, notes=""):
+def save(fig, name, question, inputs, n, notes="", checks=None):
     path = OUT / f"{name}.png"
     fig.savefig(path, dpi=160, bbox_inches="tight")
     plt.close(fig)
     meta = {"question": question, "inputs": inputs, "n": n, "notes": notes, "source": SOURCE,
-            "font": plt.rcParams["font.family"]}
+            "font": plt.rcParams["font.family"], **(checks or {})}
     (OUT / f"{name}.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))
     print("wrote", path.relative_to(ROOT))
 
@@ -85,7 +92,7 @@ class Base:
     def point_rows(self):
         return self.points
 
-    def draw(self, ax, extent=None, labels=True, road_alpha=1.0):
+    def draw(self, ax, extent=None, labels=True, road_alpha=1.0, skip=()):
         for h, g in self.roads:
             lines = getattr(g, "geoms", [g])
             for line in lines:
@@ -104,13 +111,17 @@ class Base:
         ax.set_aspect("equal")
         ax.set_xticks([])
         ax.set_yticks([])
+        texts = []
         if labels:
             for label, town in LANDMARKS.items():
+                if label in skip:
+                    continue
                 p = self.towns[town][0].representative_point()
                 if extent[0] < p.x < extent[1] and extent[2] < p.y < extent[3]:
-                    ax.text(p.x, p.y, label, fontsize=8, color="#222222", ha="center", va="center", zorder=6,
-                            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.7))
+                    texts.append(ax.text(p.x, p.y, label, fontsize=8, color="#222222", ha="center", va="center",
+                                         zorder=6, bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.7)))
         self.scalebar(ax, extent)
+        return texts
 
     @staticmethod
     def scalebar(ax, extent, length=500):
@@ -253,7 +264,7 @@ def fig_school_map(base):
     pts = [p for p in base.point_rows() if p["young_pb"]]
     schools = read_csv("schools.csv")
     fig, ax = plt.subplots(figsize=(8, 8))
-    base.draw(ax)
+    texts = base.draw(ax)
     xy = {n: (x, y) for n, x, y in base.schools}
     for s in schools:
         x, y = xy[s["school"]]
@@ -267,13 +278,16 @@ def fig_school_map(base):
                label=f"平日 7〜8時台・14〜17時台 ({len(weekday_peak)}件)")
     ax.legend(handles=[ax.collections[0], ax.collections[1],
                        plt.Line2D([], [], marker="s", color="#2c7fb8", ls="", label=f"小学校・中学校 ({len(schools)}校、OSM)"),
-                       Patch(fc="none", ec="#2c7fb8", label="学校から半径 500 m")], loc="upper left", fontsize=8)
+                       Patch(fc="none", ec="#2c7fb8", label="学校から半径 500 m")], loc="upper left",
+              bbox_to_anchor=(1.0, 1.0), fontsize=8)
+    overlaps = text_overlaps(fig, texts, [ax.get_legend()])
     ax.set_title("若い (0〜24歳) 歩行者・自転車が関わる人身事故と学校 (台東区、2019〜2025年)", fontsize=10)
     fig.text(0.01, 0.01, SOURCE, fontsize=6, wrap=True)
     save(fig, "school-map", "学校の周りで、若い歩行者と自転車の事故はどこで起きているか",
          ["artifacts/taito-accident-trends-by-role/points.csv", "outputs/schools.csv"],
          {"young_ped_or_bike": len(pts), "weekday_7_8_or_14_17": len(weekday_peak)},
-         "0〜24歳は年齢層の最小の区分で、小学生だけを示すものではない。円は直線距離")
+         "0〜24歳は年齢層の最小の区分で、小学生だけを示すものではない。円は直線距離",
+         {**CRS_NOTE, "schools_drawn": len(schools), "text_overlaps": overlaps})
 
 
 def fig_hotspots(base):
@@ -286,9 +300,11 @@ def fig_hotspots(base):
     uz = [(x, y) for x, y in zip(xs, ys) if x < -4900 and y > -32700]
     zoom = (min(x for x, _ in uz) - 200, max(x for x, _ in uz) + 200,
             min(y for _, y in uz) - 200, max(y for _, y in uz) + 200)
+    texts = {0: [], 1: []}
+    zoomed = []
     for i, ax in enumerate(axes):
         if i == 0:
-            base.draw(ax)
+            texts[0] += base.draw(ax)
         else:
             base.draw(ax, extent=zoom, labels=False)
         ax.scatter([p["x"] for p in pts], [p["y"] for p in pts], s=2 if i == 0 else 5, color="#555555", alpha=0.35,
@@ -299,8 +315,13 @@ def fig_hotspots(base):
             if inside or i == 0:
                 ax.add_patch(Circle((x, y), 30, fc="#c0392b", ec="#7b241c", alpha=0.35 + 0.015 * n, zorder=4))
             if (i == 1 and inside) or (i == 0 and not inside):
-                ax.text(x + (40 if i else 60), y + (20 if i else 40), h["rank"], fontsize=8 if i == 0 else 10,
-                        color="#7b241c", weight="bold", zorder=6)
+                # Rank 8 sits under the name 入谷 when written above right, and under 4 to its left; write it below.
+                dx, dy = (45, 25) if i else ((60, -150) if h["rank"] == "8" else (70, 50))
+                texts[i].append(ax.text(x + dx, y + dy, h["rank"],
+                                        fontsize=8 if i == 0 else 10, color="#7b241c", weight="bold", zorder=6,
+                                        bbox=NUMBER_BOX))
+            elif i == 0:
+                zoomed.append(int(h["rank"]))
         if i == 0:
             ax.add_patch(Rectangle((zoom[0], zoom[2]), zoom[1] - zoom[0], zoom[3] - zoom[2], fill=False, ec="#2c7fb8",
                                    lw=1.2, ls="--", zorder=6))
@@ -308,9 +329,11 @@ def fig_hotspots(base):
     axes[1].set_title("上野・御徒町の拡大 (左の青い枠。枠の中の番号はこちらに書いた)", fontsize=10)
     fig.text(0.01, 0.01, "地点は、半径30 mの円の中の7年の事故数が多い順に、重ならないように選んだ。番号は順位。" + SOURCE,
              fontsize=7, wrap=True)
+    overlaps = text_overlaps(fig, texts[0]) + text_overlaps(fig, texts[1])
     save(fig, "hotspots-map", "台東区で人身事故が集まる地点はどこか",
          ["artifacts/taito-accident-trends-by-role/points.csv", "outputs/hotspots.csv"], len(pts),
-         "位置の精度は不明。円の濃さは件数に比例")
+         "位置の精度は不明。円の濃さは件数に比例",
+         {**CRS_NOTE, "hotspots_drawn": len(hot), "zoomed_in_inset": zoomed, "text_overlaps": overlaps})
 
 
 def fig_hotspot_halves():
@@ -373,24 +396,45 @@ def fig_town_rate(base):
         from '{ART / 'towns.parquet'}'""").fetchall()
     cmap = ListedColormap(plt.get_cmap("YlOrRd")(np.linspace(0.12, 0.95, len(breaks) - 1)))
     norm = BoundaryNorm(breaks, cmap.N)
+    if len(geoms) != len(rows) or len(rows) != 108:
+        raise RuntimeError(f"drew {len(geoms)} towns, the analysis has {len(rows)}")
+    top = sorted(rows.values(), key=lambda r: -float(r["per_road_km_year"]))[:5]
     fig, ax = plt.subplots(figsize=(8.5, 8))
+    shapes = {}
     for code, g in geoms:
         geom = wkb.loads(g)
+        shapes[code] = geom
         v = float(rows[code]["per_road_km_year"])
         for poly in getattr(geom, "geoms", [geom]):
             x, y = poly.exterior.xy
             ax.fill(x, y, color=cmap(norm(v)), ec="#555555", lw=0.4, zorder=0)
-    base.draw(ax, road_alpha=0.5)
+    # 上野 is the town numbered 2; its name is in the legend instead.
+    texts = base.draw(ax, road_alpha=0.5, skip=("上野",))
+    # The top five towns: outlined, numbered on white, named in the legend (map-context 7 and 12).
+    for rank, r in enumerate(top, 1):
+        geom = shapes[r["key_code"]]
+        for poly in getattr(geom, "geoms", [geom]):
+            x, y = poly.exterior.xy
+            ax.plot(x, y, color="#5b2c83", lw=1.8, zorder=5)
+        p = geom.representative_point()
+        texts.append(ax.text(p.x, p.y, str(rank), fontsize=9, color="#5b2c83", weight="bold", ha="center",
+                             va="center", zorder=8, bbox=NUMBER_BOX))
     handles = [Patch(fc=cmap(i), ec="#555555", label=f"{breaks[i]:.2f}〜{breaks[i + 1]:.2f} ({meta['units_per_class'][i]})")
                for i in range(len(breaks) - 1)]
-    ax.legend(handles=handles, title="件/道路 km/年 (町丁の数)", loc="upper left", bbox_to_anchor=(1.0, 1.0), fontsize=8,
-              title_fontsize=8)
-    ax.set_title("町丁ごとの人身事故 (道路 1 km・1年あたり、台東区 2019〜2025年)", fontsize=11)
+    handles += [Patch(fc="none", ec="#5b2c83", lw=1.8, label="道路あたりの上位5")]
+    handles += [Patch(fc="none", ec="none", label=f"{i}. {r['name']} {float(r['per_road_km_year']):.2f}")
+                for i, r in enumerate(top, 1)]
+    leg = ax.legend(handles=handles, title="件/道路 km/年 (町丁の数)", loc="upper left", bbox_to_anchor=(1.0, 1.0),
+                    fontsize=8, title_fontsize=8)
+    overlaps = text_overlaps(fig, texts, [leg])
+    ax.set_title("台東区のどの町丁で、道路の長さに比べて人身事故が多いか (2019〜2025年)", fontsize=11)
     fig.text(0.01, 0.01, "分位5階級 (各階級に約22町丁)。等間隔5階級にすると78%の町丁の色が変わる。道路はOSMの車道の延長で、"
              "交通量ではない。町丁の外の53件は入らない。" + SOURCE, fontsize=6.5, wrap=True)
     save(fig, "town-rate", "台東区のどの町丁で、道路の長さに比べて事故が多いか",
          ["outputs/towns.csv", "outputs/town-rate-quantile.json"], 108,
-         f"breaks {breaks}; 分位と等間隔で色の変わる町丁 0.778 (classify_map.py の出力)")
+         f"breaks {breaks}; 分位と等間隔で色の変わる町丁 0.778 (classify_map.py の出力)",
+         {**CRS_NOTE, "units_drawn": len(geoms), "units_in_analysis": len(rows),
+          "highlighted": [r["name"] for r in top], "text_overlaps": overlaps})
 
 
 def main():
