@@ -77,6 +77,14 @@ def test_conclusion_numbers_must_come_from_the_evidence_up_to_rounding():
     assert traceable("2026-08-31 の版で 0.82", ev) == []  # dates are not results
 
 
+def test_csv_rows_are_read_as_separate_numbers_and_thousands_need_groups_of_three():
+    # a CSV row written without spaces: 1400 and 8.4293... are two numbers, not 14008.4293
+    assert [n[1] for n in numbers_in("4 Sep-Dec,1400,8.429359966966706,-4.85")] == [4.0, 1400.0, 8.429359966966706, -4.85]
+    assert traceable("MAE は 8.429", "hgb_nb,4,4 Sep-Dec,1400,8.429359966966706") == []
+    # thousands separators still read as one number
+    assert [n[1] for n in numbers_in("1,168,211 セル、12,345 件")] == [1168211.0, 12345.0]
+
+
 def test_unknown_level_stops():
     with pytest.raises(ValueError):
         check(SIMPLE, "long")

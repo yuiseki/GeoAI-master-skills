@@ -34,7 +34,9 @@ LIMITS = {"simple": 8, "standard": 40, "full": None}
 _LABEL = re.compile(r"^\s*(?:#{1,6}\s*)?(問い|結論|データ|方法|確かめていないこと)\s*(?:[:：]\s*(.*))?$")
 _PAGE = re.compile(r"<\s*(?:!doctype|html|head|body|script|style|iframe|div)\b", re.IGNORECASE)
 _DATE = re.compile(r"\d{4}-\d{2}-\d{2}|\d{4}-\d{2}")
-_NUM = re.compile(r"[−-]?\d[\d,]*(?:\.\d+)?%?")
+# a comma is a thousands separator only between groups of three digits (1,168,211); otherwise it separates two
+# numbers, as in a CSV row written without spaces (1400,8.4293)
+_NUM = re.compile(r"[−-]?(?:\d{1,3}(?:,\d{3})+(?![\d])|\d+)(?:\.\d+)?%?")
 _VERSION = re.compile(r"\d{4}-\d{2}|\d{4} ?年|版|v\d|version|\d+\.\d+")
 
 
