@@ -1,0 +1,137 @@
+{
+ "mode": "exploration",
+ "social_problem": "難民の多くは隣の国に逃れ、受け入れの負担が周辺の国に偏る。難民の受け入れの分担を話し合う国際的な枠組みと各国の政府が、難民が遠くへ逃れるようになったかを、出身国の構成の変化と区別せずに読むと、分担の議論の前提を誤る。",
+ "working_hypothesis": "難民の人数で重みづけた出身国と庇護国の距離は 1990 年から 2025 年に伸びた (pilot で 1,087 km から 2,116 km) が、その多くは出身国の構成の変化 (ウクライナ、シリアなど) によるもので、同じ出身国の中での距離の変化は小さい。構成を固定した距離の変化が、全体の変化の半分以上なら、この仮説を退ける。",
+ "question": "1990〜2025 年に、難民は出身国から遠くの国へ逃れるようになったか。その変化は、出身国の顔ぶれの変化と、同じ出身国の人がより遠くへ行くようになった変化に分けると、どう分かれるか？",
+ "decision_use": "難民の受け入れの分担を話し合う国際的な枠組みと各国の政府が、周辺の国への負担の集中が強まっているか弱まっているかを、構成の変化と分けて確かめる。個々の人の移動の理由は扱わない。",
+ "target_quantity": "年ごとの、難民の人数で重みづけた出身国と庇護国の距離 (国の代表点の間、または国境の間) と、隣の国にいる難民の割合。出身国の構成を固定した場合との差 (分解)。",
+ "unit": "年 × 出身国 × 庇護国。距離は Natural Earth の国の面から作る。",
+ "time_alignment": "1990〜2025 年の年末の人数 (2026-10-04 取得、UNHCR は年 2 回過去の年も改訂する)。国の面は 2022 年の版で、過去の国 (ソ連、ユーゴスラビアなど) は無い。",
+ "claim_type": "descriptive",
+ "datasets": [
+  "yuiseki/unhcr-refugee-stats",
+  "yuiseki/natural-earth",
+  "yuiseki/worldbank-wdi"
+ ],
+ "source_versions": {
+  "yuiseki/unhcr-refugee-stats": "5f3eea4ac1314223df73dcdf614ebe224a5fe632",
+  "yuiseki/natural-earth": "efdd0668c57c9d42307e12eacbf66d8d151de5b9",
+  "yuiseki/worldbank-wdi": "d0b1ad8c98643db75c767c0ff96db800126f4954"
+ },
+ "joins": [
+  {
+   "left": "yuiseki/unhcr-refugee-stats",
+   "right": "yuiseki/natural-earth",
+   "how": "出身国と庇護国の ISO 3 文字コードを ISO_A3_EH に結び、面から代表点の距離と隣接 (国境の接触) を作る。同じコードの面の重複 (pilot で 6,855 組が 7,466 行に増えた) を除く",
+   "why": "国の組に距離と隣接を付ける"
+  },
+  {
+   "left": "yuiseki/natural-earth",
+   "right": "yuiseki/worldbank-wdi",
+   "how": "ISO_A3_EH を country_code に結び、庇護国の人口と GDP を付ける",
+   "why": "負担を人口と経済の大きさで割った比べ方を並べる"
+  }
+ ],
+ "required_variables": [
+  {
+   "dataset": "yuiseki/unhcr-refugee-stats",
+   "table": "population",
+   "column": "Year"
+  },
+  {
+   "dataset": "yuiseki/unhcr-refugee-stats",
+   "table": "population",
+   "column": "Country of origin (ISO)"
+  },
+  {
+   "dataset": "yuiseki/unhcr-refugee-stats",
+   "table": "population",
+   "column": "Country of asylum (ISO)"
+  },
+  {
+   "dataset": "yuiseki/unhcr-refugee-stats",
+   "table": "population",
+   "column": "Refugees under UNHCR's mandate"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "ISO_A3_EH"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "geometry"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "country_code"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "indicator_code"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "value"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "year"
+  }
+ ],
+ "methodological_decisions": [
+  "距離の定義: 代表点の間、国境の間、首都の間",
+  "隣接の定義: 国境の接触、海を挟む近さ",
+  "出身国が不明・無国籍の行と、過去の国のコードの扱い (pilot で 1990 年は人数の 15% が結べない)",
+  "分解の方法 (出身国の構成を固定するか、Shift-share)",
+  "難民だけか、庇護申請者や国外の保護の必要な人を含めるか"
+ ],
+ "failure_modes": [
+  "国の面のコードの重複で、組が増えて人数が二重になる",
+  "1990 年代の結べない人数が多く、初めの年の距離が歪む",
+  "遠い国への移動は、記録の取り方 (欧州での登録) の違いも映す",
+  "過去の年の値が改訂される"
+ ],
+ "robustness_checks": [
+  "距離の定義を 3 通りで比べる",
+  "結べない人数を除いた場合と、近い国に割り振った場合",
+  "大きな出身国 (ウクライナ、シリア) を 1 つずつ外した場合",
+  "難民に庇護申請者を加えた場合"
+ ],
+ "simplest_solver": {
+  "method": "年ごとに、隣の国にいる難民の割合を出す",
+  "why_insufficient": "隣の国の割合は 1990 年 0.78、2025 年 0.64 と動くが、年ごとの上下が大きく、出身国の顔ぶれの変化と同じ出身国の人の行き先の変化を分けられない。距離の平均も、構成を分けなければ解釈できない"
+ },
+ "unknowns": [
+  "個々の人の移動の経路と理由",
+  "国の中の避難 (国内避難民) との関係",
+  "登録されていない難民"
+ ],
+ "novelty": {
+  "closest_task": 44,
+  "difference_dimension": "displacement_geography_decomposition",
+  "substantive_difference": "課題 44 は次の年に流出が急増する国の予測。この候補は過去 35 年の行き先の地理の変化を、構成と行動に分ける記述の問い"
+ },
+ "prediction": {
+  "main_result": "距離の伸びの大半は出身国の構成の変化で、同じ出身国の中での伸びは小さい。ただしシリアやアフガニスタンでは欧州への移動で伸びる",
+  "difficulty": "国のコードの照合と過去の国",
+  "fragile_assumption": "国の代表点の間の距離が逃れた距離の目安になること",
+  "needed_capabilities": [
+   "国のコードの照合",
+   "距離と隣接の計算",
+   "構成の分解"
+  ]
+ },
+ "rubric": [
+  "国のコードの重複と結べない人数を数えて扱った",
+  "距離の定義を複数比べた",
+  "構成の変化と同じ出身国の中の変化を分けた",
+  "大きな出身国の影響を確かめた",
+  "記録の取り方の違いと過去の改訂に触れた"
+ ]
+}

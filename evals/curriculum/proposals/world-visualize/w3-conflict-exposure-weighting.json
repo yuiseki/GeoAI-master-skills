@@ -1,0 +1,145 @@
+{
+ "mode": "digging",
+ "history_anchor": "evals/curriculum/task-cards/2026-10-24-ucdp-location-precision.md は、死者が位置精度の低い事件に偏ると報告した。この dry run の pilot (2021〜2025 年、死者のある 111,634 件) では、精度 3 以上を除くと死者は 57% 消えたが、事件の近く (1 環) に住む人口は 27.3 億人から 25.2 億人へ 8% しか減らなかった。人口で測ると精度は効かず、死者で測ると大きく効く。この食い違いを掘る。",
+ "social_problem": "人道支援の機関は、致死的な暴力の近くに住む人の数を、支援の必要の大きさの目安に使う。事件の数で数えるか死者の数で重みづけるか、位置の粗い事件をどう扱うかで、優先する地域の地図が変わり、深刻な地域が人口の多い地域に埋もれる。",
+ "working_hypothesis": "事件の有無で数えた「暴力の近くに住む人口」は人口の多さで決まり (pilot ではインドが 4.2 億人で 1 位)、死者で重みづけた強さの地図とは上位の地域が大きく違う。両者の国の上位 10 の重なりが 5 以下と予想する。7 以上なら、重みの判断は地図に効かないとして退ける。",
+ "question": "2021〜2025 年に、致死的な暴力の近くに住む人は世界のどこに何人いるか。事件の数で数えるか、死者の数で重みづけるか、位置の粗い事件をどう扱うかで、優先すべき地域の地図はどれだけ変わるか？",
+ "decision_use": "人道支援の機関が、紛争の影響を受ける人の地図を作るときに、どの測り方を主にするかと、地図に添えるべき不確かさを決める。紛争の原因や将来の予測には使わない。",
+ "target_quantity": "H3 r4 セルごとの、2021〜2025 年の死者のある事件の数、死者の推計 (best)、そのセルと周りの環に住む人口。国ごとの、事件の近くに住む人口と、死者で重みづけた強さ。",
+ "unit": "H3 r4 セル。国の集計は Natural Earth の国の面 (UCDP の country_id とも照合する)。",
+ "time_alignment": "事件は 2021-01-01〜2025-12-31 (版 26.1)、人口は 2023-11-01 版。版が変わると過去の事件も改訂される。",
+ "claim_type": "descriptive",
+ "datasets": [
+  "yuiseki/ucdp-ged",
+  "yuiseki/kontur-population-2023-11-01-22km",
+  "yuiseki/natural-earth"
+ ],
+ "source_versions": {
+  "yuiseki/ucdp-ged": "d72fe7eb368fef2d4b804affad07a132571f60f8",
+  "yuiseki/kontur-population-2023-11-01-22km": "2e7291f8c2d4b9c06bb4ff0e43be14e538e0600d",
+  "yuiseki/natural-earth": "efdd0668c57c9d42307e12eacbf66d8d151de5b9"
+ },
+ "joins": [
+  {
+   "left": "yuiseki/ucdp-ged",
+   "right": "yuiseki/kontur-population-2023-11-01-22km",
+   "how": "事件の座標を H3 r4 セルにし、0〜2 環の近さで人口のセルに結ぶ。where_prec ごとに、代表点に置かれた事件を分けて扱う",
+   "why": "事件と人口を同じ格子で重ねる"
+  },
+  {
+   "left": "yuiseki/kontur-population-2023-11-01-22km",
+   "right": "yuiseki/natural-earth",
+   "how": "H3 r4 セルを国の面に割り当てる。中心が面に入らない沿岸のセル (pilot で 7,060 個、人口の 5.8%) の扱いを、最寄りの国、面積按分、除外で比べる",
+   "why": "国ごとの集計と国境の描画に要る。沿岸の扱いが沿岸の危険の量を直接変える"
+  }
+ ],
+ "required_variables": [
+  {
+   "dataset": "yuiseki/ucdp-ged",
+   "table": "ged",
+   "column": "best"
+  },
+  {
+   "dataset": "yuiseki/ucdp-ged",
+   "table": "ged",
+   "column": "where_prec"
+  },
+  {
+   "dataset": "yuiseki/ucdp-ged",
+   "table": "ged",
+   "column": "date_start"
+  },
+  {
+   "dataset": "yuiseki/ucdp-ged",
+   "table": "ged",
+   "column": "geometry"
+  },
+  {
+   "dataset": "yuiseki/ucdp-ged",
+   "table": "ged",
+   "column": "country_id"
+  },
+  {
+   "dataset": "yuiseki/ucdp-ged",
+   "table": "ged",
+   "column": "latitude",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_conflict.py"
+  },
+  {
+   "dataset": "yuiseki/ucdp-ged",
+   "table": "ged",
+   "column": "year",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_conflict.py"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "h3"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "population"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "ISO_A3_EH"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "geometry"
+  }
+ ],
+ "methodological_decisions": [
+  "事件の有無で数えるか、死者で重みづけるか、人口あたりの強さにするか",
+  "位置精度 (where_prec 3〜7、行政区の代表点など) の事件を、除くか、行政区に広げて配るか",
+  "近さの範囲 (0、1、2 環)",
+  "死者の推計 (best、low、high) のどれを使うか",
+  "暴力の種類 (国家間、非国家、一方的) を分けるか"
+ ],
+ "failure_modes": [
+  "精度の低い事件を除くと、死者の多い事件から消える (pilot で死者の 57%)",
+  "代表点に事件が積み重なり、その点のセルを過大に見せる",
+  "人口の多いセルが、事件 1 件でも大きな人数を作る",
+  "報道に頼る記録なので、報道の届かない地域で事件が欠ける"
+ ],
+ "robustness_checks": [
+  "事件の数と死者の重みで、国とセルの上位の重なりを比べる",
+  "精度の扱いを 3 通り (全部、2 以下、行政区に配る) で比べ、人口と死者の脱落を並べる",
+  "範囲を 0、1、2 環で比べる",
+  "best と high で比べる"
+ ],
+ "simplest_solver": {
+  "method": "国ごとに死者の合計を人口で割る",
+  "why_insufficient": "国の比では、国の中のどこに暴力の近くの人が集まるかが見えない。pilot では、人口で数えた地図は精度にほとんど反応せず、死者の地図は大きく反応した。どちらを主にするかで地図が変わることは、国の比 1 つでは示せない"
+ },
+ "unknowns": [
+  "事件の真の位置",
+  "報道されなかった事件",
+  "人々の実際の被害や移動"
+ ],
+ "novelty": {
+  "closest_task": 44,
+  "difference_dimension": "exposure_weighting_and_location_precision",
+  "substantive_difference": "課題 44 は国の単位の難民の流出の予測。タスクカードの位置精度の監査は事件の分布の歪みを見た。この候補は人口の格子を分母に加え、何を数えるか (人数か死者か) と精度の扱いが支援の地図をどう変えるかを問う"
+ },
+ "prediction": {
+  "main_result": "人口で数えた上位は南アジアとナイジェリアなど人口の多い国、死者で重みづけた上位はウクライナ、スーダン、ミャンマーなどで、重なりは小さい",
+  "difficulty": "精度の低い事件の配り方",
+  "fragile_assumption": "2023 年の人口が 2021〜2025 年の居住を表すこと (避難で人口が動いている)",
+  "needed_capabilities": [
+   "格子への集計",
+   "重みの違う地図の比較",
+   "精度ごとの感度の分析"
+  ]
+ },
+ "rubric": [
+  "人数で数えた地図と死者で重みづけた地図を分けて示した",
+  "位置精度の扱いを複数比べ、人口と死者の脱落率を書いた",
+  "代表点への積み重なりを確かめた",
+  "避難による人口の動きで分母がずれることを書いた",
+  "支援の地図に添える不確かさを示した"
+ ]
+}

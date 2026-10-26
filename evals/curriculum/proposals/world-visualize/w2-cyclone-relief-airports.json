@@ -1,0 +1,165 @@
+{
+ "mode": "exploration",
+ "social_problem": "強い熱帯低気圧の後の救援物資は、多くが空から運ばれる。繰り返し強風にさらされるのに、救援の貨物機が降りられる空港から遠い場所の人は、救援が遅れる。物資の事前備蓄と空輸の計画を立てる人道支援の物流担当が、その場所を見落とす。",
+ "working_hypothesis": "定期便のある空港までの距離で見ると近いのに、長い舗装の滑走路を持つ空港からは遠い、繰り返し強風にさらされる人がまとまっている地域がある (pilot ではマダガスカルで 1% と 27%)。滑走路の長さの基準 (6,000 と 8,000 フィート) を変えると、そうした人の数が 2 倍以上変わると予想する。基準を変えても上位の地域と人数が 20% 以内でしか動かないなら、この判断は効かないとして退ける。",
+ "question": "1980〜2025 年に強風が何度も通った場所に住む人のうち、救援の貨物機が降りられる空港から遠い人は、世界のどこに何人いるか。その答えは、空港の条件 (滑走路の長さと舗装) と距離の決め方でどう変わるか？",
+ "decision_use": "人道支援の物流担当 (国連の空輸や各国の災害対応) が、物資を事前に備蓄する拠点と、ヘリコプターや陸路を別に用意すべき地域を選ぶ。空港の実際の運用状況や通行の可否は確かめないので、候補の絞り込みに使う。",
+ "target_quantity": "H3 r4 セルごとの、強風の通過回数 (W1 と同じ定義) と、条件を満たす空港までの距離 (セルの環の数)。両方の条件を満たすセルの人口。",
+ "unit": "H3 r4 セル。空港はセルの中の点として、そのセルに割り当てる。",
+ "time_alignment": "嵐は 1980〜2025 年、空港と滑走路は 2026-08-31 の凍結、人口は 2023 年。空港の過去の状態は無い。",
+ "claim_type": "descriptive",
+ "datasets": [
+  "yuiseki/ibtracs-v04r01",
+  "yuiseki/ourairports-2026-08",
+  "yuiseki/kontur-population-2023-11-01-22km",
+  "yuiseki/natural-earth"
+ ],
+ "source_versions": {
+  "yuiseki/ibtracs-v04r01": "7492b1ac35fbbcc304c752d3ff7d381c73a24510",
+  "yuiseki/ourairports-2026-08": "6c1d115e83a7865005260e4b1ed70eda86d95107",
+  "yuiseki/kontur-population-2023-11-01-22km": "2e7291f8c2d4b9c06bb4ff0e43be14e538e0600d",
+  "yuiseki/natural-earth": "efdd0668c57c9d42307e12eacbf66d8d151de5b9"
+ },
+ "joins": [
+  {
+   "left": "yuiseki/ibtracs-v04r01",
+   "right": "yuiseki/kontur-population-2023-11-01-22km",
+   "how": "W1 と同じく経路の強風の範囲を H3 r4 セルに落とす",
+   "why": "繰り返しの強風を人口の格子にそろえる"
+  },
+  {
+   "left": "yuiseki/ourairports-2026-08",
+   "right": "yuiseki/kontur-population-2023-11-01-22km",
+   "how": "空港の座標を H3 r4 セルにし、runways を airport_ident で空港に結んで最長の舗装の滑走路を付け、セルの環の距離で近さを測る",
+   "why": "救援に使える空港までの近さを、同じ格子の上で測る"
+  },
+  {
+   "left": "yuiseki/kontur-population-2023-11-01-22km",
+   "right": "yuiseki/natural-earth",
+   "how": "H3 r4 セルを国の面に割り当てる。中心が面に入らない沿岸のセル (pilot で 7,060 個、人口の 5.8%) の扱いを、最寄りの国、面積按分、除外で比べる",
+   "why": "国ごとの集計と国境の描画に要る。沿岸の扱いが沿岸の危険の量を直接変える"
+  }
+ ],
+ "required_variables": [
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "SID"
+  },
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "USA_WIND",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cyclone.py"
+  },
+  {
+   "dataset": "yuiseki/ourairports-2026-08",
+   "table": "airports",
+   "column": "type"
+  },
+  {
+   "dataset": "yuiseki/ourairports-2026-08",
+   "table": "airports",
+   "column": "scheduled_service"
+  },
+  {
+   "dataset": "yuiseki/ourairports-2026-08",
+   "table": "airports",
+   "column": "latitude_deg",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_air.py"
+  },
+  {
+   "dataset": "yuiseki/ourairports-2026-08",
+   "table": "runways",
+   "column": "airport_ident"
+  },
+  {
+   "dataset": "yuiseki/ourairports-2026-08",
+   "table": "runways",
+   "column": "length_ft",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_air.py"
+  },
+  {
+   "dataset": "yuiseki/ourairports-2026-08",
+   "table": "runways",
+   "column": "surface",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_air.py"
+  },
+  {
+   "dataset": "yuiseki/ourairports-2026-08",
+   "table": "runways",
+   "column": "closed",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_air.py"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "h3"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "population"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "ISO_A3_EH"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "geometry"
+  }
+ ],
+ "methodological_decisions": [
+  "滑走路の舗装の判定: surface の 568 通りの書き方をどう舗装と未舗装に分けるか",
+  "滑走路の長さの基準 (救援に使う機体によって 6,000、8,000 フィートなど)",
+  "距離: 直線 (環の数) か、道路の距離か (道路はこのデータに無い)",
+  "空港の種類 (閉鎖、ヘリポート、軍用) の扱い",
+  "繰り返しの強風の基準 (W1 の設定のどれを使うか)"
+ ],
+ "failure_modes": [
+  "OurAirports は有志の記録で、滑走路の状態と閉鎖は古いことがある。行がいつ更新されたかは分からない",
+  "直線の距離は、山や川、道路の寸断を無視する",
+  "強風で空港そのものが使えなくなることは扱えない",
+  "沿岸の人口のセルの割り当ての誤り"
+ ],
+ "robustness_checks": [
+  "滑走路の基準を 6,000 と 8,000 フィートで比べる (pilot で約 200 km より遠い人は 0.98 億人と 3.57 億人)",
+  "距離を 3 環と 5 環で比べる",
+  "舗装の判定の規則を厳しくした場合と緩くした場合",
+  "定期便のある空港を基準にした場合との差の地図"
+ ],
+ "simplest_solver": {
+  "method": "国ごとに、定期便のある空港の数を人口で割る",
+  "why_insufficient": "定期便の有無は貨物機が降りられるかを表さず、pilot ではマダガスカルで定期便の空港から遠い人は 1%、長い舗装の滑走路から遠い人は 27% だった。国の平均では、強風にさらされる沿岸と空港の位置の重なりが見えない"
+ },
+ "unknowns": [
+  "空港の実際の運用状況、燃料、荷役の能力",
+  "道路での到達時間",
+  "災害時に空港が使えるか"
+ ],
+ "novelty": {
+  "closest_task": 38,
+  "difference_dimension": "logistics_access_under_recurrent_hazard",
+  "substantive_difference": "課題 38 は東京の洪水時の避難の案内拠点の追加。この候補は全球で、繰り返しの自然の危険と、救援の輸送の拠点 (空港の能力の条件) を重ね、条件の決め方が支援の空白の地図をどう変えるかを問う"
+ },
+ "prediction": {
+  "main_result": "マダガスカル、モザンビーク、太平洋とカリブの島、バングラデシュの沿岸の一部が、繰り返しの強風と空港からの遠さの両方で上位になる",
+  "difficulty": "滑走路の記録の正規化と、距離の粗さ",
+  "fragile_assumption": "直線の距離で救援の届きやすさを近似できること",
+  "needed_capabilities": [
+   "文字列の正規化",
+   "格子の上の近さの計算",
+   "2 つの層の重ね合わせ"
+  ]
+ },
+ "rubric": [
+  "滑走路の舗装と長さの判定の規則と、その規則で外した空港を書いた",
+  "滑走路の基準と距離を変えたときの人数の変わり方を示した",
+  "直線の距離の限界と道路の情報が無いことを書いた",
+  "強風の層の設定を書き、W1 の設定の違いの影響に触れた",
+  "定期便の空港を基準にしたときとの差を示した"
+ ]
+}

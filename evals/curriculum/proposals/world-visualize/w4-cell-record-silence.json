@@ -1,0 +1,171 @@
+{
+ "mode": "exploration",
+ "social_problem": "携帯電話の電波が届かない地域は、災害の警報や送金、遠隔医療から取り残される。デジタルの包摂の担当者や災害時の通信を計画する人が、有志の基地局の記録 (OpenCelliD) の空白を電波の空白と読むと、記録が集まっていないだけの地域を「圏外」と誤り、本当の圏外を見落とす。",
+ "working_hypothesis": "記録の無いセルに住む人の割合は、公式の携帯電話の契約数とは弱くしか関係せず (pilot で相関 -0.52)、国の単位の欠け (pilot ではインドの国番号 404、405 の記録が 0 件) が大きな空白を作る。国の欠けと記録の少なさを除いても、契約数の多い国で記録の空白が大きいセルが残るなら、それは記録の偏りであり、電波の空白の地図には使えない。記録の空白が契約数の少なさでほぼ説明できる (相関の絶対値 0.8 以上) なら、この仮説を退ける。",
+ "question": "有志の基地局の記録が無い場所に住む人は、世界のどこに何人いるか。そのうち、電波が無いためではなく記録が集まっていないためとみられる空白は、どこにどれだけあるか？",
+ "decision_use": "デジタルの包摂や災害時の通信を計画する担当者が、有志の記録を圏外の地図の代わりに使ってよい地域と、現地の確認や事業者の資料が要る地域を分ける。電波の届く範囲そのものは推定しない。",
+ "target_quantity": "H3 r4 セルごとの、記録された基地局の数 (電波の方式ごと) と、そのセルの人口。国ごとの、記録の無いセルに住む人口の割合と、公式の契約数 (100 人あたり) の差。",
+ "unit": "H3 r4 セル。国は Natural Earth の国の面と、基地局の国番号 (mcc)。",
+ "time_alignment": "基地局の記録は 2026-10-06 の状態 (更新は 2025-04〜2026-10)、人口は 2023 年、契約数は WDI の各国の最新年。時点がずれる。",
+ "claim_type": "descriptive",
+ "datasets": [
+  "yuiseki/opencellid",
+  "yuiseki/kontur-population-2023-11-01-22km",
+  "yuiseki/natural-earth",
+  "yuiseki/worldbank-wdi"
+ ],
+ "source_versions": {
+  "yuiseki/opencellid": "82e4acdb5ea93250ea6128ce08c03a4ca8870c88",
+  "yuiseki/kontur-population-2023-11-01-22km": "2e7291f8c2d4b9c06bb4ff0e43be14e538e0600d",
+  "yuiseki/natural-earth": "efdd0668c57c9d42307e12eacbf66d8d151de5b9",
+  "yuiseki/worldbank-wdi": "d0b1ad8c98643db75c767c0ff96db800126f4954"
+ },
+ "joins": [
+  {
+   "left": "yuiseki/opencellid",
+   "right": "yuiseki/kontur-population-2023-11-01-22km",
+   "how": "基地局の座標を H3 r4 セルにして数え、人口のセルに結ぶ",
+   "why": "記録の密度を人口の格子にそろえる"
+  },
+  {
+   "left": "yuiseki/kontur-population-2023-11-01-22km",
+   "right": "yuiseki/natural-earth",
+   "how": "H3 r4 セルを国の面に割り当てる。中心が面に入らない沿岸のセル (pilot で 7,060 個、人口の 5.8%) の扱いを、最寄りの国、面積按分、除外で比べる",
+   "why": "国ごとの集計と国境の描画に要る。沿岸の扱いが沿岸の危険の量を直接変える"
+  },
+  {
+   "left": "yuiseki/natural-earth",
+   "right": "yuiseki/worldbank-wdi",
+   "how": "ISO_A3_EH を WDI の country_code に結び、IT.CEL.SETS.P2 の最新年を付ける",
+   "why": "公式の契約数を、記録の空白と比べる基準にする"
+  }
+ ],
+ "required_variables": [
+  {
+   "dataset": "yuiseki/opencellid",
+   "table": "cell_towers",
+   "column": "mcc",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cells.py"
+  },
+  {
+   "dataset": "yuiseki/opencellid",
+   "table": "cell_towers",
+   "column": "lat",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cells.py"
+  },
+  {
+   "dataset": "yuiseki/opencellid",
+   "table": "cell_towers",
+   "column": "lon",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cells.py"
+  },
+  {
+   "dataset": "yuiseki/opencellid",
+   "table": "cell_towers",
+   "column": "radio",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cells.py"
+  },
+  {
+   "dataset": "yuiseki/opencellid",
+   "table": "cell_towers",
+   "column": "samples",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cells.py"
+  },
+  {
+   "dataset": "yuiseki/opencellid",
+   "table": "cell_towers",
+   "column": "updated",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cells.py"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "h3"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "population"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "ISO_A3_EH"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "geometry"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "country_code"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "indicator_code"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "value"
+  },
+  {
+   "dataset": "yuiseki/worldbank-wdi",
+   "table": "data",
+   "column": "year"
+  }
+ ],
+ "methodological_decisions": [
+  "記録の無さの範囲: そのセルだけか、周りの環まで含めるか (pilot で 35 億人と 23 億人)",
+  "国番号ごとの欠け (国全体が無い) を、セルの空白から分けて扱う",
+  "観測の少ない記録 (samples が 1) を数えるか",
+  "電波の方式 (GSM、LTE、NR) を分けるか",
+  "公式の契約数との比べ方 (契約数は 1 人が複数持つので 100 を超える)"
+ ],
+ "failure_modes": [
+  "国全体の記録が無い (インド) と、国の空白がそのまま世界の数を支配する",
+  "有志の記録は都市と道路に偏り、人の少ない所の空白を電波の空白と区別できない",
+  "H3 r4 は粗く、セルの中の一部の町だけ記録がある場合を見分けられない",
+  "契約数は電波の届く範囲を表さない"
+ ],
+ "robustness_checks": [
+  "国番号の欠けを除いた場合と含めた場合",
+  "範囲をセルだけと 1 環で比べる",
+  "samples が 2 以上の記録だけにした場合",
+  "方式ごと (LTE 以上) にした場合"
+ ],
+ "simplest_solver": {
+  "method": "基地局の点を世界地図に描き、点の無い所を圏外とみなす",
+  "why_insufficient": "pilot ではインドの人口の 98% が記録の無いセルに住んでいたが、インドの国番号の記録が 0 件だったためで、圏外ではない。点の有無だけでは、記録の欠けと電波の空白を区別できない"
+ },
+ "unknowns": [
+  "本当の電波の届く範囲",
+  "記録の集まり方 (誰がどこで集めたか)",
+  "事業者ごとの基地局の数"
+ ],
+ "novelty": {
+  "closest_task": "M2",
+  "difference_dimension": "crowdsourced_observation_process_audit",
+  "substantive_difference": "中難易度 2 は西多摩の食料品店の記録の少なさ。この候補は全球の有志の記録の欠けを、人口の格子と公式の統計の両方と照らして、空白の意味を分ける"
+ },
+ "prediction": {
+  "main_result": "インドなど国単位の欠け、アフリカのサヘルとサハラ以南の内陸、北朝鮮で記録の空白が大きく、契約数の多いアフリカ西部の国 (ブルキナファソ、マリなど) にも大きな空白が残る",
+  "difficulty": "記録の欠けと電波の空白を分ける基準が無い",
+  "fragile_assumption": "公式の契約数が電波の普及の目安になること",
+  "needed_capabilities": [
+   "格子への集計",
+   "国の単位の欠けの検出",
+   "公式の統計との照合"
+  ]
+ },
+ "rubric": [
+  "国全体の記録の欠けを見つけ、セルの空白から分けた",
+  "記録の空白を電波の空白と書かなかった",
+  "範囲と記録の質の条件を変えたときの人数を示した",
+  "公式の契約数との比べ方の限界 (1 人が複数を持つ) を書いた",
+  "現地の確認が要る地域を、根拠とともに挙げた"
+ ]
+}

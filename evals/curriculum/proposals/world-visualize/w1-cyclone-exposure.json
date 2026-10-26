@@ -1,0 +1,147 @@
+{
+ "mode": "exploration",
+ "social_problem": "熱帯低気圧の強い風が繰り返し通る場所に住む人は、家屋と生計の被害を何度も受ける。早期警報や避難所への投資を配る国際機関と各国の防災当局が、繰り返しさらされる人の多い場所を取り違えると、備えが手薄な所に残る。",
+ "working_hypothesis": "風速の出典 (米国機関の 1 分平均と各地域の気象機関の 10 分平均) と、強風の届く範囲の決め方で、繰り返しさらされる人口の大きさとセルの順位が変わる。国の上位はほとんど変わらないが、セルの上位 10% の重なりは 0.8 を下回ると予想する。0.9 以上なら、この判断は結論に効かないとして仮説を退ける。",
+ "question": "1980〜2025 年に、ハリケーン級 (64 ノット以上) の風が何度も通った場所に住む人は、世界のどこに何人いるか。その人数と場所の順位は、風速の出典と強風の範囲の決め方でどれだけ変わるか？",
+ "decision_use": "早期警報、避難所、建物の補強への投資を配る国際機関と各国の防災当局が、地図の上で繰り返し被害を受けやすい人の多い場所を選ぶ。単年の被害の予測には使わない。",
+ "target_quantity": "H3 r4 セルごとの、1980〜2025 年に 64 ノット以上の風が通った嵐の数と、そのセルの人口 (2023 年の推計)。世界と国ごとの、N 回以上さらされた人口。",
+ "unit": "Kontur の H3 r4 セル (平均の辺 約 26 km)。国の集計は Natural Earth の国の面。",
+ "time_alignment": "嵐は 1980〜2025 年、人口は 2023-11-01 版の 1 時点。過去の嵐に今の人口を当てるので、人口の移動による変化は含まない (分けられない)。",
+ "claim_type": "descriptive",
+ "datasets": [
+  "yuiseki/ibtracs-v04r01",
+  "yuiseki/kontur-population-2023-11-01-22km",
+  "yuiseki/natural-earth"
+ ],
+ "source_versions": {
+  "yuiseki/ibtracs-v04r01": "7492b1ac35fbbcc304c752d3ff7d381c73a24510",
+  "yuiseki/kontur-population-2023-11-01-22km": "2e7291f8c2d4b9c06bb4ff0e43be14e538e0600d",
+  "yuiseki/natural-earth": "efdd0668c57c9d42307e12eacbf66d8d151de5b9"
+ },
+ "joins": [
+  {
+   "left": "yuiseki/ibtracs-v04r01",
+   "right": "yuiseki/kontur-population-2023-11-01-22km",
+   "how": "経路の点 (3 時間ごと) を補間し、強風の範囲 (一定の半径、または USA_R64 の四方向の半径) の円を H3 r4 セルに落とす",
+   "why": "嵐の通過を人口の格子と同じ単位にそろえる"
+  },
+  {
+   "left": "yuiseki/kontur-population-2023-11-01-22km",
+   "right": "yuiseki/natural-earth",
+   "how": "H3 r4 セルを国の面に割り当てる。中心が面に入らない沿岸のセル (pilot で 7,060 個、人口の 5.8%) の扱いを、最寄りの国、面積按分、除外で比べる",
+   "why": "国ごとの集計と国境の描画に要る。沿岸の扱いが沿岸の危険の量を直接変える"
+  }
+ ],
+ "required_variables": [
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "SID"
+  },
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "ISO_TIME"
+  },
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "WMO_WIND"
+  },
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "USA_WIND",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cyclone.py"
+  },
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "LAT",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cyclone.py"
+  },
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "LON",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cyclone.py"
+  },
+  {
+   "dataset": "yuiseki/ibtracs-v04r01",
+   "table": "track_points_since1980",
+   "column": "USA_R64_NE",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_cyclone.py"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "h3"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "population"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "ISO_A3_EH"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "geometry"
+  }
+ ],
+ "methodological_decisions": [
+  "風速の出典: USA_WIND (1 分平均) と WMO_WIND (各機関の 10 分平均)、変換係数を掛けるか",
+  "強風の範囲: 一定の半径か、USA_R64 の四方向の半径か。半径の無い海域と年代の扱い",
+  "3 時間ごとの点の間の補間 (直線か大円か)",
+  "繰り返しの数え方: 嵐の数か、64 ノット以上だった時間か",
+  "沿岸のセルの国への割り当て",
+  "同じ嵐が複数の機関で記録された行の重複"
+ ],
+ "failure_modes": [
+  "WMO_WIND は欠けが多く (pilot で 30.6 万点のうち 12.0 万点だけ値がある)、10 分平均の人数が少ないのは平均の違いだけでなく欠けのせい",
+  "1980 年代は衛星による強さの推定が粗く、年代の比較が歪む",
+  "H3 r4 は粗く、沿岸の細い人口の帯をセルの中心で決めると海に落ちる",
+  "今の人口を過去の嵐に当てるので、人口の増えた沿岸の都市を過大に見せる"
+ ],
+ "robustness_checks": [
+  "USA と WMO の風で、セルの上位 10% の重なりと世界の人数を比べる",
+  "半径を 1 環と 2 環 (約 45 km と 90 km)、USA_R64 の半径で比べる",
+  "1980〜2002 年と 2003〜2025 年に分けて、同じ場所が上位に残るか",
+  "沿岸のセルの割り当てを 3 通りに変える"
+ ],
+ "simplest_solver": {
+  "method": "国ごとに、64 ノット以上の経路の点が国の面から 100 km 以内に入った嵐を数え、国の人口を掛ける",
+  "why_insufficient": "pilot では国の上位 10 か国は風の出典を変えてもほぼ同じ (9/10) だが、さらされた人口は 10.8 億人と 7.0 億人で、バングラデシュでは 3 倍違う。国の数では、国の中でどこに繰り返しさらされる人がいるかも、出典で人数がどれだけ動くかも分からない"
+ },
+ "unknowns": [
+  "実際の被害、建物の強さ、警報の効果",
+  "過去の各時点の人口",
+  "強風の範囲の記録が無い機関と年代での本当の範囲"
+ ],
+ "novelty": {
+  "closest_task": 44,
+  "difference_dimension": "hazard_exposure_measurement",
+  "substantive_difference": "既存の課題は日本の都市の距離と施設か、国の単位の難民の予測。この候補は全球の格子で、自然の危険の経路と人口を重ね、測り方の判断 (風速の平均時間、範囲) がさらされた人口をどれだけ動かすかを問う"
+ },
+ "prediction": {
+  "main_result": "国の上位は安定し、人数とセルの上位は風の出典と範囲で大きく動く",
+  "difficulty": "機関ごとの風の定義と欠け、強風の範囲の欠け",
+  "fragile_assumption": "2023 年の人口を 1980 年からの嵐に当ててよいこと",
+  "needed_capabilities": [
+   "経路の補間と緩衝",
+   "H3 の格子への集計",
+   "複数の設定の結果の比較"
+  ]
+ },
+ "rubric": [
+  "風速の平均時間の違いと欠けを区別して扱った",
+  "強風の範囲の決め方を複数比べ、人数とセルの順位の変わり方を示した",
+  "人口の時点のずれ (今の人口と過去の嵐) を書いた",
+  "沿岸のセルの国への割り当てを確かめた",
+  "国の集計だけでなく、セルの地図の上位の安定性を示した"
+ ]
+}

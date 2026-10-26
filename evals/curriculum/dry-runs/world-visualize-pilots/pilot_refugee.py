@@ -1,0 +1,15 @@
+# Pilot H: refugees hosted per capita and per GDP in 2025, and the share hosted in a bordering country.
+import duckdb
+c=duckdb.connect('pilot.duckdb'); c.sql('load spatial')
+print(c.sql("describe 'data/unhcr.parquet'").fetchall())
+c.sql("""create or replace table rf as select "Country of origin (ISO)" o, "Country of asylum (ISO)" a, "Refugees under UNHCR's mandate" r from 'data/unhcr.parquet' where Year=2025 and "Refugees under UNHCR's mandate">0""")
+print(c.sql("select count(*), sum(r)/1e6, count(distinct a), count(distinct o) from rf").fetchall())
+c.sql("set geometry_always_xy=true")
+c.sql("create or replace table ne as select ISO_A3_EH iso3, ST_SetCRS(geometry,'OGC:CRS84') g from 'data/ne0.parquet' where ISO_A3_EH<>'-99'")
+c.sql("create or replace table nb as select a.iso3 x, b.iso3 y from ne a, ne b where a.iso3<>b.iso3 and ST_Intersects(a.g, ST_Buffer(b.g,0.01))")
+print('neighbour share', c.sql("select round(sum(r) filter (where exists (select 1 from nb where x=o and y=a))/sum(r),3), round(sum(r) filter (where o not in (select iso3 from ne) or a not in (select iso3 from ne))/sum(r),3) unmatched from rf").fetchall())
+c.sql("create or replace table wd as select country_code iso3, indicator_code ind, arg_max(value,year) v from 'data/wdi.parquet' where indicator_code in ('SP.POP.TOTL','NY.GDP.MKTP.PP.CD') and value is not null group by all")
+c.sql("create or replace table host as select a iso3, sum(r) r, any_value(p.v) pop, any_value(g.v) gdp from rf left join wd p on p.iso3=a and p.ind='SP.POP.TOTL' left join wd g on g.iso3=a and g.ind='NY.GDP.MKTP.PP.CD' group by 1")
+print('by count', c.sql("select list(iso3 order by r desc)[1:8] from host").fetchall())
+print('per 1000 pop', c.sql("select list(iso3 order by r/pop desc)[1:8] from host where pop>1e6").fetchall())
+print('per GDP', c.sql("select list(iso3 order by r/gdp desc)[1:8] from host where pop>1e6").fetchall())

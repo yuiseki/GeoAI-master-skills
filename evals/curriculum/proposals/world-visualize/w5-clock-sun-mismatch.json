@@ -1,0 +1,118 @@
+{
+ "mode": "exploration",
+ "social_problem": "法定の時刻が太陽の動きより大きく進んでいる場所では、人は暗いうちに起きて学校や仕事に行く。夏時間や時刻帯の変更を議論する政府と議会が、国の時刻帯を代表の地点で判断すると、多くの人が住む場所のずれを見誤る。",
+ "working_hypothesis": "太陽の時刻と法定の時刻のずれは、時刻帯の面の平均で見るか、人口で重みづけるかで大きく変わる (pilot では Asia/Shanghai で 0.85 時間と 0.41 時間)。夏時間で、1 時間以上進んだ時刻で暮らす人は冬の 2 倍以上になる (pilot で 4.6 億人と 10.9 億人)。面の平均と人口の重みで、ずれの大きい時刻帯の上位が変わらないなら、人口の重みの判断は効かないとして退ける。",
+ "question": "法定の時刻が太陽の時刻より大きく進んでいる (または遅れている) 場所に住む人は、世界のどこに何人いるか。その答えは、季節 (夏時間) と、人口で重みづけるかどうかでどう変わるか？",
+ "decision_use": "夏時間や時刻帯の変更を議論する政府と議会が、ずれの大きい人が住む地域と人数を、代表の地点ではなく人口の分布で確かめる。健康への影響の大きさは推定しない。",
+ "target_quantity": "H3 r4 セルごとの、法定の UTC からの差 (1 月と 7 月) と、セルの中心の経度から求めた平均の太陽の時刻との差 (時間)。そのセルの人口。時刻帯ごと、国ごとの人口で重みづけた平均と、ずれが 1 時間以上の人口。",
+ "unit": "H3 r4 セル。時刻帯は timezone-boundary-builder の tzid の面。",
+ "time_alignment": "境界は 2026d、UTC からの差は IANA の時刻帯のデータベース (tzdata の版を固定。pilot は 2025b) の 2025 年 1 月 15 日と 7 月 15 日、人口は 2023 年。",
+ "claim_type": "descriptive",
+ "datasets": [
+  "yuiseki/timezone-boundary-builder-2026d",
+  "yuiseki/kontur-population-2023-11-01-22km",
+  "yuiseki/natural-earth"
+ ],
+ "source_versions": {
+  "yuiseki/timezone-boundary-builder-2026d": "cc26444397089df7b2e8bc02d40f4ed9d9936aae",
+  "yuiseki/kontur-population-2023-11-01-22km": "2e7291f8c2d4b9c06bb4ff0e43be14e538e0600d",
+  "yuiseki/natural-earth": "efdd0668c57c9d42307e12eacbf66d8d151de5b9"
+ },
+ "joins": [
+  {
+   "left": "yuiseki/timezone-boundary-builder-2026d",
+   "right": "yuiseki/kontur-population-2023-11-01-22km",
+   "how": "H3 r4 セルの中心を tzid の面に入れる。面の重なりと隙間 (pilot で重複 630 行、未割り当て 375 セル) を数える",
+   "why": "人口のセルごとに法定の時刻を付ける"
+  },
+  {
+   "left": "yuiseki/kontur-population-2023-11-01-22km",
+   "right": "yuiseki/natural-earth",
+   "how": "H3 r4 セルを国の面に割り当てる。中心が面に入らない沿岸のセル (pilot で 7,060 個、人口の 5.8%) の扱いを、最寄りの国、面積按分、除外で比べる",
+   "why": "国ごとの集計と国境の描画に要る。沿岸の扱いが沿岸の危険の量を直接変える"
+  }
+ ],
+ "required_variables": [
+  {
+   "dataset": "yuiseki/timezone-boundary-builder-2026d",
+   "table": "timezones",
+   "column": "tzid"
+  },
+  {
+   "dataset": "yuiseki/timezone-boundary-builder-2026d",
+   "table": "timezones",
+   "column": "geometry",
+   "evidence_file": "evals/curriculum/dry-runs/world-visualize-pilots/pilot_tz.py"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "h3"
+  },
+  {
+   "dataset": "yuiseki/kontur-population-2023-11-01-22km",
+   "table": "population_r4",
+   "column": "population"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "ISO_A3_EH"
+  },
+  {
+   "dataset": "yuiseki/natural-earth",
+   "table": "ne_10m_admin_0_countries",
+   "column": "geometry"
+  }
+ ],
+ "methodological_decisions": [
+  "平均の太陽の時刻か、均時差を入れた真の太陽の時刻か",
+  "時刻帯の面の平均か、人口の重みか",
+  "夏時間の扱い (1 月と 7 月、年の平均)",
+  "日付変更線の近くの経度の折り返し (pilot でニュージーランドの幅が 24 時間になった)",
+  "tzdata の版の固定"
+ ],
+ "failure_modes": [
+  "経度の折り返しで、日付変更線の近くのずれが 24 時間ずれる",
+  "境界の面が重なるセルと、海に落ちるセル",
+  "時刻帯の面と国の境が違う地域 (係争地など)",
+  "人の暮らしの時刻 (始業の時刻) は国で違い、法定の時刻だけでは決まらない"
+ ],
+ "robustness_checks": [
+  "人口の重みと面の平均で、時刻帯の上位を比べる",
+  "1 月と 7 月で比べる",
+  "均時差を入れた場合 (日の出の時刻)",
+  "tzdata の版を変えた場合の差"
+ ],
+ "simplest_solver": {
+  "method": "国ごとに、首都の経度と法定の時刻の差を出す",
+  "why_insufficient": "首都 1 点では、国の中の人口の偏りが入らない。pilot では中国の時刻帯で面の平均と人口の重みが 0.85 時間と 0.41 時間で、2 倍違った。夏時間の有無でずれる人の数も 2 倍以上変わる"
+ },
+ "unknowns": [
+  "実際の生活の時刻 (学校や仕事の始まる時刻)",
+  "ずれが健康や事故に与える影響",
+  "時刻帯の過去の変更"
+ ],
+ "novelty": {
+  "closest_task": 30,
+  "difference_dimension": "population_weighted_exposure_to_institutional_boundary",
+  "substantive_difference": "既存の課題に、制度の境界 (時刻帯) と自然の量 (太陽の時刻) のずれを人口で重みづけるものは無い。測り方の判断 (重み、季節、経度の折り返し) が人数を変える"
+ },
+ "prediction": {
+  "main_result": "スペイン、モロッコ、チリ、アルゼンチン、中国西部などでずれが大きく、夏時間の国で夏の人数が大きく増える",
+  "difficulty": "経度の折り返しと境界の重なり",
+  "fragile_assumption": "平均の太陽の時刻で暮らしの不便を近似できること",
+  "needed_capabilities": [
+   "面と点の結合",
+   "時刻帯のデータベースの扱い",
+   "人口の重みの集計"
+  ]
+ },
+ "rubric": [
+  "人口の重みと面の平均の違いを示した",
+  "夏時間の季節の違いを示した",
+  "日付変更線の近くの経度の折り返しを処理した",
+  "tzdata の版を書いた",
+  "健康への影響を主張しなかった"
+ ]
+}
