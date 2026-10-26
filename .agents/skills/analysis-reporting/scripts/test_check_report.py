@@ -85,6 +85,33 @@ def test_csv_rows_are_read_as_separate_numbers_and_thousands_need_groups_of_thre
     assert [n[1] for n in numbers_in("1,168,211 セル、12,345 件")] == [1168211.0, 12345.0]
 
 
+def test_figure_and_table_references_and_row_numbers_are_not_results():
+    # a figure-led conclusion: the points table numbers its rows and links to "### 図 N: ..." headings
+    md = """## 問い
+件数は減ったか。
+
+## 結論
+
+### 要点
+
+| # | 要点 | 数字 | 図 |
+|---:|---|---|---|
+| 3 | 減った | 0.445 | [図 4](#図-4-件数の推移)、[表 2](#表-2-上位)、[別の報告](../grid-100m/report.md) |
+
+### 図 4: 件数の推移
+
+表 2 と同じ向き。
+
+## データ
+X (2026-10-01)
+
+## 方法
+数えた。
+"""
+    assert check(md, "standard", "MAE 0.4446") == []
+    assert any("7" in p for p in check(md.replace("0.445", "0.445、7 件"), "standard", "MAE 0.4446"))
+
+
 def test_unknown_level_stops():
     with pytest.raises(ValueError):
         check(SIMPLE, "long")

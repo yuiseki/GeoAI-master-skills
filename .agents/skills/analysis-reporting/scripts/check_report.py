@@ -15,7 +15,8 @@ reads the answer and, optionally, the outputs it was written from.
                  and a length budget: simple at most 8 non-empty lines, standard at most 40, full no limit
     traceable    every number in 結論 must appear in the evidence (tool outputs, logs, the commands run), up to
                  rounding at the conclusion's own precision (82% matches 0.8183; 0.45 does not match 0.4446).
-                 Dates are skipped, and so is a 1 that names a unit (1 人あたり). A distance in km also matches the
+                 Dates are skipped, and so are a 1 that names a unit (1 人あたり), figure and table numbers (図 1,
+                 表 2), link targets (#図-1-..., ../other/report.md) and the row number in a table's first cell. A distance in km also matches the
                  evidence in metres (1 km against --catchment 1000). A number the evidence does not hold was computed or remembered somewhere
                  else: find where, or take it out.
 
@@ -53,6 +54,9 @@ def sections(text):
     return out
 
 
+# references, not results: a link target (#図-1-件数の推移, ../grid-100m/report.md), a figure or table number (図 1,
+# 表 2) and the row number in the first cell of a table (| 3 | ...)
+_REFERENCE = re.compile(r"\]\([^)]*\)|[図表]\s*\d+|^\|\s*\d+\s*(?=\|)")
 _PER_UNIT = re.compile(r"\s*(?:[^\s\d]{1,3}\s*)?あたり|\s*[人校件台]に")
 _KM = re.compile(r"\s*km")
 
@@ -122,7 +126,7 @@ def check(text, level, evidence=None):
         problems.append(f"{len(lines)} non-empty lines for a {level} answer (at most {limit}); shorten it or "
                         "choose the level the analysis needs")
     if evidence is not None and "結論" in s:
-        for t in traceable(" ".join(s["結論"]), evidence):
+        for t in traceable(" ".join(_REFERENCE.sub(" ", x) for x in s["結論"]), evidence):
             problems.append(f"結論: {t} does not appear in the evidence")
     return problems
 
