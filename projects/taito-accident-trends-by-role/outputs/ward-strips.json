@@ -1,0 +1,12 @@
+{
+ "question": "台東区の事故の構成は、23区の中でどこにあるか",
+ "inputs": [
+  "outputs/wards.csv"
+ ],
+ "n": 144716,
+ "notes": "各行で横軸の範囲は違う。0から始まらない (割合の位置を比べる図)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ]
+}

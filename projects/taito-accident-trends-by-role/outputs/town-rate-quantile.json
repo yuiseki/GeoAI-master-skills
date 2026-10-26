@@ -1,0 +1,32 @@
+{
+  "value": "per_road_km_year",
+  "kind": "rate",
+  "unit": "件/道路 km/年",
+  "crs": "EPSG:4612 (JGD2000 経度・緯度)",
+  "source": "警察庁 交通事故オープンデータ 2019-2025 (npa-traffic-accidents@389500a), 国勢調査2020小地域 (estat-boundary-2020@823195c), OSM 2026-08-31 (osm-tokyo23-src@38f7a5f)",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    0.35308859223163275,
+    1.1917010906543009,
+    1.8292521105978317,
+    2.2495401772723156,
+    2.80371086764374,
+    8.358840779427425
+  ],
+  "units_per_class": [
+    22,
+    21,
+    22,
+    21,
+    22
+  ],
+  "nodata_units": 0,
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "made": "2026-10-26"
+}

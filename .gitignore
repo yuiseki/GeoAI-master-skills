@@ -14,5 +14,6 @@ node_modules/
 !/projects/japan-climate-analysis/
 !/projects/elderly-transit-100m-allocation/
 !/projects/record-vs-occurrence/
+!/projects/taito-accident-trends-by-role/
 /artifacts/*
 !/artifacts/sample-project/

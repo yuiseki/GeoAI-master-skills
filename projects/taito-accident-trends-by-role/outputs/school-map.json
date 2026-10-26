@@ -1,0 +1,16 @@
+{
+ "question": "学校の周りで、若い歩行者と自転車の事故はどこで起きているか",
+ "inputs": [
+  "artifacts/taito-accident-trends-by-role/points.csv",
+  "outputs/schools.csv"
+ ],
+ "n": {
+  "young_ped_or_bike": 415,
+  "weekday_7_8_or_14_17": 146
+ },
+ "notes": "0〜24歳は年齢層の最小の区分で、小学生だけを示すものではない。円は直線距離",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ]
+}

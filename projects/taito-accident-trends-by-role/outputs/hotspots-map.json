@@ -1,0 +1,13 @@
+{
+ "question": "台東区で人身事故が集まる地点はどこか",
+ "inputs": [
+  "artifacts/taito-accident-trends-by-role/points.csv",
+  "outputs/hotspots.csv"
+ ],
+ "n": 4517,
+ "notes": "位置の精度は不明。円の濃さは件数に比例",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ]
+}

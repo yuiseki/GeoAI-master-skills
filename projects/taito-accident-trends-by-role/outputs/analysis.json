@@ -1,0 +1,130 @@
+{
+ "run_date": "2026-10-26",
+ "commit": "05ec369cdce274d9e939eb0b8906a38f5809394a",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_taito": 4517,
+  "taito_without_point": 0,
+  "coded_and_inside": 4464,
+  "coded_outside": 53,
+  "other_code_inside": 12,
+  "taito_rank_of_23": {
+   "per_1000_residents_per_year": 4,
+   "share_ped": 8,
+   "share_bike": 12,
+   "share_escooter": 7,
+   "share_old_ped": 4,
+   "share_young_pb": 19,
+   "share_strict": 21,
+   "share_broad": 20,
+   "share_night": 8,
+   "share_intersection": 4
+  },
+  "national_routes": {
+   "0004": 626,
+   "0006": 211
+  },
+  "taito_points": 4517,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 12,
+   "50m": 9
+  },
+  "hotspot_counts": {
+   "20m": [
+    27,
+    27,
+    22,
+    22,
+    19,
+    18,
+    18,
+    18,
+    18,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16
+   ],
+   "30m": [
+    39,
+    39,
+    34,
+    30,
+    30,
+    25,
+    25,
+    25,
+    25,
+    24,
+    24,
+    23,
+    21,
+    21,
+    21
+   ],
+   "50m": [
+    63,
+    54,
+    53,
+    45,
+    43,
+    41,
+    40,
+    40,
+    39,
+    39,
+    38,
+    36,
+    35,
+    34,
+    33
+   ]
+  },
+  "points_in_towns": 4464,
+  "points_outside_towns": 53
+ },
+ "files": {
+  "yearly": "projects/taito-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/taito-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/taito-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/taito-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/taito-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/taito-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/taito-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/taito-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/taito-accident-trends-by-role/outputs/towns.csv"
+ }
+}
