@@ -41,11 +41,13 @@ M="B_pop B_hist B_env M_full M_logit M_full_shufhist"
 $R $A/eval/b1_dev_2023_to_2024 --train 2023 --test 2024 --boot 500
 $R $A/eval/b2_confirm_2023-2024_to_2025 --train 2023 2024 --test 2025 --models $M --boot 1000
 $R $A/eval/b3_confirm_2023-2025_to_2026 --train 2023 2024 2025 --test 2026 --models $M --boot 1000
-# 3. 地図 (PNG は projects/.../outputs/ に出る)
-$E uvx --from 'duckdb>=1.5.5' --with numpy --with pandas --with pyarrow --with matplotlib --with shapely --with pyproj --with pillow \
-  python $P/render_maps.py $A $A/eval/b3_confirm_2023-2025_to_2026_scores.npz B_env projects/akita-bear-risk-grid-100m/outputs $A/web
-# 4. テスト
-uvx --with numpy --with scipy --with scikit-learn --with shapely --with affine --with pyproj --with pytest python -m pytest -q $P
+# 3. 地図 (PNG は projects/.../outputs/ に出る。背景の市町村界と OSM の地名は Hugging Face から読む)
+$E uvx --from 'duckdb>=1.5.5' --with numpy --with pandas --with pyarrow --with matplotlib --with shapely --with pyproj \
+  python $P/render_maps_v2.py $A $A/eval/b3_confirm_2023-2025_to_2026_scores.npz B_env projects/akita-bear-risk-grid-100m/outputs
+# 4. 地図でない図 (モデルごとの当たり、森の縁と建物ごとの通報の割合)
+uvx --with numpy --with pandas --with matplotlib python $P/plot_figures.py projects/akita-bear-risk-grid-100m/outputs
+# 5. テスト
+uvx --with numpy --with scipy --with scikit-learn --with pandas --with matplotlib --with shapely --with affine --with pyproj --with pytest python -m pytest -q $P
 ```
 
 標高タイルは国土地理院の公開サーバーから取る。`raw/gsi_dem12/` にあれば取り直さない。

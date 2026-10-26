@@ -1,0 +1,63 @@
+{
+ "cells_drawn": 1168211,
+ "cells_expected": 1168211,
+ "cells_per_class": {
+  "上位 1%": 11682,
+  "上位 1〜5%": 46728,
+  "上位 5〜10%": 58411,
+  "上位 10〜25%": 175231,
+  "上位 25〜50%": 292053,
+  "下位 50%": 584106
+ },
+ "akita": {
+  "area_names": 24,
+  "text_overlaps": []
+ },
+ "zooms": [
+  {
+   "municipality": "秋田市",
+   "window_epsg6678": [
+    -67911.9496855346,
+    -57911.94968553459,
+    -34749.056603773584,
+    -24749.056603773584
+   ],
+   "report_cells": 312,
+   "place_names": 161,
+   "names_drawn": 80,
+   "names_hidden_to_avoid_overlap": 81,
+   "text_overlaps": [],
+   "png": "projects/akita-bear-risk-grid-100m/outputs/risk-map-zoom-1.png"
+  },
+  {
+   "municipality": "由利本荘市",
+   "window_epsg6678": [
+    -74210.39603960396,
+    -64210.39603960396,
+    -73978.71287128713,
+    -63978.712871287134
+   ],
+   "report_cells": 142,
+   "place_names": 99,
+   "names_drawn": 51,
+   "names_hidden_to_avoid_overlap": 48,
+   "text_overlaps": [],
+   "png": "projects/akita-bear-risk-grid-100m/outputs/risk-map-zoom-2.png"
+  },
+  {
+   "municipality": "大館市",
+   "window_epsg6678": [
+    -27734.444444444445,
+    -17734.444444444445,
+    24697.777777777777,
+    34697.77777777778
+   ],
+   "report_cells": 90,
+   "place_names": 78,
+   "names_drawn": 49,
+   "names_hidden_to_avoid_overlap": 30,
+   "text_overlaps": [],
+   "png": "projects/akita-bear-risk-grid-100m/outputs/risk-map-zoom-3.png"
+  }
+ ]
+}

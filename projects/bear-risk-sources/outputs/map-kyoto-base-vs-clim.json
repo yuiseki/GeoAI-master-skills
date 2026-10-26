@@ -1,4 +1,24 @@
 {
- "base": 0.26334026334026334,
- "clim": 0.33444213444213444
+ "target": "kyoto",
+ "train": [
+  "akita",
+  "gifu",
+  "ishikawa"
+ ],
+ "crs": "EPSG:6674",
+ "cells_expected": 462813,
+ "report_cells": 7215,
+ "panels": {
+  "base": {
+   "capture5": 0.26334026334026334,
+   "cells_drawn": 462813
+  },
+  "clim": {
+   "capture5": 0.33444213444213444,
+   "cells_drawn": 462813
+  }
+ },
+ "area_names_drawn": 18,
+ "area_names_hidden": 0,
+ "text_overlaps": []
 }

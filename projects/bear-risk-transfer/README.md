@@ -20,7 +20,7 @@ $P/score_all.sh gifu kyoto ishikawa nagaoka
 # 探索 (結果を見た後)
 uvx --with numpy --with scipy --with scikit-learn --with pandas --with pyarrow python $P/explore.py artifacts/akita-bear-risk-grid-100m $A $A/gifu:2019:2020 $A/kyoto:2013:2014 $A/ishikawa:2021:2022
 uvx --with numpy --with scipy --with scikit-learn --with pandas --with pyarrow python $P/explore_nobldg.py artifacts/akita-bear-risk-grid-100m $A gifu kyoto ishikawa
-uvx --with matplotlib --with numpy python $P/plot.py projects/bear-risk-transfer/outputs
+uvx --with matplotlib --with numpy --with pandas python $P/plot.py projects/bear-risk-transfer/outputs
 # テスト
 uvx --with numpy --with scipy --with scikit-learn --with pandas --with shapely --with affine --with pyproj --with pytest python -m pytest -q $P
 ```

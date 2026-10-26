@@ -32,7 +32,12 @@ $R $P/scripts/evaluate.py $A/akita_week.parquet $A/eval_b2 --adjacency $A/akita_
 $R $P/scripts/evaluate.py $A/gifu_month.parquet $A/gifu_b4 --period monthly --horizons 1 2 3 --origin-from 24 \
    --models naive mean_short muni_mean seasonal_naive seasonal3
 uvx --with numpy --with pandas --with pyarrow --with scipy --with scikit-learn python $P/scripts/analyze_c1.py $A/gifu_b4_predictions.parquet $P/outputs/c1_gifu_b4.json
-# 4. テスト
+# 4. 図と、報告が引くスコアの写し
+uvx --with matplotlib --with pandas --with numpy --with pyarrow python $P/scripts/plot.py $A $P/outputs
+uvx --with pandas --with matplotlib python $P/scripts/plot_season.py $P/outputs/dev_b2_by_season.csv $P/outputs/mae-by-season.png
+cp $A/eval_v1_scores.json $P/outputs/scores_akita_b1.json; cp $A/eval_b2_scores.json $P/outputs/scores_akita_b2.json
+cp $A/gifu_b4_scores.json $P/outputs/scores_gifu_b4.json; cp $A/gifu_models_scores.json $P/outputs/scores_gifu_models.json
+# 5. テスト
 uvx --with 'duckdb>=1.5.5' --with numpy --with pandas --with scikit-learn --with pyarrow --with scipy --with matplotlib --with pytest python -m pytest -q $P/scripts
 ```
 

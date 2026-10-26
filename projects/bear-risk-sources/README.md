@@ -20,7 +20,8 @@ for r in akita gifu kyoto ishikawa; do uvx --with numpy --with pandas --with pya
 uvx --with numpy --with scipy --with scikit-learn --with pandas python $P/run_matrix.py projects/bear-risk-sources/outputs/matrix_a.csv base bldg_none
 # (同じように matrix_b〜f。設定の名前は run_matrix.py の VARIANTS)
 uvx --with pandas --with matplotlib python $P/summarize.py projects/bear-risk-sources/outputs projects/bear-risk-sources/outputs/matrix_*.csv
-uvx --with numpy --with scipy --with scikit-learn --with pandas --with pyarrow --with matplotlib python $P/map_compare.py gifu projects/bear-risk-sources/outputs/map-gifu-base-vs-clim.png
+# 地図 (岐阜と京都。予測は artifacts の map_scores.npz に残し、2 回目からは学習しない)
+for t in gifu kyoto; do uvx --from 'duckdb>=1.5.5' --with numpy --with scipy --with scikit-learn --with pandas --with pyarrow --with matplotlib --with shapely --with pyproj python $P/map_compare.py $t projects/bear-risk-sources/outputs/map-$t-base-vs-clim.png; done
 # テスト
 uvx --with numpy --with scipy --with scikit-learn --with pandas --with pytest python -m pytest -q $P
 ```
