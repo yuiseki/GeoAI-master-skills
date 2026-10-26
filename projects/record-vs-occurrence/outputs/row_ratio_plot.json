@@ -1,0 +1,8 @@
+{
+  "question": "西東の記録比は行 (北/南) で変わるか",
+  "source": "data/units.csv (2026-10-25); outputs/row_rates.csv",
+  "n": 100,
+  "unit": "west observed / east observed (same population within row)",
+  "interval": "conditional binomial exact 95% CI for the ratio, independent Poisson",
+  "font": "Noto Sans CJK JP"
+}

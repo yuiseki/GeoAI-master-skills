@@ -1,0 +1,16 @@
+{
+  "question": "中心点と100m人口重みで、上位10のメッシュはどこで重なるか",
+  "source": "outputs/allocations-summary.json; artifacts/elderly-transit-100m-allocation/mesh-allocations.parquet",
+  "n_meshes": 1380,
+  "n_center_top10": 10,
+  "n_wpop_top10": 10,
+  "overlap": [
+    "53393610",
+    "53394207"
+  ],
+  "crs": "EPSG:6677",
+  "unit": "1km mesh",
+  "value": "target age65 by allocation",
+  "font": "Noto Sans CJK JP",
+  "renderer": "project make_figures.py"
+}

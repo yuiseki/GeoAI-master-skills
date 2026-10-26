@@ -1,0 +1,109 @@
+EVIDENCE: record-vs-occurrence analysis (2026-10-25)
+n_rows=100 missing=0 zero_observed=0 area=1.0 km2
+check n_rows: 100
+check n_cols: 12
+check missing: {'unit_id': 0, 'row': 0, 'col': 0, 'area_km2': 0, 'population': 0, 'survey_visits': 0, 'observed': 0, 'region': 0, 'north3': 0, 'east_north': 0, 'rate_pop1000': 0, 'rate_visit': 0}
+check n_zero_observed: 0
+check area_values: [1.0]
+check row_population_unique: {0: [1000], 1: [1400], 2: [1800], 3: [2200], 4: [2600], 5: [3000], 6: [3400], 7: [3800], 8: [4200], 9: [4600]}
+check col_visits_unique: {0: [20], 1: [20], 2: [20], 3: [20], 4: [20], 5: [4], 6: [4], 7: [4], 8: [4], 9: [4]}
+check population_west_east: {'west': 140000, 'east': 140000}
+
+GROUP TOTALS
+all: cells=100 population=280000 visits=1200 observed=855 rate_per_1000=3.053571 per_visit=0.712500 visits_per_1000=4.285714
+west: cells=50 population=140000 visits=1000 observed=604 rate_per_1000=4.314286 per_visit=0.604000 visits_per_1000=7.142857
+east: cells=50 population=140000 visits=200 observed=251 rate_per_1000=1.792857 per_visit=1.255000 visits_per_1000=1.428571
+west_north: cells=15 population=21000 visits=300 observed=90 rate_per_1000=4.285714 per_visit=0.300000 visits_per_1000=14.285714
+west_south: cells=35 population=119000 visits=700 observed=514 rate_per_1000=4.319328 per_visit=0.734286 visits_per_1000=5.882353
+east_north: cells=15 population=21000 visits=60 observed=55 rate_per_1000=2.619048 per_visit=0.916667 visits_per_1000=2.857143
+east_south: cells=35 population=119000 visits=140 observed=196 rate_per_1000=1.647059 per_visit=1.400000 visits_per_1000=1.176471
+north3: cells=30 population=42000 visits=360 observed=145 rate_per_1000=3.452381 per_visit=0.402778 visits_per_1000=8.571429
+south7: cells=70 population=238000 visits=840 observed=710 rate_per_1000=2.983193 per_visit=0.845238 visits_per_1000=3.529412
+
+WEST EAST
+observed west=604 east=251 ratio=2.406375
+population west=140000 east=140000
+visits west=1000 east=200 ratio=5.000000
+rate_per_1000 west=4.314286 east=1.792857 ratio_west_east=2.406375 ci95=(2.4063745019920324, 2.0735968310777104, 2.799202610057117)
+per_visit west=0.604000 east=1.255000 ratio_east_west=2.077815
+
+WITHIN EFFORT
+east north: observed=55 population=21000 rate_per_1000=2.619048
+east south: observed=196 population=119000 rate_per_1000=1.647059
+NE/ES ratio=1.590136 ci95=(1.156932, 2.154422)
+west north: observed=90 population=21000 rate_per_1000=4.285714
+west south: observed=514 population=119000 rate_per_1000=4.319328
+WN/WS ratio=0.992218 ci95=(0.784113, 1.243425)
+interaction (EN/ES)/(WN/WS)=1.602608
+
+DECOMPOSITION (record rate per person = visits per person x records per visit)
+east_north_vs_south: {'numerator': 'east_north', 'denominator': 'east_south', 'observed_per_1000': {'numerator': 2.619047619047619, 'denominator': 1.647058823529412, 'ratio': 1.5901360544217686}, 'visits_per_1000': {'numerator': 2.857142857142857, 'denominator': 1.176470588235294, 'ratio': 2.428571428571429}, 'observed_per_visit': {'numerator': 0.9166666666666666, 'denominator': 1.4, 'ratio': 0.6547619047619048}, 'product_of_ratios': 1.5901360544217689}
+west_north_vs_south: {'numerator': 'west_north', 'denominator': 'west_south', 'observed_per_1000': {'numerator': 4.285714285714286, 'denominator': 4.319327731092437, 'ratio': 0.9922178988326849}, 'visits_per_1000': {'numerator': 14.285714285714285, 'denominator': 5.88235294117647, 'ratio': 2.4285714285714284}, 'observed_per_visit': {'numerator': 0.3, 'denominator': 0.7342857142857143, 'ratio': 0.4085603112840467}, 'product_of_ratios': 0.9922178988326847}
+west_vs_east: {'numerator': 'west', 'denominator': 'east', 'observed_per_1000': {'numerator': 4.314285714285714, 'denominator': 1.792857142857143, 'ratio': 2.4063745019920315}, 'visits_per_1000': {'numerator': 7.142857142857142, 'denominator': 1.4285714285714286, 'ratio': 4.999999999999999}, 'observed_per_visit': {'numerator': 0.604, 'denominator': 1.255, 'ratio': 0.4812749003984064}, 'product_of_ratios': 2.4063745019920315}
+
+POISSON MODELS
+M1_region: term=C(region, Treatment('west'))[T.east] rr=0.415563 ci95=(0.358685,0.481460) p=1.38374e-31 dispersion=0.215385 df_resid=98.0 aic=405.313
+M2_log_visits: term=np.log(survey_visits) rr=1.725656 ci95=(1.574840,1.890916) p=1.38374e-31 dispersion=0.215385 df_resid=98.0 aic=405.313
+M3_east_north: term=north3 rr=1.590136 ci95=(1.179096,2.144468) p=0.00236864 dispersion=0.142680 df_resid=48.0 aic=182.384
+M4_west_north: term=north3 rr=0.992218 ci95=(0.793130,1.241280) p=0.94549 dispersion=0.049247 df_resid=48.0 aic=218.484
+M5_2x2: term=C(region, Treatment('west'))[T.east]:north3 rr=1.602608 ci95=(1.102963,2.328592) p=0.0133592 dispersion=0.095963 df_resid=96.0 aic=400.867
+M6_row_region: term=C(region, Treatment('west'))[T.east] rr=0.415563 ci95=(0.358685,0.481460) p=1.38374e-31 dispersion=0.189571 df_resid=89.0 aic=420.772
+M6b_row_region_ne: term=east_north rr=1.602608 ci95=(1.102963,2.328592) p=0.0133592 dispersion=0.103895 df_resid=88.0 aic=416.814
+LR test M6 vs M6b: LR=5.958317 df=1.0 p=0.014648
+NB M5 interaction: {'converged': False, 'coef': 0.4712554742195396, 'rr': 1.602004206174064, 'rr_lo': 1.1025430524215571, 'rr_hi': 2.327725408057919, 'alpha': 1.29987709411176e-08, 'aic': 402.8674565913585}
+
+DETECTION MODELS
+{'model': 'linear_in_visits', 'assumption': 'a visit records a constant fraction of events; no saturation', 'true_rate_west_per_1000_per_visit': 0.604, 'true_rate_east_per_1000_per_visit': 1.255, 'west_east_ratio': 0.4812749003984064, 'east_west_ratio': 2.077814569536424, 'detection_ratio_d4_over_d20': 0.2, 'implied_west_east_ratio': 0.4812749003984063, 'true_rate_west_per_1000': nan, 'true_rate_east_per_1000': nan, 'p_per_visit': nan, 'detection_after_20': nan, 'detection_after_4': nan}
+{'model': 'full_detection', 'assumption': 'both 20 and 4 visits record all events', 'true_rate_west_per_1000_per_visit': nan, 'true_rate_east_per_1000_per_visit': nan, 'west_east_ratio': 2.4063745019920315, 'east_west_ratio': 0.41556291390728484, 'detection_ratio_d4_over_d20': 1.0, 'implied_west_east_ratio': 2.4063745019920315, 'true_rate_west_per_1000': 4.314285714285714, 'true_rate_east_per_1000': 1.792857142857143, 'p_per_visit': nan, 'detection_after_20': nan, 'detection_after_4': nan}
+{'model': 'saturating_common_p', 'assumption': 'each visit detects with probability p, independently; p common to all cells', 'true_rate_west_per_1000_per_visit': nan, 'true_rate_east_per_1000_per_visit': nan, 'west_east_ratio': 1.0000000000000004, 'east_west_ratio': 0.9999999999999997, 'detection_ratio_d4_over_d20': 0.4155629139072849, 'implied_west_east_ratio': 1.0000000000000002, 'true_rate_west_per_1000': 4.763656534938994, 'true_rate_east_per_1000': 4.763656534938992, 'p_per_visit': 0.11134493327360435, 'detection_after_20': 0.9056668302264503, 'detection_after_4': 0.376361546998078}
+
+ROW PERMUTATION
+east_north_vs_south: {'observed': 1.5901360544217686, 'n_assignments': 120, 'p_one_sided': 0.008333333333333333, 'min': 0.85709526982012, 'max': 1.5901360544217686, 'mean': 1.0173304981408875, 'observed_rows': [0, 1, 2]}
+west_north_vs_south: {'observed': 0.9922178988326849, 'n_assignments': 120, 'p_one_sided': 0.875, 'min': 0.9787798408488066, 'max': 1.0177383592017737, 'mean': 0.999882933882268, 'observed_rows': [0, 1, 2]}
+interaction: {'observed': 1.6026077097505669, 'n_assignments': 120, 'p_one_sided': 0.008333333333333333, 'min': 0.8528998595223762, 'max': 1.6026077097505669, 'mean': 1.0177628773374314, 'observed_rows': [0, 1, 2]}
+rank info: {'east_rate_rank_rows_high_to_low': [0, 1, 2, 7, 5, 9, 6, 3, 8, 4], 'east_north_rows_are_top3': True, 'west_east_ratio_rank_rows_low_to_high': [0, 2, 1, 5, 7, 9, 6, 3, 4, 8], 'east_north_rows_are_bottom3_ratio': True}
+row bootstrap: {'ne_es_ratio': {'n_boot': 9752, 'median': 1.5877128053293856, 'ci95_lo': 1.5434543454345435, 'ci95_hi': 1.703875968992248, 'min': 1.5263157894736843, 'max': 1.7283950617283952}, 'interaction': {'n_boot': 9752, 'median': 1.5998306015121915, 'ci95_lo': 1.5174481352680178, 'ci95_hi': 1.753557268519372, 'min': 1.4949944382647384, 'max': 1.7823129251700678}}
+
+LEAVE ONE OUT
+NE/ES ratio min=1.548214 max=1.644345
+interaction min=1.558267 max=1.657242
+drop_row_0: NE/ES=1.555804 interaction=1.558267
+drop_row_1: NE/ES=1.604592 interaction=1.644587
+drop_row_2: NE/ES=1.619048 interaction=1.613815
+drop_row_3: NE/ES=1.589085 interaction=1.599875
+drop_row_4: NE/ES=1.586395 interaction=1.599365
+drop_row_5: NE/ES=1.592871 interaction=1.608187
+drop_row_6: NE/ES=1.590136 interaction=1.600529
+drop_row_7: NE/ES=1.596980 interaction=1.609756
+drop_row_8: NE/ES=1.584362 interaction=1.595679
+drop_row_9: NE/ES=1.591320 interaction=1.605134
+
+AREA DENOMINATOR
+{'west_per_km2': 12.08, 'east_per_km2': 5.02, 'northeast_per_km2': 3.6666666666666665, 'east_south_per_km2': 5.6, 'west_east_ratio': 2.406374501992032, 'ne_es_ratio': 0.6547619047619048}
+
+TWO ROW BINS (east)
+rows 0-1: observed=32 population=12000 rate_per_1000=2.666667 ratio_vs_last=1.629630
+rows 2-3: observed=41 population=20000 rate_per_1000=2.050000 ratio_vs_last=1.252778
+rows 4-5: observed=46 population=28000 rate_per_1000=1.642857 ratio_vs_last=1.003968
+rows 6-7: observed=60 population=36000 rate_per_1000=1.666667 ratio_vs_last=1.018519
+rows 8-9: observed=72 population=44000 rate_per_1000=1.636364 ratio_vs_last=1.000000
+
+MORAN
+observed: rook_k4={'I': 0.8906913137791191, 'p_positive': 0.0001, 'mean_perm': -0.009478270125733062, 'sd_perm': 0.0744274541182012} queen_k8={'I': 0.8566668238548839, 'p_positive': 0.0001, 'mean_perm': -0.009833332448275164, 'sd_perm': 0.053351040036632366}
+survey_visits: rook_k4={'I': 0.8933333333333334, 'p_positive': 0.0001, 'mean_perm': -0.01192135880254692, 'sd_perm': 0.07400674506991693} queen_k8={'I': 0.8480000000000001, 'p_positive': 0.0001, 'mean_perm': -0.011259409274260758, 'sd_perm': 0.05324785864137794}
+rate_per_1000_pop: rook_k4={'I': 0.8169480565612282, 'p_positive': 0.0001, 'mean_perm': -0.012077635272327289, 'sd_perm': 0.07426583014918425} queen_k8={'I': 0.7753934953843882, 'p_positive': 0.0001, 'mean_perm': -0.011173180665805024, 'sd_perm': 0.05321425238990186}
+rate_per_visit: rook_k4={'I': 0.8639439175799541, 'p_positive': 0.0001, 'mean_perm': -0.010507564960934445, 'sd_perm': 0.07426932707810986} queen_k8={'I': 0.8290923541380418, 'p_positive': 0.0001, 'mean_perm': -0.010248473783701858, 'sd_perm': 0.05385851801958685}
+pearson_residual_M6: rook_k4={'I': 0.4729215336637252, 'p_positive': 0.0001, 'mean_perm': -0.009893797057585361, 'sd_perm': 0.07357177730342267} queen_k8={'I': 0.5090909494268683, 'p_positive': 0.0001, 'mean_perm': -0.009592515393147186, 'sd_perm': 0.05343165551407697}
+
+ROW RATES
+row 0 pop=1000 west_obs=21 east_obs=14 west_rate=4.200000 east_rate=2.800000 ratio=1.500000 ratio_ci=(0.727467,3.189217)
+row 1 pop=1400 west_obs=31 east_obs=18 west_rate=4.428571 east_rate=2.571429 ratio=1.722222 ratio_ci=(0.933778,3.269414)
+row 2 pop=1800 west_obs=38 east_obs=23 west_rate=4.222222 east_rate=2.555556 ratio=1.652174 ratio_ci=(0.959375,2.904824)
+row 3 pop=2200 west_obs=48 east_obs=18 west_rate=4.363636 east_rate=1.636364 ratio=2.666667 ratio_ci=(1.522977,4.871073)
+row 4 pop=2600 west_obs=56 east_obs=21 west_rate=4.307692 east_rate=1.615385 ratio=2.666667 ratio_ci=(1.589357,4.636690)
+row 5 pop=3000 west_obs=64 east_obs=25 west_rate=4.266667 east_rate=1.666667 ratio=2.560000 ratio_ci=(1.589630,4.242896)
+row 6 pop=3400 west_obs=74 east_obs=28 west_rate=4.352941 east_rate=1.647059 ratio=2.642857 ratio_ci=(1.689903,4.241485)
+row 7 pop=3800 west_obs=82 east_obs=32 west_rate=4.315789 east_rate=1.684211 ratio=2.562500 ratio_ci=(1.684035,3.985729)
+row 8 pop=4200 west_obs=91 east_obs=34 west_rate=4.333333 east_rate=1.619048 ratio=2.676471 ratio_ci=(1.786819,4.094497)
+row 9 pop=4600 west_obs=99 east_obs=38 west_rate=4.304348 east_rate=1.652174 ratio=2.605263 ratio_ci=(1.775571,3.893619)
+west row rate max/min=1.054422 east row rate max/min=1.733333

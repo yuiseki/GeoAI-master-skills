@@ -1,0 +1,13 @@
+{
+  "question": "中心点が空白のメッシュで、100m画素の人口と空白画素はどう配置されているか",
+  "source": "outputs/pixel-access.parquet; artifacts/.../bus-buffer.parquet; stations-buffer.parquet",
+  "examples": [
+    "53393610",
+    "53394648",
+    "53393252",
+    "53394207"
+  ],
+  "vmax": 157.86566162109375,
+  "font": "Noto Sans CJK JP",
+  "renderer": "project make_figures.py"
+}

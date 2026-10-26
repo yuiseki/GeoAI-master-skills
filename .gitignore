@@ -12,5 +12,7 @@ node_modules/
 !/projects/tokyo-town-types/
 !/projects/taito-bus-operations/
 !/projects/japan-climate-analysis/
+!/projects/elderly-transit-100m-allocation/
+!/projects/record-vs-occurrence/
 /artifacts/*
 !/artifacts/sample-project/

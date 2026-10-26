@@ -1,0 +1,9 @@
+{
+  "question": "行 + 西東の主効果モデルの残差はどこに残るか",
+  "source": "data/units.csv (2026-10-25); M6 Poisson GLM: observed ~ C(row) + C(region), offset log(population)",
+  "n": 100,
+  "unit": "Pearson residual",
+  "crs": "grid indices (row, col); no geographic CRS",
+  "classification": "diverging, symmetric around 0 at max abs residual",
+  "font": "Noto Sans CJK JP"
+}

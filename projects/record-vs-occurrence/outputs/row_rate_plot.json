@@ -1,0 +1,8 @@
+{
+  "question": "行 (人口) ごとの人口あたり記録率は、努力の水準ごとにどう違うか",
+  "source": "data/units.csv (2026-10-25); outputs/row_rates.csv",
+  "n": 100,
+  "unit": "records per 1,000 population",
+  "interval": "Poisson exact 95% CI for each row total (5 cells)",
+  "font": "Noto Sans CJK JP"
+}

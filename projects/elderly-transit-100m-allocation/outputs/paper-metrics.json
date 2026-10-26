@@ -1,0 +1,289 @@
+{
+  "center": {
+    "total": 26705.0,
+    "positive_meshes": 116,
+    "median_positive": 57.5,
+    "p90_positive": 789.0,
+    "max": 1839.0,
+    "top10_share": 0.48084628346751546,
+    "top20_share": 0.7121887287024902,
+    "n_to_50pct": 11,
+    "n_to_80pct": 27
+  },
+  "five": {
+    "total": 39730.75,
+    "positive_meshes": 259,
+    "median_positive": 63.2,
+    "p90_positive": 396.4000000000002,
+    "max": 1206.4,
+    "top10_share": 0.22398436139933592,
+    "top20_share": 0.3639338967088884,
+    "n_to_50pct": 34,
+    "n_to_80pct": 83
+  },
+  "wpop": {
+    "total": 9312.258814613593,
+    "positive_meshes": 439,
+    "median_positive": 6.283952504396439,
+    "p90_positive": 54.08793369363993,
+    "max": 420.4578183889389,
+    "top10_share": 0.243997222959294,
+    "top20_share": 0.3829897087273707,
+    "n_to_50pct": 34,
+    "n_to_80pct": 108
+  },
+  "uniform": {
+    "total": 32317.69289086885,
+    "positive_meshes": 439,
+    "median_positive": 33.443661971830984,
+    "p90_positive": 203.02525629077346,
+    "max": 594.6174496644295,
+    "top10_share": 0.14053177198961045,
+    "top20_share": 0.24084404431326753,
+    "n_to_50pct": 58,
+    "n_to_80pct": 148
+  },
+  "pixels": {
+    "nodata_pixels": 22564,
+    "zero_pixels": 362,
+    "positive_pixels": 179994,
+    "valid_pixels": 180356,
+    "pixels_inside_min": 53,
+    "pixels_inside_lt150": 126
+  },
+  "unknown_weight": {
+    "gt0": 713,
+    "gt5pct": 77,
+    "gt10pct": 45,
+    "gt25pct": 15,
+    "max": 0.8632669448852539,
+    "median_positive": 0.011985434219241142
+  },
+  "ratio_extremes": {
+    "top10": [
+      {
+        "mesh": "53393643",
+        "municipality": "江東区",
+        "age65": NaN,
+        "total": 1,
+        "wpop_sum": 1550.1055908203125,
+        "wpop_census_ratio": 1550.1055908203125,
+        "nodata_pixels": 60
+      },
+      {
+        "mesh": "53393665",
+        "municipality": "江東区",
+        "age65": NaN,
+        "total": 4,
+        "wpop_sum": 2889.958740234375,
+        "wpop_census_ratio": 722.4896850585938,
+        "nodata_pixels": 98
+      },
+      {
+        "mesh": "53393666",
+        "municipality": "江東区",
+        "age65": NaN,
+        "total": 10,
+        "wpop_sum": 6327.5546875,
+        "wpop_census_ratio": 632.75546875,
+        "nodata_pixels": 58
+      },
+      {
+        "mesh": "53393676",
+        "municipality": "江東区",
+        "age65": NaN,
+        "total": 14,
+        "wpop_sum": 6718.4287109375,
+        "wpop_census_ratio": 479.8877650669643,
+        "nodata_pixels": 21
+      },
+      {
+        "mesh": "53394610",
+        "municipality": "千代田区",
+        "age65": 1.0,
+        "total": 5,
+        "wpop_sum": 880.9376831054688,
+        "wpop_census_ratio": 176.18753662109376,
+        "nodata_pixels": 9
+      },
+      {
+        "mesh": "53393678",
+        "municipality": "江戸川区",
+        "age65": 5.0,
+        "total": 69,
+        "wpop_sum": 4934.65234375,
+        "wpop_census_ratio": 71.51670063405797,
+        "nodata_pixels": 1
+      },
+      {
+        "mesh": "53393655",
+        "municipality": "江東区",
+        "age65": NaN,
+        "total": 1,
+        "wpop_sum": 70.91644287109375,
+        "wpop_census_ratio": 70.91644287109375,
+        "nodata_pixels": 143
+      },
+      {
+        "mesh": "53394297",
+        "municipality": "福生市",
+        "age65": 20.0,
+        "total": 113,
+        "wpop_sum": 3345.07421875,
+        "wpop_census_ratio": 29.60242671460177,
+        "nodata_pixels": 3
+      },
+      {
+        "mesh": "53394242",
+        "municipality": "八王子市",
+        "age65": NaN,
+        "total": 4,
+        "wpop_sum": 76.80362701416016,
+        "wpop_census_ratio": 19.20090675354004,
+        "nodata_pixels": 49
+      },
+      {
+        "mesh": "53393642",
+        "municipality": "江東区",
+        "age65": 1.0,
+        "total": 546,
+        "wpop_sum": 9191.791015625,
+        "wpop_census_ratio": 16.834782079899266,
+        "nodata_pixels": 39
+      }
+    ],
+    "bottom10": [
+      {
+        "mesh": "53395220",
+        "municipality": "青梅市",
+        "age65": NaN,
+        "total": 467,
+        "wpop_sum": 97.5373306274414,
+        "wpop_census_ratio": 0.2088593803585469,
+        "nodata_pixels": 83
+      },
+      {
+        "mesh": "53395117",
+        "municipality": "日の出町",
+        "age65": NaN,
+        "total": 186,
+        "wpop_sum": 37.89622497558594,
+        "wpop_census_ratio": 0.20374314503003194,
+        "nodata_pixels": 80
+      },
+      {
+        "mesh": "53395162",
+        "municipality": "奥多摩町",
+        "age65": 132.0,
+        "total": 171,
+        "wpop_sum": 34.1246337890625,
+        "wpop_census_ratio": 0.19955926192434212,
+        "nodata_pixels": 123
+      },
+      {
+        "mesh": "53395290",
+        "municipality": "青梅市",
+        "age65": 218.0,
+        "total": 376,
+        "wpop_sum": 70.70320129394531,
+        "wpop_census_ratio": 0.18804042897325882,
+        "nodata_pixels": 66
+      },
+      {
+        "mesh": "53393149",
+        "municipality": "八王子市",
+        "age65": NaN,
+        "total": 83,
+        "wpop_sum": 14.272439002990723,
+        "wpop_census_ratio": 0.17195709642157497,
+        "nodata_pixels": 103
+      },
+      {
+        "mesh": "53395142",
+        "municipality": "青梅市",
+        "age65": 40.0,
+        "total": 116,
+        "wpop_sum": 19.18235206604004,
+        "wpop_census_ratio": 0.16536510401758656,
+        "nodata_pixels": 96
+      },
+      {
+        "mesh": "53395042",
+        "municipality": "奥多摩町",
+        "age65": NaN,
+        "total": 6,
+        "wpop_sum": 0.939411997795105,
+        "wpop_census_ratio": 0.15656866629918417,
+        "nodata_pixels": 148
+      },
+      {
+        "mesh": "53395211",
+        "municipality": "青梅市",
+        "age65": NaN,
+        "total": 117,
+        "wpop_sum": 18.134246826171875,
+        "wpop_census_ratio": 0.15499356261685363,
+        "nodata_pixels": 107
+      },
+      {
+        "mesh": "53394151",
+        "municipality": "檜原村",
+        "age65": 127.0,
+        "total": 136,
+        "wpop_sum": 18.16201400756836,
+        "wpop_census_ratio": 0.133544220643885,
+        "nodata_pixels": 131
+      },
+      {
+        "mesh": "53393250",
+        "municipality": "八王子市",
+        "age65": NaN,
+        "total": 280,
+        "wpop_sum": 24.547775268554688,
+        "wpop_census_ratio": 0.08767062595912388,
+        "nodata_pixels": 88
+      }
+    ]
+  },
+  "top10_sums": {
+    "center": 12841.0,
+    "five": 8899.066666666666,
+    "wpop": 2272.1652902439237,
+    "uniform": 4541.662648569836
+  },
+  "center_gap": {
+    "meshes": 116,
+    "age65": 26705.0,
+    "wpop": 3616.270477605227,
+    "wpop_share": 0.13541548315316335,
+    "uniform": 8081.995821701188,
+    "uniform_share": 0.3026397986033023,
+    "zero_wpop": 8
+  },
+  "top10_quality": {
+    "center": {
+      "outside_ratio": 4,
+      "unknown_gt5pct": 2,
+      "nodata_gt0": 5,
+      "partial_inside": 0
+    },
+    "five": {
+      "outside_ratio": 1,
+      "unknown_gt5pct": 1,
+      "nodata_gt0": 9,
+      "partial_inside": 1
+    },
+    "wpop": {
+      "outside_ratio": 4,
+      "unknown_gt5pct": 3,
+      "nodata_gt0": 6,
+      "partial_inside": 1
+    },
+    "uniform": {
+      "outside_ratio": 3,
+      "unknown_gt5pct": 0,
+      "nodata_gt0": 8,
+      "partial_inside": 3
+    }
+  }
+}

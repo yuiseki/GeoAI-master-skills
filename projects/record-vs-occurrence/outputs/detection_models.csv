@@ -1,0 +1,4 @@
+model,assumption,true_rate_west_per_1000_per_visit,true_rate_east_per_1000_per_visit,west_east_ratio,east_west_ratio,detection_ratio_d4_over_d20,implied_west_east_ratio,true_rate_west_per_1000,true_rate_east_per_1000,p_per_visit,detection_after_20,detection_after_4
+linear_in_visits,a visit records a constant fraction of events; no saturation,0.604,1.255,0.4812749003984064,2.077814569536424,0.2,0.4812749003984063,,,,,
+full_detection,both 20 and 4 visits record all events,,,2.4063745019920315,0.41556291390728484,1.0,2.4063745019920315,4.314285714285714,1.792857142857143,,,
+saturating_common_p,"each visit detects with probability p, independently; p common to all cells",,,1.0000000000000004,0.9999999999999997,0.4155629139072849,1.0000000000000002,4.763656534938994,4.763656534938992,0.11134493327360435,0.9056668302264503,0.376361546998078

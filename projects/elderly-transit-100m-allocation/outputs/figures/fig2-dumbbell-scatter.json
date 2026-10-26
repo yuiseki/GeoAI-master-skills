@@ -1,0 +1,8 @@
+{
+  "question": "中心点が空白のメッシュで、100m人口重みの対象人数はどれだけ小さいか；上位10はどう入れ替わるか",
+  "source": "outputs/mesh-allocations.parquet; outputs/allocations-summary.json",
+  "n_center_gap": 116,
+  "n_dumbbell": 17,
+  "font": "Noto Sans CJK JP",
+  "renderer": "project make_figures.py"
+}

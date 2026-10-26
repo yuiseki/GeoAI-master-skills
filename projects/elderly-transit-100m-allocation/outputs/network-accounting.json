@@ -1,0 +1,28 @@
+{
+  "walk_lines": 1080029,
+  "graph": {
+    "lines": 1080029,
+    "nodes": 4604336,
+    "edges": 5239601,
+    "length_km": 117418.9196421684,
+    "components": 15117,
+    "largest_component_nodes": 4437515,
+    "largest_component_share": 0.96376871713967
+  },
+  "bus_unique_points": 24723,
+  "bus_snapped_within_200m": 24709,
+  "bus_snap_distance_m": {
+    "median": 3.358180570911326,
+    "p95": 35.35125616144165,
+    "max": 482.98241010507815
+  },
+  "station_active_rows": 1593,
+  "station_snapped_within_200m": 1593,
+  "station_snap_distance_m": {
+    "median": 12.802756012747261,
+    "p95": 33.49241631902797,
+    "max": 76.75325324333001
+  },
+  "graph_reachable_from_bus": 4492138,
+  "graph_reachable_from_station": 4484252
+}

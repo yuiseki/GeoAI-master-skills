@@ -1,0 +1,8 @@
+{
+  "question": "北東の人口あたり記録率の高さは、訪問の集中と訪問あたりの記録のどちらから来るか",
+  "source": "data/units.csv (2026-10-25); outputs/group_rates.csv",
+  "n": 100,
+  "unit": "visits per 1,000 population; records per visit; records per 1,000 population",
+  "note": "The third panel is the product of the first two; ratios are north 3 rows / south 7 rows within each region.",
+  "font": "Noto Sans CJK JP"
+}

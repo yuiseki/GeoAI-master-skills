@@ -1,0 +1,9 @@
+rows 100  missing {'count': 0, 'area': 0, 'exposure': 0, 'effort': 0}  zero counts 0
+effort_rate_spearman: 0.861
+top_to_bottom_effort_rate_ratio: 2.406
+effort_exposure_spearman: 0.000
+effort 4.0: units 50  count 251  rate 0.00179286
+effort 20.0: units 50  count 604  rate 0.00431429
+Moran's I (8 nearest): effort 0.84, rate 0.756084359356045
+flagged units (1): [('u08', 'high within its effort stratum')]
+effort_dependent: True  separable: False (no ground truth, no detection model)

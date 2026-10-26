@@ -1,0 +1,179 @@
+/tmp/venv-geoai/lib/python3.12/site-packages/statsmodels/discrete/discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+M1_region {'term': "C(region, Treatment('west'))[T.east]", 'coef': -0.8781212588030313, 'se': 0.0750978886771336, 'rr': 0.41556291390728467, 'rr_lo': 0.35868510655385477, 'rr_hi': 0.4814600111900224, 'p': 1.3837382345707143e-31, 'model': 'M1_region', 'n': 100, 'df_resid': 98.0, 'deviance': 17.909041391959654, 'pearson_chi2': 21.10768725800148, 'dispersion': 0.21538456385715796, 'aic': 405.31298079106097, 'quasi_scale': None, 'quasi_se': None, 'quasi_rr_lo': None, 'quasi_rr_hi': None}
+M2_log_visits {'term': 'np.log(survey_visits)', 'coef': 0.5456074148737854, 'se': 0.046660941746771795, 'rr': 1.7256562533733426, 'rr_lo': 1.5748399523606522, 'rr_hi': 1.8909156453281033, 'p': 1.3837382345706357e-31, 'model': 'M2_log_visits', 'n': 100, 'df_resid': 98.0, 'deviance': 17.90904139195964, 'pearson_chi2': 21.107687258001448, 'dispersion': 0.21538456385715762, 'aic': 405.312980791061, 'quasi_scale': None, 'quasi_se': None, 'quasi_rr_lo': None, 'quasi_rr_hi': None}
+M3_east_north {'term': 'north3', 'coef': 0.463819581390075, 'se': 0.15259048402327724, 'rr': 1.5901360544217924, 'rr_lo': 1.1790956287547576, 'rr_hi': 2.1444678530803203, 'p': 0.002368639601755606, 'model': 'M3_east_north', 'n': 50, 'df_resid': 48.0, 'deviance': 7.10792924767429, 'pearson_chi2': 6.84862503737946, 'dispersion': 0.14267968827873875, 'aic': 182.3838135992071, 'quasi_scale': None, 'quasi_se': None, 'quasi_rr_lo': None, 'quasi_rr_hi': None}
+M4_west_north {'term': 'north3', 'coef': -0.007812539714602384, 'se': 0.11426531572317906, 'rr': 0.9922178988547034, 'rr_lo': 0.793129756622313, 'rr_hi': 1.2412803208901138, 'p': 0.9454895693011302, 'model': 'M4_west_north', 'n': 50, 'df_resid': 48.0, 'deviance': 2.355588848659408, 'pearson_chi2': 2.3638622878424616, 'dispersion': 0.04924713099671795, 'aic': 218.483643896228, 'quasi_scale': None, 'quasi_se': None, 'quasi_rr_lo': None, 'quasi_rr_hi': None}
+M5_2x2 {'term': "C(region, Treatment('west'))[T.east]:north3", 'coef': 0.47163212112685327, 'se': 0.19063183204982093, 'rr': 1.6026077097505662, 'rr_lo': 1.1029634424770778, 'rr_hi': 2.3285916581095853, 'p': 0.013359210306824342, 'model': 'M5_2x2', 'n': 100, 'df_resid': 96.0, 'deviance': 9.46351809633368, 'pearson_chi2': 9.212487325233681, 'dispersion': 0.09596340963785084, 'aic': 400.8674574954348, 'quasi_scale': None, 'quasi_se': None, 'quasi_rr_lo': None, 'quasi_rr_hi': None}
+M6_row_region {'term': "C(region, Treatment('west'))[T.east]", 'coef': -0.8781212588030316, 'se': 0.0750978886641658, 'rr': 0.41556291390728456, 'rr_lo': 0.3586851065629711, 'rr_hi': 0.48146001117778525, 'p': 1.3837382016652644e-31, 'model': 'M6_row_region', 'n': 100, 'df_resid': 89.0, 'deviance': 15.368196592311534, 'pearson_chi2': 16.87181068621637, 'dispersion': 0.18957090658670078, 'aic': 420.77213599141294, 'quasi_scale': None, 'quasi_se': None, 'quasi_rr_lo': None, 'quasi_rr_hi': None}
+M6b_row_region_ne {'term': 'east_north', 'coef': 0.4716321211268525, 'se': 0.19063183202705627, 'rr': 1.6026077097505649, 'rr_lo': 1.1029634425262889, 'rr_hi': 2.3285916580056867, 'p': 0.013359210295776714, 'model': 'M6b_row_region_ne', 'n': 100, 'df_resid': 88.0, 'deviance': 9.409879670750852, 'pearson_chi2': 9.142795836976914, 'dispersion': 0.10389540723837402, 'aic': 416.8138190698523, 'quasi_scale': None, 'quasi_se': None, 'quasi_rr_lo': None, 'quasi_rr_hi': None}
+done
+{
+  "west_east": {
+    "observed": {
+      "west": 604,
+      "east": 251,
+      "ratio_west_east": 2.406374501992032
+    },
+    "population": {
+      "west": 140000,
+      "east": 140000
+    },
+    "visits": {
+      "west": 1000,
+      "east": 200,
+      "ratio_west_east": 5.0
+    },
+    "rate_per_1000_pop": {
+      "west": 4.314285714285714,
+      "east": 1.792857142857143,
+      "ratio_west_east": 2.4063745019920315,
+      "ratio_ci95": [
+        2.4063745019920324,
+        2.0735968310777104,
+        2.799202610057117
+      ]
+    },
+    "rate_per_visit": {
+      "west": 0.604,
+      "east": 1.255,
+      "ratio_east_west": 2.077814569536424
+    }
+  },
+  "within_effort": {
+    "east_north_vs_south": {
+      "northeast_observed": 55,
+      "northeast_population": 21000,
+      "east_south_observed": 196,
+      "east_south_population": 119000,
+      "rate_per_1000": {
+        "northeast": 2.619047619047619,
+        "east_south": 1.647058823529412
+      },
+      "ratio": 1.590136054421769,
+      "ratio_ci95": [
+        1.1569317309943719,
+        2.1544221533931
+      ]
+    },
+    "west_north_vs_south": {
+      "west_north_observed": 90,
+      "west_north_population": 21000,
+      "west_south_observed": 514,
+      "west_south_population": 119000,
+      "rate_per_1000": {
+        "west_north": 4.285714285714286,
+        "west_south": 4.319327731092437
+      },
+      "ratio": 0.992217898832685,
+      "ratio_ci95": [
+        0.7841132434417954,
+        1.2434247652492239
+      ]
+    },
+    "interaction": 1.6026077097505669
+  },
+  "lr_test_M6_vs_M6b": {
+    "lr": 5.958316921560652,
+    "df": 1.0,
+    "p": 0.014648017927055917
+  },
+  "row_permutation": {
+    "east_north_vs_south": {
+      "observed": 1.5901360544217686,
+      "n_assignments": 120,
+      "p_one_sided": 0.008333333333333333,
+      "min": 0.85709526982012,
+      "max": 1.5901360544217686,
+      "mean": 1.0173304981408875,
+      "observed_rows": [
+        0,
+        1,
+        2
+      ]
+    },
+    "west_north_vs_south": {
+      "observed": 0.9922178988326849,
+      "n_assignments": 120,
+      "p_one_sided": 0.875,
+      "min": 0.9787798408488066,
+      "max": 1.0177383592017737,
+      "mean": 0.999882933882268,
+      "observed_rows": [
+        0,
+        1,
+        2
+      ]
+    },
+    "interaction": {
+      "observed": 1.6026077097505669,
+      "n_assignments": 120,
+      "p_one_sided": 0.008333333333333333,
+      "min": 0.8528998595223762,
+      "max": 1.6026077097505669,
+      "mean": 1.0177628773374314,
+      "observed_rows": [
+        0,
+        1,
+        2
+      ]
+    }
+  },
+  "leave_one_out": {
+    "ne_es_ratio_min": 1.5482142857142858,
+    "ne_es_ratio_max": 1.6443452380952384,
+    "ne_es_ratio_rows": [
+      {
+        "variant": "drop_row_0",
+        "ne_es_ratio": 1.5558035714285714
+      },
+      {
+        "variant": "drop_row_1",
+        "ne_es_ratio": 1.6045918367346939
+      },
+      {
+        "variant": "drop_row_2",
+        "ne_es_ratio": 1.6190476190476188
+      },
+      {
+        "variant": "drop_row_3",
+        "ne_es_ratio": 1.5890850722311396
+      },
+      {
+        "variant": "drop_row_4",
+        "ne_es_ratio": 1.586394557823129
+      },
+      {
+        "variant": "drop_row_5",
+        "ne_es_ratio": 1.592871066555277
+      },
+      {
+        "variant": "drop_row_6",
+        "ne_es_ratio": 1.5901360544217686
+      },
+      {
+        "variant": "drop_row_7",
+        "ne_es_ratio": 1.5969802555168409
+      },
+      {
+        "variant": "drop_row_8",
+        "ne_es_ratio": 1.5843621399176957
+      },
+      {
+        "variant": "drop_row_9",
+        "ne_es_ratio": 1.5913200723327303
+      }
+    ],
+    "interaction_min": 1.5582667849748593,
+    "interaction_max": 1.6572420634920635
+  },
+  "area_denominator": {
+    "west_per_km2": 12.08,
+    "east_per_km2": 5.02,
+    "northeast_per_km2": 3.6666666666666665,
+    "east_south_per_km2": 5.6,
+    "west_east_ratio": 2.406374501992032,
+    "ne_es_ratio": 0.6547619047619048
+  }
+}
+font: Noto Sans CJK JP

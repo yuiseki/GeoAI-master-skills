@@ -1,0 +1,33 @@
+{
+  "source": "https://huggingface.co/datasets/yuiseki/worldpop-jp-2026-01/resolve/main/cog/GIS/Population/Global_2015_2030/R2025A/2020/JPN/v1/100m/constrained/jpn_pop_2020_CN_100m_R2025A_v1.tif",
+  "crs": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+  "geotransform": [
+    122.9333321216,
+    0.00083333333,
+    0.0,
+    45.523333487239995,
+    0.0,
+    -0.00083333333
+  ],
+  "window": {
+    "xoff": 19047,
+    "yoff": 11417,
+    "width": 1503,
+    "height": 744
+  },
+  "pixel_size_deg": [
+    0.00083333333,
+    0.00083333333
+  ],
+  "pixel_count": 1118232,
+  "nodata_count": 449439,
+  "zero_count": 2342,
+  "negative_non_nodata_count": 0,
+  "positive_count": 666451,
+  "valid_count": 668793,
+  "valid_sum": 29765084.0,
+  "valid_min": 0.0,
+  "valid_max": 232.31187438964844,
+  "nodata_value": -99999.0,
+  "gdaldriver": "3080400"
+}

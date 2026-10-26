@@ -1,0 +1,11 @@
+{
+  "question": "調査員が区画を訪れた回数",
+  "source": "data/units.csv (2026-10-25, 100 cells)",
+  "n": 100,
+  "unit": "調査回数 (回 / 区画)",
+  "crs": "grid indices (row, col); 1 cell = 1 km²; no geographic CRS",
+  "value_kind": "rate",
+  "classification": "continuous, min-max for display; values printed in cells",
+  "font": "Noto Sans CJK JP",
+  "note": "西 (列 0-4) は 20 回、東 (列 5-9) は 4 回。"
+}

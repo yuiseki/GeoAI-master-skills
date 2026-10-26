@@ -1,0 +1,690 @@
+{
+  "top10": {
+    "center": [
+      "53393610",
+      "53394256",
+      "53394207",
+      "53394648",
+      "53393253",
+      "53394277",
+      "53394299",
+      "53393660",
+      "53393342",
+      "53395217"
+    ],
+    "five": [
+      "53392558",
+      "53394667",
+      "53394674",
+      "53394664",
+      "53394207",
+      "53394648",
+      "53394607",
+      "53394643",
+      "53393610",
+      "53395232"
+    ],
+    "wpop": [
+      "53393252",
+      "53395206",
+      "53393326",
+      "53394207",
+      "53393610",
+      "53395246",
+      "53394245",
+      "53395261",
+      "53395207",
+      "53394187"
+    ],
+    "uniform": [
+      "53394207",
+      "53395555",
+      "53394607",
+      "53394648",
+      "53395553",
+      "53395546",
+      "53392558",
+      "53393252",
+      "53395217",
+      "53394256"
+    ]
+  },
+  "overlaps_at_k": {
+    "5": {
+      "center__center": 5,
+      "center__five": 1,
+      "center__wpop": 2,
+      "center__uniform": 2,
+      "five__center": 1,
+      "five__five": 5,
+      "five__wpop": 1,
+      "five__uniform": 1,
+      "wpop__center": 2,
+      "wpop__five": 1,
+      "wpop__wpop": 5,
+      "wpop__uniform": 1,
+      "uniform__center": 2,
+      "uniform__five": 1,
+      "uniform__wpop": 1,
+      "uniform__uniform": 5
+    },
+    "10": {
+      "center__center": 10,
+      "center__five": 3,
+      "center__wpop": 2,
+      "center__uniform": 4,
+      "five__center": 3,
+      "five__five": 10,
+      "five__wpop": 2,
+      "five__uniform": 4,
+      "wpop__center": 2,
+      "wpop__five": 2,
+      "wpop__wpop": 10,
+      "wpop__uniform": 2,
+      "uniform__center": 4,
+      "uniform__five": 4,
+      "uniform__wpop": 2,
+      "uniform__uniform": 10
+    },
+    "20": {
+      "center__center": 20,
+      "center__five": 4,
+      "center__wpop": 4,
+      "center__uniform": 5,
+      "five__center": 4,
+      "five__five": 20,
+      "five__wpop": 2,
+      "five__uniform": 8,
+      "wpop__center": 4,
+      "wpop__five": 2,
+      "wpop__wpop": 20,
+      "wpop__uniform": 6,
+      "uniform__center": 5,
+      "uniform__five": 8,
+      "uniform__wpop": 6,
+      "uniform__uniform": 20
+    },
+    "50": {
+      "center__center": 50,
+      "center__five": 14,
+      "center__wpop": 21,
+      "center__uniform": 13,
+      "five__center": 14,
+      "five__five": 50,
+      "five__wpop": 17,
+      "five__uniform": 32,
+      "wpop__center": 21,
+      "wpop__five": 17,
+      "wpop__wpop": 50,
+      "wpop__uniform": 27,
+      "uniform__center": 13,
+      "uniform__five": 32,
+      "uniform__wpop": 27,
+      "uniform__uniform": 50
+    }
+  },
+  "spearman": {
+    "all_age_known": {
+      "n": 1262,
+      "pairs": {
+        "center__center": 1.0,
+        "center__five": 0.6300208702991191,
+        "center__wpop": 0.4399118689188484,
+        "center__uniform": 0.3955579816001436,
+        "five__center": 0.6300208702991191,
+        "five__five": 1.0,
+        "five__wpop": 0.6805220927819702,
+        "five__uniform": 0.6683224666206545,
+        "wpop__center": 0.4399118689188484,
+        "wpop__five": 0.6805220927819702,
+        "wpop__wpop": 0.9999999999999998,
+        "wpop__uniform": 0.9843493043194356,
+        "uniform__center": 0.3955579816001436,
+        "uniform__five": 0.6683224666206545,
+        "uniform__wpop": 0.9843493043194356,
+        "uniform__uniform": 1.0
+      }
+    },
+    "positive_union": {
+      "n": 452,
+      "pairs": {
+        "center__center": 0.9999999999999999,
+        "center__five": 0.41833735252251303,
+        "center__wpop": 0.17106795472024391,
+        "center__uniform": -0.013635383562847186,
+        "five__center": 0.4183373525225131,
+        "five__five": 0.9999999999999999,
+        "five__wpop": 0.3529256087102111,
+        "five__uniform": 0.37606261797722895,
+        "wpop__center": 0.17106795472024391,
+        "wpop__five": 0.3529256087102111,
+        "wpop__wpop": 1.0,
+        "wpop__uniform": 0.7146602273531745,
+        "uniform__center": -0.013635383562847186,
+        "uniform__five": 0.3760626179772289,
+        "uniform__wpop": 0.7146602273531745,
+        "uniform__uniform": 0.9999999999999998
+      }
+    },
+    "top50_union": {
+      "n": 113,
+      "k": 50,
+      "pairs": {
+        "center__center": 1.0,
+        "center__five": -0.08380128560747217,
+        "center__wpop": 0.09210997695538249,
+        "center__uniform": -0.18244992753995545,
+        "five__center": -0.08380128560747219,
+        "five__five": 0.9999999999999998,
+        "five__wpop": 0.042670737472563815,
+        "five__uniform": 0.42788955104426146,
+        "wpop__center": 0.09210997695538249,
+        "wpop__five": 0.042670737472563815,
+        "wpop__wpop": 0.9999999999999998,
+        "wpop__uniform": 0.42677251801732485,
+        "uniform__center": -0.18244992753995545,
+        "uniform__five": 0.42788955104426146,
+        "uniform__wpop": 0.42677251801732485,
+        "uniform__uniform": 0.9999999999999998
+      }
+    },
+    "center_positive": {
+      "n": 116,
+      "pairs": {
+        "center__center": 1.0,
+        "center__five": 0.9748963790145232,
+        "center__wpop": 0.635059400539258,
+        "center__uniform": 0.8512445173208436,
+        "five__center": 0.9748963790145231,
+        "five__five": 1.0,
+        "five__wpop": 0.7259354841416772,
+        "five__uniform": 0.895024727410954,
+        "wpop__center": 0.635059400539258,
+        "wpop__five": 0.7259354841416773,
+        "wpop__wpop": 0.9999999999999998,
+        "wpop__uniform": 0.8830839218537696,
+        "uniform__center": 0.8512445173208435,
+        "uniform__five": 0.895024727410954,
+        "uniform__wpop": 0.8830839218537696,
+        "uniform__uniform": 0.9999999999999998
+      }
+    }
+  },
+  "decomposition": {
+    "all_age_known_meshes": 1302,
+    "all_age65": 3058359.0,
+    "all_wpop_target": 9312.258814613593,
+    "all_uniform_target": 32317.69289086885,
+    "all_wpop_share": 0.0030448547128095796,
+    "all_uniform_share": 0.010567004361119427,
+    "center_gap_unknown_meshes": 40,
+    "center_gap_unknown_age65": 52846.0,
+    "center_gap_meshes": 116,
+    "center_gap_age65": 26705.0,
+    "center_gap_wpop_target": 3616.270477605227,
+    "center_gap_uniform_target": 8081.995821701188,
+    "center_gap_wpop_share": 0.13541548315316335,
+    "center_gap_uniform_share": 0.3026397986033023,
+    "center_gap_wpop_zero_meshes": 8,
+    "center_gap_wpop_positive_meshes": 108,
+    "center_gap_wpop_fraction_median": 0.11793486028909683,
+    "center_gap_wpop_fraction_mean": 0.29547232389450073,
+    "center_gap_wpop_fraction_q25": 0.03221354307606816,
+    "center_gap_wpop_fraction_q75": 0.49624937027692795,
+    "center_gap_fraction_bins": {
+      "0": 8,
+      "(0,0.1)": 47,
+      "[0.1,0.25)": 18,
+      "[0.25,0.5)": 14,
+      "[0.5,0.75)": 11,
+      "[0.75,1]": 18
+    },
+    "not_center_gap_meshes": 1146,
+    "not_center_gap_age65": 2978808.0,
+    "not_center_gap_wpop_target": 4881.232053074064,
+    "not_center_gap_wpop_positive_meshes": 305,
+    "not_center_gap_uniform_target": 21596.641838575782,
+    "wpop_target_outside_center_gap_share": 0.5241727222415702,
+    "wpop_positive_meshes_total": 439,
+    "wpop_positive_meshes_outside_center_gap": 305
+  },
+  "top10_ratio_composition": {
+    "center": {
+      "bins": {
+        "0.5-2.0": 6,
+        "lt0.5": 3,
+        "gt2.0": 1
+      },
+      "outside_0.5_2.0": 4,
+      "ratio_min": 0.290695583230198,
+      "ratio_max": 2.215498751610825
+    },
+    "five": {
+      "bins": {
+        "0.5-2.0": 9,
+        "gt2.0": 1,
+        "lt0.5": 0
+      },
+      "outside_0.5_2.0": 1,
+      "ratio_min": 0.7305082093657903,
+      "ratio_max": 2.215498751610825
+    },
+    "wpop": {
+      "bins": {
+        "0.5-2.0": 6,
+        "lt0.5": 2,
+        "gt2.0": 2
+      },
+      "outside_0.5_2.0": 4,
+      "ratio_min": 0.3133830229441325,
+      "ratio_max": 4.382898477960216
+    },
+    "uniform": {
+      "bins": {
+        "0.5-2.0": 7,
+        "lt0.5": 2,
+        "gt2.0": 1
+      },
+      "outside_0.5_2.0": 3,
+      "ratio_min": 0.4031642108765159,
+      "ratio_max": 2.03643990630381
+    }
+  },
+  "border_sensitivity": {
+    "meshes_full_inside": 1254,
+    "meshes_partial": 126,
+    "top10": {
+      "center": [
+        "53393610",
+        "53394256",
+        "53394207",
+        "53394648",
+        "53393253",
+        "53394277",
+        "53394299",
+        "53393660",
+        "53393342",
+        "53395217"
+      ],
+      "five": [
+        "53394667",
+        "53394674",
+        "53394664",
+        "53394207",
+        "53394648",
+        "53394607",
+        "53394643",
+        "53393610",
+        "53395232",
+        "53394658"
+      ],
+      "wpop": [
+        "53393252",
+        "53395206",
+        "53394207",
+        "53393610",
+        "53395246",
+        "53394245",
+        "53395261",
+        "53395207",
+        "53394187",
+        "53395069"
+      ],
+      "uniform": [
+        "53394207",
+        "53394607",
+        "53394648",
+        "53395546",
+        "53393252",
+        "53395217",
+        "53394256",
+        "53394658",
+        "53393236",
+        "53394667"
+      ]
+    },
+    "top10_retained_from_full": {
+      "center": [
+        "53393253",
+        "53393342",
+        "53393610",
+        "53393660",
+        "53394207",
+        "53394256",
+        "53394277",
+        "53394299",
+        "53394648",
+        "53395217"
+      ],
+      "five": [
+        "53393610",
+        "53394207",
+        "53394607",
+        "53394643",
+        "53394648",
+        "53394664",
+        "53394667",
+        "53394674",
+        "53395232"
+      ],
+      "wpop": [
+        "53393252",
+        "53393610",
+        "53394187",
+        "53394207",
+        "53394245",
+        "53395206",
+        "53395207",
+        "53395246",
+        "53395261"
+      ],
+      "uniform": [
+        "53393252",
+        "53394207",
+        "53394256",
+        "53394607",
+        "53394648",
+        "53395217",
+        "53395546"
+      ]
+    },
+    "top10_removed": {
+      "center": [],
+      "five": [
+        "53392558"
+      ],
+      "wpop": [
+        "53393326"
+      ],
+      "uniform": [
+        "53392558",
+        "53395553",
+        "53395555"
+      ]
+    },
+    "overlaps": {
+      "center__center": 10,
+      "center__five": 3,
+      "center__wpop": 2,
+      "center__uniform": 4,
+      "five__center": 3,
+      "five__five": 10,
+      "five__wpop": 2,
+      "five__uniform": 5,
+      "wpop__center": 2,
+      "wpop__five": 2,
+      "wpop__wpop": 10,
+      "wpop__uniform": 2,
+      "uniform__center": 4,
+      "uniform__five": 5,
+      "uniform__wpop": 2,
+      "uniform__uniform": 10
+    },
+    "partial_top10_members": {
+      "center": [],
+      "five": [
+        "53392558"
+      ],
+      "wpop": [
+        "53393326"
+      ],
+      "uniform": [
+        "53392558",
+        "53395553",
+        "53395555"
+      ]
+    }
+  },
+  "ratio_restricted": {
+    "meshes": 1222,
+    "top10": {
+      "center": [
+        "53394207",
+        "53394648",
+        "53393253",
+        "53394277",
+        "53394299",
+        "53393342",
+        "53393327",
+        "53393398",
+        "53393259",
+        "53395208"
+      ],
+      "five": [
+        "53392558",
+        "53394667",
+        "53394674",
+        "53394664",
+        "53394207",
+        "53394648",
+        "53394607",
+        "53394643",
+        "53395232",
+        "53394658"
+      ],
+      "wpop": [
+        "53393252",
+        "53395206",
+        "53393326",
+        "53394207",
+        "53395246",
+        "53394245",
+        "53395069",
+        "53392395",
+        "53393620",
+        "53394244"
+      ],
+      "uniform": [
+        "53394207",
+        "53395555",
+        "53394607",
+        "53394648",
+        "53395546",
+        "53392558",
+        "53393252",
+        "53394658",
+        "53393326",
+        "53393236"
+      ]
+    },
+    "overlaps": {
+      "center__center": 10,
+      "center__five": 2,
+      "center__wpop": 1,
+      "center__uniform": 2,
+      "five__center": 2,
+      "five__five": 10,
+      "five__wpop": 1,
+      "five__uniform": 5,
+      "wpop__center": 1,
+      "wpop__five": 1,
+      "wpop__wpop": 10,
+      "wpop__uniform": 3,
+      "uniform__center": 2,
+      "uniform__five": 5,
+      "uniform__wpop": 3,
+      "uniform__uniform": 10
+    },
+    "all_four_intersection": [
+      "53394207"
+    ],
+    "key_positions": {
+      "53393610": {
+        "center": null,
+        "five": null,
+        "wpop": null,
+        "uniform": null
+      },
+      "53394648": {
+        "center": 2,
+        "five": 6,
+        "wpop": 22,
+        "uniform": 4
+      },
+      "53392558": {
+        "center": null,
+        "five": 1,
+        "wpop": 25,
+        "uniform": 6
+      },
+      "53394256": {
+        "center": null,
+        "five": null,
+        "wpop": null,
+        "uniform": null
+      },
+      "53394207": {
+        "center": 1,
+        "five": 5,
+        "wpop": 4,
+        "uniform": 1
+      },
+      "53393253": {
+        "center": 3,
+        "five": 47,
+        "wpop": 21,
+        "uniform": 59
+      }
+    }
+  },
+  "key_meshes": [
+    {
+      "mesh": "53393610",
+      "municipality": "品川区",
+      "age65": 1839.0,
+      "center_gap": 1.0,
+      "center_bus_m": 912.6833613051159,
+      "center_rail_m": 2807.1478388441783,
+      "wpop_fraction": 0.12320240586996078,
+      "uniform_fraction": 0.1388888888888889,
+      "wpop_target": 226.56922439485788,
+      "uniform_target": 255.41666666666669,
+      "wpop_census_ratio": 2.215498751610825,
+      "nodata_pixels": 0.0,
+      "valid_pixels": 150.0,
+      "unknown_weight_share": 0.25557753443717957,
+      "pixels_inside": 150.0,
+      "ranks": {
+        "center": 1,
+        "five": 9,
+        "wpop": 5,
+        "uniform": 28
+      }
+    },
+    {
+      "mesh": "53394648",
+      "municipality": "江戸川区",
+      "age65": 1343.0,
+      "center_gap": 1.0,
+      "center_bus_m": 3096.998750128453,
+      "center_rail_m": 3341.359589972203,
+      "wpop_fraction": 0.05180090293288231,
+      "uniform_fraction": 0.3404255319148936,
+      "wpop_target": 69.56861263886094,
+      "uniform_target": 457.1914893617021,
+      "wpop_census_ratio": 1.0315787068593867,
+      "nodata_pixels": 54.0,
+      "valid_pixels": 96.0,
+      "unknown_weight_share": 0.006909758318215609,
+      "pixels_inside": 150.0,
+      "ranks": {
+        "center": 4,
+        "five": 6,
+        "wpop": 33,
+        "uniform": 4
+      }
+    },
+    {
+      "mesh": "53392558",
+      "municipality": "大田区",
+      "age65": 3016.0,
+      "center_gap": 0.0,
+      "center_bus_m": 375.4890135095307,
+      "center_rail_m": 1078.9768064782807,
+      "wpop_fraction": 0.02048354037106037,
+      "uniform_fraction": 0.14423076923076922,
+      "wpop_target": 61.77835775911808,
+      "uniform_target": 434.99999999999994,
+      "wpop_census_ratio": 0.7305082093657903,
+      "nodata_pixels": 24.0,
+      "valid_pixels": 108.0,
+      "unknown_weight_share": 0.025570247322320938,
+      "pixels_inside": 132.0,
+      "ranks": {
+        "center": null,
+        "five": 1,
+        "wpop": 37,
+        "uniform": 7
+      }
+    },
+    {
+      "mesh": "53394256",
+      "municipality": "八王子市",
+      "age65": 1553.0,
+      "center_gap": 1.0,
+      "center_bus_m": 1014.9056350129263,
+      "center_rail_m": 2118.1822463410513,
+      "wpop_fraction": 0.020822031423449516,
+      "uniform_fraction": 0.2578125,
+      "wpop_target": 32.3366148006171,
+      "uniform_target": 400.3828125,
+      "wpop_census_ratio": 0.48812220467677075,
+      "nodata_pixels": 17.0,
+      "valid_pixels": 133.0,
+      "unknown_weight_share": 0.029225949198007584,
+      "pixels_inside": 150.0,
+      "ranks": {
+        "center": 2,
+        "five": 36,
+        "wpop": 77,
+        "uniform": 10
+      }
+    },
+    {
+      "mesh": "53394207",
+      "municipality": "八王子市",
+      "age65": 1429.0,
+      "center_gap": 1.0,
+      "center_bus_m": 833.3668865979076,
+      "center_rail_m": 2221.610844117439,
+      "wpop_fraction": 0.15933647751808167,
+      "uniform_fraction": 0.4161073825503356,
+      "wpop_target": 227.6918263733387,
+      "uniform_target": 594.6174496644295,
+      "wpop_census_ratio": 0.9970763429543511,
+      "nodata_pixels": 1.0,
+      "valid_pixels": 149.0,
+      "unknown_weight_share": 0.0,
+      "pixels_inside": 150.0,
+      "ranks": {
+        "center": 3,
+        "five": 5,
+        "wpop": 4,
+        "uniform": 1
+      }
+    },
+    {
+      "mesh": "53393253",
+      "municipality": "八王子市",
+      "age65": 1173.0,
+      "center_gap": 1.0,
+      "center_bus_m": 870.9394736973939,
+      "center_rail_m": 1742.3062949864564,
+      "wpop_fraction": 0.059895265847444534,
+      "uniform_fraction": 0.13013698630136986,
+      "wpop_target": 70.25714683905244,
+      "uniform_target": 152.65068493150685,
+      "wpop_census_ratio": 0.9293368438569798,
+      "nodata_pixels": 0.0,
+      "valid_pixels": 150.0,
+      "unknown_weight_share": 0.044138990342617035,
+      "pixels_inside": 150.0,
+      "ranks": {
+        "center": 5,
+        "five": 58,
+        "wpop": 31,
+        "uniform": 72
+      }
+    }
+  ]
+}

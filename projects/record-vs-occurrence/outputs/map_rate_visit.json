@@ -1,0 +1,11 @@
+{
+  "question": "調査 1 回あたりの記録",
+  "source": "data/units.csv (2026-10-25, 100 cells)",
+  "n": 100,
+  "unit": "記録 (件 / 回)",
+  "crs": "grid indices (row, col); 1 cell = 1 km²; no geographic CRS",
+  "value_kind": "count",
+  "classification": "continuous, min-max for display; values printed in cells",
+  "font": "Noto Sans CJK JP",
+  "note": "観測の努力をそろえた率。西は 20 回、東は 4 回の訪問。"
+}

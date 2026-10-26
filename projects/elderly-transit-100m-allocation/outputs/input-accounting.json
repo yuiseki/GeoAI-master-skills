@@ -1,0 +1,48 @@
+{
+  "made": "2026-10-26",
+  "sources": {
+    "census": "hf://datasets/yuiseki/estat-census-mesh-2020@6c486c8649484e09e549c0c99b5fa89b4f416edb/parquet/T001140.parquet",
+    "bus": [
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/11.parquet",
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/12.parquet",
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/13.parquet",
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/14.parquet",
+      "hf://datasets/yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e/parquet/prefectures/19.parquet"
+    ],
+    "station": "hf://datasets/yuiseki/ekidata-jp@a33321099406b47338be0d03a4887059473fde0c/parquet/2026-10-05/station.2026-07-31.parquet",
+    "osm": "hf://datasets/yuiseki/osm-japan-src-2026-08@9a9b4a77e89e28a66bf15781644a16b63501f622/parquet/planet_osm_line.parquet",
+    "admin": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet"
+  },
+  "mainland_municipalities": 53,
+  "tokyo_census_rows": 1612,
+  "center_inside_mainland_meshes": 1380,
+  "suppressed_age_meshes": 78,
+  "bus_rows_buffer": 30151,
+  "bus_unique_coordinates": 24723,
+  "bus_duplicates_by_coordinate": 5428,
+  "station_rows_buffer": 1605,
+  "station_active_rows": 1593,
+  "station_active_groups": 1117,
+  "osm_bbox_highway_rows": 1159991,
+  "quarter_points": 5420,
+  "bbox_epsg3857_padded": [
+    15452054.094534788,
+    4217200.584170668,
+    15590945.781101217,
+    4301645.883955519
+  ],
+  "bbox_epsg4326_padded": [
+    138.80816364162234,
+    35.3914125216448,
+    140.05584889041992,
+    36.00744531269622
+  ],
+  "crs": {
+    "census_mesh": "JGD2011 third-level mesh",
+    "bus": "EPSG:6668",
+    "station": "OGC:CRS84",
+    "osm": "EPSG:3857",
+    "admin": "EPSG:4612",
+    "length": "EPSG:6677"
+  }
+}

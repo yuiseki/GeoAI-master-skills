@@ -1,0 +1,11 @@
+{
+  "question": "記録された出来事の数 (100 区画)",
+  "source": "data/units.csv (2026-10-25, 100 cells)",
+  "n": 100,
+  "unit": "記録 (件 / 区画)",
+  "crs": "grid indices (row, col); 1 cell = 1 km²; no geographic CRS",
+  "value_kind": "count",
+  "classification": "continuous, min-max for display; values printed in cells",
+  "font": "Noto Sans CJK JP",
+  "note": "行 0 = 北、列 0 = 西。赤破線は北東 3×5 区画 (探索の候補)。"
+}
