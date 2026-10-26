@@ -86,7 +86,7 @@
 | [taginfo](services/taginfo.md) | OSM のタグの辞書と使用数 | 2026-01-29 まで |
 | [usgs-earthquake-catalog](usgs-earthquake-catalog.md) | USGS FDSN Event API で地震イベントを検索する。取得結果は更新される | 2026-10-25 に照会 |
 | [nasa-gibs](nasa-gibs.md) | NASA GIBS の表示用衛星画像などを WMTS・WMS で取得する。元製品と許諾はレイヤーごと | 2026-10-25 に目録と1タイルを実読 |
-| [jma-obsdl](jma-obsdl.md) | 気象庁の観測所ごとの降水量などを CSV で返す。東京都 31 観測所の日別の降水量 1974〜2025 年を実際に取得 | 2026-10-26 に取得。更新される |
+| [jma-obsdl](jma-obsdl.md) | 気象庁の観測所ごとの降水量などを CSV で返す。東京都 31 観測所の日別と時別の降水量 1974〜2025 年を実際に取得 | 2026-10-26 に取得。更新される |
 | [nasa-firms](nasa-firms.md) | 衛星の火災・熱異常の検出点。公開 KMZ を実読。CSV API は無料 MAP_KEY が必要 | 2026-10-25 に米国の7日間 KMZ を実読 |
 
 Natural Earth の国の面が、ほかのデータセットを結ぶ軸になる。どのキーで結べるかは各 reference の「Natural Earth との結合」にある。
