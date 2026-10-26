@@ -47,10 +47,11 @@ DEFAULT = {"count": "YlOrRd", "rate": "viridis", "level": "viridis", "residual":
 
 
 def check_palette(kind, name):
-    if name.rstrip("_r") in RAINBOW or name in RAINBOW:
+    base = name.removesuffix("_r")  # a reversed palette keeps its kind; it only flips which end is dark
+    if base in RAINBOW:
         raise SystemExit(f"{name}: its lightness does not rise with the value and it draws edges that are not in "
                          "the data; use a sequential or diverging palette")
-    if name not in KINDS[kind]:
+    if name not in KINDS[kind] and base not in KINDS[kind]:
         raise SystemExit(f"{name} does not fit a {kind}; use one of {sorted(KINDS[kind])}")
 
 
@@ -114,6 +115,8 @@ def assign(x, b):
 
 EDGE = "#404040"   # unit outlines: dark enough to show on the lightest class colour, thin enough not to hide a unit
 LABEL_MAX = 50     # with no --label, label units by ID only when there are this few
+EDGE_MIN_PX = 6    # with --edges auto, outline units only when their median width is at least this many pixels:
+                   # thinner, the outlines merge into a dark mesh that hides the colours
 
 
 def drop_degenerate_holes(poly, rel=1e-9):
@@ -159,6 +162,21 @@ def main():
     p.add_argument("--png")
     p.add_argument("--label", help="column whose values name the units on the map (e.g. name)")
     p.add_argument("--no-labels", action="store_true", help="draw no labels")
+    p.add_argument("--title", help="the question the map answers, as its title (else the caption)")
+    p.add_argument("--context", help="background areas (GeoParquet or a file ST_Read reads): land, boundaries, names")
+    p.add_argument("--context-name", default="name", help="column naming the background areas")
+    p.add_argument("--context-where", help="SQL condition selecting the background areas")
+    p.add_argument("--context-crs", help="CRS of the background; must equal --crs unless --accept-crs-difference")
+    p.add_argument("--context-source", help="background data and version, written under the map")
+    p.add_argument("--accept-crs-difference", help="why the background's other CRS does not show at this scale")
+    p.add_argument("--highlight", help="CSV with id, group and optionally rank: units outlined by group and numbered")
+    p.add_argument("--inset", type=float, nargs=4, metavar=("XMIN", "XMAX", "YMIN", "YMAX"),
+                   help="a zoom drawn in a corner (--inset-at), for crowded highlights")
+    p.add_argument("--inset-at", default="lower right", choices=["lower right", "lower left", "upper right",
+                                                                  "upper left"], help="corner of the map holding the inset")
+    p.add_argument("--expect-units", type=int, help="stop unless this many units are drawn (from the analysis)")
+    p.add_argument("--edges", choices=["auto", "on", "off"], default="auto",
+                   help="unit outlines; auto drops them when units are too small to see between the lines")
     p.add_argument("--font", help="font family for the map's text; by default a Japanese font only when the text needs one")
     a = p.parse_args()
     palette = a.palette or DEFAULT[a.kind]
@@ -188,6 +206,16 @@ def main():
     names = None
     if label_col:
         names = ["" if r[-1] is None else str(r[-1]) for r in rows] if lcol else [str(i) for i in ids]
+    if a.expect_units is not None and len(ids) != a.expect_units:
+        raise SystemExit(f"{len(ids)} units read, expected {a.expect_units}: the table is not the analysis' units")
+    areas_note = None
+    if a.context:
+        if not a.context_crs or not a.context_source:
+            raise SystemExit("--context needs --context-crs and --context-source (data and version)")
+        from context_map import check_context_crs
+
+        areas_note = check_context_crs(a.crs, a.context_crs, a.accept_crs_difference)
+    hl = read_highlights(a.highlight, ids) if a.highlight else None
     ok = np.isfinite(vals)
     print(f"units {len(ids)}: with a value {int(ok.sum())}, NoData {int((~ok).sum())}; {a.value} ({a.kind}, {a.unit})")
 
@@ -220,31 +248,71 @@ def main():
             print(f"  {gv}: shared {share(cls[m])}, own {share(own)}")
 
     if a.png:
-        import matplotlib
+        draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette, hl, areas_note)
 
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-        from matplotlib.patches import Patch, PathPatch
-        from matplotlib.path import Path as MPath
 
-        if a.kind == "category":
-            labels = [f"{v:g} ({n})" for v, n in zip(b, counts)]
-        else:
-            labels = [f"{fmt_break(b[i])} to {fmt_break(b[i + 1])} ({counts[i]})" for i in range(len(counts))]
-        legend_title = f"{a.value} ({a.unit})"
-        caption = f"{a.method or 'category'} classes; CRS {a.crs}; {a.source}"
-        text = " ".join(labels + [legend_title, caption, f"NoData ({int((~ok).sum())})"] + (names or []))
-        font = None
-        if a.font or not text.isascii():
-            # without a Japanese font matplotlib only warns and saves empty boxes: stop before drawing instead
-            from cjk_font import use_cjk_font
+HIGHLIGHT = ["#8e2675", "#157f9b", "#b45f06", "#000000"]  # outline colours of highlighted groups, in order of appearance
 
-            font = use_cjk_font(text, a.font)
-        cmap = plt.get_cmap(palette, len(counts))
-        fig, ax = plt.subplots(figsize=(8, 8))
-        idx = np.full(len(ids), -1)
-        idx[ok] = cls
+
+def read_highlights(path, ids):
+    """(id, group, rank) rows of a CSV with columns id, group and optionally rank; unknown ids stop the run."""
+    import csv
+
+    with open(path, newline="") as fh:
+        rows = [(r["id"], r["group"], (r.get("rank") or "").strip()) for r in csv.DictReader(fh)]
+    unknown = [i for i, _, _ in rows if i not in set(map(str, ids))]
+    if unknown:
+        raise SystemExit(f"highlighted ids not among the units: {unknown[:10]}")
+    groups = list(dict.fromkeys(g for _, g, _ in rows))
+    if len(groups) > len(HIGHLIGHT):
+        raise SystemExit(f"{len(groups)} highlight groups; at most {len(HIGHLIGHT)} stay distinguishable")
+    return rows, groups
+
+
+def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette, hl, crs_note):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import shapely
+    from matplotlib.patches import Patch, PathPatch
+    from matplotlib.path import Path as MPath
+
+    from context_map import (areas_containing, aspect, draw_areas_over, draw_areas_under, label_areas,
+                             read_areas, text_overlaps)
+
+    if a.kind == "category":
+        labels = [f"{v:g} ({n})" for v, n in zip(b, counts)]
+    else:
+        labels = [f"{fmt_break(b[i])} to {fmt_break(b[i + 1])} ({counts[i]})" for i in range(len(counts))]
+    legend_title = f"{a.value} ({a.unit})"
+    caption = f"{a.method or 'category'} classes; CRS {a.crs}; {a.source}"
+    if a.context:
+        caption += f"; background {a.context_source}"
+    xmin, ymin, xmax, ymax = shapely.GeometryCollection(geoms).bounds
+    pad = 0.03 * max(xmax - xmin, ymax - ymin)
+    view = (xmin - pad, xmax + pad, ymin - pad, ymax + pad)
+    areas = read_areas(a.context, a.context_name, a.context_where, shapely.box(view[0] - pad, view[2] - pad,
+                       view[1] + pad, view[3] + pad)) if a.context else []
+    hl_rows, groups = hl if hl else ([], [])
+    title = a.title or caption
+    text = " ".join(labels + [legend_title, caption, title, f"NoData ({int((~ok).sum())})"] + (names or [])
+                    + [n for n, _ in areas] + groups + [r for _, _, r in hl_rows])
+    font = None
+    if a.font or not text.isascii():
+        # without a Japanese font matplotlib only warns and saves empty boxes: stop before drawing instead
+        from cjk_font import use_cjk_font
+
+        font = use_cjk_font(text, a.font)
+    cmap = plt.get_cmap(palette, len(counts))
+    idx = np.full(len(ids), -1)
+    idx[ok] = cls
+    by_id = {str(i): g for i, g in zip(ids, geoms)}
+    colour = {g: HIGHLIGHT[k] for k, g in enumerate(groups)}
+
+    def draw_units(ax, fontsize, edges):
         seams = 0
+        draw_areas_under(ax, areas)
         for g, c in zip(geoms, idx):
             for poly in getattr(g, "geoms", [g]):
                 poly, n = drop_degenerate_holes(poly)
@@ -255,30 +323,123 @@ def main():
                     codes += [MPath.MOVETO] + [MPath.LINETO] * (len(v) - 2) + [MPath.CLOSEPOLY]
                 path = MPath(np.concatenate(verts), codes)
                 face = (0.85, 0.85, 0.85) if c < 0 else cmap(int(c))
-                ax.add_patch(PathPatch(path, facecolor=face, edgecolor=EDGE, lw=0.4, hatch="//" if c < 0 else None))
-        if seams:
-            print(f"left out {seams} interior rings of zero area (seams, not holes)")
-        if names:
-            from matplotlib import patheffects
+                ax.add_patch(PathPatch(path, facecolor=face, edgecolor=EDGE if edges else face,
+                                       lw=0.4 if edges else 0.1, hatch="//" if c < 0 else None, zorder=2))
+        draw_areas_over(ax, areas)
+        rank_texts = []
+        xl, yl = ax.get_xlim(), ax.get_ylim()
+        for i, g, rank in hl_rows:
+            for poly in getattr(by_id[i], "geoms", [by_id[i]]):
+                ax.add_patch(PathPatch(MPath(np.asarray(poly.exterior.coords)), facecolor="none",
+                                       edgecolor=colour[g], lw=2.0, zorder=7))
+            bx = by_id[i].bounds
+            if rank and xl[0] <= bx[2] <= xl[1] and yl[0] <= bx[3] <= yl[1]:
+                rank_texts.append((i, ax.annotate(rank, (bx[2], bx[3]), xytext=(2, 2), textcoords="offset points",
+                                                  fontsize=fontsize, color=colour[g], fontweight="bold", zorder=8,
+                                                  annotation_clip=True,
+                                                  bbox={"boxstyle": "round,pad=0.1", "fc": "white", "ec": "none",
+                                                        "alpha": 0.85})))
+        ax.set_xticks([])
+        ax.set_yticks([])
+        return seams, rank_texts
 
-            halo = [patheffects.withStroke(linewidth=2, foreground="white")]
-            for g, nm in zip(geoms, names):
-                pt = label_point(g)
-                ax.text(pt.x, pt.y, nm, ha="center", va="center", fontsize=6, path_effects=halo)
-        ax.autoscale_view()
-        ax.set_aspect("equal")
-        ax.set_axis_off()
-        handles = [Patch(facecolor=cmap(i), label=lab) for i, lab in enumerate(labels)]
-        handles.append(Patch(facecolor=(0.85, 0.85, 0.85), hatch="//", label=f"NoData ({int((~ok).sum())})"))
-        ax.legend(handles=handles, title=legend_title, loc="lower left", fontsize=8)
-        ax.set_title(caption, fontsize=8)
-        meta = {"value": a.value, "kind": a.kind, "unit": a.unit, "crs": a.crs, "source": a.source,
-                "method": a.method or "category", "classes": len(counts), "breaks": b, "units_per_class": counts,
-                "nodata_units": int((~ok).sum()), "palette": palette, "boundary": EDGE, "labels": label_col,
-                "labelled_units": len(names) if names else 0, "zero_area_rings_left_out": seams, "font": font, "made": date.today().isoformat()}
-        fig.savefig(a.png, dpi=150, bbox_inches="tight", metadata={"Description": json.dumps(meta)})
-        Path(a.png).with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n")
-        print(f"wrote {a.png} and {Path(a.png).with_suffix('.json')}")
+    fig, ax = plt.subplots(figsize=(10, 8))
+    ax.set_xlim(view[0], view[1])
+    ax.set_ylim(view[2], view[3])
+    ax.set_aspect(aspect(a.crs, view[2], view[3]))
+    edges = a.edges == "on"
+    if a.edges == "auto":
+        fig.canvas.draw()
+        to_px = ax.transData.transform
+        widths = [abs(to_px((g.bounds[2], 0))[0] - to_px((g.bounds[0], 0))[0]) for g in geoms]
+        edges = bool(np.median(widths) >= EDGE_MIN_PX)
+        if not edges:
+            print(f"unit outlines left out: units are {np.median(widths):.1f} px wide (median); --edges on to draw them")
+    seams, rank_texts = draw_units(ax, 7.5, edges)
+    main_ranks = [t for _, t in rank_texts]
+    if seams:
+        print(f"left out {seams} interior rings of zero area (seams, not holes)")
+    unit_texts = []
+    if names:
+        from matplotlib import patheffects
+
+        halo = [patheffects.withStroke(linewidth=2, foreground="white")]
+        for g, nm in zip(geoms, names):
+            pt = label_point(g)
+            unit_texts.append(ax.text(pt.x, pt.y, nm, ha="center", va="center", fontsize=6, path_effects=halo,
+                                      zorder=6))
+    area_texts = label_areas(ax, areas, view)
+    hidden = []
+    if a.inset:
+        x0, x1, y0, y1 = a.inset
+        corner = {"lower right": [0.64, 0.03], "lower left": [0.02, 0.03], "upper right": [0.64, 0.63],
+                  "upper left": [0.02, 0.63]}[a.inset_at]
+        inset = ax.inset_axes([*corner, 0.34, 0.34])
+        inset.set_zorder(10)
+        inset.set_xlim(x0, x1)
+        inset.set_ylim(y0, y1)
+        inset.set_adjustable("datalim")
+        inset.set_aspect(aspect(a.crs, y0, y1))
+        _, inset_texts = draw_units(inset, 9, True)
+        ax.indicate_inset_zoom(inset, edgecolor="#333333")
+        rank_texts += inset_texts
+        # a rank whose unit lies inside the zoom is read in the inset; on the main map it may crowd its neighbours
+        zoomed = [t for i, t in rank_texts[:len(main_ranks)]
+                  if x0 <= label_point(by_id[i]).x <= x1 and y0 <= label_point(by_id[i]).y <= y1]
+    handles = [Patch(facecolor=cmap(i), edgecolor=EDGE, label=lab) for i, lab in enumerate(labels)]
+    handles.append(Patch(facecolor=(0.85, 0.85, 0.85), hatch="//", label=f"NoData ({int((~ok).sum())})"))
+    for g in groups:
+        n = sum(1 for _, gg, _ in hl_rows if gg == g)
+        handles.append(Patch(facecolor="none", edgecolor=colour[g], lw=2.0, label=f"{g} ({n})"))
+    leg = ax.legend(handles=handles, title=legend_title, loc="upper left", bbox_to_anchor=(1.01, 1), fontsize=8)
+    ax.set_title(title, fontsize=11 if a.title else 8, loc="left")
+    if a.title:
+        ax.text(0, -0.01, caption, transform=ax.transAxes, fontsize=7, color="#444444", va="top")
+    if a.inset:
+        fig.canvas.draw()
+        r = fig.canvas.get_renderer()
+        box = inset.get_window_extent(r)
+        for i, g, rank in hl_rows:
+            p = label_point(by_id[i])
+            inside = x0 <= p.x <= x1 and y0 <= p.y <= y1
+            if not inside and box.contains(*ax.transData.transform((p.x, p.y))):
+                hidden.append(i)
+        if hidden:
+            print(f"the inset hides highlighted units {hidden}; move the inset or widen it to hold them")
+        # texts of the main map under the inset are covered, not overlapping: they are counted as hidden
+        under = [t for t in unit_texts + area_texts + main_ranks if box.overlaps(t.get_window_extent(r))]
+    else:
+        under, zoomed = [], []
+    texts = [t for t in unit_texts + area_texts + [t for _, t in rank_texts] if t not in under and t not in zoomed]
+    overlaps = text_overlaps(fig, texts, [leg])
+    if overlaps:
+        print(f"{len(overlaps)} overlapping texts (first ones: {overlaps[:5]}); open the PNG, then move, drop or "
+              "zoom into them (--inset)")
+    meta = {"value": a.value, "kind": a.kind, "unit": a.unit, "crs": a.crs, "source": a.source,
+            "method": a.method or "category", "classes": len(counts), "breaks": b, "units_per_class": counts,
+            "nodata_units": int((~ok).sum()), "palette": palette, "boundary": EDGE, "labels": label_col,
+            "labelled_units": len(names) if names else 0, "zero_area_rings_left_out": seams, "font": font,
+            "unit_edges": edges, "covered_by_inset": [t.get_text() for t in under],
+            "zoomed_in_inset": [t.get_text() for t in zoomed], "inset_at": a.inset_at,
+            "title": a.title, "aspect": aspect(a.crs, view[2], view[3]), "legend": "outside",
+            "text_overlaps": [list(o) for o in overlaps], "inset": a.inset, "hidden_by_inset": hidden,
+            "made": date.today().isoformat()}
+    if a.context:
+        meta["context"] = {"path": a.context, "name": a.context_name, "where": a.context_where,
+                           "source": a.context_source, "crs": a.context_crs, "crs_difference": crs_note,
+                           "areas": len(areas), "labelled": [t.get_text() for t in area_texts]}
+    if hl:
+        meta["highlight"] = {"path": a.highlight, "groups": {g: sum(1 for _, gg, _ in hl_rows if gg == g)
+                                                            for g in groups}}
+        out = Path(a.png).with_name(Path(a.png).stem + "-highlights.csv")
+        with out.open("w") as fh:
+            fh.write("id,group,rank,area\n")
+            for i, g, rank in hl_rows:
+                fh.write(f"{i},{g},{rank},{areas_containing(label_point(by_id[i]), areas)}\n")
+    fig.savefig(a.png, dpi=170, bbox_inches="tight", metadata={"Description": json.dumps(meta)})
+    plt.close(fig)
+    Path(a.png).with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n")
+    print(f"wrote {a.png} and {Path(a.png).with_suffix('.json')}")
 
 
 if __name__ == "__main__":

@@ -34,7 +34,7 @@ uvx --with numpy --with duckdb --with shapely --with matplotlib python scripts/c
 - 面だけ。点の大きさの地図 (比例記号)、ラスタの地図、カルトグラム。
 - 2 つの変数を 1 枚に重ねる地図。
 - 色覚の多様性への配慮の確かめ (色の型は順序と中央から分かれる色に限っているが、見え方は確かめていない)。
-- 縮尺、方位、背景の地図。
+- 縮尺、方位。背景の境界と地名、格子の四角、強調と拡大図は [map-context](map-context.md)。
 
 ## 書き出すもの
 

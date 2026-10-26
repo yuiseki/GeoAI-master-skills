@@ -233,3 +233,91 @@ def test_cli_checks_the_font_against_the_labels_too(tmp_path):
                "--font", "DejaVu Sans")
     assert out.returncode != 0 and "千" in out.stderr
     assert not (tmp_path / "m.png").exists()
+
+
+def _context(tmp_path):
+    import duckdb
+
+    con = duckdb.connect()
+    con.sql("install spatial; load spatial;")
+    con.sql(f"copy (select * from (values ('West', ST_GeomFromText('POLYGON((-5 -5, 45 -5, 45 20, -5 20, -5 -5))')), "
+            f"('East', ST_GeomFromText('POLYGON((45 -5, 100 -5, 100 20, 45 20, 45 -5))'))) t(name, geometry)) "
+            f"to '{tmp_path}/ctx.parquet' (format parquet)")
+    return str(tmp_path / "ctx.parquet")
+
+
+BASE = ["id", "v", "--kind", "rate", "--unit", "per km2", "--method", "equal", "--classes", "2",
+        "--source", "synthetic v1", "--no-labels"]
+
+
+def test_cli_stretches_a_longitude_latitude_map_by_latitude(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False)
+    out = _cli(tmp_path, p, *BASE, "--crs", "EPSG:4326", "--png", str(tmp_path / "m.png"))
+    assert out.returncode == 0, out.stderr
+    meta = json.loads((tmp_path / "m.json").read_text())
+    assert meta["aspect"] == pytest.approx(1 / np.cos(np.radians(0.5)))
+    assert meta["legend"] == "outside" and meta["text_overlaps"] == []
+
+
+def test_cli_draws_a_background_layer_and_stops_on_a_crs_mismatch(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4, 5, 6], areas_grow=False)  # units reach x = 51, into East
+    ctx = _context(tmp_path)
+    args = [p, *BASE, "--crs", "EPSG:6677", "--png", str(tmp_path / "m.png"), "--context", ctx,
+            "--context-name", "name"]
+    out = _cli(tmp_path, *args, "--context-crs", "EPSG:6668", "--context-source", "areas v2")
+    assert out.returncode != 0 and "EPSG:6668" in out.stderr and not (tmp_path / "m.png").exists()
+    out = _cli(tmp_path, *args, "--context-crs", "EPSG:6677", "--context-source", "areas v2 (abc1234)")
+    assert out.returncode == 0, out.stderr
+    meta = json.loads((tmp_path / "m.json").read_text())
+    assert meta["context"]["source"] == "areas v2 (abc1234)" and meta["context"]["areas"] == 2
+    assert sorted(meta["context"]["labelled"]) == ["East", "West"]
+
+
+def test_cli_highlights_units_with_ranks_and_names_their_areas(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4, 5, 6], areas_grow=False)
+    ctx = _context(tmp_path)
+    hl = tmp_path / "hl.csv"
+    hl.write_text("id,group,rank\n5,top,1\n1,top,2\n4,other,\n")
+    args = [p, *BASE, "--crs", "EPSG:6677", "--png", str(tmp_path / "m.png"), "--context", ctx,
+            "--context-name", "name", "--context-crs", "EPSG:6677", "--context-source", "s",
+            "--highlight", str(hl), "--inset", "-1", "22", "-1", "3", "--expect-units", "6"]
+    out = _cli(tmp_path, *args)
+    assert out.returncode == 0, out.stderr
+    meta = json.loads((tmp_path / "m.json").read_text())
+    assert meta["highlight"]["groups"] == {"top": 2, "other": 1} and meta["inset"] == [-1, 22, -1, 3]
+    assert meta["zoomed_in_inset"] == ["2"]  # rank 2 (unit 1) lies inside the inset, so it is read there
+    rows = (tmp_path / "m-highlights.csv").read_text().splitlines()
+    assert rows[0] == "id,group,rank,area" and "5,top,1,East" in rows and "1,top,2,West" in rows
+    hl.write_text("id,group,rank\n99,top,1\n")
+    out = _cli(tmp_path, *args)
+    assert out.returncode != 0 and "99" in out.stderr
+
+
+def test_cli_stops_when_the_units_drawn_are_not_the_units_expected(tmp_path):
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False)
+    out = _cli(tmp_path, p, *BASE, "--crs", "EPSG:6677", "--expect-units", "5", "--png", str(tmp_path / "m.png"))
+    assert out.returncode != 0 and "expected 5" in out.stderr and not (tmp_path / "m.png").exists()
+
+
+def test_reversed_palettes_keep_their_kind():
+    check_palette("change", "BrBG_r")
+    check_palette("rate", "viridis_r")
+    with pytest.raises(SystemExit):
+        check_palette("rate", "BrBG_r")
+    with pytest.raises(SystemExit):
+        check_palette("rate", "jet_r")
+
+
+def test_cli_drops_unit_outlines_when_units_are_too_small_to_see_between_them(tmp_path):
+    import duckdb
+
+    con = duckdb.connect()
+    con.sql("install spatial; load spatial;")
+    con.sql(f"copy (select (i * 100 + j)::varchar as id, (i + j)::double as v, ST_MakeEnvelope(j, i, j + 1, i + 1) "
+            f"as geometry from range(100) a(i), range(100) b(j)) to '{tmp_path}/g.parquet' (format parquet)")
+    out = _cli(tmp_path, str(tmp_path / "g.parquet"), *BASE, "--crs", "EPSG:6677", "--png", str(tmp_path / "g.png"))
+    assert out.returncode == 0, out.stderr
+    assert json.loads((tmp_path / "g.json").read_text())["unit_edges"] is False
+    p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False)
+    out = _cli(tmp_path, p, *BASE, "--crs", "EPSG:6677", "--png", str(tmp_path / "m.png"))
+    assert json.loads((tmp_path / "m.json").read_text())["unit_edges"] is True
