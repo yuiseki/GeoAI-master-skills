@@ -1,0 +1,167 @@
+{
+  "mode": "exploration",
+  "social_problem": "高齢歩行者の人身事故は、東京23区でも場所によって大きく偏る。区の交通安全担当や警察は、見守り、横断施設の改良、啓発の優先メッシュを決める必要がある。高齢居住者あたりの率は、高齢住民が少なく高齢の来街者が多い駅前・商業地区を過小評価しうる。一方、平日昼の滞在人口あたりの率は、その地区の昼間人口の大半が高齢でない就業者・買い物客であるため、高齢歩行者の曝露を表していない可能性がある。どちらの指標が優先順位をどう変えるかを、意思決定の前に確かめたい。",
+  "working_hypothesis": "2019年の東京23区の平日11〜14時について、65歳以上の歩行者死傷者を高齢居住者10,000人あたりで並べた上位10%と、平日11〜14時の滞在人口10,000人あたりで並べた上位10%の重なりは8割未満になる。順位が昼間人口あたりで上がるメッシュは、昼間人口と夜間人口の比が大きいメッシュに集中する。重なりが8割以上、または昼/夜人口比と順位差の関係がほぼ無ければ、この仮説を退ける。",
+  "question": "2019年の東京23区で、65歳以上の歩行者の人身事故が、高齢居住者あたりで多い1kmメッシュと、平日昼（11〜14時）にその場にいる人あたりで多い1kmメッシュは、どれだけ違うか。順位の差は昼間人口と夜間人口の比で説明できるか。",
+  "decision_use": "区の交通安全担当と警察が、固定した予算で高齢歩行者の見守り・横断施設・啓発を行う上位Kメッシュを選ぶとき、高齢居住者あたりの率と平日昼の滞在人口あたりの率のどちらを使うかで、選ばれる場所と、その場所が次期に拾う死傷者数がどれだけ変わるかを知る。Kは10、20、50、100を想定する。",
+  "target_quantity": "平日11〜14時の65歳以上の歩行者死傷者数（本票の当事者AとBのみ）を、(a) 高齢（65歳以上）居住者10,000人あたり、(b) 平日11〜14時の滞在人口10,000人あたりで割った率。上位K（K=10、20、50、100）の重なり、順位相関、昼間人口/夜間人口比と順位差の関係、時間で分けた捕捉率。",
+  "unit": "東京23区の3次メッシュ（1km、8桁）。事故は本票の緯度経度からメッシュコードを計算して落とし、国勢調査のKEY_CODEとモビリティのmesh1kmidに文字列で結ぶ。1行は1メッシュ×2019年の集計。",
+  "time_alignment": "事故は2019年に発生した分を、2019〜2022年の本票ファイルから発生日時　　年='2019'で抽出する。国勢調査は2020年10月1日時点、モビリティは2019年の月別（平日）で、事故の年と国勢調査の年に1年のずれがある。主期間は2019年の平日11〜14時。モビリティの昼は11時台〜14時台の平均で、事故の時刻と対応する。",
+  "datasets": [
+    "yuiseki/npa-traffic-accidents",
+    "yuiseki/estat-census-mesh-2020",
+    "yuiseki/mlit-1km-fromto-2022-01",
+    "yuiseki/jp-admin-2026-09"
+  ],
+  "joins": [
+    {
+      "left": "yuiseki/npa-traffic-accidents",
+      "right": "yuiseki/estat-census-mesh-2020",
+      "how": "本票のlatitudeとlongitudeから3次メッシュの8桁コードを計算し、T001140のKEY_CODEと文字列で結ぶ。都道府県コードと市区町村コードで東京23区に絞ってから結ぶ。",
+      "why": "事故のメッシュに高齢居住者（T001140019）を付けて、居住者あたりの率の分母にする。"
+    },
+    {
+      "left": "yuiseki/estat-census-mesh-2020",
+      "right": "yuiseki/mlit-1km-fromto-2022-01",
+      "how": "KEY_CODEとmonthly_mdp_mesh1kmのmesh1kmidを8桁の文字列で結ぶ。prefcode='13'、year='2019'、dayflag='1'、timezone='0'（昼）と'1'（深夜）に絞る。",
+      "why": "同じメッシュの平日昼の滞在人口を、昼間人口あたりの率の分母にし、夜間人口を昼/夜比に使う。"
+    },
+    {
+      "left": "yuiseki/estat-census-mesh-2020",
+      "right": "yuiseki/jp-admin-2026-09",
+      "how": "メッシュの南西角と大きさから中心点を作り、EPSG:4612の市区町村面に入れてcode5を得る。東京23区の範囲と区名の確認に使う。",
+      "why": "メッシュが東京23区のどこに当たるかを確認し、23区外の行を落としたことを数える。"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "latitude"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "longitude", "evidence_file": "projects/taito-accident-trends-by-role/scripts/analyze.py"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "発生日時　　年"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "発生日時　　時", "evidence_file": "projects/taito-accident-trends-by-role/scripts/analyze.py"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "曜日(発生年月日)", "evidence_file": "projects/taito-accident-trends-by-role/scripts/analyze.py"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "都道府県コード"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "市区町村コード"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "当事者種別（当事者A）"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "年齢（当事者A）"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "人身損傷程度（当事者A）"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "当事者種別（当事者B）", "evidence_file": "projects/taito-accident-trends-by-role/scripts/analyze.py"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "年齢（当事者B）", "evidence_file": "projects/taito-accident-trends-by-role/scripts/analyze.py"},
+    {"dataset": "yuiseki/npa-traffic-accidents", "table": "honhyo", "column": "人身損傷程度（当事者B）", "evidence_file": "projects/taito-accident-trends-by-role/scripts/analyze.py"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "prefecture"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140001"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140019", "evidence_file": "projects/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140022", "evidence_file": "projects/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "HTKSYORI"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "mesh1kmid"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "year"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "month"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "dayflag"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "timezone"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "population"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "prefcode"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "code5"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "pref_code"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "geometry"}
+  ],
+  "methodological_decisions": [
+    "曝露の定義。居住者あたりは高齢（65歳以上）居住者を分母にし、昼間人口あたりは平日11〜14時の全年龄の滞在人口を分母にする。どちらも高齢歩行者の真の曝露ではない。前者は高齢の来街者を分母から外し、後者は高齢でない就業者・買い物客で薄める。分析は「真のリスク」ではなく「指標による優先順位の違い」を測る。",
+    "時間窓。モビリティの昼は11時台〜14時台の平均なので、事故も平日11〜14時に絞る。高齢歩行者の死傷は17〜18時にも多いが、その時間の滞在人口はこのデータに無いため、主分析から外し、限界に書く。",
+    "死傷者の定義。本票の当事者AとBだけを数える。補充票には年齢が無いため、当事者C以降の高齢歩行者は数えられない。AとBがともに高齢歩行者なら2人として数える。",
+    "分母の下限。高齢居住者100人以上、昼間人口100人以上、昼・夜・全日のモビリティが12か月そろうメッシュに限る。下限を50、100、1,000、2,000に変えて上位集合の動きを見る。",
+    "事故の年。ファイルの年ではなく発生日時　　年='2019'を使い、2019〜2022年のファイルを合わせる。2019年のファイルには2018年以前の事故が混ざり、2020年以降のファイルには2019年発生の事故が遅れて入るため。",
+    "順位の比較。上位Kの重なりだけでなく、2019年前半で順位を作り、後半の死傷者の捕捉率を、件数・居住者あたり・昼間人口あたり・無作為選択で比べる。K=10、20、50、100。"
+  ],
+  "failure_modes": [
+    "死傷者数が少ない。2019年の東京23区の平日11〜14時の高齢歩行者死傷者は201人で、1メッシュあたり中央値0人。上位の率は小さな分母に敏感で、順位が不安定になる。",
+    "昼間人口は高齢者の曝露ではない。駅前・商業地区の昼間人口は就業者と買い物客が大半で、高齢歩行者の人数を表さない。昼間人口あたりの率が低いことは、高齢歩行者のリスクが低いことを意味しない。",
+    "モビリティはGPSからの拡大推計で、10人未満の月は行が無い。アプリ利用者の偏り、月による欠け、10人未満の抑制が分母に入る。",
+    "国勢調査は2020年、事故は2019年で1年ずれる。メッシュの境界は都道府県で分かれ、東京の行は東京側の人口だけを持つ。",
+    "補充票に年齢が無いため、当事者C以降の高齢歩行者が落ちる。3人以上の事故では死傷者を過小に数える。",
+    "11〜14時は高齢歩行者の死傷のピークの一つ（11時台）を含むが、17〜18時のピークを含まない。時間窓を変えると順位が変わりうる。",
+    "事故の緯度経度は測地系が明示されず、OGC:CRS84として扱う。1kmメッシュの境界付近では、測地系の違いで別のメッシュに入る可能性がある。"
+  ],
+  "robustness_checks": [
+    "分母の下限を高齢50/昼50、100/100、1,000/1,000、2,000/2,000に変えて、上位20と上位10%の重なりを比べる。",
+    "時間窓を平日全日に広げ、分母を全日の滞在人口に変えて、上位集合と順位相関を比べる。",
+    "上位Kを10、20、50、100に変えて、重なりと捕捉率のK依存を見る。",
+    "2019年を前半（1〜6月）と後半（7〜12月）に分け、前半の順位で後半の死傷者を拾う捕捉率を、件数・居住者あたり・昼間人口あたり・無作為で比べる。",
+    "死傷者をメッシュ内でポアソンに引き直すブートストラップ、または経験ベイズの縮小で、上位集合がどれだけ残るかを見る。",
+    "都道府県で分かれた境界メッシュを除いて、順位と重なりが変わるかを見る。"
+  ],
+  "simplest_solver": {
+    "method": "2つの率（高齢居住者あたり、平日昼の滞在人口あたり）を計算し、上位Kの重なりと順位相関を出す。",
+    "why_insufficient": "率の順位は分母が小さいメッシュで不安定になり、重なりが小さくてもノイズか系統差かを分けられない。固定予算Kで次期の死傷者をどれだけ拾えるかは、時間で分けた捕捉率でしか比べられない。また、昼間人口が高齢者の曝露でないことを踏まえ、率の違いをリスクの違いと読まない解釈が必要。"
+  },
+  "unknowns": [
+    "事故に遭った高齢歩行者が、そのメッシュの居住者か来街者かは分からない。事故データに住所や滞在の情報が無い。",
+    "メッシュごとの高齢歩行者の昼間人数（高齢者の滞在人口）は、このデータに無い。年齢別の滞在人口を持つデータが必要。",
+    "17〜18時の高齢歩行者の曝露。モビリティの時間帯は11〜14時と1〜4時、全日だけで、夕方の滞在人口は無い。",
+    "2019年の高齢人口。国勢調査は2020年で、2019年のメッシュ別人口はこのデータに無い。",
+    "見守りや横断施設の改良が死傷者をどれだけ減らすか（因果効果）。この分析は記述的な選別であり、介入の効果を推定しない。"
+  ],
+  "novelty": {
+    "closest_task": "30（2025年東京23区の1kmメッシュ人口あたり事故）と31（道路量で調整した事故）",
+    "difference_dimension": "exposure_definition",
+    "substantive_difference": "人口あたりの事故一般ではなく、65歳以上の歩行者に限定し、高齢居住者あたりと平日昼の滞在人口あたりという2つの曝露の順位の違いを、上位Kの重なりと時間で分けた捕捉率で比べる。居住者あたりの率が駅前・商業地区の高齢来街者を過小評価するかという、分母の意味の違いを扱う。"
+  },
+  "prediction": {
+    "main_result": "上位10%の重なりは8割未満になる。昼間人口/夜間人口比が大きいメッシュは、昼間人口あたりの率で順位を上げる。",
+    "difficulty": "事故・国勢調査・モビリティ・行政界の4つをメッシュで結び、事故の発生年とファイル年のずれ、10人未満の抑制、都道府県で分かれた境界メッシュ、小さな分母を扱う必要がある。上位Kの重なりだけでなく、時間で分けた捕捉率と不確かさを示す必要がある。",
+    "fragile_assumption": "平日昼の滞在人口が、高齢歩行者の曝露の代理として意味を持つという仮定。実際には全年龄の滞在人口で、高齢者の割合はメッシュで違う。",
+    "needed_capabilities": ["spatial-data-integration", "analysis-unit-design", "robustness-analysis", "spatial-autocorrelation"]
+  },
+  "rubric": [
+    "事故の発生年とファイル年の違いを扱い、2019年発生分を2019〜2022年のファイルから過不足なく数え、ファイル間の重複を確認しているか。",
+    "3次メッシュの計算、国勢調査のKEY_CODE、モビリティのmesh1kmidの結合で、落ちた行と重複した行を数え、結合の損失を報告しているか。",
+    "分母の下限と12か月の条件を変えて、上位集合と順位がどれだけ動くかを示しているか。",
+    "上位Kの重なりだけでなく、時間で分けた捕捉率を、無作為選択と件数・居住者あたり・昼間人口あたりで比べているか。",
+    "昼間人口が高齢者の曝露ではないこと、事故の被害者が居住者か来街者か分からないことを認め、結論を「リスクの違い」ではなく「指標による優先順位の違い」として書いているか。",
+    "因果の言葉を使わず、見守りや横断施設の効果を推定していないと明記しているか。"
+  ],
+  "claim_type": "descriptive_screening",
+  "pilot": {
+    "status": "rejected_after_pilot",
+    "data_versions": {
+      "npa-traffic-accidents": "389500aae5cec45f1311163f70db6a5f05867838",
+      "estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+      "mlit-1km-fromto-2022-01": "2424a9d9a0518f5575f0af54602eb428ca6d97b2",
+      "jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135"
+    },
+    "observed": {
+      "occurrence_2019_rows_japan": 380197,
+      "occurrence_2019_by_file": {"2019": 370843, "2020": 9321, "2021": 28, "2022": 5},
+      "tokyo23_rows": 21035,
+      "tokyo23_no_coordinate": 0,
+      "tokyo23_weekday_rows": 16107,
+      "weekday_elderly_pedestrian_casualties_all_hours": 687,
+      "weekday_elderly_pedestrian_casualties_1114": 201,
+      "meshes_with_1114_casualty": 150,
+      "meshes_with_2plus_1114_casualties": 38,
+      "universe_meshes": 1175,
+      "top20_overlap": 7,
+      "top10pct_overlap": "94/118 (79.7%)",
+      "spearman_all_meshes": 0.756,
+      "spearman_meshes_with_casualty": 0.105,
+      "ratio_vs_rank_shift": -0.868,
+      "split_half_capture": {
+        "K10": {"count": 6, "resident_rate": 7, "ambient_rate": 3, "random": 0.8},
+        "K20": {"count": 12, "resident_rate": 11, "ambient_rate": 9, "random": 1.6},
+        "K50": {"count": 19, "resident_rate": 23, "ambient_rate": 14, "random": 4.1},
+        "K100": {"count": 30, "resident_rate": 30, "ambient_rate": 30, "random": 8.2}
+      },
+      "floor_variants_top20_overlap": {"50_50": 7, "100_100": 7, "1000_1000": 7, "2000_2000": 11},
+      "all_day_variant": {"top20_overlap": 3, "top10pct_overlap": "69/118", "ratio_vs_rank_shift": -0.843}
+    },
+    "interpretation": "上位20の重なりは7/20で小さく、上位10%でも94/118（79.7%）と棄却の閾値80%にほぼ達した。昼/夜人口比と順位差の相関は-0.868で、予測と逆に、昼間人口比が大きいメッシュは昼間人口あたりで順位を下げた。これは昼間人口が就業者・買い物客で薄められるという機械的な理由で説明できる。2019年前半で順位を作り後半を評価すると、K=10で件数6、居住者あたり7、昼間人口あたり3、無作為0.8。昼間人口あたりの率は居住者あたりや件数より次期の死傷者を拾えず、この候補の前提（昼間人口あたりの率が見過ごされた場所を拾う）は支持されなかった。",
+    "prediction_fixed_before_decisive_comparison": true,
+    "seen_before_prediction": "ファイル年ごとの件数、時間帯の分布、結合後のユニバースの大きさ（1,288→1,175メッシュ）は予測固定前に見ていた。上位集合の重なり、順位相関、昼/夜比との関係、分割捕捉率は予測固定後に初めて計算した。",
+    "rejection_reasons": [
+      "単純解法（2つの率の上位Kの重なり）で意思決定に足る答えが出る。上位10%の重なりは79.7%で、棄却の閾値80%にほぼ達する（達していない）。",
+      "昼間人口あたりの率は、分割捕捉率で居住者あたりや件数より悪い。候補の前提と逆で、指標を変える利点が無い。",
+      "順位差は昼/夜人口比と強く関係するが、方向は予測と逆で、昼間人口が全年龄であることによる機械的な希釈である。新しい発見ではなく、分母の算術で説明できる。",
+      "事故の被害者が居住者か来街者か、メッシュの高齢昼間人口は、このデータから分からない。真の曝露を推定できないため、率の違いをリスクの違いとして使えない。",
+      "上位Kの重なりはKに強く依存し（K=20で7/20、K=118で94/118）、固定予算の意思決定以外では結論が変わらない。"
+    ]
+  }
+}
