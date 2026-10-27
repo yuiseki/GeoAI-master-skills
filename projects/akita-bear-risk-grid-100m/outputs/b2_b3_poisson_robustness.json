@@ -1,0 +1,231 @@
+{
+  "mode": "exploratory robustness of B1-selected count_poisson",
+  "question": "Does the count-vs-binary Poisson capture@5% advantage persist in B2 and B3?",
+  "fixed_setup": {
+    "splits": [
+      {
+        "block": "B2",
+        "train": [
+          2023,
+          2024
+        ],
+        "test": 2025
+      },
+      {
+        "block": "B3",
+        "train": [
+          2023,
+          2024,
+          2025
+        ],
+        "test": 2026
+      }
+    ],
+    "B3_test_label_period": "2026 April-September",
+    "features": "B_env static only",
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "seed": 0,
+    "sample_weight_passed": false,
+    "poisson_loss": "poisson",
+    "numpy": "2.5.4",
+    "sklearn": "1.9.1",
+    "input_sha256": {
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24"
+    },
+    "baseline_tolerance": 1e-09,
+    "B1_reference": "projects/akita-bear-risk-grid-100m/outputs/b1_poisson_target_isolation.json"
+  },
+  "B1_reference_results": [
+    {
+      "setting": "B_env_classifier",
+      "model": "HistGradientBoostingClassifier",
+      "target": "2023 binary presence",
+      "capture@1%": 0.18699731903485256,
+      "capture@5%": 0.5341823056300268,
+      "capture@10%": 0.735254691689008,
+      "auc": 0.9250934433955277,
+      "ap": 0.016332972401106878
+    },
+    {
+      "setting": "binary_poisson",
+      "model": "HistGradientBoostingRegressor",
+      "loss": "poisson",
+      "target": "2023 binary presence",
+      "capture@1%": 0.18096514745308312,
+      "capture@5%": 0.5375335120643432,
+      "capture@10%": 0.7312332439678284,
+      "auc": 0.9254692038283835,
+      "ap": 0.01650645264230792
+    },
+    {
+      "setting": "count_poisson",
+      "model": "HistGradientBoostingRegressor",
+      "loss": "poisson",
+      "target": "2023 report count",
+      "capture@1%": 0.17761394101876676,
+      "capture@5%": 0.5475871313672922,
+      "capture@10%": 0.7292225201072386,
+      "auc": 0.9250882272373226,
+      "ap": 0.016087632829411207
+    }
+  ],
+  "B2_B3": {
+    "B2": {
+      "setup": {
+        "train_years": [
+          2023,
+          2024
+        ],
+        "test_year": 2025,
+        "n_train": 2336422,
+        "n_test": 1168211,
+        "n_test_positive": 10729,
+        "train_target_summary": {
+          "n_positive_cells": 4931,
+          "n_reports": 5481,
+          "n_cells_with_multiple_reports": 394,
+          "max_reports_in_cell": 8
+        }
+      },
+      "classifier_reference_capture@5%": 0.5515891508994315,
+      "results": [
+        {
+          "setting": "B_env_classifier",
+          "model": "HistGradientBoostingClassifier",
+          "target": "binary presence",
+          "capture@1%": 0.1906981079317737,
+          "capture@5%": 0.5515891508994315,
+          "capture@10%": 0.7669866716376177,
+          "auc": 0.9377318063206823,
+          "ap": 0.12086747885898876
+        },
+        {
+          "setting": "binary_poisson",
+          "model": "HistGradientBoostingRegressor",
+          "loss": "poisson",
+          "target": "binary presence",
+          "capture@1%": 0.19535837449902135,
+          "capture@5%": 0.5494454282784975,
+          "capture@10%": 0.7671730823003076,
+          "auc": 0.9377451344877129,
+          "ap": 0.12061549881171305
+        },
+        {
+          "setting": "count_poisson",
+          "model": "HistGradientBoostingRegressor",
+          "loss": "poisson",
+          "target": "report count",
+          "capture@1%": 0.18445335073166186,
+          "capture@5%": 0.5540637524466402,
+          "capture@10%": 0.7657750023301333,
+          "auc": 0.937508109926022,
+          "ap": 0.12348500292463697
+        }
+      ],
+      "count_minus_binary_capture@5%": 0.0046183241681426734
+    },
+    "B3": {
+      "setup": {
+        "train_years": [
+          2023,
+          2024,
+          2025
+        ],
+        "test_year": 2026,
+        "n_train": 3504633,
+        "n_test": 1168211,
+        "n_test_positive": 3036,
+        "train_target_summary": {
+          "n_positive_cells": 15660,
+          "n_reports": 19068,
+          "n_cells_with_multiple_reports": 2167,
+          "max_reports_in_cell": 41
+        }
+      },
+      "classifier_reference_capture@5%": 0.5391963109354414,
+      "results": [
+        {
+          "setting": "B_env_classifier",
+          "model": "HistGradientBoostingClassifier",
+          "target": "binary presence",
+          "capture@1%": 0.16699604743083005,
+          "capture@5%": 0.5391963109354414,
+          "capture@10%": 0.7638339920948617,
+          "auc": 0.9310692584276232,
+          "ap": 0.03160817229654186
+        },
+        {
+          "setting": "binary_poisson",
+          "model": "HistGradientBoostingRegressor",
+          "loss": "poisson",
+          "target": "binary presence",
+          "capture@1%": 0.16073781291172595,
+          "capture@5%": 0.5352437417654808,
+          "capture@10%": 0.7598814229249012,
+          "auc": 0.9306081961710897,
+          "ap": 0.03147174271903257
+        },
+        {
+          "setting": "count_poisson",
+          "model": "HistGradientBoostingRegressor",
+          "loss": "poisson",
+          "target": "report count",
+          "capture@1%": 0.15843214756258234,
+          "capture@5%": 0.5299736495388669,
+          "capture@10%": 0.7598814229249012,
+          "auc": 0.929906434576586,
+          "ap": 0.029405188735203574
+        }
+      ],
+      "count_minus_binary_capture@5%": -0.005270092226613898
+    }
+  },
+  "decision": {
+    "verdict": "mixed_not_robust",
+    "B2_count_minus_binary_capture@5%": 0.0046183241681426734,
+    "B3_count_minus_binary_capture@5%": -0.005270092226613898
+  },
+  "limitations": "Point estimates only; B1 model choice was exploratory. Original B2/B3 confirmatory claims remain unchanged. Counts also reflect reporting. B3 is a partial-year label, and no uncertainty interval is estimated."
+}

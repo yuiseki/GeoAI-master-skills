@@ -124,6 +124,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b1_squared_target_isolation.json
 ```
 
+### B1選択済み count_poisson の B2/B3 頑健性確認
+
+B1で選んだ `count_poisson` を固定し、`B_env` 分類器と `binary_poisson` に対してB2 (2023・2024→2025) とB3 (2023〜2025→2026年4〜9月) で比較する。3モデルとも静的28特徴量・既存HGB設定・全セル・無重みで各分割から再学習する。評価は従来の二値セルラベルで、主比較は `count_poisson − binary_poisson` の capture@5%。既存B2/B3の確認的な主張は変えない。結果と入力のSHA256は [B2/B3 Poisson頑健性JSON](outputs/b2_b3_poisson_robustness.json)。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy --with scikit-learn python \
+  projects/akita-bear-risk-grid-100m/scripts/poisson_robustness_b2_b3.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b2_b3_poisson_robustness.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。
