@@ -183,6 +183,17 @@ uvx --with numpy --with scipy python \
   projects/akita-bear-risk-grid-100m/outputs/b2_b3_feature_stratified_capture.json
 ```
 
+### crop Q5 内部の保存済み B_env 順位性能
+
+前回固定した `crop` Q5 境界（有効画素の農地割合が `0.025974025949835777` 超）を使い、Q5/非Q5の陽性率・AUC・AP・層内capture@5/10/20%と、全県top-5%の層別配分を[内部順位診断JSON](outputs/b2_b3_crop_q5_internal_audit.json)に残す。層内順位は既存の全県順位を抜き出すだけで、同点処理や予測スコアは変えない。層内の5%と全県の5%は別の面積予算であり、この監査は予算再配分の効果を測ったものではない。
+
+```sh
+uvx --with numpy --with scipy --with scikit-learn python \
+  projects/akita-bear-risk-grid-100m/scripts/crop_q5_internal_audit.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b2_b3_crop_q5_internal_audit.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。

@@ -1,0 +1,119 @@
+{
+  "mode": "exploratory descriptive diagnostic; saved scores only",
+  "question": "Does saved B_env retain internal ranking signal in fixed crop Q5?",
+  "definition": {
+    "crop_Q5": "finite WorldCover 2021 class-40 cell fraction > 0.025974025949835777 (prior fixed q80)",
+    "non_Q5": "complement of crop Q5, including missing if present",
+    "internal_order": "subsequence of statewide metrics.rank_order(saved B_env score,seed=0); no new tie break",
+    "capture": "fractional boundary at 5%, 10%, 20% of stratum cells; denominator positive cells in same stratum",
+    "global_top5_allocation_rate": "number of stratum cells among statewide top ceil(5%) / all stratum cells",
+    "signal_rule": "AUC>0.5, AP>stratum prevalence, internal capture@5%>0.05 in both B2/B3",
+    "allocation_rule": "statewide top-5% allocation rate in Q5 <0.05 in both B2/B3"
+  },
+  "provenance": {
+    "prior_strata_json": "/Workspaces/tmp/_exp/GeoAI-master-skills/projects/akita-bear-risk-grid-100m/outputs/b2_b3_feature_stratified_capture.json",
+    "prior_strata_json_sha256": "67511dc0ddbc9eec122059e2841800c88e6d3290d022554f003acc0bc806805d",
+    "input_sha256": {
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+      "eval/b2_confirm_2023-2024_to_2025_scores.npz": "aa33ceeb78d8ff46cd39388f8884b1d1b20547d163d235ddb65ac74831be82ba",
+      "eval/b2_confirm_2023-2024_to_2025.json": "53d6bbb64e84b9ef6917056e2c4b7eb2ec55b39aea93cc645e0c7a3ad3b99df6",
+      "eval/b3_confirm_2023-2025_to_2026_scores.npz": "9895dbd7b6e89a304a072b92543a5b39088b4363b99b44cf46dcb1d1727460f5",
+      "eval/b3_confirm_2023-2025_to_2026.json": "381b24d2771fdaae5235f50cfdeb4c9f08dc713133f8ea499cf7845853c13e55"
+    },
+    "script": "projects/akita-bear-risk-grid-100m/scripts/crop_q5_internal_audit.py",
+    "script_sha256": "e526ffa75ebeae683cb03972c852ae295465a339c49599f0c1c19cebe77186eb",
+    "metrics_py_sha256": "bf884a22b907aeb2ea557921723586ce4a3ae8e91c00def568df78154d12e40b",
+    "numpy": "2.5.4",
+    "scikit_learn": "1.9.1"
+  },
+  "years": {
+    "B2": {
+      "test_year": 2025,
+      "test_label_period": "full fiscal year",
+      "n_cells": 1168211,
+      "n_positive": 10729,
+      "n_crop_missing": 0,
+      "overall_capture_at_5": 0.5515891508994315,
+      "n_global_top5_cells": 58411,
+      "strata": {
+        "crop_Q5": {
+          "n_cells": 232373,
+          "n_positive": 5436,
+          "positive_rate": 0.023393423504451893,
+          "auc": 0.8068635531821883,
+          "ap": 0.09755043410128174,
+          "capture_at_5_percent_within_stratum": 0.264532744665195,
+          "capture_at_10_percent_within_stratum": 0.4205298013245033,
+          "capture_at_20_percent_within_stratum": 0.6230684326710817,
+          "n_global_top5_cells": 30376,
+          "global_top5_allocation_rate": 0.13072086688212486,
+          "n_global_top5_captured_positive": 2709,
+          "global_top5_recall_in_stratum": 0.49834437086092714
+        },
+        "non_Q5": {
+          "n_cells": 935838,
+          "n_positive": 5293,
+          "positive_rate": 0.005655893434547432,
+          "auc": 0.9682044761027151,
+          "ap": 0.14454702932005906,
+          "capture_at_5_percent_within_stratum": 0.7706404685433591,
+          "capture_at_10_percent_within_stratum": 0.9499338749291517,
+          "capture_at_20_percent_within_stratum": 0.9896089174381258,
+          "n_global_top5_cells": 28035,
+          "global_top5_allocation_rate": 0.02995710796099325,
+          "n_global_top5_captured_positive": 3209,
+          "global_top5_recall_in_stratum": 0.606272435291895
+        }
+      }
+    },
+    "B3": {
+      "test_year": 2026,
+      "test_label_period": "April-September",
+      "n_cells": 1168211,
+      "n_positive": 3036,
+      "n_crop_missing": 0,
+      "overall_capture_at_5": 0.5391963109354414,
+      "n_global_top5_cells": 58411,
+      "strata": {
+        "crop_Q5": {
+          "n_cells": 232373,
+          "n_positive": 1350,
+          "positive_rate": 0.005809625042496332,
+          "auc": 0.7759078902036529,
+          "ap": 0.02065252300699734,
+          "capture_at_5_percent_within_stratum": 0.2311111111111111,
+          "capture_at_10_percent_within_stratum": 0.3688888888888889,
+          "capture_at_20_percent_within_stratum": 0.577037037037037,
+          "n_global_top5_cells": 28442,
+          "global_top5_allocation_rate": 0.12239804108050419,
+          "n_global_top5_captured_positive": 570,
+          "global_top5_recall_in_stratum": 0.4222222222222222
+        },
+        "non_Q5": {
+          "n_cells": 935838,
+          "n_positive": 1686,
+          "positive_rate": 0.0018015938656049445,
+          "auc": 0.9640647324247881,
+          "ap": 0.04117942854953669,
+          "capture_at_5_percent_within_stratum": 0.7924080664294187,
+          "capture_at_10_percent_within_stratum": 0.9359430604982206,
+          "capture_at_20_percent_within_stratum": 0.9827995255041518,
+          "n_global_top5_cells": 29969,
+          "global_top5_allocation_rate": 0.032023704957481955,
+          "n_global_top5_captured_positive": 1067,
+          "global_top5_recall_in_stratum": 0.632858837485172
+        }
+      }
+    }
+  },
+  "interpretation": {
+    "internal_rank_signal_both_years": true,
+    "allocation_below_5_percent_both_years": false
+  },
+  "limitations": "B2/B3 and crop Q5 were inspected in earlier audits, so these are descriptive post-hoc diagnostics, not independent tests. Internal 5% and statewide 5% are different area budgets; internal signal alone does not establish gains from policy reallocation. B3 is April-September only. Reporting bias, spatial dependence, and model-feature selection remain."
+}
