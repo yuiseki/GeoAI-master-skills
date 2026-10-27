@@ -141,3 +141,11 @@
 - まず classifier の capture@5% が既存値 0.5341823056300268 と1e-9以内で一致することを確かめる。前回の `count_poisson` の既存値 0.5475871313672922 も同じ許容差で照合する。不一致なら比較を採用しない。2024年度の**全セル**を従来の二値ラベルで評価し、主指標 capture@5%、補助 capture@1%、10%、AUC、AP を同じ関数・同点処理で計算する。
 - `count_poisson − binary_poisson` の capture@5% が正なら「同じ Poisson 回帰器でも件数情報に追加シグナルがあった」、0以下なら「前回の改善は主にモデル／loss変更による」と、このB1探索の点推定として記録する。classifier との差は参照として並べる。区間を付けないため、別年度・別標本でも保たれるとは主張しない。
 - 2023・2024年度のラベル配列だけを読み、2025/2026年度は見ない。重み、hard negative、soft label は混ぜず、追加ターゲット・設定を試さず、B2/B3 の確認結果・主張を変更しない。
+
+## 2026-10-27: B1 の追加探索 (squared-error 回帰器内の binary vs count、実行前に追記)
+
+- 問い: 前回見えた件数情報の追加シグナルは Poisson loss に限定されるか。主比較は同じ `HistGradientBoostingRegressor` の二乗誤差版での `count_squared − binary_squared` の capture@5%。上位5%の重点調査セルの順位が使い道である。
+- `binary_squared` は2023年度の通報の有無0/1、`count_squared` は同じセルの通報件数をターゲットにする。両方とも既存の `B_env` 静的特徴量28列、全セル、無重み、同じ既存HGB設定・乱数種0、`loss="squared_error"` を使用する。0〜8件の整数は `float32` で正確に表せるため、両ターゲットのdtypeも `float32` に統一する。2024年度は従来の二値ラベルで全セルを採点する。
+- まず `binary_squared` の capture@5% が既存の `hard_regressor` 0.5428954423592494 と1e-9以内で一致するか確認し、不一致なら `count_squared` に進まない。前回の `binary_poisson`、`count_poisson` は新たに学習せず、保存済みB1結果JSONから参照する。参照前に入力6ファイルのSHA256、特徴量名、HGB設定、学習・評価年度、scikit-learn版を照合し、不一致なら結果表を作らない。
+- 2024年度の二値セルの capture@5% を主指標、capture@1%、10%、AUC、AP を補助指標として、既存の同点処理で評価する。`count_squared − binary_squared` の capture@5% が正なら「件数情報の追加シグナルは Poisson loss に限定されない」、0以下なら「現時点では Poisson と件数ターゲットの組み合わせに依存する」と、このB1探索の点推定として記録する。Poissonの差も参照として並べるが、判定は squared-error 内の差で行う。
+- 2023・2024年度のラベル配列だけを読み、2025/2026年度は見ない。sample weighting、hard negative、soft label、追加のlossやターゲットを混ぜない。区間・別年度の頑健性は今回確かめず、B2/B3の確認結果・主張は変更しない。

@@ -112,6 +112,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b1_poisson_target_isolation.json
 ```
 
+### B1 の squared-error 回帰器内ターゲット比較
+
+既存の二乗誤差 HGB 回帰器に、2023年度の0/1 (`binary_squared`) と通報件数 (`count_squared`) を同じ `float32`・同じ特徴量・無重みで学習させる。2024年度の二値セルラベルで評価する。Poisson の2結果は入力SHA・特徴量・設定・年度・ライブラリ版を照合した既存JSONから参照し、再学習しない。主比較は `count_squared − binary_squared` の capture@5%。結果は [B1 squared-error ターゲット比較 JSON](outputs/b1_squared_target_isolation.json)。2025/2026年度のラベルは読まない。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy --with scikit-learn python \
+  projects/akita-bear-risk-grid-100m/scripts/squared_target_isolation_b1.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b1_squared_target_isolation.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。
