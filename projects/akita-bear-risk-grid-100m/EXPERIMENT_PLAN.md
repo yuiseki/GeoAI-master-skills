@@ -199,3 +199,11 @@
 - Q5境界は前回と同じ `crop > 0.025974025949835777` (有限値のみ)、非Q5は補集合。元の全県順位 `metrics.rank_order(saved B_env,seed=0)` から層内の順序を保った部分列を取る。固定セル予算は整数 `K=floor(0.05×県内セル数)` とし、全ての配分で**必ず**Kセルを選ぶ。層内の先頭からQ5へ `k` セル、非Q5へ `K-k` セル選ぶ。可行範囲 `max(0,K-n_nonQ5) ≤ k ≤ min(K,n_Q5)` の全整数を一度だけ走査し、全県陽性セルを分母とする二値 capture を求める。値の同点処理をし直さない。
 - 比較対象の現状も同じKセルの全県順位先頭として計算し、そのQ5への実配分 `k_current`、捕捉陽性数、capture を記録する。既報の端セル端数あり `capture@5%` は別に再現して併記するが、oracleとの主比較には整数Kの現状値だけを使う。前回JSONのQ5セル数・陽性数・現状のceil版捕捉数と、保存評価JSONのcaptureが再現できなければ止める。
 - 各kでの捕捉陽性数とcaptureを結果JSONに残す。最適captureが同じ配分を全て同率最適とし、その最小・最大kを記録する。代表の最適kは現状kに最も近いもの（同距離なら小さいk）とする。改善余地は `oracle_capture − current_capture` と追加捕捉陽性セル数で示す。B2/B3の最適kと同率最適範囲を比較するが、不確かさの区間や一般化は主張しない。oracleの利得が小さくても大きくても結果後に層・予算・年度を追加しない。
+
+## 2026-10-28: B1 rank ensemble E25/E50/E75 (実行前に固定)
+
+- 問い: 2023年度で学習した既存 `B_env` classifier と `count_poisson` の2024年度全県セル別スコアを、県内順位の百分位にそろえて混ぜると、重点調査面積5%の捕捉率が改善するか。これはB1だけの探索であり、2025/2026のラベル・スコアは見ず、B2/B3の確認的主張を更新しない。
+- 前回の `count_poisson` は指標JSONのみでセル別スコア未保存。ユーザー承認により、既存 `count_target_b1.fit_poisson` を**1回だけ**、同じ2023年度件数ラベル、同じ静的28特徴量・全県セル・HGB設定・seed=0・無重み、同じ入力SHA256とscikit-learn版で呼んで2024年度全セルを予測する。既存B1 `B_env` スコアは保存済みNPZを読むだけで再学習しない。両者のcapture@1/5/10%、AUC、APを前回 `b1_poisson_target_isolation.json` と照合し、count側は各1e-9以内、B_env側はcapture各1e-9以内、AUC/AP各1e-8以内でなければスコア保存・ensemble評価を止める。再学習はモデル探索ではなく未保存スコアの再現・保存に限る。
+- 各スコアの県内percentile rankは、同点に平均順位を与える `((scipy.stats.rankdata(score,method="average")-0.5)/n)` と定義し、高いスコアほど高いpercentileとする。raw scoreは混ぜない。候補は `E25=.75*rank(B_env)+.25*rank(count_poisson)`、`E50=.5/.5`、`E75=.25/.75` の3つだけ。評価時の同点処理は既存 `metrics.rank_order(seed=0)`、上位端セルは既存の端数ありcapture。B_env/count_poissonのraw-score評価は対照として残す。指標はcapture@1/5/10%、AUC、AP。主指標capture@5%が最も高いensembleを1つ選び、完全同点ならE25→E50→E75の順で決める。単独モデルを下回っても最良ensemble名は記録し、改善とは呼ばない。追加重み・設定・区間は試さない。
+- 入力SHA256、ライブラリ版、学習設定、モデル・評価年度、スコアの形と並び、保存スコアSHA256をJSONに記録する。セル別スコアはリポジトリ `artifacts/akita-bear-risk-grid-100m/eval/` に圧縮NPZとして保存・コミットする（大きな生成物の配置と再現可能性を両立するため、このファイルだけgitignoreを例外的に越えて追加する）。モデルやscoreの再学習結果を新しい独立検証とは扱わない。
+- 実行前の再現チェックでの逸脱記録: 保存済みB1 `B_env` スコアはfloat32で、前回の未丸め評価値に対してAUCが−1.15e-9、APが−1.85e-9だった。capture@1/5/10%は完全一致。**countのfit前に**確認したため、B_envのAUC/APだけ許容差を1e-8へ緩めた。scoreや重みは変更せず、設定探索もしない。

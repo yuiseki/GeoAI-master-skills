@@ -112,6 +112,21 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b1_poisson_target_isolation.json
 ```
 
+### B1 の保存スコア再現と percentile-rank ensemble
+
+前回未保存だった `count_poisson` の2024年度全セル予測を、同じ入力・静的特徴量・HGB設定・seedで**1回だけ**再現する。既存のB1 `B_env` は保存済みスコアを読むだけ。5指標が前回と一致した場合に限り、両スコアの県内percentile rank（同値は平均順位）を使いE25/E50/E75だけ評価する。結果は[rank ensemble JSON](outputs/b1_rank_ensemble.json)、セル別スコアは[圧縮NPZ](../../artifacts/akita-bear-risk-grid-100m/eval/b1_rank_ensemble_scores.npz)に保存。大きな生成物だが再利用のためこのNPZのみgitignoreを越えて追跡する。2025/2026は使わない。
+
+```sh
+A=/Workspaces/tmp/_exp/GeoAI-bear/GeoAI-master-skills/artifacts/akita-bear-risk-grid-100m
+uvx --with numpy==2.5.4 --with scipy --with scikit-learn==1.9.1 python \
+  projects/akita-bear-risk-grid-100m/scripts/rank_ensemble_b1.py \
+  "$A" \
+  artifacts/akita-bear-risk-grid-100m/eval/b1_rank_ensemble_scores.npz \
+  projects/akita-bear-risk-grid-100m/outputs/b1_rank_ensemble.json
+```
+
+実行環境が異なる場合は `A` を既存のB1入力があるディレクトリへ置き換える。既存の再現出力がある場合、二度目のfitを避けるため上書きせず停止する。B_envの保存スコアはfloat32なのでAUC/APだけ既報と10⁻⁹程度異なり、計画に記録した許容差で照合する。
+
 ### B1 の squared-error 回帰器内ターゲット比較
 
 既存の二乗誤差 HGB 回帰器に、2023年度の0/1 (`binary_squared`) と通報件数 (`count_squared`) を同じ `float32`・同じ特徴量・無重みで学習させる。2024年度の二値セルラベルで評価する。Poisson の2結果は入力SHA・特徴量・設定・年度・ライブラリ版を照合した既存JSONから参照し、再学習しない。主比較は `count_squared − binary_squared` の capture@5%。結果は [B1 squared-error ターゲット比較 JSON](outputs/b1_squared_target_isolation.json)。2025/2026年度のラベルは読まない。

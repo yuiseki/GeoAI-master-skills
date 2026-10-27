@@ -1,0 +1,140 @@
+{
+  "mode": "B1 exploratory rank ensemble; count-Poisson fit only to recreate missing saved scores",
+  "question": "Does a fixed percentile-rank mixture improve B1 capture@5%?",
+  "setup": {
+    "train_year": 2023,
+    "test_year": 2024,
+    "n_cells": 1168211,
+    "n_positive": 1492,
+    "features": "existing B_env static 28",
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "seed": 0,
+    "fit_calls": {
+      "B_env": 0,
+      "count_poisson": 1
+    },
+    "count_target": "2023 cell report count; no sample weight",
+    "percentile_rank": "(scipy.stats.rankdata(score,method=average)-0.5)/n over all prefecture cells; equal scores get equal midranks",
+    "ensemble_weights": {
+      "E25": 0.25,
+      "E50": 0.5,
+      "E75": 0.75
+    },
+    "evaluation": "2024 binary positive cells; existing metrics.rank_order seed=0 and fractional capture boundary",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1"
+  },
+  "provenance": {
+    "prior_b1_json": "/Workspaces/tmp/_exp/GeoAI-master-skills/projects/akita-bear-risk-grid-100m/outputs/b1_poisson_target_isolation.json",
+    "prior_b1_json_sha256": "b8f076e636d528b862313ea347228d78c4ffb3bd8f1abc83767cc1a1227666d9",
+    "input_sha256": {
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24"
+    },
+    "saved_benv_scores_npz_sha256": "743c73ac48d77169f3348971358e45b7cffd0dca58dba5ff1617929fb732404b",
+    "reproduced_scores_npz": "artifacts/akita-bear-risk-grid-100m/eval/b1_rank_ensemble_scores.npz",
+    "reproduced_scores_npz_sha256": "30ed3d6d1794189e9d69d3a8a0a2aeb5b47d913601b58654b2fb544780cd2210",
+    "script": "projects/akita-bear-risk-grid-100m/scripts/rank_ensemble_b1.py",
+    "script_sha256": "0ece059595d676ae4032f100529970bc0626fc299933c31c232dda65ddbab452",
+    "model_eval_py_sha256": "2d46eda098b29abc06f759b29a9e5e4899d6ba8449bf39c4653b3a60fe8b8dd0",
+    "count_target_b1_py_sha256": "637c82d13f444041f81e9e5b70367da0d88eed609c12e19b6059f7d50279585e"
+  },
+  "results": [
+    {
+      "setting": "B_env",
+      "capture@1%": 0.18699731903485256,
+      "capture@5%": 0.5341823056300268,
+      "capture@10%": 0.735254691689008,
+      "auc": 0.9250934422465941,
+      "ap": 0.016332970549463137
+    },
+    {
+      "setting": "count_poisson",
+      "capture@1%": 0.17761394101876676,
+      "capture@5%": 0.5475871313672922,
+      "capture@10%": 0.7292225201072386,
+      "auc": 0.9250882272373226,
+      "ap": 0.016087632829411207
+    },
+    {
+      "setting": "E25",
+      "count_poisson_rank_weight": 0.25,
+      "capture@1%": 0.19168900804289543,
+      "capture@5%": 0.5408847184986595,
+      "capture@10%": 0.7379356568364611,
+      "auc": 0.9256998315527878,
+      "ap": 0.016438519501450623
+    },
+    {
+      "setting": "E50",
+      "count_poisson_rank_weight": 0.5,
+      "capture@1%": 0.18900804289544235,
+      "capture@5%": 0.5382037533512064,
+      "capture@10%": 0.7392761394101877,
+      "auc": 0.9258992192001718,
+      "ap": 0.01644279228616986
+    },
+    {
+      "setting": "E75",
+      "count_poisson_rank_weight": 0.75,
+      "capture@1%": 0.18498659517426275,
+      "capture@5%": 0.539544235924933,
+      "capture@10%": 0.7359249329758714,
+      "auc": 0.9256955908391458,
+      "ap": 0.016363173929808836
+    }
+  ],
+  "selection": {
+    "best_ensemble": "E25",
+    "best_capture@5%": 0.5408847184986595,
+    "tie_break": "E25, then E50, then E75 on exact capture@5% ties",
+    "tested_only": [
+      "E25",
+      "E50",
+      "E75"
+    ]
+  },
+  "limitations": "B1 is an exploratory year chosen for model development. The selected weight is not independently validated; 2025/2026 were not used. Refit is only to materialize prior missing count-Poisson cell scores, not a new model search."
+}
