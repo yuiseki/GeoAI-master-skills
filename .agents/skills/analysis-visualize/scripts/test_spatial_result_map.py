@@ -214,3 +214,31 @@ def test_unknown_highlight_id_or_wrong_unit_count_stops(tmp_path):
     assert result2.returncode != 0
     assert "expected 5 units" in result2.stderr
     assert not output2.exists()
+
+
+def test_sequential_map_with_class_changes_and_point_groups(tmp_path):
+    config = BASE | {
+        "kind": "sequential",
+        "class_method": "quantile",
+        "classes": 3,
+        "compare_methods": ["equal"],
+        "value_unit": "人/km²",
+        "point_groups": [
+            {
+                "label": "候補拠点 (2か所)",
+                "color": "#0072B2",
+                "marker": "^",
+                "points": [[0.4, 0.5], {"x": 1.4, "y": 0.5, "rank": "A"}],
+            }
+        ],
+        "stop_on_overlap": True,
+    }
+    result, output = run(tmp_path, config, [10.0, 20.0, 30.0, 100.0, 200.0, 900.0])
+    assert result.returncode == 0, result.stderr
+    metadata = json.loads(output.with_suffix(".json").read_text())
+    assert metadata["kind"] == "sequential"
+    assert metadata["class_method"] == "quantile"
+    assert len(metadata["breaks"]) == 4
+    assert "equal" in metadata["class_changes"]
+    assert metadata["point_groups"] == [{"label": "候補拠点 (2か所)", "count": 2}]
+    assert metadata["text_overlaps"] == []

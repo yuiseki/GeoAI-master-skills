@@ -356,6 +356,38 @@ def _measure_text_overlaps(fig, texts, legends=()):
     return found
 
 
+def _fmt_break(val: float) -> str:
+    return f"{val:,.0f}" if abs(val) >= 1000 else f"{val:.4g}"
+
+
+def _compute_breaks(
+    finite: list[float],
+    method: str,
+    n_classes: int,
+    thresholds: list[float] | None = None,
+) -> list[float]:
+    arr = np.asarray(finite, dtype=float)
+    lo, hi = float(arr.min()), float(arr.max())
+    if method == "equal":
+        return list(np.linspace(lo, hi, n_classes + 1))
+    if method == "quantile":
+        return list(np.quantile(arr, np.linspace(0, 1, n_classes + 1)))
+    if method == "fixed":
+        if not thresholds:
+            raise ValueError("thresholds required for fixed class_method")
+        t = sorted(float(v) for v in thresholds)
+        return [lo, *t, hi]
+    raise ValueError(f"unknown class_method: {method}")
+
+
+def _assign_classes(finite: list[float], breaks: list[float]) -> np.ndarray:
+    return np.searchsorted(
+        np.asarray(breaks[1:-1], dtype=float),
+        np.asarray(finite, dtype=float),
+        side="left",
+    )
+
+
 def draw(input_path: Path, config_path: Path, output: Path):
     data = json.loads(input_path.read_text())
     config = json.loads(config_path.read_text())
@@ -366,8 +398,8 @@ def draw(input_path: Path, config_path: Path, output: Path):
     if expect_units is not None and len(features) != int(expect_units):
         raise ValueError(f"expected {expect_units} units, got {len(features)}")
     kind = config["kind"]
-    if kind not in ("category", "diverging"):
-        raise ValueError("kind must be category or diverging")
+    if kind not in ("category", "diverging", "sequential"):
+        raise ValueError("kind must be category, diverging, or sequential")
     value_key = config["value"]
     values = [feature["properties"].get(value_key) for feature in features]
     finite = [float(v) for v in values if v is not None and math.isfinite(float(v))]
@@ -375,6 +407,8 @@ def draw(input_path: Path, config_path: Path, output: Path):
         raise ValueError("no finite values")
     nodata = len(values) - len(finite)
 
+    breaks = None
+    class_changes = None
     if kind == "category":
         categories = config["categories"]
         keys = sorted({str(int(v)) for v in finite}, key=int)
@@ -390,11 +424,43 @@ def draw(input_path: Path, config_path: Path, output: Path):
         counts = {
             categories[key]: sum(int(v) == int(key) for v in finite) for key in keys
         }
-        color_by_key = {key: COLORS[i % len(COLORS)] for i, key in enumerate(keys)}
+        custom_colors = config.get("category_colors") or {}
+        color_by_key = {
+            key: custom_colors.get(key, COLORS[i % len(COLORS)])
+            for i, key in enumerate(keys)
+        }
         labels = [
             f"{categories[key]}  {counts[categories[key]]} {config['unit']}"
             for key in keys
         ]
+    elif kind == "sequential":
+        cls_method = config.get("class_method", "quantile")
+        n_classes = int(config.get("classes", 5))
+        palette_name = config.get("palette", "YlOrRd")
+        value_unit = config.get("value_unit", "")
+        breaks = _compute_breaks(
+            finite, cls_method, n_classes, config.get("thresholds")
+        )
+        cls_idx = _assign_classes(finite, breaks)
+        cls_counts = np.bincount(cls_idx, minlength=n_classes).tolist()
+        cmap_seq = plt.get_cmap(palette_name, n_classes)
+        keys = [str(i) for i in range(n_classes)]
+        color_by_key = {str(i): cmap_seq(i) for i in range(n_classes)}
+        unit_suffix = f" {value_unit}" if value_unit else ""
+        labels = [
+            f"{_fmt_break(breaks[i])}〜{_fmt_break(breaks[i + 1])}{unit_suffix}  ({cls_counts[i]} {config['unit']})"
+            for i in range(n_classes)
+        ]
+        counts = {labels[i]: cls_counts[i] for i in range(n_classes)}
+        compare_methods = config.get("compare_methods") or []
+        if compare_methods:
+            class_changes = {}
+            for cm in compare_methods:
+                other_b = _compute_breaks(
+                    finite, cm, n_classes, config.get("thresholds")
+                )
+                other_cls = _assign_classes(finite, other_b)
+                class_changes[cm] = round(float(np.mean(cls_idx != other_cls)), 3)
     else:
         span = max(abs(v) for v in finite) or 1.0
         norm = TwoSlopeNorm(vmin=-span, vcenter=0, vmax=span)
@@ -406,6 +472,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
     roads = _normalize_roads(config.get("roads"))
     focus_areas = config.get("focus_areas") or []
     highlights = config.get("highlights") or []
+    point_groups = config.get("point_groups") or []
     landmarks = list(config.get("landmarks") or [])
     label_prop = config.get("label_property")
     if label_prop:
@@ -428,6 +495,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
         *(f.get("name", "") for f in focus_areas),
         *(h.get("label", "") for h in highlights),
         *(h.get("rank", "") for h in highlights),
+        *(pg.get("label", "") for pg in point_groups),
         *(lm.get("name", "") for lm in landmarks),
         "北↑ 50 100 200 500 m 1 2 5 10 20 50 100 km",
     ]
@@ -470,6 +538,9 @@ def draw(input_path: Path, config_path: Path, output: Path):
             face = NODATA
         elif kind == "category":
             face = color_by_key[str(int(value))]
+        elif kind == "sequential":
+            c_idx = int(_assign_classes([float(value)], breaks)[0])
+            face = color_by_key[str(c_idx)]
         else:
             face = cmap(norm(float(value)))
         for polygon in _polygons(feature):
@@ -650,6 +721,73 @@ def draw(input_path: Path, config_path: Path, output: Path):
                 )
             )
 
+    point_handles = []
+    for pg in point_groups:
+        pts_raw = pg.get("points") or []
+        if not pts_raw:
+            continue
+        pcolor = pg.get("color", "#D55E00")
+        pedge = pg.get("edgecolor", "#111111")
+        pmarker = pg.get("marker", "o")
+        psize = float(pg.get("size", 28.0))
+        plw = float(pg.get("linewidth", 0.8))
+        palpha = float(pg.get("alpha", 0.9))
+        pzorder = float(pg.get("zorder", 6.2))
+        pxs, pys = [], []
+        for item in pts_raw:
+            if isinstance(item, dict):
+                px, py = _point_coords(item)
+                badge = item.get("rank") or item.get("badge")
+                if badge:
+                    label_candidates.append(
+                        {
+                            "x": px,
+                            "y": py,
+                            "text": str(badge),
+                            "fontsize": 8.0,
+                            "color": pedge if pcolor == "none" else pcolor,
+                            "weight": "bold",
+                            "bbox": {
+                                "boxstyle": "round,pad=0.14",
+                                "fc": "white",
+                                "ec": pedge if pcolor == "none" else pcolor,
+                                "lw": 0.8,
+                                "alpha": 0.9,
+                            },
+                            "zorder": 8.6,
+                            "kind": "highlight",
+                        }
+                    )
+            else:
+                px, py = float(item[0]), float(item[1])
+            pxs.append(px)
+            pys.append(py)
+        ax.scatter(
+            pxs,
+            pys,
+            s=psize,
+            c=pcolor,
+            edgecolors=pedge,
+            marker=pmarker,
+            linewidths=plw,
+            alpha=palpha,
+            zorder=pzorder,
+        )
+        if pg.get("label"):
+            point_handles.append(
+                Line2D(
+                    [0],
+                    [0],
+                    marker=pmarker,
+                    linestyle="none",
+                    markerfacecolor=pcolor,
+                    markeredgecolor=pedge,
+                    markeredgewidth=plw,
+                    markersize=max(math.sqrt(psize), 5.0),
+                    label=pg["label"],
+                )
+            )
+
     for lm in landmarks:
         if not lm.get("name"):
             continue
@@ -703,7 +841,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
         )
 
     legends = []
-    if kind == "category":
+    if kind in ("category", "sequential"):
         handles = [
             Patch(facecolor=color_by_key[key], edgecolor=EDGE, label=label)
             for key, label in zip(keys, labels, strict=True)
@@ -718,6 +856,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
             )
         handles.extend(focus_handles)
         handles.extend(highlight_handles)
+        handles.extend(point_handles)
         leg = ax.legend(
             handles=handles,
             loc="center left",
@@ -738,6 +877,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
             )
         extra_handles.extend(focus_handles)
         extra_handles.extend(highlight_handles)
+        extra_handles.extend(point_handles)
         scalar = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
         cb_kwargs = (
             {"shrink": 0.58, "pad": 0.03, "anchor": (0.0, 0.95)}
@@ -777,6 +917,9 @@ def draw(input_path: Path, config_path: Path, output: Path):
         "n": len(features),
         "nodata": nodata,
         "counts": counts,
+        "breaks": [round(float(x), 4) for x in breaks] if breaks is not None else None,
+        "class_method": config.get("class_method", "quantile") if kind == "sequential" else None,
+        "class_changes": class_changes,
         "scale": [-span, span] if kind == "diverging" else None,
         "categories": config.get("categories") if kind == "category" else None,
         "crs": config["crs"],
@@ -801,6 +944,11 @@ def draw(input_path: Path, config_path: Path, output: Path):
                 "label": h.get("label"),
             }
             for h in highlights
+        ],
+        "point_groups": [
+            {"label": pg.get("label"), "count": len(pg.get("points") or [])}
+            for pg in point_groups
+            if pg.get("points")
         ],
         "scalebar_m": scalebar_m,
         "text_overlaps": overlaps,

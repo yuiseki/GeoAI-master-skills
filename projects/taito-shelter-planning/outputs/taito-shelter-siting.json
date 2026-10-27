@@ -1,0 +1,87 @@
+{
+  "question": "浸水ランクの上限で、566候補地と13拠点の配置はどう変わるか",
+  "kind": "category",
+  "value": "value",
+  "unit": "町丁目",
+  "n": 108,
+  "nodata": 0,
+  "counts": {
+    "町丁目代表点が浸水想定外 (ランク0)": 15,
+    "浸水0.5m未満 (ランク1)": 5,
+    "浸水0.5〜3m (ランク2)": 48,
+    "浸水3〜5m (ランク3)": 40
+  },
+  "breaks": null,
+  "class_method": null,
+  "class_changes": null,
+  "scale": null,
+  "categories": {
+    "0": "町丁目代表点が浸水想定外 (ランク0)",
+    "1": "浸水0.5m未満 (ランク1)",
+    "2": "浸水0.5〜3m (ランク2)",
+    "3": "浸水3〜5m (ランク3)"
+  },
+  "crs": "OGC:CRS84",
+  "source": "study-geoai-algo-py 6880b32c; KSJ P04/P29/A31a; WorldPop 2025",
+  "geometry_source": "国勢調査2020の町丁目境界 (estat-boundary-2020@823195c)",
+  "data_version": "WorldPop 2025 (209,240人) / 国土数値情報 P04・P29・A31a / OSM道路 e60e017f6a77",
+  "font": "Hiragino Sans",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "method": "k=13 最大被覆 MILP (浸水ランク上限0 vs 浸水制約なし)",
+  "outline": true,
+  "context_areas_count": 6,
+  "labelled_areas": [],
+  "roads_count": 537,
+  "landmarks_count": 26,
+  "labelled_landmarks": [
+    "上野公園",
+    "谷中",
+    "池之端",
+    "上野桜木",
+    "根岸",
+    "入谷",
+    "三ノ輪",
+    "日本堤",
+    "清川",
+    "橋場",
+    "今戸",
+    "千束",
+    "竜泉",
+    "下谷",
+    "上野",
+    "東上野",
+    "秋葉原",
+    "台東",
+    "松が谷",
+    "西浅草",
+    "浅草",
+    "雷門",
+    "元浅草",
+    "蔵前",
+    "鳥越",
+    "浅草橋"
+  ],
+  "focus_areas": [],
+  "highlights_count": 0,
+  "highlights": [],
+  "point_groups": [
+    {
+      "label": "浸水区域内の候補地 (ランク1〜4: 503か所)",
+      "count": 503
+    },
+    {
+      "label": "浸水想定外の候補地 (ランク0: 63か所)",
+      "count": 63
+    },
+    {
+      "label": "浸水上限0の13拠点 (21.1%カバー: 西側台地に集中)",
+      "count": 13
+    },
+    {
+      "label": "最大カバー解の13拠点 (ランク和33、52.9%カバー: 人口密集地へ分散)",
+      "count": 13
+    }
+  ],
+  "scalebar_m": 1000,
+  "text_overlaps": []
+}

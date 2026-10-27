@@ -1,32 +1,96 @@
 {
-  "value": "density",
-  "kind": "level",
-  "unit": "人/km²",
-  "crs": "OGC:CRS84",
-  "source": "census 2020; study-geoai 6880b32c",
-  "method": "quantile",
-  "classes": 5,
+  "question": "台東区のどの町丁目に人口が集中しているか (2020年国勢調査)",
+  "kind": "sequential",
+  "value": "value",
+  "unit": "町丁目",
+  "n": 108,
+  "nodata": 0,
+  "counts": {
+    "348.4〜12,258 人/km²  (22 町丁目)": 22,
+    "12,258〜21,069 人/km²  (21 町丁目)": 21,
+    "21,069〜28,535 人/km²  (22 町丁目)": 22,
+    "28,535〜32,231 人/km²  (21 町丁目)": 21,
+    "32,231〜48,748 人/km²  (22 町丁目)": 22
+  },
   "breaks": [
-    348.44327760033934,
-    12257.782370223884,
-    21068.749310798692,
-    28534.687003178067,
-    32230.98477931461,
-    48747.67065809687
+    348.4433,
+    12257.7824,
+    21068.7493,
+    28534.687,
+    32230.9848,
+    48747.6706
   ],
-  "units_per_class": [
-    22,
-    21,
-    22,
-    21,
-    22
+  "class_method": "quantile",
+  "class_changes": {
+    "equal": 0.306
+  },
+  "scale": null,
+  "categories": null,
+  "crs": "OGC:CRS84",
+  "source": "census 2020; study-geoai-algo-py 6880b32c",
+  "geometry_source": "国勢調査2020の町丁目境界 (estat-boundary-2020@823195c)",
+  "data_version": "国勢調査2020 (211,444人) / OSM道路 e60e017f6a77",
+  "font": "Hiragino Sans",
+  "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
+  "method": "分位5階級 (等間隔5階級との入れ替わり率を記録)",
+  "outline": true,
+  "context_areas_count": 6,
+  "labelled_areas": [],
+  "roads_count": 537,
+  "landmarks_count": 26,
+  "labelled_landmarks": [
+    "上野公園",
+    "谷中",
+    "池之端",
+    "上野桜木",
+    "根岸",
+    "入谷",
+    "三ノ輪",
+    "日本堤",
+    "清川",
+    "橋場",
+    "今戸",
+    "千束",
+    "竜泉",
+    "下谷",
+    "上野",
+    "東上野",
+    "秋葉原",
+    "台東",
+    "松が谷",
+    "西浅草",
+    "浅草",
+    "雷門",
+    "元浅草",
+    "蔵前",
+    "鳥越",
+    "浅草橋"
   ],
-  "nodata_units": 0,
-  "palette": "viridis",
-  "boundary": "#404040",
-  "labels": null,
-  "labelled_units": 0,
-  "zero_area_rings_left_out": 0,
-  "font": "Noto Sans CJK JP",
-  "made": "2026-10-24"
+  "focus_areas": [],
+  "highlights_count": 4,
+  "highlights": [
+    {
+      "id": "13106019001",
+      "rank": "1",
+      "label": "小島一丁目 (48,748 人/km²、2,067 人)"
+    },
+    {
+      "id": "13106024004",
+      "rank": "2",
+      "label": "松が谷四丁目 (46,904 人/km²、2,708 人)"
+    },
+    {
+      "id": "13106021003",
+      "rank": "3",
+      "label": "寿三丁目 (43,397 人/km²、2,671 人)"
+    },
+    {
+      "id": "13106006000",
+      "rank": "4",
+      "label": "最小: 上野公園 (348 人/km²、287 人)"
+    }
+  ],
+  "point_groups": [],
+  "scalebar_m": 1000,
+  "text_overlaps": []
 }
