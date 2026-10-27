@@ -194,6 +194,17 @@ uvx --with numpy --with scipy --with scikit-learn python \
   projects/akita-bear-risk-grid-100m/outputs/b2_b3_crop_q5_internal_audit.json
 ```
 
+### crop Q5 / 非Q5の固定5%予算配分 oracle
+
+保存済みB2/B3 `B_env` の層内順位を保ち、県内セルの5%を超えない整数予算 `floor(0.05×県内セル数)` をQ5と非Q5へ全通り配分する。全配分のcapture曲線、現状の配分、事後最適と差は[予算配分oracle JSON](outputs/b2_b3_crop_q5_budget_oracle.json)。端セルを端数で数える元のcapture@5%も別に再現する。oracleは当該年度の正解を見て選ぶ診断上限であり、将来の評価済みモデルや運用可能な予算配分とは扱わない。
+
+```sh
+uvx --with numpy --with scipy python \
+  projects/akita-bear-risk-grid-100m/scripts/crop_q5_budget_oracle.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b2_b3_crop_q5_budget_oracle.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。
