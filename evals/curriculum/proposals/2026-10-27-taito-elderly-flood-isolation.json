@@ -1,0 +1,132 @@
+{
+  "mode": "digging",
+  "history_anchor": {
+    "source": "projects/taito-shelter-planning/report.md",
+    "observation": "台東区の既存の指定緊急避難場所17か所のうち中央〜東側低地の14か所（計1,870人分）は『荒川が氾濫するおそれがある場合は開設しない』とされ、荒川氾濫時に開くのは西側台地の3か所（上野中学校・忍岡小学校・谷中小学校、計374人分、区民211,444人の0.2%未満）に限られる。また医療機関・学校の候補地566か所の88.9%（503か所）も浸水想定区域内に位置し、総人口密度の高い中央〜東側の低地と西側台地の非浸水域が空間的に乖離している。"
+  },
+  "social_problem": "台東区では荒川氾濫のおそれがある場合に区内の指定緊急避難場所17か所中14か所が閉鎖され、開く3か所（計374人分）では区民21.1万人を収容できない。さらに低地の指定避難所の大半も浸水深0.5〜5.0mかつ浸水継続時間2週間以上（ランク6）の区域に入るため、台東区在住者や周囲の家族・町会・マンション管理組合・民生委員は、特に自力での長期籠城や事後脱出が困難な高齢単身世帯について、『区内の西側台地へ徒歩で事前退避するか』『文京区・千代田区など隣接区の非浸水施設へ区境を越えて事前退避するか』『徒歩での高台退避が困難なため発災前の広域疎開または建物3階以上での2週間孤立対策（水・携帯トイレ・非常用電源備蓄と共助協定）を採るか』を街区単位で事前に見極めたい。",
+  "working_hypothesis": "台東区の250mメッシュにおいて、総人口（T001102001）や浸水有無を問わない最寄り避難所距離による順位と、2階天井まで水没しうる深水（浸水深3.0〜5.0m、ランク3）かつ2週間以上の長期浸水（浸水継続時間ランク6）下の『高齢単身世帯数（T001102049）× 非浸水施設までの距離』による優先順位は大きく乖離し、上位20メッシュの一致率は5割未満となる。また、非浸水施設の候補を台東区内のみから隣接区（文京区・千代田区等）を含む集合へ広げると、西部・南部では退避距離が500m以上短縮される一方、北東部の高齢単身集住メッシュでは隣接区を含めても非浸水施設まで1kmを超え、長期孤立対策が不可欠な街区として分離される。250mメッシュで高齢単身世帯の大半が秘匿となるか、単純な総人口順位と8割以上一致する場合は棄却する。",
+  "question": "東京都台東区で、荒川等の氾濫時に2階天井まで水没しうる深水（浸水深3.0〜5.0m）と2週間以上の長期浸水（浸水継続時間ランク6）が重なり、かつ高齢単身世帯が多い250mメッシュのうち、隣接区の非浸水施設を含めれば徒歩退避距離が500m以上縮まる街区と、隣接区を含めても非浸水施設まで1kmを超え長期孤立対策が不可欠となる街区はどこか？",
+  "decision_use": "台東区在住者・家族・町会・マンション管理組合・地域包括支援センター・民生委員が、台風・豪雨接近時に街区ごとの行動方針を『区内西側台地への徒歩事前退避』『文京区・千代田区等の隣接区非浸水施設への越境事前退避』『発災前の広域疎開または中高層階での2週間孤立備蓄・上階共助協定』の3区分に切り分け、高齢単身世帯への個別避難計画（声かけ・事前退避支援・備蓄重点配備）の優先街区を決める。",
+  "target_quantity": "台東区の250mメッシュ（および108町丁目）ごとの総人口、65歳以上・75歳以上人口、高齢単身世帯数（T001102049）、想定最大規模・計画規模の浸水深ランク、浸水継続時間ランク、家屋倒壊（河岸侵食）該当有無、および（1）全指定避難所・指定緊急避難場所への距離、（2）台東区内の非浸水施設への距離、（3）隣接区を含む非浸水施設への距離と短縮幅。実際の災害時の施設開設判断や個人の室内階数は対象量ではない。",
+  "unit": "2020年国勢調査の250mメッシュ（4分の1地域メッシュ、10桁KEY_CODE、台東区内に中心点が入る156メッシュ）。MAUP感度確認として2020年国勢調査の小地域（台東区108町丁目）を並べる。",
+  "time_alignment": "国勢調査250mメッシュおよび町丁目境界は2020年10月1日時点、洪水浸水想定区域（A31a）は令和7年度版（2026年10月取得）、指定緊急避難場所・指定避難所は2026年10月取得。6年の時点差と新築マンション増加による世帯変化を明記する。",
+  "claim_type": "descriptive_screening",
+  "datasets": [
+    "yuiseki/estat-census-mesh-250m-2020",
+    "yuiseki/ksj-a31a-flood-tokyo23",
+    "yuiseki/gsi-evacuation-sites-jp",
+    "yuiseki/estat-boundary-2020"
+  ],
+  "source_versions": {
+    "yuiseki/estat-census-mesh-250m-2020": "a119d1c805740636d606c6268db5ef5f23dcfaa9",
+    "yuiseki/ksj-a31a-flood-tokyo23": "5b2259273128d0b79b491eb758abe0db67c4feac",
+    "yuiseki/gsi-evacuation-sites-jp": "d8ad2169789b71c951e8808b2e54a953030aae07",
+    "yuiseki/estat-boundary-2020": "823195c40e1055e2c1b3c0a635369f8c82b6c3fb"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/estat-census-mesh-250m-2020",
+      "right": "yuiseki/estat-boundary-2020",
+      "how": "10桁KEY_CODEから復元した250mメッシュ中心点・面と台東区108町丁目ポリゴン（CITY='106'）の空間交差（ST_Intersects）",
+      "why": "台東区内の対象250mメッシュの抽出と町丁目名の付与、および町丁目単位とのMAUP比較"
+    },
+    {
+      "left": "yuiseki/estat-census-mesh-250m-2020",
+      "right": "yuiseki/ksj-a31a-flood-tokyo23",
+      "how": "250mメッシュ中心点およびポリゴンと、ST_MakeValid処理済みの河川別浸水想定ポリゴン（maximum, planned, duration, collapse_erosion）の空間交差",
+      "why": "各街区の最大浸水深ランク・浸水継続時間ランク・河岸侵食リスクの算出"
+    },
+    {
+      "left": "yuiseki/gsi-evacuation-sites-jp",
+      "right": "yuiseki/ksj-a31a-flood-tokyo23",
+      "how": "台東区および隣接5区（千代田・中央・文京・墨田・荒川）のshelters・sites地点および半径30mバッファと浸水想定ポリゴンの空間交差",
+      "why": "浸水域内にあり水没・閉鎖しうる施設と、台地上の非浸水施設（max_depth=0）の峻別"
+    },
+    {
+      "left": "yuiseki/estat-census-mesh-250m-2020",
+      "right": "yuiseki/gsi-evacuation-sites-jp",
+      "how": "平面直角座標系（EPSG:6677）での250mメッシュ中心点から各施設集合（全施設／区内非浸水施設／隣接区含む非浸水施設）までの最近傍距離計算",
+      "why": "見かけの最寄り距離と実際の非浸水施設への退避距離ギャップ、および越境退避による短縮効果の計測"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/estat-census-mesh-250m-2020", "table": "T001102", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-census-mesh-250m-2020", "table": "T001102", "column": "HTKSYORI", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-census-mesh-250m-2020", "table": "T001102", "column": "T001102001", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-census-mesh-250m-2020", "table": "T001102", "column": "T001102019", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-census-mesh-250m-2020", "table": "T001102", "column": "T001102022", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-census-mesh-250m-2020", "table": "T001102", "column": "T001102034", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-census-mesh-250m-2020", "table": "T001102", "column": "T001102049", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "id"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "category"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "river_name"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "class_code"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "common_id"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "flood"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "geometry"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "shelters", "column": "common_id"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "shelters", "column": "same_address_as_site"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "shelters", "column": "geometry", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "CITY", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "S_NAME", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "JINKO", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "geometry", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-taito-elderly-flood-isolation.md"}
+  ],
+  "methodological_decisions": [
+    "避難施設の非浸水判定において、地点のピンポイント交差（ST_Intersects）とA31a位置精度（25m）を踏まえた半径30mバッファ交差を比較し、道路等の微小な隙間による『偽の非浸水施設（墨田区の1か所や台東区低地の3か所）』を除外する",
+    "避難先候補集合を（1）浸水有無を問わない全指定避難所、（2）台東区内の非浸水施設のみ、（3）隣接5区（文京・千代田・中央・墨田・荒川）を含む非浸水施設の3段階で比較し、文京区のようにsitesではflood=falseだが台地上に多数の非浸水sheltersを持つ隣接区の扱いを明示する",
+    "需要指標として総人口（T001102001）、65歳以上人口（T001102019）、75歳以上人口（T001102022）、高齢単身世帯数（T001102049）を比較し、秘匿メッシュ（HTKSYORI='2'、4メッシュ35人）と合算先（HTKSYORI='1'、3メッシュ）を分離して扱う",
+    "分析単位を250mメッシュ（156メッシュ）と町丁目（108町丁目）で切り替え、街区代表点の取り方とMAUPによる上位孤立地区の安定性を検証する"
+  ],
+  "failure_modes": [
+    "A31a浸水ポリゴンには無効ジオメトリが含まれるため、ST_MakeValidを適用しないと空間交差で誤判定が生じる",
+    "避難所代表点のピンポイント交差のみを使うと、浸水域内の道路・敷地ギャップに落ちた低地施設（台東区3か所、墨田区1か所）を安全な非浸水高台施設と誤認する",
+    "国土地理院データの指定緊急避難場所（sites）のfloodフラグだけを見ると、文京区の台地上の施設（flood=falseで登録）が全て落ち、逆に指定避難所（shelters）だけを見ると災害発生直後の緊急退避場所と混同する",
+    "250mメッシュの高齢単身世帯数がどの階（1〜2階か3階以上か）に居住しているかはT001102単独では分からず、中高層マンション内の垂直避難可能性を過小評価しうる"
+  ],
+  "robustness_checks": [
+    "施設の非浸水判定を『代表点ピンポイント（max_depth=0）』『半径30mバッファ（max_depth=0）』『浸水深0.5m未満許容（max_depth<=1）』で切り替えたときの3レジーム分類の変動を測る",
+    "需要指標を『高齢単身世帯数（T001102049）』『75歳以上人口（T001102022）』『総人口（T001102001）』で切り替え、上位20メッシュの重なり率を比較する",
+    "浸水想定を『想定最大規模（maximum）』と『計画規模（planned）』で切り替え、優先街区の順位相関と入れ替わりを確認する",
+    "集計単位を250mメッシュ（156単位）と町丁目（108単位）で比較し、浅草・日本堤・千束・竜泉・今戸などの上位孤立地区が保たれるかを確かめる"
+  ],
+  "simplest_solver": {
+    "method": "メッシュごとの総人口や高齢単身世帯数の単独ランキング、または浸水深を考慮しない最寄り指定避難所・指定緊急避難場所までの距離ランキング",
+    "why_insufficient": "台東区の全指定避難所（55か所）への単純距離は浸水深3〜5m区域でも平均170mと極めて短く、『見かけの近さ』に騙されて水没・閉鎖リスクを見落とす。また総人口上位20メッシュと深水・長期浸水域の『高齢単身世帯×非浸水施設距離』上位20メッシュの一致率は6/20（30%）しかなく、区内台地退避・隣接区越境退避・長期孤立対策の3つの行動方針を切り分けられない。"
+  },
+  "unknowns": [
+    "各メッシュ内の高齢単身世帯が実際に居住している建物の構造（木造戸建てかRCマンションか）および居住階（1〜2階か3階以上か）",
+    "隣接区（文京区・千代田区等）の非浸水施設が、水害時に台東区民の広域事前退避を実際に受け入れる協定・運用容量を持つか",
+    "各世帯における水・携帯トイレ・非常用電源・常備薬の実際の備蓄状況や、親族宅・ホテル等への事前広域疎開の可否",
+    "豪雨・強風下での高齢者の実際の歩行速度や、鉄道高架下・アンダーパス・隅田川橋梁の通行規制タイミング"
+  ],
+  "novelty": {
+    "closest_task": 37,
+    "difference_dimension": "submerged_shelter_trap_and_isolation_regime_classification",
+    "substantive_difference": "課題37および既存proposal（区境案内）は、公表データのflood=true施設をそのまま有効な避難先とみなして1kmメッシュの距離を測る。本案は、先行分析（taito-shelter-planning）で判明した『区内17か所中14か所が荒川氾濫時に閉鎖される』事実を出発点に、A31aの浸水深・2週間超の浸水継続時間（duration=6）・河岸侵食と施設位置（30mバッファ感度つき）を重ねて『見かけ上は平均170mにあるが水没する施設』を除外し、250mメッシュの高齢単身世帯（T001102049）を『区内台地退避』『隣接区越境退避』『越境しても1km超の長期孤立対策必須』の3つの意思決定レジームへ分類する点で実質的に異なる。"
+  },
+  "prediction": {
+    "main_result": "台東区の高齢単身世帯16,007世帯の85.0%（13,601世帯）が2週間以上の長期浸水域（duration=6）、55.3%（8,853世帯）が2階天井まで水没する浸水深3.0〜5.0m区域（max_depth=3）に居住している。全指定避難所への平均距離は170mに過ぎないが、非浸水施設に限定すると平均1,514mへ約9倍に拡大する。隣接区の非浸水施設を含めると32メッシュ（高齢単身2,952世帯）で退避距離が500m以上短縮される一方、北東部の58メッシュ（浅草・日本堤・千束・竜泉・今戸・橋場等、高齢単身7,386世帯）は隣接区を含めても非浸水施設まで1kmを超え、かつピンポイント判定で非浸水に見えた墨田区側の1施設も30mバッファ検証で浸水域と判明するため、徒歩退避ではなく事前広域疎開または3階以上での長期孤立備蓄・共助が不可欠となる。",
+    "difficulty": "10桁の250mメッシュコードの緯度経度復元、A31aの25m精度ギャップによる偽の非浸水施設（ピンポイント0m vs 30mバッファ浸水）の検出、およびsitesとsheltersの災害指定フラグの非対称性の処理",
+    "fragile_assumption": "隣接区（文京区・千代田区等）の台地上の指定避難所・指定緊急避難場所が、台東区からの事前退避者を受け入れ可能であるという仮定、および直線距離の比較が実道路網の迂回順位を近似できるという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "data-quality-audit",
+      "analysis-unit-design",
+      "spatial-data-integration",
+      "robustness-analysis",
+      "analysis-visualize"
+    ]
+  },
+  "rubric": [
+    "2020年国勢調査250mメッシュ（T001102）、2020年小地域境界（r2ka01）、令和7年度版洪水浸水想定区域（A31a）、2026年10月取得の指定緊急避難場所・指定避難所の固定版とCRS変換・ST_MakeValid処理を明記し、台東区内156メッシュの秘匿（HTKSYORI='2'が4メッシュ35人）・合算（HTKSYORI='1'が3メッシュ）の内訳を正確に報告する",
+    "浸水有無を問わない全施設への距離（平均約170m）と、非浸水施設（max_depth=0）に限定した距離（区内限定／隣接区含む）を対比し、『見かけの近さ』の罠を定量的に示す",
+    "施設の非浸水判定において、地点ピンポイント交差と半径30mバッファ交差を比較し、A31aポリゴンの微小ギャップにより非浸水と誤判定される低地施設（台東区3か所、墨田区1か所等）の感度を検証する",
+    "浸水域の250mメッシュを『区内台地へ徒歩退避可能』『隣接区高台への越境退避で大幅短縮』『隣接区を含めても非浸水施設まで遠い長期孤立街区』に分けて高齢単身世帯数（T001102049）を集計し、総人口（T001102001）基準との上位街区の入れ替わりを示す",
+    "各世帯の実際の居住階・建物構造、隣接区施設の受入協定の有無、備蓄状況はこのデータから分からないことを明記し、越境退避候補を直ちに『利用保証された避難先』と断定しない"
+  ]
+}
