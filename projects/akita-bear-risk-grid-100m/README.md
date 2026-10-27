@@ -172,6 +172,17 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b2_b3_positive_feature_audit.json
 ```
 
+### B_env の5特徴量別 top-5% 捕捉率
+
+前回の診断で選んだ道路・建物距離、農地割合、周辺建物数の5特徴量について、県内全セルの有限値から固定した20/40/60/80%点でB2/B3を共通に層別する。陽性数、捕捉数、層内recall、県内全陽性に占める割合は[層別診断JSON](outputs/b2_b3_feature_stratified_capture.json)に記録する。同値は低い側に置くため、ゼロが多い`crop`と`bldg_500`では名目上のQ2/Q3が空になる。これは前回のB2/B3結果を受けて選んだ探索的診断で、原因や独立の汎化を証明しない。
+
+```sh
+uvx --with numpy --with scipy python \
+  projects/akita-bear-risk-grid-100m/scripts/feature_stratified_capture.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b2_b3_feature_stratified_capture.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。

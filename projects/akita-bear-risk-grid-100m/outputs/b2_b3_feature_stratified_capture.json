@@ -1,0 +1,671 @@
+{
+  "mode": "exploratory descriptive diagnostic; no fitting or score changes",
+  "question": "Which preselected B_env feature strata have low top-5% recall in B2/B3?",
+  "definition": {
+    "strata": "fixed whole-prefecture finite-value quintile cutpoints; exact ties assigned to lower stratum; empty nominal strata retained; missing separate",
+    "top5": "first ceil(0.05*n) cells from metrics.rank_order(saved B_env score,seed=0)",
+    "recall": "captured positive cells / all positive cells in stratum",
+    "share_of_all_positives": "positive cells in stratum / all prefecture positive cells",
+    "attention_rule": "Q5 for distances and crop, Q1 for bldg_500; lower than overall recall in both B2/B3 with nonzero positives"
+  },
+  "input_sha256": {
+    "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+    "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+    "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+    "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+    "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+    "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+    "eval/b2_confirm_2023-2024_to_2025_scores.npz": "aa33ceeb78d8ff46cd39388f8884b1d1b20547d163d235ddb65ac74831be82ba",
+    "eval/b2_confirm_2023-2024_to_2025.json": "53d6bbb64e84b9ef6917056e2c4b7eb2ec55b39aea93cc645e0c7a3ad3b99df6",
+    "eval/b3_confirm_2023-2025_to_2026_scores.npz": "9895dbd7b6e89a304a072b92543a5b39088b4363b99b44cf46dcb1d1727460f5",
+    "eval/b3_confirm_2023-2025_to_2026.json": "381b24d2771fdaae5235f50cfdeb4c9f08dc713133f8ea499cf7845853c13e55"
+  },
+  "implementation": {
+    "script": "projects/akita-bear-risk-grid-100m/scripts/feature_stratified_capture.py",
+    "script_sha256": "207c97742893e0638b3d8c64aa9d1846babd2319d6c8c8cd5f0bb8a6bfdf5d24",
+    "features_py_sha256": "e3964277079485f1ba2f0b452b5829e02b9dfe0eeda3750d2cabb40bfe53e197",
+    "metrics_py_sha256": "bf884a22b907aeb2ea557921723586ce4a3ae8e91c00def568df78154d12e40b",
+    "numpy": "2.5.4"
+  },
+  "years": {
+    "B2": {
+      "test_year": 2025,
+      "test_label_period": "full fiscal year",
+      "n_cells": 1168211,
+      "n_top5_cells": 58411,
+      "n_positive": 10729,
+      "n_captured_positive": 5918,
+      "n_missed_positive": 4811,
+      "overall_recall": 0.5515891508994315,
+      "reference_fractional_capture_at_5": 0.5515891508994315,
+      "features": {
+        "d_road_major": {
+          "unit": "m",
+          "cutpoints_q20_q40_q60_q80": [
+            200.0,
+            538.5164794921875,
+            1140.1754150390625,
+            2262.74169921875
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 253037,
+              "n_positive": 8610,
+              "n_captured_positive": 5220,
+              "recall": 0.6062717770034843,
+              "share_of_all_positives": 0.8024979028800447
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 219688,
+              "n_positive": 1606,
+              "n_captured_positive": 593,
+              "recall": 0.36924034869240346,
+              "share_of_all_positives": 0.1496877621399944
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 232450,
+              "n_positive": 427,
+              "n_captured_positive": 94,
+              "recall": 0.22014051522248243,
+              "share_of_all_positives": 0.0397986764842949
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 229731,
+              "n_positive": 76,
+              "n_captured_positive": 11,
+              "recall": 0.14473684210526316,
+              "share_of_all_positives": 0.007083605182216423
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 233305,
+              "n_positive": 10,
+              "n_captured_positive": 0,
+              "recall": 0.0,
+              "share_of_all_positives": 0.0009320533134495293
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        },
+        "d_road": {
+          "unit": "m",
+          "cutpoints_q20_q40_q60_q80": [
+            100.0,
+            200.0,
+            500.0,
+            1252.9964599609375
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 372556,
+              "n_positive": 10402,
+              "n_captured_positive": 5901,
+              "recall": 0.5672947510094213,
+              "share_of_all_positives": 0.9695218566502004
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 108539,
+              "n_positive": 210,
+              "n_captured_positive": 13,
+              "recall": 0.06190476190476191,
+              "share_of_all_positives": 0.019573119582440117
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 224798,
+              "n_positive": 100,
+              "n_captured_positive": 4,
+              "recall": 0.04,
+              "share_of_all_positives": 0.009320533134495292
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 229831,
+              "n_positive": 14,
+              "n_captured_positive": 0,
+              "recall": 0.0,
+              "share_of_all_positives": 0.0013048746388293411
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 232487,
+              "n_positive": 3,
+              "n_captured_positive": 0,
+              "recall": 0.0,
+              "share_of_all_positives": 0.0002796159940348588
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        },
+        "d_building": {
+          "unit": "m",
+          "cutpoints_q20_q40_q60_q80": [
+            223.60679626464844,
+            640.3124389648438,
+            1334.1663818359375,
+            2404.1630859375
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 261261,
+              "n_positive": 8816,
+              "n_captured_positive": 5194,
+              "recall": 0.5891560798548094,
+              "share_of_all_positives": 0.821698201137105
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 210251,
+              "n_positive": 1087,
+              "n_captured_positive": 422,
+              "recall": 0.38822447102115915,
+              "share_of_all_positives": 0.10131419517196384
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 231741,
+              "n_positive": 512,
+              "n_captured_positive": 201,
+              "recall": 0.392578125,
+              "share_of_all_positives": 0.0477211296486159
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 232466,
+              "n_positive": 207,
+              "n_captured_positive": 62,
+              "recall": 0.2995169082125604,
+              "share_of_all_positives": 0.019293503588405255
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 232492,
+              "n_positive": 107,
+              "n_captured_positive": 39,
+              "recall": 0.3644859813084112,
+              "share_of_all_positives": 0.009972970453909963
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        },
+        "crop": {
+          "unit": "fraction of valid WorldCover pixels in 100m cell",
+          "cutpoints_q20_q40_q60_q80": [
+            0.0,
+            0.0,
+            0.0,
+            0.025974025949835777
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 916281,
+              "n_positive": 4495,
+              "n_captured_positive": 2696,
+              "recall": 0.599777530589544,
+              "share_of_all_positives": 0.41895796439556343
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 19557,
+              "n_positive": 798,
+              "n_captured_positive": 513,
+              "recall": 0.6428571428571429,
+              "share_of_all_positives": 0.07437785441327244
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 232373,
+              "n_positive": 5436,
+              "n_captured_positive": 2709,
+              "recall": 0.49834437086092714,
+              "share_of_all_positives": 0.5066641811911642
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        },
+        "bldg_500": {
+          "unit": "OSM building centroids in square window",
+          "cutpoints_q20_q40_q60_q80": [
+            0.0,
+            0.0,
+            0.0,
+            43.0
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 710421,
+              "n_positive": 877,
+              "n_captured_positive": 323,
+              "recall": 0.36830102622576966,
+              "share_of_all_positives": 0.08174107558952372
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 225097,
+              "n_positive": 1789,
+              "n_captured_positive": 794,
+              "recall": 0.4438233650083846,
+              "share_of_all_positives": 0.1667443377761208
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 232693,
+              "n_positive": 8063,
+              "n_captured_positive": 4801,
+              "recall": 0.5954359419570879,
+              "share_of_all_positives": 0.7515145866343554
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        }
+      }
+    },
+    "B3": {
+      "test_year": 2026,
+      "test_label_period": "April-September",
+      "n_cells": 1168211,
+      "n_top5_cells": 58411,
+      "n_positive": 3036,
+      "n_captured_positive": 1637,
+      "n_missed_positive": 1399,
+      "overall_recall": 0.5391963109354414,
+      "reference_fractional_capture_at_5": 0.5391963109354414,
+      "features": {
+        "d_road_major": {
+          "unit": "m",
+          "cutpoints_q20_q40_q60_q80": [
+            200.0,
+            538.5164794921875,
+            1140.1754150390625,
+            2262.74169921875
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 253037,
+              "n_positive": 2445,
+              "n_captured_positive": 1463,
+              "recall": 0.598364008179959,
+              "share_of_all_positives": 0.8053359683794467
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 219688,
+              "n_positive": 418,
+              "n_captured_positive": 156,
+              "recall": 0.37320574162679426,
+              "share_of_all_positives": 0.13768115942028986
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 232450,
+              "n_positive": 136,
+              "n_captured_positive": 14,
+              "recall": 0.10294117647058823,
+              "share_of_all_positives": 0.04479578392621871
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 229731,
+              "n_positive": 32,
+              "n_captured_positive": 4,
+              "recall": 0.125,
+              "share_of_all_positives": 0.010540184453227932
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 233305,
+              "n_positive": 5,
+              "n_captured_positive": 0,
+              "recall": 0.0,
+              "share_of_all_positives": 0.0016469038208168643
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        },
+        "d_road": {
+          "unit": "m",
+          "cutpoints_q20_q40_q60_q80": [
+            100.0,
+            200.0,
+            500.0,
+            1252.9964599609375
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 372556,
+              "n_positive": 2911,
+              "n_captured_positive": 1634,
+              "recall": 0.5613191343181038,
+              "share_of_all_positives": 0.9588274044795784
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 108539,
+              "n_positive": 69,
+              "n_captured_positive": 2,
+              "recall": 0.028985507246376812,
+              "share_of_all_positives": 0.022727272727272728
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 224798,
+              "n_positive": 43,
+              "n_captured_positive": 1,
+              "recall": 0.023255813953488372,
+              "share_of_all_positives": 0.014163372859025032
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 229831,
+              "n_positive": 12,
+              "n_captured_positive": 0,
+              "recall": 0.0,
+              "share_of_all_positives": 0.003952569169960474
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 232487,
+              "n_positive": 1,
+              "n_captured_positive": 0,
+              "recall": 0.0,
+              "share_of_all_positives": 0.00032938076416337287
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        },
+        "d_building": {
+          "unit": "m",
+          "cutpoints_q20_q40_q60_q80": [
+            223.60679626464844,
+            640.3124389648438,
+            1334.1663818359375,
+            2404.1630859375
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 261261,
+              "n_positive": 2289,
+              "n_captured_positive": 1408,
+              "recall": 0.6151157710790738,
+              "share_of_all_positives": 0.7539525691699605
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 210251,
+              "n_positive": 424,
+              "n_captured_positive": 153,
+              "recall": 0.3608490566037736,
+              "share_of_all_positives": 0.13965744400527008
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 231741,
+              "n_positive": 181,
+              "n_captured_positive": 56,
+              "recall": 0.30939226519337015,
+              "share_of_all_positives": 0.05961791831357049
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 232466,
+              "n_positive": 102,
+              "n_captured_positive": 17,
+              "recall": 0.16666666666666666,
+              "share_of_all_positives": 0.03359683794466403
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 232492,
+              "n_positive": 40,
+              "n_captured_positive": 3,
+              "recall": 0.075,
+              "share_of_all_positives": 0.013175230566534914
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        },
+        "crop": {
+          "unit": "fraction of valid WorldCover pixels in 100m cell",
+          "cutpoints_q20_q40_q60_q80": [
+            0.0,
+            0.0,
+            0.0,
+            0.025974025949835777
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 916281,
+              "n_positive": 1463,
+              "n_captured_positive": 920,
+              "recall": 0.6288448393711552,
+              "share_of_all_positives": 0.48188405797101447
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 19557,
+              "n_positive": 223,
+              "n_captured_positive": 147,
+              "recall": 0.6591928251121076,
+              "share_of_all_positives": 0.07345191040843214
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 232373,
+              "n_positive": 1350,
+              "n_captured_positive": 570,
+              "recall": 0.4222222222222222,
+              "share_of_all_positives": 0.44466403162055335
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        },
+        "bldg_500": {
+          "unit": "OSM building centroids in square window",
+          "cutpoints_q20_q40_q60_q80": [
+            0.0,
+            0.0,
+            0.0,
+            43.0
+          ],
+          "strata": [
+            {
+              "stratum": "Q1",
+              "n_cells": 710421,
+              "n_positive": 339,
+              "n_captured_positive": 82,
+              "recall": 0.24188790560471976,
+              "share_of_all_positives": 0.11166007905138339
+            },
+            {
+              "stratum": "Q2",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            },
+            {
+              "stratum": "Q3",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            },
+            {
+              "stratum": "Q4",
+              "n_cells": 225097,
+              "n_positive": 709,
+              "n_captured_positive": 289,
+              "recall": 0.4076163610719323,
+              "share_of_all_positives": 0.23353096179183136
+            },
+            {
+              "stratum": "Q5",
+              "n_cells": 232693,
+              "n_positive": 1988,
+              "n_captured_positive": 1266,
+              "recall": 0.6368209255533199,
+              "share_of_all_positives": 0.6548089591567853
+            },
+            {
+              "stratum": "missing",
+              "n_cells": 0,
+              "n_positive": 0,
+              "n_captured_positive": 0,
+              "recall": null,
+              "share_of_all_positives": 0.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "attention_strata": {
+    "d_road_major": {
+      "stratum": "Q5",
+      "lower_than_overall_in_both_years": true
+    },
+    "d_road": {
+      "stratum": "Q5",
+      "lower_than_overall_in_both_years": true
+    },
+    "d_building": {
+      "stratum": "Q5",
+      "lower_than_overall_in_both_years": true
+    },
+    "crop": {
+      "stratum": "Q5",
+      "lower_than_overall_in_both_years": true
+    },
+    "bldg_500": {
+      "stratum": "Q1",
+      "lower_than_overall_in_both_years": true
+    }
+  },
+  "limitations": "Features were selected after a prior B2/B3 outcome audit. Strata use model inputs and do not identify causal drivers; B2/B3 share grid cells and are not independent replication. Low recall can reflect score selection, correlated features, reporting bias, or data vintage. B3 has April-September labels only."
+}
