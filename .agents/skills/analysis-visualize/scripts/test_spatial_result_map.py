@@ -4,6 +4,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from spatial_result_map import _interior_point
+
 SCRIPT = Path(__file__).with_name("spatial_result_map.py")
 
 
@@ -13,7 +15,7 @@ def fixture(tmp_path, values):
         features.append(
             {
                 "type": "Feature",
-                "properties": {"id": str(i), "value": value},
+                "properties": {"id": str(i), "value": value, "name": f"地区{i}"},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [
@@ -113,3 +115,102 @@ def test_outline_and_provenance_are_recorded(tmp_path):
     assert metadata["outline"] is True
     assert metadata["source_commit"] == "abc123"
     assert metadata["method"] == "k-means k=1"
+
+
+def test_interior_point_lies_inside_concave_u_polygon():
+    # A U-shaped polygon whose centroid (5, 4.2) lies in the empty bay (2 < x < 8, y > 2)
+    u_ring = [
+        [0, 0],
+        [10, 0],
+        [10, 10],
+        [8, 10],
+        [8, 2],
+        [2, 2],
+        [2, 10],
+        [0, 10],
+        [0, 0],
+    ]
+    px, py = _interior_point([[u_ring]])
+    assert 0 < px < 10 and 0 < py < 10
+    assert not (2 < px < 8 and py > 2)
+
+
+def test_context_roads_landmarks_highlights_and_scalebar(tmp_path):
+    config = BASE | {
+        "kind": "category",
+        "categories": {"0": "住宅", "1": "商業"},
+        "expect_units": 3,
+        "context_areas": [
+            {
+                "name": "西部区",
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[0, 0], [1.5, 0], [1.5, 1], [0, 1], [0, 0]]],
+                },
+            },
+            {
+                "name": "東部区",
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[1.5, 0], [3, 0], [3, 1], [1.5, 1], [1.5, 0]]],
+                },
+            },
+        ],
+        "roads": [
+            {
+                "tier": "major",
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [[0, 0.5], [3, 0.5]],
+                },
+            }
+        ],
+        "focus_areas": [
+            {
+                "name": "注目区域",
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]],
+                },
+            }
+        ],
+        "highlights": [{"id": "2", "label": "代表地区", "rank": "1"}],
+        "landmarks": [
+            {"name": "中央駅", "coordinates": [0.5, 0.5]},
+            {"name": "東公園", "coordinates": [0.5, 0.5]},
+        ],
+        "stop_on_overlap": True,
+    }
+    result, output = run(tmp_path, config, [0, 1, 1])
+    assert result.returncode == 0, result.stderr
+    metadata = json.loads(output.with_suffix(".json").read_text())
+    assert metadata["context_areas_count"] == 2
+    assert sorted(metadata["labelled_areas"]) == ["東部区", "西部区"]
+    assert metadata["roads_count"] == 1
+    assert sorted(metadata["labelled_landmarks"]) == ["中央駅", "東公園"]
+    assert metadata["focus_areas"] == ["注目区域"]
+    assert metadata["highlights_count"] == 1
+    assert metadata["scalebar_m"] > 0
+    assert metadata["text_overlaps"] == []
+
+
+def test_unknown_highlight_id_or_wrong_unit_count_stops(tmp_path):
+    bad_hl = BASE | {
+        "kind": "category",
+        "categories": {"0": "住宅"},
+        "highlights": [{"id": "99", "label": "不明", "rank": "1"}],
+    }
+    result, output = run(tmp_path, bad_hl, [0, 0])
+    assert result.returncode != 0
+    assert "highlighted id not found" in result.stderr
+    assert not output.exists()
+
+    bad_count = BASE | {
+        "kind": "category",
+        "categories": {"0": "住宅"},
+        "expect_units": 5,
+    }
+    result2, output2 = run(tmp_path, bad_count, [0, 0])
+    assert result2.returncode != 0
+    assert "expected 5 units" in result2.stderr
+    assert not output2.exists()

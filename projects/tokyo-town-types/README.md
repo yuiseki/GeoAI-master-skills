@@ -6,7 +6,7 @@
 - 移植元: [`study-geoai-algo-py/case-studies/004-town-types`](https://github.com/yuiseki/study-geoai-algo-py/tree/6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/004-town-types)
 - 状態: 元コードの固定コミットを使い、町丁目の類型、1km格子の類型、街路PCAを再実行しました。元データの粒度別ファイルはこのリポジトリに複製していません。
 
-`outputs/taito-town-types.png`、`tokyo23-grid-types.png`、`taito-street-pc1.png` は、元コードが取得する版固定のデータから再生成できます。元コードは `tmp/source` に置きます (`tmp/` は Git 対象外)。初回はネットワーク接続と元データの取得が必要です。
+`outputs/taito-town-types.png`、`tokyo23-grid-types.png`、`taito-street-pc1.png`、および各類型の特徴量中央値 (`outputs/taito-town-clusters.csv`、`outputs/tokyo23-grid-clusters.csv`) と要約指標 (`outputs/summary-metrics.json`) は、元コードが取得する版固定のデータから再生成できます。元コードは `tmp/source` に置きます (`tmp/` は Git 対象外)。初回はネットワーク接続と元データの取得が必要です。
 
 ```sh
 cd projects/tokyo-town-types

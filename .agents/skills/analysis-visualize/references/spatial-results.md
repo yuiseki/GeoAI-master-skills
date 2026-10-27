@@ -6,7 +6,17 @@
 
 `scripts/spatial_result_map.py` は、分析済みの結果を GeoJSON FeatureCollection から読む。各 Feature に Polygon または MultiPolygon と、設定の `value` に指定した数値属性を入れる。GeoJSON は WGS84 経緯度なら `OGC:CRS84` と記録する。別の座標系なら設定に実際の CRS を書く。単位の ID と値を結合するときは、欠落、重複、余分な行を数え、行数が合わなければ止める。ラベルしかない集計表から座標を作らない。
 
-設定 JSON に共通で `question`、`value`、`kind`、`unit`、`crs`、`source`、`data_version` を書く。形の出典は `geometry_source` に書く。元コードの commit と方法が分かれば `source_commit`、`method` も書く。行政界があれば `outline` に GeoJSON Geometry を入れる。外周だけが描かれ、内側に残った面積ゼロの継ぎ目は輪郭にしない。
+設定 JSON に共通で `question`、`value`、`kind`、`unit`、`crs`、`source`、`data_version` を書く。形の出典は `geometry_source` に書く。元コードの commit と方法が分かれば `source_commit`、`method` も書く。単位の数が決まっているなら `expect_units` に書き、数が合わなければ止める。
+
+読む人が地図の上で場所を認識できるように、次の地理的な手がかりを設定 JSON に入れられる。
+
+- `outline`: 対象地域全体の外周の GeoJSON Geometry。外周だけが描かれ、内側に残った面積ゼロの継ぎ目は輪郭にしない。
+- `context_areas`: 背景の行政区や小地域の並び (`{"name": "台東区", "geometry": ...}` または FeatureCollection)。単位の下に陸の色を敷き、単位の上に境界線を引き、十分な大きさの面に名前を置く。
+- `roads`: 主な道路や鉄道などの線の並び (`{"tier": "major", "geometry": ...}` または FeatureCollection)。1 つの区や市の中の地図で、通りや街区の骨格を読ませるときに重ねる。
+- `focus_areas`: 全体の地図の中で注目する区域の枠 (`{"name": "台東区 (18格子)", "geometry": ...}`)。白い縁取りの上に太い枠を引き、凡例に載せる。
+- `highlights`: 注目する単位の ID と見出し (`{"id": "53393640", "label": "外れ値 (1格子)", "rank": "1"}`)。指定した ID が単位に無ければ止まる。
+- `landmarks`: 代表的な地名や駅の並び (`{"name": "上野公園", "coordinates": [139.77, 35.71]}` または `geometry`)。既にある文字と重ならない位置を選んで置き、重なりが残れば JSON の `text_overlaps` に記録する (`stop_on_overlap: true` なら止まる)。
+- `scalebar`: 既定で有効。経緯度またはメートル座標系から縮尺バーと北向きの記号を描く。
 
 - `kind: "category"`: `categories` を `{"0":"住宅", "1":"商業"}` のように指定する。未定義のラベルがあれば止まる。色は数値の大小を示さない。凡例には名前と件数を並べる。現在の配色は6類型までで、色を再利用しない。
 - `kind: "diverging"`: 0 の両側に意味のある得点だけに使う。`negative` と `positive` に両端の意味を書く。色の範囲を 0 から対称にし、色の強さを比較できるようにする。主成分の符号は反転しうるので、元の負荷量との対応を記録する。

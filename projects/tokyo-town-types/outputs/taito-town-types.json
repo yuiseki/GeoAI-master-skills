@@ -20,10 +20,66 @@
   },
   "crs": "OGC:CRS84",
   "source": "study-geoai-algo-py original scripts and versioned data",
-  "geometry_source": "国勢調査2020の町丁目境界",
-  "data_version": "国勢調査2020 / Overture 2026-09-23.1 / みちよみ e4966cdceff6",
-  "font": "Noto Sans CJK JP",
+  "geometry_source": "国勢調査2020の町丁目境界 (estat-boundary-2020@823195c)",
+  "data_version": "国勢調査2020 / Overture 2026-09-23.1 / みちよみ e4966cdceff6 / OSM道路 e60e017f6a77",
+  "font": "Hiragino Sans",
   "source_commit": "6880b32c097a7c65a6bd72a38682ce1dce1c9a2b",
   "method": "標準化した9特徴量の k-means、k=4、n_init=20、seed=0",
-  "outline": true
+  "outline": true,
+  "context_areas_count": 6,
+  "labelled_areas": [],
+  "roads_count": 537,
+  "landmarks_count": 24,
+  "labelled_landmarks": [
+    "上野公園",
+    "谷中",
+    "池之端",
+    "上野桜木",
+    "根岸",
+    "入谷",
+    "三ノ輪",
+    "橋場",
+    "今戸",
+    "千束",
+    "竜泉",
+    "下谷",
+    "上野",
+    "東上野",
+    "秋葉原",
+    "台東",
+    "松が谷",
+    "西浅草",
+    "浅草",
+    "雷門",
+    "元浅草",
+    "蔵前",
+    "鳥越",
+    "浅草橋"
+  ],
+  "focus_areas": [],
+  "highlights_count": 4,
+  "highlights": [
+    {
+      "id": "根岸二丁目",
+      "rank": "1",
+      "label": "根岸二丁目 (宿泊)"
+    },
+    {
+      "id": "日本堤一丁目",
+      "rank": "2",
+      "label": "日本堤一丁目 (宿泊)"
+    },
+    {
+      "id": "日本堤二丁目",
+      "rank": "3",
+      "label": "日本堤二丁目 (宿泊)"
+    },
+    {
+      "id": "清川二丁目",
+      "rank": "4",
+      "label": "清川二丁目 (宿泊)"
+    }
+  ],
+  "scalebar_m": 1000,
+  "text_overlaps": []
 }

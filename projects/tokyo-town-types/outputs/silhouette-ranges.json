@@ -21,7 +21,7 @@
       1
     ]
   },
-  "font": "Noto Sans CJK JP",
+  "font": "Hiragino Sans",
   "generated_on": "2026-10-23",
   "limitation": "型の場所と中身は表せないため、元コードの clusters、PCA、DPMM の地図の方が適している"
 }

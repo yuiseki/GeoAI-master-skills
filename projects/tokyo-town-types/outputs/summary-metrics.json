@@ -1,0 +1,13 @@
+{
+  "dpmm_kmeans_ari": 0.39,
+  "outlier_grid_mesh": "53393633",
+  "taito_street_total_cells": 197,
+  "taito_street_min_scenes": 30,
+  "taito_street_kept_cells": 173,
+  "taito_street_excluded_cells": 24,
+  "taito_street_pc1_variance_ratio": 0.409,
+  "taito_street_pc1_min": -6.49,
+  "taito_street_pc1_min_undergrounded_share": 0.861,
+  "taito_street_pc1_max": 4.13,
+  "taito_street_pc1_max_heavily_wired_share": 0.847
+}
