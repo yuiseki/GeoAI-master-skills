@@ -1,0 +1,105 @@
+{
+  "mode": "exploration",
+  "social_problem": "人口減少に直面する地方自治体では、民間路線バスの衰退を補うため公費でコミュニティバスを運行しているが、財政負担が年々重くなっている。民間路線と重複して限られた需要を奪い合う過剰競合区間と、どちらのバスも通らず高齢者が孤立する交通空白集落が併存しており、自治体の交通政策担当課が路線再編やデマンド交通導入の優先地区を判断したい。",
+  "working_hypothesis": "コミュニティバス停留所が存在する1kmメッシュのうち、民間路線バス停と近接重複するメッシュが3割以上存在し、駅徒歩圏を除外しても重複が維持される。一方で、いずれのバス停も存在しない交通空白メッシュのうち高齢者が100人以上集中する集落が多数存在する。停留所間の距離閾値を変えても重複集落と空白集落の峻別が保たれる。重複割合が極小、または空白集落に高齢者がほとんど存在しない場合は仮説を退ける。",
+  "question": "岐阜県で、公費投入されるコミュニティバス停留所と民間路線バス停留所の両方が近接して存在する重複メッシュと、いずれの停留所も存在しないのに高齢者が集住する交通空白メッシュはどこか？",
+  "decision_use": "自治体の地域公共交通活性化協議会および交通政策担当課が、民間路線と重複するコミュニティバス路線の間引き・経路変更、および交通空白集落へのデマンド型乗合タクシーや巡回支援の新規導入を判断する優先順位付け。",
+  "target_quantity": "岐阜県の1kmメッシュごとの民間路線バス停（kinds=1,2）およびコミュニティバス停（kinds=3）の有無・近接件数、駅（運行中）までの直線距離、65歳以上人口、および重複メッシュ・補完メッシュ・空白集落のメッシュ集合。実際のバス運行時刻表や乗客数そのものではない。",
+  "unit": "2020年国勢調査の1kmメッシュ（8桁コード）。岐阜県内の人口50人以上の居住メッシュ。",
+  "time_alignment": "国勢調査は2020年10月、バス停留所は2022年度（2022年8月資料）、駅は2026年10月取得。時点の違いを明記し、路線廃止や新設の直近変化は現地確認事項として扱う。",
+  "claim_type": "descriptive_screening",
+  "datasets": [
+    "yuiseki/ksj-p11-bus-stop-jp",
+    "yuiseki/estat-census-mesh-2020",
+    "yuiseki/ekidata-jp",
+    "yuiseki/jp-admin-2026-09"
+  ],
+  "source_versions": {
+    "yuiseki/ksj-p11-bus-stop-jp": "442223b4544103a922f21081c070dd5c69e4c23e",
+    "yuiseki/estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+    "yuiseki/ekidata-jp": "a33321099406b47338be0d03a4887059473fde0c",
+    "yuiseki/jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/ksj-p11-bus-stop-jp",
+      "right": "yuiseki/estat-census-mesh-2020",
+      "how": "KEY_CODEから復元したメッシュポリゴンと停留所点（geometry）の空間交差（ST_Intersects）および近傍距離集計",
+      "why": "メッシュ内の民間バス・コミバスの運行種別判定"
+    },
+    {
+      "left": "yuiseki/ekidata-jp",
+      "right": "yuiseki/estat-census-mesh-2020",
+      "how": "メッシュ中心点と駅点（geometry）の平面直角座標系での距離計算",
+      "why": "鉄道駅徒歩圏（1km）の交通代替可能性を判定"
+    },
+    {
+      "left": "yuiseki/jp-admin-2026-09",
+      "right": "yuiseki/estat-census-mesh-2020",
+      "how": "メッシュ中心点が岐阜県（pref_code='21'）の自治体ポリゴンに含まれるかで空間抽出",
+      "why": "分析対象地域を岐阜県内に厳密に限定する"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "id"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "pref_code"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "geometry"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "kinds"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "n_routes"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "prefecture"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140001"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140019", "evidence_file": "projects/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
+    {"dataset": "yuiseki/ekidata-jp", "table": "station", "column": "pref_cd"},
+    {"dataset": "yuiseki/ekidata-jp", "table": "station", "column": "geometry"},
+    {"dataset": "yuiseki/ekidata-jp", "table": "station", "column": "e_status"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "code5"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "pref_code"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "geometry"}
+  ],
+  "methodological_decisions": [
+    "停留所の区分（kinds）から民間路線（1, 2）とコミュニティバス（3）を分離し、メッシュ内判定だけでなく停留所間距離（300m/500m）による重複判定を並べる",
+    "鉄道駅の営業中（e_status=0）地点からの距離1km圏を抽出し、駅周辺の必然的重複と郊外の重複を分ける",
+    "交通空白メッシュの抽出において、人口規模（50人以上）と高齢者数（100人以上）の閾値感度を検証する",
+    "国勢調査の秘匿メッシュ（HTKSYORI=2）の高齢者人数が欠測となる影響を明記する"
+  ],
+  "failure_modes": [
+    "バス停データにはダイヤ・運行頻度（本数）が無く、民間が1日1往復でコミバスが頻発しているような実質的補完を過剰競合と誤読する恐れがある",
+    "事業者の統廃合や自治体間共同運行の表記揺れにより、公営・民間のコード判定が現場の実態とずれる場合がある",
+    "2020年国勢調査と2022年バス停の2年の時点差により、撤退済みの民間路線が残存している可能性がある",
+    "直線距離は山間部の道路迂回や高低差を反映しない"
+  ],
+  "robustness_checks": [
+    "重複の判定基準を『同一1kmメッシュ内』と『停留所間距離300m以内』『500m以内』で切り替え、重複メッシュ数の変動を測る",
+    "駅アクセス圏（1km）を除外した場合と含めた場合で重複候補の順位を比較する",
+    "空白メッシュの定義を『メッシュ内バス停なし』と『メッシュ中心から最寄りバス停500m超』で比較する"
+  ],
+  "simplest_solver": {
+    "method": "自治体ごとのバス停総数やコミュニティバス比率の集計、またはメッシュ内バス停有無の単純2値判定",
+    "why_insufficient": "民間路線とコミバスの重複（二重投資）と真の交通空白集落を区別できず、路線再編やデマンド交通の導入優先地区を特定できない。"
+  },
+  "unknowns": [
+    "各系統の実際の運行本数・ダイヤ・運行曜日（平日のみ、週2日運行等）",
+    "実際の路線バスおよびコミュニティバスの乗降客数・収支率",
+    "自家用車利用率や家族による送迎実態",
+    "山間地におけるデマンド交通車両の進入可能性（狭隘道路）"
+  ],
+  "novelty": {
+    "closest_task": "M1",
+    "difference_dimension": "service_duplication_and_equity_audit",
+    "substantive_difference": "中難易度1（島根県）は駅付近と共通の系統名を持つ停留所の少なさを問う。課題39は東京都の高齢者交通空白を問う。本案は、公費が投入されるコミュニティバスと民間路線バスの空間的重複（過剰競合）と交通空白集落の双方を峻別し、補助金の適正化と地域交通再編の判断に直結する点で、既存課題にない政策的新規性を持つ。"
+  },
+  "prediction": {
+    "main_result": "コミュニティバスが存在するメッシュの3割以上で民間路線バスと近接重複しており、特に駅周辺や旧宿場町・中心幹線沿いに集中する。一方で、両者が届かない交通空白メッシュのうち高齢者が100人以上集中する集落が50メッシュ以上特定され、山間部だけでなく郊外住宅団地にも空白が点在する。",
+    "difficulty": "バス種別コードの配列処理、停留所間の空間近接集計、および駅距離と高齢者人口の複合条件抽出",
+    "fragile_assumption": "民間路線バスとコミュニティバスが互いに代替可能であるという仮定（運賃体系や目的地・病院・役場への直通性が異なる可能性）",
+    "needed_capabilities": ["dataset-discovery", "data-variable-semantics", "spatial-data-integration", "analysis-unit-design", "robustness-analysis"]
+  },
+  "rubric": [
+    "2022年度バス停（P11）、2020年国勢調査、2026年駅、2026年行政界の固定版と結合条件を明記し、岐阜県内の対象メッシュ数を報告する",
+    "民間路線（kinds=1,2）とコミュニティバス（kinds=3）の重複メッシュ、補完メッシュ、空白メッシュを同一基準で分類し、人口・高齢者数を集計する",
+    "近接距離閾値（メッシュ内／300m／500m）や駅徒歩圏（1km）の有無による結果の感度を示す",
+    "運行本数・ダイヤ・乗降実績が含まれないこと、2020年と2022年の時点差を明記する",
+    "重複の特定を直ちに『無駄な二重投資』と断定せず、運行目的や時間帯の違いを現地確認事項として残す"
+  ]
+}
