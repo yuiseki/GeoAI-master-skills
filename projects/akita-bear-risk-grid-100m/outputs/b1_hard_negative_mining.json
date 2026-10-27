@@ -1,0 +1,156 @@
+{
+  "mode": "exploratory",
+  "question": "Does hard-negative mining alone improve B_env capture@5% on B1?",
+  "setup": {
+    "train_year": 2023,
+    "test_year": 2024,
+    "model": "B_env",
+    "settings": [
+      {
+        "name": "HN1",
+        "hard_negative": 10000,
+        "random_negative": 10000
+      },
+      {
+        "name": "HN3",
+        "hard_negative": 30000,
+        "random_negative": 30000
+      },
+      {
+        "name": "HN10",
+        "hard_negative": 100000,
+        "random_negative": 100000
+      }
+    ],
+    "hard_negative_source": "baseline in-sample scores on 2023 negative cells",
+    "random_pool": "2023 negative cells not selected as hard negatives",
+    "random_seed": 0,
+    "sample_weight_passed": false,
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "n_train": 1168211,
+    "n_train_positive": 3439,
+    "n_test": 1168211,
+    "n_test_positive": 1492,
+    "numpy": "2.5.4",
+    "sklearn": "1.9.1",
+    "input_sha256": {
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24"
+    },
+    "baseline_reference_capture@5%": 0.5341823056300268,
+    "baseline_check_tolerance": 1e-09
+  },
+  "results": [
+    {
+      "setting": "baseline",
+      "n_train": 1168211,
+      "n_positive": 3439,
+      "n_negative": 1164772,
+      "delta_capture@5%": 0.0,
+      "capture@1%": 0.18699731903485256,
+      "capture@5%": 0.5341823056300268,
+      "capture@10%": 0.735254691689008,
+      "auc": 0.9250934433955277,
+      "ap": 0.016332972401106878
+    },
+    {
+      "setting": "HN1",
+      "hard_negative": 10000,
+      "random_negative": 10000,
+      "n_train": 23439,
+      "n_positive": 3439,
+      "n_negative": 20000,
+      "selected_indices_sha256": "cd2e2b775ce600f6d583a9685143c6060392f001283c95ebc6fb061211a95353",
+      "hard_indices_sha256": "dfaf2f3ddd40134caa305f8a6f64a7f0cd1a829f820b238700e1c8a6dc8c5893",
+      "random_indices_sha256": "a067bdd4d24ca0fff89850766f41b6cf150857bc0e87a349cf8c809ef82fca13",
+      "delta_capture@5%": -0.32707774798927614,
+      "capture@1%": 0.04155495978552279,
+      "capture@5%": 0.20710455764075067,
+      "capture@10%": 0.39276139410187666,
+      "auc": 0.8676346550723586,
+      "ap": 0.005083474379805235
+    },
+    {
+      "setting": "HN3",
+      "hard_negative": 30000,
+      "random_negative": 30000,
+      "n_train": 63439,
+      "n_positive": 3439,
+      "n_negative": 60000,
+      "selected_indices_sha256": "4a39a092b06da2bbae64df7102ff3ef2fb9066215b08401444d0444777a555de",
+      "hard_indices_sha256": "75d5a6a161b3af673589a7ed0f26f7c74b213cb3f2bce85b79dab6b437722bb7",
+      "random_indices_sha256": "bb36545c1cf47652f6990cd3a9bfce0c764b7b664dbd92abf7bc8eb7a455482a",
+      "delta_capture@5%": -0.2788203753351206,
+      "capture@1%": 0.08981233243967829,
+      "capture@5%": 0.25536193029490617,
+      "capture@10%": 0.4524128686327078,
+      "auc": 0.8774186133577812,
+      "ap": 0.007390925300341765
+    },
+    {
+      "setting": "HN10",
+      "hard_negative": 100000,
+      "random_negative": 100000,
+      "n_train": 203439,
+      "n_positive": 3439,
+      "n_negative": 200000,
+      "selected_indices_sha256": "01fa23b40d82b97c01c14ad03c267d2f6c4c6f3da3f8384fd27b9660f57dd2ff",
+      "hard_indices_sha256": "713cc7c8cd3721ef8f10e14ea28f96ea6d0387ba87bb1cf65ab048badeff1bc5",
+      "random_indices_sha256": "cc8e49fd574994d469fda4b403571c61b31d686e448958f9cf2244e4e330315b",
+      "delta_capture@5%": -0.03753351206434313,
+      "capture@1%": 0.1789544235924933,
+      "capture@5%": 0.49664879356568364,
+      "capture@10%": 0.6601876675603218,
+      "auc": 0.9128836193966791,
+      "ap": 0.015160948445973042
+    }
+  ],
+  "decision": {
+    "improved_settings": [],
+    "best_setting": null,
+    "best_delta_capture@5%": 0.0,
+    "mining_alone_improved_b1": false
+  },
+  "limitations": "B1 exploration only; in-sample mining may favor model mistakes. No 2025/2026 evaluation, uncertainty interval, or deployment claim."
+}

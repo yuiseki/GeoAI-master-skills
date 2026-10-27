@@ -64,6 +64,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b1_positive_weight_sweep.json
 ```
 
+### B1 の hard negative mining 追加探索
+
+既存 `B_env` の無重み baseline が capture@5% = 0.5341823056 を再現した後、2023 年度の陰性セルを baseline の学習内スコアで選ぶ。陽性全件と、hard / それ以外からの random 陰性を 1:1 で使う3設定だけを再学習し、2024 年度全セルで評価する。`sample_weight` は渡さず、2025/2026 年度のラベルは読み込まない。結果と入力6ファイルの SHA256 は [B1 hard negative mining JSON](outputs/b1_hard_negative_mining.json)。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy --with scikit-learn python \
+  projects/akita-bear-risk-grid-100m/scripts/hard_negative_b1.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b1_hard_negative_mining.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。
