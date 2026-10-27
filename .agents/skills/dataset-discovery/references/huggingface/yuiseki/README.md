@@ -115,5 +115,7 @@ contents:
 | [kyoto-bear-sighting](kyoto-bear-sighting.md) | 京都府のクマ目撃 FY2009〜FY2018 | 京都府クマ目撃情報の統合版。CC BY 4.0 |
 | [nagaoka-bear-sighting](nagaoka-bear-sighting.md) | 長岡市のクマ目撃・痕跡 FY2014〜FY2015 | 長岡市クマ出没情報。CC BY 4.0、改変表示の形が決まっている |
 | [kamisunagawa-higuma-sighting](kamisunagawa-higuma-sighting.md) | 上砂川町のヒグマ出没 FY2024〜FY2026途中 | 上砂川町ヒグマ出没マップ (BODIK)。CC BY 4.0 |
+| [tokyo-flood-record-jp](tokyo-flood-record-jp.md) | 東京都の浸水実績図 1974〜2019年 (43年分、面 5,845・点 121) | 東京都水害リスク情報システム。CC BY 4.0 |
+| [jma-rain-tokyo](jma-rain-tokyo.md) | 東京都内31観測所の日別・時間別降水量 1974〜2025年 | 気象庁 過去の気象データ・ダウンロード。PDL 1.0 互換 CC BY 4.0 |
 
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。

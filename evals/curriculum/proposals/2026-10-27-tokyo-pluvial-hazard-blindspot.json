@@ -1,0 +1,136 @@
+{
+  "mode": "digging",
+  "history_anchor": {
+    "source": "evals/curriculum/proposals/2026-10-27-taito-elderly-flood-isolation.md",
+    "observation": "台東区の避難計画分析（taito-shelter-planning）および高齢単身世帯の孤立分析では、国土数値情報の洪水浸水想定区域（ksj-a31a-flood-tokyo23、河川単位の外水氾濫シミュレーション）に基づき、台東区西側（谷中・池之端・上野）および隣接する文京区側を『浸水深 0m の安全な非浸水台地』として位置づけていた。しかし ksj-a31a の注意書き通り、河川単位の洪水浸水想定区域は下水道や暗渠の排水能力超過による『内水氾濫』を含まない。"
+  },
+  "social_problem": "東京都23区および台東区・文京区の住民や自治体防災担当者・マンション管理組合・不動産取得者が水害リスクを判断する際、広く参照される河川氾濫ハザードマップ（A31a）で『色がついていない（浸水深 0m）』区域は水害と無縁な安全地帯と誤解されやすい。しかし都市部の水害の8割以上は河川堤防の決壊（外水）ではなく、短時間強雨による下水道・暗渠の排水能力超過（内水氾濫・窪地浸水）で発生しており、台地に挟まれた谷底低地（台東区谷中・池之端〜文京区根津・千駄木の藍染川暗渠沿いなど）では外水ハザードマップ区域外であっても浸水が繰り返されてきた。一方で、下水道幹線や地下調節池の整備により1990年代以前と2000年以降では内水氾濫の空間分布と発動雨量閾値が大きく変化しており、さらに2019年で止まっている浸水実績図の空白期間（2020〜2025年）に気象庁観測網で何回危険閾値を超える豪雨が起きたかを統合的に評価する必要がある。",
+  "working_hypothesis": "東京23区の3,192町丁目（973.3万人）のうち、河川洪水浸水想定区域（ksj-a31a 想定最大規模）で『浸水深 0m（区域外）』とされる1,455町丁目（451.0万人）の過半数（834町丁目・295.4万人）が、1974〜2019年の浸水実績図（tokyo-flood-record-jp）では実際に内水氾濫等を経験している。特に台東区・文京区では、外水ハザードマップ区域外（ランク0）の谷中三丁目・池之端二丁目（各8年）や千駄木二丁目・根津二丁目（各11年）が1990年代まで時間雨量33〜35mm/hで頻発する最大の浸水ホットスポットであったが、2000年以降は下水道整備により激減し、代わって台東区中央〜東部の浅草・入谷・下谷・竜泉・千束・小島（2000年以降3〜5回、中央値54〜67mm/h）に近年の内水リスクが集中するレジーム転換が起きている。また気象庁5観測所（jma-rain-tokyo）で日最大1時間降水量30mm/h以上の日に23区内で浸水が起きる確率は1976〜1999年の64.0%から2000〜2019年には41.2%へ低下した一方、50mm/h以上では依然65.5%で浸水が発生しており、2020〜2025年の6年間にも50mm/h以上が8日（30mm/h以上が41日）観測されている。外水マップ区域外の浸水実績が全体の1割未満であるか、1999年以前と2000年以降で上位町丁目や発動雨量に変化がない場合は棄却する。",
+  "question": "東京都23区および台東区・文京区において、河川氾濫ハザードマップ（ksj-a31a）では『浸水深 0m（区域外）』と表示されるにもかかわらず過去45年間の浸水実績図（tokyo-flood-record-jp）で繰り返し内水氾濫が起きている『外水マップの空白ホットスポット』はどこか？ また気象庁降水量（jma-rain-tokyo）と統合したとき、1999年以前と2000年以降で『どの時間雨量（mm/h）で・どの街区が浸水するか』はどう変化し、浸水実績図が未収録の2020〜2025年に危険閾値を超える豪雨は何回発生しているか？",
+  "decision_use": "台東区および東京23区の住民・町会・マンション管理組合・自治体防災課が、（1）河川氾濫ハザードマップでは白地（0m）でも止水板・土嚢・半地下/1階浸水対策が必要な『谷底低地・暗渠沿い街区』の特定、（2）下水道整備により1990年代で解消した旧常襲地帯（谷中・池之端・根津等）と、2000年以降も50〜60mm/h超の短時間強雨で反復浸水している現存脆弱街区（浅草・下谷・入谷・竜泉等）の切り分け、（3）気象庁1時間雨量アラート（30mm/h・50mm/h）に応じた内水対策発動基準の設計に使う。",
+  "target_quantity": "東京23区の3,192町丁目（特に台東区108町丁目・文京区109町丁目）ごとの（1）ksj-a31a 想定最大規模・計画規模の浸水深ランク、（2）tokyo-flood-record-jp における1974〜1999年および2000〜2019年の浸水発生年数・内水氾濫ポリゴン数・重複除去前後の被害棟数（tot_bldg）・発災時の60分最大雨量（nro_60min）中央値、（3）jma-rain-tokyo の23区周辺5観測所における日最大1時間降水量（max1h_mm >= 30mm/h, 50mm/h）別の条件付き浸水発生確率（1976〜1999年 vs 2000〜2019年）および2020〜2025年の閾値超過日数。個別の下水管渠の管径や各建物の半地下構造の有無そのものは対象量ではない。",
+  "unit": "2020年国勢調査の小地域（東京23区の3,192町丁目、うち台東区108町丁目・文京区109町丁目）を空間の基本単位とし、降雨と浸水発生の条件付き確率は23区×日（1976〜2025年の17,174日）を単位とする。",
+  "time_alignment": "浸水実績図（tokyo-flood-record-jp）は1974〜2019年の43年分（1980, 2012, 2015年は配布元欠番）、気象庁降水量（jma-rain-tokyo）は1974〜2025年の52年分（アメダス5局揃うのは1976年以降）、小地域境界と人口（estat-boundary-2020）は2020年10月1日時点、洪水浸水想定区域（ksj-a31a）は令和7年度版（2026年10月取得）。浸水実績図が2019年で止まっている点と3か年の欠番年（1980, 2012, 2015）を明示的に除外・補正して期間比較を行う。",
+  "claim_type": "descriptive_screening",
+  "datasets": [
+    "yuiseki/tokyo-flood-record-jp",
+    "yuiseki/jma-rain-tokyo",
+    "yuiseki/ksj-a31a-flood-tokyo23",
+    "yuiseki/estat-boundary-2020"
+  ],
+  "source_versions": {
+    "yuiseki/tokyo-flood-record-jp": "354b0d9f8030347192eaa387500f60da76c07e1a",
+    "yuiseki/jma-rain-tokyo": "4391f7698523f5fd8f7c485a407a20f1545a6fc9",
+    "yuiseki/ksj-a31a-flood-tokyo23": "5b2259273128d0b79b491eb758abe0db67c4feac",
+    "yuiseki/estat-boundary-2020": "823195c40e1055e2c1b3c0a635369f8c82b6c3fb"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/estat-boundary-2020",
+      "right": "yuiseki/ksj-a31a-flood-tokyo23",
+      "how": "東京23区の町丁目ポリゴン（r2ka13、CITY 101〜123）の内部代表点（ST_PointOnSurface）および面と、ST_MakeValid処理済みの洪水浸水想定区域（maximum, planned）の空間交差（ST_Intersects）",
+      "why": "各町丁目が外水ハザードマップ上で『浸水深 0m（区域外）』と判定されるか、浸水想定区域内（ランク1〜6）にあるかを分類するため"
+    },
+    {
+      "left": "yuiseki/estat-boundary-2020",
+      "right": "yuiseki/tokyo-flood-record-jp",
+      "how": "東京23区の町丁目ポリゴンと1974〜2019年の浸水実績ポリゴン（flood_area）の空間交差（ST_Intersects）、および1999年以前・2000年以降の期間別浸水年数・原因（reason）・60分最大雨量（nro_60min）の集計",
+      "why": "外水ハザードマップ区域外（ランク0）でありながら繰り返し内水氾濫が起きている町丁目と、1999年以前から2000年以降へのホットスポット移動を特定するため"
+    },
+    {
+      "left": "yuiseki/jma-rain-tokyo",
+      "right": "yuiseki/tokyo-flood-record-jp",
+      "how": "jma-rain-tokyo の stations と結合した23区周辺5観測所（s47662 東京、a1002 練馬、a0368 世田谷、a0370 江戸川臨海、a0371 羽田）の日別データ（daily.date）と、tokyo-flood-record-jp の災害開始日（dis_date_s、前後1日許容）の日付結合",
+      "why": "浸水が起きなかった豪雨日を含む全観測日（分母）に対する時間雨量30mm/h・50mm/h超での条件付き浸水発生確率の変化（1976〜1999年 vs 2000〜2019年）と、大手町1局のみを使った場合の局地豪雨取り逃がし率、および2020〜2025年の危険豪雨日数を算出するため"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "year"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "layer"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "row"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "id"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "dis_name"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "dis_date_s"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "munic"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "district"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "district0"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "area"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "tot_bldg"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "reason"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "nro_60min"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "stations", "column": "station_id"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "stations", "column": "station_name"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "stations", "column": "lat"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "stations", "column": "lon"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "station_id"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "date"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "precip_mm"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "max1h_mm"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "max1h_quality"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "category"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "class_code"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "CITY", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-tokyo-pluvial-hazard-blindspot.md"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "S_NAME", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-tokyo-pluvial-hazard-blindspot.md"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "JINKO", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-tokyo-pluvial-hazard-blindspot.md"},
+    {"dataset": "yuiseki/estat-boundary-2020", "table": "r2ka01", "column": "geometry", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-tokyo-pluvial-hazard-blindspot.md"}
+  ],
+  "methodological_decisions": [
+    "tokyo-flood-record-jp の同一調査単位が複数の飛び地ポリゴン（異なる row や id）に分割されて同じ面積（area）・被害棟数（tot_bldg）が重複記録されている構造を検出し、単純合算（台東区で25,766棟・1,260.8 ha）と調査単位の重複除去後（2,473棟・139.9 ha、実ポリゴン面積256.8 ha）を明確に分離して扱う",
+    "町丁目の浸水リスク評価を『外水ハザードマップ（ksj-a31a maximum / planned）』と『45年間の実測浸水実績（tokyo-flood-record-jp、うち内水83.1%）』の2軸マトリクスで分類し、さらに『1974〜1999年（旧インフラ期）』と『2000〜2019年（近年期）』に分けてホットスポットの空間移動を検証する",
+    "気象庁降水量（jma-rain-tokyo）との結合において、東京管区気象台（大手町 s47662）1局のみを使う場合と23区周辺5観測所の最大値を使う場合を比較し、局地的な短時間強雨（ゲリラ豪雨）の捕捉率の差（33.7% vs 62.0%）と東京都建設局雨量計（nro_60min）との関係を定量化する",
+    "浸水実績図の欠番年（1980, 2012, 2015年）を日別降雨の分母からも除外して期間別の条件付き浸水発生確率を算出し、その確率を2020〜2025年の降雨実績（50mm/h以上が8日、30mm/h以上が41日）に当てはめて未記録期間の潜在浸水リスクを評価する"
+  ],
+  "failure_modes": [
+    "tokyo-flood-record-jp の area 列や tot_bldg 列をそのままポリゴン行ごとに SUM すると、同一水害区域の分割ポリゴンによる重複計上（台東区で被害棟数10.4倍、他22区で6.0倍の過大計上）が起きる",
+    "tot_bldg や nro_60min に含まれる括弧付き文字列（例: '27(3)'）を TRY_CAST(col AS INTEGER) だけで変換すると NULL になり、大規模被害行が欠落する",
+    "8年分のレイヤー（2004年等）では district 列が NULL で district0〜district4 に町丁目名が入っているため、district 列だけを見ると2004年台風22号・23号等の町丁目情報がすべて欠落する",
+    "気象庁の東京（大手町 s47662）1地点の雨量だけで都市浸水を説明しようとすると、練馬・世田谷・足立・江戸川や台東区周辺に降った局地豪雨（92日中61日）を見落とす"
+  ],
+  "robustness_checks": [
+    "外水ハザードマップの基準を『想定最大規模（maximum）』と『計画規模（planned）』で切り替え、区域外（ランク0）における実績浸水町丁目数（834町丁目 vs 1,132町丁目）と人口（295.4万人 vs 393.2万人）の感度を確かめる",
+    "町丁目と浸水想定・浸水実績の空間結合を『代表点（ST_PointOnSurface）交差』と『ポリゴン面積重なり率（>= 10%）』で切り替え、谷中・池之端・根津・千駄木や浅草・下谷・入谷の分類が保たれるかを確認する",
+    "降雨閾値を日最大1時間降水量 30mm/h、40mm/h、50mm/h、および日降水量 100mm で掃引し、1976〜1999年と2000〜2019年の条件付き浸水発生確率の低下幅が一貫しているかを検証する",
+    "浸水実績の集計指標を『浸水発生年数（flood_years）』『ポリゴン実面積（ST_Area_Spheroid）』『重複除去後の被害棟数（tot_bldg）』の3通りで比較し、上位区の順位変動を確認する"
+  ],
+  "simplest_solver": {
+    "method": "国土数値情報の洪水浸水想定区域（ksj-a31a）の浸水深ランクだけで水害リスクを判定する方法、または tokyo-flood-record-jp の全期間ポリゴン数を単純集計する方法",
+    "why_insufficient": "ksj-a31a だけを見ると、東京23区で過去に実際に浸水した町丁目の42.4%（834/1,967町丁目、人口295.4万人）、特に台東区谷中・池之端や文京区千駄木・根津のような谷底低地の内水氾濫常襲地帯が『浸水深 0m（リスクなし）』として完全に見落とされる。逆に tokyo-flood-record-jp の1974〜2019年全期間を区別せず単純合算すると、下水道整備で2000年以降はほぼ解消した旧常襲地帯と、2000年以降も50〜60mm/h超で繰り返し浸水している浅草・入谷・下谷・竜泉等の現存ホットスポットを混同し、さらに分割ポリゴン重複により被害棟数を6〜10倍過大評価する。"
+  },
+  "unknowns": [
+    "1990年代〜2010年代に各街区で実施された下水道幹線増強・雨水調整池・ポンプ所の具体的な竣工年と計画処理時間雨量（50mm/h対応か75mm/h対応か）",
+    "2020〜2025年に発生した時間雨量50mm/h超の豪雨8日において、実際にどの町丁目で何棟の内水浸水被害が発生したか（東京都の浸水実績図データが2019年までしか公開されていないため）",
+    "水害統計調査の収録基準（原則1箇所0.1 ha以上または10棟以上）未満の小規模な半地下・1階店舗の単発浸水件数",
+    "各町丁目の建物における止水板・排水ポンプ・高床化の導入状況"
+  ],
+  "novelty": {
+    "closest_task": 37,
+    "difference_dimension": "pluvial_vs_fluvial_hazard_blindspot_and_rainfall_threshold_regime_shift",
+    "substantive_difference": "既存の避難計画課題や外水ハザードマップ分析は ksj-a31a（河川氾濫シミュレーション）を唯一の水害真値として扱っていた。本提案は新たにデータカード化した tokyo-flood-record-jp（45年間の実測浸水実績、83.1%が内水氾濫）と jma-rain-tokyo（52年間の気象庁連続降水量）を統合し、（1）外水マップで『浸水深 0m（安全な高台側）』とされる領域に295万人分の実績内水氾濫地帯（谷根千の藍染川暗渠谷底低地など）が存在する盲点、（2）1999年以前と2000年以降での内水ホットスポットの空間移動（谷中・池之端から浅草・下谷・入谷・竜泉へ）と30〜50mm/h帯での耐水化効果、（3）分割ポリゴンによる被害棟数10.4倍重複計上の罠を解明する点で実質的に異なる。"
+  },
+  "prediction": {
+    "main_result": "東京23区の3,192町丁目のうち、河川洪水想定（ksj-a31a 想定最大規模）で『浸水深 0m（区域外）』の1,455町丁目（451.0万人）の57.3%にあたる834町丁目（295.4万人）が1974〜2019年に実際の浸水（主に内水氾濫）を経験し、222町丁目（90.8万人）は2000年以降も浸水している。台東区・文京区では、外水マップで非浸水（ランク0）の谷中三丁目・池之端二丁目（各8年）や千駄木二丁目・根津二丁目（各11年）が1990年代までは時間雨量33〜35mm/hで浸水する最大のホットスポットであったが、2000年以降は激減し、代わって台東区中央〜東部の浅草二丁目（2000年以降5回）、浅草一丁目（4回）、小島一丁目・入谷一丁目・千束四丁目・下谷二〜三丁目・竜泉一・三丁目（各3回、中央値54〜67mm/h）が現存する内水氾濫ホットスポットとなっている。また気象庁5観測所で30mm/h以上の日に浸水が起きる確率は1976〜1999年の64.0%から2000〜2019年には41.2%へ低下したが、50mm/h以上では65.5%と依然高く、未公開期間（2020〜2025年）にも50mm/h超が8日発生している。",
+    "difficulty": "tokyo-flood-record-jp における同一調査単位の分割ポリゴン重複（台東区で棟数10.4倍・面積9.0倍）の検出と除去、括弧付き文字列（'27(3)'）や8年分の district0〜4 分割スキーマの正規化、および jma-rain-tokyo の欠番年を考慮した5観測所ネットワーク結合",
+    "fragile_assumption": "水害統計調査（0.1 ha以上または10棟以上）の記録有無が街区ごとの実質的な内水氾濫リスクの変化を反映しているという仮定、および23区周辺5箇所のアメダス観測値が区内の局地強雨を代表できるという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "data-quality-audit",
+      "observation-bias-audit",
+      "analysis-unit-design",
+      "spatial-data-integration",
+      "robustness-analysis",
+      "analysis-visualize",
+      "analysis-reporting"
+    ]
+  },
+  "rubric": [
+    "tokyo-flood-record-jp、jma-rain-tokyo、ksj-a31a-flood-tokyo23、estat-boundary-2020 の固定版コミットハッシュとCRS統一・ST_MakeValid処理を明記し、tokyo-flood-record-jp の欠番年（1980, 2012, 2015年）と2019年以降の未収録期間を明記する",
+    "tokyo-flood-record-jp の分割ポリゴンによる属性重複（台東区133行＝37調査単位で単純合算25,766棟 vs 重複除去後2,473棟、他22区で863,819棟 vs 144,898棟）および括弧付き文字列・district0〜4列の処理を正確に行う",
+    "東京23区および台東区・文京区において、ksj-a31a（外水ハザードマップ）の浸水ランク（特にランク0＝区域外）と実測浸水実績（内水氾濫）のクロス集計を提示し、『外水マップでは0mだが内水氾濫が起きた谷底低地（谷中・池之端・千駄木・根津等）』の空間的盲点を示す",
+    "1974〜1999年と2000〜2019年の2期間で町丁目別の浸水頻度と発災時60分最大雨量（nro_60min）を比較し、谷根千（藍染川暗渠）での沈静化と浅草・下谷・入谷・竜泉等での2000年以降の反復浸水を対比する",
+    "jma-rain-tokyo の東京1局（s47662）のみと23区周辺5局ネットワークの豪雨捕捉率の差（33.7% vs 62.0%）を示したうえで、30mm/h・50mm/h超での条件付き浸水発生確率の推移と2020〜2025年の閾値超過日数（30mm/h以上41日、50mm/h以上8日）を報告する"
+  ]
+}
