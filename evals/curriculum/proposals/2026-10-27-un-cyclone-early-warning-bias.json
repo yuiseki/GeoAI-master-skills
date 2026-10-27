@@ -1,0 +1,125 @@
+{
+  "mode": "exploration",
+  "social_problem": "UN Open GIS Initiative の Contributor や周囲の国連防災機関（UNDRR『すべての人に早期警戒を [Early Warnings for All: EW4All]』イニシアティブ）・UN-SPIDER（国連宇宙空間情報防災プラットフォーム）・OCHA（国連人道問題調整事務所の事前行動 [Anticipatory Action] 資金配分）・UNDP の意思決定者にとって、全球の熱帯低気圧（台風・サイクロン・ハリケーン）に対する国別・人間開発指数（HDI）階層別の人口曝露と早期警戒システムの優先投資先を決める際、オープンデータの使い方を誤ると支援対象国が劇的に歪む3つの構造的リスクがある。第一に、NOAA IBTrACS の公式風速列（WMO_WIND）は北大西洋・北東太平洋では『1分平均風速』であるのに対し、北西太平洋・インド洋・南太平洋では『10分平均風速（1分平均の約0.88倍）』かつ欠測が多いため、WMO_WIND に一律の閾値（例: カテゴリー3相当の 96 kt）を適用するとアジア・アフリカのサイクロンが大量に脱落する。第二に、Kontur の 22km H3 六角形セルをセル重心（Centroid）で国境に空間結合すると、EW4All の最優先対象である小島嶼開発途上国（SIDS）の人口が100%海上に落ちて消滅する。第三に、3時間ごとの経路点を嵐（SID）単位で重複除去しないと停滞した嵐が何重にも計上される。",
+  "working_hypothesis": "2001〜2025年のカテゴリー3相当以上（最大風速 96 kt 以上、経路から 100 km 圏内）の熱帯低気圧に対する世界の曝露人口を算出する際、ナイーブに WMO_WIND >= 96 kt を使うと世界のユニーク曝露人口は 1億1,472万人（年間期待延べ 722万人/年）にとどまり、ベトナム（0人）が完全脱落し、フィリピン（122万人/年）と米国（111万人/年）・キューバ（101万人/年）がほぼ同列に見える。しかし1分平均風速へハーモナイズした風速（COALESCE(USA_WIND, WMO_WIND/0.88) >= 96 kt）を使うと、世界のユニーク曝露人口は 4億3,478万人（3.79倍）、年間期待延べ曝露は 3,753万人/年（5.20倍）へ急増し、フィリピン（1,416万人/年、11.6倍）、バングラデシュ（220万人→2,235万人、10.2倍）、ベトナム（0人→1,001万人）、マダガスカル（102万人→627万人、6.1倍）、モザンビーク（255万人→726万人）などアジア・東アフリカの Low/Medium HDI 国が最優先国として浮上する。また H3 r4 セルの結合をポリゴン交差ではなく重心交差にすると、トンガ・ミクロネシア・キリバス・モーリシャス・バルバドス等の SIDS 人口が 100% 消失（沿岸含む計 3億9,793万人が脱落）する。風速ハーモナイズや空間結合方法を変えても上位国順位と HDI 階層別シェアが変わらない場合は棄却する。",
+  "question": "UN Open GIS Initiative および国連『Early Warnings for All（EW4All）』・OCHA 事前行動の優先国選定に向け、2001〜2025年の強い熱帯低気圧（96 kt 以上、100 km 圏内）に対する国別・HDI 階層別の曝露人口は、（1）風速定義（ナイーブな WMO_WIND vs 1分平均へ統一した USA_WIND / WMO_WIND 換算）、（2）H3 人口セルと国境の空間結合法（セル重心交差 vs ポリゴン交差による小島嶼国 SIDS・沿岸部の救済）、（3）集計単位（ユニーク曝露人口 vs 嵐 SID 単位の年間延べ曝露人口 vs 3時間経路点の単純合算）の選択によってどう変化し、どの低・中 HDI 国および小島嶼国（SIDS）が真の最優先支援国となるか？",
+  "decision_use": "UN Open GIS Initiative の Contributor や UNDRR（EW4All）・UN-SPIDER・OCHA（事前行動フレームワーク）・UNDP の計画官が、（1）海域間の風速平均時間差（1分 vs 10分）でアジア・アフリカ（北西太平洋・北インド洋・南インド洋）の被災国が過小評価されるのを防ぐ国連標準サイクロン曝露算出パイプラインの策定、（2）H3 グリッドデータを用いる際に小島嶼開発途上国（SIDS）が脱落しない空間結合仕様の標準化、（3）HDI が低く早期警戒・避難インフラが脆弱な反復被災国（マダガスカル、モザンビーク、バングラデシュ、ミャンマー、ハイチ、太平洋・カリブ SIDS 等）への優先資金配分に使う。",
+  "target_quantity": "世界の Kontur H3 解像度 4 セル（緯度±40度内の 48,954 セル）および国（Natural Earth Admin-0）・UNDP HDI 階層（Low, Medium, High, Very High, SIDS）ごとの、2001〜2025年における暴風域（100 km 圏内、64 kt 以上および 96 kt 以上）への（1）ユニーク曝露人口、（2）嵐（SID）単位の年間期待延べ曝露人口、（3）3時間経路点ベースの単純合算値、ならびに風速定義差（WMO_WIND vs 1分平均統一）と空間結合差（重心 vs ポリゴン交差）による乖離量。高潮の局所的な浸水深や各国の実際の気象レーダー稼働率そのものは対象量ではない。",
+  "unit": "Kontur Population の H3 resolution 4 六角形セル（世界 71,283 セルのうち熱帯低気圧が到達しうる緯度±40度内の 48,954 セル）を基本単位とし、Natural Earth Admin-0 国単位および UNDP HDR の人間開発指数（hdicode）階層別に集計する。",
+  "time_alignment": "IBTrACS 熱帯低気圧経路は直近25年間（2001〜2025年シーズン、長期比較として1980〜2000年も参照可能）、Kontur 人口は 2023年11月1日版、UNDP HDR 人間開発指数は 2025年報告書版（2023年値）、Natural Earth 国境は v5.1.2 を使用する。2001〜2025年の気象イベントに対して 2023年時点の静的空間人口分布を当てはめる仮定と限界を明記する。",
+  "claim_type": "descriptive_screening",
+  "datasets": [
+    "yuiseki/ibtracs-v04r01",
+    "yuiseki/kontur-population-2023-11-01-22km",
+    "yuiseki/undp-hdr",
+    "yuiseki/natural-earth"
+  ],
+  "source_versions": {
+    "yuiseki/ibtracs-v04r01": "7492b1ac35fbbcc304c752d3ff7d381c73a24510",
+    "yuiseki/kontur-population-2023-11-01-22km": "2e7291f8c2d4b9c06bb4ff0e43be14e538e0600d",
+    "yuiseki/undp-hdr": "dfc80c7de776473bd140d87c690600686f30833a",
+    "yuiseki/natural-earth": "efdd0668c57c9d42307e12eacbf66d8d151de5b9"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/kontur-population-2023-11-01-22km",
+      "right": "yuiseki/natural-earth",
+      "how": "EPSG:3857 から EPSG:4326 へ変換した Kontur H3 r4 六角形ポリゴン（および比較用のセル重心）と Natural Earth Admin-0 国ポリゴン（ne_10m_admin_0_countries）の空間交差（ST_Intersects、複数国にまたがるセルは交差面積最大の ISO_A3_EH を付与）",
+      "why": "H3 セル重心結合で海に落ちて脱落する世界の沿岸人口 3億9,793万人および小島嶼開発途上国（SIDS: トンガ、ミクロネシア、キリバス、モーリシャス、バルバドス等で 100% 消失）をポリゴン交差で救済し、その差を定量化するため"
+    },
+    {
+      "left": "yuiseki/kontur-population-2023-11-01-22km",
+      "right": "yuiseki/ibtracs-v04r01",
+      "how": "H3 r4 セル重心と 2001〜2025年の IBTrACS 経路点（WMO_WIND または 1分平均統一風速が 64 kt / 96 kt 以上の点）の球面距離（ST_Distance_Spheroid <= 100,000 m）による空間結合、および嵐識別子（DISTINCT SID）単位での集約",
+      "why": "ナイーブな WMO_WIND 基準と 1分平均統一風速基準での曝露人口の差（1.15億人 vs 4.35億人）、および嵐単位（DISTINCT SID）と 3時間経路点単純合算の差（3,753万人/年 vs 7,329万人/年）を算出するため"
+    },
+    {
+      "left": "yuiseki/natural-earth",
+      "right": "yuiseki/undp-hdr",
+      "how": "Natural Earth の ISO_A3_EH（または ADM0_A3）と UNDP HDR 2025（composite_indices）の iso3 コードによるキー結合",
+      "why": "各国に人間開発指数ランク（hdicode: Low, Medium, High, Very High および hdi_2023）を付与し、気候災害に対する社会経済的脆弱性とサイクロン物理曝露の重なりを評価するため"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "SID"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "SEASON", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "BASIN", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "ISO_TIME"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "LAT", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "LON", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "WMO_WIND"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "WMO_AGENCY", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "USA_WIND", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "DIST2LAND", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/ibtracs-v04r01", "table": "track_points_since1980", "column": "geometry", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/kontur-population-2023-11-01-22km", "table": "population_r4", "column": "h3"},
+    {"dataset": "yuiseki/kontur-population-2023-11-01-22km", "table": "population_r4", "column": "population"},
+    {"dataset": "yuiseki/kontur-population-2023-11-01-22km", "table": "population_r4", "column": "geometry", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/undp-hdr", "table": "data", "column": "iso3", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/undp-hdr", "table": "data", "column": "country", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/undp-hdr", "table": "data", "column": "hdicode", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/undp-hdr", "table": "data", "column": "hdi_2023", "evidence_file": "evals/curriculum/dry-runs/2026-10-27-un-cyclone-early-warning-bias.md"},
+    {"dataset": "yuiseki/natural-earth", "table": "ne_10m_admin_0_countries", "column": "ADM0_A3"},
+    {"dataset": "yuiseki/natural-earth", "table": "ne_10m_admin_0_countries", "column": "ISO_A3_EH"},
+    {"dataset": "yuiseki/natural-earth", "table": "ne_10m_admin_0_countries", "column": "NAME_JA"},
+    {"dataset": "yuiseki/natural-earth", "table": "ne_10m_admin_0_countries", "column": "POP_EST"},
+    {"dataset": "yuiseki/natural-earth", "table": "ne_10m_admin_0_countries", "column": "geometry"}
+  ],
+  "methodological_decisions": [
+    "IBTrACS の海域別 WMO 地域専門気象センター（RSMC）による風速平均時間の違い（北大西洋・北東太平洋の 1分平均 vs 北西太平洋・インド洋・南太平洋の 10分平均）および WMO_WIND の欠測を補正するため、ナイーブな WMO_WIND と 1分平均統一風速 COALESCE(TRY_CAST(USA_WIND AS DOUBLE), WMO_WIND / 0.88) を構築して国別・海域別の曝露人口を比較する",
+    "Kontur H3 r4 セル（EPSG:3857 から EPSG:4326 へ投影変換）と Natural Earth 国境ポリゴンの空間結合において、セル重心交差（ST_Centroid）と六角形ポリゴン交差（ST_Intersects）を比較し、重心交差で消失する沿岸・小島嶼開発途上国（SIDS）の人口（3億9,793万人、トンガ・ミクロネシア・キリバス・モーリシャス等で 100% 消失）を救済する",
+    "IBTrACS の 1行＝1時刻の経路点という粒度を踏まえ、同一の嵐（SID）が1つの H3 セルの 100 km 圏内に複数回記録される重複を COUNT(DISTINCT SID) で除去した『年間期待延べ曝露人口』と、『ユニーク曝露人口（期間中1回以上）』、および重複除去しない『経路点単純合算』の3指標を比較する",
+    "UNDP HDR 2025 の hdicode（Low, Medium, High, Very High）および SIDS 区分と結合し、物理的ハザード強度だけでなく人間開発の脆弱性を掛け合わせた優先順位を評価する"
+  ],
+  "failure_modes": [
+    "IBTrACS の WMO_WIND 列にそのまま >= 96 kt（カテゴリー3相当）を適用すると、10分平均風速を採用する北西太平洋・インド洋・南太平洋の大型サイクロンが過半数脱落し、ベトナムの曝露人口が 0人、バングラデシュが 10分の1（220万人 vs 2,235万人）、フィリピンの年間延べ曝露が 11.6分の1（122万人/年 vs 1,416万人/年）に過小評価される",
+    "Kontur H3 r4 セルの geometry（EPSG:3857）を変換せずに使ったり、セル重心（ST_Centroid）だけで国境ポリゴンと ST_Intersects すると、沿岸部および面積の小さい島嶼国（SIDS）のセル重心が海上に落ちて 3億9,793万人が無国籍（NULL）として集計から消える",
+    "IBTrACS の経路点行をそのまま人口と掛け合わせて合算すると、3時間ごと（一部1時間・6時間ごと）の観測頻度と嵐の移動速度（遅い嵐ほど点が多い）が曝露人口に混入し、世界全体で 1.95倍（ハイチで 4.6倍、香港で 4.2倍）の過大計上が起きる",
+    "USA_WIND 列は VARCHAR 型で空白文字列（' '）を含むため、trim と NULLIF を挟まずにキャストするとエラーまたは誤変換になる"
+  ],
+  "robustness_checks": [
+    "風速定義を（1）ナイーブ WMO_WIND、（2）USA_WIND のみ、（3）ハーモナイズ風速 COALESCE(USA_WIND, WMO_WIND / 0.88) の3通りで切り替え、海域別（WP, NI, SI, SP, NA, EP）および上位20か国の順位相関と変動幅を検証する",
+    "暴風強度閾値を 64 kt（カテゴリー1相当: 暴風域）と 96 kt（カテゴリー3相当: メジャーサイクロン）で切り替え、ユニーク曝露人口（12.00億人 vs 4.35億人）と国別順位の安定性を確認する",
+    "経路からの暴風影響半径を 50 km / 100 km / 150 km の3段階で掃引し、SIDS および大陸沿岸国の順位が保たれるかを確かめる",
+    "期間を前半（1980〜2000年）と後半（2001〜2025年）に分割し、カテゴリー3以上のサイクロン曝露人口の増減と緯度帯・海域別の変化を確認する"
+  ],
+  "simplest_solver": {
+    "method": "IBTrACS の WMO_WIND >= 96 kt の経路点から 100 km 以内の Kontur H3 セル重心を抽出し、Natural Earth 国ポリゴンに重心が入るセルの人口を単純合算する方法",
+    "why_insufficient": "このナイーブな最小解法では、（1）WMO_WIND の10分平均と欠測により北西太平洋・北インド洋・南インド洋のカテゴリー3以上の嵐の40〜56%が落ちて世界の曝露人口が 4.35億人から 1.15億人へ 74% も過小評価され（ベトナムは 1,001万人→0人、バングラデシュは 2,235万人→220万人）、（2）H3 セル重心結合によりトンガ・ミクロネシア・キリバス・モーリシャス・バルバドス等の小島嶼開発途上国（SIDS）の人口が 100% 消失し、（3）経路点の重複計上により停滞した嵐が何重にも数えられるため、国連 EW4All や OCHA 事前行動の資金配分先を根本的に誤らせる。"
+  },
+  "unknowns": [
+    "個々の熱帯低気圧における実際の暴風半径の非対称性（進行方向右側の危険半円と左側の可航半円の違い）および地形による風速減衰・局所豪雨量",
+    "高潮（ストームサージ）に対する海岸堤防・マングローブ林の有無や、各世帯の住宅構造（耐風建築か簡易住居か）",
+    "各国における気象警報の実際の伝達率、避難所の収容能力、および発災前の事前避難行動の実施率",
+    "2001〜2025年の各年における実際の人口分布の経年変化（2023年時点の Kontur 人口に固定して評価しているため）"
+  ],
+  "novelty": {
+    "closest_task": 0,
+    "difference_dimension": "ibtracs_multi_agency_wind_harmonization_and_sids_h3_coastal_rescue",
+    "substantive_difference": "前回の提案（UCDP 紛争 × OurAirports 滑走路 × Kontur 人口）が武力紛争下の航空ロジスティクスを扱ったのに対し、本提案は全く異なる気象災害・気候適応の枝（IBTrACS 熱帯低気圧 × Kontur H3 人口 × UNDP HDR 人間開発指数 × Natural Earth）を開拓する。特に（1）IBTrACS の WMO_WIND（海域により10分平均と1分平均が混在・欠測）と USA_WIND（1分平均統一）の非対称性がアジア・アフリカの曝露人口を 3.2億人（74%）も過小評価させる罠、（2）22km H3 六角形セルの重心結合が小島嶼国（SIDS）の人口を 100% 消失させる空間結合の罠、（3）3時間経路点と嵐識別子（SID）の粒度差による 1.95倍の重複計上の罠の 3 つを実データで同時に解明する点で新しい。"
+  },
+  "prediction": {
+    "main_result": "2001〜2025年のカテゴリー3相当以上（96 kt 以上、100 km 圏内）のサイクロン曝露人口は、ナイーブな WMO_WIND >= 96 kt 基準では世界ユニーク 1億1,472万人（年間期待延べ 722万人/年）にとどまり、米国（111万人/年）やキューバ（101万人/年）がフィリピン（122万人/年）と並ぶ上位に見え、ベトナムは 0人となる。しかし1分平均風速へハーモナイズすると、世界ユニーク曝露は 4億3,478万人（3.79倍）、年間期待延べ曝露は 3,753万人/年（5.20倍）へ急増し、フィリピン（1,416万人/年、11.6倍）、中国（590万人/年）、インド（240万人/年）、バングラデシュ（ユニーク 2,235万人、10.2倍）、ベトナム（ユニーク 1,001万人）、モザンビーク（726万人、Low HDI）、マダガスカル（627万人、Low HDI）、ミャンマー（609万人、Medium HDI）が浮上する。さらに H3 セルの空間結合を重心からポリゴン交差に変えることで、重心結合では 100% 消失していたトンガ・ミクロネシア・キリバス・モーリシャス・バルバドス等の SIDS および世界の沿岸人口 3億9,793万人が正しく救済される。",
+    "difficulty": "Kontur H3 r4 の EPSG:3857 から EPSG:4326 への投影変換と最大交差面積による沿岸・SIDS 国コード付与、IBTrACS の VARCHAR 風速列（USA_WIND）のクレンジングと 10分/1分平均風速のハーモナイズ、および球面距離 100 km 空間結合における DISTINCT SID 集約",
+    "fragile_assumption": "WMO 10分平均風速から 1分平均風速への換算係数（1 / 0.88）および暴風影響半径 100 km という一律の空間バッファが、異なる海域・大きさの熱帯低気圧の暴風曝露を近似できるという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "data-quality-audit",
+      "observation-bias-audit",
+      "analysis-unit-design",
+      "spatial-data-integration",
+      "spatial-feature-engineering",
+      "robustness-analysis",
+      "analysis-visualize",
+      "analysis-reporting"
+    ]
+  },
+  "rubric": [
+    "ibtracs-v04r01、kontur-population-2023-11-01-22km、undp-hdr、natural-earth の固定版コミットハッシュを明記し、Kontur の CRS（EPSG:3857）を EPSG:4326 へ変換したうえで、距離計算を全て球面測地線距離（ST_Distance_Spheroid）で行う",
+    "H3 r4 セルと国境ポリゴンの結合において、セル重心交差（ST_Centroid）とポリゴン交差（ST_Intersects）を比較し、重心交差で脱落する沿岸人口（3億9,793万人）と小島嶼国（SIDS: トンガ、ミクロネシア、キリバス、モーリシャス、バルバドス等で 100% 消失）の内訳を定量的に示す",
+    "IBTrACS の WMO_WIND（海域により10分平均と1分平均が混在し欠測あり）と 1分平均統一風速 COALESCE(USA_WIND, WMO_WIND / 0.88) を比較し、北西太平洋（WP: 99→225嵐）、北インド洋（NI: 15→26嵐）、南インド洋（SI: 85→128嵐）での嵐数と国別曝露人口の逆転（フィリピン、ベトナム、バングラデシュ、マダガスカル、モザンビーク等）を示す",
+    "1行＝1時刻の経路点（track points）の単純合算と、嵐識別子（DISTINCT SID）で重複除去した年間期待延べ曝露人口・ユニーク曝露人口を比較し、移動速度の遅い嵐による重複計上（世界全体で 7,329万人/年 vs 3,753万人/年）を分離する",
+    "UNDP HDR 2025 の hdicode（Low, Medium, High, Very High）および SIDS 区分別に曝露人口を集計し、高潮の局所浸水や建物の耐風性能、実際の警報伝達率はこのデータからは分からない限界を明記する"
+  ]
+}
