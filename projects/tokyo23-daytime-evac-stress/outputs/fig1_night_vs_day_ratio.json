@@ -1,0 +1,17 @@
+{
+  "figure": "fig1_night_vs_day_ratio.png",
+  "question": "夜間の人口/避難所の順位は、昼間の順位を予測するか",
+  "source_output": "outputs/analysis_results.json, artifacts/.../mesh_dataset.parquet",
+  "n": 578,
+  "zero_night_meshes": 5,
+  "highlighted": {
+    "day_top20_overlap_night": 1
+  },
+  "data_versions": {
+    "census": "estat-census-mesh-2020@6c486c8 (2020-10-01)",
+    "flow": "mlit-1km-fromto-2022-01@2424a9d (2019-10)",
+    "shelters": "gsi-evacuation-sites-jp@d8ad216 (2026-10-06)"
+  },
+  "axes": "symlog (linthresh=10) both axes; x 0-20,000; y 0-200,000",
+  "font": "Noto Sans CJK JP"
+}

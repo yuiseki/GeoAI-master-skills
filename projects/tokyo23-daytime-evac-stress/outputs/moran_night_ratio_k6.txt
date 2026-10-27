@@ -1,0 +1,2 @@
+units: 578, value: night_ratio
+global Moran's I, 6 nearest neighbours: I 0.516 (E[I] -0.0017), pseudo p 0.0010

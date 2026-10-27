@@ -1,0 +1,43 @@
+Facility counts in the 23 wards (code5 13101-13123), measured 2026-10-27.
+
+Source: hf://datasets/yuiseki/gsi-evacuation-sites-jp@d8ad2169789b71c951e8808b2e54a953030aae07
+  parquet/shelters.parquet  (designated evacuation shelters)
+  parquet/sites.parquet     (designated emergency sites, earthquake = true)
+Ward code: substr(common_id, 2, 5)
+
+shelters (all 23 wards): 2001 facilities, 23 wards
+earthquake-designated emergency sites: 631 facilities, 13 wards with any; 10 wards have 0
+
+per-ward shelters:
+13101 15
+13102 34
+13103 83
+13104 129
+13105 58
+13106 55
+13107 39
+13108 202
+13109 93
+13110 37
+13111 91
+13112 96
+13113 52
+13114 62
+13115 78
+13116 35
+13117 56
+13118 85
+13119 86
+13120 220
+13121 208
+13122 76
+13123 111
+
+Query:
+select count(*) n, count(distinct substr(common_id,2,5)) wards
+from read_parquet('<shelters>')
+where substr(common_id,2,5) between '13101' and '13123';
+
+select count(*) n, count(distinct substr(common_id,2,5)) wards
+from read_parquet('<sites>')
+where earthquake and substr(common_id,2,5) between '13101' and '13123';

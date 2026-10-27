@@ -1,0 +1,107 @@
+{
+  "figure": "fig2_delta_map.png",
+  "question": "昼間に避難所1件あたりの負担が最も増えるメッシュはどこか",
+  "source_output": "artifacts/.../mesh_dataset.parquet; outputs/top20_delta_abs.csv",
+  "n_colored": 578,
+  "n_zero_undefined": 55,
+  "top1": {
+    "mesh1kmid": "53394610",
+    "ward": "千代田区",
+    "night": 5.0,
+    "day19": 88439,
+    "sh_1000": 1,
+    "delta": 88434.0
+  },
+  "top10": [
+    {
+      "mesh1kmid": "53394610",
+      "ward": "千代田区",
+      "night": 5.0,
+      "day19": 88439,
+      "sh_1000": 1,
+      "delta": 88434.0
+    },
+    {
+      "mesh1kmid": "53394611",
+      "ward": "中央区",
+      "night": 1157.0,
+      "day19": 379075,
+      "sh_1000": 5,
+      "delta": 75583.6
+    },
+    {
+      "mesh1kmid": "53394621",
+      "ward": "千代田区",
+      "night": 2341.0,
+      "day19": 344153,
+      "sh_1000": 6,
+      "delta": 56968.66666666667
+    },
+    {
+      "mesh1kmid": "53394620",
+      "ward": "千代田区",
+      "night": 235.0,
+      "day19": 51564,
+      "sh_1000": 1,
+      "delta": 51329.0
+    },
+    {
+      "mesh1kmid": "53394600",
+      "ward": "千代田区",
+      "night": 770.0,
+      "day19": 247964,
+      "sh_1000": 5,
+      "delta": 49438.8
+    },
+    {
+      "mesh1kmid": "53394630",
+      "ward": "千代田区",
+      "night": 9223.0,
+      "day19": 155373,
+      "sh_1000": 4,
+      "delta": 36537.5
+    },
+    {
+      "mesh1kmid": "53394509",
+      "ward": "港区",
+      "night": 4750.0,
+      "day19": 255822,
+      "sh_1000": 7,
+      "delta": 35867.42857142857
+    },
+    {
+      "mesh1kmid": "53393640",
+      "ward": "品川区",
+      "night": 1561.0,
+      "day19": 31834,
+      "sh_1000": 1,
+      "delta": 30273.0
+    },
+    {
+      "mesh1kmid": "53394577",
+      "ward": "豊島区",
+      "night": 19798.0,
+      "day19": 130089,
+      "sh_1000": 4,
+      "delta": 27572.75
+    },
+    {
+      "mesh1kmid": "53394525",
+      "ward": "新宿区",
+      "night": 9187.0,
+      "day19": 243319,
+      "sh_1000": 9,
+      "delta": 26014.666666666668
+    }
+  ],
+  "zoom_panel": "fig3_zoom_top10.png",
+  "classes": "SymLogNorm(linthresh=1000, vmin=-4000, vmax=100000)",
+  "crs": "EPSG:6677",
+  "data_versions": {
+    "census": "estat-census-mesh-2020@6c486c8",
+    "flow": "mlit-1km-fromto-2022-01@2424a9d",
+    "shelters": "gsi-evacuation-sites-jp@d8ad216",
+    "wards": "jp-admin-2026-09@e6c87b1"
+  },
+  "font": "Noto Sans CJK JP"
+}

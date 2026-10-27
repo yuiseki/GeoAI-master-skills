@@ -1,0 +1,2 @@
+units: 578, value: delta
+global Moran's I, 12 nearest neighbours: I 0.534 (E[I] -0.0017), pseudo p 0.0010

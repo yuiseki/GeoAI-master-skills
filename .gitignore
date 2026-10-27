@@ -20,5 +20,6 @@ node_modules/
 !/projects/bear-outbreak-weather/
 !/projects/bear-risk-sources/
 !/projects/taito-accident-trends-by-role/
+!/projects/tokyo23-daytime-evac-stress/
 /artifacts/*
 !/artifacts/sample-project/

@@ -1,0 +1,428 @@
+{
+  "universe": {
+    "meshes": 633,
+    "finite_meshes": 578,
+    "zero_shelter_meshes": 55,
+    "night_total": 9774907,
+    "day19_total": 14378562,
+    "day21_total": 12228770,
+    "census_rows": 580,
+    "day19_rows": 631,
+    "day21_rows": 629,
+    "eq_published_meshes": 331,
+    "eq_published_wards": 13,
+    "no_shelter_within_5km": 7
+  },
+  "C1_day_vs_night_top20": {
+    "overlap": 1,
+    "union": 39,
+    "spearman_all_finite": 0.39881764210888704
+  },
+  "C2_day_ratio_vs_day_population_top20": {
+    "overlap": 13,
+    "spearman_all_finite": 0.7271415187167275
+  },
+  "other_rank_relations": {
+    "delta_vs_day_ratio_top20_overlap": 19,
+    "delta_vs_day_population_top20_overlap": 14,
+    "day_ratio_vs_night_population_spearman": 0.13560473593841751,
+    "night_ratio_vs_night_population_spearman": 0.41717487915668455
+  },
+  "most_worsened": {
+    "mesh1kmid": "53394610",
+    "ward": "千代田区",
+    "lon": 139.756256,
+    "lat": 35.6791649,
+    "night": 5,
+    "day19": 88439,
+    "shelters_1km": 1,
+    "night_ratio": 5.0,
+    "day_ratio": 88439.0,
+    "delta": 88434.0
+  },
+  "most_worsened_2021": {
+    "mesh1kmid": "53394610",
+    "ward": "千代田区",
+    "day21_ratio": 52784.0,
+    "delta21": 52779.0
+  },
+  "day_ratio_top20_wards": {
+    "千代田区": 10,
+    "中央区": 3,
+    "港区": 3,
+    "新宿区": 2,
+    "豊島区": 1,
+    "品川区": 1
+  },
+  "delta_top20_wards": {
+    "千代田区": 9,
+    "中央区": 3,
+    "港区": 3,
+    "新宿区": 3,
+    "品川区": 1,
+    "豊島区": 1
+  },
+  "night_ratio_top20_wards": {
+    "世田谷区": 14,
+    "江戸川区": 3,
+    "杉並区": 1,
+    "豊島区": 1,
+    "目黒区": 1
+  },
+  "relative_reading": {
+    "top_mesh": "53394610",
+    "top_ward": "千代田区",
+    "top_night": 5,
+    "top_day19": 88439,
+    "top_ratio": 17687.8,
+    "top20_with_night_ge_100": [
+      "53394611",
+      "53394600",
+      "53394620",
+      "53394621",
+      "53394509",
+      "53394525",
+      "53394601",
+      "53394526",
+      "53394518",
+      "53393690",
+      "53394631",
+      "53393559",
+      "53394519",
+      "53393596",
+      "53393640",
+      "53393680",
+      "53394630",
+      "53393509",
+      "53393599",
+      "53392660"
+    ]
+  },
+  "zero_shelter_group": {
+    "count": 55,
+    "top_by_day19": [
+      {
+        "mesh1kmid": "53393653",
+        "ward": "江東区",
+        "night": 0,
+        "day19": 47676,
+        "nearest_sh_m": 1003.0
+      },
+      {
+        "mesh1kmid": "53392652",
+        "ward": "大田区",
+        "night": 0,
+        "day19": 23211,
+        "nearest_sh_m": 3011.0
+      },
+      {
+        "mesh1kmid": "53392651",
+        "ward": "大田区",
+        "night": 0,
+        "day19": 22568,
+        "nearest_sh_m": 2020.0
+      },
+      {
+        "mesh1kmid": "53393676",
+        "ward": "江東区",
+        "night": 14,
+        "day19": 21594,
+        "nearest_sh_m": 1766.0
+      },
+      {
+        "mesh1kmid": "53392662",
+        "ward": "大田区",
+        "night": 0,
+        "day19": 20909,
+        "nearest_sh_m": 2780.0
+      },
+      {
+        "mesh1kmid": "53392663",
+        "ward": "大田区",
+        "night": 0,
+        "day19": 15899,
+        "nearest_sh_m": 3905.0
+      },
+      {
+        "mesh1kmid": "53393642",
+        "ward": "江東区",
+        "night": 546,
+        "day19": 15576,
+        "nearest_sh_m": 1083.0
+      },
+      {
+        "mesh1kmid": "53392653",
+        "ward": "大田区",
+        "night": 0,
+        "day19": 10901,
+        "nearest_sh_m": 4077.0
+      },
+      {
+        "mesh1kmid": "53392690",
+        "ward": "大田区",
+        "night": 0,
+        "day19": 6271,
+        "nearest_sh_m": 1645.0
+      },
+      {
+        "mesh1kmid": "53392643",
+        "ward": "大田区",
+        "night": 0,
+        "day19": 5734,
+        "nearest_sh_m": 4393.0
+      }
+    ],
+    "wards": {
+      "大田区": 25,
+      "江東区": 24,
+      "品川区": 6
+    }
+  },
+  "C3_radius": {
+    "500": {
+      "finite_meshes": 513,
+      "zero_meshes": 120,
+      "top20_overlap_with_1000": 10,
+      "spearman_day_ratio_vs_1000": 0.8292896620553708
+    },
+    "1000": {
+      "finite_meshes": 578,
+      "zero_meshes": 55,
+      "top20_overlap_with_1000": 20,
+      "spearman_day_ratio_vs_1000": 1.0
+    },
+    "1500": {
+      "finite_meshes": 588,
+      "zero_meshes": 45,
+      "top20_overlap_with_1000": 15,
+      "spearman_day_ratio_vs_1000": 0.9362171433708072
+    }
+  },
+  "radius_detail": {
+    "500": {
+      "top_delta_mesh": "53394611",
+      "top_delta_ward": "中央区",
+      "top_delta": 377918.0,
+      "top5_day_ratio": [
+        {
+          "mesh1kmid": "53394611",
+          "ward": "中央区",
+          "day_ratio": 379075.0,
+          "shelters": 1
+        },
+        {
+          "mesh1kmid": "53394525",
+          "ward": "新宿区",
+          "day_ratio": 243319.0,
+          "shelters": 1
+        },
+        {
+          "mesh1kmid": "53394631",
+          "ward": "千代田区",
+          "day_ratio": 217776.0,
+          "shelters": 1
+        },
+        {
+          "mesh1kmid": "53393680",
+          "ward": "港区",
+          "day_ratio": 183610.0,
+          "shelters": 1
+        },
+        {
+          "mesh1kmid": "53394621",
+          "ward": "千代田区",
+          "day_ratio": 172076.5,
+          "shelters": 2
+        }
+      ],
+      "main_top_shelters": null,
+      "main_top_delta": null,
+      "main_top_delta_rank": null
+    },
+    "1000": {
+      "top_delta_mesh": "53394610",
+      "top_delta_ward": "千代田区",
+      "top_delta": 88434.0,
+      "top5_day_ratio": [
+        {
+          "mesh1kmid": "53394610",
+          "ward": "千代田区",
+          "day_ratio": 88439.0,
+          "shelters": 1
+        },
+        {
+          "mesh1kmid": "53394611",
+          "ward": "中央区",
+          "day_ratio": 75815.0,
+          "shelters": 5
+        },
+        {
+          "mesh1kmid": "53394621",
+          "ward": "千代田区",
+          "day_ratio": 57358.833333333336,
+          "shelters": 6
+        },
+        {
+          "mesh1kmid": "53394620",
+          "ward": "千代田区",
+          "day_ratio": 51564.0,
+          "shelters": 1
+        },
+        {
+          "mesh1kmid": "53394600",
+          "ward": "千代田区",
+          "day_ratio": 49592.8,
+          "shelters": 5
+        }
+      ],
+      "main_top_shelters": 1,
+      "main_top_delta": 88434.0,
+      "main_top_delta_rank": 1
+    },
+    "1500": {
+      "top_delta_mesh": "53394621",
+      "top_delta_ward": "千代田区",
+      "top_delta": 26293.23076923077,
+      "top5_day_ratio": [
+        {
+          "mesh1kmid": "53394621",
+          "ward": "千代田区",
+          "day_ratio": 26473.30769230769,
+          "shelters": 13
+        },
+        {
+          "mesh1kmid": "53394611",
+          "ward": "中央区",
+          "day_ratio": 25271.666666666668,
+          "shelters": 15
+        },
+        {
+          "mesh1kmid": "53394610",
+          "ward": "千代田区",
+          "day_ratio": 22109.75,
+          "shelters": 4
+        },
+        {
+          "mesh1kmid": "53394600",
+          "ward": "千代田区",
+          "day_ratio": 15497.75,
+          "shelters": 16
+        },
+        {
+          "mesh1kmid": "53393559",
+          "ward": "港区",
+          "day_ratio": 13024.5,
+          "shelters": 18
+        }
+      ],
+      "main_top_shelters": 4,
+      "main_top_delta": 22108.5,
+      "main_top_delta_rank": 3
+    }
+  },
+  "rank_swap": {
+    "worst_mesh": "53394610",
+    "worst_night_rank": 573,
+    "worst_day_rank": 1,
+    "night_top_mesh": "53394628",
+    "night_top_ward": "江戸川区",
+    "night_top_night_rank": 1,
+    "night_top_day_rank": 77
+  },
+  "C4_year": {
+    "top20_overlap_2019_2021": 16,
+    "spearman_day_ratio_2019_2021": 0.9634120947690102,
+    "day19_total": 14378562,
+    "day21_total": 12228770
+  },
+  "facility_scope": {
+    "finite_meshes_23only": 577,
+    "zero_meshes_23only": 56,
+    "top20_overlap_with_all": 19,
+    "spearman_day_ratio_vs_all": 0.9774626104591956,
+    "meshes_with_outside_shelter_only": 1
+  },
+  "pseudo_count": {
+    "day_top20_overlap_with_main": 15,
+    "delta_top20_overlap_with_main": 14,
+    "top_delta_mesh": "53394611"
+  },
+  "C6_earthquake_sites": {
+    "published_meshes": 331,
+    "finite_eq_meshes": 320,
+    "top20_overlap_shelter_vs_eq": 14,
+    "spearman_day_ratio_shelter_vs_eq": 0.6180787154509932,
+    "top_mesh_eq": "53394525",
+    "top_ward_eq": "新宿区",
+    "top_eq_count": 1,
+    "top_eq_day_ratio": 243319.0,
+    "top_delta_mesh_eq": "53394525",
+    "top_delta_ward_eq": "新宿区",
+    "top_delta_eq": 234132.0
+  },
+  "C5_maup": {
+    "1km": {
+      "blocks": 578,
+      "k_top10pct": 58,
+      "day_night_overlap": 6,
+      "day_pop_overlap": 48,
+      "spearman_day_night": 0.39881764210888704
+    },
+    "2km": {
+      "blocks": 164,
+      "k_top10pct": 16,
+      "day_night_overlap": 0,
+      "day_pop_overlap": 12,
+      "spearman_day_night": 0.33388652347203895
+    },
+    "2km_shift": {
+      "blocks": 161,
+      "k_top10pct": 16,
+      "day_night_overlap": 2,
+      "day_pop_overlap": 14,
+      "spearman_day_night": 0.42594779873184946
+    },
+    "4km": {
+      "blocks": 50,
+      "k_top10pct": 5,
+      "day_night_overlap": 0,
+      "day_pop_overlap": 4,
+      "spearman_day_night": 0.28989195678271307
+    }
+  },
+  "alternative_tops": {
+    "day_population": {
+      "mesh1kmid": "53394611",
+      "ward": "中央区",
+      "day19": 379075,
+      "shelters_1km": 5
+    },
+    "day_ratio_level": {
+      "mesh1kmid": "53394610",
+      "ward": "千代田区",
+      "day_ratio": 88439.0,
+      "shelters_1km": 1
+    },
+    "relative": {
+      "mesh1kmid": "53394610",
+      "ward": "千代田区",
+      "relative_ratio": 17687.8
+    },
+    "year_2021_delta": {
+      "mesh1kmid": "53394610",
+      "ward": "千代田区",
+      "day21_ratio": 52784.0,
+      "delta21": 52779.0
+    },
+    "pseudo_count_delta": {
+      "mesh1kmid": "53394611"
+    },
+    "earthquake_site_delta": {
+      "mesh1kmid": "53394525",
+      "ward": "新宿区",
+      "delta": 234132.0
+    },
+    "radius_500_delta": "53394611",
+    "radius_1500_delta": "53394621"
+  }
+}
