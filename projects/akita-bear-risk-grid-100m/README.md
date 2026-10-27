@@ -100,6 +100,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b1_count_target_poisson.json
 ```
 
+### B1 の Poisson 回帰器内ターゲット比較
+
+同じ `HistGradientBoostingRegressor(loss="poisson")`、静的特徴量、学習セル、無重み設定で、2023年度の0/1ターゲット (`binary_poisson`) と通報件数 (`count_poisson`) だけを替える。既存 `B_env` 分類器も参照用に再実行する。2024年度の二値セルラベルで評価し、主比較は `count_poisson − binary_poisson` の capture@5%。結果と入力6ファイルの SHA256 は [B1 Poisson ターゲット比較 JSON](outputs/b1_poisson_target_isolation.json)。2025/2026年度のラベルは読まない。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy --with scikit-learn python \
+  projects/akita-bear-risk-grid-100m/scripts/poisson_target_isolation_b1.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b1_poisson_target_isolation.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。

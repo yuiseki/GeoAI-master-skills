@@ -133,3 +133,11 @@
 - 2024年度の**全セル**で、従来の二値ラベルに対する capture@5% を主指標、capture@1%、10%、AUC、AP を補助指標として同じ評価関数で測る。capture@5% が baseline より高ければ「この構成では探索的な改善」、同以下なら「この構成では改善しなかった」と記録する。差の区間は付けない。
 - Poisson回帰は目的変数だけでなく分類器から回帰器・損失関数も変わる。したがって差を「件数ターゲットだけの純粋な効果」とは呼ばず、指定された count-target Poisson 構成と分類器 baseline の比較として解釈する。件数には出没の反復だけでなく通報のされやすさも入る。
 - 2023・2024年度のラベル配列だけを読み、sample weighting、hard negative、soft label を混ぜない。2025/2026年度の結果を見ない。結果を見て設定を足さず、B2/B3 の確認結果・主張を変更しない。
+
+## 2026-10-27: B1 の追加探索 (Poisson 回帰器内の binary vs count、実行前に追記)
+
+- 問い: 前回の count-target Poisson 回帰器の capture@5% 改善に、1セル内の複数通報という**件数情報**が追加シグナルを与えたか。使い道は、上位5%の重点調査セルの選定。主比較は `count_poisson − binary_poisson`。既存 `B_env` 分類器は参照として併記する。
+- `binary_poisson` は2023年度セルの通報件数を `c>0` で0/1にしたターゲット、`count_poisson` は同じセルの生の通報件数を使う。両方とも同じ静的特徴量28列、全セル、無重み、`HistGradientBoostingRegressor(loss="poisson", **HGB, random_state=0)` で最初から学習する。classifier は従来どおり `HistGradientBoostingClassifier(**HGB, random_state=0)` で2023年度0/1を学習する。設定・学習行・特徴量は変えない。
+- まず classifier の capture@5% が既存値 0.5341823056300268 と1e-9以内で一致することを確かめる。前回の `count_poisson` の既存値 0.5475871313672922 も同じ許容差で照合する。不一致なら比較を採用しない。2024年度の**全セル**を従来の二値ラベルで評価し、主指標 capture@5%、補助 capture@1%、10%、AUC、AP を同じ関数・同点処理で計算する。
+- `count_poisson − binary_poisson` の capture@5% が正なら「同じ Poisson 回帰器でも件数情報に追加シグナルがあった」、0以下なら「前回の改善は主にモデル／loss変更による」と、このB1探索の点推定として記録する。classifier との差は参照として並べる。区間を付けないため、別年度・別標本でも保たれるとは主張しない。
+- 2023・2024年度のラベル配列だけを読み、2025/2026年度は見ない。重み、hard negative、soft label は混ぜず、追加ターゲット・設定を試さず、B2/B3 の確認結果・主張を変更しない。
