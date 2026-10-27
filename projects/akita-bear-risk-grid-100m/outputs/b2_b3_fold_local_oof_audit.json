@@ -1,0 +1,319 @@
+{
+  "purpose": "diagnostic fold-local allocation of already reproduced same-year OOF scores",
+  "method": "original global rank_order(seed=0), restricted to each held-out fold; fractional boundary as in metrics.capture",
+  "fractions": [
+    0.01,
+    0.05,
+    0.1
+  ],
+  "input": {
+    "original_oof_json": "/Workspaces/tmp/_exp/GeoAI-master-skills/projects/akita-bear-risk-grid-100m/outputs/b2_b3_same_year_spatial_oof.json",
+    "original_oof_json_sha256": "9d983f25b49b12304591088effc3f86b484327a7808bc69ddb3a7c1f97c40e92",
+    "fold_table": "/Workspaces/tmp/_exp/GeoAI-master-skills/projects/akita-bear-risk-grid-100m/outputs/b2_b3_same_year_spatial_oof_folds.csv",
+    "fold_table_sha256": "a5ffce9907c31bbe8ed13e358bbb889e11d8aff899c0ceffc6a19350f3e62be0",
+    "scores_npz": "artifacts/akita-bear-risk-grid-100m/eval/b2_b3_spatial_oof_scores.npz",
+    "scores_npz_sha256": "057d6aa25a59c3da90926c41a0d341fd2255415d7673d192133e338a60e7b9fd",
+    "labels_sha256": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4"
+  },
+  "years": {
+    "B2": {
+      "global": {
+        "capture@1%": 0.19181657190791312,
+        "capture@5%": 0.5561562121353342,
+        "capture@10%": 0.7889831298350266
+      },
+      "fold_local": {
+        "capture@1%": 0.18603784136452606,
+        "capture@5%": 0.5496318389411874,
+        "capture@10%": 0.7857209432379532
+      },
+      "delta_fold_local_minus_global": {
+        "capture@1%": -0.005778730543387067,
+        "capture@5%": -0.006524373194146782,
+        "capture@10%": -0.0032621865970734465
+      },
+      "folds": [
+        {
+          "fold": 0,
+          "n_cells": 233634,
+          "n_positive": 2157,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11682,
+            "10%": 23364
+          },
+          "captured_positive_integer": {
+            "1%": 374,
+            "5%": 1169,
+            "10%": 1679
+          },
+          "captured_positive_equivalent": {
+            "1%": 374.0,
+            "5%": 1169.0,
+            "10%": 1679.0
+          },
+          "recall": {
+            "1%": 0.17338896615669913,
+            "5%": 0.5419564209550302,
+            "10%": 0.7783959202596198
+          }
+        },
+        {
+          "fold": 1,
+          "n_cells": 233631,
+          "n_positive": 3217,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11682,
+            "10%": 23364
+          },
+          "captured_positive_integer": {
+            "1%": 657,
+            "5%": 1757,
+            "10%": 2492
+          },
+          "captured_positive_equivalent": {
+            "1%": 657.0,
+            "5%": 1757.0,
+            "10%": 2492.0
+          },
+          "recall": {
+            "1%": 0.2042275411874417,
+            "5%": 0.5461610195834629,
+            "10%": 0.7746347528753497
+          }
+        },
+        {
+          "fold": 2,
+          "n_cells": 233641,
+          "n_positive": 2125,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11683,
+            "10%": 23365
+          },
+          "captured_positive_integer": {
+            "1%": 370,
+            "5%": 1097,
+            "10%": 1633
+          },
+          "captured_positive_equivalent": {
+            "1%": 370.0,
+            "5%": 1097.0,
+            "10%": 1633.0
+          },
+          "recall": {
+            "1%": 0.17411764705882352,
+            "5%": 0.516235294117647,
+            "10%": 0.7684705882352941
+          }
+        },
+        {
+          "fold": 3,
+          "n_cells": 233630,
+          "n_positive": 1554,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11682,
+            "10%": 23363
+          },
+          "captured_positive_integer": {
+            "1%": 277,
+            "5%": 853,
+            "10%": 1263
+          },
+          "captured_positive_equivalent": {
+            "1%": 277.0,
+            "5%": 853.0,
+            "10%": 1263.0
+          },
+          "recall": {
+            "1%": 0.17824967824967825,
+            "5%": 0.5489060489060489,
+            "10%": 0.8127413127413128
+          }
+        },
+        {
+          "fold": 4,
+          "n_cells": 233675,
+          "n_positive": 1676,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11684,
+            "10%": 23368
+          },
+          "captured_positive_integer": {
+            "1%": 318,
+            "5%": 1021,
+            "10%": 1363
+          },
+          "captured_positive_equivalent": {
+            "1%": 318.0,
+            "5%": 1021.0,
+            "10%": 1363.0
+          },
+          "recall": {
+            "1%": 0.18973747016706444,
+            "5%": 0.6091885441527446,
+            "10%": 0.8132458233890215
+          }
+        }
+      ],
+      "year": 2025,
+      "temporal_B_env_capture@5%": 0.5515891508994315,
+      "fold_local_minus_temporal_capture@5%": -0.0019573119582441123
+    },
+    "B3": {
+      "global": {
+        "capture@1%": 0.14393939393939395,
+        "capture@5%": 0.4762845849802372,
+        "capture@10%": 0.7256258234519104
+      },
+      "fold_local": {
+        "capture@1%": 0.1442687747035573,
+        "capture@5%": 0.47167325428194995,
+        "capture@10%": 0.7203557312252964
+      },
+      "delta_fold_local_minus_global": {
+        "capture@1%": 0.0003293807641633617,
+        "capture@5%": -0.00461133069828723,
+        "capture@10%": -0.005270092226614009
+      },
+      "folds": [
+        {
+          "fold": 0,
+          "n_cells": 233634,
+          "n_positive": 478,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11682,
+            "10%": 23364
+          },
+          "captured_positive_integer": {
+            "1%": 62,
+            "5%": 214,
+            "10%": 332
+          },
+          "captured_positive_equivalent": {
+            "1%": 62.0,
+            "5%": 214.0,
+            "10%": 332.0
+          },
+          "recall": {
+            "1%": 0.1297071129707113,
+            "5%": 0.4476987447698745,
+            "10%": 0.694560669456067
+          }
+        },
+        {
+          "fold": 1,
+          "n_cells": 233631,
+          "n_positive": 964,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11682,
+            "10%": 23364
+          },
+          "captured_positive_integer": {
+            "1%": 139,
+            "5%": 440,
+            "10%": 699
+          },
+          "captured_positive_equivalent": {
+            "1%": 139.0,
+            "5%": 440.0,
+            "10%": 699.0
+          },
+          "recall": {
+            "1%": 0.1441908713692946,
+            "5%": 0.45643153526970953,
+            "10%": 0.725103734439834
+          }
+        },
+        {
+          "fold": 2,
+          "n_cells": 233641,
+          "n_positive": 589,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11683,
+            "10%": 23365
+          },
+          "captured_positive_integer": {
+            "1%": 120,
+            "5%": 312,
+            "10%": 425
+          },
+          "captured_positive_equivalent": {
+            "1%": 120.0,
+            "5%": 312.0,
+            "10%": 425.0
+          },
+          "recall": {
+            "1%": 0.2037351443123939,
+            "5%": 0.5297113752122241,
+            "10%": 0.7215619694397284
+          }
+        },
+        {
+          "fold": 3,
+          "n_cells": 233630,
+          "n_positive": 527,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11682,
+            "10%": 23363
+          },
+          "captured_positive_integer": {
+            "1%": 64,
+            "5%": 250,
+            "10%": 386
+          },
+          "captured_positive_equivalent": {
+            "1%": 64.0,
+            "5%": 250.0,
+            "10%": 386.0
+          },
+          "recall": {
+            "1%": 0.12144212523719165,
+            "5%": 0.47438330170777987,
+            "10%": 0.7324478178368121
+          }
+        },
+        {
+          "fold": 4,
+          "n_cells": 233675,
+          "n_positive": 478,
+          "selected_cells": {
+            "1%": 2337,
+            "5%": 11684,
+            "10%": 23368
+          },
+          "captured_positive_integer": {
+            "1%": 53,
+            "5%": 216,
+            "10%": 345
+          },
+          "captured_positive_equivalent": {
+            "1%": 53.0,
+            "5%": 216.0,
+            "10%": 345.0
+          },
+          "recall": {
+            "1%": 0.1108786610878661,
+            "5%": 0.45188284518828453,
+            "10%": 0.7217573221757322
+          }
+        }
+      ],
+      "year": 2026,
+      "temporal_B_env_capture@5%": 0.5391963109354414,
+      "fold_local_minus_temporal_capture@5%": -0.06752305665349145
+    }
+  },
+  "limitations": [
+    "fold-local has a separate area budget per fold, not one freely transferable prefecture-wide budget",
+    "a gain can reflect fold score scale or spatial budget allocation; it is not solely a calibration effect",
+    "same-year OOF remains a diagnostic, not a deployable future-year forecast"
+  ]
+}
