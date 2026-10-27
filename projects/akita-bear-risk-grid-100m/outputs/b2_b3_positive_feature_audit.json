@@ -1,0 +1,1678 @@
+{
+  "mode": "descriptive diagnostic; no fitting or model selection",
+  "question": "How do existing B_env static features differ between captured and missed positives?",
+  "definition": {
+    "positive": "at least one report in test period",
+    "captured": "positive among first ceil(0.05*n) cells in metrics.rank_order(saved B_env score,seed=0)",
+    "missed": "positive outside that set",
+    "quantiles": "finite values only; NaN/inf counted as missing, never imputed",
+    "difference": "captured minus missed",
+    "cliffs_delta": "2*mannwhitney_U/(n_captured_valid*n_missed_valid)-1",
+    "consistent_rank": "same nonzero Cliff sign in B2 and B3, ordered by min(abs(delta_B2),abs(delta_B3))",
+    "top_display_count": 5
+  },
+  "feature_notes": {
+    "landcover": "WorldCover 2021 cell fractions; _500/_1500 are square-window means of cell fractions, not circular cover shares",
+    "forest_edge": "negative inside >=50% tree cell, positive outside, metres to nearest boundary cell",
+    "pop_500/pop_2000": "WorldPop 2020 estimated persons summed in 11x11 / 41x41 cells",
+    "bldg_500": "OSM snapshot building centroids summed in 11x11 cells",
+    "osm_distances": "Euclidean cell-centre distances to mapped OSM features, not walking distance",
+    "elev/slope/tpi_500": "GSI DEM elevation m, slope degrees, elevation minus 11x11 valid-cell mean m"
+  },
+  "input_sha256": {
+    "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+    "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+    "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+    "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+    "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+    "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+    "eval/b2_confirm_2023-2024_to_2025_scores.npz": "aa33ceeb78d8ff46cd39388f8884b1d1b20547d163d235ddb65ac74831be82ba",
+    "eval/b2_confirm_2023-2024_to_2025.json": "53d6bbb64e84b9ef6917056e2c4b7eb2ec55b39aea93cc645e0c7a3ad3b99df6",
+    "eval/b3_confirm_2023-2025_to_2026_scores.npz": "9895dbd7b6e89a304a072b92543a5b39088b4363b99b44cf46dcb1d1727460f5",
+    "eval/b3_confirm_2023-2025_to_2026.json": "381b24d2771fdaae5235f50cfdeb4c9f08dc713133f8ea499cf7845853c13e55"
+  },
+  "implementation": {
+    "script": "projects/akita-bear-risk-grid-100m/scripts/positive_feature_audit.py",
+    "script_sha256": "00c1892ac2ebb1cc107427581b0818e77ebba8e6c61fea515f85970384299ea2",
+    "features_py_sha256": "e3964277079485f1ba2f0b452b5829e02b9dfe0eeda3750d2cabb40bfe53e197",
+    "metrics_py_sha256": "bf884a22b907aeb2ea557921723586ce4a3ae8e91c00def568df78154d12e40b",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "years": {
+    "B2": {
+      "test_year": 2025,
+      "test_label_period": "full fiscal year",
+      "n_cells": 1168211,
+      "n_top5_cells": 58411,
+      "n_positive": 10729,
+      "n_captured_positive": 5918,
+      "n_missed_positive": 4811,
+      "capture_at_5_from_saved_scores": 0.5515891508994315,
+      "features": {
+        "tree": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.25974026322364807,
+            "median": 0.5584415793418884,
+            "q75": 0.8376623392105103,
+            "iqr": 0.5779220759868622
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.006535947788506746,
+            "median": 0.20129869878292084,
+            "q75": 0.7142857313156128,
+            "iqr": 0.707749783527106
+          },
+          "captured_minus_missed_median": 0.3571428805589676,
+          "captured_minus_missed_iqr": -0.12982770754024386,
+          "ks_statistic": 0.29779191807891525,
+          "cliffs_delta": 0.2989365013389882,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "tree_500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.39221203327178955,
+            "median": 0.5442816913127899,
+            "q75": 0.7005438357591629,
+            "iqr": 0.30833180248737335
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.13713768124580383,
+            "median": 0.34729570150375366,
+            "q75": 0.6564965546131134,
+            "iqr": 0.5193588733673096
+          },
+          "captured_minus_missed_median": 0.19698598980903625,
+          "captured_minus_missed_iqr": -0.21102707087993622,
+          "ks_statistic": 0.3213492665542221,
+          "cliffs_delta": 0.3057660682272496,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "tree_1500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.4300675094127655,
+            "median": 0.5825562179088593,
+            "q75": 0.7496922016143799,
+            "iqr": 0.3196246922016144
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.22405287623405457,
+            "median": 0.42848867177963257,
+            "q75": 0.7264991104602814,
+            "iqr": 0.5024462342262268
+          },
+          "captured_minus_missed_median": 0.15406754612922668,
+          "captured_minus_missed_iqr": -0.18282154202461243,
+          "ks_statistic": 0.26318576563832363,
+          "cliffs_delta": 0.2530398997622114,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "crop": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.012987012974917889,
+            "q75": 0.20222341269254684,
+            "iqr": 0.20222341269254684
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.08609271794557571,
+            "q75": 0.551948070526123,
+            "iqr": 0.551948070526123
+          },
+          "captured_minus_missed_median": -0.07310570497065783,
+          "captured_minus_missed_iqr": -0.3497246578335762,
+          "ks_statistic": 0.197196157364112,
+          "cliffs_delta": -0.1992854748984405,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "crop_500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.07774722203612328,
+            "median": 0.19772884994745255,
+            "q75": 0.3263152837753296,
+            "iqr": 0.24856806173920631
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.06400683149695396,
+            "median": 0.2510416507720947,
+            "q75": 0.47736839950084686,
+            "iqr": 0.4133615680038929
+          },
+          "captured_minus_missed_median": -0.05331280082464218,
+          "captured_minus_missed_iqr": -0.16479350626468658,
+          "ks_statistic": 0.17932010461830983,
+          "cliffs_delta": -0.1321985587129978,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "crop_1500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.10095885582268238,
+            "median": 0.19027213007211685,
+            "q75": 0.3111434206366539,
+            "iqr": 0.21018456481397152
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.08231724053621292,
+            "median": 0.2196214646100998,
+            "q75": 0.4206140786409378,
+            "iqr": 0.3382968381047249
+          },
+          "captured_minus_missed_median": -0.02934933453798294,
+          "captured_minus_missed_iqr": -0.12811227329075336,
+          "ks_statistic": 0.1605980479144441,
+          "cliffs_delta": -0.093013932740736,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "built": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.02142857201397419,
+            "median": 0.1645539179444313,
+            "q75": 0.4285714328289032,
+            "iqr": 0.407142860814929
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.05714285746216774,
+            "q75": 0.5206098258495331,
+            "iqr": 0.5206098258495331
+          },
+          "captured_minus_missed_median": 0.10741106048226357,
+          "captured_minus_missed_iqr": -0.11346696503460407,
+          "ks_statistic": 0.221345150156834,
+          "cliffs_delta": 0.12974916177575202,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "built_500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.046806108206510544,
+            "median": 0.10291087254881859,
+            "q75": 0.22754644602537155,
+            "iqr": 0.180740337818861
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.034258490428328514,
+            "median": 0.0982554703950882,
+            "q75": 0.28260552883148193,
+            "iqr": 0.24834703840315342
+          },
+          "captured_minus_missed_median": 0.0046554021537303925,
+          "captured_minus_missed_iqr": -0.06760670058429241,
+          "ks_statistic": 0.07855979337651986,
+          "cliffs_delta": 0.014173648327179711,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "built_1500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.036941930651664734,
+            "median": 0.0746634192764759,
+            "q75": 0.18410662561655045,
+            "iqr": 0.1471646949648857
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.03383476845920086,
+            "median": 0.08588234335184097,
+            "q75": 0.20963144302368164,
+            "iqr": 0.17579667456448078
+          },
+          "captured_minus_missed_median": -0.011218924075365067,
+          "captured_minus_missed_iqr": -0.02863197959959507,
+          "ks_statistic": 0.05499422615557492,
+          "cliffs_delta": -0.03217379008298049,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "grass": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.03921568766236305,
+            "iqr": 0.03921568766236305
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.051948051899671555,
+            "iqr": 0.051948051899671555
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": -0.012732364237308502,
+          "ks_statistic": 0.029244509719860923,
+          "cliffs_delta": -0.03320917641916843,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "grass_500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.016401197761297226,
+            "median": 0.03208773769438267,
+            "q75": 0.05431796424090862,
+            "iqr": 0.0379167664796114
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.016125433146953583,
+            "median": 0.03521839529275894,
+            "q75": 0.0645427443087101,
+            "iqr": 0.048417311161756516
+          },
+          "captured_minus_missed_median": -0.003130657598376274,
+          "captured_minus_missed_iqr": -0.010500544682145119,
+          "ks_statistic": 0.0746889046723147,
+          "cliffs_delta": -0.05735160123994876,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "grass_1500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.017065813299268484,
+            "median": 0.029033442959189415,
+            "q75": 0.044528949074447155,
+            "iqr": 0.02746313577517867
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.01932474970817566,
+            "median": 0.03678714111447334,
+            "q75": 0.05854621343314648,
+            "iqr": 0.03922146372497082
+          },
+          "captured_minus_missed_median": -0.007753698155283928,
+          "captured_minus_missed_iqr": -0.011758327949792147,
+          "ks_statistic": 0.16456808840897652,
+          "cliffs_delta": -0.1529834854492026,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "water": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.0,
+            "iqr": 0.0
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.0,
+            "iqr": 0.0
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": 0.0,
+          "ks_statistic": 0.02156939547051584,
+          "cliffs_delta": -0.01930035434033006,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "water_500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0006851875805296004,
+            "q75": 0.01142095378600061,
+            "iqr": 0.01142095378600061
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.00048298807814717293,
+            "q75": 0.014525840524584055,
+            "iqr": 0.014525840524584055
+          },
+          "captured_minus_missed_median": 0.00020219950238242745,
+          "captured_minus_missed_iqr": -0.0031048867385834455,
+          "ks_statistic": 0.06645635575620223,
+          "cliffs_delta": 0.010757811197710687,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "water_1500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0012570892577059567,
+            "median": 0.00587226590141654,
+            "q75": 0.018787472508847713,
+            "iqr": 0.017530383251141757
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0010466109961271286,
+            "median": 0.006358009297400713,
+            "q75": 0.0331198126077652,
+            "iqr": 0.03207320161163807
+          },
+          "captured_minus_missed_median": -0.0004857433959841728,
+          "captured_minus_missed_iqr": -0.014542818360496312,
+          "ks_statistic": 0.125990771542825,
+          "cliffs_delta": -0.05904929905690248,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "forest_edge": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": -100.0,
+            "median": -100.0,
+            "q75": 100.0,
+            "iqr": 200.0
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": -100.0,
+            "median": 100.0,
+            "q75": 223.60679626464844,
+            "iqr": 323.60679626464844
+          },
+          "captured_minus_missed_median": -200.0,
+          "captured_minus_missed_iqr": -123.60679626464844,
+          "ks_statistic": 0.3109639682464196,
+          "cliffs_delta": -0.33045964072561274,
+          "unit": "m"
+        },
+        "elev": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 23.02750015258789,
+            "median": 53.30343818664551,
+            "q75": 93.95708084106445,
+            "iqr": 70.92958068847656
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 10.735000133514404,
+            "median": 40.63999938964844,
+            "q75": 99.03661727905273,
+            "iqr": 88.30161714553833
+          },
+          "captured_minus_missed_median": 12.66343879699707,
+          "captured_minus_missed_iqr": -17.372036457061768,
+          "ks_statistic": 0.16781941013430343,
+          "cliffs_delta": 0.11540867993668624,
+          "unit": "m"
+        },
+        "slope": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 1.1944076716899872,
+            "median": 2.8296321630477905,
+            "q75": 5.280686378479004,
+            "iqr": 4.086278706789017
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4795,
+            "n_missing": 16,
+            "q25": 0.3422573208808899,
+            "median": 1.0891622304916382,
+            "q75": 3.7633944749832153,
+            "iqr": 3.4211371541023254
+          },
+          "captured_minus_missed_median": 1.7404699325561523,
+          "captured_minus_missed_iqr": 0.6651415526866913,
+          "ks_statistic": 0.2745640190000215,
+          "cliffs_delta": 0.30817227165421346,
+          "unit": "degrees"
+        },
+        "tpi_500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": -11.692789793014526,
+            "median": -4.234472036361694,
+            "q75": 0.4250568374991417,
+            "iqr": 12.117846630513668
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": -8.485705375671387,
+            "median": -1.1663318872451782,
+            "q75": 0.24969762563705444,
+            "iqr": 8.735403001308441
+          },
+          "captured_minus_missed_median": -3.068140149116516,
+          "captured_minus_missed_iqr": 3.382443629205227,
+          "ks_statistic": 0.1777148150055189,
+          "cliffs_delta": -0.10682307618657794,
+          "unit": "m"
+        },
+        "pop_500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 86.03272247314453,
+            "median": 223.66641998291016,
+            "q75": 683.4305419921875,
+            "iqr": 597.397819519043
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 58.44439125061035,
+            "median": 181.1149444580078,
+            "q75": 821.3661804199219,
+            "iqr": 762.9217891693115
+          },
+          "captured_minus_missed_median": 42.551475524902344,
+          "captured_minus_missed_iqr": -165.52396965026855,
+          "ks_statistic": 0.08819690484849094,
+          "cliffs_delta": 0.059523562827639154,
+          "unit": "estimated persons in square window"
+        },
+        "pop_2000": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 956.9938354492188,
+            "median": 2348.608642578125,
+            "q75": 8652.02001953125,
+            "iqr": 7695.026184082031
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 845.8794250488281,
+            "median": 2478.47119140625,
+            "q75": 8499.52197265625,
+            "iqr": 7653.642547607422
+          },
+          "captured_minus_missed_median": -129.862548828125,
+          "captured_minus_missed_iqr": 41.383636474609375,
+          "ks_statistic": 0.050182853041311704,
+          "cliffs_delta": 0.006923977094566602,
+          "unit": "estimated persons in square window"
+        },
+        "d_road_major": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 100.0,
+            "iqr": 100.0
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 100.0,
+            "q75": 282.84271240234375,
+            "iqr": 282.84271240234375
+          },
+          "captured_minus_missed_median": -100.0,
+          "captured_minus_missed_iqr": -182.84271240234375,
+          "ks_statistic": 0.31791362014039437,
+          "cliffs_delta": -0.35641552825917344,
+          "unit": "m"
+        },
+        "d_road": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.0,
+            "iqr": 0.0
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 100.0,
+            "iqr": 100.0
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": -100.0,
+          "ks_statistic": 0.25788657133530524,
+          "cliffs_delta": -0.2600235154469217,
+          "unit": "m"
+        },
+        "d_track": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 100.0,
+            "q75": 141.42135620117188,
+            "iqr": 141.42135620117188
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 100.0,
+            "q75": 141.42135620117188,
+            "iqr": 141.42135620117188
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": 0.0,
+          "ks_statistic": 0.035955185779125376,
+          "cliffs_delta": -0.0141913151180173,
+          "unit": "m"
+        },
+        "d_river": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 100.0,
+            "median": 300.0,
+            "q75": 600.0,
+            "iqr": 500.0
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 141.42135620117188,
+            "median": 360.55511474609375,
+            "q75": 728.010986328125,
+            "iqr": 586.5896301269531
+          },
+          "captured_minus_missed_median": -60.55511474609375,
+          "captured_minus_missed_iqr": -86.58963012695312,
+          "ks_statistic": 0.07623789236519973,
+          "cliffs_delta": -0.10248347312108408,
+          "unit": "m"
+        },
+        "d_stream": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 141.42135620117188,
+            "median": 412.3105773925781,
+            "q75": 806.2257690429688,
+            "iqr": 664.8044128417969
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 200.0,
+            "median": 424.2640686035156,
+            "q75": 860.2325439453125,
+            "iqr": 660.2325439453125
+          },
+          "captured_minus_missed_median": -11.9534912109375,
+          "captured_minus_missed_iqr": 4.571868896484375,
+          "ks_statistic": 0.05114957421629174,
+          "cliffs_delta": -0.03783682193328919,
+          "unit": "m"
+        },
+        "d_building": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 100.0,
+            "iqr": 100.0
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 100.0,
+            "q75": 223.60679626464844,
+            "iqr": 223.60679626464844
+          },
+          "captured_minus_missed_median": -100.0,
+          "captured_minus_missed_iqr": -123.60679626464844,
+          "ks_statistic": 0.20699704666048835,
+          "cliffs_delta": -0.23974867778295328,
+          "unit": "m"
+        },
+        "bldg_500": {
+          "captured": {
+            "n_total": 5918,
+            "n_valid": 5918,
+            "n_missing": 0,
+            "q25": 74.0,
+            "median": 243.0,
+            "q75": 574.75,
+            "iqr": 500.75
+          },
+          "missed": {
+            "n_total": 4811,
+            "n_valid": 4811,
+            "n_missing": 0,
+            "q25": 19.0,
+            "median": 128.0,
+            "q75": 402.0,
+            "iqr": 383.0
+          },
+          "captured_minus_missed_median": 115.0,
+          "captured_minus_missed_iqr": 117.75,
+          "ks_statistic": 0.16145831174741837,
+          "cliffs_delta": 0.17546193038385272,
+          "unit": "OSM building centroids in square window"
+        }
+      }
+    },
+    "B3": {
+      "test_year": 2026,
+      "test_label_period": "2026 April-September",
+      "n_cells": 1168211,
+      "n_top5_cells": 58411,
+      "n_positive": 3036,
+      "n_captured_positive": 1637,
+      "n_missed_positive": 1399,
+      "capture_at_5_from_saved_scores": 0.5391963109354414,
+      "features": {
+        "tree": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.20129869878292084,
+            "median": 0.5584415793418884,
+            "q75": 0.850649356842041,
+            "iqr": 0.6493506580591202
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.019480518996715546,
+            "median": 0.37857142090797424,
+            "q75": 0.9155844449996948,
+            "iqr": 0.8961039260029793
+          },
+          "captured_minus_missed_median": 0.17987015843391418,
+          "captured_minus_missed_iqr": -0.2467532679438591,
+          "ks_statistic": 0.17248597588905243,
+          "cliffs_delta": 0.10313938352859608,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "tree_500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.33666089177131653,
+            "median": 0.5463538765907288,
+            "q75": 0.7213086485862732,
+            "iqr": 0.38464775681495667
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.20613213628530502,
+            "median": 0.4871775805950165,
+            "q75": 0.790921539068222,
+            "iqr": 0.584789402782917
+          },
+          "captured_minus_missed_median": 0.05917629599571228,
+          "captured_minus_missed_iqr": -0.20014164596796036,
+          "ks_statistic": 0.14050528281174746,
+          "cliffs_delta": 0.05702781854392014,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "tree_1500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.3422687351703644,
+            "median": 0.5283324718475342,
+            "q75": 0.734035074710846,
+            "iqr": 0.39176633954048157
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.2819164842367172,
+            "median": 0.49379807710647583,
+            "q75": 0.800528883934021,
+            "iqr": 0.5186123996973038
+          },
+          "captured_minus_missed_median": 0.03453439474105835,
+          "captured_minus_missed_iqr": -0.1268460601568222,
+          "ks_statistic": 0.08198062757978353,
+          "cliffs_delta": 0.016576986004926297,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "crop": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.09868421405553818,
+            "iqr": 0.09868421405553818
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.07792207598686218,
+            "q75": 0.5584415793418884,
+            "iqr": 0.5584415793418884
+          },
+          "captured_minus_missed_median": -0.07792207598686218,
+          "captured_minus_missed_iqr": -0.45975736528635025,
+          "ks_statistic": 0.24607200448177702,
+          "cliffs_delta": -0.2833772093951391,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "crop_500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.020341340452432632,
+            "median": 0.1278267502784729,
+            "q75": 0.26200565695762634,
+            "iqr": 0.2416643165051937
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.04108426161110401,
+            "median": 0.19897444546222687,
+            "q75": 0.44658219814300537,
+            "iqr": 0.40549793653190136
+          },
+          "captured_minus_missed_median": -0.07114769518375397,
+          "captured_minus_missed_iqr": -0.16383362002670765,
+          "ks_statistic": 0.21347039490202235,
+          "cliffs_delta": -0.21015141716986951,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "crop_1500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.05336920544505119,
+            "median": 0.15489652752876282,
+            "q75": 0.2859145700931549,
+            "iqr": 0.23254536464810371
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.05958636477589607,
+            "median": 0.19908052682876587,
+            "q75": 0.4049999415874481,
+            "iqr": 0.34541357681155205
+          },
+          "captured_minus_missed_median": -0.04418399930000305,
+          "captured_minus_missed_iqr": -0.11286821216344833,
+          "ks_statistic": 0.1878010429825301,
+          "cliffs_delta": -0.15779269859830936,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "built": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.03246753290295601,
+            "median": 0.19480518996715546,
+            "q75": 0.5259740352630615,
+            "iqr": 0.4935065023601055
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.19480518996715546,
+            "iqr": 0.19480518996715546
+          },
+          "captured_minus_missed_median": 0.19480518996715546,
+          "captured_minus_missed_iqr": 0.29870131239295006,
+          "ks_statistic": 0.35661697442496454,
+          "cliffs_delta": 0.3961276992074363,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "built_500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.04580022394657135,
+            "median": 0.13619761168956757,
+            "q75": 0.3577145040035248,
+            "iqr": 0.31191428005695343
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.018689622171223164,
+            "median": 0.059766244143247604,
+            "q75": 0.1628507375717163,
+            "iqr": 0.14416111540049314
+          },
+          "captured_minus_missed_median": 0.07643136754631996,
+          "captured_minus_missed_iqr": 0.16775316465646029,
+          "ks_statistic": 0.21661776912822367,
+          "cliffs_delta": 0.3089841203442725,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "built_1500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.03854195028543472,
+            "median": 0.10260670632123947,
+            "q75": 0.2727429270744324,
+            "iqr": 0.23420097678899765
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.020902954041957855,
+            "median": 0.06174130737781525,
+            "q75": 0.13325706124305725,
+            "iqr": 0.1123541072010994
+          },
+          "captured_minus_missed_median": 0.040865398943424225,
+          "captured_minus_missed_iqr": 0.12184686958789825,
+          "ks_statistic": 0.1874779218771765,
+          "cliffs_delta": 0.25157947272748715,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "grass": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.03246753290295601,
+            "iqr": 0.03246753290295601
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.0714285746216774,
+            "iqr": 0.0714285746216774
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": -0.03896104171872139,
+          "ks_statistic": 0.1014443076759165,
+          "cliffs_delta": -0.1141822656291277,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "grass_500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.014396638609468937,
+            "median": 0.031303517520427704,
+            "q75": 0.05650850012898445,
+            "iqr": 0.042111861519515514
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0161165539175272,
+            "median": 0.03615611791610718,
+            "q75": 0.06583894416689873,
+            "iqr": 0.04972239024937153
+          },
+          "captured_minus_missed_median": -0.004852600395679474,
+          "captured_minus_missed_iqr": -0.007610528729856014,
+          "ks_statistic": 0.07705783387470677,
+          "cliffs_delta": -0.08085625346318148,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "grass_1500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.01674201525747776,
+            "median": 0.03197452425956726,
+            "q75": 0.0516681931912899,
+            "iqr": 0.03492617793381214
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.019553321413695812,
+            "median": 0.03705419972538948,
+            "q75": 0.058967581018805504,
+            "iqr": 0.03941425960510969
+          },
+          "captured_minus_missed_median": -0.00507967546582222,
+          "captured_minus_missed_iqr": -0.00448808167129755,
+          "ks_statistic": 0.09123193414617203,
+          "cliffs_delta": -0.11102921495107554,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "water": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.0,
+            "iqr": 0.0
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.0,
+            "iqr": 0.0
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": 0.0,
+          "ks_statistic": 0.03543808890458888,
+          "cliffs_delta": -0.03533809602198623,
+          "unit": "fraction of valid WorldCover pixels in 100m cell"
+        },
+        "water_500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0008479124517180026,
+            "q75": 0.015162414871156216,
+            "iqr": 0.015162414871156216
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0008335075108334422,
+            "q75": 0.03010160941630602,
+            "iqr": 0.03010160941630602
+          },
+          "captured_minus_missed_median": 1.4404940884560347e-05,
+          "captured_minus_missed_iqr": -0.014939194545149803,
+          "ks_statistic": 0.08023184375959258,
+          "cliffs_delta": -0.007126130323474755,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "water_1500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0018371173646301031,
+            "median": 0.009769435040652752,
+            "q75": 0.037020884454250336,
+            "iqr": 0.03518376708962023
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0009262534149456769,
+            "median": 0.009420027956366539,
+            "q75": 0.043643463402986526,
+            "iqr": 0.04271720998804085
+          },
+          "captured_minus_missed_median": 0.0003494070842862129,
+          "captured_minus_missed_iqr": -0.007533442898420617,
+          "ks_statistic": 0.08063967499256602,
+          "cliffs_delta": 0.021419436083807142,
+          "unit": "mean 100m-cell fraction in square window"
+        },
+        "forest_edge": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": -100.0,
+            "median": -100.0,
+            "q75": 100.0,
+            "iqr": 200.0
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": -100.0,
+            "median": 100.0,
+            "q75": 200.0,
+            "iqr": 300.0
+          },
+          "captured_minus_missed_median": -200.0,
+          "captured_minus_missed_iqr": -100.0,
+          "ks_statistic": 0.14238593497493401,
+          "cliffs_delta": -0.09897636107124252,
+          "unit": "m"
+        },
+        "elev": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 18.963333129882812,
+            "median": 40.57666778564453,
+            "q75": 85.65249633789062,
+            "iqr": 66.68916320800781
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 19.12180519104004,
+            "median": 46.776668548583984,
+            "q75": 98.63972473144531,
+            "iqr": 79.51791954040527
+          },
+          "captured_minus_missed_median": -6.200000762939453,
+          "captured_minus_missed_iqr": -12.828756332397461,
+          "ks_statistic": 0.0652263616170552,
+          "cliffs_delta": -0.04018840580342975,
+          "unit": "m"
+        },
+        "slope": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 1.0816251039505005,
+            "median": 2.7765743732452393,
+            "q75": 5.302096366882324,
+            "iqr": 4.220471262931824
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1388,
+            "n_missing": 11,
+            "q25": 0.49877095967531204,
+            "median": 1.726969301700592,
+            "q75": 5.462862968444824,
+            "iqr": 4.964092008769512
+          },
+          "captured_minus_missed_median": 1.0496050715446472,
+          "captured_minus_missed_iqr": -0.7436207458376884,
+          "ks_statistic": 0.16739299590345025,
+          "cliffs_delta": 0.12349240104992787,
+          "unit": "degrees"
+        },
+        "tpi_500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": -11.506978988647461,
+            "median": -2.9030139446258545,
+            "q75": 1.170503854751587,
+            "iqr": 12.677482843399048
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": -12.39715576171875,
+            "median": -2.1408965587615967,
+            "q75": 0.34921595454216003,
+            "iqr": 12.74637171626091
+          },
+          "captured_minus_missed_median": -0.7621173858642578,
+          "captured_minus_missed_iqr": -0.06888887286186218,
+          "ks_statistic": 0.08787496785163329,
+          "cliffs_delta": 0.017229777967769033,
+          "unit": "m"
+        },
+        "pop_500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 85.88123321533203,
+            "median": 296.6014404296875,
+            "q75": 1379.2515869140625,
+            "iqr": 1293.3703536987305
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 32.67506217956543,
+            "median": 100.45394897460938,
+            "q75": 341.9916076660156,
+            "iqr": 309.3165454864502
+          },
+          "captured_minus_missed_median": 196.14749145507812,
+          "captured_minus_missed_iqr": 984.0538082122803,
+          "ks_statistic": 0.244246370236529,
+          "cliffs_delta": 0.3338723051590651,
+          "unit": "estimated persons in square window"
+        },
+        "pop_2000": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 1046.0982666015625,
+            "median": 3293.9619140625,
+            "q75": 13540.90234375,
+            "iqr": 12494.804077148438
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 517.7440795898438,
+            "median": 1745.141845703125,
+            "q75": 4519.756103515625,
+            "iqr": 4002.0120239257812
+          },
+          "captured_minus_missed_median": 1548.820068359375,
+          "captured_minus_missed_iqr": 8492.792053222656,
+          "ks_statistic": 0.21058457411110043,
+          "cliffs_delta": 0.2602295120478324,
+          "unit": "estimated persons in square window"
+        },
+        "d_road_major": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 100.0,
+            "iqr": 100.0
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 100.0,
+            "q75": 282.84271240234375,
+            "iqr": 282.84271240234375
+          },
+          "captured_minus_missed_median": -100.0,
+          "captured_minus_missed_iqr": -182.84271240234375,
+          "ks_statistic": 0.3104386019685062,
+          "cliffs_delta": -0.3651272856997515,
+          "unit": "m"
+        },
+        "d_road": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 0.0,
+            "iqr": 0.0
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 100.0,
+            "iqr": 100.0
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": -100.0,
+          "ks_statistic": 0.3067489082654815,
+          "cliffs_delta": -0.3091395677949561,
+          "unit": "m"
+        },
+        "d_track": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 100.0,
+            "q75": 141.42135620117188,
+            "iqr": 141.42135620117188
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 100.0,
+            "q75": 200.0,
+            "iqr": 200.0
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": -58.578643798828125,
+          "ks_statistic": 0.04667440701819048,
+          "cliffs_delta": -0.016644230126851234,
+          "unit": "m"
+        },
+        "d_river": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 141.42135620117188,
+            "median": 360.55511474609375,
+            "q75": 728.010986328125,
+            "iqr": 586.5896301269531
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 141.42135620117188,
+            "median": 412.3105773925781,
+            "q75": 860.2325439453125,
+            "iqr": 718.8111877441406
+          },
+          "captured_minus_missed_median": -51.755462646484375,
+          "captured_minus_missed_iqr": -132.2215576171875,
+          "ks_statistic": 0.07267823294673781,
+          "cliffs_delta": -0.053149491979391894,
+          "unit": "m"
+        },
+        "d_stream": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 200.0,
+            "median": 500.0,
+            "q75": 900.0,
+            "iqr": 700.0
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 200.0,
+            "median": 500.0,
+            "q75": 987.4176635742188,
+            "iqr": 787.4176635742188
+          },
+          "captured_minus_missed_median": 0.0,
+          "captured_minus_missed_iqr": -87.41766357421875,
+          "ks_statistic": 0.05998437665790601,
+          "cliffs_delta": -0.03986266479722189,
+          "unit": "m"
+        },
+        "d_building": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 0.0,
+            "q75": 141.42135620117188,
+            "iqr": 141.42135620117188
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 0.0,
+            "median": 141.42135620117188,
+            "q75": 447.2135925292969,
+            "iqr": 447.2135925292969
+          },
+          "captured_minus_missed_median": -141.42135620117188,
+          "captured_minus_missed_iqr": -305.792236328125,
+          "ks_statistic": 0.2927333119956964,
+          "cliffs_delta": -0.3699251974641107,
+          "unit": "m"
+        },
+        "bldg_500": {
+          "captured": {
+            "n_total": 1637,
+            "n_valid": 1637,
+            "n_missing": 0,
+            "q25": 59.0,
+            "median": 217.0,
+            "q75": 729.0,
+            "iqr": 670.0
+          },
+          "missed": {
+            "n_total": 1399,
+            "n_valid": 1399,
+            "n_missing": 0,
+            "q25": 2.0,
+            "median": 48.0,
+            "q75": 222.5,
+            "iqr": 220.5
+          },
+          "captured_minus_missed_median": 169.0,
+          "captured_minus_missed_iqr": 449.5,
+          "ks_statistic": 0.28011586948177924,
+          "cliffs_delta": 0.38147896023121497,
+          "unit": "OSM building centroids in square window"
+        }
+      }
+    }
+  },
+  "same_direction_ranked_features": [
+    {
+      "feature": "d_road_major",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.35641552825917344,
+      "B3_cliffs_delta": -0.3651272856997515,
+      "min_abs_cliffs_delta": 0.35641552825917344,
+      "B2_ks_statistic": 0.31791362014039437,
+      "B3_ks_statistic": 0.3104386019685062
+    },
+    {
+      "feature": "d_road",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.2600235154469217,
+      "B3_cliffs_delta": -0.3091395677949561,
+      "min_abs_cliffs_delta": 0.2600235154469217,
+      "B2_ks_statistic": 0.25788657133530524,
+      "B3_ks_statistic": 0.3067489082654815
+    },
+    {
+      "feature": "d_building",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.23974867778295328,
+      "B3_cliffs_delta": -0.3699251974641107,
+      "min_abs_cliffs_delta": 0.23974867778295328,
+      "B2_ks_statistic": 0.20699704666048835,
+      "B3_ks_statistic": 0.2927333119956964
+    },
+    {
+      "feature": "crop",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.1992854748984405,
+      "B3_cliffs_delta": -0.2833772093951391,
+      "min_abs_cliffs_delta": 0.1992854748984405,
+      "B2_ks_statistic": 0.197196157364112,
+      "B3_ks_statistic": 0.24607200448177702
+    },
+    {
+      "feature": "bldg_500",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.17546193038385272,
+      "B3_cliffs_delta": 0.38147896023121497,
+      "min_abs_cliffs_delta": 0.17546193038385272,
+      "B2_ks_statistic": 0.16145831174741837,
+      "B3_ks_statistic": 0.28011586948177924
+    },
+    {
+      "feature": "crop_500",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.1321985587129978,
+      "B3_cliffs_delta": -0.21015141716986951,
+      "min_abs_cliffs_delta": 0.1321985587129978,
+      "B2_ks_statistic": 0.17932010461830983,
+      "B3_ks_statistic": 0.21347039490202235
+    },
+    {
+      "feature": "built",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.12974916177575202,
+      "B3_cliffs_delta": 0.3961276992074363,
+      "min_abs_cliffs_delta": 0.12974916177575202,
+      "B2_ks_statistic": 0.221345150156834,
+      "B3_ks_statistic": 0.35661697442496454
+    },
+    {
+      "feature": "slope",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.30817227165421346,
+      "B3_cliffs_delta": 0.12349240104992787,
+      "min_abs_cliffs_delta": 0.12349240104992787,
+      "B2_ks_statistic": 0.2745640190000215,
+      "B3_ks_statistic": 0.16739299590345025
+    },
+    {
+      "feature": "grass_1500",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.1529834854492026,
+      "B3_cliffs_delta": -0.11102921495107554,
+      "min_abs_cliffs_delta": 0.11102921495107554,
+      "B2_ks_statistic": 0.16456808840897652,
+      "B3_ks_statistic": 0.09123193414617203
+    },
+    {
+      "feature": "tree",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.2989365013389882,
+      "B3_cliffs_delta": 0.10313938352859608,
+      "min_abs_cliffs_delta": 0.10313938352859608,
+      "B2_ks_statistic": 0.29779191807891525,
+      "B3_ks_statistic": 0.17248597588905243
+    },
+    {
+      "feature": "forest_edge",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.33045964072561274,
+      "B3_cliffs_delta": -0.09897636107124252,
+      "min_abs_cliffs_delta": 0.09897636107124252,
+      "B2_ks_statistic": 0.3109639682464196,
+      "B3_ks_statistic": 0.14238593497493401
+    },
+    {
+      "feature": "crop_1500",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.093013932740736,
+      "B3_cliffs_delta": -0.15779269859830936,
+      "min_abs_cliffs_delta": 0.093013932740736,
+      "B2_ks_statistic": 0.1605980479144441,
+      "B3_ks_statistic": 0.1878010429825301
+    },
+    {
+      "feature": "pop_500",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.059523562827639154,
+      "B3_cliffs_delta": 0.3338723051590651,
+      "min_abs_cliffs_delta": 0.059523562827639154,
+      "B2_ks_statistic": 0.08819690484849094,
+      "B3_ks_statistic": 0.244246370236529
+    },
+    {
+      "feature": "grass_500",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.05735160123994876,
+      "B3_cliffs_delta": -0.08085625346318148,
+      "min_abs_cliffs_delta": 0.05735160123994876,
+      "B2_ks_statistic": 0.0746889046723147,
+      "B3_ks_statistic": 0.07705783387470677
+    },
+    {
+      "feature": "tree_500",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.3057660682272496,
+      "B3_cliffs_delta": 0.05702781854392014,
+      "min_abs_cliffs_delta": 0.05702781854392014,
+      "B2_ks_statistic": 0.3213492665542221,
+      "B3_ks_statistic": 0.14050528281174746
+    },
+    {
+      "feature": "d_river",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.10248347312108408,
+      "B3_cliffs_delta": -0.053149491979391894,
+      "min_abs_cliffs_delta": 0.053149491979391894,
+      "B2_ks_statistic": 0.07623789236519973,
+      "B3_ks_statistic": 0.07267823294673781
+    },
+    {
+      "feature": "d_stream",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.03783682193328919,
+      "B3_cliffs_delta": -0.03986266479722189,
+      "min_abs_cliffs_delta": 0.03783682193328919,
+      "B2_ks_statistic": 0.05114957421629174,
+      "B3_ks_statistic": 0.05998437665790601
+    },
+    {
+      "feature": "grass",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.03320917641916843,
+      "B3_cliffs_delta": -0.1141822656291277,
+      "min_abs_cliffs_delta": 0.03320917641916843,
+      "B2_ks_statistic": 0.029244509719860923,
+      "B3_ks_statistic": 0.1014443076759165
+    },
+    {
+      "feature": "water",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.01930035434033006,
+      "B3_cliffs_delta": -0.03533809602198623,
+      "min_abs_cliffs_delta": 0.01930035434033006,
+      "B2_ks_statistic": 0.02156939547051584,
+      "B3_ks_statistic": 0.03543808890458888
+    },
+    {
+      "feature": "tree_1500",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.2530398997622114,
+      "B3_cliffs_delta": 0.016576986004926297,
+      "min_abs_cliffs_delta": 0.016576986004926297,
+      "B2_ks_statistic": 0.26318576563832363,
+      "B3_ks_statistic": 0.08198062757978353
+    },
+    {
+      "feature": "d_track",
+      "direction": "captured_lower",
+      "B2_cliffs_delta": -0.0141913151180173,
+      "B3_cliffs_delta": -0.016644230126851234,
+      "min_abs_cliffs_delta": 0.0141913151180173,
+      "B2_ks_statistic": 0.035955185779125376,
+      "B3_ks_statistic": 0.04667440701819048
+    },
+    {
+      "feature": "built_500",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.014173648327179711,
+      "B3_cliffs_delta": 0.3089841203442725,
+      "min_abs_cliffs_delta": 0.014173648327179711,
+      "B2_ks_statistic": 0.07855979337651986,
+      "B3_ks_statistic": 0.21661776912822367
+    },
+    {
+      "feature": "pop_2000",
+      "direction": "captured_higher",
+      "B2_cliffs_delta": 0.006923977094566602,
+      "B3_cliffs_delta": 0.2602295120478324,
+      "min_abs_cliffs_delta": 0.006923977094566602,
+      "B2_ks_statistic": 0.050182853041311704,
+      "B3_ks_statistic": 0.21058457411110043
+    }
+  ],
+  "limitations": "Selection is determined by model scores derived from these same features, so group differences do not establish causal drivers or feature importance. B2/B3 share cells; no independent replication. Correlated features, observation bias, and 2026 partial-year labels remain. No p-values or multiple-test claims."
+}

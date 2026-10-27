@@ -160,6 +160,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b2_b3_fixed_area_dilation.json
 ```
 
+### B_env の捕捉・取り逃し陽性の特徴量差
+
+保存済みB2/B3の `B_env` スコアで陽性セルをtop 5%内外に分け、既存の静的28特徴量の各群のQ1・中央値・Q3・IQR、captured−missedの差、KS統計量、Cliff's deltaと欠損数を記録する。NaNは0で埋めず、有限値だけで分布を比較する。両年度で同方向の特徴量は、弱い年度のCliff効果の絶対値で並べる。結果は[特徴量監査JSON](outputs/b2_b3_positive_feature_audit.json)。スコアを作った特徴量で群を定義しているため、この差は因果的な失敗要因や特徴量重要度の推定ではない。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy python \
+  projects/akita-bear-risk-grid-100m/scripts/positive_feature_audit.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b2_b3_positive_feature_audit.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。
