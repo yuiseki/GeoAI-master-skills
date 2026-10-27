@@ -88,6 +88,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b1_soft_spatial_label.json
 ```
 
+### B1 の通報件数ターゲット追加探索
+
+2023年度の全セルの通報件数を `HistGradientBoostingRegressor(loss="poisson")` に学習させ、2024年度の元の二値セルラベルで既存 `B_env` 分類器と比較する。特徴量・HGBハイパーパラメータは同じで、重みは渡さない。ただしモデルクラスと損失も変わるため、差をターゲットだけの純粋な効果とは解釈しない。2025/2026年度のラベルは読まない。結果と入力6ファイルのSHA256は [B1 件数ターゲット JSON](outputs/b1_count_target_poisson.json)。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy --with scikit-learn python \
+  projects/akita-bear-risk-grid-100m/scripts/count_target_b1.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b1_count_target_poisson.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。

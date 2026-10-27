@@ -1,0 +1,100 @@
+{
+  "mode": "exploratory",
+  "question": "Does a 2023 count-target Poisson HGB improve 2024 binary-cell ranking over B_env?",
+  "setup": {
+    "train_year": 2023,
+    "test_year": 2024,
+    "features": "B_env static only",
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "poisson_loss": "poisson",
+    "seed": 0,
+    "sample_weight_passed": false,
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "n_train": 1168211,
+    "n_test": 1168211,
+    "n_test_positive": 1492,
+    "numpy": "2.5.4",
+    "sklearn": "1.9.1",
+    "input_sha256": {
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24"
+    },
+    "baseline_reference_capture@5%": 0.5341823056300268,
+    "baseline_check_tolerance": 1e-09
+  },
+  "train_target_summary": {
+    "n_positive_cells": 3439,
+    "n_reports": 3895,
+    "n_cells_with_multiple_reports": 313,
+    "max_reports_in_cell": 8
+  },
+  "results": [
+    {
+      "setting": "B_env_classifier",
+      "target": "2023 binary presence",
+      "model": "HistGradientBoostingClassifier",
+      "delta_capture@5%": 0.0,
+      "capture@1%": 0.18699731903485256,
+      "capture@5%": 0.5341823056300268,
+      "capture@10%": 0.735254691689008,
+      "auc": 0.9250934433955277,
+      "ap": 0.016332972401106878
+    },
+    {
+      "setting": "count_poisson",
+      "target": "2023 report count",
+      "model": "HistGradientBoostingRegressor",
+      "loss": "poisson",
+      "delta_capture@5%": 0.013404825737265424,
+      "capture@1%": 0.17761394101876676,
+      "capture@5%": 0.5475871313672922,
+      "capture@10%": 0.7292225201072386,
+      "auc": 0.9250882272373226,
+      "ap": 0.016087632829411207
+    }
+  ],
+  "decision": {
+    "improved_vs_classifier_capture@5%": true
+  },
+  "limitations": "B1 exploration only. Count target also changes classifier to Poisson regressor/loss; the difference is not a pure target-only effect. Counts reflect reporting as well as repeated bear events. No 2025/2026 evaluation or uncertainty interval."
+}
