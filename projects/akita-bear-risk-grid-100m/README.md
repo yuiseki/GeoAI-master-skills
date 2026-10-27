@@ -52,6 +52,18 @@ uvx --with numpy --with scipy --with scikit-learn --with pandas --with matplotli
 
 標高タイルは国土地理院の公開サーバーから取る。`raw/gsi_dem12/` にあれば取り直さない。
 
+### B1 の陽性 sample weight 追加探索
+
+既存の `artifacts/akita-bear-risk-grid-100m/` がある環境で、2023 年度→2024 年度の `B_env` だけを実行する。無重みの既存 baseline が 0.534 に再現されない場合、候補は流さない。この環境では全件に `sample_weight=1` を渡した結果が無重みと異なったため、両方を対照として残した。結果は [B1 の追加探索 JSON](outputs/b1_positive_weight_sweep.json) に保存する。入力6ファイルのSHA256もそこに記録した。2025/2026年度は評価しない。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy --with scikit-learn python \
+  projects/akita-bear-risk-grid-100m/scripts/weight_sweep_b1.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b1_positive_weight_sweep.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。

@@ -1,0 +1,163 @@
+{
+  "mode": "exploratory",
+  "question": "Does changing only the positive-cell sample weight improve B_env capture@5% in B1?",
+  "setup": {
+    "train_year": 2023,
+    "test_year": 2024,
+    "model": "B_env",
+    "positive_weights": [
+      1,
+      3,
+      10,
+      30
+    ],
+    "negative_weight": 1,
+    "seed": 0,
+    "existing_baseline_has_no_sample_weight": true,
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "n_train": 1168211,
+    "n_train_positive": 3439,
+    "n_test": 1168211,
+    "n_test_positive": 1492,
+    "numpy": "2.5.4",
+    "sklearn": "1.9.1",
+    "input_sha256": {
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24"
+    },
+    "baseline_reference_capture@5%": 0.5341823056300268,
+    "baseline_check_tolerance": 0.0005
+  },
+  "results": [
+    {
+      "setting": "existing_unweighted",
+      "positive_weight": 1,
+      "negative_weight": 1,
+      "sample_weight_passed": false,
+      "train_weight_total": {
+        "positive": 3439.0,
+        "negative": 1164772.0
+      },
+      "capture@1%": 0.18699731903485256,
+      "capture@5%": 0.5341823056300268,
+      "capture@10%": 0.735254691689008,
+      "auc": 0.9250934433955277,
+      "ap": 0.016332972401106878
+    },
+    {
+      "setting": "explicit_sample_weight",
+      "positive_weight": 1,
+      "negative_weight": 1,
+      "sample_weight_passed": true,
+      "train_weight_total": {
+        "positive": 3439.0,
+        "negative": 1164772.0
+      },
+      "capture@1%": 0.19243297587131405,
+      "capture@5%": 0.5392426273458465,
+      "capture@10%": 0.7359249329758714,
+      "auc": 0.9253094934513626,
+      "ap": 0.016384505927810794
+    },
+    {
+      "setting": "explicit_sample_weight",
+      "positive_weight": 3,
+      "negative_weight": 1,
+      "sample_weight_passed": true,
+      "train_weight_total": {
+        "positive": 10317.0,
+        "negative": 1164772.0
+      },
+      "capture@1%": 0.19772117962466487,
+      "capture@5%": 0.5254691689008043,
+      "capture@10%": 0.7339142091152815,
+      "auc": 0.9255980412126454,
+      "ap": 0.01676478150363027
+    },
+    {
+      "setting": "explicit_sample_weight",
+      "positive_weight": 10,
+      "negative_weight": 1,
+      "sample_weight_passed": true,
+      "train_weight_total": {
+        "positive": 34390.0,
+        "negative": 1164772.0
+      },
+      "capture@1%": 0.19168900804289543,
+      "capture@5%": 0.5428954423592494,
+      "capture@10%": 0.7298927613941019,
+      "auc": 0.9247253891470595,
+      "ap": 0.017110959789583012
+    },
+    {
+      "setting": "explicit_sample_weight",
+      "positive_weight": 30,
+      "negative_weight": 1,
+      "sample_weight_passed": true,
+      "train_weight_total": {
+        "positive": 103170.0,
+        "negative": 1164772.0
+      },
+      "capture@1%": 0.18900804289544235,
+      "capture@5%": 0.5442359249329759,
+      "capture@10%": 0.7298927613941019,
+      "auc": 0.9243958029164193,
+      "ap": 0.01733878642542357
+    }
+  ],
+  "decision": {
+    "improved_weights_vs_existing_baseline": [
+      10,
+      30
+    ],
+    "best_improvement_vs_existing_baseline": 0.010053619302949124,
+    "weighted_one_capture@5%": 0.5392426273458465,
+    "improved_weights_vs_explicit_weight_one": [
+      10,
+      30
+    ],
+    "sample_weighting_alone_improved_b1": true
+  },
+  "limitations": "B1 exploratory only; no 2025/2026 evaluation, uncertainty interval, or probability calibration claim"
+}
