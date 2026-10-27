@@ -1,0 +1,143 @@
+{
+  "mode": "descriptive diagnostic using saved B_env scores only",
+  "question": "How does fixed-area seed dilation change capture relative to exact cells?",
+  "definition": {
+    "crs": "EPSG:6678",
+    "cell_size_m": 100.0,
+    "distance": "Euclidean centre-to-centre; prefecture-clipped disks",
+    "seed_order": "metrics.rank_order(saved B_env score,seed=0)",
+    "stop": "stop at first seed whose union would exceed floor(0.05 * inside cells); do not skip",
+    "budget_fraction": 0.05,
+    "radii_m": [
+      100,
+      300,
+      500
+    ]
+  },
+  "input_sha256": {
+    "grid.json": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+    "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+    "eval/b2_confirm_2023-2024_to_2025_scores.npz": "aa33ceeb78d8ff46cd39388f8884b1d1b20547d163d235ddb65ac74831be82ba",
+    "eval/b2_confirm_2023-2024_to_2025.json": "53d6bbb64e84b9ef6917056e2c4b7eb2ec55b39aea93cc645e0c7a3ad3b99df6",
+    "eval/b3_confirm_2023-2025_to_2026_scores.npz": "9895dbd7b6e89a304a072b92543a5b39088b4363b99b44cf46dcb1d1727460f5",
+    "eval/b3_confirm_2023-2025_to_2026.json": "381b24d2771fdaae5235f50cfdeb4c9f08dc713133f8ea499cf7845853c13e55"
+  },
+  "implementation": {
+    "script": "projects/akita-bear-risk-grid-100m/scripts/fixed_area_dilation.py",
+    "script_sha256": "981bbe8500d1ad550598c44767de5c59f3cc38f42657d40897b960233f667bb1",
+    "metrics_sha256": "bf884a22b907aeb2ea557921723586ce4a3ae8e91c00def568df78154d12e40b",
+    "numpy": "2.5.4"
+  },
+  "years": {
+    "B2": {
+      "test_year": 2025,
+      "test_label_period": "full fiscal year",
+      "n_cells": 1168211,
+      "n_positive": 10729,
+      "max_selected_cells": 58410,
+      "exact_fractional_reference_capture@5%": 0.5515891508994315,
+      "exact_fractional_boundary_cell_weight": 0.5500000000029104,
+      "results": [
+        {
+          "method": "exact",
+          "radius_m": 0,
+          "selected_cells": 58410,
+          "selected_fraction": 0.04999952919464035,
+          "captured_positive": 5918,
+          "capture": 0.5515891508994315,
+          "accepted_seeds": 58410,
+          "stopped_at_rank": 58410
+        },
+        {
+          "method": "seed_dilate_100m",
+          "radius_m": 100,
+          "selected_cells": 58410,
+          "accepted_seeds": 22440,
+          "stopped_at_rank": 22440,
+          "selected_fraction": 0.04999952919464035,
+          "captured_positive": 5099,
+          "capture": 0.475253984527915,
+          "delta_vs_exact_discrete": -0.0763351663715165
+        },
+        {
+          "method": "seed_dilate_300m",
+          "radius_m": 300,
+          "selected_cells": 58390,
+          "accepted_seeds": 5671,
+          "stopped_at_rank": 5671,
+          "selected_fraction": 0.04998240899974405,
+          "captured_positive": 4213,
+          "capture": 0.3926740609562867,
+          "delta_vs_exact_discrete": -0.1589150899431448
+        },
+        {
+          "method": "seed_dilate_500m",
+          "radius_m": 500,
+          "selected_cells": 58352,
+          "accepted_seeds": 2027,
+          "stopped_at_rank": 2027,
+          "selected_fraction": 0.049949880629441085,
+          "captured_positive": 3575,
+          "capture": 0.33320905955820673,
+          "delta_vs_exact_discrete": -0.21838009134122477
+        }
+      ]
+    },
+    "B3": {
+      "test_year": 2026,
+      "test_label_period": "2026 April-September",
+      "n_cells": 1168211,
+      "n_positive": 3036,
+      "max_selected_cells": 58410,
+      "exact_fractional_reference_capture@5%": 0.5391963109354414,
+      "exact_fractional_boundary_cell_weight": 0.5500000000029104,
+      "results": [
+        {
+          "method": "exact",
+          "radius_m": 0,
+          "selected_cells": 58410,
+          "selected_fraction": 0.04999952919464035,
+          "captured_positive": 1637,
+          "capture": 0.5391963109354414,
+          "accepted_seeds": 58410,
+          "stopped_at_rank": 58410
+        },
+        {
+          "method": "seed_dilate_100m",
+          "radius_m": 100,
+          "selected_cells": 58409,
+          "accepted_seeds": 25156,
+          "stopped_at_rank": 25156,
+          "selected_fraction": 0.04999867318489554,
+          "captured_positive": 1404,
+          "capture": 0.4624505928853755,
+          "delta_vs_exact_discrete": -0.07674571805006591
+        },
+        {
+          "method": "seed_dilate_300m",
+          "radius_m": 300,
+          "selected_cells": 58397,
+          "accepted_seeds": 8436,
+          "stopped_at_rank": 8436,
+          "selected_fraction": 0.04998840106795776,
+          "captured_positive": 1110,
+          "capture": 0.36561264822134387,
+          "delta_vs_exact_discrete": -0.17358366271409753
+        },
+        {
+          "method": "seed_dilate_500m",
+          "radius_m": 500,
+          "selected_cells": 58377,
+          "accepted_seeds": 3784,
+          "stopped_at_rank": 3784,
+          "selected_fraction": 0.049971280873061456,
+          "captured_positive": 913,
+          "capture": 0.3007246376811594,
+          "delta_vs_exact_discrete": -0.23847167325428198
+        }
+      ]
+    }
+  },
+  "limitations": "This is a different spatial selection rule at equal-or-smaller area, not an estimate of reporting-coordinate error. It cannot isolate the fraction of low exact-cell capture caused by 100 m positional uncertainty. B3 labels cover April-September only; no retraining or model selection."
+}

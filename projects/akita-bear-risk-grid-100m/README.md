@@ -148,6 +148,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b2_b3_false_negative_audit.json
 ```
 
+### B_env の固定5%面積 seed 膨張診断
+
+保存済み B2/B3 `B_env` の高スコアセルを seed とし、100/300/500m の円内にある県内セルを選ぶ。選択領域の union が県内セルの5%を超える次の seed で停止するため、面積を増やして capture を上げる評価ではない。通常の exact-cell capture@5% も保存済みスコアで再現する。結果の捕捉率、実選択セル割合、seed 数と入力SHA256は[結果JSON](outputs/b2_b3_fixed_area_dilation.json)。これは選択規則の比較であり、通報座標誤差の寄与を直接推定しない。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy python \
+  projects/akita-bear-risk-grid-100m/scripts/fixed_area_dilation.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b2_b3_fixed_area_dilation.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。
