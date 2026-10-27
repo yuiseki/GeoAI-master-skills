@@ -1,0 +1,196 @@
+{
+  "mode": "diagnostic; no training or threshold tuning",
+  "question": "Are saved B_env false negatives close in rank or geography to the top 5%?",
+  "implementation": {
+    "script": "projects/akita-bear-risk-grid-100m/scripts/false_negative_audit.py",
+    "script_sha256": "3aca37cf4a748b9f384e33798c5af6bf61abfcc4f839b40a0439468820ede089",
+    "metrics_py_sha256": "bf884a22b907aeb2ea557921723586ce4a3ae8e91c00def568df78154d12e40b",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "definition": {
+    "grid_crs": "EPSG:6678",
+    "cell_size_m": 100.0,
+    "top5_membership": "first ceil(0.05*n) cells in metrics.rank_order(score,seed=0)",
+    "rank_percentile": "zero-based rank / n_cells",
+    "rank_bins": [
+      "5-10%",
+      "10-25%",
+      "25-50%",
+      "50-100%"
+    ],
+    "distance": "nearest selected cell centre, Euclidean EPSG:6678 metres",
+    "distance_thresholds_m": [
+      100,
+      300,
+      500,
+      1000
+    ],
+    "distance_denominator": "missed positive cells in each year"
+  },
+  "input_sha256": {
+    "grid.json": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+    "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+    "eval/b2_confirm_2023-2024_to_2025.json": "53d6bbb64e84b9ef6917056e2c4b7eb2ec55b39aea93cc645e0c7a3ad3b99df6",
+    "eval/b2_confirm_2023-2024_to_2025_scores.npz": "aa33ceeb78d8ff46cd39388f8884b1d1b20547d163d235ddb65ac74831be82ba",
+    "eval/b3_confirm_2023-2025_to_2026.json": "381b24d2771fdaae5235f50cfdeb4c9f08dc713133f8ea499cf7845853c13e55",
+    "eval/b3_confirm_2023-2025_to_2026_scores.npz": "9895dbd7b6e89a304a072b92543a5b39088b4363b99b44cf46dcb1d1727460f5"
+  },
+  "years": {
+    "B2": {
+      "test_year": 2025,
+      "test_label_period": "full fiscal year",
+      "reference_capture@5%": 0.5515891508994315,
+      "n_cells": 1168211,
+      "n_top5_cells": 58411,
+      "n_positive": 10729,
+      "n_captured_positive": 5918,
+      "n_missed_positive": 4811,
+      "capture_at_5_from_saved_scores": 0.5515891508994315,
+      "capture_at_5_binary_top_set": 0.5515891508994315,
+      "rank_bins_counts": {
+        "5-10%": 2311,
+        "10-25%": 2201,
+        "25-50%": 287,
+        "50-100%": 12
+      },
+      "rank_bins_shares_of_missed": {
+        "5-10%": 0.4803575140303471,
+        "10-25%": 0.4574932446476824,
+        "25-50%": 0.05965495738931615,
+        "50-100%": 0.002494283932654334
+      },
+      "distance_m": {
+        "median": 200.0,
+        "p90": 854.4003745317531
+      },
+      "within_distance_m": {
+        "100": {
+          "count": 1777,
+          "share": 0.3693618790272293
+        },
+        "300": {
+          "count": 3142,
+          "share": 0.6530866763666597
+        },
+        "500": {
+          "count": 3821,
+          "share": 0.7942215755560175
+        },
+        "1000": {
+          "count": 4430,
+          "share": 0.9208064851382249
+        }
+      },
+      "rank_bins_within_distance_counts": {
+        "100": {
+          "5-10%": 1298,
+          "10-25%": 475,
+          "25-50%": 4,
+          "50-100%": 0
+        },
+        "300": {
+          "5-10%": 1943,
+          "10-25%": 1113,
+          "25-50%": 86,
+          "50-100%": 0
+        },
+        "500": {
+          "5-10%": 2146,
+          "10-25%": 1521,
+          "25-50%": 153,
+          "50-100%": 1
+        },
+        "1000": {
+          "5-10%": 2268,
+          "10-25%": 1942,
+          "25-50%": 217,
+          "50-100%": 3
+        }
+      }
+    },
+    "B3": {
+      "test_year": 2026,
+      "test_label_period": "April-September",
+      "reference_capture@5%": 0.5391963109354414,
+      "n_cells": 1168211,
+      "n_top5_cells": 58411,
+      "n_positive": 3036,
+      "n_captured_positive": 1637,
+      "n_missed_positive": 1399,
+      "capture_at_5_from_saved_scores": 0.5391963109354414,
+      "capture_at_5_binary_top_set": 0.5391963109354414,
+      "rank_bins_counts": {
+        "5-10%": 682,
+        "10-25%": 604,
+        "25-50%": 104,
+        "50-100%": 9
+      },
+      "rank_bins_shares_of_missed": {
+        "5-10%": 0.4874910650464618,
+        "10-25%": 0.43173695496783415,
+        "25-50%": 0.07433881343817011,
+        "50-100%": 0.006433166547533953
+      },
+      "distance_m": {
+        "median": 200.0,
+        "p90": 1044.030650891055
+      },
+      "within_distance_m": {
+        "100": {
+          "count": 482,
+          "share": 0.34453180843459613
+        },
+        "300": {
+          "count": 881,
+          "share": 0.629735525375268
+        },
+        "500": {
+          "count": 1049,
+          "share": 0.7498213009292352
+        },
+        "1000": {
+          "count": 1251,
+          "share": 0.8942101501072195
+        }
+      },
+      "rank_bins_within_distance_counts": {
+        "100": {
+          "5-10%": 348,
+          "10-25%": 129,
+          "25-50%": 5,
+          "50-100%": 0
+        },
+        "300": {
+          "5-10%": 559,
+          "10-25%": 300,
+          "25-50%": 22,
+          "50-100%": 0
+        },
+        "500": {
+          "5-10%": 615,
+          "10-25%": 396,
+          "25-50%": 37,
+          "50-100%": 1
+        },
+        "1000": {
+          "5-10%": 668,
+          "10-25%": 509,
+          "25-50%": 70,
+          "50-100%": 4
+        }
+      }
+    }
+  },
+  "priority": {
+    "priority": "position_accuracy_audit",
+    "pooled_n_missed": 6210,
+    "pooled_5_to_10_rank_count": 2993,
+    "pooled_5_to_10_rank_share": 0.4819645732689211,
+    "pooled_within_300m_count": 4023,
+    "pooled_within_300m_share": 0.6478260869565218,
+    "rule": "5-10% rank majority, else <=300m majority, else new explanatory variables"
+  },
+  "limitations": "Cell-centre Euclidean distance is not road distance or the reporting-coordinate error. B3 labels cover only April-September. Counts reflect reported presence, not all bear encounters. This audit does not establish why cells were missed."
+}

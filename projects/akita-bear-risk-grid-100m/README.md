@@ -136,6 +136,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b2_b3_poisson_robustness.json
 ```
 
+### B_env の false-negative audit
+
+B2/B3の保存済み `B_env` スコアと通報有無ラベルのみを用い、top 5% に入らなかった陽性セルの順位帯と、top 5% セル中心までの直線距離を集計する。100/300/500/1000m以内の割合、距離の中央値・p90と順位×距離のクロス集計は[診断JSON](outputs/b2_b3_false_negative_audit.json)に記録する。再学習や閾値変更はしない。セル中心間の近さだけでは通報座標の誤りは証明できない。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy python \
+  projects/akita-bear-risk-grid-100m/scripts/false_negative_audit.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b2_b3_false_negative_audit.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。
