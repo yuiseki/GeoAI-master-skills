@@ -76,6 +76,18 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
   projects/akita-bear-risk-grid-100m/outputs/b1_hard_negative_mining.json
 ```
 
+### B1 の soft spatial label 追加探索
+
+2023 年度の通報セルを1、近隣100/200/300 mまでのセルに0.5/0.25/0.125を付ける。2024年度は元の0/1ラベルで評価する。HGB分類器は小数ラベルを受け付けないため、同じHGBパラメータの回帰器を使い、0/1ラベルの回帰器を対照にしてラベル変更だけの差を読む。既存分類器の baseline も残すが、両者の単純差を「ラベルだけの効果」とは呼ばない。結果と入力6ファイルの SHA256 は [B1 soft spatial label JSON](outputs/b1_soft_spatial_label.json)。2025/2026年度のラベルは読み込まない。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK \
+  uvx --with numpy --with scipy --with scikit-learn python \
+  projects/akita-bear-risk-grid-100m/scripts/soft_spatial_b1.py \
+  artifacts/akita-bear-risk-grid-100m \
+  projects/akita-bear-risk-grid-100m/outputs/b1_soft_spatial_label.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。

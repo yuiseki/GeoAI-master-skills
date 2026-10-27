@@ -1,0 +1,180 @@
+{
+  "mode": "exploratory",
+  "question": "Does a soft 2023 spatial training label improve B1 ranking over a hard-label HGB regressor?",
+  "setup": {
+    "train_year": 2023,
+    "test_year": 2024,
+    "model_features": "B_env static only",
+    "soft_model": "HistGradientBoostingRegressor",
+    "soft_loss": "squared_error",
+    "controls": [
+      "existing B_env HistGradientBoostingClassifier",
+      "hard-label HistGradientBoostingRegressor"
+    ],
+    "settings": [
+      {
+        "name": "S100",
+        "radius_m": 100
+      },
+      {
+        "name": "S200",
+        "radius_m": 200
+      },
+      {
+        "name": "S300",
+        "radius_m": 300
+      }
+    ],
+    "distance": "Euclidean cell-center distance to nearest 2023 positive; 100 m grid",
+    "target_values": {
+      "positive_cell": 1.0,
+      "(0,100]m": 0.5,
+      "(100,200]m": 0.25,
+      "(200,300]m": 0.125,
+      "other": 0.0
+    },
+    "test_target": "original binary 2024 cell label",
+    "sample_weight_passed": false,
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "seed": 0,
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "n_train": 1168211,
+    "n_train_positive": 3439,
+    "n_test": 1168211,
+    "n_test_positive": 1492,
+    "numpy": "2.5.4",
+    "sklearn": "1.9.1",
+    "input_sha256": {
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24"
+    },
+    "baseline_reference_capture@5%": 0.5341823056300268,
+    "baseline_check_tolerance": 1e-09
+  },
+  "results": [
+    {
+      "setting": "B_env_classifier",
+      "model": "HistGradientBoostingClassifier",
+      "target": "hard 0/1",
+      "delta_vs_classifier_capture@5%": 0.0,
+      "capture@1%": 0.18699731903485256,
+      "capture@5%": 0.5341823056300268,
+      "capture@10%": 0.735254691689008,
+      "auc": 0.9250934433955277,
+      "ap": 0.016332972401106878
+    },
+    {
+      "setting": "hard_regressor",
+      "model": "HistGradientBoostingRegressor",
+      "target": "hard 0/1",
+      "target_counts": {
+        "1.0": 3439
+      },
+      "delta_vs_classifier_capture@5%": 0.008713136729222581,
+      "delta_vs_hard_regressor_capture@5%": 0.0,
+      "capture@1%": 0.18900804289544235,
+      "capture@5%": 0.5428954423592494,
+      "capture@10%": 0.7258713136729222,
+      "auc": 0.8876813733175772,
+      "ap": 0.017598594439523444
+    },
+    {
+      "setting": "S100",
+      "model": "HistGradientBoostingRegressor",
+      "radius_m": 100,
+      "target_counts": {
+        "1.0": 3439,
+        "0.5": 11899
+      },
+      "delta_vs_classifier_capture@5%": -0.008042895442359255,
+      "delta_vs_hard_regressor_capture@5%": -0.016756032171581836,
+      "capture@1%": 0.17024128686327078,
+      "capture@5%": 0.5261394101876675,
+      "capture@10%": 0.7064343163538874,
+      "auc": 0.8910672850124262,
+      "ap": 0.01595564505093196
+    },
+    {
+      "setting": "S200",
+      "model": "HistGradientBoostingRegressor",
+      "radius_m": 200,
+      "target_counts": {
+        "1.0": 3439,
+        "0.5": 11899,
+        "0.25": 19947
+      },
+      "delta_vs_classifier_capture@5%": -0.04021447721179622,
+      "delta_vs_hard_regressor_capture@5%": -0.0489276139410188,
+      "capture@1%": 0.16823056300268097,
+      "capture@5%": 0.49396782841823056,
+      "capture@10%": 0.6789544235924933,
+      "auc": 0.8911242792961167,
+      "ap": 0.01639891905413426
+    },
+    {
+      "setting": "S300",
+      "model": "HistGradientBoostingRegressor",
+      "radius_m": 300,
+      "target_counts": {
+        "1.0": 3439,
+        "0.5": 11899,
+        "0.25": 19947,
+        "0.125": 32452
+      },
+      "delta_vs_classifier_capture@5%": -0.04155495978552276,
+      "delta_vs_hard_regressor_capture@5%": -0.05026809651474534,
+      "capture@1%": 0.17091152815013405,
+      "capture@5%": 0.492627345844504,
+      "capture@10%": 0.6715817694369973,
+      "auc": 0.8936138125863814,
+      "ap": 0.015546424268565819
+    }
+  ],
+  "decision": {
+    "improved_vs_hard_regressor": [],
+    "improved_vs_existing_classifier": [],
+    "best_setting_vs_hard_regressor": null,
+    "soft_label_improved_within_regressor": false
+  },
+  "limitations": "The soft-label model is a regressor, not the original classifier; compare soft vs hard targets within that same regressor to isolate the label. B1 only; no uncertainty interval or 2025/2026 evaluation."
+}
