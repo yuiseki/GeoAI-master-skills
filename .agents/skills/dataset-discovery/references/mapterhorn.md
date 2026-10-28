@@ -90,7 +90,7 @@ PMTiles は HTTP の Range で読める (planet.pmtiles とその複製で 206 �
 | メタデータ | `attribution` だけ (`© Mapterhorn`)。Mapterhorn の版の番号は入っていない |
 
 - 配布元の現行 (版 0.0.13、約 356 GB) より大きい。版が違うと値も違いうるので、使った入口と取得日を書く。
-- 東北のブナの 98 地点で、ズーム 12 の標高と Dryad の地点の標高 (Altitude) を照合した結果は、`projects/beech-masting-spatial-proxy/outputs/terrain_audit.json` (GeoAI-master-skills) にある。
+- 東北のブナの 98 地点で、ズーム 12 の標高と Dryad の地点の標高 (Altitude) を照合した結果は、`projects/_bear/beech-masting-spatial-proxy/outputs/terrain_audit.json` (GeoAI-master-skills) にある。
 
 ## 測ったこと
 

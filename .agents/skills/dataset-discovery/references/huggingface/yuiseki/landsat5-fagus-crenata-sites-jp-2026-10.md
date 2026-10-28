@@ -44,7 +44,7 @@ tables:
 
 # Landsat 5 TM のブナの 102 地点の周りの抽出表
 
-[beech-masting-satellite-proxy](https://github.com/yuiseki/GeoAI-master-skills/tree/main/projects/beech-masting-satellite-proxy) のために作った。豊凶の値 (目的変数) を含まない衛星の観測の表で、[fagus-crenata-masting-jp-2026-06](fagus-crenata-masting-jp-2026-06.md) の `ID` で結ぶ。原典は [Planetary Computer の Landsat C2 L2](../../../references/planetary-computer/landsat-c2-l2.md)。
+[beech-masting-satellite-proxy](https://github.com/yuiseki/GeoAI-master-skills/tree/main/projects/_bear/beech-masting-satellite-proxy) のために作った。豊凶の値 (目的変数) を含まない衛星の観測の表で、[fagus-crenata-masting-jp-2026-06](fagus-crenata-masting-jp-2026-06.md) の `ID` で結ぶ。原典は [Planetary Computer の Landsat C2 L2](../../../references/planetary-computer/landsat-c2-l2.md)。
 
 ## 作り方 (2026-10-28)
 
