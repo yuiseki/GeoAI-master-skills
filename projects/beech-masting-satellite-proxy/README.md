@@ -18,7 +18,7 @@
 
 ## 再現
 
-リポジトリの直下から。抽出 (1、2) は凍結した版を作る手順で、分析は 3 以降が凍結した版を読む。
+リポジトリの直下から。抽出 (1、2) は凍結した版を作る手順で、分析は 3 以降が凍結した版を読む。確認の段 (6) は計画どおり 1 回だけ流す。やり直すときは、出力を消す理由を記録に書いてから消す。
 
 ```sh
 # 1. 抽出 (Planetary Computer。64 並列で約 2 時間。item ごとに保存し、途中から再開できる)
@@ -31,6 +31,22 @@ env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK GDAL_DISABLE_R
 uvx --with rasterio --with pandas --with pyarrow --with huggingface_hub python $S/publish_hf.py build $A
 # 同じ uvx で: publish_hf.py upload $A、publish_hf.py verify $A 939ee55fa7ed45afc7b0a6cec83387c645622d3a
 
+# 3. 被覆の監査 (目的変数を読まない)。規則は outputs/coverage_rule.json に固定済み
+uvx --from 'duckdb>=1.5.5' --with pandas --with numpy python $S/coverage.py 939ee55fa7ed45afc7b0a6cec83387c645622d3a projects/beech-masting-satellite-proxy/outputs
+
+# 4. 季節の値
+uvx --from 'duckdb>=1.5.5' --with pandas --with numpy python $S/features.py projects/beech-masting-satellite-proxy/outputs
+
+# 5. B2 開発期間と仕様の凍結 (仕様のファイルがあれば止まる)
+uvx --from 'duckdb>=1.5.5' --with pandas --with numpy --with pyproj python $S/run_dev.py projects/beech-masting-satellite-proxy/outputs
+
+# 6. B3 確認期間を 1 回 (出力があれば止まる)、B4 反証 (400 回の並べ替えで約 1 時間)
+uvx --from 'duckdb>=1.5.5' --with pandas --with numpy --with pyproj --with pyarrow python $S/run_confirm.py projects/beech-masting-satellite-proxy/outputs $A
+uvx --from 'duckdb>=1.5.5' --with pandas --with numpy --with pyproj --with pyarrow python $S/run_falsify.py projects/beech-masting-satellite-proxy/outputs $A
+
+# 7. 図
+uvx --from 'duckdb>=1.5.5' --with matplotlib --with pandas python $S/plot.py projects/beech-masting-satellite-proxy/outputs
+
 # テスト
-cd $S && uvx --with numpy --with pandas --with pytest --with rasterio python -m pytest -q
+cd $S && uvx --with numpy --with pandas --with pytest --with rasterio --with matplotlib python -m pytest -q
 ```
