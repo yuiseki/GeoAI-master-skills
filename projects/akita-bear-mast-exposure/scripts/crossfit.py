@@ -30,6 +30,15 @@ def key(train):
     return "train_" + "_".join(map(str, train))
 
 
+def pattern(diffs, fits, orig_abs_beta):
+    """The reading fixed in EXPERIMENT_PLAN_CROSSFIT.md (retrospective): C, B or A."""
+    if all(d["diff"] > 0 and d["lo90"] > 0 for d in diffs.values()):
+        return "C"
+    if any(abs(f["beta"]) / f["se_beta"] >= 1.96 and abs(f["beta"]) >= 3 * orig_abs_beta[t] for t, f in fits.items()):
+        return "B"
+    return "A"
+
+
 def summary(s, c):
     import metrics as mt
     from sklearn.metrics import average_precision_score, roc_auc_score
