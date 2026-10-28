@@ -22,3 +22,24 @@ def test_morans_i_sign():
     assert RC.morans_i(clustered, sites) == pytest.approx(1.0)
     alternating = pd.DataFrame({"ID": range(1, 21), "r": np.tile([1.0, -1.0], 10)})
     assert RC.morans_i(alternating, sites) < 0.2
+
+
+def test_flatten_keeps_year_means_and_removes_site_differences():
+    import explore_within_year as E
+    import rows as R
+
+    d = pd.DataFrame({"ID": [1, 2, 1, 2], "t": [2000, 2000, 2001, 2001]})
+    for k, c in enumerate(R.CLIMATE_COLS):
+        d[c] = [1.0 + k, 3.0 + k, 10.0, 20.0]
+    f = E.flatten(d)
+    assert f.dT.tolist() == [2.0, 2.0, 15.0, 15.0]
+    assert f.groupby("t")[R.CLIMATE_COLS].std().max().max() == 0
+
+
+def test_within_year_spearman():
+    import explore_within_year as E
+
+    p = pd.DataFrame({"ID": [1, 2, 3] * 2, "t": [2000] * 3 + [2001] * 3, "y": [0.0, 1, 2, 2, 1, 0],
+                      "model": "a", "pred": [0.1, 0.5, 0.9, 0.1, 0.5, 0.9], "repeat": 0})
+    out = E.within_year(p, ["a"])
+    assert out["a"]["by_year"] == {2000: 1.0, 2001: -1.0} and out["a"]["mean"] == 0.0
