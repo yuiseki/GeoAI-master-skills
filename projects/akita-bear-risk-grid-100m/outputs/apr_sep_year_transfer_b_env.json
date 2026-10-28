@@ -1,0 +1,119 @@
+{
+  "mode": "exploratory year transfer; two fixed Apr-Sep runs only",
+  "setup": {
+    "source": "hf://datasets/yuiseki/akita-kumadas-wildlife-sighting@c7047ab442ea3471aaa52af6e56a966ac768ff61/parquet/sighting.parquet",
+    "grid_json_sha256": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "fixed_input_sha256": {
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282"
+    },
+    "previous_oof_json_sha256": "9d983f25b49b12304591088effc3f86b484327a7808bc69ddb3a7c1f97c40e92",
+    "previous_2025_partial_json_sha256": "0d4314f99121fa0b6fda5bfc8ef9e71cbcc80c9f477ed7cf3e8b5b1c32621bc3",
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "seed": 0,
+    "sklearn_version": "1.9.1",
+    "n_cells": 1168211,
+    "ranking": "metrics.rank_order(seed=0), fractional boundary capture"
+  },
+  "labels": {
+    "2024": {
+      "window_start_inclusive": "2024-04-01T00:00",
+      "window_end_exclusive": "2024-10-01T00:00",
+      "full_inside_reports": 1586,
+      "full_outside_reports": 0,
+      "inside_window_reports": 1205,
+      "outside_window_reports": 0,
+      "positive_cells": 1132
+    },
+    "2025": {
+      "window_start_inclusive": "2025-04-01T00:00",
+      "window_end_exclusive": "2025-10-01T00:00",
+      "full_inside_reports": 13587,
+      "full_outside_reports": 5,
+      "inside_window_reports": 4052,
+      "outside_window_reports": 2,
+      "positive_cells": 3657
+    },
+    "2026": {
+      "window_start_inclusive": "2026-04-01T00:00",
+      "window_end_exclusive": "2026-10-01T00:00",
+      "full_inside_reports": 3366,
+      "full_outside_reports": 3,
+      "inside_window_reports": 3366,
+      "outside_window_reports": 3,
+      "positive_cells": 3036
+    }
+  },
+  "runs": {
+    "2024_to_2025": {
+      "train_year": 2024,
+      "test_year": 2025,
+      "train_positive_cells": 1132,
+      "test_positive_cells": 3657,
+      "capture@1%": 0.18488105004101738,
+      "capture@5%": 0.5302160240634399,
+      "capture@10%": 0.7276456111566858,
+      "auc": 0.9254418859417574,
+      "ap": 0.03751349024455798
+    },
+    "2025_to_2026": {
+      "train_year": 2025,
+      "test_year": 2026,
+      "train_positive_cells": 3657,
+      "test_positive_cells": 3036,
+      "capture@1%": 0.14595191040843233,
+      "capture@5%": 0.47101449275362317,
+      "capture@10%": 0.6940052700922266,
+      "auc": 0.9194472700032931,
+      "ap": 0.025951292420395847
+    }
+  },
+  "capture@5%_2025_to_2026_minus_2024_to_2025": -0.05920153130981676,
+  "limitations": [
+    "reported location is not exact bear location; observation effort may vary",
+    "static features have their original vintage; this is not a causal shift test",
+    "same prefecture cells across years, not spatial holdout; no model selection"
+  ]
+}
