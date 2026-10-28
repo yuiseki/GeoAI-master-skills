@@ -1,6 +1,6 @@
 # 高齢者の交通空白メッシュ：1kmの年齢別人口を100mに配り直しても優先順位は残るか
 
-[論文](paper.md)と[最終報告](report.md)、[実行記録](EXPERIMENT_TRACKER.md)、[事前計画](EXPERIMENT_PLAN.md)をご覧ください。結果は[配分・順位の要約](outputs/allocations-summary.json)、[診断](outputs/diagnostics.json)、[全メッシュの配分](artifacts/_transit/elderly-transit-100m-allocation/mesh-allocations.parquet)に保存しています。
+[論文](paper.md)と[最終報告](report.md)、[実行記録](EXPERIMENT_TRACKER.md)、[事前計画](EXPERIMENT_PLAN.md)をご覧ください。結果は[配分・順位の要約](outputs/allocations-summary.json)、[診断](outputs/diagnostics.json)、全メッシュの配分 (`artifacts/_transit/elderly-transit-100m-allocation/mesh-allocations.parquet`、大きいので git に入れていない)に保存しています。
 
 ## 何をしたか
 

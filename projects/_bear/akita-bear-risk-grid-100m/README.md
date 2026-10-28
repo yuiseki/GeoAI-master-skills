@@ -5,7 +5,7 @@
 - 報告: [report.md](report.md)
 - 計画 (確認の数字を見る前に固定): [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)
 - 実行の記録: [EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md)
-- 地図: [outputs/risk-map-akita.png](outputs/risk-map-akita.png)、[outputs/risk-map-zooms.png](outputs/risk-map-zooms.png)
+- 地図: [outputs/risk-map-akita.png](outputs/risk-map-akita.png)、[outputs/risk-map-zoom-1.png](outputs/risk-map-zoom-1.png)、[2](outputs/risk-map-zoom-2.png)、[3](outputs/risk-map-zoom-3.png)
 
 ```
 scripts/     コードとテスト (pytest)

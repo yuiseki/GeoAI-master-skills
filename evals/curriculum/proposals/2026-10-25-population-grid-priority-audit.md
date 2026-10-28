@@ -14,7 +14,7 @@
 
 | データ | 役割と版 | 注意 |
 |---|---|---|
-| [国勢調査1kmメッシュ](../../../.agents/skills/dataset-discovery/references/estat-census-mesh-2020.md) | 2020-10-01 の `T001140`、`6c486c8`。比較対象の常住人口 | 県境の同一 `KEY_CODE` を合算。人口0のメッシュは行が無い |
+| [国勢調査1kmメッシュ](../../../.agents/skills/dataset-discovery/references/huggingface/yuiseki/estat-census-mesh-2020.md) | 2020-10-01 の `T001140`、`6c486c8`。比較対象の常住人口 | 県境の同一 `KEY_CODE` を合算。人口0のメッシュは行が無い |
 | [GHSL E2020 東アジア5タイル](../../../.agents/skills/dataset-discovery/references/huggingface/yuiseki/ghsl-japan-core-2020-30arcsec.md) | R2023A の推計居住人口、`4ee7674`。代用する人口面 | 国勢調査・行政人口が入力。格子は30秒角で国勢調査の30秒×45秒メッシュと一致しない |
 | [WorldCover 2021 東京周辺](../../../.agents/skills/dataset-discovery/references/huggingface/yuiseki/esa-worldcover-tokyo-2021-100m.md) | v200 を100m単位に集計した `6f006f6`。市街地分類画素などの補助診断 | 2021年で人口より1年遅い。対象は東経139.5〜140.0度、北緯35.5〜36.0度のみ |
 

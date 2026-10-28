@@ -6,13 +6,13 @@
 
 - Python: `~/.venvs/geoai` (uvx はこの環境に無かったので venv を使った)
 - duckdb 2.0.0 (spatial, httpfs), pandas, numpy, scipy, matplotlib, shapely, matplotlib-fontja
-- 実行日: 2026-10-27。データの版は [build_audit.json](../../../artifacts/_evacuation_shelter/tokyo23-daytime-evac-stress/build_audit.json) と [facility_counts.txt](outputs/facility_counts.txt) に残した。
+- 実行日: 2026-10-27。データの版は `artifacts/_evacuation_shelter/tokyo23-daytime-evac-stress/build_audit.json` と [facility_counts.txt](outputs/facility_counts.txt) に残した。
 
 ## 流した順
 
 1. `scripts/recon.py` — 件数だけを数え、ランキングは出さない。633 メッシュ、地震向け指定緊急避難場所の公開が 13 区だけであること、指定避難所が 23 区すべてにあることを確認した。
 2. 計画を書いた ([EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md), 17:16)。主の供給量を指定避難所に変えた判断も、ランキングを計算する前にここへ書いた。
-3. `scripts/build_dataset.py` — [mesh_dataset.parquet](../../../artifacts/_evacuation_shelter/tokyo23-daytime-evac-stress/mesh_dataset.parquet) と [blocks.parquet](../../../artifacts/_evacuation_shelter/tokyo23-daytime-evac-stress/blocks.parquet) を作り、`build_audit.json` を書いた (17:20)。
+3. `scripts/build_dataset.py` — `artifacts/_evacuation_shelter/tokyo23-daytime-evac-stress/mesh_dataset.parquet` と `artifacts/_evacuation_shelter/tokyo23-daytime-evac-stress/blocks.parquet` を作り、`build_audit.json` を書いた (17:20)。
 4. `scripts/analyze.py` — 順位、重なり、半径・年・施設範囲・擬似カウントの比較、MAUP のブロック、Moran's I の入力を作った (17:22)。
 5. `spatial-autocorrelation/scripts/spatial_autocorrelation.py` — 578 メッシュ、k = 3, 6, 12、999 回の並べ替えで、`night_ratio`、`day_ratio`、`delta`、`day19` の全球 Moran's I を測った (12 本の `outputs/moran_*.txt`)。
 6. `scripts/make_figures.py` — 図 1〜3 と同名 JSON を作った (17:28)。文字の抜けは警告をエラーにして止め、3 枚とも 0 件だった。

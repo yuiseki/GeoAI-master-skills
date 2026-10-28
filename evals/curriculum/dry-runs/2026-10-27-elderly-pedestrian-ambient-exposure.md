@@ -38,7 +38,7 @@ pilot の前に、次の予測を固定した。
 | 人流オープンデータ | `mlit-1km-fromto-2022-01@2424a9d9a0518f5575f0af54602eb428ca6d97b2` | `monthly_mdp_mesh1km` の2019年、平日、`timezone` 0/1/2 |
 | 行政界 | `jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135` | `municipalities` の `code5`、`pref_code`、`geometry` |
 
-実行は DuckDB v1.1.3（snap）。`hf://` の直読みは403になったため、Parquet を `curl -L` で `~/geoai-pilot/` に落として読んだ。snap の DuckDB は `/Workspaces` を読めないため、作業データはホームに置いた。SQL は [pilot.sql](../../../artifacts/research-question-pilot-2026-10-27/pilot.sql) に保存した。
+実行は DuckDB v1.1.3（snap）。`hf://` の直読みは403になったため、Parquet を `curl -L` で `~/geoai-pilot/` に落として読んだ。snap の DuckDB は `/Workspaces` を読めないため、作業データはホームに置いた。SQL は `artifacts/research-question-pilot-2026-10-27/pilot.sql` に保存した。
 
 ### 事故の数え方
 
