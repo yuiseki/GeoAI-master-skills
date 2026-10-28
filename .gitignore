@@ -22,5 +22,6 @@ node_modules/
 !/projects/taito-accident-trends-by-role/
 !/projects/tokyo23-daytime-evac-stress/
 !/projects/beech-masting-triggers/
+!/projects/beech-masting-spatial-proxy/
 /artifacts/*
 !/artifacts/sample-project/
