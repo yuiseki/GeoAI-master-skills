@@ -48,3 +48,12 @@ def test_radius_choice_prefers_2km_on_a_tie():
     assert run_dev.choose(0.5005, 0.5) == "2000"
     assert run_dev.choose(0.52, 0.50) == "500"
     assert run_dev.choose(0.50, 0.52) == "2000"
+
+
+def test_judge():
+    import run_confirm
+
+    up, flat = {"diff": 0.01, "lo90": 0.001}, {"diff": 0.01, "lo90": -0.001}
+    assert run_confirm.judge(up, up) == "supported"
+    assert run_confirm.judge(up, flat) == "mixed / not confirmed"
+    assert run_confirm.judge(flat, flat) == "not supported"
