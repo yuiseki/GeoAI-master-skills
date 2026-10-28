@@ -1,0 +1,278 @@
+{
+  "mode": "descriptive Akita-city rank-shift audit on one saved B2 B_env score; no fitting",
+  "definition": {
+    "city": "Akita city, fixed grid_mask.npz municipality code 05201",
+    "score_percentile": "1-(zero_based_city_rank+0.5)/n_city_cells; high means high saved B2 score",
+    "rank": "metrics.rank_order(score,seed=0) on Akita city cells once for both years",
+    "city_top_percent": "rank < ceil(k*n_city_cells), k=1,5,10,25; not the prefecture-wide top set",
+    "deciles": "D1 highest 10% ... D10 lowest 10%; floor(10*rank/n)+1",
+    "positive": "one or more fixed-source bear reports in Apr–Sep 100m cell",
+    "cliffs_delta": "later (2026) minus earlier (2025) percentile orientation; negative means lower scores",
+    "ks": "two-sample KS statistic; no p-value decision"
+  },
+  "setup": {
+    "source": "hf://datasets/yuiseki/akita-kumadas-wildlife-sighting@c7047ab442ea3471aaa52af6e56a966ac768ff61/parquet/sighting.parquet",
+    "grid_json_sha256": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "fixed_input_sha256": {
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282"
+    },
+    "b2_score_npz_sha256": "aa33ceeb78d8ff46cd39388f8884b1d1b20547d163d235ddb65ac74831be82ba",
+    "prior_decomposition_json_sha256": "de66fdc257793c4f35e9c684d7525f040ec1d33857c6e5718ab51a2f781016a3",
+    "n_city_cells": 93189,
+    "city_top_selected_cells": {
+      "1%": 932,
+      "5%": 4660,
+      "10%": 9319,
+      "25%": 23298
+    }
+  },
+  "labels": {
+    "2025": {
+      "window_start_inclusive": "2025-04-01T00:00",
+      "window_end_exclusive": "2025-10-01T00:00",
+      "full_inside_reports": 13587,
+      "full_outside_reports": 5,
+      "inside_window_reports": 4052,
+      "outside_window_reports": 2,
+      "positive_cells": 3657
+    },
+    "2026": {
+      "window_start_inclusive": "2026-04-01T00:00",
+      "window_end_exclusive": "2026-10-01T00:00",
+      "full_inside_reports": 3366,
+      "full_outside_reports": 3,
+      "inside_window_reports": 3366,
+      "outside_window_reports": 3,
+      "positive_cells": 3036
+    }
+  },
+  "years": {
+    "2025": {
+      "n_positive": 599,
+      "percentile": {
+        "q25": 0.8762139308287459,
+        "median": 0.9368863277854682,
+        "q75": 0.9765637575250298
+      },
+      "top_share": {
+        "1%": 0.1302170283806344,
+        "5%": 0.43906510851419034,
+        "10%": 0.679465776293823,
+        "25%": 0.9398998330550918
+      },
+      "deciles": [
+        {
+          "decile": "D1",
+          "n_positive": 407,
+          "share_of_positives": 0.679465776293823
+        },
+        {
+          "decile": "D2",
+          "n_positive": 124,
+          "share_of_positives": 0.20701168614357263
+        },
+        {
+          "decile": "D3",
+          "n_positive": 46,
+          "share_of_positives": 0.07679465776293823
+        },
+        {
+          "decile": "D4",
+          "n_positive": 14,
+          "share_of_positives": 0.02337228714524207
+        },
+        {
+          "decile": "D5",
+          "n_positive": 5,
+          "share_of_positives": 0.008347245409015025
+        },
+        {
+          "decile": "D6",
+          "n_positive": 1,
+          "share_of_positives": 0.001669449081803005
+        },
+        {
+          "decile": "D7",
+          "n_positive": 2,
+          "share_of_positives": 0.00333889816360601
+        },
+        {
+          "decile": "D8",
+          "n_positive": 0,
+          "share_of_positives": 0.0
+        },
+        {
+          "decile": "D9",
+          "n_positive": 0,
+          "share_of_positives": 0.0
+        },
+        {
+          "decile": "D10",
+          "n_positive": 0,
+          "share_of_positives": 0.0
+        }
+      ]
+    },
+    "2026": {
+      "n_positive": 828,
+      "percentile": {
+        "q25": 0.8452687548959641,
+        "median": 0.9089001920827565,
+        "q75": 0.9611166553992424
+      },
+      "top_share": {
+        "1%": 0.07004830917874397,
+        "5%": 0.30193236714975846,
+        "10%": 0.5374396135265701,
+        "25%": 0.9263285024154589
+      },
+      "deciles": [
+        {
+          "decile": "D1",
+          "n_positive": 445,
+          "share_of_positives": 0.5374396135265701
+        },
+        {
+          "decile": "D2",
+          "n_positive": 268,
+          "share_of_positives": 0.32367149758454106
+        },
+        {
+          "decile": "D3",
+          "n_positive": 87,
+          "share_of_positives": 0.10507246376811594
+        },
+        {
+          "decile": "D4",
+          "n_positive": 18,
+          "share_of_positives": 0.021739130434782608
+        },
+        {
+          "decile": "D5",
+          "n_positive": 5,
+          "share_of_positives": 0.006038647342995169
+        },
+        {
+          "decile": "D6",
+          "n_positive": 1,
+          "share_of_positives": 0.0012077294685990338
+        },
+        {
+          "decile": "D7",
+          "n_positive": 4,
+          "share_of_positives": 0.004830917874396135
+        },
+        {
+          "decile": "D8",
+          "n_positive": 0,
+          "share_of_positives": 0.0
+        },
+        {
+          "decile": "D9",
+          "n_positive": 0,
+          "share_of_positives": 0.0
+        },
+        {
+          "decile": "D10",
+          "n_positive": 0,
+          "share_of_positives": 0.0
+        }
+      ]
+    }
+  },
+  "cliffs_delta_2026_minus_2025": -0.17882461106675374,
+  "ks_statistic": 0.15069802327550746,
+  "decile_share_changes": [
+    {
+      "decile": "D2",
+      "share_2025": 0.20701168614357263,
+      "share_2026": 0.32367149758454106,
+      "change_2026_minus_2025": 0.11665981144096843
+    },
+    {
+      "decile": "D3",
+      "share_2025": 0.07679465776293823,
+      "share_2026": 0.10507246376811594,
+      "change_2026_minus_2025": 0.028277806005177708
+    },
+    {
+      "decile": "D7",
+      "share_2025": 0.00333889816360601,
+      "share_2026": 0.004830917874396135,
+      "change_2026_minus_2025": 0.001492019710790125
+    },
+    {
+      "decile": "D10",
+      "share_2025": 0.0,
+      "share_2026": 0.0,
+      "change_2026_minus_2025": 0.0
+    },
+    {
+      "decile": "D8",
+      "share_2025": 0.0,
+      "share_2026": 0.0,
+      "change_2026_minus_2025": 0.0
+    },
+    {
+      "decile": "D9",
+      "share_2025": 0.0,
+      "share_2026": 0.0,
+      "change_2026_minus_2025": 0.0
+    },
+    {
+      "decile": "D6",
+      "share_2025": 0.001669449081803005,
+      "share_2026": 0.0012077294685990338,
+      "change_2026_minus_2025": -0.0004617196132039713
+    },
+    {
+      "decile": "D4",
+      "share_2025": 0.02337228714524207,
+      "share_2026": 0.021739130434782608,
+      "change_2026_minus_2025": -0.0016331567104594623
+    },
+    {
+      "decile": "D5",
+      "share_2025": 0.008347245409015025,
+      "share_2026": 0.006038647342995169,
+      "change_2026_minus_2025": -0.0023085980660198556
+    },
+    {
+      "decile": "D1",
+      "share_2025": 0.679465776293823,
+      "share_2026": 0.5374396135265701,
+      "change_2026_minus_2025": -0.14202616276725288
+    }
+  ],
+  "largest_decile_share_increases": [
+    {
+      "decile": "D2",
+      "share_2025": 0.20701168614357263,
+      "share_2026": 0.32367149758454106,
+      "change_2026_minus_2025": 0.11665981144096843
+    },
+    {
+      "decile": "D3",
+      "share_2025": 0.07679465776293823,
+      "share_2026": 0.10507246376811594,
+      "change_2026_minus_2025": 0.028277806005177708
+    },
+    {
+      "decile": "D7",
+      "share_2025": 0.00333889816360601,
+      "share_2026": 0.004830917874396135,
+      "change_2026_minus_2025": 0.001492019710790125
+    }
+  ],
+  "limitations": [
+    "within-city top 5% is not the prefecture-wide top 5% used for prior recall",
+    "fixed score-percentile shifts are descriptive, not causal explanations",
+    "reported coordinates and reporting effort may vary between years"
+  ]
+}
