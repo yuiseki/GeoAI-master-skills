@@ -23,7 +23,7 @@
     {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "prefecture"},
     {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "KEY_CODE"},
     {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "HTKSYORI"},
-    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140019", "evidence_file": "projects/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140019", "evidence_file": "projects/_transit/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
     {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "mesh1kmid"},
     {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "population"},
     {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "dayflag"},

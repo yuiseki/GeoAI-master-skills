@@ -1,10 +1,10 @@
 # 研究課題候補：台東区における長期浸水・深水域の高齢単身世帯と「見かけの最寄り避難所」の罠・3つの退避レジーム峻別
 
-状態: `research-question-generation` の **digging proposal**（[`projects/taito-shelter-planning/report.md`](../../../projects/taito-shelter-planning/report.md) の知見を深掘り）。正式課題・分析結果ではない。[候補 JSON](2026-10-27-taito-elderly-flood-isolation.json)に対象量、事前の予想、棄却条件を記した。[dry run](../dry-runs/2026-10-27-taito-elderly-flood-isolation.md)には pilot の結果と棄却した3案を残した。
+状態: `research-question-generation` の **digging proposal**（[`projects/_evacuation_shelter/taito-shelter-planning/report.md`](../../../projects/_evacuation_shelter/taito-shelter-planning/report.md) の知見を深掘り）。正式課題・分析結果ではない。[候補 JSON](2026-10-27-taito-elderly-flood-isolation.json)に対象量、事前の予想、棄却条件を記した。[dry run](../dry-runs/2026-10-27-taito-elderly-flood-isolation.md)には pilot の結果と棄却した3案を残した。
 
 ## 先行知見（history anchor）・社会課題・作業仮説・問い
 
-先行プロジェクト [`projects/taito-shelter-planning/report.md`](../../../projects/taito-shelter-planning/report.md) では、東京都台東区の指定緊急避難場所17か所のうち中央〜東側の低地にある14か所（収容計1,870人分）が「荒川が氾濫するおそれがある場合は、開設しない」と規定されており、荒川氾濫時に開くのは西側台地の3か所（上野中学校・忍岡小学校・谷中小学校、計374人分、区民211,444人の0.2%未満）に限られること、また学校・医療機関566候補地の88.9%（503か所）も浸水想定区域内にあることが明らかになった。
+先行プロジェクト [`projects/_evacuation_shelter/taito-shelter-planning/report.md`](../../../projects/_evacuation_shelter/taito-shelter-planning/report.md) では、東京都台東区の指定緊急避難場所17か所のうち中央〜東側の低地にある14か所（収容計1,870人分）が「荒川が氾濫するおそれがある場合は、開設しない」と規定されており、荒川氾濫時に開くのは西側台地の3か所（上野中学校・忍岡小学校・谷中小学校、計374人分、区民211,444人の0.2%未満）に限られること、また学校・医療機関566候補地の88.9%（503か所）も浸水想定区域内にあることが明らかになった。
 
 この現実のもとで、台東区在住者や周囲の人々（家族、町会・自主防災組織、マンション管理組合、地域包括支援センター、民生委員）が大型台風・豪雨接近時に直面する意思決定は、「ただ最寄りの指定避難所を探すこと」ではない。街区ごとに以下の3つの行動方針のどれを採るべきかを事前に見極めることである：
 1. **区内西側台地（上野・谷中）の非浸水施設へ徒歩で事前退避できる街区**

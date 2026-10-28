@@ -28,7 +28,7 @@
     {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "KEY_CODE"},
     {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140001"},
     {"dataset": "yuiseki/osm-japan-src-2026-08", "table": "planet_osm_line", "column": "osm_id"},
-    {"dataset": "yuiseki/osm-japan-src-2026-08", "table": "planet_osm_line", "column": "way", "evidence_file": "projects/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
+    {"dataset": "yuiseki/osm-japan-src-2026-08", "table": "planet_osm_line", "column": "way", "evidence_file": "projects/_transit/tokyo-mainland-elderly-transit-gaps/scripts/analyze.py"},
     {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "code5"},
     {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "geometry"}
   ],

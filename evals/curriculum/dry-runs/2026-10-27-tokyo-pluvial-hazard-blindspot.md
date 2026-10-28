@@ -2,7 +2,7 @@
 
 - **実施日**: 2026-10-27
 - **対象地域**: 東京都23区（3,192町丁目・973.3万人）および台東区（108町丁目・21.1万人）・文京区（109町丁目）
-- **生成モード**: `digging`（`projects/taito-shelter-planning` および `evals/curriculum/proposals/2026-10-27-taito-elderly-flood-isolation.md` の外水ハザードマップ依存に対する反証・深掘り）
+- **生成モード**: `digging`（`projects/_evacuation_shelter/taito-shelter-planning` および `evals/curriculum/proposals/2026-10-27-taito-elderly-flood-isolation.md` の外水ハザードマップ依存に対する反証・深掘り）
 - **使用データセットと固定版**:
   - `yuiseki/tokyo-flood-record-jp@354b0d9f8030347192eaa387500f60da76c07e1a` (`parquet/flood_area.parquet`, `parquet/flood_point.parquet`)
   - `yuiseki/jma-rain-tokyo@4391f7698523f5fd8f7c485a407a20f1545a6fc9` (`parquet/stations.parquet`, `parquet/daily.parquet`, `parquet/hourly.parquet`)

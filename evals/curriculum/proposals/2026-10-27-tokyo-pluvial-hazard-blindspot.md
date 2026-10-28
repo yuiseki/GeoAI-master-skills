@@ -2,7 +2,7 @@
 
 - **提案ID**: `2026-10-27-tokyo-pluvial-hazard-blindspot`
 - **作成日**: 2026-10-27
-- **生成モード**: `digging`（`projects/taito-shelter-planning` および `evals/curriculum/proposals/2026-10-27-taito-elderly-flood-isolation.md` の外水ハザードマップ前提に対する反証・深掘り）
+- **生成モード**: `digging`（`projects/_evacuation_shelter/taito-shelter-planning` および `evals/curriculum/proposals/2026-10-27-taito-elderly-flood-isolation.md` の外水ハザードマップ前提に対する反証・深掘り）
 - **ステータス**: `critic_review`（`validate_candidate.py` 検証通過・パイロット実測済）
 - **パイロット・棄却記録**: `evals/curriculum/dry-runs/2026-10-27-tokyo-pluvial-hazard-blindspot.md`
 
