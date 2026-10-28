@@ -1,0 +1,62 @@
+{
+ "vegetation": "hf://datasets/yuiseki/akita-vegetation-2024@b3b36a0fb6ff027fb1f483be3288df2df76c0cf3/parquet/vegetation_akita.parquet",
+ "polygons": 174576,
+ "polygon_area_km2_epsg6678": 11635.884168774639,
+ "mapping_csv_sha256": "0056cd40953a727e39dd1e6d5348e275f8039ea11bc6554aaba318aee617668f",
+ "grid": {
+  "crs": "EPSG:6678",
+  "x0": -97400.0,
+  "y0": -125100.0,
+  "nx": 1112,
+  "ny": 1819,
+  "size": 100.0,
+  "codes": null,
+  "names": null,
+  "cells_in_prefecture": 1168211
+ },
+ "pixel_m": 10.0,
+ "radii_m": [
+  500,
+  2000
+ ],
+ "polygons_by_category": {
+  "any": 174576,
+  "beech": 3062,
+  "beech_mizunara": 4004,
+  "mizunara": 9963,
+  "konara": 18541,
+  "beech_oak": 35570
+ },
+ "burned_area_km2": {
+  "any": 11635.865,
+  "beech": 1319.5464000000002,
+  "beech_mizunara": 535.0851,
+  "mizunara": 1323.1273,
+  "konara": 960.2486,
+  "beech_oak": 4138.0074
+ },
+ "burned_area_in_prefecture_cells_km2": {
+  "any": 11604.333700000001,
+  "beech": 1316.5451,
+  "beech_mizunara": 534.283,
+  "mizunara": 1322.6543000000001,
+  "konara": 960.197,
+  "beech_oak": 4133.6794
+ },
+ "sum_of_categories_minus_union_km2": 0.0,
+ "prefecture_cells": 1168211,
+ "prefecture_cells_without_mapped_area": 6312,
+ "nan_fraction_in_prefecture_cells": {
+  "beech_fraction_500": 3655,
+  "beech_mizunara_fraction_500": 3655,
+  "mizunara_fraction_500": 3655,
+  "konara_fraction_500": 3655,
+  "beech_oak_fraction_500": 3655,
+  "beech_fraction_2000": 603,
+  "beech_mizunara_fraction_2000": 603,
+  "mizunara_fraction_2000": 603,
+  "konara_fraction_2000": 603,
+  "beech_oak_fraction_2000": 603
+ },
+ "exposure_npz_sha256": "5d5f94f31e178559efb741cd94a3075ddc64f35ca1c10751e23372d840d6347e"
+}
