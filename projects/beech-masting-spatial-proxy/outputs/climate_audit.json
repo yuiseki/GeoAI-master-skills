@@ -1,0 +1,52 @@
+{
+  "sites": 98,
+  "distinct_cells": 81,
+  "max_site_cell_offset_deg": 0.04959999999994125,
+  "months_per_site": [
+    384,
+    384
+  ],
+  "nulls": {
+    "tmax_c": 0,
+    "tmin_c": 0,
+    "precip_mm": 0,
+    "et0_mm": 0
+  },
+  "site_years": 3136,
+  "years": [
+    1979,
+    2010
+  ],
+  "temperature_revision": "348e4599bffe05bc48a7033021b7e212b0f00aad",
+  "water_revision": "b3d1a83d2961580129e6f0222868585dc008c229",
+  "ts_vs_dryad_thsm": {
+    "Ts(YYYY-0)": {
+      "n": 1957,
+      "pearson": 0.8942859119848445,
+      "spearman": 0.8769368997020893
+    },
+    "Ts(YYYY-1)": {
+      "n": 1957,
+      "pearson": -0.2656571792588421,
+      "spearman": -0.2115185038515313
+    }
+  },
+  "season_raw_ranges": {
+    "Ts_raw_c": [
+      17.902206420898438,
+      29.125259399414062
+    ],
+    "Tsp_raw_c": [
+      -0.19482421875,
+      8.955062866210938
+    ],
+    "P_raw_mm": [
+      207.63999938964844,
+      1105.3099365234375
+    ],
+    "PET_raw_mm": [
+      233.67172241210938,
+      381.5340270996094
+    ]
+  }
+}
