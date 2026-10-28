@@ -1,0 +1,56 @@
+{
+  "S1":{
+    "items":{
+      "found":648,
+      "used":648
+    },
+    "rows":21168,
+    "valid_rows":15899,
+    "sites_seen":98,
+    "site_years":2312,
+    "pref_years":120,
+    "years":[
+      2001,
+      2024
+    ],
+    "years_with_fewer_than_98_sites":{
+
+    }
+  },
+  "S2":{
+    "items":{
+      "found":87,
+      "used":75
+    },
+    "rows":2450,
+    "valid_rows":2450,
+    "sites_seen":98,
+    "site_years":2450,
+    "pref_years":125,
+    "years":[
+      2001,
+      2025
+    ],
+    "years_with_fewer_than_98_sites":{
+
+    }
+  },
+  "S3":{
+    "items":{
+      "found":823,
+      "used":814
+    },
+    "rows":26570,
+    "valid_rows":15684,
+    "sites_seen":98,
+    "site_years":1252,
+    "pref_years":119,
+    "years":[
+      2001,
+      2025
+    ],
+    "years_with_fewer_than_98_sites":{
+
+    }
+  }
+}
