@@ -1,0 +1,9 @@
+{
+ "dataset": "yuiseki/landsat5-fagus-crenata-sites-jp-2026-10",
+ "revision": "939ee55fa7ed45afc7b0a6cec83387c645622d3a",
+ "tiers": ["T1"],
+ "min_valid": 79,
+ "min_scenes": 1,
+ "min_years": 3,
+ "decided": "2026-10-28, from outputs/coverage_audit.json only (no outcome read)"
+}
