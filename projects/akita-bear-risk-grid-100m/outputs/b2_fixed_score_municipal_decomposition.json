@@ -1,0 +1,759 @@
+{
+  "mode": "descriptive decomposition on one saved B2 B_env score surface; no fitting",
+  "definition": {
+    "score": "B2 B_env saved scores, trained on fiscal 2023+2024, reused unchanged in both seasons",
+    "top5": "first ceil(0.05*n_prefecture_cells) in metrics.rank_order(score,seed=0), identical for both years",
+    "capture": "captured positive integer cells / all Apr–Sep positive cells; unlike fractional-boundary legacy capture",
+    "municipality": "existing grid_mask.npz cell-centre assignment",
+    "kitagawa": "on municipalities positive in both years: sum((p26-p25)*(r26+r25)/2) + sum((r26-r25)*(p26+p25)/2)",
+    "zero_positive": "undefined recall never imputed; direct capture contribution left unallocated",
+    "missed_share_change": "(n26-h26)/N26 - (n25-h25)/N25; avoids incomparable raw counts"
+  },
+  "setup": {
+    "source": "hf://datasets/yuiseki/akita-kumadas-wildlife-sighting@c7047ab442ea3471aaa52af6e56a966ac768ff61/parquet/sighting.parquet",
+    "grid_json_sha256": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "fixed_input_sha256": {
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282"
+    },
+    "b2_score_npz_sha256": "aa33ceeb78d8ff46cd39388f8884b1d1b20547d163d235ddb65ac74831be82ba",
+    "b2_eval_json_sha256": "53d6bbb64e84b9ef6917056e2c4b7eb2ec55b39aea93cc645e0c7a3ad3b99df6",
+    "prior_composition_json_sha256": "7f61e83fba17b039efb96c00d8541c91dddc9ab216d66b524e118ba6bf6b3b8b",
+    "prior_score_audit_json_sha256": "5dd824fb53adc89f7a75ad965089d125f2f1c24bc2939ddecba9a573baec064b",
+    "n_prefecture_cells": 1168211,
+    "n_selected_top5_cells": 58411,
+    "b2_full_fiscal_year_fractional_capture_reproduced": 0.5515891508994315
+  },
+  "labels": {
+    "2025": {
+      "window_start_inclusive": "2025-04-01T00:00",
+      "window_end_exclusive": "2025-10-01T00:00",
+      "full_inside_reports": 13587,
+      "full_outside_reports": 5,
+      "inside_window_reports": 4052,
+      "outside_window_reports": 2,
+      "positive_cells": 3657
+    },
+    "2026": {
+      "window_start_inclusive": "2026-04-01T00:00",
+      "window_end_exclusive": "2026-10-01T00:00",
+      "full_inside_reports": 3366,
+      "full_outside_reports": 3,
+      "inside_window_reports": 3366,
+      "outside_window_reports": 3,
+      "positive_cells": 3036
+    }
+  },
+  "years": {
+    "2025": {
+      "n_positive": 3657,
+      "n_captured": 2164,
+      "n_missed": 1493,
+      "capture": 0.5917418649165983,
+      "municipalities": [
+        {
+          "code5": "05201",
+          "name": "秋田市",
+          "n_positive": 599,
+          "positive_share": 0.16379546076018595,
+          "n_captured": 413,
+          "n_missed": 186,
+          "recall": 0.6894824707846411
+        },
+        {
+          "code5": "05202",
+          "name": "能代市",
+          "n_positive": 131,
+          "positive_share": 0.035821711785616626,
+          "n_captured": 53,
+          "n_missed": 78,
+          "recall": 0.40458015267175573
+        },
+        {
+          "code5": "05203",
+          "name": "横手市",
+          "n_positive": 181,
+          "positive_share": 0.049494120864096255,
+          "n_captured": 93,
+          "n_missed": 88,
+          "recall": 0.5138121546961326
+        },
+        {
+          "code5": "05204",
+          "name": "大館市",
+          "n_positive": 427,
+          "positive_share": 0.11676237353021603,
+          "n_captured": 323,
+          "n_missed": 104,
+          "recall": 0.7564402810304449
+        },
+        {
+          "code5": "05206",
+          "name": "男鹿市",
+          "n_positive": 45,
+          "positive_share": 0.012305168170631665,
+          "n_captured": 12,
+          "n_missed": 33,
+          "recall": 0.26666666666666666
+        },
+        {
+          "code5": "05207",
+          "name": "湯沢市",
+          "n_positive": 91,
+          "positive_share": 0.024883784522832922,
+          "n_captured": 32,
+          "n_missed": 59,
+          "recall": 0.3516483516483517
+        },
+        {
+          "code5": "05209",
+          "name": "鹿角市",
+          "n_positive": 419,
+          "positive_share": 0.11457478807765928,
+          "n_captured": 255,
+          "n_missed": 164,
+          "recall": 0.6085918854415274
+        },
+        {
+          "code5": "05210",
+          "name": "由利本荘市",
+          "n_positive": 165,
+          "positive_share": 0.045118949958982774,
+          "n_captured": 79,
+          "n_missed": 86,
+          "recall": 0.47878787878787876
+        },
+        {
+          "code5": "05211",
+          "name": "潟上市",
+          "n_positive": 68,
+          "positive_share": 0.018594476346732294,
+          "n_captured": 25,
+          "n_missed": 43,
+          "recall": 0.36764705882352944
+        },
+        {
+          "code5": "05212",
+          "name": "大仙市",
+          "n_positive": 335,
+          "positive_share": 0.0916051408258135,
+          "n_captured": 167,
+          "n_missed": 168,
+          "recall": 0.49850746268656715
+        },
+        {
+          "code5": "05213",
+          "name": "北秋田市",
+          "n_positive": 318,
+          "positive_share": 0.08695652173913043,
+          "n_captured": 234,
+          "n_missed": 84,
+          "recall": 0.7358490566037735
+        },
+        {
+          "code5": "05214",
+          "name": "にかほ市",
+          "n_positive": 80,
+          "positive_share": 0.021875854525567406,
+          "n_captured": 35,
+          "n_missed": 45,
+          "recall": 0.4375
+        },
+        {
+          "code5": "05215",
+          "name": "仙北市",
+          "n_positive": 277,
+          "positive_share": 0.07574514629477715,
+          "n_captured": 160,
+          "n_missed": 117,
+          "recall": 0.5776173285198556
+        },
+        {
+          "code5": "05303",
+          "name": "小坂町",
+          "n_positive": 98,
+          "positive_share": 0.02679792179382007,
+          "n_captured": 53,
+          "n_missed": 45,
+          "recall": 0.5408163265306123
+        },
+        {
+          "code5": "05327",
+          "name": "上小阿仁村",
+          "n_positive": 42,
+          "positive_share": 0.011484823625922888,
+          "n_captured": 35,
+          "n_missed": 7,
+          "recall": 0.8333333333333334
+        },
+        {
+          "code5": "05346",
+          "name": "藤里町",
+          "n_positive": 22,
+          "positive_share": 0.006015859994531037,
+          "n_captured": 14,
+          "n_missed": 8,
+          "recall": 0.6363636363636364
+        },
+        {
+          "code5": "05348",
+          "name": "三種町",
+          "n_positive": 94,
+          "positive_share": 0.0257041290675417,
+          "n_captured": 41,
+          "n_missed": 53,
+          "recall": 0.43617021276595747
+        },
+        {
+          "code5": "05349",
+          "name": "八峰町",
+          "n_positive": 39,
+          "positive_share": 0.01066447908121411,
+          "n_captured": 23,
+          "n_missed": 16,
+          "recall": 0.5897435897435898
+        },
+        {
+          "code5": "05361",
+          "name": "五城目町",
+          "n_positive": 29,
+          "positive_share": 0.007929997265518185,
+          "n_captured": 24,
+          "n_missed": 5,
+          "recall": 0.8275862068965517
+        },
+        {
+          "code5": "05363",
+          "name": "八郎潟町",
+          "n_positive": 4,
+          "positive_share": 0.0010937927262783702,
+          "n_captured": 0,
+          "n_missed": 4,
+          "recall": 0.0
+        },
+        {
+          "code5": "05366",
+          "name": "井川町",
+          "n_positive": 27,
+          "positive_share": 0.007383100902378999,
+          "n_captured": 21,
+          "n_missed": 6,
+          "recall": 0.7777777777777778
+        },
+        {
+          "code5": "05368",
+          "name": "大潟村",
+          "n_positive": 1,
+          "positive_share": 0.00027344818156959256,
+          "n_captured": 0,
+          "n_missed": 1,
+          "recall": 0.0
+        },
+        {
+          "code5": "05434",
+          "name": "美郷町",
+          "n_positive": 63,
+          "positive_share": 0.017227235438884332,
+          "n_captured": 36,
+          "n_missed": 27,
+          "recall": 0.5714285714285714
+        },
+        {
+          "code5": "05463",
+          "name": "羽後町",
+          "n_positive": 74,
+          "positive_share": 0.02023516543614985,
+          "n_captured": 28,
+          "n_missed": 46,
+          "recall": 0.3783783783783784
+        },
+        {
+          "code5": "05464",
+          "name": "東成瀬村",
+          "n_positive": 28,
+          "positive_share": 0.0076565490839485915,
+          "n_captured": 8,
+          "n_missed": 20,
+          "recall": 0.2857142857142857
+        }
+      ]
+    },
+    "2026": {
+      "n_positive": 3036,
+      "n_captured": 1436,
+      "n_missed": 1600,
+      "capture": 0.47299077733860345,
+      "municipalities": [
+        {
+          "code5": "05201",
+          "name": "秋田市",
+          "n_positive": 828,
+          "positive_share": 0.2727272727272727,
+          "n_captured": 454,
+          "n_missed": 374,
+          "recall": 0.5483091787439613
+        },
+        {
+          "code5": "05202",
+          "name": "能代市",
+          "n_positive": 68,
+          "positive_share": 0.022397891963109356,
+          "n_captured": 21,
+          "n_missed": 47,
+          "recall": 0.3088235294117647
+        },
+        {
+          "code5": "05203",
+          "name": "横手市",
+          "n_positive": 206,
+          "positive_share": 0.06785243741765482,
+          "n_captured": 62,
+          "n_missed": 144,
+          "recall": 0.30097087378640774
+        },
+        {
+          "code5": "05204",
+          "name": "大館市",
+          "n_positive": 239,
+          "positive_share": 0.07872200263504611,
+          "n_captured": 169,
+          "n_missed": 70,
+          "recall": 0.7071129707112971
+        },
+        {
+          "code5": "05206",
+          "name": "男鹿市",
+          "n_positive": 132,
+          "positive_share": 0.043478260869565216,
+          "n_captured": 17,
+          "n_missed": 115,
+          "recall": 0.12878787878787878
+        },
+        {
+          "code5": "05207",
+          "name": "湯沢市",
+          "n_positive": 80,
+          "positive_share": 0.026350461133069828,
+          "n_captured": 23,
+          "n_missed": 57,
+          "recall": 0.2875
+        },
+        {
+          "code5": "05209",
+          "name": "鹿角市",
+          "n_positive": 153,
+          "positive_share": 0.05039525691699605,
+          "n_captured": 101,
+          "n_missed": 52,
+          "recall": 0.6601307189542484
+        },
+        {
+          "code5": "05210",
+          "name": "由利本荘市",
+          "n_positive": 268,
+          "positive_share": 0.08827404479578392,
+          "n_captured": 106,
+          "n_missed": 162,
+          "recall": 0.39552238805970147
+        },
+        {
+          "code5": "05211",
+          "name": "潟上市",
+          "n_positive": 46,
+          "positive_share": 0.015151515151515152,
+          "n_captured": 13,
+          "n_missed": 33,
+          "recall": 0.2826086956521739
+        },
+        {
+          "code5": "05212",
+          "name": "大仙市",
+          "n_positive": 279,
+          "positive_share": 0.09189723320158102,
+          "n_captured": 112,
+          "n_missed": 167,
+          "recall": 0.4014336917562724
+        },
+        {
+          "code5": "05213",
+          "name": "北秋田市",
+          "n_positive": 105,
+          "positive_share": 0.03458498023715415,
+          "n_captured": 76,
+          "n_missed": 29,
+          "recall": 0.7238095238095238
+        },
+        {
+          "code5": "05214",
+          "name": "にかほ市",
+          "n_positive": 96,
+          "positive_share": 0.03162055335968379,
+          "n_captured": 25,
+          "n_missed": 71,
+          "recall": 0.2604166666666667
+        },
+        {
+          "code5": "05215",
+          "name": "仙北市",
+          "n_positive": 124,
+          "positive_share": 0.04084321475625823,
+          "n_captured": 68,
+          "n_missed": 56,
+          "recall": 0.5483870967741935
+        },
+        {
+          "code5": "05303",
+          "name": "小坂町",
+          "n_positive": 65,
+          "positive_share": 0.021409749670619236,
+          "n_captured": 44,
+          "n_missed": 21,
+          "recall": 0.676923076923077
+        },
+        {
+          "code5": "05327",
+          "name": "上小阿仁村",
+          "n_positive": 10,
+          "positive_share": 0.0032938076416337285,
+          "n_captured": 9,
+          "n_missed": 1,
+          "recall": 0.9
+        },
+        {
+          "code5": "05346",
+          "name": "藤里町",
+          "n_positive": 17,
+          "positive_share": 0.005599472990777339,
+          "n_captured": 10,
+          "n_missed": 7,
+          "recall": 0.5882352941176471
+        },
+        {
+          "code5": "05348",
+          "name": "三種町",
+          "n_positive": 70,
+          "positive_share": 0.0230566534914361,
+          "n_captured": 30,
+          "n_missed": 40,
+          "recall": 0.42857142857142855
+        },
+        {
+          "code5": "05349",
+          "name": "八峰町",
+          "n_positive": 29,
+          "positive_share": 0.009552042160737812,
+          "n_captured": 14,
+          "n_missed": 15,
+          "recall": 0.4827586206896552
+        },
+        {
+          "code5": "05361",
+          "name": "五城目町",
+          "n_positive": 20,
+          "positive_share": 0.006587615283267457,
+          "n_captured": 11,
+          "n_missed": 9,
+          "recall": 0.55
+        },
+        {
+          "code5": "05363",
+          "name": "八郎潟町",
+          "n_positive": 6,
+          "positive_share": 0.001976284584980237,
+          "n_captured": 2,
+          "n_missed": 4,
+          "recall": 0.3333333333333333
+        },
+        {
+          "code5": "05366",
+          "name": "井川町",
+          "n_positive": 11,
+          "positive_share": 0.0036231884057971015,
+          "n_captured": 8,
+          "n_missed": 3,
+          "recall": 0.7272727272727273
+        },
+        {
+          "code5": "05368",
+          "name": "大潟村",
+          "n_positive": 20,
+          "positive_share": 0.006587615283267457,
+          "n_captured": 1,
+          "n_missed": 19,
+          "recall": 0.05
+        },
+        {
+          "code5": "05434",
+          "name": "美郷町",
+          "n_positive": 37,
+          "positive_share": 0.012187088274044796,
+          "n_captured": 15,
+          "n_missed": 22,
+          "recall": 0.40540540540540543
+        },
+        {
+          "code5": "05463",
+          "name": "羽後町",
+          "n_positive": 103,
+          "positive_share": 0.03392621870882741,
+          "n_captured": 37,
+          "n_missed": 66,
+          "recall": 0.3592233009708738
+        },
+        {
+          "code5": "05464",
+          "name": "東成瀬村",
+          "n_positive": 24,
+          "positive_share": 0.007905138339920948,
+          "n_captured": 8,
+          "n_missed": 16,
+          "recall": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "decomposition": {
+    "delta_capture_2026_minus_2025": -0.11875108757799485,
+    "composition_component": -0.0415639313236078,
+    "within_component": -0.07718715625438707,
+    "unallocated_zero_positive_component": 0.0,
+    "composition_share_of_decline": 0.35000884767736473,
+    "zero_positive_municipalities": [],
+    "municipal_contributions": [
+      {
+        "code5": "05201",
+        "name": "秋田市",
+        "direct_capture_change": 0.03660476794192953,
+        "composition_component": 0.06741744361043994,
+        "within_component": -0.030812675668510404,
+        "missed_share_change": 0.07232704402515724
+      },
+      {
+        "code5": "05202",
+        "name": "能代市",
+        "direct_capture_change": -0.007575757575757576,
+        "composition_component": -0.004788301244501219,
+        "within_component": -0.002787456331256357,
+        "missed_share_change": -0.005848062246749695
+      },
+      {
+        "code5": "05203",
+        "name": "横手市",
+        "direct_capture_change": -0.005009073507842993,
+        "composition_component": 0.007479022379674798,
+        "within_component": -0.012488095887517791,
+        "missed_share_change": 0.023367390061401542
+      },
+      {
+        "code5": "05204",
+        "name": "大館市",
+        "direct_capture_change": -0.032658413503368386,
+        "composition_component": -0.027837054260543923,
+        "within_component": -0.004821359242824456,
+        "missed_share_change": -0.005381957391801525
+      },
+      {
+        "code5": "05206",
+        "name": "男鹿市",
+        "direct_capture_change": 0.002318094811942228,
+        "composition_component": 0.006163770601834588,
+        "within_component": -0.003845675789892361,
+        "missed_share_change": 0.028854997886991324
+      },
+      {
+        "code5": "05207",
+        "name": "湯沢市",
+        "direct_capture_change": -0.001174584234469386,
+        "composition_component": 0.0004687119689170552,
+        "within_component": -0.0016432962033864425,
+        "missed_share_change": 0.0026412608447062905
+      },
+      {
+        "code5": "05209",
+        "name": "鹿角市",
+        "direct_capture_change": -0.03646182911974545,
+        "composition_component": -0.04071301096152825,
+        "within_component": 0.004251181841782811,
+        "missed_share_change": -0.02771770204091779
+      },
+      {
+        "code5": "05210",
+        "name": "由利本荘市",
+        "direct_capture_change": 0.013311954657319706,
+        "composition_component": 0.01886547124129812,
+        "within_component": -0.005553516583978414,
+        "missed_share_change": 0.02984314017948144
+      },
+      {
+        "code5": "05211",
+        "name": "潟上市",
+        "direct_capture_change": -0.0025542546051159666,
+        "composition_component": -0.001119402664813246,
+        "within_component": -0.0014348519403027215,
+        "missed_share_change": -0.0008887065901011758
+      },
+      {
+        "code5": "05212",
+        "name": "大仙市",
+        "direct_capture_change": -0.008775200735824197,
+        "composition_component": 0.0001314329749260877,
+        "within_component": -0.00890663371075028,
+        "missed_share_change": 0.009067293111591712
+      },
+      {
+        "code5": "05213",
+        "name": "北秋田市",
+        "direct_capture_change": -0.03895393641086832,
+        "composition_component": -0.038222284961415394,
+        "within_component": -0.0007316514494529239,
+        "missed_share_change": -0.013417605091107964
+      },
+      {
+        "code5": "05214",
+        "name": "にかほ市",
+        "direct_capture_change": -0.001336167250851417,
+        "composition_component": 0.003400493863988531,
+        "within_component": -0.00473666111483995,
+        "missed_share_change": 0.011080866084967807
+      },
+      {
+        "code5": "05215",
+        "name": "仙北市",
+        "direct_capture_change": -0.021353817088025456,
+        "composition_component": -0.019649864681841118,
+        "within_component": -0.0017039524061843434,
+        "missed_share_change": -0.013548114450493448
+      },
+      {
+        "code5": "05303",
+        "name": "小坂町",
+        "direct_capture_change": 0.0,
+        "composition_component": -0.0032806947535061917,
+        "within_component": 0.0032806947535061913,
+        "missed_share_change": -0.005388172123200835
+      },
+      {
+        "code5": "05327",
+        "name": "上小阿仁村",
+        "direct_capture_change": -0.006606259477465383,
+        "composition_component": -0.007098880519717272,
+        "within_component": 0.000492621042251887,
+        "missed_share_change": -0.0015847565068237749
+      },
+      {
+        "code5": "05346",
+        "name": "藤里町",
+        "direct_capture_change": -0.0005344669003405672,
+        "composition_component": -0.00025495353973154216,
+        "within_component": -0.0002795133606090249,
+        "missed_share_change": 0.00011807989658686952
+      },
+      {
+        "code5": "05348",
+        "name": "三種町",
+        "direct_capture_change": -0.0013299525194521086,
+        "composition_component": -0.0011446911875410994,
+        "within_component": -0.0001852613319110109,
+        "missed_share_change": -0.001317523056653492
+      },
+      {
+        "code5": "05349",
+        "name": "八峰町",
+        "direct_capture_change": -0.0016779774778134093,
+        "composition_component": -0.0005965455280891903,
+        "within_component": -0.0010814319497242186,
+        "missed_share_change": 0.000565540557337112
+      },
+      {
+        "code5": "05361",
+        "name": "五城目町",
+        "direct_capture_change": -0.0029395679518731204,
+        "composition_component": -0.0009246234515675274,
+        "within_component": -0.002014944500305593,
+        "missed_share_change": 0.0015971859696223927
+      },
+      {
+        "code5": "05363",
+        "name": "八郎潟町",
+        "direct_capture_change": 0.0006587615283267457,
+        "composition_component": 0.00014708197645031112,
+        "within_component": 0.0005116795518764345,
+        "missed_share_change": 0.00022373033037512125
+      },
+      {
+        "code5": "05366",
+        "name": "井川町",
+        "direct_capture_change": -0.003107365699654461,
+        "composition_component": -0.0028294291009631455,
+        "within_component": -0.0002779365986913156,
+        "missed_share_change": -0.000652546796927437
+      },
+      {
+        "code5": "05368",
+        "name": "大潟村",
+        "direct_capture_change": 0.00032938076416337287,
+        "composition_component": 0.00015785417754244662,
+        "within_component": 0.00017152658662092626,
+        "missed_share_change": 0.005984786337534491
+      },
+      {
+        "code5": "05434",
+        "name": "美郷町",
+        "direct_capture_change": -0.004903423074054739,
+        "composition_component": -0.002461693499429349,
+        "within_component": -0.0024417295746253904,
+        "missed_share_change": -0.00013672409078479587
+      },
+      {
+        "code5": "05463",
+        "name": "羽後町",
+        "direct_capture_change": 0.0045305391900962045,
+        "composition_component": 0.005049271942993521,
+        "within_component": -0.000518732752897316,
+        "missed_share_change": 0.00916051408258135
+      },
+      {
+        "code5": "05464",
+        "name": "東成瀬村",
+        "direct_capture_change": 0.0004474606607502425,
+        "composition_component": 7.694429351525324e-05,
+        "within_component": 0.00037051636723498904,
+        "missed_share_change": -0.00019887140477788546
+      }
+    ]
+  },
+  "akita_city": {
+    "2025": {
+      "code5": "05201",
+      "name": "秋田市",
+      "n_positive": 599,
+      "positive_share": 0.16379546076018595,
+      "n_captured": 413,
+      "n_missed": 186,
+      "recall": 0.6894824707846411
+    },
+    "2026": {
+      "code5": "05201",
+      "name": "秋田市",
+      "n_positive": 828,
+      "positive_share": 0.2727272727272727,
+      "n_captured": 454,
+      "n_missed": 374,
+      "recall": 0.5483091787439613
+    },
+    "missed_share_change": 0.07232704402515724,
+    "share_of_prefecture_missed_share_increase": 0.6090642662759056,
+    "capture_composition_component": 0.06741744361043994,
+    "capture_within_component": -0.030812675668510404
+  },
+  "limitations": [
+    "fixed B2 score is not refit or calibrated to the seasonal labels",
+    "municipal Kitagawa terms are descriptive, not causal effects",
+    "reporting effort, location precision and bear behaviour can change across years"
+  ]
+}
