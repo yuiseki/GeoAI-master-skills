@@ -1,0 +1,73 @@
+{
+ "inputs": {
+  "grid.json": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+  "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+  "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+  "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+  "eval/b1_dev_2023_to_2024_scores.npz": "743c73ac48d77169f3348971358e45b7cffd0dca58dba5ff1617929fb732404b",
+  "eval/b2_confirm_2023-2024_to_2025_scores.npz": "aa33ceeb78d8ff46cd39388f8884b1d1b20547d163d235ddb65ac74831be82ba",
+  "eval/b3_confirm_2023-2025_to_2026_scores.npz": "9895dbd7b6e89a304a072b92543a5b39088b4363b99b44cf46dcb1d1727460f5",
+  "exposure.npz": "5d5f94f31e178559efb741cd94a3075ddc64f35ca1c10751e23372d840d6347e",
+  "mast_csv": "ca2709b91eb46452221a6f171020909a1c5d2341d6a6b53cf781bb57eb46ec96"
+ },
+ "cells": 1168211,
+ "blocks_10km": 156,
+ "positive_cells": {
+  "2022": 822,
+  "2023": 3439,
+  "2024": 1492,
+  "2025": 10729,
+  "2026": 3036
+ },
+ "reports": {
+  "2022": 864,
+  "2023": 3895,
+  "2024": 1586,
+  "2025": 13587,
+  "2026": 3366
+ },
+ "b_env_capture@5%": {
+  "2024": {
+   "got": 0.5341823056300268,
+   "expect": 0.5341823056300268,
+   "match": true
+  },
+  "2025": {
+   "got": 0.5515891508994315,
+   "expect": 0.5515891508994315,
+   "match": true
+  },
+  "2026": {
+   "got": 0.5391963109354414,
+   "expect": 0.5391963109354414,
+   "match": true
+  }
+ },
+ "mast_scarcity": {
+  "fruiting": {
+   "2023": 4.9,
+   "2024": 2.4,
+   "2025": 5.0,
+   "2026": 1.8
+  },
+  "flowering": {
+   "2023": 4.7,
+   "2024": 2.4,
+   "2025": 4.6,
+   "2026": 1.4
+  }
+ },
+ "exposure_nan_set_to_zero": {
+  "beech_fraction_500": 3655,
+  "beech_mizunara_fraction_500": 3655,
+  "mizunara_fraction_500": 3655,
+  "konara_fraction_500": 3655,
+  "beech_oak_fraction_500": 3655,
+  "beech_fraction_2000": 603,
+  "beech_mizunara_fraction_2000": 603,
+  "mizunara_fraction_2000": 603,
+  "konara_fraction_2000": 603,
+  "beech_oak_fraction_2000": 603
+ },
+ "all_match": true
+}
