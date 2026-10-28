@@ -1,0 +1,123 @@
+{
+  "derived": "table transcribed from PDF; values as printed (index to 0.1)",
+  "source": "https://www.rinya.maff.go.jp/tohoku/sidou/buna.html",
+  "licence": "公共データ利用規約 (第1.0版) (PDL1.0)。出典: 東北森林管理局ウェブサイト",
+  "retrieved": "2026-10-28",
+  "pdfs": {
+    "buna-57.pdf": {
+      "what": "令和8年度の結実状況 (2026-10-06)。表は 1989〜2026 年度",
+      "sha256": "797126ef947b2a1280076def65c08a0cab5c292ff53568a81891bd0a1357671b",
+      "bytes": 266579
+    },
+    "buna-55.pdf": {
+      "what": "令和7年度の結実状況 (2025-11-06)。表は 1989〜2025 年度",
+      "sha256": "7d8a878b6659562d4ecf63f817c789d1792500f74c2c621c5045db196e45108f",
+      "bytes": 257965
+    },
+    "buna-56.pdf": {
+      "what": "令和8年度の開花状況 (2026-07-07)。県別の箇所数",
+      "sha256": "b484a97069a75f417a9dee521ec45fdab242b817c3387acc91ee4c9494b469c2",
+      "bytes": 271195
+    }
+  },
+  "script": "projects/beech-masting-triggers/scripts/tohoku_index.py",
+  "rows": 345,
+  "years": [
+    1989,
+    2026
+  ],
+  "missing_cells": [
+    "1989 青森県 flowering",
+    "1989 岩手県 flowering",
+    "1989 宮城県 flowering",
+    "1989 秋田県 flowering",
+    "1989 山形県 flowering",
+    "1990 秋田県 flowering",
+    "1990 山形県 flowering",
+    "1991 秋田県 flowering",
+    "1991 山形県 flowering",
+    "1992 秋田県 flowering",
+    "1992 山形県 flowering",
+    "1993 秋田県 flowering",
+    "1993 山形県 flowering",
+    "1994 秋田県 flowering",
+    "1994 山形県 flowering",
+    "1995 秋田県 flowering",
+    "1995 山形県 flowering",
+    "1996 秋田県 flowering",
+    "1996 山形県 flowering",
+    "1997 秋田県 flowering",
+    "1997 山形県 flowering",
+    "1998 秋田県 flowering",
+    "1998 山形県 flowering",
+    "1999 秋田県 flowering",
+    "1999 秋田県 fruiting",
+    "1999 山形県 flowering",
+    "1999 山形県 fruiting",
+    "2000 秋田県 flowering",
+    "2000 山形県 flowering",
+    "2001 秋田県 flowering",
+    "2001 山形県 flowering",
+    "2002 秋田県 flowering",
+    "2002 山形県 flowering",
+    "2003 秋田県 flowering",
+    "2003 山形県 flowering"
+  ],
+  "class_below_printed_index_at_threshold": [
+    "2011 山形県 fruiting 凶作 (2.0)"
+  ],
+  "shared_with_previous_release": 335,
+  "differences": 0,
+  "fy2026_recomputed_from_counts": {
+    "青森県 fruiting": {
+      "recomputed": 3.079,
+      "printed": 3.1,
+      "table": 3.1
+    },
+    "岩手県 fruiting": {
+      "recomputed": 3.458,
+      "printed": 3.5,
+      "table": 3.5
+    },
+    "宮城県 fruiting": {
+      "recomputed": 4.0,
+      "printed": 4.0,
+      "table": 4.0
+    },
+    "秋田県 fruiting": {
+      "recomputed": 3.196,
+      "printed": 3.2,
+      "table": 3.2
+    },
+    "山形県 fruiting": {
+      "recomputed": 4.409,
+      "printed": 4.4,
+      "table": 4.4
+    },
+    "青森県 flowering": {
+      "recomputed": 3.395,
+      "printed": 3.4,
+      "table": 3.4
+    },
+    "岩手県 flowering": {
+      "recomputed": 3.458,
+      "printed": 3.5,
+      "table": 3.5
+    },
+    "宮城県 flowering": {
+      "recomputed": 5.0,
+      "printed": 5.0,
+      "table": 5.0
+    },
+    "秋田県 flowering": {
+      "recomputed": 3.64,
+      "printed": 3.6,
+      "table": 3.6
+    },
+    "山形県 flowering": {
+      "recomputed": 3.955,
+      "printed": 4.0,
+      "table": 4.0
+    }
+  }
+}

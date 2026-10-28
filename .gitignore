@@ -21,5 +21,6 @@ node_modules/
 !/projects/bear-risk-sources/
 !/projects/taito-accident-trends-by-role/
 !/projects/tokyo23-daytime-evac-stress/
+!/projects/beech-masting-triggers/
 /artifacts/*
 !/artifacts/sample-project/
