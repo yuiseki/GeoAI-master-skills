@@ -35,7 +35,8 @@
       - [x] `references/ghsl/built-surface.md`: E2020 の日本周辺タイルを実読
     - [x] `references/microsoft-building-footprints.md`: 固定した索引と日本の小さい建物輪郭タイルを実読
     - [x] `references/planetary-computer/README.md`: STAC API、匿名の SAS 署名の 3 つの方法
-      - [ ] コレクションごとのファイル (Sentinel-2 L2A、Landsat C2 L2、HLS、NASADEM、Copernicus DEM、ESA WorldCover、Impact Observatory の土地被覆)
+      - [x] `references/planetary-computer/landsat-c2-l2.md`: Landsat 5 TM の地表面反射率の尺度と QA のビット
+      - [ ] コレクションごとのファイル (Sentinel-2 L2A、HLS、NASADEM、Copernicus DEM、ESA WorldCover、Impact Observatory の土地被覆)
     - [x] `references/global-nature-watch/README.md`: GNW の目録、API キー、レイヤーごとの許諾
       - [x] `references/global-nature-watch/gpw-grasslands.md`: 草地の年次分類と配布元の容量
       - [x] `references/global-nature-watch/integrated-disturbance-alerts.md`: 全球の植生攪乱速報

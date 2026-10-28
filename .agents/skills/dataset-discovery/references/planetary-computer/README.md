@@ -24,7 +24,7 @@ contents:
 
 衛星画像、標高、土地被覆などのラスタの目録。STAC API で範囲と時期から item を探し、COG を Range で読む。
 
-この目録の中のコレクションごとのファイルはまだ書いていない。以前の調査 (未確認)で調べたもの (Sentinel-2 L2A、Landsat C2 L2、HLS、NASADEM) と、下で読めることを確かめたものが候補 (TODO.md)。
+コレクションごとのファイル: [landsat-c2-l2](landsat-c2-l2.md)。ほかはまだ書いていない。以前の調査 (未確認)で調べたもの (Sentinel-2 L2A、Landsat C2 L2、HLS、NASADEM) と、下で読めることを確かめたものが候補 (TODO.md)。
 
 ## 目録の引き方
 
