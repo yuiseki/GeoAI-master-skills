@@ -37,6 +37,18 @@ tables:
   - z
   - x
   - y
+- name: planet_frozen_2026_01_06
+  read: https://z.yuiseki.net/static/mapterhorn/2026-01-06/planet.pmtiles
+  grain: ズーム 0〜12 のタイルの 1 画素。yuiseki の凍結した複製 (2026-01-07 取得)。上書きされないので、実験の入力にはこちらを使う
+  rows: null
+  id:
+  - z
+  - x
+  - y
+  columns:
+  - name: rgb
+    type: WebP (RGB)
+    meaning: Terrarium で符号化した標高。R × 256 + G + B / 256 - 32768 で m に直す
 - name: tiles
   read: https://tiles.mapterhorn.com/{z}/{x}/{y}.webp
   grain: 1 枚のタイル (512 × 512 画素)。TileJSON は https://tiles.mapterhorn.com/tilejson.json
@@ -65,6 +77,20 @@ tables:
 PMTiles は HTTP の Range で読める (planet.pmtiles とその複製で 206 が返った)。一部の範囲だけ要るなら、`pmtiles extract` で範囲を切り出すか、使うタイルだけを読む。planet.pmtiles を丸ごと落とさない。
 
 ファイルの一覧、大きさ、md5、ズームの範囲は `download_urls.json`、配布元とライセンスは `attribution.json`、複製の状態は `mirrorstatus.json` にある。
+
+## 凍結した複製 (z.yuiseki.net)
+
+配布元の planet.pmtiles は上書きで更新されるので、実験の入力には yuiseki の母艦にある日付つきの複製を使う。
+
+| 項目 | 値 (2026-10-28 に読んだ) |
+|---|---|
+| 入口 | `https://z.yuiseki.net/static/mapterhorn/2026-01-06/planet.pmtiles` (2026-01-07 取得)。`static/mapterhorn/planet.pmtiles` (日付なし) は 404 |
+| 大きさ | 663,868,447,387 バイト。HTTP の Range に 206 で答える (HEAD に Range を付けると 200 が返るので、GET で確かめる) |
+| ヘッダー | PMTiles 版 3、ズーム 0〜12、タイル WebP、タイルの圧縮なし、ディレクトリは gzip。タイルの項目 9,396,124、中身 9,318,520 |
+| メタデータ | `attribution` だけ (`© Mapterhorn`)。Mapterhorn の版の番号は入っていない |
+
+- 配布元の現行 (版 0.0.13、約 356 GB) より大きい。版が違うと値も違いうるので、使った入口と取得日を書く。
+- 東北のブナの 98 地点で、ズーム 12 の標高と Dryad の地点の標高 (Altitude) を照合した結果は、`projects/beech-masting-spatial-proxy/outputs/terrain_audit.json` (GeoAI-master-skills) にある。
 
 ## 測ったこと
 

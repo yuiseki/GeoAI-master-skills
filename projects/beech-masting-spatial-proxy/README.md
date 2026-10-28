@@ -15,4 +15,4 @@
 - 目的変数: `yuiseki/fagus-crenata-masting-jp-2026-06` 版 db40a09 (Dryad、Masaki ほか、CC0)。東北 98 地点だけ。北海道 4 地点は別の地域の検証のために読まない。
 - 地形: Mapterhorn の複製 `z.yuiseki.net/static/mapterhorn/2026-01-06/planet.pmtiles` のズーム 12。
 - 気温: `yuiseki/agera5-japan-monthly-temperature-1979-2026` 版 348e459。
-- 水分: AgERA5 の月別降水と基準蒸発散量を Hugging Face に凍結した版 (凍結の後にここへ書く)。
+- 水分: `yuiseki/agera5-japan-monthly-water-1979-2026` 版 b3d1a83 (AgERA5 の月別降水と FAO の月別基準蒸発散量、CC BY-SA 4.0)。この研究のために凍結した。作り方は Hugging Face の `scripts/build.py`。

@@ -104,6 +104,7 @@
       - [x] `references/huggingface/yuiseki/gpw-grasslands-hokkaido-east-2018-2020-250m.md`: Global Pasture Watch 草地分類の東北海道 2018〜2020年版。 CC BY 4.0。Parente et al. と Zenodo の元データを出典表示
       - [x] `references/huggingface/yuiseki/worldpop-idn-population-2015-2030-1km-r2025a.md`: WorldPop R2025A のインドネシア年次人口推計 1 km 格子。 ODbL 1.0 の派生データ。WorldPop 元データの条件も併記し、派生データベースの Share-Alike と帰属表示を守る
       - [x] `references/huggingface/yuiseki/agera5-japan-monthly-temperature-1979-2026.md`: AgERA5 日本周辺の月平均最高・最低気温の格子。 CC BY 4.0。Copernicus Climate Change Service / ECMWF と FAO GIS catalogue を出典表示
+      - [x] `references/huggingface/yuiseki/agera5-japan-monthly-water-1979-2026.md`: AgERA5 日本周辺の月降水量と月基準蒸発散量の格子。 CC BY-SA 4.0。Copernicus Climate Change Service / ECMWF と FAO GIS catalogue を出典表示
       - [x] `references/huggingface/yuiseki/pwt.md`: Penn World Table 11.0 の国・年別マクロ経済指標。 CC BY 4.0。Feenstra, Inklaar, Timmer (2015) と PWT 11.0 の DOI を引用
       - [x] `references/huggingface/yuiseki/undp-hdr.md`: UNDP Human Development Report 2025 の複合指標と時系列。 CC BY 3.0 IGO。UNDP HDR 2025 を出典表示し IGO の条件に従う
       - [x] `references/huggingface/yuiseki/gsj-reports.md`: 産業技術総合研究所 地質調査総合センターの公開報告ページ抽出テキスト。 CC BY 4.0。第三者資料の引用表示を本文から保持

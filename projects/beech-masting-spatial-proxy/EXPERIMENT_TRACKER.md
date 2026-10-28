@@ -4,3 +4,6 @@
 
 | run_id | block_id | claim_id | mode | variant | data_version | status | result_path | deviation | notes |
 |---|---|---|---|---|---|---|---|---|---|
+| R001 | B0 | - | sanity | 水分のコレクションのライセンスの確認 | fao-ferspas collections.parquet (2026-10-28)、FAO GISMGR API | done | - | - | `AGERA5-PF-M` と `AGERA5-ET0-M` は、目録の license 列がどちらも CC-BY-SA-4.0、単位 mm/月、1979-01〜2026-07 (571 か月)。FAO の GISMGR の API の記録にはライセンスの欄が無く、目録の値を根拠にした。凍結した版も CC BY-SA 4.0。日射は月別のコレクションが無いので使わない (計画どおり) |
+| R002 | B0 | - | sanity | 日本周辺の窓 (東経 122〜154 度、北緯 20〜46 度) と 2 つの変数を GeoParquet にして Hugging Face に凍結 | AGERA5-PF-M、AGERA5-ET0-M (FAO の公開ストレージ、2026-10-28) | done | https://huggingface.co/datasets/yuiseki/agera5-japan-monthly-water-1979-2026 (版 b3d1a83d2961580129e6f0222868585dc008c229) | 期間は分析に要る 1981〜2008 年より広い 1979-01〜2026-07 にした。気温の版と同じ期間と格子にそろえ、同じ 3 つの列で結べるようにするため | 47,507,200 行、48 ファイル。各列の値 9,993,071、NULL 37,514,129 (陸でないセル、2 つの列で同じ)。全ての月と列で、出力の値の SHA-256 が原典の窓と一致。上げた 48 ファイルの sha256 が手元と一致 |
+| R003 | B0 | - | sanity | dataset-discovery の reference を追加 (水分の版) と、Mapterhorn の凍結した複製の節 | 上の版、z.yuiseki.net の planet.pmtiles 2026-01-06 | done | .agents/skills/dataset-discovery/references/ | - | 複製は PMTiles 版 3、ズーム 0〜12、663,868,447,387 バイト、Range に 206。メタデータに Mapterhorn の版の番号は無い (未確認のまま記録) |
