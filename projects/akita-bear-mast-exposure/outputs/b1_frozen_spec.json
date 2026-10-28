@@ -1,0 +1,62 @@
+{
+ "frozen": "2026-10-29, after B1 and before any 2025 or 2026 score of M1-M5",
+ "radius_m": 2000,
+ "features": {
+  "M1": "beech_fraction_2000",
+  "M2": "beech_mizunara_fraction_2000",
+  "M3": "mizunara_fraction_2000",
+  "M4": "konara_fraction_2000",
+  "M5": "beech_oak_fraction_2000"
+ },
+ "primary": "M5 retrospective, capture@5% difference from M0 per target year",
+ "mast": {
+  "retrospective": "5 - fruiting index of the same year",
+  "operational": "5 - flowering index of the same year",
+  "values": {
+   "fruiting": {
+    "2023": 4.9,
+    "2024": 2.4,
+    "2025": 5.0,
+    "2026": 1.8
+   },
+   "flowering": {
+    "2023": 4.7,
+    "2024": 2.4,
+    "2025": 4.6,
+    "2026": 1.4
+   }
+  }
+ },
+ "model": "logit P = alpha_t + logit(B_env) [offset] + beta * mast_scarcity(t) * E(c); rank by logit(B_env) + beta * s(target) * E",
+ "splits": {
+  "2025": {
+   "train": [
+    2023,
+    2024
+   ],
+   "surface": "b2_confirm_2023-2024_to_2025"
+  },
+  "2026": {
+   "train": [
+    2023,
+    2024,
+    2025
+   ],
+   "surface": "b3_confirm_2023-2025_to_2026"
+  }
+ },
+ "exposure_nan": "set to 0 (no mapped vegetation within the radius; water)",
+ "bootstrap": {
+  "blocks": "10 km x 10 km (EPSG:6678)",
+  "B": 1000,
+  "seed": 0,
+  "interval": "90%"
+ },
+ "rule": "supported if diff > 0 and lo90 > 0 in both 2025 and 2026; one year only: mixed / not confirmed",
+ "F1": "all 24 permutations of the 2023-2026 retrospective values; passes if at most 2 of the 23 non-identity reach the true capture@5%",
+ "F2": "10 km tiles of the exposure surface permuted (donors >= 90% prefecture cells), 200 times, seed 0, beta refitted; passes if true > 95th percentile",
+ "inputs": {
+  "exposure.npz": "5d5f94f31e178559efb741cd94a3075ddc64f35ca1c10751e23372d840d6347e",
+  "mast_csv": "ca2709b91eb46452221a6f171020909a1c5d2341d6a6b53cf781bb57eb46ec96"
+ }
+}
