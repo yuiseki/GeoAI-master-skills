@@ -1,0 +1,16 @@
+{
+ "revision": "939ee55fa7ed45afc7b0a6cec83387c645622d3a",
+ "files_match": {
+  "PROCESSING.json": true,
+  "README.md": true,
+  "data/items.parquet": true,
+  "data/pixels.parquet": true,
+  "data/site_acquisitions.parquet": true,
+  "data/sites.parquet": true,
+  "scripts/landsat.py": true,
+  "scripts/publish_hf.py": true
+ },
+ "all_files_match": true,
+ "acquisitions_recomputed": 23455,
+ "mismatched_values": 0
+}

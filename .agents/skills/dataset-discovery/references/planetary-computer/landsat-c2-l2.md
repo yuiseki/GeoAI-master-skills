@@ -54,7 +54,7 @@ curl -X POST https://planetarycomputer.microsoft.com/api/stac/v1/search -H 'Cont
 
 ## Hugging Face への凍結
 
-- `yuiseki/` に、地点の周りの抽出表として凍結する (撮影の画像そのものは複製しない)。凍結した版は huggingface/yuiseki/ の reference を見る。
+- ブナの 102 地点の周り 300 m の Landsat 5 の抽出表を [landsat5-fagus-crenata-sites-jp-2026-10](../../references/huggingface/yuiseki/landsat5-fagus-crenata-sites-jp-2026-10.md) に凍結した (撮影の画像そのものは複製しない)。
 
 ## 注意
 

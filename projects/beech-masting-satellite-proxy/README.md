@@ -9,3 +9,28 @@
 - `scripts/`: コードとテスト。
 - `outputs/`: 報告が引く小さな表と図。
 - `artifacts/beech-masting-satellite-proxy/`: 抽出の途中の大きな表 (git に入れない)。
+
+## データ
+
+- 目的変数: `yuiseki/fagus-crenata-masting-jp-2026-06` 版 db40a09 (Dryad、Masaki ほか、CC0)。東北 98 地点。北海道 4 地点の目的変数は、東北の判定が支持されたときだけ読む。
+- 気温: 前のプロジェクトの `projects/beech-masting-spatial-proxy/outputs/site_year_climate.csv` (AgERA5 版 348e459 から作った地点 × 年の夏の気温の偏差) をそのまま読む。
+- 衛星: `yuiseki/landsat5-fagus-crenata-sites-jp-2026-10` 版 939ee55 (Landsat 5 TM Collection 2 Level-2、USGS の public domain)。この研究のために凍結した。
+
+## 再現
+
+リポジトリの直下から。抽出 (1、2) は凍結した版を作る手順で、分析は 3 以降が凍結した版を読む。
+
+```sh
+# 1. 抽出 (Planetary Computer。64 並列で約 2 時間。item ごとに保存し、途中から再開できる)
+S=projects/beech-masting-satellite-proxy/scripts; A=artifacts/beech-masting-satellite-proxy
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK GDAL_DISABLE_READDIR_ON_OPEN=EMPTY_DIR \
+  uvx --from 'duckdb>=1.5.5' --with rasterio --with pyproj --with shapely --with pandas --with pyarrow python $S/landsat.py search $A
+# 同じ uvx で: landsat.py pixels $A --workers 64、landsat.py table $A
+
+# 2. Hugging Face への凍結と照合
+uvx --with rasterio --with pandas --with pyarrow --with huggingface_hub python $S/publish_hf.py build $A
+# 同じ uvx で: publish_hf.py upload $A、publish_hf.py verify $A 939ee55fa7ed45afc7b0a6cec83387c645622d3a
+
+# テスト
+cd $S && uvx --with numpy --with pandas --with pytest --with rasterio python -m pytest -q
+```
