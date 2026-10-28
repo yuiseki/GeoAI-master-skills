@@ -1,0 +1,151 @@
+{
+  "mode": "exploratory same-year spatial OOF diagnostic; not a deployable forecast",
+  "label": {
+    "window_start_inclusive": "2025-04-01T00:00",
+    "window_end_exclusive": "2025-10-01T00:00",
+    "n_full_reports": 13592,
+    "n_full_outside_prefecture_cells": 5,
+    "n_full_inside_reports": 13587,
+    "n_window_reports": 4054,
+    "n_window_outside_prefecture_cells": 2,
+    "n_window_inside_reports": 4052,
+    "n_window_positive_cells": 3657
+  },
+  "setup": {
+    "source": "hf://datasets/yuiseki/akita-kumadas-wildlife-sighting@c7047ab442ea3471aaa52af6e56a966ac768ff61/parquet/sighting.parquet",
+    "source_revision": "c7047ab442ea3471aaa52af6e56a966ac768ff61",
+    "grid_json_sha256": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "fixed_input_sha256": {
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282"
+    },
+    "old_oof_json_sha256": "9d983f25b49b12304591088effc3f86b484327a7808bc69ddb3a7c1f97c40e92",
+    "folds_csv_sha256": "a5ffce9907c31bbe8ed13e358bbb889e11d8aff899c0ceffc6a19350f3e62be0",
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "random_state": 0,
+    "sklearn_version": "1.9.1",
+    "n_cells": 1168211,
+    "n_blocks": 156,
+    "n_folds": 5,
+    "scores_npz": "artifacts/akita-bear-risk-grid-100m/eval/b2_2025_apr_sep_spatial_oof_scores.npz",
+    "scores_npz_sha256": "4a07d8429eee24d499af14cdba6d5b747564f803b8e76e5ad4200642619010d7"
+  },
+  "fold_diagnostics_2025_apr_sep": [
+    {
+      "fold": 0,
+      "n_train": 934577,
+      "n_test": 233634,
+      "positive_train": 2783,
+      "positive_test": 874,
+      "n_test_blocks": 31
+    },
+    {
+      "fold": 1,
+      "n_train": 934580,
+      "n_test": 233631,
+      "positive_train": 2786,
+      "positive_test": 871,
+      "n_test_blocks": 32
+    },
+    {
+      "fold": 2,
+      "n_train": 934570,
+      "n_test": 233641,
+      "positive_train": 3015,
+      "positive_test": 642,
+      "n_test_blocks": 31
+    },
+    {
+      "fold": 3,
+      "n_train": 934581,
+      "n_test": 233630,
+      "positive_train": 3113,
+      "positive_test": 544,
+      "n_test_blocks": 32
+    },
+    {
+      "fold": 4,
+      "n_train": 934536,
+      "n_test": 233675,
+      "positive_train": 2931,
+      "positive_test": 726,
+      "n_test_blocks": 30
+    }
+  ],
+  "comparison": {
+    "2025_full_fiscal_year": {
+      "positive_cells": 10729,
+      "capture@1%": 0.19181657190791312,
+      "capture@5%": 0.5561562121353342,
+      "capture@10%": 0.7889831298350266,
+      "auc": 0.9405759415827627,
+      "ap": 0.13168182507634993
+    },
+    "2025_apr_sep": {
+      "positive_cells": 3657,
+      "capture@1%": 0.16488925348646433,
+      "capture@5%": 0.5299425758818704,
+      "capture@10%": 0.7541700847689363,
+      "auc": 0.9296889939342069,
+      "ap": 0.03560299417653192
+    },
+    "2026_apr_sep": {
+      "positive_cells": 3036,
+      "capture@1%": 0.14393939393939395,
+      "capture@5%": 0.4762845849802372,
+      "capture@10%": 0.7256258234519104,
+      "auc": 0.9216564193750492,
+      "ap": 0.025948961336719187
+    }
+  },
+  "capture@5%_2025_partial_minus_2025_full": -0.026213636253463735,
+  "capture@5%_2025_partial_minus_2026_partial": 0.05365799090163326,
+  "limitations": [
+    "labels are reported locations, not exact bear locations; observation effort can vary by year",
+    "2025 full fiscal year includes October 2025-March 2026; window labels are a subset",
+    "same-year spatial OOF is descriptive and not a future-year forecast",
+    "2025 vs 2026 differences cannot isolate the causal effect of seasonal-window length"
+  ]
+}
