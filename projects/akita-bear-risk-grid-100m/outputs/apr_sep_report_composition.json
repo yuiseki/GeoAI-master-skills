@@ -1,0 +1,979 @@
+{
+  "mode": "exploratory descriptive composition audit; no fitting",
+  "definition": {
+    "source": "hf://datasets/yuiseki/akita-kumadas-wildlife-sighting@c7047ab442ea3471aaa52af6e56a966ac768ff61/parquet/sighting.parquet",
+    "species": "ツキノワグマ",
+    "info_type": "source category, NULL/empty as (欠損)",
+    "municipality": "existing 100m cell-centre label from grid_mask.npz, not source municipality string",
+    "population": "reports in prefecture grid cells only; outside reports listed separately",
+    "positive_cell": "one or more Apr–Sep reports in fixed 100m cell",
+    "share_denominator": "prefecture-inside report count or distinct positive-cell count in that year",
+    "js_divergence": "Jensen–Shannon distance squared with base 2 (bits), 0 identical, 1 disjoint",
+    "top_change": "absolute later-minus-earlier share, in percentage points"
+  },
+  "setup": {
+    "fixed_input_sha256": {
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282"
+    },
+    "grid_json_sha256": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "previous_transfer_json_sha256": "cab2c5c09ebed92169f4b87bdf55c01b1384485e083ff7c735d23b13fae7f9a8",
+    "numpy_version": "2.5.4",
+    "scipy_version": "1.18.1",
+    "script": "projects/akita-bear-risk-grid-100m/scripts/seasonal_report_composition.py"
+  },
+  "years": {
+    "2024": {
+      "window_start_inclusive": "2024-04-01T00:00",
+      "window_end_exclusive": "2024-10-01T00:00",
+      "n_source_window_reports": 1205,
+      "n_outside_prefecture": 0,
+      "n_reports": 1205,
+      "n_positive_cells": 1132,
+      "municipalities": [
+        {
+          "code5": "05201",
+          "name": "秋田市",
+          "report_count": 219,
+          "report_share": 0.1817427385892116,
+          "positive_cell_count": 202,
+          "positive_cell_share": 0.1784452296819788
+        },
+        {
+          "code5": "05202",
+          "name": "能代市",
+          "report_count": 43,
+          "report_share": 0.03568464730290456,
+          "positive_cell_count": 42,
+          "positive_cell_share": 0.037102473498233215
+        },
+        {
+          "code5": "05203",
+          "name": "横手市",
+          "report_count": 45,
+          "report_share": 0.03734439834024896,
+          "positive_cell_count": 44,
+          "positive_cell_share": 0.038869257950530034
+        },
+        {
+          "code5": "05204",
+          "name": "大館市",
+          "report_count": 125,
+          "report_share": 0.1037344398340249,
+          "positive_cell_count": 116,
+          "positive_cell_share": 0.10247349823321555
+        },
+        {
+          "code5": "05206",
+          "name": "男鹿市",
+          "report_count": 5,
+          "report_share": 0.004149377593360996,
+          "positive_cell_count": 5,
+          "positive_cell_share": 0.00441696113074205
+        },
+        {
+          "code5": "05207",
+          "name": "湯沢市",
+          "report_count": 39,
+          "report_share": 0.03236514522821577,
+          "positive_cell_count": 38,
+          "positive_cell_share": 0.03356890459363958
+        },
+        {
+          "code5": "05209",
+          "name": "鹿角市",
+          "report_count": 129,
+          "report_share": 0.10705394190871369,
+          "positive_cell_count": 114,
+          "positive_cell_share": 0.10070671378091872
+        },
+        {
+          "code5": "05210",
+          "name": "由利本荘市",
+          "report_count": 57,
+          "report_share": 0.04730290456431535,
+          "positive_cell_count": 57,
+          "positive_cell_share": 0.05035335689045936
+        },
+        {
+          "code5": "05211",
+          "name": "潟上市",
+          "report_count": 5,
+          "report_share": 0.004149377593360996,
+          "positive_cell_count": 5,
+          "positive_cell_share": 0.00441696113074205
+        },
+        {
+          "code5": "05212",
+          "name": "大仙市",
+          "report_count": 114,
+          "report_share": 0.0946058091286307,
+          "positive_cell_count": 113,
+          "positive_cell_share": 0.09982332155477032
+        },
+        {
+          "code5": "05213",
+          "name": "北秋田市",
+          "report_count": 96,
+          "report_share": 0.07966804979253111,
+          "positive_cell_count": 87,
+          "positive_cell_share": 0.07685512367491167
+        },
+        {
+          "code5": "05214",
+          "name": "にかほ市",
+          "report_count": 22,
+          "report_share": 0.018257261410788383,
+          "positive_cell_count": 21,
+          "positive_cell_share": 0.018551236749116608
+        },
+        {
+          "code5": "05215",
+          "name": "仙北市",
+          "report_count": 76,
+          "report_share": 0.06307053941908713,
+          "positive_cell_count": 74,
+          "positive_cell_share": 0.06537102473498234
+        },
+        {
+          "code5": "05303",
+          "name": "小坂町",
+          "report_count": 52,
+          "report_share": 0.043153526970954356,
+          "positive_cell_count": 48,
+          "positive_cell_share": 0.04240282685512368
+        },
+        {
+          "code5": "05327",
+          "name": "上小阿仁村",
+          "report_count": 2,
+          "report_share": 0.0016597510373443983,
+          "positive_cell_count": 2,
+          "positive_cell_share": 0.0017667844522968198
+        },
+        {
+          "code5": "05346",
+          "name": "藤里町",
+          "report_count": 11,
+          "report_share": 0.009128630705394191,
+          "positive_cell_count": 11,
+          "positive_cell_share": 0.009717314487632508
+        },
+        {
+          "code5": "05348",
+          "name": "三種町",
+          "report_count": 27,
+          "report_share": 0.022406639004149378,
+          "positive_cell_count": 23,
+          "positive_cell_share": 0.020318021201413426
+        },
+        {
+          "code5": "05349",
+          "name": "八峰町",
+          "report_count": 12,
+          "report_share": 0.00995850622406639,
+          "positive_cell_count": 11,
+          "positive_cell_share": 0.009717314487632508
+        },
+        {
+          "code5": "05361",
+          "name": "五城目町",
+          "report_count": 14,
+          "report_share": 0.011618257261410789,
+          "positive_cell_count": 14,
+          "positive_cell_share": 0.012367491166077738
+        },
+        {
+          "code5": "05363",
+          "name": "八郎潟町",
+          "report_count": 1,
+          "report_share": 0.0008298755186721991,
+          "positive_cell_count": 1,
+          "positive_cell_share": 0.0008833922261484099
+        },
+        {
+          "code5": "05366",
+          "name": "井川町",
+          "report_count": 10,
+          "report_share": 0.008298755186721992,
+          "positive_cell_count": 7,
+          "positive_cell_share": 0.006183745583038869
+        },
+        {
+          "code5": "05368",
+          "name": "大潟村",
+          "report_count": 8,
+          "report_share": 0.006639004149377593,
+          "positive_cell_count": 8,
+          "positive_cell_share": 0.007067137809187279
+        },
+        {
+          "code5": "05434",
+          "name": "美郷町",
+          "report_count": 28,
+          "report_share": 0.023236514522821577,
+          "positive_cell_count": 27,
+          "positive_cell_share": 0.023851590106007067
+        },
+        {
+          "code5": "05463",
+          "name": "羽後町",
+          "report_count": 54,
+          "report_share": 0.044813278008298756,
+          "positive_cell_count": 52,
+          "positive_cell_share": 0.045936395759717315
+        },
+        {
+          "code5": "05464",
+          "name": "東成瀬村",
+          "report_count": 11,
+          "report_share": 0.009128630705394191,
+          "positive_cell_count": 10,
+          "positive_cell_share": 0.0088339222614841
+        }
+      ],
+      "info_types": {
+        "人身被害": {
+          "count": 9,
+          "share": 0.007468879668049793
+        },
+        "痕跡(その他)": {
+          "count": 32,
+          "share": 0.026556016597510373
+        },
+        "痕跡(食害)": {
+          "count": 22,
+          "share": 0.018257261410788383
+        },
+        "目撃": {
+          "count": 1142,
+          "share": 0.9477178423236514
+        }
+      }
+    },
+    "2025": {
+      "window_start_inclusive": "2025-04-01T00:00",
+      "window_end_exclusive": "2025-10-01T00:00",
+      "n_source_window_reports": 4054,
+      "n_outside_prefecture": 2,
+      "n_reports": 4052,
+      "n_positive_cells": 3657,
+      "municipalities": [
+        {
+          "code5": "05201",
+          "name": "秋田市",
+          "report_count": 673,
+          "report_share": 0.1660908193484699,
+          "positive_cell_count": 599,
+          "positive_cell_share": 0.16379546076018595
+        },
+        {
+          "code5": "05202",
+          "name": "能代市",
+          "report_count": 137,
+          "report_share": 0.03381046396841066,
+          "positive_cell_count": 131,
+          "positive_cell_share": 0.035821711785616626
+        },
+        {
+          "code5": "05203",
+          "name": "横手市",
+          "report_count": 197,
+          "report_share": 0.048617966436327736,
+          "positive_cell_count": 181,
+          "positive_cell_share": 0.049494120864096255
+        },
+        {
+          "code5": "05204",
+          "name": "大館市",
+          "report_count": 500,
+          "report_share": 0.12339585389930899,
+          "positive_cell_count": 427,
+          "positive_cell_share": 0.11676237353021603
+        },
+        {
+          "code5": "05206",
+          "name": "男鹿市",
+          "report_count": 46,
+          "report_share": 0.011352418558736426,
+          "positive_cell_count": 45,
+          "positive_cell_share": 0.012305168170631665
+        },
+        {
+          "code5": "05207",
+          "name": "湯沢市",
+          "report_count": 91,
+          "report_share": 0.022458045409674235,
+          "positive_cell_count": 91,
+          "positive_cell_share": 0.024883784522832922
+        },
+        {
+          "code5": "05209",
+          "name": "鹿角市",
+          "report_count": 491,
+          "report_share": 0.12117472852912142,
+          "positive_cell_count": 419,
+          "positive_cell_share": 0.11457478807765928
+        },
+        {
+          "code5": "05210",
+          "name": "由利本荘市",
+          "report_count": 171,
+          "report_share": 0.042201382033563675,
+          "positive_cell_count": 165,
+          "positive_cell_share": 0.045118949958982774
+        },
+        {
+          "code5": "05211",
+          "name": "潟上市",
+          "report_count": 73,
+          "report_share": 0.01801579466929911,
+          "positive_cell_count": 68,
+          "positive_cell_share": 0.018594476346732294
+        },
+        {
+          "code5": "05212",
+          "name": "大仙市",
+          "report_count": 364,
+          "report_share": 0.08983218163869694,
+          "positive_cell_count": 335,
+          "positive_cell_share": 0.0916051408258135
+        },
+        {
+          "code5": "05213",
+          "name": "北秋田市",
+          "report_count": 347,
+          "report_share": 0.08563672260612043,
+          "positive_cell_count": 318,
+          "positive_cell_share": 0.08695652173913043
+        },
+        {
+          "code5": "05214",
+          "name": "にかほ市",
+          "report_count": 87,
+          "report_share": 0.021470878578479763,
+          "positive_cell_count": 80,
+          "positive_cell_share": 0.021875854525567406
+        },
+        {
+          "code5": "05215",
+          "name": "仙北市",
+          "report_count": 301,
+          "report_share": 0.07428430404738401,
+          "positive_cell_count": 277,
+          "positive_cell_share": 0.07574514629477715
+        },
+        {
+          "code5": "05303",
+          "name": "小坂町",
+          "report_count": 115,
+          "report_share": 0.028381046396841067,
+          "positive_cell_count": 98,
+          "positive_cell_share": 0.02679792179382007
+        },
+        {
+          "code5": "05327",
+          "name": "上小阿仁村",
+          "report_count": 45,
+          "report_share": 0.011105626850937808,
+          "positive_cell_count": 42,
+          "positive_cell_share": 0.011484823625922888
+        },
+        {
+          "code5": "05346",
+          "name": "藤里町",
+          "report_count": 25,
+          "report_share": 0.006169792694965449,
+          "positive_cell_count": 22,
+          "positive_cell_share": 0.006015859994531037
+        },
+        {
+          "code5": "05348",
+          "name": "三種町",
+          "report_count": 101,
+          "report_share": 0.024925962487660415,
+          "positive_cell_count": 94,
+          "positive_cell_share": 0.0257041290675417
+        },
+        {
+          "code5": "05349",
+          "name": "八峰町",
+          "report_count": 43,
+          "report_share": 0.010612043435340572,
+          "positive_cell_count": 39,
+          "positive_cell_share": 0.01066447908121411
+        },
+        {
+          "code5": "05361",
+          "name": "五城目町",
+          "report_count": 32,
+          "report_share": 0.007897334649555774,
+          "positive_cell_count": 29,
+          "positive_cell_share": 0.007929997265518185
+        },
+        {
+          "code5": "05363",
+          "name": "八郎潟町",
+          "report_count": 4,
+          "report_share": 0.0009871668311944718,
+          "positive_cell_count": 4,
+          "positive_cell_share": 0.0010937927262783702
+        },
+        {
+          "code5": "05366",
+          "name": "井川町",
+          "report_count": 30,
+          "report_share": 0.007403751233958539,
+          "positive_cell_count": 27,
+          "positive_cell_share": 0.007383100902378999
+        },
+        {
+          "code5": "05368",
+          "name": "大潟村",
+          "report_count": 1,
+          "report_share": 0.00024679170779861795,
+          "positive_cell_count": 1,
+          "positive_cell_share": 0.00027344818156959256
+        },
+        {
+          "code5": "05434",
+          "name": "美郷町",
+          "report_count": 69,
+          "report_share": 0.01702862783810464,
+          "positive_cell_count": 63,
+          "positive_cell_share": 0.017227235438884332
+        },
+        {
+          "code5": "05463",
+          "name": "羽後町",
+          "report_count": 80,
+          "report_share": 0.019743336623889437,
+          "positive_cell_count": 74,
+          "positive_cell_share": 0.02023516543614985
+        },
+        {
+          "code5": "05464",
+          "name": "東成瀬村",
+          "report_count": 29,
+          "report_share": 0.007156959526159921,
+          "positive_cell_count": 28,
+          "positive_cell_share": 0.0076565490839485915
+        }
+      ],
+      "info_types": {
+        "人身被害": {
+          "count": 18,
+          "share": 0.004442250740375123
+        },
+        "痕跡(その他)": {
+          "count": 90,
+          "share": 0.022211253701875617
+        },
+        "痕跡(食害)": {
+          "count": 167,
+          "share": 0.0412142152023692
+        },
+        "目撃": {
+          "count": 3777,
+          "share": 0.9321322803553801
+        }
+      }
+    },
+    "2026": {
+      "window_start_inclusive": "2026-04-01T00:00",
+      "window_end_exclusive": "2026-10-01T00:00",
+      "n_source_window_reports": 3369,
+      "n_outside_prefecture": 3,
+      "n_reports": 3366,
+      "n_positive_cells": 3036,
+      "municipalities": [
+        {
+          "code5": "05201",
+          "name": "秋田市",
+          "report_count": 1013,
+          "report_share": 0.30095068330362446,
+          "positive_cell_count": 828,
+          "positive_cell_share": 0.2727272727272727
+        },
+        {
+          "code5": "05202",
+          "name": "能代市",
+          "report_count": 71,
+          "report_share": 0.02109328579916815,
+          "positive_cell_count": 68,
+          "positive_cell_share": 0.022397891963109356
+        },
+        {
+          "code5": "05203",
+          "name": "横手市",
+          "report_count": 221,
+          "report_share": 0.06565656565656566,
+          "positive_cell_count": 206,
+          "positive_cell_share": 0.06785243741765482
+        },
+        {
+          "code5": "05204",
+          "name": "大館市",
+          "report_count": 277,
+          "report_share": 0.08229352346999406,
+          "positive_cell_count": 239,
+          "positive_cell_share": 0.07872200263504611
+        },
+        {
+          "code5": "05206",
+          "name": "男鹿市",
+          "report_count": 144,
+          "report_share": 0.0427807486631016,
+          "positive_cell_count": 132,
+          "positive_cell_share": 0.043478260869565216
+        },
+        {
+          "code5": "05207",
+          "name": "湯沢市",
+          "report_count": 84,
+          "report_share": 0.024955436720142603,
+          "positive_cell_count": 80,
+          "positive_cell_share": 0.026350461133069828
+        },
+        {
+          "code5": "05209",
+          "name": "鹿角市",
+          "report_count": 158,
+          "report_share": 0.046939988116458706,
+          "positive_cell_count": 153,
+          "positive_cell_share": 0.05039525691699605
+        },
+        {
+          "code5": "05210",
+          "name": "由利本荘市",
+          "report_count": 285,
+          "report_share": 0.08467023172905526,
+          "positive_cell_count": 268,
+          "positive_cell_share": 0.08827404479578392
+        },
+        {
+          "code5": "05211",
+          "name": "潟上市",
+          "report_count": 48,
+          "report_share": 0.0142602495543672,
+          "positive_cell_count": 46,
+          "positive_cell_share": 0.015151515151515152
+        },
+        {
+          "code5": "05212",
+          "name": "大仙市",
+          "report_count": 291,
+          "report_share": 0.08645276292335116,
+          "positive_cell_count": 279,
+          "positive_cell_share": 0.09189723320158102
+        },
+        {
+          "code5": "05213",
+          "name": "北秋田市",
+          "report_count": 112,
+          "report_share": 0.033273915626856804,
+          "positive_cell_count": 105,
+          "positive_cell_share": 0.03458498023715415
+        },
+        {
+          "code5": "05214",
+          "name": "にかほ市",
+          "report_count": 99,
+          "report_share": 0.029411764705882353,
+          "positive_cell_count": 96,
+          "positive_cell_share": 0.03162055335968379
+        },
+        {
+          "code5": "05215",
+          "name": "仙北市",
+          "report_count": 133,
+          "report_share": 0.039512774806892456,
+          "positive_cell_count": 124,
+          "positive_cell_share": 0.04084321475625823
+        },
+        {
+          "code5": "05303",
+          "name": "小坂町",
+          "report_count": 69,
+          "report_share": 0.020499108734402853,
+          "positive_cell_count": 65,
+          "positive_cell_share": 0.021409749670619236
+        },
+        {
+          "code5": "05327",
+          "name": "上小阿仁村",
+          "report_count": 10,
+          "report_share": 0.0029708853238265003,
+          "positive_cell_count": 10,
+          "positive_cell_share": 0.0032938076416337285
+        },
+        {
+          "code5": "05346",
+          "name": "藤里町",
+          "report_count": 17,
+          "report_share": 0.005050505050505051,
+          "positive_cell_count": 17,
+          "positive_cell_share": 0.005599472990777339
+        },
+        {
+          "code5": "05348",
+          "name": "三種町",
+          "report_count": 71,
+          "report_share": 0.02109328579916815,
+          "positive_cell_count": 70,
+          "positive_cell_share": 0.0230566534914361
+        },
+        {
+          "code5": "05349",
+          "name": "八峰町",
+          "report_count": 31,
+          "report_share": 0.00920974450386215,
+          "positive_cell_count": 29,
+          "positive_cell_share": 0.009552042160737812
+        },
+        {
+          "code5": "05361",
+          "name": "五城目町",
+          "report_count": 23,
+          "report_share": 0.006833036244800951,
+          "positive_cell_count": 20,
+          "positive_cell_share": 0.006587615283267457
+        },
+        {
+          "code5": "05363",
+          "name": "八郎潟町",
+          "report_count": 6,
+          "report_share": 0.0017825311942959,
+          "positive_cell_count": 6,
+          "positive_cell_share": 0.001976284584980237
+        },
+        {
+          "code5": "05366",
+          "name": "井川町",
+          "report_count": 11,
+          "report_share": 0.0032679738562091504,
+          "positive_cell_count": 11,
+          "positive_cell_share": 0.0036231884057971015
+        },
+        {
+          "code5": "05368",
+          "name": "大潟村",
+          "report_count": 20,
+          "report_share": 0.0059417706476530005,
+          "positive_cell_count": 20,
+          "positive_cell_share": 0.006587615283267457
+        },
+        {
+          "code5": "05434",
+          "name": "美郷町",
+          "report_count": 38,
+          "report_share": 0.0112893642305407,
+          "positive_cell_count": 37,
+          "positive_cell_share": 0.012187088274044796
+        },
+        {
+          "code5": "05463",
+          "name": "羽後町",
+          "report_count": 109,
+          "report_share": 0.03238265002970885,
+          "positive_cell_count": 103,
+          "positive_cell_share": 0.03392621870882741
+        },
+        {
+          "code5": "05464",
+          "name": "東成瀬村",
+          "report_count": 25,
+          "report_share": 0.0074272133095662505,
+          "positive_cell_count": 24,
+          "positive_cell_share": 0.007905138339920948
+        }
+      ],
+      "info_types": {
+        "人身被害": {
+          "count": 8,
+          "share": 0.0023767082590612004
+        },
+        "痕跡(その他)": {
+          "count": 95,
+          "share": 0.028223410576351752
+        },
+        "痕跡(食害)": {
+          "count": 18,
+          "share": 0.0053475935828877
+        },
+        "目撃": {
+          "count": 3245,
+          "share": 0.9640522875816994
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "2024_to_2025": {
+      "municipal_report_count": {
+        "js_divergence_bits": 0.018857468656321017,
+        "largest_share_changes": [
+          {
+            "category": "05463",
+            "earlier_share": 0.044813278008298756,
+            "later_share": 0.019743336623889437,
+            "change_percentage_points": -2.5069941384409318,
+            "absolute_change_percentage_points": 2.5069941384409318,
+            "name": "羽後町"
+          },
+          {
+            "category": "05204",
+            "earlier_share": 0.1037344398340249,
+            "later_share": 0.12339585389930899,
+            "change_percentage_points": 1.9661414065284086,
+            "absolute_change_percentage_points": 1.9661414065284086,
+            "name": "大館市"
+          },
+          {
+            "category": "05201",
+            "earlier_share": 0.1817427385892116,
+            "later_share": 0.1660908193484699,
+            "change_percentage_points": -1.5651919240741718,
+            "absolute_change_percentage_points": 1.5651919240741718,
+            "name": "秋田市"
+          },
+          {
+            "category": "05303",
+            "earlier_share": 0.043153526970954356,
+            "later_share": 0.028381046396841067,
+            "change_percentage_points": -1.477248057411329,
+            "absolute_change_percentage_points": 1.477248057411329,
+            "name": "小坂町"
+          },
+          {
+            "category": "05209",
+            "earlier_share": 0.10705394190871369,
+            "later_share": 0.12117472852912142,
+            "change_percentage_points": 1.4120786620407735,
+            "absolute_change_percentage_points": 1.4120786620407735,
+            "name": "鹿角市"
+          }
+        ],
+        "n_categories": 25
+      },
+      "municipal_positive_cell_count": {
+        "js_divergence_bits": 0.019491156518943977,
+        "largest_share_changes": [
+          {
+            "category": "05463",
+            "earlier_share": 0.045936395759717315,
+            "later_share": 0.02023516543614985,
+            "change_percentage_points": -2.5701230323567468,
+            "absolute_change_percentage_points": 2.5701230323567468,
+            "name": "羽後町"
+          },
+          {
+            "category": "05303",
+            "earlier_share": 0.04240282685512368,
+            "later_share": 0.02679792179382007,
+            "change_percentage_points": -1.5604905061303607,
+            "absolute_change_percentage_points": 1.5604905061303607,
+            "name": "小坂町"
+          },
+          {
+            "category": "05201",
+            "earlier_share": 0.1784452296819788,
+            "later_share": 0.16379546076018595,
+            "change_percentage_points": -1.4649768921792843,
+            "absolute_change_percentage_points": 1.4649768921792843,
+            "name": "秋田市"
+          },
+          {
+            "category": "05204",
+            "earlier_share": 0.10247349823321555,
+            "later_share": 0.11676237353021603,
+            "change_percentage_points": 1.4288875297000472,
+            "absolute_change_percentage_points": 1.4288875297000472,
+            "name": "大館市"
+          },
+          {
+            "category": "05211",
+            "earlier_share": 0.00441696113074205,
+            "later_share": 0.018594476346732294,
+            "change_percentage_points": 1.4177515215990244,
+            "absolute_change_percentage_points": 1.4177515215990244,
+            "name": "潟上市"
+          }
+        ],
+        "n_categories": 25
+      },
+      "info_type_count": {
+        "js_divergence_bits": 0.0037475773259386357,
+        "largest_share_changes": [
+          {
+            "category": "痕跡(食害)",
+            "earlier_share": 0.018257261410788383,
+            "later_share": 0.0412142152023692,
+            "change_percentage_points": 2.295695379158082,
+            "absolute_change_percentage_points": 2.295695379158082
+          },
+          {
+            "category": "目撃",
+            "earlier_share": 0.9477178423236514,
+            "later_share": 0.9321322803553801,
+            "change_percentage_points": -1.5585561968271322,
+            "absolute_change_percentage_points": 1.5585561968271322
+          },
+          {
+            "category": "痕跡(その他)",
+            "earlier_share": 0.026556016597510373,
+            "later_share": 0.022211253701875617,
+            "change_percentage_points": -0.4344762895634756,
+            "absolute_change_percentage_points": 0.4344762895634756
+          },
+          {
+            "category": "人身被害",
+            "earlier_share": 0.007468879668049793,
+            "later_share": 0.004442250740375123,
+            "change_percentage_points": -0.30266289276746694,
+            "absolute_change_percentage_points": 0.30266289276746694
+          }
+        ],
+        "n_categories": 4
+      }
+    },
+    "2025_to_2026": {
+      "municipal_report_count": {
+        "js_divergence_bits": 0.06393085772040205,
+        "largest_share_changes": [
+          {
+            "category": "05201",
+            "earlier_share": 0.1660908193484699,
+            "later_share": 0.30095068330362446,
+            "change_percentage_points": 13.485986395515456,
+            "absolute_change_percentage_points": 13.485986395515456,
+            "name": "秋田市"
+          },
+          {
+            "category": "05209",
+            "earlier_share": 0.12117472852912142,
+            "later_share": 0.046939988116458706,
+            "change_percentage_points": -7.423474041266272,
+            "absolute_change_percentage_points": 7.423474041266272,
+            "name": "鹿角市"
+          },
+          {
+            "category": "05213",
+            "earlier_share": 0.08563672260612043,
+            "later_share": 0.033273915626856804,
+            "change_percentage_points": -5.236280697926363,
+            "absolute_change_percentage_points": 5.236280697926363,
+            "name": "北秋田市"
+          },
+          {
+            "category": "05210",
+            "earlier_share": 0.042201382033563675,
+            "later_share": 0.08467023172905526,
+            "change_percentage_points": 4.246884969549159,
+            "absolute_change_percentage_points": 4.246884969549159,
+            "name": "由利本荘市"
+          },
+          {
+            "category": "05204",
+            "earlier_share": 0.12339585389930899,
+            "later_share": 0.08229352346999406,
+            "change_percentage_points": -4.110233042931492,
+            "absolute_change_percentage_points": 4.110233042931492,
+            "name": "大館市"
+          }
+        ],
+        "n_categories": 25
+      },
+      "municipal_positive_cell_count": {
+        "js_divergence_bits": 0.055640201857123366,
+        "largest_share_changes": [
+          {
+            "category": "05201",
+            "earlier_share": 0.16379546076018595,
+            "later_share": 0.2727272727272727,
+            "change_percentage_points": 10.893181196708676,
+            "absolute_change_percentage_points": 10.893181196708676,
+            "name": "秋田市"
+          },
+          {
+            "category": "05209",
+            "earlier_share": 0.11457478807765928,
+            "later_share": 0.05039525691699605,
+            "change_percentage_points": -6.4179531160663235,
+            "absolute_change_percentage_points": 6.4179531160663235,
+            "name": "鹿角市"
+          },
+          {
+            "category": "05213",
+            "earlier_share": 0.08695652173913043,
+            "later_share": 0.03458498023715415,
+            "change_percentage_points": -5.237154150197628,
+            "absolute_change_percentage_points": 5.237154150197628,
+            "name": "北秋田市"
+          },
+          {
+            "category": "05210",
+            "earlier_share": 0.045118949958982774,
+            "later_share": 0.08827404479578392,
+            "change_percentage_points": 4.315509483680115,
+            "absolute_change_percentage_points": 4.315509483680115,
+            "name": "由利本荘市"
+          },
+          {
+            "category": "05204",
+            "earlier_share": 0.11676237353021603,
+            "later_share": 0.07872200263504611,
+            "change_percentage_points": -3.8040370895169913,
+            "absolute_change_percentage_points": 3.8040370895169913,
+            "name": "大館市"
+          }
+        ],
+        "n_categories": 25
+      },
+      "info_type_count": {
+        "js_divergence_bits": 0.011988028029078628,
+        "largest_share_changes": [
+          {
+            "category": "痕跡(食害)",
+            "earlier_share": 0.0412142152023692,
+            "later_share": 0.0053475935828877,
+            "change_percentage_points": -3.58666216194815,
+            "absolute_change_percentage_points": 3.58666216194815
+          },
+          {
+            "category": "目撃",
+            "earlier_share": 0.9321322803553801,
+            "later_share": 0.9640522875816994,
+            "change_percentage_points": 3.192000722631927,
+            "absolute_change_percentage_points": 3.192000722631927
+          },
+          {
+            "category": "痕跡(その他)",
+            "earlier_share": 0.022211253701875617,
+            "later_share": 0.028223410576351752,
+            "change_percentage_points": 0.6012156874476136,
+            "absolute_change_percentage_points": 0.6012156874476136
+          },
+          {
+            "category": "人身被害",
+            "earlier_share": 0.004442250740375123,
+            "later_share": 0.0023767082590612004,
+            "change_percentage_points": -0.20655424813139228,
+            "absolute_change_percentage_points": 0.20655424813139228
+          }
+        ],
+        "n_categories": 4
+      }
+    }
+  },
+  "limitations": [
+    "grid-based municipality assignment may differ from the source municipality text near boundaries",
+    "info_type and municipal composition may change because of bear behaviour as well as observation/reporting process",
+    "composition shift alone does not identify reporting bias or the cause of model performance change"
+  ]
+}
