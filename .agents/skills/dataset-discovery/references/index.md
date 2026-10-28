@@ -19,7 +19,7 @@
 | [planetary-computer-landsat-c2-l2](planetary-computer/landsat-c2-l2.md) | USGS Landsat Collection 2 Level-2 の地表面反射率と QA の 30 m COG (public domain) | 全世界 | 1982〜、撮影ごと |
 | [landsat5-fagus-crenata-sites-jp-2026-10](huggingface/yuiseki/landsat5-fagus-crenata-sites-jp-2026-10.md) | ブナの 102 地点の周り 300 m の Landsat 5 TM の地点 × 撮影の抽出表 (反射率、QA、NDVI、NDMI) | 東北と渡島半島の 102 地点 | 1989〜2008 年の 4〜5 月と 7〜8 月 |
 | [global-nature-watch/](global-nature-watch/README.md) | 目録。草地、植生攪乱、森林損失要因、森林タイプ。API と許諾はレイヤーごと | 全球を中心にレイヤーごと | 年次図、速報、2020 年基準図 |
-| [huggingface/yuiseki/](huggingface/yuiseki/README.md) | 目録。yuiseki の公開一覧のうち地理分析向けに確認した固定版83件。元データのカードとは区別 | 東京周辺、日本、東アジア、韓国、全球など | 個別のデータ時点と commit SHA に固定 |
+| [huggingface/yuiseki/](huggingface/yuiseki/README.md) | 目録。yuiseki の公開一覧のうち地理分析向けに確認した固定版86件。元データのカードとは区別 | 東京周辺、日本、東アジア、韓国、全球など | 個別のデータ時点と commit SHA に固定 |
 | [mlit-nlftp/](mlit-nlftp/README.md) | 目録。国土数値情報 (鉄道、医療機関、浸水想定、将来推計人口など) | 日本 | 年ごと |
 | [tokyo-ckan/](tokyo-ckan/README.md) | 目録。東京都と区市町村のオープンデータ (施設一覧、統計表) | 東京都 | データセットごと |
 | [fao-ferspas/](fao-ferspas/README.md) | 目録。FAO の農業・食料・気候のラスタ (COG) | 全世界 | コレクションごと |
@@ -70,6 +70,8 @@
 | [global-fishing-watch/](global-fishing-watch/README.md) | 目録。非商用の漁業活動推定など。API は token が必要で実データは未取得 | AIS 等の観測できる海域 | 2026-10-21 から latest は v5 |
 | [tokyo-flood-record-jp](huggingface/yuiseki/tokyo-flood-record-jp.md) | 東京都の浸水実績図 (1974〜2019年の43年分、浸水区域の面 5,845 行と点 121 行、棟数・世帯数・原因・最寄り雨量) | 東京都 (23区・多摩・島しょ) | 1974〜2019年、2026-10-26 取得 |
 | [fagus-crenata-masting-jp-2026-06](huggingface/yuiseki/fagus-crenata-masting-jp-2026-06.md) | ブナの結実の 4 段階の評価 (地点 × 年)、夏と春の気温の手がかり、カヌマ沢の種子トラップ、個体群モデルの推定値 | 東北 98 地点と北海道渡島半島 4 地点の点 | 1989〜2008年、Dryad 版 5 (2026-06-05) |
+| [akita-vegetation-2024](huggingface/yuiseki/akita-vegetation-2024.md) | 現存植生図2024 の群落の面 (凡例名、植生区分、植生自然度)。ブナ、ミズナラ、コナラの群落を識別できる (PDL1.0) | 秋田県 | 作成年度 2001〜2022、2026-10-28 取得 |
+| [akita-forest-resource-mesh-2026](huggingface/yuiseki/akita-forest-resource-mesh-2026.md) | 全国森林資源メッシュの 20 m セル (林種、森林簿樹種、林齢、民有林・国有林、市町村)。広葉樹は 1 区分でブナとナラを分けられない (PDL1.0) | 秋田県の陸地全体 | 森林簿 2019〜2024、2026-10-28 取得 |
 | [jma-rain-tokyo](huggingface/yuiseki/jma-rain-tokyo.md) | 気象庁の東京都内31観測所の日別 (588,783行) と時間別 (8,660,976行) の降水量、品質・均質番号つき | 東京都内31観測所 (本土11・島しょ20) | 1974〜2025年、2026-10-26 取得 |
 
 ## サービス

@@ -16,7 +16,7 @@ contents:
 
 # yuiseki の Hugging Face 地理データ
 
-2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開94件を確認した (2026-10-26 の午後に7件増えた分を含む)。以下はこのディレクトリに置いた83件 (2026-10-28 に数えた) で、GeoAI での用途と実ファイルを確認した。別の目録にある WorldPop 日本版 (`worldpop/japan.md`) も含め、未掲載候補は下に判断理由を記す。固定 SHA を含む `read` URL は移動しない版を指す。固定 SHA のない既存カードを更新するときは API の `sha` と `siblings` を再確認する。
+2026-10-26 に[公開一覧](https://huggingface.co/yuiseki/datasets)と Hugging Face Hub API の `GET /api/datasets?author=yuiseki&limit=1000&full=true` を照合し、公開94件を確認した (2026-10-26 の午後に7件増えた分を含む)。以下はこのディレクトリに置いた86件 (2026-10-29 に数えた) で、GeoAI での用途と実ファイルを確認した。別の目録にある WorldPop 日本版 (`worldpop/japan.md`) も含め、未掲載候補は下に判断理由を記す。固定 SHA を含む `read` URL は移動しない版を指す。固定 SHA のない既存カードを更新するときは API の `sha` と `siblings` を再確認する。
 
 ## 未掲載の候補
 
@@ -117,6 +117,8 @@ contents:
 | [nagaoka-bear-sighting](nagaoka-bear-sighting.md) | 長岡市のクマ目撃・痕跡 FY2014〜FY2015 | 長岡市クマ出没情報。CC BY 4.0、改変表示の形が決まっている |
 | [fagus-crenata-masting-jp-2026-06](fagus-crenata-masting-jp-2026-06.md) | 東北と渡島半島のブナ 102 地点の結実の評価 1989〜2008年 (秋田県 31 地点) と気温の手がかり | Dryad の記録 (Masaki ほか、版 5)。CC0 1.0、引用を求められている |
 | [landsat5-fagus-crenata-sites-jp-2026-10](landsat5-fagus-crenata-sites-jp-2026-10.md) | ブナの 102 地点の周り 300 m の Landsat 5 TM の反射率、QA、NDVI、NDMI。撮影ごと、1989〜2008年の4〜5月と7〜8月 | USGS の public domain と Dryad の CC0。豊凶の値は含まない |
+| [akita-vegetation-2024](akita-vegetation-2024.md) | 秋田県の現存植生図2024 (1/25,000) の群落の面 174,576 個。ブナ、ミズナラ、コナラの群落を凡例で識別できる | 環境省生物多様性センター。PDL1.0、2026-10-28 取得 |
+| [akita-forest-resource-mesh-2026](akita-forest-resource-mesh-2026.md) | 秋田県の全国森林資源メッシュ 20 m セル 29,088,595 個。林種、森林簿樹種 (広葉樹は 1 区分)、林齢、民有林・国有林 | 林野庁。PDL1.0、2026-10-28 取得 |
 | [kamisunagawa-higuma-sighting](kamisunagawa-higuma-sighting.md) | 上砂川町のヒグマ出没 FY2024〜FY2026途中 | 上砂川町ヒグマ出没マップ (BODIK)。CC BY 4.0 |
 | [tokyo-flood-record-jp](tokyo-flood-record-jp.md) | 東京都の浸水実績図 1974〜2019年 (43年分、面 5,845・点 121) | 東京都水害リスク情報システム。CC BY 4.0 |
 | [jma-rain-tokyo](jma-rain-tokyo.md) | 東京都内31観測所の日別・時間別降水量 1974〜2025年 | 気象庁 過去の気象データ・ダウンロード。PDL 1.0 互換 CC BY 4.0 |

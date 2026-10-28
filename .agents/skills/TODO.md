@@ -125,6 +125,8 @@
       - [x] `references/huggingface/yuiseki/nagaoka-bear-sighting.md`: 長岡市のクマ目撃・痕跡 FY2014〜FY2015
       - [x] `references/huggingface/yuiseki/fagus-crenata-masting-jp-2026-06.md`: 東北と渡島半島のブナ 102 地点の結実の評価 1989〜2008年 (Dryad、CC0)
       - [x] `references/huggingface/yuiseki/landsat5-fagus-crenata-sites-jp-2026-10.md`: ブナの 102 地点の周り 300 m の Landsat 5 TM の地点 × 撮影の抽出表 (USGS public domain)
+      - [x] `references/huggingface/yuiseki/akita-vegetation-2024.md`: 秋田県の現存植生図2024 の群落の面 (環境省、PDL1.0)
+      - [x] `references/huggingface/yuiseki/akita-forest-resource-mesh-2026.md`: 秋田県の全国森林資源メッシュ 20 m セル (林野庁、PDL1.0)
       - [x] `references/huggingface/yuiseki/kamisunagawa-higuma-sighting.md`: 上砂川町のヒグマ出没 FY2024〜FY2026途中
       - [x] `references/huggingface/yuiseki/tokyo-flood-record-jp.md`: 東京都の浸水実績図 1974〜2019年 (43年分、面 5,845・点 121)
       - [x] `references/huggingface/yuiseki/jma-rain-tokyo.md`: 気象庁の東京都内31観測所の日別・時間別降水量 1974〜2025年
