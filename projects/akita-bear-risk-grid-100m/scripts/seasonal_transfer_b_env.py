@@ -25,24 +25,24 @@ YEARS = (2024, 2025, 2026)
 TRANSFERS = ((2024, 2025), (2025, 2026))
 
 
-def seasonal_labels(grid, muni, x, y, observed_at, known_full):
+def seasonal_labels(grid, muni, x, y, observed_at, known_full, years=YEARS):
     """Build identical Apr–Sep labels after exact fixed full-year reconciliation."""
     dates = np.asarray(observed_at, dtype="datetime64[m]")
     x, y = np.asarray(x), np.asarray(y)
     if dates.ndim != 1 or x.shape != dates.shape or y.shape != dates.shape or np.isnat(dates).any():
         raise ValueError("unaligned or missing source coordinates/dates")
-    years = lb.bear_year(dates)
-    full, full_off = lb.counts_by_year(grid, muni, x, y, years, YEARS)
+    fiscal_years = lb.bear_year(dates)
+    full, full_off = lb.counts_by_year(grid, muni, x, y, fiscal_years, years)
     inside = muni >= 0
     counts, info = {}, {}
-    for yr in YEARS:
+    for yr in years:
         if yr not in known_full or known_full[yr].shape != muni.shape \
                 or not np.array_equal(full[yr], known_full[yr]):
             raise ValueError(f"source reports do not reproduce saved c{yr}")
         start = np.datetime64(f"{yr}-04-01T00:00", "m")
         end = np.datetime64(f"{yr}-10-01T00:00", "m")
         sel = (dates >= start) & (dates < end)
-        part, off = lb.counts_by_year(grid, muni, x[sel], y[sel], years[sel], [yr])
+        part, off = lb.counts_by_year(grid, muni, x[sel], y[sel], fiscal_years[sel], [yr])
         counts[yr] = part[yr]
         if np.any(counts[yr] > full[yr]) or int(counts[yr][inside].sum()) + off[yr] != int(sel.sum()):
             raise ValueError(f"seasonal counts do not reconcile for {yr}")

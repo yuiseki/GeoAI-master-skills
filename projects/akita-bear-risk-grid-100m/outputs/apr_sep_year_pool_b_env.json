@@ -1,0 +1,156 @@
+{
+  "mode": "exploratory Apr-Sep multi-year pooling; two fixed runs only",
+  "setup": {
+    "source": "hf://datasets/yuiseki/akita-kumadas-wildlife-sighting@c7047ab442ea3471aaa52af6e56a966ac768ff61/parquet/sighting.parquet",
+    "grid_json_sha256": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "fixed_input_sha256": {
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282"
+    },
+    "previous_transfer_json_sha256": "cab2c5c09ebed92169f4b87bdf55c01b1384485e083ff7c735d23b13fae7f9a8",
+    "previous_oof_json_sha256": "9d983f25b49b12304591088effc3f86b484327a7808bc69ddb3a7c1f97c40e92",
+    "feature_names": [
+      "tree",
+      "tree_500",
+      "tree_1500",
+      "crop",
+      "crop_500",
+      "crop_1500",
+      "built",
+      "built_500",
+      "built_1500",
+      "grass",
+      "grass_500",
+      "grass_1500",
+      "water",
+      "water_500",
+      "water_1500",
+      "forest_edge",
+      "elev",
+      "slope",
+      "tpi_500",
+      "pop_500",
+      "pop_2000",
+      "d_road_major",
+      "d_road",
+      "d_track",
+      "d_river",
+      "d_stream",
+      "d_building",
+      "bldg_500"
+    ],
+    "hgb": {
+      "max_iter": 300,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 500,
+      "l2_regularization": 1.0,
+      "early_stopping": false
+    },
+    "seed": 0,
+    "sklearn_version": "1.9.1",
+    "n_cells": 1168211,
+    "ranking": "metrics.rank_order(seed=0), fractional boundary capture"
+  },
+  "labels": {
+    "2023": {
+      "window_start_inclusive": "2023-04-01T00:00",
+      "window_end_exclusive": "2023-10-01T00:00",
+      "full_inside_reports": 3895,
+      "full_outside_reports": 0,
+      "inside_window_reports": 1671,
+      "outside_window_reports": 0,
+      "positive_cells": 1586
+    },
+    "2024": {
+      "window_start_inclusive": "2024-04-01T00:00",
+      "window_end_exclusive": "2024-10-01T00:00",
+      "full_inside_reports": 1586,
+      "full_outside_reports": 0,
+      "inside_window_reports": 1205,
+      "outside_window_reports": 0,
+      "positive_cells": 1132
+    },
+    "2025": {
+      "window_start_inclusive": "2025-04-01T00:00",
+      "window_end_exclusive": "2025-10-01T00:00",
+      "full_inside_reports": 13587,
+      "full_outside_reports": 5,
+      "inside_window_reports": 4052,
+      "outside_window_reports": 2,
+      "positive_cells": 3657
+    },
+    "2026": {
+      "window_start_inclusive": "2026-04-01T00:00",
+      "window_end_exclusive": "2026-10-01T00:00",
+      "full_inside_reports": 3366,
+      "full_outside_reports": 3,
+      "inside_window_reports": 3366,
+      "outside_window_reports": 3,
+      "positive_cells": 3036
+    }
+  },
+  "reference": {
+    "2024_to_2025_apr_sep_capture@5%": 0.5302160240634399,
+    "2025_to_2026_apr_sep_capture@5%": 0.47101449275362317,
+    "original_B3_capture@5%": 0.5391963109354414
+  },
+  "runs": {
+    "2023_2024_to_2025": {
+      "train_years": [
+        2023,
+        2024
+      ],
+      "test_year": 2025,
+      "train_rows": 2336422,
+      "train_positive_rows": 2718,
+      "train_positive_by_year": {
+        "2023": 1586,
+        "2024": 1132
+      },
+      "test_positive_cells": 3657,
+      "capture@1%": 0.20481268799562483,
+      "capture@5%": 0.5674049767569046,
+      "capture@10%": 0.7640142193054417,
+      "auc": 0.9327862259235398,
+      "ap": 0.04634812608292113,
+      "single_year_comparator": "2024_to_2025",
+      "single_year_capture@5%": 0.5302160240634399,
+      "capture@5%_minus_single_year": 0.03718895269346467
+    },
+    "2023_2024_2025_to_2026": {
+      "train_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "test_year": 2026,
+      "train_rows": 3504633,
+      "train_positive_rows": 6375,
+      "train_positive_by_year": {
+        "2023": 1586,
+        "2024": 1132,
+        "2025": 3657
+      },
+      "test_positive_cells": 3036,
+      "capture@1%": 0.16172595520421607,
+      "capture@5%": 0.47101449275362317,
+      "capture@10%": 0.7078392621870883,
+      "auc": 0.9205906047916206,
+      "ap": 0.02974814347275854,
+      "single_year_comparator": "2025_to_2026",
+      "single_year_capture@5%": 0.47101449275362317,
+      "capture@5%_minus_single_year": 0.0
+    }
+  },
+  "limitations": [
+    "same static feature rows are repeated across years; rows are not independent",
+    "more years change both sample size and training distribution, so this does not isolate sample-size effect",
+    "reported points and observation effort may vary by year; descriptive, not a causal shift test"
+  ]
+}
