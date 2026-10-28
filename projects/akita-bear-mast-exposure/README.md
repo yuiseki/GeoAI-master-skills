@@ -12,6 +12,7 @@ artifacts/akita-bear-mast-exposure/   セルごとの exposure などの大き�
 ```
 
 - 報告: [report.md](report.md)
+- 追加の診断 (post-hoc、in-sample の B_env の offset): [計画](EXPERIMENT_PLAN_CROSSFIT.md)、[報告](report_crossfit.md)
 
 ## 再現
 
@@ -38,6 +39,10 @@ $L $U $S/falsify.py $B $A $M $P/outputs         # 約 15 分
 $U $S/diagnose.py $B $A $M $P/outputs
 # 4. 図
 uvx --with matplotlib --with numpy python $S/plot.py $B $A $P/outputs
+# 5. 追加の診断 (cross-fit の B_env の offset。crossfit.py と run_crossfit.py は出力があると止まる)
+$E $L uvx --with numpy==2.5.4 --with scipy --with scikit-learn==1.9.1 --with pandas --with pyarrow python $S/crossfit.py $B $A $P/outputs/x1_crossfit_benv.json
+$L $U $S/run_crossfit.py $B $A $M $P/outputs     # 約 10 分
+uvx --with matplotlib python $S/plot_crossfit.py $P/outputs
 # テスト
 uvx --with pytest --with numpy --with scipy --with scikit-learn --with shapely --with rasterio --with affine --with matplotlib python -m pytest -q $S
 ```
