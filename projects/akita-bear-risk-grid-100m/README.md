@@ -220,6 +220,18 @@ uvx --with numpy --with scipy python \
   projects/akita-bear-risk-grid-100m/outputs/b2_b3_crop_q5_budget_oracle.json
 ```
 
+### 季節内の活性化 (直前 28 日の近くの通報)
+
+保存済みの B2 (2025 年) と B3 (2026 年) の `B_env` に、直前 28 日に半径 r 以内で出た通報の数 + α を掛け、翌週の陽性セルを県内上位 5% で数える。r と α は 2025 年の 12 通りから選び、2026 年で 1 回だけ確かめる。結果は [seasonal_activation.json](outputs/seasonal_activation.json)、計画は EXPERIMENT_PLAN.md の 2026-10-28 の節。
+
+```sh
+env -u GDAL_DATA -u GDAL_DRIVER_PATH -u PROJ_DATA -u PROJ_NETWORK PYTHONPATH=projects/akita-bear-risk-grid-100m/scripts \
+  uvx --from 'duckdb>=1.5.5' --with numpy==2.5.4 --with scipy --with pandas --with pyarrow \
+  --with scikit-learn==1.9.1 --with pyproj python \
+  projects/akita-bear-risk-grid-100m/scripts/seasonal_activation.py \
+  artifacts/akita-bear-risk-grid-100m projects/akita-bear-risk-grid-100m/outputs/seasonal_activation.json
+```
+
 ## 派生物
 
 `eval/*_scores.npz` と地図は予測で、観測ではない。後段で通報の数として使わない。出典の表示は report.md のデータの節。
