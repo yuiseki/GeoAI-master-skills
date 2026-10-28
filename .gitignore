@@ -23,5 +23,6 @@ node_modules/
 !/projects/tokyo23-daytime-evac-stress/
 !/projects/beech-masting-triggers/
 !/projects/beech-masting-spatial-proxy/
+!/projects/beech-masting-satellite-proxy/
 /artifacts/*
 !/artifacts/sample-project/
