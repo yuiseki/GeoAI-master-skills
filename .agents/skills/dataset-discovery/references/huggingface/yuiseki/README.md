@@ -114,6 +114,7 @@ contents:
 | [ishikawa-bear-incident](ishikawa-bear-incident.md) | 石川県のクマ出没、要因別の5表 (重なりあり) と2025年の目撃 | 石川県クマ出没データ。CC BY |
 | [kyoto-bear-sighting](kyoto-bear-sighting.md) | 京都府のクマ目撃 FY2009〜FY2018 | 京都府クマ目撃情報の統合版。CC BY 4.0 |
 | [nagaoka-bear-sighting](nagaoka-bear-sighting.md) | 長岡市のクマ目撃・痕跡 FY2014〜FY2015 | 長岡市クマ出没情報。CC BY 4.0、改変表示の形が決まっている |
+| [fagus-crenata-masting-jp-2026-06](fagus-crenata-masting-jp-2026-06.md) | 東北と渡島半島のブナ 102 地点の結実の評価 1989〜2008年 (秋田県 31 地点) と気温の手がかり | Dryad の記録 (Masaki ほか、版 5)。CC0 1.0、引用を求められている |
 | [kamisunagawa-higuma-sighting](kamisunagawa-higuma-sighting.md) | 上砂川町のヒグマ出没 FY2024〜FY2026途中 | 上砂川町ヒグマ出没マップ (BODIK)。CC BY 4.0 |
 | [tokyo-flood-record-jp](tokyo-flood-record-jp.md) | 東京都の浸水実績図 1974〜2019年 (43年分、面 5,845・点 121) | 東京都水害リスク情報システム。CC BY 4.0 |
 | [jma-rain-tokyo](jma-rain-tokyo.md) | 東京都内31観測所の日別・時間別降水量 1974〜2025年 | 気象庁 過去の気象データ・ダウンロード。PDL 1.0 互換 CC BY 4.0 |

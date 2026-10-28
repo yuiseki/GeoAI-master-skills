@@ -67,6 +67,7 @@
 | [hydrosheds/hydrorivers-v1](hydrosheds/hydrorivers-v1.md) | Greenland の河川区間を実読。レベル12流域に全行結合 | Greenland の試料 | v1.0 |
 | [global-fishing-watch/](global-fishing-watch/README.md) | 目録。非商用の漁業活動推定など。API は token が必要で実データは未取得 | AIS 等の観測できる海域 | 2026-10-21 から latest は v5 |
 | [tokyo-flood-record-jp](huggingface/yuiseki/tokyo-flood-record-jp.md) | 東京都の浸水実績図 (1974〜2019年の43年分、浸水区域の面 5,845 行と点 121 行、棟数・世帯数・原因・最寄り雨量) | 東京都 (23区・多摩・島しょ) | 1974〜2019年、2026-10-26 取得 |
+| [fagus-crenata-masting-jp-2026-06](huggingface/yuiseki/fagus-crenata-masting-jp-2026-06.md) | ブナの結実の 4 段階の評価 (地点 × 年)、夏と春の気温の手がかり、カヌマ沢の種子トラップ、個体群モデルの推定値 | 東北 98 地点と北海道渡島半島 4 地点の点 | 1989〜2008年、Dryad 版 5 (2026-06-05) |
 | [jma-rain-tokyo](huggingface/yuiseki/jma-rain-tokyo.md) | 気象庁の東京都内31観測所の日別 (588,783行) と時間別 (8,660,976行) の降水量、品質・均質番号つき | 東京都内31観測所 (本土11・島しょ20) | 1974〜2025年、2026-10-26 取得 |
 
 ## サービス

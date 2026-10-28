@@ -121,6 +121,7 @@
       - [x] `references/huggingface/yuiseki/ishikawa-bear-incident.md`: 石川県のクマ出没、要因別の5表 (重なりあり) と2025年の目撃
       - [x] `references/huggingface/yuiseki/kyoto-bear-sighting.md`: 京都府のクマ目撃 FY2009〜FY2018
       - [x] `references/huggingface/yuiseki/nagaoka-bear-sighting.md`: 長岡市のクマ目撃・痕跡 FY2014〜FY2015
+      - [x] `references/huggingface/yuiseki/fagus-crenata-masting-jp-2026-06.md`: 東北と渡島半島のブナ 102 地点の結実の評価 1989〜2008年 (Dryad、CC0)
       - [x] `references/huggingface/yuiseki/kamisunagawa-higuma-sighting.md`: 上砂川町のヒグマ出没 FY2024〜FY2026途中
       - [x] `references/huggingface/yuiseki/tokyo-flood-record-jp.md`: 東京都の浸水実績図 1974〜2019年 (43年分、面 5,845・点 121)
       - [x] `references/huggingface/yuiseki/jma-rain-tokyo.md`: 気象庁の東京都内31観測所の日別・時間別降水量 1974〜2025年
