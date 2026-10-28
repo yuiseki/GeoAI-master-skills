@@ -1,0 +1,159 @@
+{
+  "mode": "exploratory descriptive spatial novelty audit; no fitting",
+  "definition": {
+    "positive": "at least one fixed-source bear report in the same Apr–Sep 100m cell",
+    "past": "union of distinct Apr–Sep positive cells in the named earlier years",
+    "distance": "nearest past positive cell centre, Euclidean EPSG:6678 metres; exact same cell is 0m",
+    "within_inclusive_thresholds_m": [
+      100,
+      300,
+      500,
+      1000
+    ],
+    "denominator": "target-year Apr–Sep positive cells"
+  },
+  "setup": {
+    "source": "hf://datasets/yuiseki/akita-kumadas-wildlife-sighting@c7047ab442ea3471aaa52af6e56a966ac768ff61/parquet/sighting.parquet",
+    "grid_json_sha256": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+    "fixed_input_sha256": {
+      "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+      "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+      "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+      "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+      "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+      "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+      "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282"
+    },
+    "previous_pool_json_sha256": "3f55f235b72b02678ca761708c77b4da7f81fdc939d86f130b324303b1dd1fe3",
+    "numpy_version": "2.5.4",
+    "scipy_version": "1.18.1",
+    "script": "projects/akita-bear-risk-grid-100m/scripts/seasonal_spatial_novelty.py"
+  },
+  "labels": {
+    "2023": {
+      "window_start_inclusive": "2023-04-01T00:00",
+      "window_end_exclusive": "2023-10-01T00:00",
+      "full_inside_reports": 3895,
+      "full_outside_reports": 0,
+      "inside_window_reports": 1671,
+      "outside_window_reports": 0,
+      "positive_cells": 1586
+    },
+    "2024": {
+      "window_start_inclusive": "2024-04-01T00:00",
+      "window_end_exclusive": "2024-10-01T00:00",
+      "full_inside_reports": 1586,
+      "full_outside_reports": 0,
+      "inside_window_reports": 1205,
+      "outside_window_reports": 0,
+      "positive_cells": 1132
+    },
+    "2025": {
+      "window_start_inclusive": "2025-04-01T00:00",
+      "window_end_exclusive": "2025-10-01T00:00",
+      "full_inside_reports": 13587,
+      "full_outside_reports": 5,
+      "inside_window_reports": 4052,
+      "outside_window_reports": 2,
+      "positive_cells": 3657
+    },
+    "2026": {
+      "window_start_inclusive": "2026-04-01T00:00",
+      "window_end_exclusive": "2026-10-01T00:00",
+      "full_inside_reports": 3366,
+      "full_outside_reports": 3,
+      "inside_window_reports": 3366,
+      "outside_window_reports": 3,
+      "positive_cells": 3036
+    }
+  },
+  "comparisons": {
+    "2025_vs_2023_2024": {
+      "target_year": 2025,
+      "past_years": [
+        2023,
+        2024
+      ],
+      "n_target_positive": 3657,
+      "n_past_union_positive": 2668,
+      "same_cell": {
+        "count": 184,
+        "share": 0.050314465408805034
+      },
+      "nearest_distance_m": {
+        "median": 424.2640687119285,
+        "p90": 1612.4515496597098
+      },
+      "within_distance_m": {
+        "100": {
+          "count": 546,
+          "share": 0.14930270713699753
+        },
+        "300": {
+          "count": 1374,
+          "share": 0.3757178014766202
+        },
+        "500": {
+          "count": 2076,
+          "share": 0.5676784249384742
+        },
+        "1000": {
+          "count": 2941,
+          "share": 0.8042111019961717
+        }
+      }
+    },
+    "2026_vs_2023_2024_2025": {
+      "target_year": 2026,
+      "past_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "n_target_positive": 3036,
+      "n_past_union_positive": 6141,
+      "same_cell": {
+        "count": 232,
+        "share": 0.0764163372859025
+      },
+      "nearest_distance_m": {
+        "median": 316.22776601683796,
+        "p90": 1140.175425099138
+      },
+      "within_distance_m": {
+        "100": {
+          "count": 655,
+          "share": 0.21574440052700922
+        },
+        "300": {
+          "count": 1484,
+          "share": 0.4888010540184453
+        },
+        "500": {
+          "count": 2021,
+          "share": 0.6656785243741765
+        },
+        "1000": {
+          "count": 2637,
+          "share": 0.8685770750988142
+        }
+      }
+    }
+  },
+  "between_target_years": {
+    "same_cell_share_2026_minus_2025": 0.026101871877097463,
+    "nearest_median_m_2026_minus_2025": -108.03630269509051,
+    "nearest_p90_m_2026_minus_2025": -472.2761245605718,
+    "within_share_2026_minus_2025": {
+      "100": 0.06644169339001169,
+      "300": 0.11308325254182511,
+      "500": 0.09800009943570231,
+      "1000": 0.06436597310264247
+    }
+  },
+  "limitations": [
+    "2026 past union includes one more year than the 2025 past union, mechanically favouring shorter distances and more overlap",
+    "reported coordinates can be approximate and reporting effort varies; distance is not road distance",
+    "spatial novelty alone does not identify why predictive capture changed"
+  ]
+}
