@@ -21,4 +21,8 @@
 | [beech-masting-spatial-proxy](beech-masting-spatial-proxy/) | 地形と地点の気象で、同じ年の中の地点の豊凶の違いを当てられるか (当てられなかった) | beech-masting-triggers |
 | [beech-masting-satellite-proxy](beech-masting-satellite-proxy/) | Landsat 5 の NDVI と NDMI の偏差で、同じ年の中の地点の違いを当てられるか (当てられなかった) | beech-masting-spatial-proxy |
 
+## 総括
+
+[bear-synthesis](bear-synthesis/) に、9 プロジェクトで何が予測でき、何ができなかったかをまとめた。場所は環境だけの地図 B_env で絞れるが、そこに過去の通報、年の豊凶 × 植生、季節内の直前の通報を足しても上がらなかった。予測変数の探索はここで止めている。
+
 スクリプトの使い方は各プロジェクトの README にある。コマンドはリポジトリの直下から流す。

@@ -1,0 +1,11 @@
+label,year,role,diff,lo90,hi90,source
+過去の通報を特徴量に足す,2025,confirmation,-0.011091434430049452,-0.025053715030184644,0.0031123906310343502,akita-bear-risk-grid-100m/outputs/b2_confirm_2023-2024_to_2025.json#diff_capture@5%/M_full - B_env
+過去の通報を特徴量に足す,2026,confirmation,-0.024044795783926265,-0.041432453083929385,-0.008222365194984437,akita-bear-risk-grid-100m/outputs/b3_confirm_2023-2025_to_2026.json#diff_capture@5%/M_full - B_env
+年の豊凶 × ブナ・ナラ類の割合,2025,confirmation,0.00018641066268987316,-0.0005397583249793503,0.0009917221732908257,akita-bear-mast-exposure/outputs/b3_confirm.json#targets/2025/retrospective/M5/diff_capture@5%
+年の豊凶 × ブナ・ナラ類の割合,2026,confirmation,0.00032938076416333395,-0.0009149829452823832,0.0008492527393875232,akita-bear-mast-exposure/outputs/b3_confirm.json#targets/2026/retrospective/M5/diff_capture@5%
+同 (cross-fit の B_env),2025,diagnostic,0.0004240842576197501,-0.0009621369305289727,0.004256983351380155,akita-bear-mast-exposure/outputs/x2_crossfit_beta.json#targets/2025/retrospective/cross_fit/diff_capture@5%
+同 (cross-fit の B_env),2026,diagnostic,-0.0016469038208168918,-0.00429770793384153,0.004260659736834358,akita-bear-mast-exposure/outputs/x2_crossfit_beta.json#targets/2026/retrospective/cross_fit/diff_capture@5%
+季節内の活性化 (県全体、翌週),2026,confirmation,0.004341534008682979,-0.024737776434998807,0.027107946676336238,akita-bear-risk-grid-100m/outputs/seasonal_activation.json#years/2026/intervals_90/M_minus_E
+季節内の活性化 (県全体、翌週),2024,diagnostic,0.016933207902163794,-0.0029716323280679718,0.035805978877357626,akita-bear-risk-grid-100m/outputs/akita_city_activation_2024.json#intervals_90/statewide_M_minus_E
+季節内の活性化 (秋田市の陽性、県の上位 5%),2024,confirmation,0.03076923076923077,0.0,0.06,akita-bear-risk-grid-100m/outputs/akita_city_activation_2024.json#intervals_90/primary_city_M_minus_E
+季節内の活性化 (秋田市の中の上位 5%),2024,diagnostic,-0.01538461538461533,-0.07792505659478137,0.05384615384615385,akita-bear-risk-grid-100m/outputs/akita_city_activation_2024.json#intervals_90/city_budget_M_minus_E
