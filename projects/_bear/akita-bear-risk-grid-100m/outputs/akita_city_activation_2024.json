@@ -1,0 +1,215 @@
+{
+  "plan": "EXPERIMENT_PLAN.md 2026-10-29 one-shot Akita City activation check on 2024",
+  "setting": {
+    "r": 2000,
+    "alpha": 1,
+    "window_days": 28,
+    "k": 0.05,
+    "scores": "eval/b1_dev_2023_to_2024_scores.npz",
+    "scores_sha256": "743c73ac48d77169f3348971358e45b7cffd0dca58dba5ff1617929fb732404b"
+  },
+  "labels": {
+    "2024": {
+      "window_start_inclusive": "2024-04-01T00:00",
+      "window_end_exclusive": "2024-10-01T00:00",
+      "full_inside_reports": 1586,
+      "full_outside_reports": 0,
+      "inside_window_reports": 1205,
+      "outside_window_reports": 0,
+      "positive_cells": 1132
+    }
+  },
+  "n_weeks": 21,
+  "positives": 1063,
+  "city_positives": 195,
+  "city_new_positives": 189,
+  "city_blocks": 19,
+  "capture": {
+    "E|all": 0.5587958607714016,
+    "E|city": 0.6923076923076923,
+    "E|city_new": 0.6825396825396826,
+    "E_city|city": 0.5128205128205128,
+    "E_city|city_new": 0.4973544973544973,
+    "M|all": 0.5757290686735654,
+    "M|city": 0.7230769230769231,
+    "M|city_new": 0.7142857142857143,
+    "M_city|city": 0.49743589743589745,
+    "M_city|city_new": 0.48148148148148145
+  },
+  "intervals_90": {
+    "primary_city_M_minus_E": [
+      0.03076923076923077,
+      0.0,
+      0.06
+    ],
+    "statewide_M_minus_E": [
+      0.016933207902163794,
+      -0.0029716323280679718,
+      0.035805978877357626
+    ],
+    "city_budget_M_minus_E": [
+      -0.01538461538461533,
+      -0.07792505659478137,
+      0.05384615384615385
+    ],
+    "city_new_M_minus_E": [
+      0.031746031746031744,
+      0.0,
+      0.06103465577178081
+    ]
+  },
+  "decision": {
+    "rule": "supported if the 90% lower bound of the Akita City M - E > 0",
+    "lower": 0.0,
+    "supported": false
+  },
+  "weeks": [
+    {
+      "origin": "2024-05-06",
+      "positives": 35,
+      "city_positives": 5,
+      "city_new_positives": 5,
+      "window_reports": 94
+    },
+    {
+      "origin": "2024-05-13",
+      "positives": 30,
+      "city_positives": 9,
+      "city_new_positives": 9,
+      "window_reports": 114
+    },
+    {
+      "origin": "2024-05-20",
+      "positives": 73,
+      "city_positives": 15,
+      "city_new_positives": 15,
+      "window_reports": 119
+    },
+    {
+      "origin": "2024-05-27",
+      "positives": 75,
+      "city_positives": 19,
+      "city_new_positives": 19,
+      "window_reports": 164
+    },
+    {
+      "origin": "2024-06-03",
+      "positives": 67,
+      "city_positives": 16,
+      "city_new_positives": 16,
+      "window_reports": 216
+    },
+    {
+      "origin": "2024-06-10",
+      "positives": 39,
+      "city_positives": 6,
+      "city_new_positives": 6,
+      "window_reports": 249
+    },
+    {
+      "origin": "2024-06-17",
+      "positives": 57,
+      "city_positives": 13,
+      "city_new_positives": 13,
+      "window_reports": 260
+    },
+    {
+      "origin": "2024-06-24",
+      "positives": 57,
+      "city_positives": 11,
+      "city_new_positives": 11,
+      "window_reports": 247
+    },
+    {
+      "origin": "2024-07-01",
+      "positives": 77,
+      "city_positives": 21,
+      "city_new_positives": 19,
+      "window_reports": 228
+    },
+    {
+      "origin": "2024-07-08",
+      "positives": 78,
+      "city_positives": 9,
+      "city_new_positives": 8,
+      "window_reports": 238
+    },
+    {
+      "origin": "2024-07-15",
+      "positives": 82,
+      "city_positives": 15,
+      "city_new_positives": 14,
+      "window_reports": 278
+    },
+    {
+      "origin": "2024-07-22",
+      "positives": 49,
+      "city_positives": 5,
+      "city_new_positives": 5,
+      "window_reports": 303
+    },
+    {
+      "origin": "2024-07-29",
+      "positives": 95,
+      "city_positives": 8,
+      "city_new_positives": 8,
+      "window_reports": 295
+    },
+    {
+      "origin": "2024-08-05",
+      "positives": 59,
+      "city_positives": 7,
+      "city_new_positives": 7,
+      "window_reports": 313
+    },
+    {
+      "origin": "2024-08-12",
+      "positives": 46,
+      "city_positives": 10,
+      "city_new_positives": 10,
+      "window_reports": 293
+    },
+    {
+      "origin": "2024-08-19",
+      "positives": 38,
+      "city_positives": 6,
+      "city_new_positives": 5,
+      "window_reports": 258
+    },
+    {
+      "origin": "2024-08-26",
+      "positives": 28,
+      "city_positives": 8,
+      "city_new_positives": 8,
+      "window_reports": 247
+    },
+    {
+      "origin": "2024-09-02",
+      "positives": 23,
+      "city_positives": 4,
+      "city_new_positives": 3,
+      "window_reports": 179
+    },
+    {
+      "origin": "2024-09-09",
+      "positives": 31,
+      "city_positives": 5,
+      "city_new_positives": 5,
+      "window_reports": 142
+    },
+    {
+      "origin": "2024-09-16",
+      "positives": 13,
+      "city_positives": 1,
+      "city_new_positives": 1,
+      "window_reports": 124
+    },
+    {
+      "origin": "2024-09-23",
+      "positives": 11,
+      "city_positives": 2,
+      "city_new_positives": 2,
+      "window_reports": 98
+    }
+  ]
+}
