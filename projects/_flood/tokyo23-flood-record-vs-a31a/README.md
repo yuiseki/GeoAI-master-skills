@@ -9,13 +9,13 @@
 
 ```
 scripts/     コード
-outputs/     報告が引く結果 (JSON) と図 (PNG)
+outputs/     報告が引く結果 (JSON、CSV) と図 (PNG)。図の隣の JSON は件数、区切り、文字の重なり
 artifacts/_flood/tokyo23-flood-record-vs-a31a/
   raw/                          版を固定して取った入力と DEM5A のタイル
   grid_100/、grid_250/、grid_500/、grid_250_off125/
                                 cells.parquet (セルと特徴量)、flood_cell_year.parquet (セル × 年の陽性)、audit.json
   maps_main.parquet             本解析のセルごとの得点と順位 (派生物、観測ではない)
-  maps/                         図のためのセルの四角と区の境界 (EPSG:6677)
+  maps/                         図の入力 (セルの GeoJSON、区の境界、描画の設定。EPSG:6677)
 ```
 
 maps_main.parquet と図の得点は、03_static.py が 1974〜1996 年の記録で学んだモデルの予測で、観測ではない。後段で浸水の観測として使わない。
@@ -38,6 +38,8 @@ $L $U python scripts/05_history.py --out outputs/b4b.json
 $L $U python scripts/04_rain_panel.py --out outputs/b3_main.json     # 長くかかる、約 1 GB
 # 3. 残差と特徴量の効き方、図
 $L $U python scripts/09_checks.py --out outputs/checks.json
-$U python scripts/07_maps.py && bash scripts/08_draw.sh
+$U python scripts/07_maps.py
+$L uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pyproj --with matplotlib python scripts/11_spatial_maps.py   # 約 5 分
+uvx --from 'duckdb>=1.5.5' python scripts/12_summary.py
 uvx --with numpy --with matplotlib python scripts/10_intervals.py
 ```

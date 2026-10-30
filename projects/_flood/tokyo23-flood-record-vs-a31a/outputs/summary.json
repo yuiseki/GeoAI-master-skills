@@ -1,0 +1,11 @@
+{
+ "records_in_wards": 4759,
+ "records_by_cause": {
+  "内水": 4116,
+  "溢水": 344,
+  "両方": 248,
+  "その他": 51
+ },
+ "share_naisui_only": 0.8649,
+ "test_cells_located": 3057
+}
