@@ -31,4 +31,5 @@ test('ビルド後の数式・Mermaid・図は公開用ページで参照でき�
   assert.doesNotMatch(bus + bear, /href="\/GeoAI-master-skills\//);
   await stat(path.join(root, 'dist/images/bus-operator-share.png'));
   await stat(path.join(root, 'dist/images/akita-risk-map.png'));
+  await stat(path.join(root, 'dist/favicon.svg'));
 });
