@@ -1,0 +1,162 @@
+{
+  "mode": "exploration",
+  "social_problem": "アンダーパスの冠水で車が水没し、運転者が亡くなる事故が毎年のように起きる。道路管理者 (国、都道府県、市区町村) は、冠水センサー、警告表示、排水ポンプの点検を全ての箇所に同時には置けず、どこから手を付けるかを決める必要がある。全国の冠水の観測は公開されていない",
+  "working_hypothesis": "公開の標高タイル (DEM5A、DEM10B) と OSM の道路から測るアンダーパスの物理的な溜まりやすさ (道路の縦断で見た窪みの深さと、窪みへ地表の水が集まる面積) で全国 3,841 か所を順位づけると、(a) 標高タイルが窪みを捉える箇所は半分に満たず、(b) 妥当な設定の違い (DEM の種類、縦断を測る長さ、集水の計算) で上位 10% の顔ぶれが半分以上入れ替わる。反証: 窪みが 2 m 以上に見える箇所が 8 割以上あり、設定を変えても上位 10% の Jaccard が 0.7 以上なら、単純な標高差の順位で足り、この候補は落とす。東京都の浸水実績の近くの箇所が上位に偏らない (AUC の 90% 区間が 0.5 を含む) ことも、順位が冠水しやすさを表すという読みを弱める",
+  "question": "全国のアンダーパス 3,841 か所で、公開の標高と道路から測った冠水の溜まりやすさの順位は、標高タイルが窪みを捉えているか、設定をどう選ぶかでどれだけ変わり、東京都の浸水の記録とどの程度合うか？",
+  "decision_use": "道路管理者が、冠水センサー、警告表示、排水の点検を優先する箇所の候補を、公開データだけでどこまで絞れるか (または絞れないか) を判断する。絞れない場合は、現地の測量や冠水の記録を集めるべき箇所 (標高タイルが窪みを捉えない箇所) を示す",
+  "target_quantity": "箇所ごとの溜まりやすさの得点と全国の順位、設定ごとの上位 10% の重なり (Jaccard)、標高タイルが窪みを捉えた箇所の割合、東京都の浸水実績の面から 30 m 以内の箇所を陽性とした順位の AUC と 90% 区間",
+  "unit": "アンダーパスの箇所 (mlit-underpass の 1 点)。同じ座標の点の扱いを先に決める",
+  "time_alignment": "アンダーパスは 2025-03-31 時点、標高タイルは取得時点 (版の番号なし、取得日を記録)、OSM は 2026-08-31、浸水実績は 1974〜2019 年。箇所の建設年は分からないので、浸水実績との照合は建設前の記録を含みうる",
+  "claim_type": "association",
+  "datasets": [
+    "yuiseki/mlit-underpass",
+    "gsi-dem-tiles",
+    "yuiseki/osm-japan-src-2026-08",
+    "yuiseki/tokyo-flood-record-jp",
+    "yuiseki/jp-admin-2026-09"
+  ],
+  "source_versions": {
+    "yuiseki/mlit-underpass": "4d00072aa88696cfa7026c4cef7d600bc96f9f13",
+    "gsi-dem-tiles": "取得日で固定 (DEM5A z15、DEM10B z14)",
+    "yuiseki/osm-japan-src-2026-08": "9a9b4a77e89e28a66bf15781644a16b63501f622",
+    "yuiseki/tokyo-flood-record-jp": "354b0d9f8030347192eaa387500f60da76c07e1a",
+    "yuiseki/jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/mlit-underpass",
+      "right": "yuiseki/osm-japan-src-2026-08",
+      "how": "メートルの投影で、点から一定距離の中の道路 (highway) の線を選ぶ。選べない点と複数の候補がある点を数える",
+      "why": "窪みを道路の縦断 (道路に沿った標高の断面) で測るため"
+    },
+    {
+      "left": "yuiseki/osm-japan-src-2026-08",
+      "right": "gsi-dem-tiles",
+      "how": "道路の線に沿って一定間隔で標高タイルの画素を読む。DEM5A が無い所は DEM10B で補い、どちらを使ったかを残す",
+      "why": "窪みの深さと、窪みへ集まる面積を測る"
+    },
+    {
+      "left": "yuiseki/mlit-underpass",
+      "right": "yuiseki/tokyo-flood-record-jp",
+      "how": "東京都の点と浸水実績の面の距離を EPSG:6677 で測る (0、30、100 m)",
+      "why": "順位の弱い外部の照合"
+    },
+    {
+      "left": "yuiseki/mlit-underpass",
+      "right": "yuiseki/jp-admin-2026-09",
+      "how": "点を市区町村の面に入れる。政令市は区か市のどちらかに絞る",
+      "why": "管理者の区分と地域ごとの集計"
+    }
+  ],
+  "required_variables": [
+    {
+      "dataset": "yuiseki/mlit-underpass",
+      "table": "underpass",
+      "column": "id"
+    },
+    {
+      "dataset": "yuiseki/mlit-underpass",
+      "table": "underpass",
+      "column": "geometry"
+    },
+    {
+      "dataset": "yuiseki/mlit-underpass",
+      "table": "underpass",
+      "column": "manager"
+    },
+    {
+      "dataset": "gsi-dem-tiles",
+      "table": "dem_z14",
+      "column": "value"
+    },
+    {
+      "dataset": "yuiseki/osm-japan-src-2026-08",
+      "table": "planet_osm_line",
+      "column": "osm_id"
+    },
+    {
+      "dataset": "yuiseki/osm-japan-src-2026-08",
+      "table": "planet_osm_line",
+      "column": "highway",
+      "evidence_file": "projects/_traffic_accident/tokyo23-road-adjusted-accidents/scripts/analyze.py"
+    },
+    {
+      "dataset": "yuiseki/osm-japan-src-2026-08",
+      "table": "planet_osm_line",
+      "column": "way",
+      "evidence_file": "projects/_traffic_accident/tokyo23-road-adjusted-accidents/scripts/analyze.py"
+    },
+    {
+      "dataset": "yuiseki/tokyo-flood-record-jp",
+      "table": "flood_area",
+      "column": "year"
+    },
+    {
+      "dataset": "yuiseki/tokyo-flood-record-jp",
+      "table": "flood_area",
+      "column": "geometry"
+    },
+    {
+      "dataset": "yuiseki/jp-admin-2026-09",
+      "table": "municipalities",
+      "column": "geometry"
+    }
+  ],
+  "methodological_decisions": [
+    "窪みを点の周りの面 (半径) で測るか、道路の縦断で測るか。立体交差では上を通る道路や鉄道の標高が混ざる",
+    "DEM5A と DEM10B のどちらを使うか、混ぜるならどう示すか。窪みを捉えない箇所を 0 とせず、測れないとして分ける",
+    "縦断を測る長さ (前後 50、100、200 m) と、窪みの深さの定義 (最低点と前後の高い所の差)",
+    "集水の面積を流向の計算で出すか、周りの面積と比高で近似するか。下水道の排水は標高からは分からない",
+    "同じ座標の点や同じ名前の点を 1 か所とするか",
+    "東京都の照合の陽性の距離 (0、30、100 m) と期間 (1974〜2019 年、1997 年以降)"
+  ],
+  "failure_modes": [
+    "標高タイルは建物や構造物を除いた地表で、アンダーパスの掘り込みを埋めて内挿していることがある (pilot で 23 区の 99 か所のうち 2 m より深い窪みは 23 か所)",
+    "点は区間の代表で、最も低い所とは限らない。トンネル型は窪みでなく地下を通る",
+    "浸水実績は建物の浸水の調査で、道路の冠水を記録しない。陽性は少なく (30 m 以内 17 か所)、外部の照合は弱い",
+    "排水ポンプの能力、管理の差、通行止めの運用は公開データに無い",
+    "高速道路会社の道路の箇所は一覧に無い"
+  ],
+  "robustness_checks": [
+    "DEM5A だけ、DEM10B だけ、両方を補った場合で上位 10% の Jaccard を比べる",
+    "縦断の長さと窪みの定義を変える",
+    "点の周りの面で測る簡単な方法と、道路の縦断で測る方法を比べる",
+    "東京都の照合の距離と期間を変えた AUC",
+    "地方 (ブロック) ごとに、窪みを捉えた割合が違うかを見る",
+    "東京都の照合を、jma-rain-tokyo (版 4391f76) の最寄りの観測所で日最大 1 時間雨量が強い日 (30、50 mm) の記録に絞る。雨は東京都の観測所だけで、全国の順位には使わない"
+  ],
+  "simplest_solver": {
+    "method": "各点の標高から周り 50 m の標高の中央値を引き、低い順に並べる",
+    "why_insufficient": "pilot では 23 区の 99 か所の中央値が −0.23 m で、多くの点で窪みが見えず、順位はほぼ雑音になる。浸水実績の近くの点とそうでない点の差も無かった (−0.26 m と −0.23 m)。道路の縦断で測るか、測れない箇所を分けないと、順位の意味が決まらない"
+  },
+  "unknowns": [
+    "実際の冠水の回数、深さ、通行止めの記録 (全国では公開されていない)",
+    "排水ポンプの有無と能力、建設年、掘り込みの深さの設計値",
+    "降雨の強さの地域差。全国の時間雨量はカタログに無い。jma-rain-tokyo は東京都の観測所だけ (23 区の中は 5 地点) で、tokyo23-flood-record-vs-a31a では年ごとの雨を足しても浸水の年は当たらなかった",
+    "標高タイルの測量時点と、アンダーパスの建設時点の前後"
+  ],
+  "novelty": {
+    "closest_task": 28,
+    "difference_dimension": "hazard_exposure_measurement",
+    "substantive_difference": "課題 28 はアンダーパスがどこにあるかを公開データから推測する。10 月 24 日の候補は、通れないと仮定したときの避難経路の迂回を問う。これは、場所が分かっているアンダーパスについて、冠水の溜まりやすさを公開の標高でどこまで測れるかと、その順位の頑健さを問う"
+  },
+  "prediction": {
+    "main_result": "標高タイルが 2 m 以上の窪みを捉える箇所は全国で半分に満たず、窪みを捉えた箇所の中でも、縦断の長さや DEM の種類で上位 10% が半分以上入れ替わる。東京都の浸水実績との AUC は 0.5 と区別できない",
+    "difficulty": "点から正しい道路 (下を通る側) を選び、上を通る道路や鉄道の標高を縦断に混ぜないこと",
+    "fragile_assumption": "標高タイルの地表が、アンダーパスの路面の高さを表すという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "grid-risk-mapping",
+      "robustness-analysis",
+      "analysis-reporting"
+    ]
+  },
+  "rubric": [
+    "標高タイルが窪みを捉えない箇所を、溜まりにくい箇所と混ぜずに、測れない箇所として数える",
+    "点から道路への対応の成功、失敗、曖昧を数える",
+    "設定を変えた順位の重なりを示し、単一の順位を危険の順位として断定しない",
+    "東京都の照合は陽性が少ない弱い照合だと書き、区間を付ける",
+    "冠水の確率、事故の起こりやすさ、排水の能力を主張しない"
+  ]
+}
