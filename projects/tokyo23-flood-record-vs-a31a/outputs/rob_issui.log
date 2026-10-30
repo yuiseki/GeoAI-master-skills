@@ -1,0 +1,17 @@
+{"cells": 66460, "train_pos": 2840, "test_pos": 527, "k_a31a": 0.4666114956364731, "blocks": 206}
+random                   capture_kA=0.461 capture_1=0.009 capture_5=0.057 capture_10=0.106 capture_20=0.222 capture_count_kA=0.466 auc=0.500
+elev_low                 capture_kA=0.131 capture_1=0.000 capture_5=0.000 capture_10=0.000 capture_20=0.000 capture_count_kA=0.143 auc=0.299
+a31a                     capture_kA=0.757 capture_1=0.000 capture_5=0.013 capture_10=0.049 capture_20=0.165 capture_count_kA=0.800 auc=0.612
+history_density          capture_kA=0.787 capture_1=0.032 capture_5=0.330 capture_10=0.565 capture_20=0.693 capture_count_kA=0.796 auc=0.768
+model_static             capture_kA=0.981 capture_1=0.110 capture_5=0.493 capture_10=0.765 capture_20=0.930 capture_count_kA=0.988 auc=0.923
+model_static_history     capture_kA=0.643 capture_1=0.099 capture_5=0.368 capture_10=0.395 capture_20=0.452 capture_count_kA=0.675 auc=0.662
+model_history_permuted   capture_kA=0.977 capture_1=0.118 capture_5=0.526 capture_10=0.799 capture_20=0.930 capture_count_kA=0.985 auc=0.927
+model_static - a31a @ 0.467: +0.224 [+0.169, +0.306]
+a31a - random @ 0.467: +0.296 [+0.199, +0.360]
+model_static_history - model_static @ 0.467: -0.338 [-0.436, -0.252]
+model_history_permuted - model_static @ 0.467: -0.004 [-0.009, +0.000]
+model_static - a31a @ 0.050: +0.480 [+0.307, +0.617]
+model_static - a31a @ 0.100: +0.715 [+0.524, +0.848]
+model_static - elev_low @ 0.467: +0.850 [+0.681, +0.961]
+model_static - history_density @ 0.467: +0.194 [+0.090, +0.330]
+{'model_top_in_a31a': 0.6801135081100255, 'test_pos_in_a31a_only': 5, 'test_pos_in_model_only': 123, 'test_pos_in_both': 394, 'test_pos_in_neither': 5}
