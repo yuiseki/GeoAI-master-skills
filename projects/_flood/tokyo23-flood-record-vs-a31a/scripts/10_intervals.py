@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE.parent / "outputs"
-sys.path.insert(0, str(HERE.parents[2] / ".agents/skills/analysis-visualize/scripts"))
+sys.path.insert(0, str(HERE.parents[3] / ".agents/skills/analysis-visualize/scripts"))
 from cjk_font import use_cjk_font  # noqa: E402
 
 RUNS = [("b1_main", "本解析 (100 m、2 km ブロック)"), ("rob_block_5km", "5 km ブロック"), ("rob_grid_250", "250 m 格子"),

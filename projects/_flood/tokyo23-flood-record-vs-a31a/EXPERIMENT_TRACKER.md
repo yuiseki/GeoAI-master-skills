@@ -2,7 +2,7 @@
 
 | run_id | block_id | claim_id | mode | variant | data_version | status | result_path | deviation | notes |
 |---|---|---|---|---|---|---|---|---|---|
-| R001 | sanity | - | - | grid_100 | 入力は scripts/01_fetch.py の固定版 | done | ../../artifacts/tokyo23-flood-record-vs-a31a/grid_100/audit.json | rain_clim の観測所の条件を足した (計画の変更) | 66,460 セル、664.6 km² (区の面 664.5 km²)。標高の無いセル 3,842。陽性セル 学習 13,555、試験 3,057 |
+| R001 | sanity | - | - | grid_100 | 入力は scripts/01_fetch.py の固定版 | done | ../../../artifacts/_flood/tokyo23-flood-record-vs-a31a/grid_100/audit.json | rain_clim の観測所の条件を足した (計画の変更) | 66,460 セル、664.6 km² (区の面 664.5 km²)。標高の無いセル 3,842。陽性セル 学習 13,555、試験 3,057 |
 | R002 | B1, B2, B4 | C1, C2, C4 | main | grid_100、学習 1974-1996、試験 1997-2019 | R001 と同じ | done | outputs/b1_main.json | B4 は学習の陽性と履歴が同じ記録から作られて漏れた。設計の誤りとして扱い、B4b を足した | capture@k_A: モデル 0.843、A31a 0.646、でたらめ 0.476。モデル − A31a +0.197 [+0.147, +0.273]、A31a − でたらめ +0.170 [+0.089, +0.218] |
 | R003 | B4b | C4 | exploratory | 履歴 1974-1985、ラベル 1986-1996 | R001 と同じ | done | outputs/b4b.json | 計画の変更で足した | 履歴の上乗せ +0.010 [−0.010, +0.028]。効かない |
 | R004 | robustness | C1, C2 | robustness | 10 通り (scripts/06_robustness.sh) | R001 と同じ | done | outputs/rob_*.json | - | C1 は 10 通り全てで下限 > 0。C2 は 500 m、250 m ずらし、計画規模、0.5 m 以上で 0 をまたぐ |

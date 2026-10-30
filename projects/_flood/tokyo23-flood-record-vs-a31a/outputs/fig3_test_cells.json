@@ -35,9 +35,9 @@
   "text_overlaps": [],
   "inset": null,
   "hidden_by_inset": [],
-  "made": "2026-10-26",
+  "made": "2026-10-30",
   "context": {
-    "path": "../../artifacts/tokyo23-flood-record-vs-a31a/maps/wards_6677.parquet",
+    "path": "../../../artifacts/_flood/tokyo23-flood-record-vs-a31a/maps/wards_6677.parquet",
     "name": "name",
     "where": null,
     "source": "jp-admin-2026-09@e6c87b1, EPSG:6677",

@@ -3,7 +3,7 @@
 uv run --with 'duckdb>=1.5.5' --with numpy --with shapely --with pyproj --with pyarrow --with scipy \
     python scripts/02_grid.py SIZE_M [OFFSET_M]
 
-Writes artifacts/tokyo23-flood-record-vs-a31a/grid_<size>[_off<offset>]/:
+Writes artifacts/_flood/tokyo23-flood-record-vs-a31a/grid_<size>[_off<offset>]/:
   cells.parquet         one row per cell whose centre is in a ward: ix, iy, x, y, ward, static features, A31a ranks
   flood_cell_year.parquet  one row per (cell, year) with a record polygon touching the cell
   audit.json            the counts that the steps below check
@@ -24,11 +24,11 @@ import shapely
 from pyproj import Transformer
 from scipy import ndimage
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT / ".agents/skills/grid-risk-mapping/scripts"))
 import grid_cells as gc  # noqa: E402
 
-RAW = ROOT / "artifacts/tokyo23-flood-record-vs-a31a/raw"
+RAW = ROOT / "artifacts/_flood/tokyo23-flood-record-vs-a31a/raw"
 T_LL = Transformer.from_crs("EPSG:6668", "EPSG:6677", always_xy=True)
 T_WM = Transformer.from_crs("EPSG:3857", "EPSG:6677", always_xy=True)
 
@@ -49,7 +49,7 @@ def read_geoms(c, path, cols, geom="geometry", where="true"):
 
 
 def main(size, offset=0.0):
-    out = ROOT / "artifacts/tokyo23-flood-record-vs-a31a" / (f"grid_{size:g}" + ("" if offset == 0 else f"_off{offset:g}"))
+    out = ROOT / "artifacts/_flood/tokyo23-flood-record-vs-a31a" / (f"grid_{size:g}" + ("" if offset == 0 else f"_off{offset:g}"))
     out.mkdir(parents=True, exist_ok=True)
     c = con()
     audit = {"size": size, "offset": offset}

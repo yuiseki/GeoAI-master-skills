@@ -18,7 +18,7 @@ import numpy as np
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.metrics import roc_auc_score
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT / ".agents/skills/grid-risk-mapping/scripts"))
 import grid_cells as gc  # noqa: E402
 import score_risk_map as sr  # noqa: E402
@@ -82,7 +82,7 @@ def main():
     ap.add_argument("--maps-out")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
-    grid_dir = ROOT / "artifacts/tokyo23-flood-record-vs-a31a" / a.grid
+    grid_dir = ROOT / "artifacts/_flood/tokyo23-flood-record-vs-a31a" / a.grid
     size = json.loads((grid_dir / "audit.json").read_text())["size"]
     cells, (ytr, _, tr_cells, tr_years), (yte, cte, _, _) = load(grid_dir, a.train, a.test, a.label, a.reason)
     n = len(ytr)

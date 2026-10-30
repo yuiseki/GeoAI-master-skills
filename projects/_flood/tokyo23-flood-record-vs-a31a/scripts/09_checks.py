@@ -44,7 +44,7 @@ def main():
     ap.add_argument("--lags", type=int, nargs="+", default=[1, 2, 5, 10, 20, 50])
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
-    gdir = ROOT / "artifacts/tokyo23-flood-record-vs-a31a" / a.grid
+    gdir = ROOT / "artifacts/_flood/tokyo23-flood-record-vs-a31a" / a.grid
     cells, (ytr, _, _, _), (yte, _, _, _) = st.load(gdir, a.train, a.test, "any", "all")
     n = len(ytr)
     X = np.column_stack([cells[f].astype(float) for f in st.FEATURES])

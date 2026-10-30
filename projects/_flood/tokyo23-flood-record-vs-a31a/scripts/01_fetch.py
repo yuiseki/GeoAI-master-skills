@@ -1,4 +1,4 @@
-"""Fetch the inputs at pinned revisions into artifacts/tokyo23-flood-record-vs-a31a/raw/.
+"""Fetch the inputs at pinned revisions into artifacts/_flood/tokyo23-flood-record-vs-a31a/raw/.
 
 uv run --with 'duckdb>=1.5.5' python scripts/01_fetch.py
 """
@@ -10,7 +10,7 @@ from pathlib import Path
 
 import duckdb
 
-ART = Path(__file__).resolve().parents[3] / "artifacts" / "tokyo23-flood-record-vs-a31a" / "raw"
+ART = Path(__file__).resolve().parents[4] / "artifacts" / "_flood" / "tokyo23-flood-record-vs-a31a" / "raw"
 ART.mkdir(parents=True, exist_ok=True)
 
 SRC = {

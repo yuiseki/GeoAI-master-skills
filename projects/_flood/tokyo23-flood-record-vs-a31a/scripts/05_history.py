@@ -29,7 +29,7 @@ def main():
     ap.add_argument("--B", type=int, default=1000)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
-    gdir = ROOT / "artifacts/tokyo23-flood-record-vs-a31a" / a.grid
+    gdir = ROOT / "artifacts/_flood/tokyo23-flood-record-vs-a31a" / a.grid
     size = json.loads((gdir / "audit.json").read_text())["size"]
     cells, (h0, _, h0c, h0y), (yte, _, _, _) = st.load(gdir, a.hist_train, a.test, "any", "all")
     _, (ytr, _, _, _), (_, _, hallc, hally) = st.load(gdir, a.label_train, (a.hist_train[0], a.label_train[1]), "any", "all")

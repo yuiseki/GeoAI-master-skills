@@ -19,8 +19,8 @@ from scipy.stats import spearmanr
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.metrics import average_precision_score, log_loss
 
-ROOT = Path(__file__).resolve().parents[3]
-RAW = ROOT / "artifacts/tokyo23-flood-record-vs-a31a/raw"
+ROOT = Path(__file__).resolve().parents[4]
+RAW = ROOT / "artifacts/_flood/tokyo23-flood-record-vs-a31a/raw"
 STATIC = ["elev", "rel_elev_300", "rel_elev_1000", "elev_min_rel", "slope_sd", "d_waterway", "d_river_open",
           "built", "water", "tree", "rain_clim"]
 RAIN = ["r_max1h", "r_maxday", "r_h30"]
@@ -36,7 +36,7 @@ def main():
     ap.add_argument("--B", type=int, default=1000)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
-    gdir = ROOT / "artifacts/tokyo23-flood-record-vs-a31a" / a.grid
+    gdir = ROOT / "artifacts/_flood/tokyo23-flood-record-vs-a31a" / a.grid
     c = duckdb.connect()
     cells = c.execute(f"select * from '{gdir}/cells.parquet'").fetchnumpy()
     n = len(cells["ix"])

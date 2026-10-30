@@ -2,7 +2,7 @@
 
 uv run --with 'duckdb>=1.5.5' --with numpy --with shapely --with pyproj python scripts/07_maps.py
 
-Writes artifacts/tokyo23-flood-record-vs-a31a/maps/{cells.csv, wards_6677.parquet}; the squares are then made by
+Writes artifacts/_flood/tokyo23-flood-record-vs-a31a/maps/{cells.csv, wards_6677.parquet}; the squares are then made by
 analysis-visualize's context_map.py and drawn by classify_map.py (see README.md).
 
 Columns of cells.csv:
@@ -19,8 +19,8 @@ import numpy as np
 import shapely
 from pyproj import Transformer
 
-ROOT = Path(__file__).resolve().parents[3]
-ART = ROOT / "artifacts/tokyo23-flood-record-vs-a31a"
+ROOT = Path(__file__).resolve().parents[4]
+ART = ROOT / "artifacts/_flood/tokyo23-flood-record-vs-a31a"
 OUT = ART / "maps"
 OUT.mkdir(exist_ok=True)
 
@@ -28,7 +28,7 @@ c = duckdb.connect()
 c.execute("load spatial")
 m = c.execute(f"select * from '{ART}/maps_main.parquet' order by cell").fetchnumpy()
 n = len(m["cell"])
-res = json.loads((ROOT / "projects/tokyo23-flood-record-vs-a31a/outputs/b1_main.json").read_text())
+res = json.loads((ROOT / "projects/_flood/tokyo23-flood-record-vs-a31a/outputs/b1_main.json").read_text())
 k_a = res["k_a31a"]
 pct = m["rank_model_static"] / n * 100
 top = m["rank_model_static"] < int(round(k_a * n))

@@ -2,8 +2,8 @@
 # Draw the maps of the report with analysis-visualize's classify_map.py (run 07_maps.py first).
 set -euo pipefail
 cd "$(dirname "$0")/.."
-V=../../.agents/skills/analysis-visualize/scripts
-M=../../artifacts/tokyo23-flood-record-vs-a31a/maps
+V=../../../.agents/skills/analysis-visualize/scripts
+M=../../../artifacts/_flood/tokyo23-flood-record-vs-a31a/maps
 SRC="tokyo-flood-record-jp@354b0d9, ksj-a31a-flood-tokyo23@5b22592, GSI DEM5A (2026-10-26), OSM 2026-08, WorldCover 2021"
 draw() {
   uvx --with numpy --with duckdb --with shapely --with matplotlib python $V/classify_map.py $M/cells_sq.parquet cell "$@" \
