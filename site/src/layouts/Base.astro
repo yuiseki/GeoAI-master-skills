@@ -1,0 +1,74 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title} · GeoAI Research</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へ移動</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="wordmark" href="/" aria-label="GeoAI Research ホーム">
+          <span class="wordmark-symbol" aria-hidden="true">◈</span>
+          <span>GeoAI <strong>Research</strong></span>
+        </a>
+        <nav aria-label="メインナビゲーション">
+          <a href="/#reports">研究を読む</a>
+          <a href="https://github.com/yuiseki/GeoAI-master-skills">GitHub ↗</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div>
+          <p class="footer-name">GeoAI Research</p>
+          <p>地理空間の問いを、データと限界から読む。</p>
+        </div>
+        <a href="https://github.com/yuiseki/GeoAI-master-skills">分析コードと原本 ↗</a>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root { color-scheme: light; --ink: #172a32; --muted: #526870; --line: #d8e2df; --paper: #f7f8f3; --green: #175f55; --green-light: #e1efea; --orange: #b45e35; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'DM Sans', 'Noto Sans JP', sans-serif; line-height: 1.75; }
+  a { color: inherit; }
+  img { display: block; max-width: 100%; }
+  .shell { width: min(100% - 2.5rem, 1120px); margin-inline: auto; }
+  .skip-link { position: absolute; top: -5rem; left: 1rem; z-index: 20; padding: .5rem 1rem; background: white; }
+  .skip-link:focus { top: 1rem; }
+  .site-header { border-bottom: 1px solid var(--line); background: rgba(247,248,243,.96); }
+  .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .wordmark { display: inline-flex; align-items: center; gap: .65rem; text-decoration: none; font-size: 1.1rem; letter-spacing: -.035em; }
+  .wordmark strong { font-weight: 700; }
+  .wordmark-symbol { color: var(--green); font-size: 1.75rem; line-height: 1; }
+  .site-header nav { display: flex; gap: 1.8rem; font-size: .82rem; font-weight: 600; }
+  .site-header nav a, .site-footer a { text-decoration: none; }
+  .site-header nav a:hover, .site-footer a:hover { color: var(--green); text-decoration: underline; }
+  .site-footer { border-top: 1px solid var(--line); margin-top: 6rem; padding: 2.25rem 0; color: var(--muted); font-size: .85rem; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 1rem; align-items: end; }
+  .site-footer p { margin: 0; }
+  .footer-name { color: var(--ink); font-weight: 700; font-size: 1rem; }
+  .eyebrow { color: var(--green); text-transform: uppercase; letter-spacing: .15em; font-size: .72rem; font-weight: 700; }
+  .button-link { display: inline-flex; align-items: center; gap: .5rem; color: white; background: var(--green); border: 1px solid var(--green); padding: .7rem 1.1rem; text-decoration: none; font-size: .86rem; font-weight: 700; border-radius: .3rem; }
+  .button-link:hover { background: #104b42; }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+  @media (max-width: 620px) { .shell { width: min(100% - 1.5rem, 1120px); } .header-inner { min-height: 68px; } .site-header nav { gap: .8rem; font-size: .75rem; } .site-footer { margin-top: 3rem; } .footer-inner { display: block; } .footer-inner a { display: inline-block; margin-top: 1rem; } }
+</style>

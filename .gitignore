@@ -4,6 +4,9 @@ __pycache__/
 .env
 .pytest_cache/
 node_modules/
+/site/dist/
+/site/.astro/
+/site/.wrangler/
 /projects/*
 !/projects/sample-project/
 !/projects/__exp/

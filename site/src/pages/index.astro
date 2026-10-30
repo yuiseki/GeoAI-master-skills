@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<Base title="地理空間から、社会の問いを読み解く" description="GeoAI-master-skills の研究成果から厳選した報告を、図と限界を添えて紹介します。">
+  <section class="hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow">Selected research / GeoAI-master-skills</p>
+      <h1>地図の先にある、<br /><em>問いを読む。</em></h1>
+      <p class="hero-lead">人口、交通、野生動物。位置を持つデータを重ねると、社会の課題はどう見えるのか。分析の結論だけでなく、どう確かめ、何がまだ分からないかまで伝えます。</p>
+      <a class="button-link" href="#reports">研究を見る <span aria-hidden="true">↘</span></a>
+    </div>
+    <div class="hero-graphic" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="orbit orbit-three"></span><span class="graphic-center">GEO<br />AI</span><span class="graphic-dot dot-one"></span><span class="graphic-dot dot-two"></span><span class="graphic-dot dot-three"></span></div>
+  </section>
+
+  <section id="reports" class="reports-section">
+    <div class="shell">
+      <div class="section-heading">
+        <div><p class="eyebrow">Research notes</p><h2>選んで公開する研究</h2></div>
+        <p>公開記事は分析原本から編集したものです。根拠や再現手順は、各記事から元のリポジトリへ辿れます。</p>
+      </div>
+      <div class="report-grid">
+        {reports.map((report, index) => (
+          <article class="report-card">
+            <a class="card-image" href={`/reports/${report.id}/`} aria-label={`${report.data.title}を読む`}><img src={report.data.image} alt={report.data.imageAlt} loading={index === 0 ? 'eager' : 'lazy'} /></a>
+            <div class="card-body">
+              <p class="card-meta"><span>{report.data.topic}</span><span>{report.data.kicker}</span></p>
+              <h3><a href={`/reports/${report.id}/`}>{report.data.title}</a></h3>
+              <p>{report.data.summary}</p>
+              <a class="read-more" href={`/reports/${report.id}/`}>研究を読む <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="method shell">
+    <div><p class="eyebrow">How we report</p><h2>言えることと、<br />言えないことを分ける。</h2></div>
+    <p>地図は答えを一つに決める道具ではありません。データの時点や粒度、距離の定義、観測されなかったものまで考えて、結果の使い道を見極めます。</p>
+  </section>
+</Base>
+
+<style>
+  .hero { min-height: 585px; display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 3rem; padding-block: 5rem; }
+  .hero h1 { margin: 1rem 0 1.6rem; line-height: 1.2; font-size: clamp(2.8rem, 5.5vw, 5.6rem); letter-spacing: -.075em; }
+  .hero h1 em { font-style: normal; color: var(--green); }
+  .hero-lead { max-width: 34rem; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.13rem); line-height: 2.1; margin-bottom: 2rem; }
+  .hero-graphic { position: relative; aspect-ratio: 1; border-radius: 50%; background: #e5eee6; overflow: hidden; max-width: 430px; width: 100%; margin-left: auto; }
+  .orbit { position: absolute; left: 50%; top: 50%; width: 80%; aspect-ratio: 1; border: 1px solid #a0c4b7; border-radius: 50%; transform: translate(-50%, -50%); }
+  .orbit-two { width: 57%; }.orbit-three { width: 31%; }
+  .hero-graphic::before, .hero-graphic::after { content: ''; position: absolute; background: #c6dcd0; }.hero-graphic::before { width: 1px; height: 100%; left: 50%; }.hero-graphic::after { height: 1px; width: 100%; top: 50%; }
+  .graphic-center { position: absolute; z-index: 1; inset: 41%; display: grid; place-content: center; border-radius: 50%; background: var(--green); color: white; text-align: center; font-weight: 700; line-height: 1.15; letter-spacing: .06em; font-size: 1rem; }
+  .graphic-dot { position: absolute; z-index: 2; width: 16px; height: 16px; border-radius: 50%; background: #c26e43; box-shadow: 0 0 0 6px #e5eee6; }.dot-one { left: 22%; top: 25%; }.dot-two { right: 15%; top: 53%; }.dot-three { left: 43%; bottom: 12%; }
+  .reports-section { background: #edf2ed; padding: 5.5rem 0 6rem; }
+  .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.2rem; }
+  .section-heading h2, .method h2 { font-size: clamp(2rem, 3.3vw, 3rem); line-height: 1.35; letter-spacing: -.05em; margin: .3rem 0 0; }
+  .section-heading > p { max-width: 25rem; color: var(--muted); font-size: .88rem; margin: 0; }
+  .report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+  .report-card { overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: .4rem; }
+  .card-image { display: block; aspect-ratio: 16/9; overflow: hidden; background: #f6f7f3; }
+  .card-image img { height: 100%; width: 100%; object-fit: contain; transition: transform .25s ease; }
+  .card-image:hover img { transform: scale(1.025); }
+  .card-body { padding: 1.5rem 1.7rem 1.8rem; }
+  .card-meta { display: flex; gap: .8rem; color: var(--green); font-size: .75rem; font-weight: 700; margin: 0; }
+  .card-meta span + span { color: var(--muted); font-weight: 500; }
+  .card-body h3 { font-size: clamp(1.3rem, 2vw, 1.8rem); line-height: 1.45; letter-spacing: -.04em; margin: .75rem 0; }
+  .card-body h3 a { text-decoration: none; }.card-body h3 a:hover { color: var(--green); }
+  .card-body > p:not(.card-meta) { color: var(--muted); font-size: .91rem; min-height: 3.3rem; }
+  .read-more { display: inline-block; color: var(--green); font-size: .83rem; font-weight: 700; text-underline-offset: .3rem; margin-top: .5rem; }
+  .method { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding-block: 6rem 2rem; align-items: center; }
+  .method > p { color: var(--muted); font-size: 1rem; line-height: 2.1; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; min-height: 0; gap: 1.5rem; padding-block: 4rem; }.hero-graphic { width: 68%; margin: 0 auto; }.section-heading, .method { display: block; }.section-heading > p { margin-top: 1rem; }.method { padding-block: 4rem 0; }.report-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 430px) { .hero-graphic { width: 86%; }.card-body { padding: 1.25rem; } }
+</style>
