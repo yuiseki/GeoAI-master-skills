@@ -11,6 +11,7 @@ Optional geographic context in config:
 - context_areas: list of {"name": str, "geometry": GeoJSON} (or FeatureCollection)
   drawn as land under units, boundary lines over units, and area labels
 - roads: list of {"geometry": GeoJSON LineString/MultiLineString, "tier": "major"|"minor"}
+  (roads_label names them in the legend; default "主要道路 (OSM)", e.g. "川 (OSM)" for rivers)
   (or FeatureCollection) drawn over units for street-level orientation
 - focus_areas: list of {"name": str, "geometry": GeoJSON, "color": str} outlined and
   listed in the legend
@@ -470,6 +471,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
 
     context_areas = _normalize_areas(config.get("context_areas"))
     roads = _normalize_roads(config.get("roads"))
+    roads_label = config.get("roads_label", "主要道路 (OSM)")
     focus_areas = config.get("focus_areas") or []
     highlights = config.get("highlights") or []
     point_groups = config.get("point_groups") or []
@@ -497,6 +499,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
         *(h.get("rank", "") for h in highlights),
         *(pg.get("label", "") for pg in point_groups),
         *(lm.get("name", "") for lm in landmarks),
+        roads_label,
         "北↑ 50 100 200 500 m 1 2 5 10 20 50 100 km",
     ]
     footer = (
@@ -852,7 +855,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
             )
         if roads:
             handles.append(
-                Line2D([0], [0], color="#686868", lw=1.1, label="主要道路 (OSM)")
+                Line2D([0], [0], color="#686868", lw=1.1, label=roads_label)
             )
         handles.extend(focus_handles)
         handles.extend(highlight_handles)
@@ -873,7 +876,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
             )
         if roads:
             extra_handles.append(
-                Line2D([0], [0], color="#686868", lw=1.1, label="主要道路 (OSM)")
+                Line2D([0], [0], color="#686868", lw=1.1, label=roads_label)
             )
         extra_handles.extend(focus_handles)
         extra_handles.extend(highlight_handles)
@@ -933,6 +936,7 @@ def draw(input_path: Path, config_path: Path, output: Path):
         "context_areas_count": len(context_areas),
         "labelled_areas": [t for t in labelled_texts if t in area_names],
         "roads_count": len(roads),
+        "roads_label": roads_label,
         "landmarks_count": len(landmarks),
         "labelled_landmarks": [t for t in labelled_texts if t in landmark_names],
         "focus_areas": [f.get("name") for f in focus_areas if f.get("name")],

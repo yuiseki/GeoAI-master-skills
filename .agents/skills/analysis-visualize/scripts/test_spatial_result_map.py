@@ -194,6 +194,17 @@ def test_context_roads_landmarks_highlights_and_scalebar(tmp_path):
     assert metadata["text_overlaps"] == []
 
 
+def test_roads_label_names_the_lines_in_the_legend(tmp_path):
+    line = {"type": "LineString", "coordinates": [[0, 0.5], [3, 0.5]]}
+    config = BASE | {"kind": "category", "categories": {"0": "住宅", "1": "商業"}, "roads": [{"geometry": line}]}
+    result, output = run(tmp_path, config, [0, 1, 1])
+    assert result.returncode == 0, result.stderr
+    assert json.loads(output.with_suffix(".json").read_text())["roads_label"] == "主要道路 (OSM)"
+    result, output = run(tmp_path, config | {"roads_label": "川 (OSM)"}, [0, 1, 1])
+    assert result.returncode == 0, result.stderr
+    assert json.loads(output.with_suffix(".json").read_text())["roads_label"] == "川 (OSM)"
+
+
 def test_unknown_highlight_id_or_wrong_unit_count_stops(tmp_path):
     bad_hl = BASE | {
         "kind": "category",
