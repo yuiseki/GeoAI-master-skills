@@ -1,0 +1,120 @@
+{
+  "mode": "exploration",
+  "social_problem": "大規模水害時や台風接近による鉄道の計画運休時において、路線バス・公営バス（都営バス）・自治体コミュニティバスは、住民の広域避難や病院・避難所への移動、発災後の緊急代替輸送を担う最後の公共交通網である。しかしバス路線（ksj-n07-bus-route-jp）とバス停留所（ksj-p11-bus-stop-jp）は道路上を走行するため、河川の外水氾濫（ksj-a31a-flood-tokyo23）だけでなく、立体交差部の道路アンダーパス冠水（mlit-underpass）によっても容易に分断される。特に、民間バス・都営バス・コミュニティバスのどの運営形態が長期浸水（72時間以上）や複数水系（荒川・隅田川・中川・神田川・目黒川等）の複合氾濫に最も脆弱か、また『外水ハザードマップ上は浸水区域外（安全圏）にあるのに、近隣のアンダーパス冠水によって路線が寸断される隠れた孤立バス停』がどこにあるかは体系的に評価されていない。",
+  "working_hypothesis": "東京都本土部のバス停留所6,664点（ksj-p11-bus-stop-jp、民間路線バス3,922・都営バス1,498・コミュニティバス1,244）を分析すると、バス区分によって水害脆弱性が大きく異なり、都営バス（kinds = 2）は計画規模浸水深0.5m以上（class_code >= 2）に41.1%（616停留所）、想定最大規模0.5m以上に過半数の54.5%（817停留所）、浸水継続時間72時間以上に37.2%（557停留所）が入るのに対し、民間路線バス（kinds = 1）は計画32.3%・最大42.7%、コミュニティバス（kinds = 3）は計画18.1%・最大31.3%にとどまる。さらに、計画規模の外水浸水域外（非浸水区域）にあるにもかかわらず、国土交通省の道路アンダーパス箇所（mlit-underpass）から250m以内に位置し、豪雨時の道路冠水でバス路線（ksj-n07-bus-route-jp）が分断されうる停留所が183箇所（民間100・都営41・コミュニティ42）存在する。バス区分や評価単位（停留所行 vs 物理座標 vs 系統数重み n_routes）を変えても脆弱性構造が一様である場合は棄却する。",
+  "question": "東京都内の路線バス網（ksj-p11-bus-stop-jp および ksj-n07-bus-route-jp）において、河川別の洪水浸水想定区域（ksj-a31a-flood-tokyo23 の計画規模・最大規模・72時間超継続・複数河川重複）と道路アンダーパス冠水箇所（mlit-underpass）を重ねたとき、民間路線バス・都営バス・自治体コミュニティバスのどれが最も深刻な路線網分断を被るか？ また『外水浸水区域外にありながらアンダーパス冠水で孤立するバス停留所・路線区間』はどこに集中しているか？",
+  "decision_use": "東京都交通局（都営バス）、民間バス事業者、特別区・市町村の地域公共交通担当者、および道路管理者が、（1）72時間以上浸水が継続するエリアにあるバス停留所・営業所からの車両退避計画の策定、（2）外水浸水区域外であってもアンダーパス冠水で寸断されるバス路線の迂回ルート事前指定、（3）鉄道運休時の代替バス輸送における水系別・事業者別の冗長性評価に利用する。",
+  "target_quantity": "東京都本土部のバス停留所（6,664点、および重複座標を束ねた物理停留所・n_routes 重み付き停留所）とバス路線区間（ksj-n07-bus-route-jp、事業者別 union 長さ）における、バス区分（1:民間、2:公営［都営］、3:コミュニティ）および主要事業者別の、（1）計画規模・最大規模浸水深0.5m以上（class_code >= 2）および72時間以上継続（duration class_code >= 4）に入る停留所数・路線延長比率、（2）複数河川（COUNT(DISTINCT river_code) >= 2）の同時浸水リスクに晒される停留所数、（3）計画浸水区域外かつ mlit-underpass から100m/250m以内にある停留所数およびアンダーパスが直撃するバス路線区間数。個々のバスのリアルタイム運行本数や乗客数は対象量ではない。",
+  "unit": "バス停留所（ksj-p11-bus-stop-jp の事業者別停留所行6,664点、および物理座標単位）とバス路線区間（ksj-n07-bus-route-jp の事業者別線分）。",
+  "time_alignment": "バス停留所（ksj-p11-bus-stop-jp）とバスルート（ksj-n07-bus-route-jp）はともに2022年度版（2022年8月頃時点）、道路アンダーパス箇所（mlit-underpass）は2025年3月31日時点、洪水浸水想定区域（ksj-a31a-flood-tokyo23）は令和7年度版（2026年10月取得）。P11とN07は同じ2022年度版の事業者名（operator）で100%整合する。",
+  "claim_type": "descriptive_screening",
+  "datasets": [
+    "yuiseki/ksj-p11-bus-stop-jp",
+    "yuiseki/ksj-n07-bus-route-jp",
+    "yuiseki/ksj-a31a-flood-tokyo23",
+    "yuiseki/mlit-underpass"
+  ],
+  "source_versions": {
+    "yuiseki/ksj-p11-bus-stop-jp": "442223b4544103a922f21081c070dd5c69e4c23e",
+    "yuiseki/ksj-n07-bus-route-jp": "5c1d2abce4d0f23eb09926b87bc6d42f800d009c",
+    "yuiseki/ksj-a31a-flood-tokyo23": "5b2259273128d0b79b491eb758abe0db67c4feac",
+    "yuiseki/mlit-underpass": "4d00072aa88696cfa7026c4cef7d600bc96f9f13"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/ksj-p11-bus-stop-jp",
+      "right": "yuiseki/ksj-n07-bus-route-jp",
+      "how": "operator（事業者名文字列）の一致および停留所点（bus_stop.geometry）とバス路線（bus_route.geometry）の空間近접結合（ST_DWithin）",
+      "why": "停留所のバス区分（kinds）と停車系統数（n_routes）をバス路線網に紐づけ、事業者別の道路延長と停留所網を統合評価するため"
+    },
+    {
+      "left": "yuiseki/ksj-p11-bus-stop-jp",
+      "right": "yuiseki/ksj-a31a-flood-tokyo23",
+      "how": "バス停留所点およびバス路線線分と、ST_MakeValid処理済みの flood_area（category = 'planned', 'maximum', 'duration', river_code 別）の空間交差（ST_Intersects）",
+      "why": "単一河川・複数河川の外水氾濫および72時間以上浸水による停留所・路線区間の水没率をバス区分別に算出するため"
+    },
+    {
+      "left": "yuiseki/ksj-p11-bus-stop-jp",
+      "right": "yuiseki/mlit-underpass",
+      "how": "バス停留所点およびバス路線線分と、東京都内のアンダーパス点（underpass.geometry）の空間距離結合（ST_DWithin 50m / 100m / 250m、平面直角座標系 EPSG:6677 で距離計測）",
+      "why": "外水ハザードマップ区域外であっても道路アンダーパス冠水によって路線が途絶するボトルネック箇所を特定するため"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "id"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "pref_code"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "name"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "operator"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "routes"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "kinds"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "n_routes"},
+    {"dataset": "yuiseki/ksj-p11-bus-stop-jp", "table": "bus_stop", "column": "geometry"},
+    {"dataset": "yuiseki/ksj-n07-bus-route-jp", "table": "bus_route", "column": "id"},
+    {"dataset": "yuiseki/ksj-n07-bus-route-jp", "table": "bus_route", "column": "pref_code"},
+    {"dataset": "yuiseki/ksj-n07-bus-route-jp", "table": "bus_route", "column": "operator"},
+    {"dataset": "yuiseki/ksj-n07-bus-route-jp", "table": "bus_route", "column": "geometry"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "category"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "river_code"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "river_name"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "class_code"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/mlit-underpass", "table": "underpass", "column": "id"},
+    {"dataset": "yuiseki/mlit-underpass", "table": "underpass", "column": "name"},
+    {"dataset": "yuiseki/mlit-underpass", "table": "underpass", "column": "route"},
+    {"dataset": "yuiseki/mlit-underpass", "table": "underpass", "column": "pref_code"},
+    {"dataset": "yuiseki/mlit-underpass", "table": "underpass", "column": "lon"},
+    {"dataset": "yuiseki/mlit-underpass", "table": "underpass", "column": "lat"},
+    {"dataset": "yuiseki/mlit-underpass", "table": "underpass", "column": "geometry"}
+  ],
+  "methodological_decisions": [
+    "ksj-n07-bus-route-jp は同じ道路を複数事業者が走る場合に事業者ごとに重複した線分を持つ（東京都で単純合計5,363 km vs ST_Union_Agg 後3,911 km、約27%の重複）ため、『バスが通る道路網の浸水長』と『事業者別の路線網浸水長』を明確に使い分ける",
+    "ksj-p11-bus-stop-jp も同一座標に複数事業者の停留所行が重なるため、事業者別停留所行（6,664行）、物理座標単位、および系統数重み（SUM(n_routes)）の3つの尺度で浸水率を比較する",
+    "距離・路線長の計算は経緯度の度ではなく平面直角座標系第IX系（EPSG:6677）に投影変換してメートル単位で測る"
+  ],
+  "failure_modes": [
+    "ksj-n07-bus-route-jp の1行（短い線分）を『1つのバス路線・系統』として数えると、線分割の細かさに引きずられて無意味な件数になる",
+    "ksj-n07-bus-route-jp の ST_Length をそのまま SUM すると、複数事業者が重複走行する幹線道路が最大7重にカウントされる",
+    "ksj-p11-bus-stop-jp の operator = '東京都'（都営バス、kinds = 2）と区市町村名（コミュニティバス、kinds = 3）を kinds 列を見ずに混同すると、公営幹線バスとコミュニティバスの脆弱性差が消える"
+  ],
+  "robustness_checks": [
+    "集計指標を『停留所行数』『重複を除いた物理停留所座標数』『停車系統数重み付き（SUM(n_routes)）』『ST_Union_Agg 後の道路延長（km）』の4通りで切り替え、都営バス＞民間バス＞コミュニティバスの脆弱性順位が保たれるかを検証する",
+    "外水シナリオを『計画規模（planned >= 0.5m）』『想定最大規模（maximum >= 0.5m）』『浸水継続時間72時間以上（duration >= 72h）』『単一河川（荒川単独 vs 神田川単独 vs 複数河川重複）』で切り替える",
+    "アンダーパスによるバス路線・停留所分断の距離閾値を 50m、100m、250m（EPSG:6677）で掃引し、外水浸水区域外のアンダーパス途絶リスク箇所数の感度を確かめる"
+  ],
+  "simplest_solver": {
+    "method": "東京都全体のバス停留所を区別せず、想定最大規模の浸水想定区域（ksj-a31a maximum）と交差する割合だけを1つの数字として出す方法",
+    "why_insufficient": "全体平均だけを見ると、城東・湾岸低地を網羅する都営バス（計画41.1%・最大54.5%が水没、37.2%が72時間以上水没）と山手・多摩のコミュニティバス（計画18.1%・最大31.3%）の2倍近い構造差を見落とし、さらに外水ハザードマップでは『浸水なし』とされながら道路アンダーパス冠水（mlit-underpass）で寸断される183停留所・幹線の盲点を完全に捉え損ねる。"
+  },
+  "unknowns": [
+    "各バス系統の1日あたり運行本数および発着時刻表（2022年度版 N07/P11 には運行頻度が含まれないため）",
+    "各アンダーパスにおける自動冠水表示板・通行止めゲートの設置有無および冠水時の具体的な迂回可能道路幅員"
+  ],
+  "novelty": {
+    "closest_task": 37,
+    "difference_dimension": "public_bus_network_multi_river_and_underpass_severance_by_operator_class",
+    "substantive_difference": "既存のアンダーパス提案（2026-10-30-underpass-ponding-exposure）が全国のアンダーパス点周辺のDEM窪地指標を扱ったのに対し、本提案はバス停留所（ksj-p11-bus-stop-jp）・バス路線（ksj-n07-bus-route-jp）・河川別浸水想定（ksj-a31a-flood-tokyo23）・アンダーパス（mlit-underpass）の4者を結合し、バス運営形態（都営 vs 民間 vs コミュニティ）および水系別の路線網分断と『外水非浸水エリアでのアンダーパス途絶』を公共交通ネットワークの視点から解明する点で実質的に異なる。"
+  },
+  "prediction": {
+    "main_result": "東京都本土部の6,664バス停留所のうち、都営バス（1,498停留所）は計画規模0.5m以上浸水に41.1%（616箇所）、想定最大規模に54.5%（817箇所）、72時間以上長期浸水に37.2%（557箇所）が含まれ、民間路線バス（3,922停留所：計画32.3%・最大42.7%・72h超25.0%）やコミュニティバス（1,244停留所：計画18.1%・最大31.3%・72h超15.4%）より突出して高い水害曝露を持つ。一方、計画規模の外水浸水域外にありながら250m以内にアンダーパス（mlit-underpass）が存在し局所冠水で路線分断リスクを負う停留所は183箇所（民間100・都営41・コミュニティ42）に達し、外水ハザードマップだけでは山手・台地側のバス路線途絶リスクを見落とす。",
+    "difficulty": "ksj-n07-bus-route-jp の複数事業者重複線分（約27%重複）の ST_Union_Agg 処理、ksj-p11-bus-stop-jp の kinds 配列展開と物理座標名寄せ、および EPSG:6677 投影下での路線×アンダーパス×河川別浸水面の一貫した空間結合",
+    "fragile_assumption": "バス路線（ksj-n07-bus-route-jp）の線分から一定距離内にあるアンダーパス（mlit-underpass）が、実際にそのバス路線が通過する立体交差部であるという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "data-quality-audit",
+      "analysis-unit-design",
+      "spatial-data-integration",
+      "spatial-network-analysis",
+      "robustness-analysis",
+      "analysis-visualize",
+      "analysis-reporting"
+    ]
+  },
+  "rubric": [
+    "ksj-p11-bus-stop-jp、ksj-n07-bus-route-jp、ksj-a31a-flood-tokyo23、mlit-underpass の固定版ハッシュと EPSG:6677 への投影変換・ST_MakeValid 処理を明記する",
+    "ksj-n07-bus-route-jp の線分重複（単純合算 vs ST_Union_Agg）および ksj-p11-bus-stop-jp の事業者別停留所行と物理座標の違いを明記し、両方の数値を報告する",
+    "バス区分（1:民間、2:都営、3:コミュニティ）および主要事業者別に、計画規模・想定最大規模・72時間以上浸水の曝露率を比較し、都営バスの長期間浸水脆弱性（37.2%）を示す",
+    "ksj-a31a-flood-tokyo23 の river_code を用いて単一水系氾濫と複数水系重複氾濫の影響を比較するとともに、外水浸水区域外で mlit-underpass により分断される停留所・路線区間（250m圏で183停留所）を特定する",
+    "アンダーパス距離閾値（50m / 100m / 250m）および重み付け（停留所数 vs n_routes 重み vs 路線長）を変えた頑健性確認を報告する"
+  ]
+}

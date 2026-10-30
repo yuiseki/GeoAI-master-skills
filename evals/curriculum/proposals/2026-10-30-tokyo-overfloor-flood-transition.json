@@ -1,0 +1,120 @@
+{
+  "mode": "digging",
+  "history_anchor": {
+    "source": "projects/_flood/tokyo23-flood-record-vs-a31a/report.md",
+    "observation": "先行分析（tokyo23-flood-record-vs-a31a）では、東京23区の100mセル単位で1974〜1996年の浸水実績から1997〜2019年の浸水有無（0/1）を予測したが、（1）気象庁（jma-rain-tokyo）の最寄り観測所の年最大1時間雨量（max1h_mm）を特徴量に足すとAverage Precisionが0.0087から0.0063へ悪化し、（2）被害が軽微な床下浸水（utf_bldg）で済むか生活再建を要する床上浸水（otf_bldg）へ至るかの深刻度階層化を扱っておらず、（3）多摩地域が分析対象から外れていた。"
+  },
+  "social_problem": "都市水害対策において、単なる『道路冠水・床下浸水（utf_bldg）』と、家財喪失や長期避難・建物改修を伴う『床上浸水（otf_bldg）』とでは、必要なハード対策（下水道増強か建築物の高床化・止水板設置か）や被災者支援コストが桁違いに異なる。また、気象庁のアメダス観測網（東京都本土11地点）の警報・注意報基準だけで局地的な短時間強雨による床上浸水リスクを監視しようとすると、数kmスケールの積乱雲（ゲリラ豪雨）がアメダス網の隙間を通り抜けて見落とされる恐れがある。東京都全域（23区および多摩地域）の46年間の浸水実績（tokyo-flood-record-jp）に記録された東京都建設局の最寄り雨量計（nro_60min, nro_tot）と気象庁観測網（jma-rain-tokyo）を突合し、なぜ気象庁データでは水害予測が外れるのか、また内水氾濫と外水溢水のそれぞれで『床下浸水から床上浸水へ被害が跳ね上がる局所雨量閾値』がどこにあるのかを解明する必要がある。",
+  "working_hypothesis": "1974〜2019年の浸水実績図（tokyo-flood-record-jp）と気象庁日別降水量（jma-rain-tokyo）が突合できる117災害日において、都建設局の最寄り雨量計の最大60分雨量（nro_60min）は気象庁本土11観測所の最大1時間雨量（max1h_mm）より平均+14.02 mm/h（大手町 s47662 比で+31.64 mm/h）高く、都雨量計で50 mm/h以上を記録した51災害日の51.0%（26日）で気象庁全11観測所が50 mm/h未満を取り逃がしている。さらに、分割ポリゴンの重複を除去した2,251調査単位でみると、23区の内水氾濫（reason = '内水'）では被害棟数に占める床上浸水棟数比率（otf_bldg / (otf_bldg + utf_bldg)）は時間雨量70 mm/h未満では17.1〜19.8%と横ばいだが、70 mm/h以上で40.1%（床上発生記録率88.6%）へ倍増する非線形ジャンプを示す一方、外水溢水（溢水・有堤部溢水）では時間雨量30 mm/h未満でも床上比率が78.0%（多摩地域の50〜69 mm/h帯では83.0%）に達する。雨量階級や浸水原因を変えても床上浸水比率が一様である場合は棄却する。",
+  "question": "東京都全域（23区および多摩地域）の過去46年間（1974〜2019年）の浸水実績において、なぜ気象庁観測網（jma-rain-tokyo）の雨量では局所水害を捉えきれないのか？ また都建設局の最寄り雨量計（nro_60min, nro_tot）と浸水原因（内水 vs 溢水）を組み合わせたとき、被害が『床下浸水（utf_bldg）』にとどまらず『床上浸水（otf_bldg）』へ急増する雨量閾値と地域特性（23区 vs 多摩地域）はどこにあるか？",
+  "decision_use": "東京都および区市町村の水防管理者・建築住宅部局が、（1）気象庁アメダス（本土11地点）と自治体独自雨量計の空間密度ギャップによる豪雨見落としリスクの定量把握、（2）内水氾濫区域における70 mm/h級豪雨を想定した半地下・1階止水板助成の優先度設定と、外水溢水区域における時間雨量に依存しない早期避難・高床化の使い分けに利用する。",
+  "target_quantity": "（1）117災害日における都最寄り雨量計（nro_60min）と気象庁本土11観測所（max1h_mm）の雨量差および50 mm/h閾値の見落とし率、（2）重複除去後の2,251調査単位（および生ポリゴン5,845行）における地域区分（23区 vs 多摩地域）× 浸水原因（内水 vs 溢水）× 60分雨量階級（<30, 30-49, 50-69, >=70 mm/h）別の床上浸水発生記録率および被害棟数に占める床上浸水棟数比率（otf_bldg / (otf_bldg + utf_bldg)）。個別建物の床高（cm）や下水管のリアルタイム水位そのものは対象量ではない。",
+  "unit": "水害統計調査の重複除去済み記録単位（2,251組、感度分析としてポリゴン行5,845行）および災害開始日単位（117日）、空間集計単位として東京都の区市町村（jp-admin-2026-09）。",
+  "time_alignment": "tokyo-flood-record-jp は1974〜2019年の43年分（1980, 2012, 2015年は欠番）、jma-rain-tokyo は1974〜2025年の日別観測（本土アメダスが出揃うのは1976年以降）、jp-admin-2026-09 は2026年9月時点の自治体名・2020年境界。合併前の旧市町村名（田無市・保谷市→西東京市、秋川市・五日市町→あきる野市）を名寄せして時系列を揃える。",
+  "claim_type": "descriptive_screening",
+  "datasets": [
+    "yuiseki/tokyo-flood-record-jp",
+    "yuiseki/jma-rain-tokyo",
+    "yuiseki/jp-admin-2026-09"
+  ],
+  "source_versions": {
+    "yuiseki/tokyo-flood-record-jp": "354b0d9f8030347192eaa387500f60da76c07e1a",
+    "yuiseki/jma-rain-tokyo": "4391f7698523f5fd8f7c485a407a20f1545a6fc9",
+    "yuiseki/jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/tokyo-flood-record-jp",
+      "right": "yuiseki/jma-rain-tokyo",
+      "how": "flood_area の災害開始日（dis_date_s）と jma-rain-tokyo の日別降水量（daily.date、stations で lat >= 35.5 の本土11観測所に絞り込み）の日付結合、および浸水ポリゴン代表点と観測所座標（lon, lat）の距離比較",
+      "why": "都建設局の最寄り雨量計（nro_60min）と気象庁観測網（max1h_mm）の雨量乖離および50 mm/h豪雨の見落とし率を実測するため"
+    },
+    {
+      "left": "yuiseki/tokyo-flood-record-jp",
+      "right": "yuiseki/jp-admin-2026-09",
+      "how": "flood_area の区市町村名（munic、旧自治体名・表記ゆれ補正後）およびポリゴン代表点（ST_PointOnSurface）と municipalities.geometry の空間結合",
+      "why": "23区と多摩地域の各自治体ごとに床上浸水率・雨量計フラグ（nro_flag）の違いを集計するため"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "year"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "layer"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "row"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "id"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "dis_name"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "dis_date_s"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "munic"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "district"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "district0"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "area"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "utf_bldg"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "otf_bldg"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "tot_bldg"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "reason"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "nro_60min"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "nro_tot"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "nro_flag"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "stations", "column": "station_id"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "stations", "column": "lat"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "stations", "column": "lon"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "station_id"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "date"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "precip_mm"},
+    {"dataset": "yuiseki/jma-rain-tokyo", "table": "daily", "column": "max1h_mm"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "code5"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "name"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "geometry"}
+  ],
+  "methodological_decisions": [
+    "tokyo-flood-record-jp の utf_bldg, otf_bldg, tot_bldg, nro_60min, nro_tot に含まれる括弧付き文字列（'16(3)' など）やハイフン記号（'‐'）を正規表現（regexp_extract）で数値化し、同一調査単位の分割ポリゴン重複（5,845行→2,251組）を除去して集計する",
+    "最寄り雨量観測所フラグ（nro_flag = 0: 当該区市町村内の観測所 4,503行 vs nro_flag = 1: 当該自治体に観測所がなく近隣自治体を参照 1,338行）を分け、雨量計測の空間代表性によるバイアスを検証する",
+    "気象庁観測所（jma-rain-tokyo）との比較では、東京管区気象台（大手町 s47662）単独と本土全11観測所の最大値の両方を算出し、なぜ先行研究で気象庁雨量特徴量が予測精度を下げたのかを定量的に説明する"
+  ],
+  "failure_modes": [
+    "flood_area のポリゴン行（5,845行）のまま otf_bldg や utf_bldg を単純合算すると、同一災害区域が複数ポリゴンに分割されているケース（最大83行）で被害棟数が約6〜10倍に過大計上される",
+    "otf_bldg や nro_60min を TRY_CAST(col AS INTEGER) だけで変換すると、括弧付き表記（81行の nro_60min、42行の tot_bldg 等）がすべて NULL となって激甚水害イベントが脱落する",
+    "nro_tot に含まれる全角ハイフン（U+2010、224行）や負値（'-142' が2行）をそのまま数値変換・集計すると集計エラーまたは異常値汚染が生じる"
+  ],
+  "robustness_checks": [
+    "集計単位を『重複除去済みの調査記録（2,251組）』と『生ポリゴン行（5,845行）』で切り替え、70 mm/h以上での内水床上浸水比率の急増（40.1%）が頑健に保たれるかを確かめる",
+    "nro_flag = 0（自治体内観測所のみ）に限定した場合と全行を使った場合で、時間雨量階級別の床上浸水比率を比較する",
+    "雨量指標を『最寄り観測所の60分最大雨量（nro_60min）』から『総雨量（nro_tot）』および『当該水害の最大時間雨量観測所（mro_60min）』に切り替えたとき、内水と外水（溢水）のどちらが総雨量により強く反応するかを比較する"
+  ],
+  "simplest_solver": {
+    "method": "浸水実績の有無（0/1）や全被害棟数（tot_bldg）だけを気象庁大手町（s47662）の日降水量に対して単回帰する方法",
+    "why_insufficient": "大手町1地点の最大1時間雨量は都内被災地の最寄り雨量計より平均31.64 mm/hも低く、50 mm/h超の局地豪雨日の64.7%で30 mm/h未満しか記録していないため局所水害を全く説明できない。また tot_bldg だけを見ると、70 mm/h未満では8割以上を占める床下浸水と、70 mm/h超または外水溢水で急増する床上浸水の質的な転換点を見落とす。"
+  },
+  "unknowns": [
+    "各浸水区域における実際の最大浸水深（cm単位の実測値）および個々の被災建物の1階床高・半地下構造の有無",
+    "東京都建設局の独自雨量観測所（nro_name / mro_name）の正確な緯度・経度座標（観測所名のみが記録されているため）"
+  ],
+  "novelty": {
+    "closest_task": 37,
+    "difference_dimension": "overfloor_vs_underfloor_severity_transition_and_rain_gauge_network_gap",
+    "substantive_difference": "先行プロジェクト（tokyo23-flood-record-vs-a31a）が『23区100mセルでの浸水有無（0/1）の空間予測』を扱ったのに対し、本提案は（1）なぜ気象庁雨量特徴量が予測を悪化させたのかを都雨量計（nro_60min）と気象庁11局（max1h_mm）の直接突合（50mm/h豪雨の51%見落とし）で解明し、（2）23区＋多摩地域全域で被害が『床下浸水（utf_bldg）』から『床上浸水（otf_bldg）』へ非線形に跳ね上がる雨量閾値（内水では70mm/h超で17〜19%→40.1%、外水溢水では低時間雨量でも36〜83%）を特定する点で実質的に異なる。"
+  },
+  "prediction": {
+    "main_result": "117災害日の突合において、都最寄り雨量計の最大時間雨量は気象庁本土11観測所の最大値より平均+14.02 mm/h（大手町比+31.64 mm/h）高く、都雨量計50 mm/h以上の51日のうち26日（51.0%）で気象庁全11局が50 mm/h未満となる。重複除去後の2,251調査単位では、23区の内水氾濫における床上浸水棟数比率は時間雨量<30 mm/h（18.8%）、30–49 mm/h（19.8%）、50–69 mm/h（17.1%）まで約2割で推移するが、>=70 mm/hで40.1%（床上発生記録率88.6%）へ急増する。一方、外水溢水では時間雨量<30 mm/hでも23区で78.0%、多摩地域の50–69 mm/h帯で83.0%が床上浸水となる。",
+    "difficulty": "tokyo-flood-record-jp の分割ポリゴン重複（5,845行→2,251組）の名寄せ、括弧付き文字列や全角ハイフン・負値（-142）のクレンジング、および nro_flag による観測所代表性の切り分け",
+    "fragile_assumption": "水害統計調査における床下・床上棟数の計上基準が1974〜2019年の46年間および23区・多摩の各自治体間で一貫しているという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "data-quality-audit",
+      "observation-bias-audit",
+      "spatial-data-integration",
+      "eda-and-baseline",
+      "robustness-analysis",
+      "analysis-visualize",
+      "analysis-reporting"
+    ]
+  },
+  "rubric": [
+    "tokyo-flood-record-jp、jma-rain-tokyo、jp-admin-2026-09 の版（commit SHA）を明記し、旧自治体名（田無市・保谷市、秋川市・五日市町等）の名寄せとCRS統一を行う",
+    "tokyo-flood-record-jp の分割ポリゴン重複（5,845行 vs 2,251組）を検出し、utf_bldg・otf_bldg・nro_60min・nro_tot の括弧付き文字列および異常値（全角ハイフン、負値）のクレンジング手順と件数を報告する",
+    "117災害日について都建設局雨量計（nro_60min）と気象庁本土11観測所・大手町観測所（max1h_mm）の雨量差および50 mm/h閾値の見落とし率（51日中26日＝51.0%）を定量的に示す",
+    "地域（23区 vs 多摩）× 原因（内水 vs 溢水）× 時間雨量階級（<30, 30-49, 50-69, >=70 mm/h）別の床上浸水発生率と床上浸水棟数比率を算出し、内水氾濫における70 mm/h閾値での非線形ジャンプ（17.1%→40.1%）と外水溢水との構造差を検証する",
+    "nro_flag（自治体内観測所か近隣参照か）および総雨量（nro_tot）への切り替えによる頑健性確認を報告する"
+  ]
+}

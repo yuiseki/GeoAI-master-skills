@@ -1,0 +1,119 @@
+{
+  "mode": "exploration",
+  "social_problem": "自治体の地域防災計画や洪水避難所の収容計画は、国勢調査に基づく『夜間居住人口（常住人口）』を基準に設計されている。しかし東京23区のような巨大業務・商業集積地では、平日の昼間（11〜14時台）に郊外から数百万人の通勤・通学・買物客が流入する。もし平日の日中に計画規模以上の外水氾濫や、72時間（3日間）以上水が引かない長期浸水（ksj-a31a-flood-tokyo23 の duration >= 72h）が発生した場合、鉄道網が運休して帰宅困難となった膨大な昼間流入人口が浸水想定区域内のターミナル駅周辺に取り残され、夜間居住人口向けに確保された指定緊急避難場所・避難所（gsi-evacuation-sites-jp）の収容能力が瞬時に破綻する恐れがある。",
+  "working_hypothesis": "東京23区の1kmメッシュ652個（mlit-1km-fromto-2022-01、2019年平均）のうち、計画規模浸水深0.5m以上（class_code >= 2）にかかる356メッシュおよび浸水継続時間72時間以上（duration class_code >= 4）にかかる238メッシュでは、平日深夜滞在人口（380.6万人、72h超区域）に対して平日昼間滞在人口は505.5万人へと+124.9万人純増（計画0.5m以上または72h超の363メッシュ全体では+209.3万人純増）する。特に平日昼間人口が深夜人口の2倍以上に膨張する業務・商業集積38メッシュ（うち72h超区域は20メッシュ）だけで+307.3万人（72h超区域で+193.4万人）の昼間純流入サージが発生しており、夜間人口ベースの評価と平日昼間ベースの評価とでは、水害曝露上位メッシュおよび鉄道乗換駅（ekidata-jp）・洪水対応指定緊急避難場所（gsi-evacuation-sites-jp、flood = true）の負荷倍率が大きく逆転する。昼夜間で浸水区域内の滞在人口および上位メッシュ順位が変わらない場合は棄却する。",
+  "question": "東京23区の洪水浸水想定区域（特に浸水深0.5m以上および浸水継続時間72時間以上の長期浸水区域）において、水害が『平日深夜』ではなく『平日昼間（または休日昼間）』に発生した場合、1kmメッシュごとの滞在人口曝露量（mlit-1km-fromto-2022-01）と鉄道乗換駅（ekidata-jp）・洪水指定緊急避難場所（gsi-evacuation-sites-jp）1箇所あたりの昼間滞留負荷はどこで最大化し、夜間居住人口ベースの優先順位とどう逆転するか？",
+  "decision_use": "東京都・特別区の危機管理部局、鉄道事業者、および都心・副都心エリアのビル管理・BCP担当者が、（1）夜間人口ベースでは見落とされる『昼間水害・長期孤立ボトルネック地区（丸の内・大手町・日本橋・新橋・豊洲・北千住・錦糸町等）』の特定、（2）72時間以上浸水が継続する昼間流入超過メッシュにおける一時滞在施設（高層オフィスビル上層階への垂直避難協定）および備蓄水・食料の必要量算定に利用する。",
+  "target_quantity": "東京23区の1kmメッシュ（652メッシュ）ごとの、（1）平日昼間（dayflag='1', timezone='0'）・平日深夜（dayflag='1', timezone='1'）・休日昼間（dayflag='0', timezone='0'）の平均滞在人口と昼間純流入量（昼−深夜）および昼夜人口比、（2）ksj-a31a-flood-tokyo23 の計画規模・最大規模浸水深（class_code >= 2）および浸水継続時間（duration class_code >= 3 [24h以上], >= 4 [72h以上]）との重なり、（3）メッシュ内および周辺500mの運行中鉄道駅数・乗換路線数（ekidata-jp）と洪水対応の指定緊急避難場所数（gsi-evacuation-sites-jp、flood = true）あたりの昼間純流入人口負荷。建物個別の備蓄在庫数や地下街のリアルタイム流入水量は対象量ではない。",
+  "unit": "JIS標準地域メッシュの3次メッシュ（1kmメッシュ、東京23区内652メッシュ）を基本単位とし、時間帯区分（平日昼・平日深夜・休日昼）× 浸水想定シナリオ別に比較する。",
+  "time_alignment": "人流データ（mlit-1km-fromto-2022-01）はCOVID-19前の通常通勤構造を反映する2019年1〜12月平均を主分析とし、テレワーク浸透期の2020〜2021年を感度分析に用いる。メッシュ属性（attribute_mesh1km）は2020年版、洪水浸水想定区域（ksj-a31a-flood-tokyo23）は令和7年度版（2026年10月取得）、鉄道駅（ekidata-jp）は2026-07-31版、指定緊急避難場所（gsi-evacuation-sites-jp）は2026-10-06取得版。",
+  "claim_type": "descriptive_screening",
+  "datasets": [
+    "yuiseki/mlit-1km-fromto-2022-01",
+    "yuiseki/ksj-a31a-flood-tokyo23",
+    "yuiseki/ekidata-jp",
+    "yuiseki/gsi-evacuation-sites-jp"
+  ],
+  "source_versions": {
+    "yuiseki/mlit-1km-fromto-2022-01": "2424a9d9a0518f5575f0af54602eb428ca6d97b2",
+    "yuiseki/ksj-a31a-flood-tokyo23": "5b2259273128d0b79b491eb758abe0db67c4feac",
+    "yuiseki/ekidata-jp": "a33321099406b47338be0d03a4887059473fde0c",
+    "yuiseki/gsi-evacuation-sites-jp": "d8ad2169789b71c951e8808b2e54a953030aae07"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/mlit-1km-fromto-2022-01",
+      "right": "yuiseki/ksj-a31a-flood-tokyo23",
+      "how": "monthly_mdp_mesh1km と attribute_mesh1km（version = '2020'）を mesh1kmid で結合して得た東京23区（citycode 13101〜13123）の1kmメッシュポリゴンと、ST_MakeValid処理済みの flood_area（category = 'planned', 'maximum', 'duration', 'collapse_flow'）の空間交差（ST_Intersects）",
+      "why": "各1kmメッシュが計画規模・想定最大規模の浸水深0.5m以上および浸水継続時間24時間・72時間以上の区域にかかるかを判定し、時間帯別の曝露人口を算出するため"
+    },
+    {
+      "left": "yuiseki/mlit-1km-fromto-2022-01",
+      "right": "yuiseki/ekidata-jp",
+      "how": "1kmメッシュポリゴン（attribute_mesh1km.geometry）と運行中鉄道駅（station.e_status = 0、station_g_cd で乗換駅グループ化）の空間結合（ST_Intersects / ST_DWithin）",
+      "why": "昼間人口が急増する浸水メッシュにおける鉄道ターミナル・乗換駅の集積度と運休時の滞留リスクを評価するため"
+    },
+    {
+      "left": "yuiseki/mlit-1km-fromto-2022-01",
+      "right": "yuiseki/gsi-evacuation-sites-jp",
+      "how": "1kmメッシュポリゴンと洪水対応の指定緊急避難場所（sites.flood = true）および指定避難所（shelters）の空間結合",
+      "why": "夜間人口向けに配置された避難場所の数に対して、平日昼間の流入サージ人口が何倍の負荷を生むかを測るため"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "mesh1kmid"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "citycode"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "prefcode"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "year"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "month"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "dayflag"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "timezone"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "monthly_mdp_mesh1km", "column": "population"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "attribute_mesh1km", "column": "version"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "attribute_mesh1km", "column": "mesh1kmid"},
+    {"dataset": "yuiseki/mlit-1km-fromto-2022-01", "table": "attribute_mesh1km", "column": "geometry"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "category"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "class_code"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/ekidata-jp", "table": "station", "column": "station_cd"},
+    {"dataset": "yuiseki/ekidata-jp", "table": "station", "column": "station_g_cd"},
+    {"dataset": "yuiseki/ekidata-jp", "table": "station", "column": "line_cd"},
+    {"dataset": "yuiseki/ekidata-jp", "table": "station", "column": "e_status"},
+    {"dataset": "yuiseki/ekidata-jp", "table": "station", "column": "geometry"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "common_id"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "earthquake"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "sites", "column": "geometry"},
+    {"dataset": "yuiseki/gsi-evacuation-sites-jp", "table": "shelters", "column": "common_id"}
+  ],
+  "methodological_decisions": [
+    "mlit-1km-fromto-2022-01 の attribute_mesh1km は version = '2019' と '2020' の2版が入っているため、必ず version = '2020' に絞ってから結合し、行数2倍化のバグを防ぐ",
+    "dayflag（0:休日, 1:平日, 2:全日）と timezone（0:昼, 1:深夜, 2:終日）は内訳ではなく別集計であるため合算せず、（dayflag='1', timezone='0'）と（dayflag='1', timezone='1'）を1組ずつ抽出して比較する",
+    "鉄道駅（ekidata-jp）は路線ごとに行が存在するため、乗換駅は station_g_cd で束ねて物理的な駅拠点数を数えるとともに、乗り入れ路線数（COUNT(DISTINCT line_cd)）をターミナル重要度指標として使う"
+  ],
+  "failure_modes": [
+    "attribute_mesh1km を version で絞らずに結合すると、全メッシュが2重に結合されて滞在人口が2倍になる",
+    "monthly_mdp_mesh1km の dayflag や timezone を絞らずに SUM(population) を取ると、昼・深夜・終日および平日・休日・全日の9区分が二重三重に合算されて無意味な値になる",
+    "gsi-evacuation-sites-jp の sites を災害種別フラグ（flood）を確認せずに全数カウントすると、洪水時使用不可（地震のみ対応など）の避難場所まで収容力に含めてしまう"
+  ],
+  "robustness_checks": [
+    "時間帯と年を『2019年平日昼 vs 平日深夜』『2019年休日昼 vs 平日深夜』『2021年（コロナ禍テレワーク期）平日昼 vs 平日深夜』の3通りで切り替え、昼間純流入ボトルネック上位メッシュの安定性を検証する",
+    "浸水想定の条件を『計画規模 浸水深0.5m以上（class_code >= 2）』『浸水継続時間 24時間以上（duration class_code >= 3）』『浸水継続時間 72時間以上（duration class_code >= 4）』で切り替え、長期孤立リスクの空間分布を比較する",
+    "1kmメッシュと浸水想定区域の重なり判定を『少しでも交差（ST_Intersects）』と『メッシュ面積の25%以上が浸水』で切り替え、境界メッシュの感度を確認する"
+  ],
+  "simplest_solver": {
+    "method": "国勢調査の夜間常住人口（または深夜滞在人口 timezone = '1'）だけを使って浸水想定区域内の曝露人口を算出する方法",
+    "why_insufficient": "夜間人口だけを見ると、千代田区・中央区・港区・江東区・墨田区・台東区・足立区等の業務・商業・ターミナル集積メッシュで平日の日中に発生する+209.3万人（72時間以上浸水区域だけでも+124.9万人、昼夜比2倍以上の38メッシュで+307.3万人）の通勤・商業流入サージを完全にゼロと見誤り、日中発災時の帰宅困難・垂直避難ボトルネックを特定できない。"
+  },
+  "unknowns": [
+    "各1kmメッシュ内のオフィスビル・商業施設における帰宅困難者受け入れ可能人数および非常用電源・水食料備蓄の実際の有無",
+    "洪水警報発表から浸水開始までのリードタイム中に鉄道・バスでメッシュ外へ退避できる割合"
+  ],
+  "novelty": {
+    "closest_task": 37,
+    "difference_dimension": "daytime_commuter_surge_vs_long_duration_flood_isolation",
+    "substantive_difference": "既存の避難所分析や高齢単身世帯孤立提案（2026-10-27-taito-elderly-flood-isolation）がすべて『夜間居住人口』を前提としていたのに対し、本提案は全国人流オープンデータ（mlit-1km-fromto-2022-01）の平日昼・深夜・休日の時間帯別滞在人口と、ksj-a31a-flood-tokyo23 の『浸水継続時間72時間以上（duration class_code >= 4）』および鉄道乗換駅（ekidata-jp）・指定緊急避難場所（gsi-evacuation-sites-jp）を統合し、昼夜で曝露構造が逆転する昼間水害ボトルネックを定量化する点で実質的に異なる。"
+  },
+  "prediction": {
+    "main_result": "東京23区の652メッシュのうち、計画規模浸水深0.5m以上または浸水継続時間72時間以上にかかる363メッシュでは、平日深夜人口（608.5万人）に対して平日昼間人口は817.7万人へと+209.3万人純増し、特に72時間以上浸水が続く238メッシュだけでも深夜380.6万人から平日昼間505.5万人へ+124.9万人増加する。昼夜人口比2.0倍以上の業務・商業集積38メッシュに+307.3万人（うち72h超の20メッシュに+193.4万人）の昼間純流入が集中しており、夜間人口ベースの評価では安全・低負荷に見えた都心・臨海・副都心ターミナルメッシュが、平日昼間発災時には最も深刻な避難・滞留ボトルネックへ逆転する。",
+    "difficulty": "mlit-1km-fromto-2022-01 の attribute_mesh1km の版重複（version='2020'フィルタ）と dayflag×timezone の非加法性の正確な処理、および ksj-a31a の10万超ポリゴンとの高速な空間結合",
+    "fragile_assumption": "スマートフォンのGPS拡大推計による平日昼間滞在人口（11〜14時台平均）が、大雨特別警報や計画運休発表直後の日中滞留人口の空間分布を近似できるという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "data-quality-audit",
+      "analysis-unit-design",
+      "spatial-data-integration",
+      "spatial-accessibility-analysis",
+      "robustness-analysis",
+      "analysis-visualize",
+      "analysis-reporting"
+    ]
+  },
+  "rubric": [
+    "mlit-1km-fromto-2022-01、ksj-a31a-flood-tokyo23、ekidata-jp、gsi-evacuation-sites-jp の固定版ハッシュとCRS統一、および attribute_mesh1km の version = '2020' 指定を明記する",
+    "mlit-1km-fromto-2022-01 の dayflag と timezone が内訳ではなく別集計であることを踏まえ、平日深夜（1, 1）・平日昼（1, 0）・休日昼（0, 0）を混同せず比較する",
+    "東京23区の652メッシュを計画規模浸水（>=0.5m）× 浸水継続時間（>=72h）の2×2で分類し、72時間以上浸水区域における平日昼間の純流入人口（+124.9万人）と昼夜比2.0倍以上メッシュへの集中（+193.4万人）を実証する",
+    "ekidata-jp（station_g_cd 単位の乗換駅）および gsi-evacuation-sites-jp（洪水対応の指定緊急避難場所）と結合し、夜間人口当たりと平日昼間純流入人口当たりで避難場所負荷ランキングが逆転する上位メッシュ・区を特定する",
+    "2019年（コロナ禍前）と2020〜2021年（コロナ禍）、および浸水継続時間閾値（24h vs 72h）を変えた頑健性確認を報告する"
+  ]
+}

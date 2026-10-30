@@ -1,0 +1,123 @@
+{
+  "mode": "digging",
+  "history_anchor": {
+    "source": "projects/_flood/tokyo23-flood-record-vs-a31a/report.md",
+    "observation": "先行分析（tokyo23-flood-record-vs-a31a）では、東京23区の100mセルで1974〜1996年（前半）と1997〜2019年（後半）の浸水実績を比較したが、（1）多摩地域（町田市171行、西東京市［旧田無68＋旧保谷51＝119行］、八王子市82行、狛江市73行、稲城市73行など）が完全に除外されており、（2）なぜある自治体・流域では後半期に浸水が9割以上激減したのに、別の自治体・流域（狛江市・八王子市・台東区・江東区・品川区・中野区・大田区など）では後半期も浸水が増加または高止まりしているのかという流域都市化・土地被覆との構造的関係が未検証であった。"
+  },
+  "social_problem": "気候変動に伴う短時間強雨の増加に対して、東京都や各自治体は河川改修・調節池整備だけでなく、流域全体の雨水浸透・貯留を図る『流域治水』やグリーンインフラ政策への転換を進めている。しかし過去46年間（1974〜2019年）の浸水実績（tokyo-flood-record-jp）を振り返ると、河川護岸や下水道の整備で浸水がほぼ解消した地域と、都市化（市街地被覆・人口高密化）の進行のもとで1997年以降も内水氾濫や中小河川の溢水が慢性化・急増している地域とが極端に二極化している。23区だけでなく多摩地域を含む東京都全域の区市町村および1kmメッシュ単位で、前半期（1974〜1996年）から後半期（1997〜2019年）への浸水持続率（persistence ratio）を算出し、市街地不浸透面比率（esa-worldcover-tokyo-2021-100m）と人口密度（estat-census-mesh-2020）が内水・溢水の持続にどう関わっているかを明らかにする必要がある。",
+  "working_hypothesis": "東京都全域の浸水実績（tokyo-flood-record-jp、5,845ポリゴン）を旧自治体名寄せ後の55区市町村で集計すると、1974〜1996年（前半）から1997〜2019年（後半）にかけて、全体のポリゴン数は23区で0.263倍（3,762→988）、多摩・島しょで0.241倍（882→213）へ減少し、特に外水溢水（reason LIKE '%溢水%'）は23区で0.183倍（496→91）、多摩で0.164倍（189→31）と8割以上減少した。しかし自治体別では、葛飾区（279→0）・西東京市［旧田無＋保谷］（119→0）・足立区（635→10、0.02倍）・江戸川区（281→6、0.02倍）・稲城市（71→2、0.03倍）で激減した一方、狛江市（2→71、35.50倍、内水72）・八王子市（36→46、1.28倍）・台東区（62→71、1.15倍）・江東区（33→35、1.06倍）・品川区（119→100、0.84倍）・中野区（176→127、0.72倍）・大田区（319→189、0.59倍）では後半期に浸水が増加または高水準で持続している。この後半期の浸水持続率は、市街地画素率（pixels_50 / valid_pixels）が高く樹木被覆率（pixels_10 / valid_pixels）が低い高密市街地メッシュ（estat-census-mesh-2020 の T001140001）ほど有意に高い。自治体・メッシュ間で後半期の浸水減少率が一様である場合は棄却する。",
+  "question": "多摩地域と23区を含む東京都全域において、1974〜1996年（前半23年間）から1997〜2019年（後半23年間）にかけて外水溢水と内水氾濫が激減した自治体・メッシュと、逆に後半期に増加・慢性化した自治体・メッシュは何が違うのか？ 土地被覆の市街地率・樹木率（esa-worldcover-tokyo-2021-100m）および人口密度（estat-census-mesh-2020）と結合したとき、後半期の内水・溢水持続度を規定する空間構造は何か？",
+  "decision_use": "東京都建設局・都市整備局および多摩・23区の各自治体が、（1）河川改修によって外水溢水が解消した地域と、市街地不浸透面が飽和して1997年以降も内水氾濫が増加・残存している自治体（狛江市・八王子市・台東区・江東区・品川区・中野区・大田区等）の類型化、（2）雨水浸透ます・緑地保全（pixels_10）・流域貯留施設の優先導入エリア選定に利用する。",
+  "target_quantity": "東京都の区市町村（jp-admin-2026-09、旧自治体名寄せ後55自治体）および1kmメッシュ（estat-census-mesh-2020）ごとの、（1）1974〜1996年と1997〜2019年の原因別（内水 vs 溢水）浸水ポリゴン数・重複除去済み調査単位数・浸水実面積（ST_Union_Agg）および後半/前半比率、（2）esa-worldcover-tokyo-2021-100m から集計した市街地画素率（SUM(pixels_50)/SUM(valid_pixels)）と樹木被覆率（SUM(pixels_10)/SUM(valid_pixels)）、（3）2020年国勢調査1kmメッシュ人口（T001140001）との空間自己相関（Moran's I）および回帰関連度。個別の雨水幹線管渠の改修年次は対象量ではない。",
+  "unit": "東京都の区市町村（jp-admin-2026-09 の面で空間結合・旧自治体名寄せした単位）および JIS 1kmメッシュ（estat-census-mesh-2020 の KEY_CODE 単位、MAUP検証として500m/2km相当と比較）。",
+  "time_alignment": "tokyo-flood-record-jp は1974〜1996年（前半23年間、1980年欠番）と1997〜2019年（後半23年間、2012・2015年欠番）の2期間に分割して比較する。esa-worldcover-tokyo-2021-100m は2021年時点、estat-census-mesh-2020 と jp-admin-2026-09 の人口・境界は2020年国勢調査時点。2001年に合併した西東京市（旧田無市68行＋旧保谷市51行）および1995年に合併したあきる野市（旧秋川市20行＋旧五日市町12行）は現代の自治体境界に合わせて統合する。",
+  "claim_type": "descriptive_association",
+  "datasets": [
+    "yuiseki/tokyo-flood-record-jp",
+    "yuiseki/esa-worldcover-tokyo-2021-100m",
+    "yuiseki/estat-census-mesh-2020",
+    "yuiseki/jp-admin-2026-09"
+  ],
+  "source_versions": {
+    "yuiseki/tokyo-flood-record-jp": "354b0d9f8030347192eaa387500f60da76c07e1a",
+    "yuiseki/esa-worldcover-tokyo-2021-100m": "6f006f64483b65b20f06c775b87db7a8d57a6fda",
+    "yuiseki/estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb",
+    "yuiseki/jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/tokyo-flood-record-jp",
+      "right": "yuiseki/jp-admin-2026-09",
+      "how": "flood_area の区市町村名（munic の旧市町村名・表記ゆれ補正辞書）およびポリゴン代表点（ST_PointOnSurface）と municipalities.geometry の空間結合",
+      "why": "合併前の旧市町村（田無市・保谷市・秋川市・五日市町・羽村町）や表記ゆれ（太田区・世田ヶ谷区）を現代の市区町村（code5）に統合して前後半46年間の推移を正確に比較するため"
+    },
+    {
+      "left": "yuiseki/estat-census-mesh-2020",
+      "right": "yuiseki/tokyo-flood-record-jp",
+      "how": "T001140（prefecture = '13'）の8桁メッシュコード（KEY_CODE）から生成した1kmメッシュ矩形ポリゴンと、flood_area.geometry の空間交差（ST_Intersects）",
+      "why": "市区町村境界に依存しない均一な1km格子上で前半期（1974〜1996年）と後半期（1997〜2019年）の浸水持続率を測り、MAUP（可変単位問題）を検証するため"
+    },
+    {
+      "left": "yuiseki/estat-census-mesh-2020",
+      "right": "yuiseki/esa-worldcover-tokyo-2021-100m",
+      "how": "1kmメッシュ矩形ポリゴンおよび市区町村ポリゴン（jp-admin-2026-09）と、worldcover_100m（東経139.5〜140.0度・北緯35.5〜36.0度の360,000セル）の空間包含・交差結合",
+      "why": "各1kmメッシュおよび市区町村の有効画素数（SUM(valid_pixels)）に対する市街地画素率（SUM(pixels_50)/SUM(valid_pixels)）と樹木被覆率（SUM(pixels_10)/SUM(valid_pixels)）を算出するため"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "year"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "layer"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "id"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "dis_name"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "dis_date_s"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "munic"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "district"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "area"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "tot_bldg"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "reason"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/esa-worldcover-tokyo-2021-100m", "table": "worldcover_100m", "column": "pixels_10"},
+    {"dataset": "yuiseki/esa-worldcover-tokyo-2021-100m", "table": "worldcover_100m", "column": "pixels_50"},
+    {"dataset": "yuiseki/esa-worldcover-tokyo-2021-100m", "table": "worldcover_100m", "column": "valid_pixels"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "KEY_CODE"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "prefecture"},
+    {"dataset": "yuiseki/estat-census-mesh-2020", "table": "T001140", "column": "T001140001"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "code5"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "name"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "population"},
+    {"dataset": "yuiseki/jp-admin-2026-09", "table": "municipalities", "column": "geometry"}
+  ],
+  "methodological_decisions": [
+    "tokyo-flood-record-jp の munic 列にある旧自治体名（田無市68行＋保谷市51行→西東京市、秋川市20行＋五日市町12行→あきる野市、羽村町3行→羽村市）と誤記（太田区22行→大田区、世田ヶ谷区10行→世田谷区）を正規化し、さらにポリゴン代表点による空間結合（jp-admin-2026-09）と照合する",
+    "esa-worldcover-tokyo-2021-100m の空間範囲は東経139.5〜140.0度・北緯35.5〜36.0度であるため、八王子市西部や奥多摩など東経139.5度より西側のメッシュ・自治体は『WorldCover範囲外（Out of Bounds）』として明示的に分離し、0や欠損で埋めない",
+    "行政区単位と1kmメッシュ単位（さらに2km統合メッシュ）で市街地率と後半期浸水持続率の相関および Moran's I を算出し、MAUP（可変単位問題）に対する頑健性を検証する"
+  ],
+  "failure_modes": [
+    "munic 列を文字列一致だけで現代の自治体名（jp-admin-2026-09.name）と結合すると、旧田無市（68行）・旧保谷市（51行）が丸ごと脱落して西東京市の前半期浸水実績（119行）が0件と誤認されるほか、太田区（22行）や世田ヶ谷区（10行）も落ちる",
+    "esa-worldcover-tokyo-2021-100m の矩形範囲（東経139.5度以東）の外にある西多摩・八王子西部の自治体を LEFT JOIN して市街地率 0% として扱うと、郊外ほど浸水が多い/少ないという偽の相関が生じる",
+    "1997年以降のポリゴン数増加自治体（例: 狛江市 2→71行）を、分割ポリゴン重複（同一災害で複数ポリゴンに分割）を除かずにそのまま災害件数35.5倍と解釈すると、1回の集中豪雨での細分化記録を発生頻度の急増と取り違える"
+  ],
+  "robustness_checks": [
+    "浸水持続指標を『生ポリゴン行数（5,845行）』『重複除去後の調査記録組数（2,251組）』『浸水発生年数（COUNT(DISTINCT year)）』『実ポリゴン和集合面積（ST_Union_Agg）』の4通りで切り替え、狛江市・八王子市・台東区・江東区・品川区・中野区・大田区の上位順位がどう変化するかを検証する",
+    "空間集計単位を『区市町村（東経139.5度以東の完全収録自治体）』『1km標準地域メッシュ』『2km統合格子』の3段階で切り替え、市街地被覆率（pixels_50 / valid_pixels）および人口密度との相関係数と Moran's I を比較する",
+    "浸水原因を『内水のみ（reason = '内水'）』と『外水溢水のみ（reason LIKE '%溢水%'）』に分けて前後半変化率を比較する"
+  ],
+  "simplest_solver": {
+    "method": "tokyo-flood-record-jp の munic 列をそのまま GROUP BY して1974〜2019年通期のポリゴン行数を数える方法",
+    "why_insufficient": "通期合算では、1990年代までに河川・下水道整備で浸水がほぼ解消した足立区（前半635→後半10）・葛飾区（279→0）・江戸川区（281→6）・文京区（299→17）が依然として最大リスク地域に見えてしまい、1997年以降も浸水が高止まり・増加している狛江市・八王子市・台東区・江東区・品川区・中野区・大田区を見落とす。さらに旧自治体名（田無市・保谷市）の未統合や分割ポリゴン重複により自治体間比較が大きく歪む。"
+  },
+  "unknowns": [
+    "1974年時点と2019年時点のそれぞれにおける100mメッシュ単位の歴史的土地被覆変化（WorldCoverは2021年断面であるため）",
+    "各区市町村における水害統計調査の現地把握努力度（0.1 ha以上・10棟以上の報告網羅性）の年代別変化"
+  ],
+  "novelty": {
+    "closest_task": 37,
+    "difference_dimension": "multi_decade_flood_persistence_polarization_across_tama_and_23wards",
+    "substantive_difference": "先行プロジェクト（tokyo23-flood-record-vs-a31a）が東京23区の100mセルでの機械学習予測精度（capture@k）を評価したのに対し、本提案は分析対象を多摩地域を含む東京都全域（55自治体）へ拡張し、（1）外水溢水が8割以上激減する中で後半期（1997〜2019年）に内水・溢水が持続・増加した自治体と激減した自治体の極端な二極化、（2）旧自治体合併（田無・保谷→西東京市など）と分割ポリゴン重複が自治体ランキングに与える影響、（3）WorldCover被覆率・国勢調査メッシュ人口とのマルチスケール（自治体・1km・2km格子）相関を流域治水の視点から解明する点で実質的に異なる。"
+  },
+  "prediction": {
+    "main_result": "東京都全域55区市町村（旧自治体名寄せ後）において、前半（1974〜1996年）から後半（1997〜2019年）にかけて外水溢水ポリゴンは23区で496→91（0.183倍）、多摩で189→31（0.164倍）へと8割以上減少した。しかし自治体間の二極化は顕著であり、足立区（635→10）・葛飾区（279→0）・江戸川区（281→6）・西東京市（119→0）・稲城市（71→2）で激減した一方、狛江市（2→71）・八王子市（36→46）・台東区（62→71）・江東区（33→35）・品川区（119→100）・中野区（176→127）・大田区（319→189）では後半期も高い浸水記録が持続している。ただしポリゴン行数ベースと調査単位名寄せ・浸水年数ベースとでは狛江市等の増加倍率が大きく変化し、1kmメッシュでの後半期浸水持続は市街地画素率（pixels_50/valid_pixels）および人口密度と有意な正の空間相関を持つ。",
+    "difficulty": "合併旧自治体名（田無・保谷・秋川・五日市・羽村）と表記ゆれ（太田区・世田ヶ谷区）の正規化、esa-worldcover-tokyo-2021-100m の東経139.5度境界による範囲外（Out of Bounds）自治体の厳密な分離、およびポリゴン行数・調査単位・浸水年数・実面積の4指標比較",
+    "fragile_assumption": "2020〜2021年時点の市街地被覆率（WorldCover）と人口密度（国勢調査）が、後半期（1997〜2019年）における流域の不浸透面負荷の空間差を代表できるという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "data-quality-audit",
+      "observation-bias-audit",
+      "analysis-unit-design",
+      "spatial-data-integration",
+      "raster-data-integration",
+      "spatial-autocorrelation",
+      "robustness-analysis",
+      "analysis-visualize",
+      "analysis-reporting"
+    ]
+  },
+  "rubric": [
+    "tokyo-flood-record-jp、esa-worldcover-tokyo-2021-100m、estat-census-mesh-2020、jp-admin-2026-09 の固定版ハッシュとCRS統一を明記する",
+    "tokyo-flood-record-jp の旧市町村名（田無市・保谷市→西東京市、秋川市・五日市町→あきる野市、羽村町→羽村市）および表記ゆれ（太田区、世田ヶ谷区）を名寄せし、名寄せ前後の自治体別件数を報告する",
+    "esa-worldcover-tokyo-2021-100m の収録範囲（東経139.5〜140.0度）の内外を分けて数え、範囲外の西多摩・八王子西部を0で埋めずに除外・別集計する",
+    "前半（1974〜1996年）と後半（1997〜2019年）の浸水持続度を『ポリゴン行数』『重複除去済み調査単位数』『浸水発生年数』『実面積（ST_Union_Agg）』の4指標で比較し、狛江市・八王子市・台東区・品川区・中野区・大田区の順位変動を検証する",
+    "自治体単位・1kmメッシュ・2km格子の3スケールで市街地画素率（pixels_50/valid_pixels）・人口密度と後半期浸水持続度の相関および Moran's I を算出し、MAUPに対する頑健性を報告する"
+  ]
+}

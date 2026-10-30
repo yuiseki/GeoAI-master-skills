@@ -1,0 +1,116 @@
+{
+  "mode": "exploration",
+  "social_problem": "2020年8月の宅地建物取引業法施行規則改正により、不動産取引時の重要事項説明（重説）において水害ハザードマップ上の所在地説明が義務化された。しかし実務で主に参照されるのは河川氾濫（外水）の洪水浸水想定区域図（ksj-a31a）であり、外水ハザードマップで『浸水なし（0m）』とされる台地谷底や暗渠沿いの『過去の内水浸水実績（tokyo-flood-record-jp）』は重説で十分に認識されないケースがある。もし不動産市場（地価公示 ksj-l01-land-price）が『公表された外水ハザードマップ区域（A31a）』だけをディスカウントする一方で、『外水マップ外だが実際に内水氾濫が起きた地点』のリスクを織り込まず高値・高騰を続けているとすれば、住宅取得者や金融機関は都市計画の用途地域・容積率（mlit-toshi-keikaku-jp）や駅近の利便性に目を奪われて『見えない内水リスク』を高値掴みしていることになる。",
+  "working_hypothesis": "東京23区の2026年地価公示（ksj-l01-land-price）の継続標準地1,508地点（住宅地846地点・商業地662地点）を、（A）外水ハザードマップ（ksj-a31a 想定最大規模 >=0.5m）の内外 ×（B）過去の内水浸水実績（tokyo-flood-record-jp の reason='内水' から50m以内）の有無で2×2分類すると、住宅地では外水マップ内の地価中央値（内水なし495,500円/m²・対前年+7.15%、内水あり438,500円/m²・+6.10%）が外水・内水ともになしの地点（782,000円/m²・+8.70%）より明確に低く成長率も鈍い。ところが、『外水マップ外だが過去の内水浸水実績がある住宅地（63地点）』は中央値886,000円/m²、対前年変動率中央値+9.70%（平均+10.15%）、商業地（70地点）でも対前年変動率中央値+15.55%と、4区分中で最も高い地価上昇率を示している。この非対称性が、用途地域・容積率（mlit-toshi-keikaku-jp の FAR, YoutoName）および2019〜2026年の前年番号リンクによる長期パネルでも維持されるかを検証する。外水リスクと内水実績が同等に地価を押し下げている場合は棄却する。",
+  "question": "東京23区の地価公示標準地（ksj-l01-land-price、2019〜2026年パネル）において、不動産市場は『公表された河川洪水浸水想定区域（ksj-a31a）』と『外水マップ外で実際に発生した内水浸水実績（tokyo-flood-record-jp）』を対称に織り込んでいるか？ 都市計画の用途地域・容積率（mlit-toshi-keikaku-jp）を制御したとき、2020年の水害ハザード重説義務化前後で『外水リスクの価格ペナルティ』と『未織り込みの内水リスク地点の高騰』にどのような乖離が生じているか？",
+  "decision_use": "不動産鑑定士、住宅ローン審査を行う金融機関、都市計画・住宅政策担当者、および不動産購入者が、（1）外水ハザードマップ重説義務化がもたらした市場価格への織り込み効果と、外水マップ外の内水常襲地帯における『リスク未織り込み（価格過大評価）』の定量把握、（2）内水ハザード情報の重説・開示拡充の制度設計に利用する。",
+  "target_quantity": "東京23区の継続標準地（2026年1,508地点、および2019〜2026年の前年番号連結パネル）における、用途区分（住宅地000 vs 商業地005）× 外水想定浸水有無（ksj-a31a maximum / planned class_code >= 2）× 内水浸水実績有無（tokyo-flood-record-jp reason='内水' 交差・50mバッファ）別の、（1）公示価格水準（price_yen）、（2）単年対前年変動率（change_pct）および2019→2026年累積変動率、（3）都市計画用途地域・容積率（mlit-toshi-keikaku-jp の FAR, BCR, YoutoCode）および自治体固定効果を制御した後の回帰調整済み価格差・成長率差。個別取引の実勢成約価格そのものは対象量ではない。",
+  "unit": "地価公示の標準地（ksj-l01-land-price の東京23区内継続地点、2026年で住宅地846地点・商業地662地点）およびその2019〜2026年年次パネル。",
+  "time_alignment": "地価公示（ksj-l01-land-price）は2019〜2026年の各年1月1日時点（2020年8月の水害重説義務化の事前＝2019・2020年、事後＝2021〜2026年）、都市計画決定GISデータ（mlit-toshi-keikaku-jp）は令和7年度版（fy2025）、洪水浸水想定区域（ksj-a31a-flood-tokyo23）は令和7年度版、浸水実績図（tokyo-flood-record-jp）は1974〜2019年の累積実績。",
+  "claim_type": "descriptive_association",
+  "datasets": [
+    "yuiseki/ksj-l01-land-price",
+    "yuiseki/ksj-a31a-flood-tokyo23",
+    "yuiseki/tokyo-flood-record-jp",
+    "yuiseki/mlit-toshi-keikaku-jp"
+  ],
+  "source_versions": {
+    "yuiseki/ksj-l01-land-price": "7e32fd1266b1eea107d83ebecd6974e94744c3a7",
+    "yuiseki/ksj-a31a-flood-tokyo23": "5b2259273128d0b79b491eb758abe0db67c4feac",
+    "yuiseki/tokyo-flood-record-jp": "354b0d9f8030347192eaa387500f60da76c07e1a",
+    "yuiseki/mlit-toshi-keikaku-jp": "39fdb22f42b7619b753b5389bc107aaadf8ba614"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/ksj-l01-land-price",
+      "right": "yuiseki/ksj-a31a-flood-tokyo23",
+      "how": "東京23区の標準地座標（ST_Point(lon, lat)）と ST_MakeValid 処理済みの flood_area（category = 'maximum', 'planned', 'duration'）の空間交差（ST_Intersects）",
+      "why": "各標準地が公表された河川洪水浸水想定区域（0.5m以上・3.0m以上・長期浸水）に入るかを判定するため"
+    },
+    {
+      "left": "yuiseki/ksj-l01-land-price",
+      "right": "yuiseki/tokyo-flood-record-jp",
+      "how": "標準地座標と 1974〜2019年の内水浸水実績ポリゴン（flood_area、reason = '内水'）の空間距離結合（ST_Intersects および ST_DWithin 50m / 100m）",
+      "why": "外水ハザードマップでは0m（区域外）でありながら過去に実際の内水氾濫を経験した街区の標準地を特定するため"
+    },
+    {
+      "left": "yuiseki/ksj-l01-land-price",
+      "right": "yuiseki/mlit-toshi-keikaku-jp",
+      "how": "標準地座標と用途地域ポリゴン（youto.geometry）の空間結合（ST_Intersects）および municipality_code = Citycode の照合",
+      "why": "地価水準と上昇率に強く効く用途地域（YoutoName, YoutoCode）・指定容積率（FAR）・建蔽率（BCR）を共変量として制御するため"
+    }
+  ],
+  "required_variables": [
+    {"dataset": "yuiseki/ksj-l01-land-price", "table": "land_price", "column": "year"},
+    {"dataset": "yuiseki/ksj-l01-land-price", "table": "land_price", "column": "prefecture"},
+    {"dataset": "yuiseki/ksj-l01-land-price", "table": "land_price", "column": "municipality_code"},
+    {"dataset": "yuiseki/ksj-l01-land-price", "table": "land_price", "column": "price_yen"},
+    {"dataset": "yuiseki/ksj-l01-land-price", "table": "land_price", "column": "change_pct"},
+    {"dataset": "yuiseki/ksj-l01-land-price", "table": "land_price", "column": "area_m2"},
+    {"dataset": "yuiseki/ksj-l01-land-price", "table": "land_price", "column": "lon"},
+    {"dataset": "yuiseki/ksj-l01-land-price", "table": "land_price", "column": "lat"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "category"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "class_code"},
+    {"dataset": "yuiseki/ksj-a31a-flood-tokyo23", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "year"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "reason"},
+    {"dataset": "yuiseki/tokyo-flood-record-jp", "table": "flood_area", "column": "geometry"},
+    {"dataset": "yuiseki/mlit-toshi-keikaku-jp", "table": "youto", "column": "Citycode"},
+    {"dataset": "yuiseki/mlit-toshi-keikaku-jp", "table": "youto", "column": "YoutoName"},
+    {"dataset": "yuiseki/mlit-toshi-keikaku-jp", "table": "youto", "column": "YoutoCode"},
+    {"dataset": "yuiseki/mlit-toshi-keikaku-jp", "table": "youto", "column": "FAR"},
+    {"dataset": "yuiseki/mlit-toshi-keikaku-jp", "table": "youto", "column": "BCR"},
+    {"dataset": "yuiseki/mlit-toshi-keikaku-jp", "table": "youto", "column": "geometry"}
+  ],
+  "methodological_decisions": [
+    "ksj-l01-land-price の標準地番号は毎年振り直されるため、同じ番号で年をまたいで結ばず、必ず『前年の標準地番号列』（2019〜2023年は L01_003, L01_004、2024〜2026年は L01_004, L01_005, L01_006）を使って継続地点パネルを構築し、新設地点（前年番号 '00000'、change_pct が 0.0 になる）を除外する",
+    "地価水準・変動率は都心距離・区固定効果・用途地域（YoutoCode）と指定容積率（FAR）に強く依存するため、単純集計だけでなく同一区内・同一用途区分・FAR制御後の回帰調整差を比較する",
+    "本研究は観察データの記述的関連分析（descriptive_association）として設計し、結論に因果の断定表現を使わず、交絡（谷底低地の駅近商業・住宅立地特性）の調整前後の変化を明記する"
+  ],
+  "failure_modes": [
+    "ksj-l01-land-price の新設・選定替え地点（2026年に全国612地点）は change_pct が NULL ではなく 0.0 として格納されているため、前年番号 '00000' を除外せずに集計すると変動率0%の偽データが多量に混入する",
+    "年をまたいで同じ標準地番号（連番）同士で結合すると、番号振り直しにより毎年180〜270件で全く別の場所の標準地と誤結合される",
+    "mlit-toshi-keikaku-jp の FAR 列における NULL を 0% と誤認すると容積率制御が壊れる"
+  ],
+  "robustness_checks": [
+    "外水ハザードの定義を『想定最大規模 0.5m以上（maximum class_code >= 2）』『計画規模 0.5m以上（planned class_code >= 2）』『計画規模 3.0m以上（class_code >= 3）』の3通りで切り替え、外水ディスカウントの大きさを比較する",
+    "内水浸水実績の判定を『浸水実績ポリゴンとの直接交差（0m）』『50m以内（ST_DWithin 0.0005度）』『2000年以降の近年の内水実績のみ』で切り替え、外水マップ外×内水実績あり地点の地価プレミアム・成長率差が保たれるかを確かめる",
+    "2019〜2020年（水害重説義務化前）と2021〜2026年（義務化後）の期間別平均変動率を継続パネル地点で比較する"
+  ],
+  "simplest_solver": {
+    "method": "2026年単年の全標準地について、外水ハザードマップ（ksj-a31a）の内外だけで平均地価を比較する方法",
+    "why_insufficient": "外水ハザードマップ内外の単純比較では、（1）城東低地と山手台地の元々の地価水準差・容積率差が交絡し、（2）さらに外水マップ外（0m）の中に潜む『過去の内水浸水実績地点（住宅地63地点・商業地70地点）』が実は最も高い地価上昇率（住宅地中央値+9.70%、商業地+15.55%）を示しているという非対称な市場の盲点を全く検出できない。"
+  },
+  "unknowns": [
+    "各標準地の周辺取引において、宅建業者が重要事項説明で区市町村の『内水ハザードマップ』や『浸水実績図』まで任意で説明したか否か",
+    "各標準地における近年（2020年以降）のマンション・オフィス再開発や駅周辺整備によるミクロな地価押し上げ要因"
+  ],
+  "novelty": {
+    "closest_task": 37,
+    "difference_dimension": "real_estate_capitalization_asymmetry_between_published_fluvial_and_unmapped_pluvial_risk",
+    "substantive_difference": "既存の水害プロポーザルが避難計画や物理的浸水リスクの空間把握にとどまっていたのに対し、本提案は地価公示（ksj-l01-land-price 2019〜2026年継続パネル）と都市計画決定GIS（mlit-toshi-keikaku-jp の用途地域・容積率 FAR）を洪水想定（ksj-a31a）および内水浸水実績（tokyo-flood-record-jp）と結合し、『市場は公表外水マップにはペナルティを課すが、外水マップ外の内水実績地帯には全くペナルティを課さずむしろ最高の上昇率（住宅地+9.70%、商業地+15.55%）がついている』という情報非対称性を都市経済の視点から検証する点で実質的に異なる。"
+  },
+  "prediction": {
+    "main_result": "東京23区の2026年継続標準地1,508地点において、公表された外水ハザードマップ（想定最大規模0.5m以上）に入る住宅地は中央値495,500円/m²（内水実績なし214地点、変動率+7.15%）および438,500円/m²（内水実績あり108地点、+6.10%）と明確にディスカウントされている一方、外水マップ外だが過去50m以内に内水浸水実績がある住宅地（63地点）は中央値886,000円/m²・対前年変動率+9.70%（商業地70地点でも+15.55%）と、水害履歴のない外水マップ外地点（住宅地782,000円/m²・+8.70%、商業地+14.50%）をも上回る最も高い価格上昇率を示す。区固定効果と容積率（FAR）を制御しても、外水想定に対する有意な負の価格差に対し、外水マップ外の内水実績には負のペナルティが観察されない。",
+    "difficulty": "ksj-l01-land-price の年次間で変化する列番号（L01_001〜L01_006）を用いた前年標準地番号による正確な縦断パネル結合と、新設地点（change_pct = 0.0）の除外",
+    "fragile_assumption": "地価公示標準地の鑑定評価額が実勢の不動産取引価格における水害リスク評価を遅滞なく反映しているという仮定",
+    "needed_capabilities": [
+      "dataset-discovery",
+      "data-variable-semantics",
+      "data-quality-audit",
+      "analysis-unit-design",
+      "spatial-data-integration",
+      "eda-and-baseline",
+      "robustness-analysis",
+      "analysis-visualize",
+      "analysis-reporting"
+    ]
+  },
+  "rubric": [
+    "ksj-l01-land-price、ksj-a31a-flood-tokyo23、tokyo-flood-record-jp、mlit-toshi-keikaku-jp の固定版ハッシュとCRS統一を明記する",
+    "ksj-l01-land-price の新設地点（前年番号 '00000' で change_pct = 0.0 となる行）を除外し、前年の番号列を用いて2019〜2026年の継続標準地パネルを正しく構築した件数を報告する",
+    "住宅地（000）と商業地（005）のそれぞれで、外水ハザードマップ（ksj-a31a）× 内水浸水実績（tokyo-flood-record-jp）の2×2分類による地価水準と変動率を比較し、外水マップ外・内水実績あり層の高騰（住宅地中央値+9.70%、商業地+15.55%）を示す",
+    "mlit-toshi-keikaku-jp の用途地域・容積率（FAR）および区固定効果を制御した回帰または層別比較を行い、利便性交絡を調整した後も外水リスクと内水実績の織り込みに非対称性が残るかを検証する",
+    "外水基準（計画規模 vs 最大規模）および内水実績の距離バッファ（0m vs 50m vs 100m）を変えた頑健性確認を報告し、相関を因果と混同しない記述を行う"
+  ]
+}
