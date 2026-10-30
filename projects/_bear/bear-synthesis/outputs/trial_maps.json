@@ -1,0 +1,37 @@
+{
+ "source": "通報 akita-kumadas c7047ab (2026-09-30)、4〜9 月。100 m のセル (EPSG:6678)。市町村界 jp-admin-2026-09 (e6c87b1)",
+ "gaps": {
+  "2025": {
+   "n_positive": 3657,
+   "n_captured": 2164,
+   "city_positive": 599,
+   "city_captured": 413,
+   "capture": 0.5917418649165983,
+   "city_recall": 0.6894824707846411,
+   "city_share": 0.16379546076018595
+  },
+  "2026": {
+   "n_positive": 3036,
+   "n_captured": 1436,
+   "city_positive": 828,
+   "city_captured": 454,
+   "capture": 0.47299077733860345,
+   "city_recall": 0.5483091787439613,
+   "city_share": 0.2727272727272727
+  }
+ },
+ "activation_2024": {
+  "week": "2024-07-01",
+  "city_positives": 21,
+  "positives": 77,
+  "window_reports": 228,
+  "city_share_of_top_E": 0.14882470767492426,
+  "city_share_of_top_M": 0.1779459348410402,
+  "city_share_of_top_M_mean_21_weeks": 0.16624804036421711,
+  "added": 10644,
+  "added_in_city": 2618,
+  "city_positives_caught_E": 18,
+  "city_positives_caught_M": 17,
+  "block_net_max_cells": 152
+ }
+}
