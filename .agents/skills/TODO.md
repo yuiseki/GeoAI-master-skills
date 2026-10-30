@@ -132,6 +132,7 @@
       - [x] `references/huggingface/yuiseki/kamisunagawa-higuma-sighting.md`: 上砂川町のヒグマ出没 FY2024〜FY2026途中
       - [x] `references/huggingface/yuiseki/tokyo-flood-record-jp.md`: 東京都の浸水実績図 1974〜2019年 (43年分、面 5,845・点 121)
       - [x] `references/huggingface/yuiseki/jma-rain-tokyo.md`: 気象庁の東京都内31観測所の日別・時間別降水量 1974〜2025年
+      - [x] `references/huggingface/yuiseki/jma-rain-chiba.md`: 気象庁の千葉県内18観測所の日別・時間別降水量 1974〜2026年9月
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット
