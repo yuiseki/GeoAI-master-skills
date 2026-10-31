@@ -106,7 +106,8 @@ test('サイト名は「yuiseki の GeoAI 研究所」で、ページタイト�
   const base = await read('src/layouts/Base.astro');
   const home = await read('src/pages/index.astro');
   assert.match(base, /const siteName = 'yuiseki の GeoAI 研究所';/);
-  assert.match(base, /<title>\{title \? `\$\{title\} · \$\{siteName\}` : siteName\}<\/title>/);
+  assert.match(base, /const pageTitle = title \? `\$\{title\} · \$\{siteName\}` : siteName;/);
+  assert.match(base, /<title>\{pageTitle\}<\/title>/);
   assert.doesNotMatch(base, /GeoAI Research/);
   assert.match(home, /<Base description=/);
 });
@@ -154,4 +155,24 @@ test('バスと台東区の記事は定義した用語で書く', async () => {
   assert.match(taito, /### 用語の定義/);
   assert.match(taito, /## 定義と感度分析/);
   assert.doesNotMatch(taito, /読み方|過失の重い側が|狭い読み|広い読み|若い \(/);
+});
+
+test('記事ごとの OGP 画像を 1200x630 で生成し、メタタグから絶対 URL で参照する', async () => {
+  const pngSize = async (file) => {
+    const png = await readFile(path.join(root, file));
+    return [png.readUInt32BE(16), png.readUInt32BE(20)];
+  };
+  const ids = (await readdir(path.join(root, 'src/content/reports'))).map((f) => f.replace(/\.md$/, ''));
+  for (const id of ids) {
+    assert.deepEqual(await pngSize(`dist/ogp/${id}.png`), [1200, 630], id);
+    const html = await read(`dist/reports/${id}/index.html`);
+    assert.match(html, new RegExp(`<meta property="og:image" content="https://geoai\\.yuiseki\\.net/ogp/${id}\\.png"`), id);
+    assert.match(html, /<meta property="og:type" content="article"/, id);
+    assert.match(html, new RegExp(`<meta property="og:url" content="https://geoai\\.yuiseki\\.net/reports/${id}/"`), id);
+  }
+  assert.deepEqual(await pngSize('dist/ogp/default.png'), [1200, 630]);
+  const home = await read('dist/index.html');
+  assert.match(home, /<meta property="og:image" content="https:\/\/geoai\.yuiseki\.net\/ogp\/default\.png"/);
+  assert.match(home, /<meta property="og:site_name" content="yuiseki の GeoAI 研究所"/);
+  assert.match(home, /<meta name="twitter:card" content="summary_large_image"/);
 });

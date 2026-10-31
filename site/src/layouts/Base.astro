@@ -2,9 +2,14 @@
 interface Props {
   title?: string;
   description: string;
+  /** Report pages pass their own image; other pages share the default. */
+  ogImage?: string;
 }
-const { title, description } = Astro.props;
+const { title, description, ogImage } = Astro.props;
 const siteName = 'yuiseki の GeoAI 研究所';
+const pageTitle = title ? `${title} · ${siteName}` : siteName;
+const ogImageURL = new URL(ogImage ?? '/ogp/default.png', Astro.site);
+const pageURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -15,7 +20,19 @@ const siteName = 'yuiseki の GeoAI 研究所';
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f6f7f4" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title ? `${title} · ${siteName}` : siteName}</title>
+    <title>{pageTitle}</title>
+    <link rel="canonical" href={pageURL} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content={ogImage ? 'article' : 'website'} />
+    <meta property="og:title" content={title ?? siteName} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageURL} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet" />

@@ -12,7 +12,7 @@ const { report } = Astro.props;
 const { Content } = await render(report);
 ---
 
-<Base title={report.data.title} description={report.data.summary}>
+<Base title={report.data.title} description={report.data.summary} ogImage={`/ogp/${report.id}.png`}>
   <div class="report-shell shell">
     <nav class="breadcrumb" aria-label="パンくずリスト"><a href="/#reports">研究一覧</a><span>{report.data.topic}</span></nav>
     <header class="report-header">
