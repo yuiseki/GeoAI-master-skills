@@ -1,0 +1,23 @@
+{
+ "default": {
+  "n": 20,
+  "corr_b_ge_0.5": 1.0,
+  "loading_coverage": 0.875,
+  "median_corr_b": 0.8862491221575645,
+  "converged_share": 1.0,
+  "1A": true,
+  "1B": true
+ },
+ "wide": {
+  "n": 20,
+  "corr_b_ge_0.5": 1.0,
+  "loading_coverage": 0.8875,
+  "median_corr_b": 0.8859128142708109,
+  "converged_share": 1.0,
+  "1A": true,
+  "1B": true
+ },
+ "1C": true,
+ "stage1_passed": true,
+ "stage": "1"
+}

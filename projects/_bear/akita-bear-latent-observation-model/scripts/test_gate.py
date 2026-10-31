@@ -42,3 +42,21 @@ def test_g6_fails_when_the_wide_prior_changes_the_calls():
         x["T_B"]["detect"] = 0
     g = gt.gate(perfect(), w)
     assert not g["G6"] and not g["gate_passed"]
+
+
+def test_stage1_needs_the_latent_surface_and_the_loadings():
+    good = [{"converged": True, "corr_b": 0.8, "covered": {"a": True, "b": True}} for _ in range(5)]
+    assert gt.stage1(good, good)["stage1_passed"]
+    bad = [dict(r, corr_b=0.3) for r in good]
+    assert not gt.stage1(good, bad)["stage1_passed"]
+
+
+def test_pattern_needs_p_b_in_s1_and_s4_and_few_false_slopes():
+    r = perfect()
+    for s in gt.SCEN:
+        for x in r[s]:
+            x["P_B"] = 0.5
+    assert gt.pattern(r)["passed"]
+    for x in r["S1"]:
+        x["P_B"] = 0.1
+    assert not gt.pattern(r)["passed"]
