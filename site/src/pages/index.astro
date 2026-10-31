@@ -5,10 +5,10 @@ import Base from '../layouts/Base.astro';
 const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompare(b.id));
 ---
 
-<Base description="公共交通とクマの出没を、地理空間データで調べた研究記事を公開しています。">
+<Base description="公共交通、交通事故、クマの出没を、地理空間データで調べた研究記事を公開しています。">
   <section class="intro shell">
     <h1>地図から、社会の課題を調べる。</h1>
-    <p>公共交通とクマの出没を調べた結果を公開しています。図とともに、分析の条件や限界も読めます。</p>
+    <p>公共交通、交通事故、クマの出没を調べた結果を公開しています。図とともに、分析の条件や限界も読めます。</p>
   </section>
 
   <section id="reports" class="reports-section">

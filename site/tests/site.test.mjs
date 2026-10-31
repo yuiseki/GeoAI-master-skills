@@ -64,10 +64,11 @@ test('公開ページの画像は元の縦横比を保ち、操作要素は操�
   assert.match(base, /text-wrap: balance/);
 });
 
-test('公開記事は選定済みの二件だけで、出典と限界を持つ', async () => {
+test('公開記事は選定済みの三件だけで、出典と限界を持つ', async () => {
   const entries = [
     'src/content/reports/bus-operator-concentration.md',
     'src/content/reports/akita-bear-risk.md',
+    'src/content/reports/taito-traffic-accidents.md',
   ];
   assert.deepEqual((await readdir(path.join(root, 'src/content/reports'))).sort(), entries.map((entry) => path.basename(entry)).sort());
   for (const entry of entries) {
@@ -93,6 +94,9 @@ test('ビルド後の数式・Mermaid・図は公開用ページで参照でき�
   assert.doesNotMatch(bus + bear, /href="\/GeoAI-master-skills\//);
   await stat(path.join(root, 'dist/images/bus-operator-share.png'));
   await stat(path.join(root, 'dist/images/akita-risk-map.png'));
+  const taito = await read('dist/reports/taito-traffic-accidents/index.html');
+  assert.match(taito, /taito-accident-hotspots\.png"[^>]+width="2154" height="1071" loading="lazy"/);
+  await stat(path.join(root, 'dist/images/taito-accident-hotspots.png'));
   await stat(path.join(root, 'dist/favicon.svg'));
 });
 
