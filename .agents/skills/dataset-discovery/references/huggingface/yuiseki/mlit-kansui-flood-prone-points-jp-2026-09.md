@@ -104,7 +104,7 @@ tables:
 
 国土交通省の地方整備局が「道路防災情報Webマップ」で公開する冠水想定箇所の点。Webマップが読み込む KML (Webマップの `kml/` の下の `<NN>_<県>_kansui_point.kml`、URL は `source_url` 列) を 2026-10-30 に取り、Placemark を GeoParquet にした。値の訂正はしていない。配布元が KML の中でコメントアウトした取り下げの 2 点 (京都府-02-020、大阪府-02-030) は行に無い。
 
-冠水想定箇所は「冠水が起きた箇所」ではなく、道路管理者が冠水のおそれがあるとして示す箇所。構造で選ばれた国のアンダーパス一覧 ([mlit-underpass](mlit-underpass.md)) とほぼ重なるので、冠水の起きやすさのラベルとしては弱い (下の実測)。箇所表 PDF の表 (住所、管理者、備考の冠水実績や関連設備) は [mlit-kansui-flood-prone-points-pdf-jp-2026-09](mlit-kansui-flood-prone-points-pdf-jp-2026-09.md) にあり、`pdf_key` か `fid` で結ぶ。
+冠水想定箇所は「冠水が起きた箇所」ではなく、道路管理者が冠水のおそれがあるとして示す箇所。国のアンダーパス一覧 ([mlit-underpass](mlit-underpass.md)) とほぼ重なる (下の実測)。どちらも冠水のおそれのある箇所に絞った一覧と見られ (未確認)、同じ選び方の 2 つの表れなので、互いを独立した確かめに使えない。一覧の中だけで冠水の起きやすさを比べると、選ばれなかった箇所との違いは見えない。箇所表 PDF の表 (住所、管理者、備考の冠水実績や関連設備) は [mlit-kansui-flood-prone-points-pdf-jp-2026-09](mlit-kansui-flood-prone-points-pdf-jp-2026-09.md) にあり、`pdf_key` か `fid` で結ぶ。
 
 ## 気をつけること
 
