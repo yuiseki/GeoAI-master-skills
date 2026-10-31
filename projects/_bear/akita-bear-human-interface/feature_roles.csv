@@ -1,0 +1,29 @@
+feature,role,rationale,source
+tree,B,セルの樹木被覆の割合。森林は熊が使う場所の環境,ESA WorldCover 2021 v200 class 10 (worldcover.npz f10)
+tree_500,B,約 500 m 四方の樹木被覆の平均。周りの森林の広さ,ESA WorldCover 2021 v200 class 10
+tree_1500,B,約 1.5 km 四方の樹木被覆の平均。行動圏の規模の森林の広さ,ESA WorldCover 2021 v200 class 10
+crop,H,セルの農地の割合。人の土地利用 (作物は熊の餌にもなるが、場所としては人が管理する),ESA WorldCover 2021 v200 class 40
+crop_500,H,約 500 m 四方の農地の平均,ESA WorldCover 2021 v200 class 40
+crop_1500,H,約 1.5 km 四方の農地の平均,ESA WorldCover 2021 v200 class 40
+built,H,セルの市街地の割合,ESA WorldCover 2021 v200 class 50
+built_500,H,約 500 m 四方の市街地の平均,ESA WorldCover 2021 v200 class 50
+built_1500,H,約 1.5 km 四方の市街地の平均,ESA WorldCover 2021 v200 class 50
+grass,X,草地は牧草地、休耕地や耕作放棄地、河川敷、スキー場、高山の草原を含み、熊側とも人側とも決められない,ESA WorldCover 2021 v200 class 30
+grass_500,X,同上 (約 500 m 四方の平均),ESA WorldCover 2021 v200 class 30
+grass_1500,X,同上 (約 1.5 km 四方の平均),ESA WorldCover 2021 v200 class 30
+water,B,セルの水面の割合。水辺は熊が使う場所の環境として扱う (例示に従う),ESA WorldCover 2021 v200 class 80
+water_500,B,約 500 m 四方の水面の平均,ESA WorldCover 2021 v200 class 80
+water_1500,B,約 1.5 km 四方の水面の平均,ESA WorldCover 2021 v200 class 80
+forest_edge,I,森林 (樹木被覆 0.5 以上) の縁までの符号付き距離 (森の中は負)。元から森林と開けた土地の境目を表す唯一の特徴量,ESA WorldCover 2021 v200 class 10 から計算 (features.static_features)
+elev,B,標高。山地ほど熊が使う場所,GSI 標高タイル z12 (dem.npz elev)
+slope,B,傾斜。山地の地形,GSI 標高タイル z12 から計算 (dem.npz slope)
+tpi_500,B,約 500 m 四方の平均との標高差 (尾根と谷)。地形,GSI 標高タイル z12 から計算
+pop_500,H,約 500 m 四方の人口の和,WorldPop R2025A 2020 100 m constrained (worldpop.npz pop)
+pop_2000,H,約 2 km 四方の人口の和,WorldPop R2025A 2020 100 m constrained
+d_road_major,H,幹線道路 (motorway〜tertiary) までの距離,OSM Japan osm-japan-src-2026-08 (rev 9a9b4a7) highway
+d_road,H,一般の道路 (幹線 + unclassified、residential、living_street、service) までの距離,OSM Japan osm-japan-src-2026-08 highway
+d_track,X,track、path、footway、bridleway までの距離。林道や山道 (森の中の人の出入り) と市街地の歩道の両方を含み、一意に決められない,OSM Japan osm-japan-src-2026-08 highway
+d_river,X,river と canal までの距離。大きな川は平野の集落を通り、河畔林は熊の移動路にもなる。用水路 (canal) も含むので一意に決められない,OSM Japan osm-japan-src-2026-08 waterway
+d_stream,B,stream (沢) までの距離。沢は主に山地にある,OSM Japan osm-japan-src-2026-08 waterway
+d_building,H,建物までの距離,OSM Japan osm-japan-src-2026-08 building の重心
+bldg_500,H,約 500 m 四方の建物の数,OSM Japan osm-japan-src-2026-08 building の重心
