@@ -21,3 +21,15 @@ uv run --no-project --with 'duckdb==1.5.5' --with numpy --with shapely \
 ```
 
 中間 GeoParquet は `tmp/` に保存し、2通りの地図と来歴 JSON は `outputs/` に保存します。
+
+報告で使う元の事例の値のうち `outputs/source-values.csv` に無いものは、固定コミットの元の README から引用して `outputs/source-quotes.json` に書き出す。
+
+```sh
+uv run python scripts/quote_source.py
+```
+
+台東区の地図で塗った格子と NoData の数は、地図の来歴から `outputs/map-summary.json` に書き出す。
+
+```sh
+uv run python scripts/summarize_map.py
+```

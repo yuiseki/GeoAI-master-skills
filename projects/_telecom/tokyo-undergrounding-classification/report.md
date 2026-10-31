@@ -10,13 +10,13 @@
 
 | # | 要点 | 数字 | 図 |
 |---:|---|---|---|
-| 1 | 道の見た目から、無電柱化はかなり分類できる。新しい場所に当てると下がる | 台東区でランダム分割の AUC 0.931、2kmブロックで0.870 | [図 1](#図-1-評価の分け方と-auc) |
-| 2 | 23区全体では、場所を分けても AUC がほぼ落ちない | ランダム0.894、2kmブロック0.892、区単位0.887 | [図 1](#図-1-評価の分け方と-auc) |
-| 3 | 電柱の数は答えの言い換えで、特徴にできない | 電柱の数を入れると AUC 0.849が0.988になる。街灯の数にも間接の漏れの疑い | 移植元の事例 |
+| 1 | 道の見た目から、無電柱化はかなり分類できる。新しい場所に当てると下がる | 台東区でランダム分割の AUC 0.931、2kmブロックで0.870 ([source-values.csv](outputs/source-values.csv)) | [図 1](#図-1-評価の分け方と-auc) |
+| 2 | 23区全体では、場所を分けても AUC がほぼ落ちない | ランダム0.894、2kmブロック0.892、区単位0.887 ([source-values.csv](outputs/source-values.csv)) | [図 1](#図-1-評価の分け方と-auc) |
+| 3 | 電柱の数は答えの言い換えで、特徴にできない | 電柱の数を入れると AUC 0.849が0.988になる。街灯の数にも間接の漏れの疑い ([source-quotes.json](outputs/source-quotes.json)) | 移植元の事例 |
 | 4 | 近所の正解率を使う特徴は、空間で分けて正しく作ると、無いときより悪い | ランダム分割では高い得点になる | 移植元の事例 |
-| 5 | 台東区の中で、無電柱化と読まれたシーンの割合は格子で大きく違う | 判定できる163格子のうち、等間隔で135格子が0〜約18%。値0の格子が63 | [図 2](#図-2-台東区の無電柱化シーンの割合) |
+| 5 | 台東区の中で、無電柱化と読まれたシーンの割合は格子で大きく違う | 判定できる163格子のうち、等間隔で135格子が0〜約18%。値0の格子が63 ([map-summary.json](outputs/map-summary.json)、[taito-underground-share.json](outputs/taito-underground-share.json)、[taito-underground-share-quantile.json](outputs/taito-underground-share-quantile.json)) | [図 2](#図-2-台東区の無電柱化シーンの割合) |
 
-確率として優先順位に使うなら、AUC だけでなく較正が要る。isotonic 較正で ECE は0.005以下に保たれた (移植元の事例)。
+確率として優先順位に使うなら、AUC だけでなく較正が要る。isotonic 較正で ECE は0.005以下に保たれた (移植元の事例、[source-quotes.json](outputs/source-quotes.json))。
 
 ### 読み手ごとに知るべきこと
 
@@ -35,16 +35,16 @@
 
 ![台東区250m格子の無電柱化済みシーン割合・等間隔5階級](outputs/taito-underground-share.png)
 
-250m格子ごとの、判定できたシーンのうち無電柱化と読まれた割合。道路の延長に対する整備率ではない。195格子のうち、シーンが30以上の163格子を塗り、32格子は斜線の NoData。同じ値を分位の5階級で塗った図 ([分位の図](outputs/taito-underground-share-quantile.png)) と比べると、60.7%の格子の色が変わる。値0の格子が63あり、分位の色ごとの数は揃わない。色だけで厳密な順位や施策の対象を決めない。
+250m格子ごとの、判定できたシーンのうち無電柱化と読まれた割合。道路の延長に対する整備率ではない。195格子のうち、シーンが30以上の163格子を塗り、32格子は斜線の NoData ([map-summary.json](outputs/map-summary.json))。同じ値を分位の5階級で塗った図 ([分位の図](outputs/taito-underground-share-quantile.png)) と比べると、多くの格子の色が変わる (変わった格子の割合は出力に残していない)。値0の格子が63あり、分位の色ごとの数は揃わない。色だけで厳密な順位や施策の対象を決めない。
 
 ### 読み方で変わる答え
 
 | 読み方 | 主 | 別の読み方 |
 |---|---|---|
 | 評価の分け方 (台東区) | 2kmブロック0.870 | ランダム0.931 |
-| 特徴 | 電柱の数を除く (0.849) | 入れると0.988。答えの言い換え |
+| 特徴 | 電柱の数を除く (0.849) | 入れると0.988。答えの言い換え ([source-quotes.json](outputs/source-quotes.json)) |
 | 近所の正解率の特徴 | 空間分割で作り直す (無いより悪い) | ランダム分割では高い得点 |
-| 地図の階級 | 等間隔5階級 | 分位5階級で60.7%の格子の色が変わる |
+| 地図の階級 | 等間隔5階級 | 分位5階級で多くの格子の色が変わる (割合は出力に残していない) |
 
 ## データ
 
@@ -56,7 +56,8 @@
 ## 方法
 
 - ロジスティック回帰、決定木、ランダムフォレスト、XGBoost、TabPFN を、AUC、ECE、Brier スコアで比べた。ランダム、撮影系列、250m格子、1kmと2kmのブロック、区単位、時間の分け方で、空間と時間の漏れを調べた。分割の外の SHAP、部分依存、特徴の重要度を照らした。
-- 図 1 は元の事例の AUC を [source-values.csv](outputs/source-values.csv) に写し、[plot.py](scripts/plot.py) で描いた。
+- 図 1 は元の事例の AUC を [source-values.csv](outputs/source-values.csv) に写し、[plot.py](scripts/plot.py) で描いた。表に無い元の事例の値は、[quote_source.py](scripts/quote_source.py) が固定コミットの元の README から行ごと引用して [source-quotes.json](outputs/source-quotes.json) に書き出す。
+- 図 2 は、判定できたシーンが30以上の格子だけを塗る ([reproduce_map.py](scripts/reproduce_map.py) の MIN_SCENES)。格子の数は [summarize_map.py](scripts/summarize_map.py) が [map-summary.json](outputs/map-summary.json) に書き出す。
 - 図 2 は元のコードの `tasks.undergrounded` と250m格子の定義を [reproduce_map.py](scripts/reproduce_map.py) で実行し直し、`analysis-visualize` の `classify_map.py` で描いた。座標は OGC:CRS84。階級と件数は [taito-underground-share.json](outputs/taito-underground-share.json)。
 
 ## 確かめていないこと

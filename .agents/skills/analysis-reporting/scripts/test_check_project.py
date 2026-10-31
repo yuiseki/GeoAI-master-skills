@@ -223,3 +223,10 @@ def test_a_number_in_a_cited_file_name_counts_as_evidence(tmp_path):
     report = KEY_TABLE.replace("27.3% ([wards.csv](outputs/wards.csv))", "上位20 ([top20_delta.csv](outputs/top20_delta.csv))")
     (project / "report.md").write_text(report, encoding="utf-8")
     assert check_project(project) == []
+
+
+def test_a_key_row_without_numbers_needs_no_citation(tmp_path):
+    # "次に要るのは別のデータ" states no number, so there is nothing to trace to a file
+    report = KEY_TABLE.replace("| 2 | 自転車が多い | 27.3% ([wards.csv](outputs/wards.csv)) |",
+                               "| 2 | 次に要るのは別のデータ | 事業者別の速度と基地局の位置 |")
+    assert check_project(make_cited(tmp_path, report)) == []

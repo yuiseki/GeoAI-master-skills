@@ -1,0 +1,6 @@
+{
+  "source": "study-geoai-algo-py@6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/001-mobile-speed/README.md",
+  "quotes": {
+    "最も良い組み合わせ (まとめた目的変数、基地局あり、CatBoost) でも R² 0.175": "- 予測の信号は弱い。最も良い組み合わせ (まとめた目的変数、基地局あり、CatBoost) でも R² 0.175 で、ほとんどは説明できない。"
+  }
+}

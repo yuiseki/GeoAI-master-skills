@@ -7,7 +7,8 @@ evidence it is given; this finds the evidence itself, so a project cannot pass b
     cited        a table row or sentence that links to files in an outputs/ folder has its numbers traced in those
                  files only (their names included: top20_delta.csv holds a 20), so a wrong number cannot pass by
                  matching an unrelated table. Integers below 10 and settings written in 問い or 方法 (100 m, 65 歳)
-                 may come from anywhere. Each row of the 要点 table in 結論 must cite at least one such file
+                 may come from anywhere. Each row of the 要点 table in 結論 that states a number must cite at least
+                 one such file
     readers      every number in the Markdown files under reports/ (reports for each reader) is traced the same way
     links        every relative link and image in report.md points at a file that exists (anchors and URLs are not
                  checked, nor links inside code blocks)
@@ -26,7 +27,7 @@ import re
 import sys
 from pathlib import Path
 
-from check_report import check, format_problems, numbers_in, sections, traceable
+from check_report import _REFERENCE, check, format_problems, numbers_in, sections, traceable
 
 TEXT = {".csv", ".json", ".txt", ".log", ".md", ".tsv", ".py", ".yaml", ".yml", ".toml"}
 EVIDENCE = {".csv", ".json", ".txt", ".log", ".md", ".tsv"}
@@ -172,7 +173,8 @@ def check_project(project, level="full", extra=()):
     evidence = evidence_for(project, text, extra)
     conclusion = sections(text).get("結論", [])
     for i, row in enumerate(_key_rows(conclusion), 1):
-        if not _cited(row, project)[0]:
+        # a row that states no number has nothing to trace (the row number in the first cell is not one)
+        if numbers_in(re.sub(r"^\|\s*\d+\s*\|", "|", _REFERENCE.sub(" ", row))) and not _cited(row, project)[0]:
             problems.append(f"report.md: 要点 row {i} cites no file in outputs/: link the output each number comes from")
     parts = sections(text)
     settings = {t for name in ("問い", "方法") for t, *_ in numbers_in("\n".join(parts.get(name, [])))}

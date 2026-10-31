@@ -1,0 +1,7 @@
+{
+  "source": "study-geoai-algo-py@6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/003-undergrounding/README.md",
+  "quotes": {
+    "AUC は 0.849 から 0.988 に跳ねる": "- 答えの言い換え ([001-B](../../src/001-B-logistic-regression/README.md)): 見える電柱の数と電線の多さを入れると、AUC は 0.849 から 0.988 に跳ねる。電柱が写っていることは架空線の言い換えで、使う場面では使えない。SHAP では電柱の数が、ほかの全部を合わせたより大きく効く ([011-A](../../src/011-A-shap/README.md))。",
+    "isotonic の ECE は 0.005 以下を保った": "- 250m 格子を丸ごと試験に回しても、この順位は変わらず、isotonic の ECE は 0.005 以下を保った。"
+  }
+}

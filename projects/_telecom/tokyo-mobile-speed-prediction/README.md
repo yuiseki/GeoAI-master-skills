@@ -11,3 +11,9 @@
 ```sh
 uv run --with matplotlib python scripts/plot.py
 ```
+
+報告で使う元の事例の値のうち `outputs/source-values.csv` に無いものは、固定コミットの元の README から引用して `outputs/source-quotes.json` に書き出す。
+
+```sh
+uv run python scripts/quote_source.py
+```
