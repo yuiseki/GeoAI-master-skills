@@ -1,0 +1,45 @@
+{
+ "derived": "counts of observed reports per fixed cell; not a model output",
+ "source": "hf://datasets/yuiseki/akita-kumadas-wildlife-sighting@c7047ab442ea3471aaa52af6e56a966ac768ff61/parquet/sighting.parquet",
+ "season": "1 April to 30 September of each bear year",
+ "labels": {
+  "2023": {
+   "window_start_inclusive": "2023-04-01T00:00",
+   "window_end_exclusive": "2023-10-01T00:00",
+   "full_inside_reports": 3895,
+   "full_outside_reports": 0,
+   "inside_window_reports": 1671,
+   "outside_window_reports": 0,
+   "positive_cells": 1586
+  },
+  "2024": {
+   "window_start_inclusive": "2024-04-01T00:00",
+   "window_end_exclusive": "2024-10-01T00:00",
+   "full_inside_reports": 1586,
+   "full_outside_reports": 0,
+   "inside_window_reports": 1205,
+   "outside_window_reports": 0,
+   "positive_cells": 1132
+  },
+  "2025": {
+   "window_start_inclusive": "2025-04-01T00:00",
+   "window_end_exclusive": "2025-10-01T00:00",
+   "full_inside_reports": 13587,
+   "full_outside_reports": 5,
+   "inside_window_reports": 4052,
+   "outside_window_reports": 2,
+   "positive_cells": 3657
+  },
+  "2026": {
+   "window_start_inclusive": "2026-04-01T00:00",
+   "window_end_exclusive": "2026-10-01T00:00",
+   "full_inside_reports": 3366,
+   "full_outside_reports": 3,
+   "inside_window_reports": 3366,
+   "outside_window_reports": 3,
+   "positive_cells": 3036
+  }
+ },
+ "rows": 22442,
+ "rows_outside_prefecture": 8
+}
