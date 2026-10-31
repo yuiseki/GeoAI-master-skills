@@ -17,6 +17,7 @@ from classify_map import (
     fisher_jenks,
     fmt_break,
     label_point,
+    rank_anchor,
 )
 
 X = np.array([1.0, 2, 3, 4, 5, 6, 7, 8, 9, 10])
@@ -119,6 +120,16 @@ def test_boundaries_stand_out_from_every_class_colour():
         cmap = matplotlib.colormaps[palette]
         lightest = max(lum(cmap(x)) for x in np.linspace(0, 1, 9))
         assert lightest - lum(to_rgb(EDGE)) > 0.5
+
+
+def test_rank_anchor_sits_inside_a_bent_unit_not_on_its_box_corner():
+    import shapely
+
+    # An L-shaped municipality: the top-right corner of its box lies in the neighbour that fills the notch.
+    unit = shapely.Polygon([(0, 0), (10, 0), (10, 3), (3, 3), (3, 10), (0, 10)])
+    neighbour = shapely.box(3, 3, 10, 10)
+    pt = rank_anchor(unit)
+    assert unit.contains(pt) and not neighbour.contains(pt)
 
 
 def _write(tmp_path, values, areas_grow=True, names=None):

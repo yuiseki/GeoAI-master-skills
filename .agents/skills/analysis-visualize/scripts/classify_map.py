@@ -138,6 +138,11 @@ def label_point(geom):
     return part.point_on_surface()
 
 
+def rank_anchor(geom):
+    """Where a highlight's number goes: inside the unit. A box corner lands on a neighbour when the unit is bent."""
+    return label_point(geom)
+
+
 def changed_share(a, b):
     return float(np.mean(np.asarray(a) != np.asarray(b)))
 
@@ -332,9 +337,9 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
             for poly in getattr(by_id[i], "geoms", [by_id[i]]):
                 ax.add_patch(PathPatch(MPath(np.asarray(poly.exterior.coords)), facecolor="none",
                                        edgecolor=colour[g], lw=2.0, zorder=7))
-            bx = by_id[i].bounds
-            if rank and xl[0] <= bx[2] <= xl[1] and yl[0] <= bx[3] <= yl[1]:
-                rank_texts.append((i, ax.annotate(rank, (bx[2], bx[3]), xytext=(2, 2), textcoords="offset points",
+            pt = rank_anchor(by_id[i])
+            if rank and xl[0] <= pt.x <= xl[1] and yl[0] <= pt.y <= yl[1]:
+                rank_texts.append((i, ax.annotate(rank, (pt.x, pt.y), ha="center", va="center",
                                                   fontsize=fontsize, color=colour[g], fontweight="bold", zorder=8,
                                                   annotation_clip=True,
                                                   bbox={"boxstyle": "round,pad=0.1", "fc": "white", "ec": "none",
