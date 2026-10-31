@@ -37,10 +37,12 @@ test('Wrangler は公開用 Worker にデプロイする', async () => {
   assert.equal(config.workers_dev, true);
 });
 
-test('トップは簡潔な導入と研究一覧で構成する', async () => {
+test('トップは導入文を置かず、研究一覧から始める', async () => {
   const home = await read('src/pages/index.astro');
   const base = await read('src/layouts/Base.astro');
-  assert.match(home, /<section class="intro shell">/);
+  assert.doesNotMatch(home, /class="intro|地図から、社会の課題を調べる/);
+  assert.match(home, /<h1>公開中の研究<\/h1>/);
+  assert.equal(home.match(/<h1[ >]/g).length, 1);
   assert.doesNotMatch(home, /hero-figure|hero-graphic|orbit-one|Selected research|Research notes/);
   assert.match(base, /研究一覧/);
   assert.match(base, /prefers-reduced-motion/);

@@ -6,15 +6,10 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
 ---
 
 <Base description="公共交通、交通事故、クマの出没を、地理空間データで調べた研究記事を公開しています。">
-  <section class="intro shell">
-    <h1>地図から、社会の課題を調べる。</h1>
-    <p>公共交通、交通事故、クマの出没を調べた結果を公開しています。図とともに、分析の条件や限界も読めます。</p>
-  </section>
-
   <section id="reports" class="reports-section">
     <div class="shell">
       <div class="section-heading">
-        <h2>公開中の研究</h2>
+        <h1>公開中の研究</h1>
         <p>各記事から、分析の原本と再現手順を確認できます。</p>
       </div>
       <div class="report-grid">
@@ -40,12 +35,9 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
 </Base>
 
 <style>
-  .intro { padding-block: clamp(3rem, 6vw, 5rem); }
-  .intro h1 { margin: 0 0 1rem; line-height: 1.4; font-size: clamp(2.3rem, 3.5vw, 3.7rem); letter-spacing: -.055em; font-family: var(--display-font); font-weight: 600; }
-  .intro p { max-width: 45rem; color: var(--muted); font-size: 1.04rem; line-height: 2; margin: 0; }
   .reports-section { background: var(--section); padding: 5rem 0 6rem; }
   .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.2rem; }
-  .section-heading h2, .method h2 { font-family: var(--display-font); font-weight: 600; font-size: clamp(2rem, 3.3vw, 3rem); line-height: 1.45; letter-spacing: -.05em; margin: 0; }
+  .section-heading h1, .method h2 { font-family: var(--display-font); font-weight: 600; font-size: clamp(2rem, 3.3vw, 3rem); line-height: 1.45; letter-spacing: -.05em; margin: 0; }
   .reports-section { scroll-margin-top: 1rem; }
   .section-heading > p { max-width: 25rem; color: var(--muted); font-size: .88rem; margin: 0; }
   .report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; align-items: start; }
