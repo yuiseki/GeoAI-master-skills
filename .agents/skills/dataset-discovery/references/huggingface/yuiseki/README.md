@@ -63,6 +63,8 @@ contents:
 | [estat-census-mesh-2020](estat-census-mesh-2020.md) | 2020年国勢調査 1 km メッシュ12表 | e-Stat。CC BY 4.0 |
 | [maddison-project](maddison-project.md) | 国ごとの長期 GDP・人口推計 | Maddison Project Database 2018/2020/2023 |
 | [mlit-underpass](mlit-underpass.md) | 全国の道路アンダーパス箇所 | 国土交通省。PDL 1.0 |
+| [mlit-kansui-flood-prone-points-jp-2026-09](mlit-kansui-flood-prone-points-jp-2026-09.md) | 地方整備局の冠水想定箇所 4,525 点、45 都府県 | 道路防災情報Webマップの KML。各局のサイトの規約による PDL1.0 |
+| [mlit-kansui-flood-prone-points-pdf-jp-2026-09](mlit-kansui-flood-prone-points-pdf-jp-2026-09.md) | 冠水想定箇所の箇所表 PDF から読んだ表 4,410 件 | 同上。PDF は再配布しない |
 | [npa-traffic-accidents](npa-traffic-accidents.md) | 2019〜2025年の人身事故統計票 | 警察庁。PDL 1.0 |
 | [mlit-1km-fromto-2022-01](mlit-1km-fromto-2022-01.md) | 1 kmメッシュ・市区町村別の月次滞在人口 | 国土交通省 全国の人流オープンデータ |
 | [ksj-n07-bus-route](ksj-n07-bus-route.md) | 全国のバスルート線 | 国土数値情報 N07、CC BY 4.0 相当 |

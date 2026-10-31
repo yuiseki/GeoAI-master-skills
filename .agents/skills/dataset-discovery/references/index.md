@@ -51,6 +51,8 @@
 | [canada-scanfi-v2](canada-scanfi-v2.md) | カナダ 30 m 森林 AGB など。Open Government Licence、2020 年 AGB は約 6.67 GB | カナダ | 1985〜2025 年の 5 年刻み |
 | [ksj-l01-land-price](huggingface/yuiseki/ksj-l01-land-price.md) | 地価公示の標準地の点と公示価格 (円/m²)、対前年変動率、地積、用途地域など。年をまたぐには前年の番号で結ぶ | 日本の標準地 (約 2.6 万点) | 2019〜2026 年の各年 1 月 1 日、2026-10-16 取得 |
 | [mlit-underpass](huggingface/yuiseki/mlit-underpass.md) | 国土交通省の全国のアンダーパス箇所マップの点 (名前、路線、管理者)。国と地方公共団体の道路だけ | 日本 (3,841 点) | 地図は 2025-03-31、2026-10-17 取得 |
+| [mlit-kansui-flood-prone-points-jp-2026-09](huggingface/yuiseki/mlit-kansui-flood-prone-points-jp-2026-09.md) | 地方整備局の道路防災情報Webマップの冠水想定箇所の点 (KML から、箇所表 PDF の URL つき)。国のアンダーパスの 87.5% と 30 m 以内で重なる (PDL1.0) | 45 都府県 (北海道と沖縄県を除く、4,525 点) | KML は 2020〜2024 年の更新、2026-10-30 取得 |
+| [mlit-kansui-flood-prone-points-pdf-jp-2026-09](huggingface/yuiseki/mlit-kansui-flood-prone-points-pdf-jp-2026-09.md) | 冠水想定箇所の箇所表 PDF 4,410 件から読んだ表 (住所、管理者、備考の冠水実績と関連設備)。読み取りに不確かさあり、PDF は含まない (PDL1.0) | 45 都府県 | 2026-10-31 取得 |
 | [npa-traffic-accidents](huggingface/yuiseki/npa-traffic-accidents.md) | 警察庁の人身事故の個票 (本票は事故 1 件 1 行、補充票、高速票)。座標、市区町村、当事者 A と B、死傷 | 日本 (年に約 29〜38 万件) | 2019〜2025 年 |
 | [mlit-1km-fromto-2022-01](huggingface/yuiseki/mlit-1km-fromto-2022-01.md) | 1 km メッシュと市区町村ごとの月ごとの滞在人口 (平日と休日、昼と深夜、居住地別) | 日本 | 2019-01〜2021-12 |
 | [ksj-n07-bus-route](huggingface/yuiseki/ksj-n07-bus-route.md) | 国土数値情報のバスルートの線と事業者 (系統、本数は無い)。首都圏 4 都県の版もある | 日本 (354,208 本) | 2022-08 ごろの資料、2026-10-23 取得 |

@@ -130,4 +130,5 @@ from 'hf://datasets/yuiseki/mlit-underpass/parquet/national.parquet';
 
 - `pref_code` で `jp-admin-2026-09` の都道府県と結べる。市区町村は、市区町村の面に点を入れて付ける。全 3,841 点がどれかの面に入った。政令指定都市の 488 点は、親の市の面と区の面の両方に入るので、`ward is null` の行か区の行のどちらかに絞ってから数える。
 - 浸水の想定区域 (国土数値情報、`mlit-nlftp/` の目録) の面に点を入れれば、想定区域の中のアンダーパスを数えられる。この一覧そのものは、冠水の起きやすさを表さない。
+- 地方整備局の冠水想定箇所 ([mlit-kansui-flood-prone-points-jp-2026-09](mlit-kansui-flood-prone-points-jp-2026-09.md)) とは共通の ID が無く、距離で結ぶ。北海道と沖縄県を除く 3,792 か所のうち 3,319 か所 (87.5%) が 30 m 以内にある (2026-10-31 実測)。指定されているかどうかは、冠水の起きやすさのラベルとしては弱い。箇所表の備考の冠水実績は [PDF の表](mlit-kansui-flood-prone-points-pdf-jp-2026-09.md) にあり、12 府県にしか書かれていない。
 - 道路網の上で迂回の距離を測るなら、OpenStreetMap の道路 (`osm-japan-src-2026-08`) に点を寄せる。OSM の道路は EPSG:3857 なので、距離はメートルの投影で測る。
