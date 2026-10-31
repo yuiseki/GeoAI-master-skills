@@ -53,6 +53,8 @@ $E $U python $S/interface_block_shuffle.py $A $W $O/f2_block_shuffle.json
 for s in "2023 --test 2024 --boot 500 --out $O/interaction_b1.json" "2023 2024 --test 2025 --boot 1000 --out $O/interaction_b2.json" \
          "2023 2024 2025 --test 2026 --boot 1000 --out $O/interaction_b3.json"; do
   $E $L $U python $S/interface_interaction.py $A $W --train $s; done
+# 5b. 環境省の分布メッシュとの整合 (1 回だけ。結果があれば止まる。Hugging Face の固定版を読む)
+$E $U --with shapely python $S/interface_biodic.py $A $W $O/biodic_consistency.json
 # 6. 図 (市町村界は Hugging Face の jp-admin を読む)
 $E uvx --from 'duckdb>=1.5.5' --with numpy==2.5.4 --with scipy --with pandas --with pyarrow --with shapely --with matplotlib \
   --with pyproj --with scikit-learn==1.9.1 python $S/interface_figures.py $A $W $O
