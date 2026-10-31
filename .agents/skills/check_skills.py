@@ -13,7 +13,7 @@
    reference it lists exists when checked, every reference file is listed, and each stage's (done / all) count holds.
 8. The uvx command on the first line of each test brings every third-party package the test and its script import.
 
-The four externally installed skills in EXCLUDED_SKILLS are outside this repository's checks.
+The externally installed skills in EXCLUDED_SKILLS are outside this repository's checks.
 """
 
 import filecmp
@@ -34,7 +34,7 @@ REQUIRED = {
 }
 JOINS = re.compile(r"^(?:([\w-]+):)?([\w*]+)\.")
 # Externally installed skills are usable locally but are not maintained under this repository's skill rules.
-EXCLUDED_SKILLS = frozenset({"frontend-design", "natural-japanese", "stop-describing-ui", "yomiyasu"})
+EXCLUDED_SKILLS = frozenset({"frontend-design", "natural-japanese", "stop-describing-ui", "web-design-guidelines", "yomiyasu"})
 
 
 def is_excluded(path, root):
