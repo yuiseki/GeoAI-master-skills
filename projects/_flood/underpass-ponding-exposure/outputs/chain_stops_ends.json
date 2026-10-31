@@ -1,0 +1,11 @@
+{
+ "chain": "ends",
+ "short_points": 506,
+ "reasons": {
+  "turn": 279,
+  "bridge": 143,
+  "through_vertex": 46,
+  "other_class": 21,
+  "dead_end": 17
+ }
+}

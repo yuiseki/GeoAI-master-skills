@@ -4,7 +4,8 @@ uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pyarrow python scr
 
 Writes artifacts/_flood/underpass-ponding-exposure/measures.parquet (one row per underpass) and profiles.parquet
 (the sampled profiles of the main road, both DEMs, for the figures and checks). --max-lon limits the run to the
-points west of a longitude (for trying the script while tiles are still being fetched).
+points west of a longitude (for trying the script while tiles are still being fetched). --chain vertices (the
+exploratory rule added after the results) writes to --out measures_vertices.parquet.
 """
 import argparse
 import math
@@ -16,7 +17,8 @@ from shapely import STRtree, from_wkb
 from shapely.geometry import Point
 
 from dem import Tiles, drain_to, global_pixel
-from roadprofile import ambiguous, build_chain, depth, eligible, lonlat_to_merc, merc_to_lonlat, samples, surface_depth
+from roadprofile import (ambiguous, build_chain, depth, eligible, lonlat_to_merc, merc_to_lonlat, node_index, samples,
+                         surface_depth)
 
 HERE = Path(__file__).resolve().parent
 ART = HERE.parents[3] / "artifacts/_flood/underpass-ponding-exposure"
@@ -27,7 +29,7 @@ CATCH_PIT = 15.0          # m from the bottom within which a stopping pixel coun
 DEMS = {"5a": "dem5a", "10b": "dem"}
 
 
-def load_roads():
+def load_roads(all_vertices=False):
     c = duckdb.connect()
     c.execute("load spatial")
     rows = c.execute(f"""select osm_id, highway, bridge, tunnel, layer, covered, st_aswkb(way)
@@ -35,11 +37,7 @@ def load_roads():
     keep = [r for r in rows if eligible(r[1], r[2], r[4])]
     lines = list(from_wkb([bytes(r[6]) for r in keep]))
     meta = [r[:6] for r in keep]
-    ends = {}
-    for i, ln in enumerate(lines):
-        for xy in (ln.coords[0], ln.coords[-1]):
-            ends.setdefault(tuple(xy), []).append(i)
-    return lines, meta, ends, len(rows)
+    return lines, meta, node_index(lines, all_vertices), len(rows)
 
 
 def catchment(tiles, lon, lat, blon, blat):
@@ -59,8 +57,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-lon", type=float, default=None)
     ap.add_argument("--out", default=str(ART / "measures.parquet"))
+    ap.add_argument("--chain", choices=["ends", "vertices"], default="ends",
+                    help="ends: the plan's rule; vertices: also follow lines through a node (exploratory)")
     a = ap.parse_args()
-    lines, meta, ends, n_roads = load_roads()
+    lines, meta, ends, n_roads = load_roads(a.chain == "vertices")
     tree = STRtree(lines)
     tiles = {k: Tiles(ART / "dem", v) for k, v in DEMS.items()}
     q = f"select id, pref, block, lon, lat from '{ART / 'raw/underpass.parquet'}'"

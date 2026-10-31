@@ -7,3 +7,4 @@
 | R003 | tiles | - | - | 標高タイル | 2026-10-31 取得 | done | ../../../artifacts/_flood/underpass-ponding-exposure/dem/fetch_log.json | - | DEM5A z15 7,198 枚 (404 は 98)、DEM10B z14 3,885 枚 (404 は 1) |
 | R004 | B1〜B4 | C1〜C4 | main | 計画の規則 (depth) と探索の規則 (depthw) | R001、R003 | done | outputs/blocks.json | B4 に文章の実績だけの読み方を探索として足した。DEM5A だけとの比較は設計上同じ得点 | C1 支持 (31%)。C2 規則の上で支持 (3 / 6、2 つは 0.5 の際)。C3 支持 (AUC 0.57 [0.43, 0.70])。C4 退けた (0.61 [0.57, 0.64]、文章の実績だけでも 0.60) |
 | R005 | report | - | - | report.md | R004 | done | report.md | - | check_report.py --level full で ok |
+| R006 | A (探索) | C1〜C4 | exploratory | 途中の節点を通る線もたどる縦断 | R004 と同じ | done | outputs/blocks_vertices.json、outputs/chain_stops_*.json | 結果の後に足した | 測れる箇所 3,256 → 3,304。C1 0.311、C2 3 / 6、C3 0.55 [0.41, 0.69]、C4 0.61 [0.57, 0.64] で判定は変わらない。残りの止まる理由は 45 度より曲がる 275、橋 144、他の種類 22、行き止まり 17 |

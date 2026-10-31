@@ -65,11 +65,8 @@ def test_mercator_round_trip():
 
 
 def _ends(lines):
-    ends = {}
-    for i, ln in enumerate(lines):
-        for c in (ln.coords[0], ln.coords[-1]):
-            ends.setdefault(tuple(c), []).append(i)
-    return ends
+    from roadprofile import node_index
+    return node_index(lines, False)
 
 
 def test_build_chain_follows_straight_not_turn():
@@ -104,3 +101,25 @@ def test_depth_bottom_anywhere_finds_side_trench():
     d30, _, ok = depth(s, e, 100)
     dw, sb, okw = depth(s, e, 100, bottom_within=100)
     assert ok and okw and d30 < 0.01 and abs(dw - 3.0) < 1e-9 and abs(abs(sb) - 60) <= 10
+
+
+def _nodes(lines, all_vertices):
+    from roadprofile import node_index
+    return node_index(lines, all_vertices)
+
+
+def test_chain_follows_line_through_interior_vertex():
+    lines = [LineString([(0, 0), (100, 0)]),
+             LineString([(100, -100), (100, 0.0), (200, 0), (300, 0)])]  # passes through (100, 0) and turns east
+    # endpoints only: (100, 0) is not an end of line 1, so the chain stops
+    chain, used = build_chain(0, lines, _nodes(lines, False), 150)
+    assert used == [0]
+    # all vertices: follows line 1 eastwards from its interior vertex, not back south
+    chain, used = build_chain(0, lines, _nodes(lines, True), 150)
+    assert used == [0, 1] and chain.length == 300
+
+
+def test_node_index_endpoints_only_matches_old_ends():
+    lines = [LineString([(0, 0), (1, 0), (2, 0)])]
+    assert set(_nodes(lines, False)) == {(0, 0), (2, 0)}
+    assert set(_nodes(lines, True)) == {(0, 0), (1, 0), (2, 0)}

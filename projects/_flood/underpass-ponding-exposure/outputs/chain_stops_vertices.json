@@ -1,0 +1,10 @@
+{
+ "chain": "vertices",
+ "short_points": 458,
+ "reasons": {
+  "turn": 275,
+  "bridge": 144,
+  "other_class": 22,
+  "dead_end": 17
+ }
+}

@@ -73,28 +73,38 @@ def _out_dir(coords):
     return v / (np.hypot(*v) or 1)
 
 
-def extend_chain(start, ends, lines, reach):
-    """Extend `start` (a list of coordinates) at its last end with lines that share that end node and turn by no
-    more than CHAIN_ANGLE, until the added length reaches `reach` (3857 units). `ends` maps a node to the indices of
-    the lines that end there. Returns the coordinates and the line indices used."""
+def node_index(lines, all_vertices):
+    """Map a node to (line index, vertex position) pairs: the lines' end nodes only (the plan's rule), or every
+    vertex (a line that passes through the node can continue the chain too)."""
+    nodes = {}
+    for i, ln in enumerate(lines):
+        c = list(ln.coords)
+        for j in (range(len(c)) if all_vertices else {0, len(c) - 1}):
+            nodes.setdefault(tuple(c[j]), []).append((i, j))
+    return nodes
+
+
+def extend_chain(start, nodes, lines, reach):
+    """Extend `start` (a list of coordinates) at its last node with the lines through that node (`nodes`, from
+    node_index) that turn by no more than CHAIN_ANGLE, until the added length reaches `reach` (3857 units). A line
+    through the node can be followed either way from it. Returns the coordinates and the line indices used."""
     coords, used, added = list(start), [], 0.0
     while added < reach:
         node = tuple(coords[-1])
         best, best_a, best_c = None, CHAIN_ANGLE, None
         din = _out_dir(coords)
-        for i in ends.get(node, ()):
+        for i, j in nodes.get(node, ()):
             if i in used:
                 continue
-            c = list(lines[i].coords)
-            if tuple(c[0]) != node:
-                c = c[::-1]
-            if len(c) < 2:
-                continue
-            dout = np.array(c[1]) - np.array(c[0])
-            dout = dout / (np.hypot(*dout) or 1)
-            a = angle_between(din, dout, undirected=False)
-            if a <= best_a:
-                best, best_a, best_c = i, a, c
+            full = list(lines[i].coords)
+            for c in (full[j:], full[j::-1]):
+                if len(c) < 2:
+                    continue
+                dout = np.array(c[1]) - np.array(c[0])
+                dout = dout / (np.hypot(*dout) or 1)
+                a = angle_between(din, dout, undirected=False)
+                if a <= best_a:
+                    best, best_a, best_c = i, a, c
         if best is None:
             break
         used.append(best)
@@ -103,11 +113,11 @@ def extend_chain(start, ends, lines, reach):
     return coords, used
 
 
-def build_chain(k, lines, ends, reach, exclude=()):
+def build_chain(k, lines, nodes, reach):
     """The road through line k, extended at both ends by `reach` (3857 units)."""
     base = list(lines[k].coords)
-    fwd, used_f = extend_chain(base, ends, lines, reach)
-    back, used_b = extend_chain(fwd[::-1], ends, lines, reach + LineString(fwd).length - LineString(base).length)
+    fwd, used_f = extend_chain(base, nodes, lines, reach)
+    back, used_b = extend_chain(fwd[::-1], nodes, lines, reach + LineString(fwd).length - LineString(base).length)
     return LineString(back[::-1]), [k] + used_f + used_b
 
 
@@ -164,4 +174,4 @@ def samples(chain, point, scale, L):
 
 
 __all__ = ["ROAD_CLASSES", "eligible", "layer_value", "ambiguous", "build_chain", "depth", "surface_depth",
-           "merc_to_lonlat", "lonlat_to_merc", "samples", "Point", "LineString"]
+           "merc_to_lonlat", "lonlat_to_merc", "samples", "node_index", "Point", "LineString"]
