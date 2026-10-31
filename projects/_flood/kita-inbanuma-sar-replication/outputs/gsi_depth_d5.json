@@ -1,0 +1,68 @@
+{
+ "0922": {
+  "tile_pixels_opaque": 1520661,
+  "far_from_legend": 5,
+  "cells_with_depth": 57016,
+  "depth_km2": 5.7016,
+  "outline_km2": 5.5934,
+  "outline_cells_with_depth_share": 0.9823,
+  "depth_cells_inside_outline_share": 0.9637,
+  "depth_m_quantiles": [
+   0.104,
+   0.198,
+   1.634,
+   2.233,
+   2.763
+  ]
+ },
+ "0924": {
+  "tile_pixels_opaque": 1341104,
+  "far_from_legend": 0,
+  "cells_with_depth": 50278,
+  "depth_km2": 5.0278,
+  "outline_km2": 4.9391,
+  "outline_cells_with_depth_share": 0.9884,
+  "depth_cells_inside_outline_share": 0.971,
+  "depth_m_quantiles": [
+   0.104,
+   0.262,
+   1.084,
+   1.721,
+   2.024
+  ]
+ },
+ "0925": {
+  "tile_pixels_opaque": 854654,
+  "far_from_legend": 0,
+  "cells_with_depth": 32072,
+  "depth_km2": 3.2072,
+  "outline_km2": 3.1499,
+  "outline_cells_with_depth_share": 0.9848,
+  "depth_cells_inside_outline_share": 0.9672,
+  "depth_m_quantiles": [
+   0.104,
+   0.212,
+   0.64,
+   0.978,
+   1.247
+  ]
+ },
+ "1001": {
+  "tile_pixels_opaque": 362406,
+  "far_from_legend": 0,
+  "cells_with_depth": 13612,
+  "depth_km2": 1.3612,
+  "outline_km2": 1.318,
+  "outline_cells_with_depth_share": 0.9689,
+  "depth_cells_inside_outline_share": 0.9381,
+  "depth_m_quantiles": [
+   0.104,
+   0.134,
+   0.283,
+   0.454,
+   0.695
+  ]
+ },
+ "legend_same_in_all_versions": true,
+ "max_dist": 5.0
+}

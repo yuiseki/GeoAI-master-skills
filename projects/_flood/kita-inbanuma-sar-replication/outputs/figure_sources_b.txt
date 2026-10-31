@@ -1,0 +1,2 @@
+Contains modified Copernicus Sentinel data 2026 (Planetary Computer sentinel-1-grd)。
+国土地理院「浸水推定図『北印旛沼』」の深さのタイルと PDF の凡例、DEM5A、DEM10B を加工して作成

@@ -1,0 +1,127 @@
+{
+ "fit": {
+  "mu_w": -19.821748733520508,
+  "sd_w": 5.75524377822876,
+  "mu_l": -7.784053802490234,
+  "sd_l": 4.331157207489014,
+  "dvv_land_pct": -4.317739009857178,
+  "dvh_land_pct": -6.459086894989014,
+  "n_land": 2186787,
+  "n_water": 197568,
+  "n_parts": 58
+ },
+ "main": {
+  "B1": {
+   "core_pixels": 13153,
+   "share_det_vv": 0.946,
+   "share_pct": 94.6,
+   "rule_min_pct": 90
+  },
+  "B2": {
+   "ref_m2": 4.925,
+   "det_m2": 3.896,
+   "both_m2": 3.01,
+   "missed_m2": 1.914,
+   "extra_m2": 0.885,
+   "recall": 0.611,
+   "precision": 0.773,
+   "recall_pct": 61.1,
+   "precision_pct": 77.3
+  },
+  "B3": {
+   "ref_m2": 4.925,
+   "det_m2": 4.179,
+   "both_m2": 3.204,
+   "missed_m2": 1.72,
+   "extra_m2": 0.975,
+   "recall": 0.651,
+   "precision": 0.767,
+   "recall_pct": 65.1,
+   "precision_pct": 76.7,
+   "recall_gain": 0.039,
+   "precision_change": -0.006,
+   "missed_ratio": 0.899
+  },
+  "B4": {
+   "both": {
+    "pixels": 30105,
+    "dvv": -12.55,
+    "dvh": -11.99,
+    "vv_b": -8.38,
+    "vv_a": -20.97,
+    "vh_b": -14.18,
+    "vh_a": -26.08
+   },
+   "missed": {
+    "pixels": 19140,
+    "dvv": -1.39,
+    "dvh": -3.78,
+    "vv_b": -8.33,
+    "vv_a": -9.78,
+    "vh_b": -14.06,
+    "vh_a": -18.18
+   },
+   "extra": {
+    "pixels": 8854,
+    "dvv": -13.54,
+    "dvh": -10.84,
+    "vv_b": -7.12,
+    "vv_a": -21.51,
+    "vh_b": -14.23,
+    "vh_a": -25.74
+   },
+   "neither": {
+    "pixels": 276508,
+    "dvv": 0.06,
+    "dvh": -0.48,
+    "vv_b": -8.05,
+    "vv_a": -7.92,
+    "vh_b": -13.63,
+    "vh_a": -14.11
+   }
+  },
+  "B5": {
+   "det_vv_km2": 6.628,
+   "det_vvvh_km2": 7.321,
+   "ratio": 1.105
+  }
+ },
+ "judgement": {
+  "A1": {
+   "conditions": {
+    "core_share_ge_0.90": true
+   },
+   "reproduced": true
+  },
+  "A2": {
+   "conditions": {
+    "recall_41_71": true,
+    "precision_ge_0.74": true,
+    "recall_lt_precision": true
+   },
+   "reproduced": true
+  },
+  "A3": {
+   "conditions": {
+    "recall_gain_ge_0.10": false,
+    "precision_down": true,
+    "missed_ratio_le_0.7": false
+   },
+   "reproduced": false
+  },
+  "A4": {
+   "conditions": {
+    "missed_dvh_1db_below_dvv": true,
+    "both_dvv_le_-8": true
+   },
+   "reproduced": true
+  },
+  "A5": {
+   "conditions": {
+    "vv_2.4_7.2": true,
+    "ratio_ge_1.5": false
+   },
+   "reproduced": false
+  }
+ }
+}

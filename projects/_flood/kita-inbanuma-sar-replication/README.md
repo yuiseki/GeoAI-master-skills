@@ -17,13 +17,24 @@ env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/02_grid.py
 env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/03_detect.py
 env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/04_compare.py
 env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/05_fig.py
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/06_explore_a3.py   # 探索 (段 A の A3)
+# 段 B
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U --with pymupdf python scripts/07_fetch_b.py
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/08_gsi_depth.py
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/08_gsi_depth.py --max-dist 5
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/09_grd.py           # PROJ のネットワークでジオイド高を取る
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/10_water_b.py
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/11_depth.py
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/12_fig_b.py
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/13_stage_a_grd.py  # 探索 (段 A を GRD で)
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA $U python scripts/14_explore_b.py    # 探索 (段 B の水面)
 ```
 
-`env -u` は、作者の環境で anaconda の GDAL の変数が rasterio を壊すのを避けるため。テストは `scripts/test_sar.py` の 1 行目のコマンドで流す。
+`env -u` は、作者の環境で anaconda の GDAL の変数が rasterio を壊すのを避けるため。テストは `scripts/test_sar.py` と `scripts/test_sarb.py` の 1 行目のコマンドで流す。
 
 ## 出典
 
-- Contains modified Copernicus Sentinel data 2026 (Planetary Computer の sentinel-1-rtc、CC BY 4.0)
+- Contains modified Copernicus Sentinel data 2026 (Planetary Computer の sentinel-1-rtc (CC BY 4.0) と sentinel-1-grd)
 - 国土地理院「令和8年台風第25号による浸水推定図『北印旛沼』」の輪郭線を加工して作成 (gsi-inundation-estimate-kita-inbanuma-jp-2026-10@e760fba)
-- 国土地理院の標高タイル (DEM5A、DEM10B) を加工して作成
+- 国土地理院の標高タイル (DEM5A、DEM10B)、浸水推定図の深さのタイルと PDF の凡例を加工して作成
 - ESA WorldCover 2021 (CC BY 4.0)

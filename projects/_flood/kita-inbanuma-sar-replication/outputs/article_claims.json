@@ -43,5 +43,36 @@
  "lake_vv_db": -23,
  "geolocation_check_max_cm": 1.5,
  "before_after_shift_m": 0.16,
- "gsi_version_compared": "2026-09-24 14:00"
+ "gsi_version_compared": "2026-09-24 14:00",
+ "article2": {
+  "source": "Mark.n「衛星は2日半遅刻した。それでも印旛沼の浸水調査に使えるのか」note、2026-10-23。本文は https://note.com/api/v3/notes/ne58ec15c39e5 から 2026-10-31 に取得して書き写した",
+  "range_overlap": 0.67,
+  "range_recall_pct": 80,
+  "depth_mad_m": 0.23,
+  "depth_bias_m": -0.09,
+  "polder_surface_sat_0924_m": 2.08,
+  "polder_surface_gsi_interp_m": 2.05,
+  "detection_rate_by_depth_pct": {
+   "0-0.25": 39,
+   "0.25-0.5": 58,
+   "0.5-0.75": 76,
+   "0.75-": 90
+  },
+  "mud_1001_km2": 0.38,
+  "iou_rule_diff_1001_m": 0.18,
+  "flooded_km2": 7.6,
+  "max_depth_median_m": 1.27,
+  "sat_only_shallower_median_m": 0.62,
+  "polder_surface_m": {
+   "0922": 2.88,
+   "0924": 2.19,
+   "0925": 1.38,
+   "1001": 0.83,
+   "1006_sat": 0.81
+  },
+  "water_1006_km2": 0.9,
+  "water_1006_share_in_1001_pct": 80,
+  "extrapolated_1006_km2": 0.22,
+  "buildings": 449
+ }
 }

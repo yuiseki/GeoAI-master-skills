@@ -17,6 +17,7 @@
 | [microsoft-building-footprints](microsoft-building-footprints.md) | 東京東部・関東2タイルの GeoParquet と原典 GeoJSONL gzip を公開 (5,781,554件) | 東京東部・関東 | 2026-08-13 の索引スナップショット |
 | [planetary-computer/](planetary-computer/README.md) | 目録。衛星画像、標高、土地被覆のラスタ (COG、匿名の SAS 署名が要る) | 全世界 | コレクションごと |
 | [planetary-computer-landsat-c2-l2](planetary-computer/landsat-c2-l2.md) | USGS Landsat Collection 2 Level-2 の地表面反射率と QA の 30 m COG (public domain) | 全世界 | 1982〜、撮影ごと |
+| [planetary-computer-sentinel-1](planetary-computer/sentinel-1.md) | Sentinel-1 の GRD (レーダーの座標の強度と注記) と RTC (UTM 10 m の γ0)。千葉で RTC が地図に対し 2 画素ほどずれていた | 全世界 | 撮影ごと、2026-10-31 確認 |
 | [landsat5-fagus-crenata-sites-jp-2026-10](huggingface/yuiseki/landsat5-fagus-crenata-sites-jp-2026-10.md) | ブナの 102 地点の周り 300 m の Landsat 5 TM の地点 × 撮影の抽出表 (反射率、QA、NDVI、NDMI) | 東北と渡島半島の 102 地点 | 1989〜2008 年の 4〜5 月と 7〜8 月 |
 | [global-nature-watch/](global-nature-watch/README.md) | 目録。草地、植生攪乱、森林損失要因、森林タイプ。API と許諾はレイヤーごと | 全球を中心にレイヤーごと | 年次図、速報、2020 年基準図 |
 | [huggingface/yuiseki/](huggingface/yuiseki/README.md) | 目録。yuiseki の公開一覧のうち地理分析向けに確認した固定版86件。元データのカードとは区別 | 東京周辺、日本、東アジア、韓国、全球など | 個別のデータ時点と commit SHA に固定 |

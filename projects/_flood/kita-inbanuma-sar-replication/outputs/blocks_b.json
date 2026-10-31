@@ -1,0 +1,403 @@
+{
+ "main": {
+  "E1": {
+   "pixels_both": 31972,
+   "bias_m": 2.104,
+   "mad_m": 2.453,
+   "recall": 0.651,
+   "iou": 0.543
+  },
+  "polder": {
+   "pixels": 20867,
+   "gsi_surface_m": {
+    "0922": 3.046,
+    "0924": 2.374,
+    "0925": 1.574,
+    "1001": 1.007
+   },
+   "gsi_surface_iqr_m": {
+    "0922": 0.33,
+    "0924": 0.028,
+    "0925": 0.038,
+    "1001": 0.064
+   },
+   "sat_surface_m": {
+    "0924": 5.8,
+    "1001": 0.801,
+    "1006": 0.708
+   }
+  },
+  "E2": {
+   "sat_0924_m": 5.8,
+   "gsi_interp_0924_1741_m": 2.234,
+   "diff_m": 3.566
+  },
+  "E3": {
+   "0-0.25": {
+    "pixels": 4582,
+    "rate": 0.002,
+    "rate_pct": 0.2
+   },
+   "0.25-0.5": {
+    "pixels": 6074,
+    "rate": 0.052,
+    "rate_pct": 5.2
+   },
+   "0.5-0.75": {
+    "pixels": 5714,
+    "rate": 0.43,
+    "rate_pct": 43.0
+   },
+   "0.75-inf": {
+    "pixels": 33752,
+    "rate": 0.869,
+    "rate_pct": 86.9
+   }
+  },
+  "E4": {
+   "flooded_km2": 10.0628,
+   "max_depth_median_m": 0.734,
+   "max_minus_sat_only_median_m": 0.0,
+   "sat_only_median_m": 0.34
+  },
+  "E5": {
+   "gsi_m": {
+    "0922": 3.046,
+    "0924": 2.374,
+    "0925": 1.574,
+    "1001": 1.007
+   },
+   "article_m": {
+    "0922": 2.88,
+    "0924": 2.19,
+    "0925": 1.38,
+    "1001": 0.83
+   },
+   "gsi_minus_article_m": {
+    "0922": 0.166,
+    "0924": 0.184,
+    "0925": 0.194,
+    "1001": 0.177
+   },
+   "sat_1006_m": 0.708,
+   "sat_1006_minus_gsi_1001_m": -0.299
+  },
+  "E6": {
+   "sat_1006_in_union_km2": 0.4373,
+   "share_in_1001_outline": 0.996,
+   "extrapolated_surface_m": 0.544,
+   "extrapolated_km2": 0.1563
+  },
+  "E7": {
+   "dried_km2": 1.8244,
+   "called_water_km2": 0.0088
+  }
+ },
+ "judgement": {
+  "D1": {
+   "conditions": {
+    "mad_le_0.35": false,
+    "abs_bias_le_0.20": false
+   },
+   "reproduced": false
+  },
+  "D2": {
+   "conditions": {
+    "abs_diff_le_0.15": false
+   },
+   "reproduced": false
+  },
+  "D3": {
+   "conditions": {
+    "increasing": true,
+    "shallowest_lt_0.50": true,
+    "deepest_ge_0.85": true
+   },
+   "reproduced": true
+  },
+  "D4": {
+   "conditions": {
+    "median_diff_ge_0.30": false
+   },
+   "reproduced": false
+  },
+  "D5": {
+   "conditions": {
+    "gsi_within_0.15": false,
+    "sat_1006_within_0.15": false
+   },
+   "reproduced": false
+  },
+  "D6": {
+   "conditions": {
+    "area_ge_0.5": false,
+    "share_ge_0.8": true,
+    "extrapolated_le_half": true
+   },
+   "reproduced": false
+  },
+  "D7": {
+   "conditions": {
+    "called_water_ge_0.2": false
+   },
+   "reproduced": false
+  }
+ },
+ "variants": {
+  "water_rtc": {
+   "E1": {
+    "pixels_both": 31584,
+    "bias_m": 1.518,
+    "mad_m": 1.607,
+    "recall": 0.644,
+    "iou": 0.53
+   },
+   "E2": {
+    "sat_0924_m": 4.116,
+    "gsi_interp_0924_1741_m": 2.235,
+    "diff_m": 1.881
+   },
+   "E3": {
+    "0-0.25": {
+     "pixels": 4582,
+     "rate": 0.019,
+     "rate_pct": 1.9
+    },
+    "0.25-0.5": {
+     "pixels": 6074,
+     "rate": 0.121,
+     "rate_pct": 12.1
+    },
+    "0.5-0.75": {
+     "pixels": 5714,
+     "rate": 0.488,
+     "rate_pct": 48.8
+    },
+    "0.75-inf": {
+     "pixels": 33752,
+     "rate": 0.836,
+     "rate_pct": 83.6
+    }
+   },
+   "E4": {
+    "flooded_km2": 10.1866,
+    "max_depth_median_m": 1.189,
+    "max_minus_sat_only_median_m": 0.0,
+    "sat_only_median_m": 0.386
+   },
+   "judgement": {
+    "D1": false,
+    "D2": false,
+    "D3": false,
+    "D4": false,
+    "D5": false,
+    "D6": false,
+    "D7": false
+   }
+  },
+  "water_0924_vv": {
+   "E1": {
+    "pixels_both": 29974,
+    "bias_m": 2.17,
+    "mad_m": 2.533,
+    "recall": 0.611,
+    "iou": 0.518
+   },
+   "E2": {
+    "sat_0924_m": 5.998,
+    "gsi_interp_0924_1741_m": 2.234,
+    "diff_m": 3.764
+   },
+   "E3": {
+    "0-0.25": {
+     "pixels": 4582,
+     "rate": 0.002,
+     "rate_pct": 0.2
+    },
+    "0.25-0.5": {
+     "pixels": 6074,
+     "rate": 0.052,
+     "rate_pct": 5.2
+    },
+    "0.5-0.75": {
+     "pixels": 5714,
+     "rate": 0.395,
+     "rate_pct": 39.5
+    },
+    "0.75-inf": {
+     "pixels": 33752,
+     "rate": 0.817,
+     "rate_pct": 81.7
+    }
+   },
+   "E4": {
+    "flooded_km2": 9.5795,
+    "max_depth_median_m": 0.823,
+    "max_minus_sat_only_median_m": 0.0,
+    "sat_only_median_m": 0.292
+   },
+   "judgement": {
+    "D1": false,
+    "D2": false,
+    "D3": false,
+    "D4": false,
+    "D5": false,
+    "D6": false,
+    "D7": false
+   }
+  },
+  "surface_0924_q95": {
+   "E1": {
+    "pixels_both": 31972,
+    "bias_m": -0.748,
+    "mad_m": 0.748,
+    "recall": 0.651,
+    "iou": 0.543
+   },
+   "E2": {
+    "sat_0924_m": 1.666,
+    "gsi_interp_0924_1741_m": 2.234,
+    "diff_m": -0.568
+   },
+   "E3": {
+    "0-0.25": {
+     "pixels": 4582,
+     "rate": 0.002,
+     "rate_pct": 0.2
+    },
+    "0.25-0.5": {
+     "pixels": 6074,
+     "rate": 0.052,
+     "rate_pct": 5.2
+    },
+    "0.5-0.75": {
+     "pixels": 5714,
+     "rate": 0.43,
+     "rate_pct": 43.0
+    },
+    "0.75-inf": {
+     "pixels": 33752,
+     "rate": 0.869,
+     "rate_pct": 86.9
+    }
+   },
+   "E4": {
+    "flooded_km2": 9.6012,
+    "max_depth_median_m": 0.624,
+    "max_minus_sat_only_median_m": 0.412,
+    "sat_only_median_m": 0.12
+   },
+   "judgement": {
+    "D1": false,
+    "D2": false,
+    "D3": true,
+    "D4": true,
+    "D5": false,
+    "D6": false,
+    "D7": false
+   }
+  },
+  "surface_0924_iou": {
+   "E1": {
+    "pixels_both": 31972,
+    "bias_m": -0.838,
+    "mad_m": 0.838,
+    "recall": 0.651,
+    "iou": 0.543
+   },
+   "E2": {
+    "sat_0924_m": 1.494,
+    "gsi_interp_0924_1741_m": 2.234,
+    "diff_m": -0.74
+   },
+   "E3": {
+    "0-0.25": {
+     "pixels": 4582,
+     "rate": 0.002,
+     "rate_pct": 0.2
+    },
+    "0.25-0.5": {
+     "pixels": 6074,
+     "rate": 0.052,
+     "rate_pct": 5.2
+    },
+    "0.5-0.75": {
+     "pixels": 5714,
+     "rate": 0.43,
+     "rate_pct": 43.0
+    },
+    "0.75-inf": {
+     "pixels": 33752,
+     "rate": 0.869,
+     "rate_pct": 86.9
+    }
+   },
+   "E4": {
+    "flooded_km2": 9.5128,
+    "max_depth_median_m": 0.553,
+    "max_minus_sat_only_median_m": 0.429,
+    "sat_only_median_m": 0.13
+   },
+   "judgement": {
+    "D1": false,
+    "D2": false,
+    "D3": true,
+    "D4": true,
+    "D5": false,
+    "D6": false,
+    "D7": false
+   }
+  },
+  "gsi_max_dist_5": {
+   "E1": {
+    "pixels_both": 31972,
+    "bias_m": 2.104,
+    "mad_m": 2.453,
+    "recall": 0.651,
+    "iou": 0.543
+   },
+   "E2": {
+    "sat_0924_m": 5.8,
+    "gsi_interp_0924_1741_m": 2.234,
+    "diff_m": 3.566
+   },
+   "E3": {
+    "0-0.25": {
+     "pixels": 4582,
+     "rate": 0.002,
+     "rate_pct": 0.2
+    },
+    "0.25-0.5": {
+     "pixels": 6074,
+     "rate": 0.052,
+     "rate_pct": 5.2
+    },
+    "0.5-0.75": {
+     "pixels": 5714,
+     "rate": 0.43,
+     "rate_pct": 43.0
+    },
+    "0.75-inf": {
+     "pixels": 33752,
+     "rate": 0.869,
+     "rate_pct": 86.9
+    }
+   },
+   "E4": {
+    "flooded_km2": 10.0628,
+    "max_depth_median_m": 0.734,
+    "max_minus_sat_only_median_m": 0.0,
+    "sat_only_median_m": 0.34
+   },
+   "judgement": {
+    "D1": false,
+    "D2": false,
+    "D3": true,
+    "D4": false,
+    "D5": false,
+    "D6": false,
+    "D7": false
+   }
+  }
+ }
+}

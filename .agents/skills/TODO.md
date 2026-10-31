@@ -36,6 +36,7 @@
     - [x] `references/microsoft-building-footprints.md`: 固定した索引と日本の小さい建物輪郭タイルを実読
     - [x] `references/planetary-computer/README.md`: STAC API、匿名の SAS 署名の 3 つの方法
       - [x] `references/planetary-computer/landsat-c2-l2.md`: Landsat 5 TM の地表面反射率の尺度と QA のビット
+      - [x] `references/planetary-computer/sentinel-1.md`: GRD のファイル名と注記の置き場所、RTC の位置のずれ
       - [ ] コレクションごとのファイル (Sentinel-2 L2A、HLS、NASADEM、Copernicus DEM、ESA WorldCover、Impact Observatory の土地被覆)
     - [x] `references/global-nature-watch/README.md`: GNW の目録、API キー、レイヤーごとの許諾
       - [x] `references/global-nature-watch/gpw-grasslands.md`: 草地の年次分類と配布元の容量
