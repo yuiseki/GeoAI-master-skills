@@ -100,10 +100,12 @@ def main():
             for L in LS:
                 d, sb, ok = depth(s, elev[k], L)
                 row[f"depth_{k}_{L}"], row[f"bottom_{k}_{L}"], row[f"ok_{k}_{L}"] = d, sb, ok
+                d, sb, _ = depth(s, elev[k], L, bottom_within=L)
+                row[f"depthw_{k}_{L}"], row[f"bottomw_{k}_{L}"] = d, sb
         for L in LS:
             use = "5a" if row[f"ok_5a_{L}"] else "10b"
             row[f"dem_mix_{L}"] = use
-            for f in ("depth", "bottom", "ok"):
+            for f in ("depth", "bottom", "ok", "depthw", "bottomw"):
                 row[f"{f}_mix_{L}"] = row[f"{f}_{use}_{L}"]
         row["surface_mix"] = row["surface_5a"] if row["surface_5a"] is not None else row["surface_10b"]
         if row["ok_mix_100"]:

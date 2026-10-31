@@ -94,3 +94,13 @@ def test_ambiguous_crossing():
     assert ambiguous(Point(1, 1), lines, 0, 1.0)
     lines = [LineString([(-50, 0), (50, 0)]), LineString([(-50, 3), (50, 3)])]
     assert not ambiguous(Point(1, 1), lines, 0, 1.0)
+
+
+def test_depth_bottom_anywhere_finds_side_trench():
+    # high at the point (a cover), trenches 60 m away on both sides
+    s = np.arange(-100, 100.1, 2.5)
+    e = np.where(np.abs(np.abs(s) - 60) <= 10, -2.0, 1.0)
+    e[np.abs(s) <= 30] = 3.0
+    d30, _, ok = depth(s, e, 100)
+    dw, sb, okw = depth(s, e, 100, bottom_within=100)
+    assert ok and okw and d30 < 0.01 and abs(dw - 3.0) < 1e-9 and abs(abs(sb) - 60) <= 10

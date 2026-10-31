@@ -28,15 +28,21 @@ R = 200  # m around the point
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--measures", default=str(ART / "measures.parquet"))
+    ap.add_argument("--out", default=str(OUT / "check_profiles_tokyo.png"))
+    a = ap.parse_args()
+    profiles = Path(a.measures).with_name(Path(a.measures).name.replace("measures", "profiles"))
     plt.rcParams["font.family"] = ["Noto Sans CJK JP", "sans-serif"]
     c = duckdb.connect()
     c.execute("load spatial")
     m = c.execute(f"""select id, name, lon, lat, match_m, highway, tunnel, ambiguous, depth_5a_100, depth_10b_100,
             bottom_mix_100, dem_mix_100
-        from '{ART / 'measures.parquet'}' join (select id, name from '{ART / 'raw/underpass.parquet'}') using (id)
+        from '{a.measures}' join (select id, name from '{ART / 'raw/underpass.parquet'}') using (id)
         where pref = '東京都' and match_m <= 30""").fetchdf()
     pick = m.sample(10, random_state=0).sort_values("id")
-    prof = c.execute(f"select * from '{ART / 'profiles.parquet'}' where id in (select unnest(?))",
+    prof = c.execute(f"select * from '{profiles}' where id in (select unnest(?))",
                      [pick["id"].tolist()]).fetchdf().set_index("id")
     fig, axes = plt.subplots(10, 2, figsize=(11, 40), gridspec_kw={"width_ratios": [1, 1.4]})
     log = []
@@ -85,9 +91,9 @@ def main():
     fig.text(0.01, 0.995, "赤: 下を通る道路として選んだ線 (つないだ縦断)、青: 50 m 以内の他の候補、灰色の破線: 橋。"
              "右の灰色の帯は底を探す範囲 (±30 m)。出典: OpenStreetMap、国土地理院の標高タイル", fontsize=8, va="top")
     fig.tight_layout(rect=(0, 0, 1, 0.99))
-    OUT.mkdir(exist_ok=True)
-    fig.savefig(OUT / "check_profiles_tokyo.png", dpi=110)
-    (OUT / "check_profiles_tokyo.json").write_text(json.dumps(log, ensure_ascii=False, indent=1) + "\n")
+    Path(a.out).parent.mkdir(exist_ok=True)
+    fig.savefig(a.out, dpi=110)
+    Path(a.out).with_suffix(".json").write_text(json.dumps(log, ensure_ascii=False, indent=1) + "\n")
 
 
 if __name__ == "__main__":

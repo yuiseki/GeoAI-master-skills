@@ -111,16 +111,17 @@ def build_chain(k, lines, ends, reach, exclude=()):
     return LineString(back[::-1]), [k] + used_f + used_b
 
 
-def depth(s, e, L):
+def depth(s, e, L, bottom_within=BOTTOM_WITHIN):
     """Depth of the dip on a profile: s (m, 0 at the point) and elevations e. Returns (depth, bottom_s, measurable)
-    for the half-length L. Not measurable if more than MAX_NAN of the samples within L have no value or the profile
+    for the half-length L. The bottom is looked for within `bottom_within` m of the point (the plan's 30 m; L for
+    the whole profile). Not measurable if more than MAX_NAN of the samples within L have no value or the profile
     reaches less than L / 2 on either side."""
     s, e = np.asarray(s, float), np.asarray(e, float)
     w = np.abs(s) <= L + 1e-9
     s, e = s[w], e[w]
     if len(s) == 0 or s.min() > -L / 2 or s.max() < L / 2 or np.isnan(e).mean() > MAX_NAN:
         return None, None, False
-    near = np.abs(s) <= BOTTOM_WITHIN
+    near = np.abs(s) <= bottom_within
     if np.all(np.isnan(e[near])):
         return None, None, False
     ib = np.flatnonzero(near)[np.nanargmin(e[near])]
