@@ -155,7 +155,7 @@ def main() -> None:
     (public / "favicon.svg").write_text(to_svg(icon), encoding="utf-8")
     scaled(icon, 1).save(public / "favicon-32.png", optimize=True)
     # iOS fills transparency with black, so the touch icon gets the page colour behind it.
-    touch = Image.new("RGBA", (180, 180), (246, 247, 244, 255))
+    touch = Image.new("RGBA", (180, 180), (245, 248, 248, 255))
     touch.alpha_composite(scaled(icon, 5), (10, 10))
     touch.convert("RGB").save(public / "apple-touch-icon.png", optimize=True)
     for name in ("favicon.svg", "favicon-32.png", "apple-touch-icon.png"):

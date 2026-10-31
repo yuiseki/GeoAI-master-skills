@@ -61,7 +61,7 @@ test('公開ページの画像は元の縦横比を保ち、操作要素は操�
   assert.match(reportPage, /\.prose :global\(img\)\s*\{[^}]*height:\s*auto/);
   assert.match(bus, /imageWidth: 960\nimageHeight: 809/);
   assert.match(bear, /imageWidth: 1706\nimageHeight: 2031/);
-  assert.match(base, /<meta name="theme-color" content="#f6f7f4"/);
+  assert.match(base, /<meta name="theme-color" content="#061a38"/);
   assert.match(base, /touch-action: manipulation/);
   assert.match(base, /text-wrap: balance/);
 });
@@ -190,4 +190,17 @@ test('ファビコンは 32x32 のドット絵で、整数倍に拡大して使�
   const base = await read('src/layouts/Base.astro');
   assert.match(base, /<link rel="icon" type="image\/svg\+xml" href="\/favicon\.svg"/);
   assert.match(base, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png"/);
+});
+
+test('アクセントカラーはファビコンの GeoAI の文字のシアンにそろえる', async () => {
+  const base = await read('src/layouts/Base.astro');
+  const ogp = await read('src/lib/ogp.ts');
+  const favicon = await read('scripts/make-favicon.py');
+  assert.match(favicon, /TEXT, OUTLINE = \(150, 240, 232, 255\), \(6, 26, 56, 255\)/);
+  assert.match(base, /--cyan: #96f0e8;/);
+  assert.match(base, /--navy: #061a38;/);
+  assert.match(base, /--accent: #066b62;/);
+  for (const hex of ['#96f0e8', '#061a38', '#066b62']) assert.ok(ogp.includes(hex), hex);
+  const sources = [base, ogp, await read('src/pages/index.astro'), await read('src/pages/reports/[slug].astro')].join('\n');
+  assert.doesNotMatch(sources, /--green|--orange|#16584f|#9d412c|#b45e35|#104b42/);
 });

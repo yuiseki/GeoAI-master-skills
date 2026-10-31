@@ -18,7 +18,7 @@ const pageURL = new URL(Astro.url.pathname, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f6f7f4" />
+    <meta name="theme-color" content="#061a38" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -44,6 +44,7 @@ const pageURL = new URL(Astro.url.pathname, Astro.site);
     <header class="site-header">
       <div class="shell header-inner">
         <a class="wordmark" href="/" aria-label={`${siteName} ホーム`} translate="no">
+          <img src="/favicon.svg" alt="" width="32" height="32" />
           <span>{siteName}</span>
         </a>
         <nav aria-label="メインナビゲーション">
@@ -66,7 +67,19 @@ const pageURL = new URL(Astro.url.pathname, Astro.site);
 </html>
 
 <style is:global>
-  :root { color-scheme: light; --ink: #1d302f; --muted: #53615e; --line: #cbd3cf; --paper: #f6f7f4; --section: #e9eeeb; --green: #16584f; --accent: #9d412c; --orange: #b45e35; --display-font: 'Noto Serif JP', serif; }
+  :root {
+    color-scheme: light;
+    /* The accent comes from the GeoAI lettering on the favicon: bright cyan on navy. */
+    --cyan: #96f0e8;
+    --navy: #061a38;
+    --navy-raised: #0d2a50;
+    /* The same hue darkened for text on the light paper (6:1). */
+    --accent: #066b62;
+    --accent-hover: #04524b;
+    --ink: #13243a; --muted: #4f5f6b; --line: #c8d3d6; --paper: #f5f8f8; --section: #e6eff0;
+    --on-navy: #d9e4ea;
+    --display-font: 'Noto Serif JP', serif;
+  }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Noto Sans JP', sans-serif; line-height: 1.75; }
@@ -76,20 +89,22 @@ const pageURL = new URL(Astro.url.pathname, Astro.site);
   .shell { width: min(100% - 2.5rem, 1120px); margin-inline: auto; }
   .skip-link { position: absolute; top: -5rem; left: 1rem; z-index: 20; padding: .5rem 1rem; background: white; }
   .skip-link:focus { top: 1rem; }
-  .site-header { border-bottom: 1px solid var(--line); background: var(--paper); }
+  .site-header { background: var(--navy); color: var(--on-navy); border-bottom: 3px solid var(--cyan); }
   .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
-  .wordmark { display: inline-flex; align-items: center; text-decoration: none; font-size: 1.05rem; font-weight: 700; letter-spacing: -.035em; }
+  .wordmark { display: inline-flex; align-items: center; gap: .7rem; color: var(--cyan); text-decoration: none; font-size: 1.05rem; font-weight: 700; letter-spacing: -.035em; }
+  .wordmark img { image-rendering: pixelated; }
   .site-header nav { display: flex; gap: 1.8rem; font-size: .82rem; font-weight: 600; }
   .site-header nav a, .site-footer a { text-decoration: none; }
-  .site-header nav a:hover, .site-footer a:hover { color: var(--green); text-decoration: underline; }
-  .site-footer { border-top: 1px solid var(--line); margin-top: 6rem; padding: 2.25rem 0; color: var(--muted); font-size: .85rem; }
+  .site-header nav a:hover, .site-footer a:hover { color: var(--cyan); text-decoration: underline; }
+  .site-footer { border-top: 3px solid var(--cyan); background: var(--navy); margin-top: 6rem; padding: 2.25rem 0; color: var(--on-navy); font-size: .85rem; }
   .footer-inner { display: flex; justify-content: space-between; gap: 1rem; align-items: end; }
   .site-footer p { margin: 0; }
-  .footer-name { color: var(--ink); font-weight: 700; font-size: 1rem; }
+  .footer-name { color: var(--cyan); font-weight: 700; font-size: 1rem; }
   .eyebrow { color: var(--accent); font-size: .76rem; font-weight: 700; }
-  .button-link { display: inline-flex; align-items: center; color: white; background: var(--green); border: 1px solid var(--green); padding: .75rem 1.25rem; text-decoration: none; font-size: .9rem; font-weight: 700; }
-  .button-link:hover { background: #104b42; }
-  :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+  .button-link { display: inline-flex; align-items: center; color: var(--cyan); background: var(--navy); border: 1px solid var(--navy); padding: .75rem 1.25rem; text-decoration: none; font-size: .9rem; font-weight: 700; }
+  .button-link:hover { background: var(--navy-raised); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .site-header :focus-visible, .site-footer :focus-visible { outline-color: var(--cyan); }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   @media (max-width: 620px) { .shell { width: min(100% - 1.5rem, 1120px); } .header-inner { min-height: 68px; } .site-header nav { gap: .8rem; font-size: .75rem; } .site-footer { margin-top: 3rem; } .footer-inner { display: block; } .footer-inner a { display: inline-block; margin-top: 1rem; } }
 </style>

@@ -9,7 +9,8 @@ export const OGP_HEIGHT = 630;
 export const SITE_NAME = 'yuiseki の GeoAI 研究所';
 export const SITE_TAGLINE = '地理空間オープンデータを駆使した調査レポートと調査手法を公開中';
 
-const colors = { ink: '#1d302f', muted: '#53615e', line: '#cbd3cf', paper: '#f6f7f4', green: '#16584f', accent: '#9d412c' };
+// Same tokens as the site CSS: the cyan and navy of the favicon's GeoAI lettering.
+const colors = { ink: '#13243a', muted: '#4f5f6b', line: '#c8d3d6', paper: '#f5f8f8', navy: '#061a38', cyan: '#96f0e8', accent: '#066b62' };
 const parser = loadDefaultJapaneseParser();
 
 let assets: { serif: ArrayBuffer; sans: ArrayBuffer; marble: string; avatar: string } | undefined;
@@ -75,7 +76,8 @@ function footer(left: string, right: string): Node {
 
 function card(body: Node, foot: Node): Node {
   return h('div', { width: '100%', height: '100%', display: 'flex', background: colors.paper }, [
-    h('div', { width: 16, height: '100%', background: colors.green }),
+    h('div', { width: 16, height: '100%', background: colors.navy }),
+    h('div', { width: 6, height: '100%', background: colors.cyan }),
     h('div', { flex: 1, display: 'flex', flexDirection: 'column', padding: '56px 72px 44px 64px' }, [body, foot]),
   ]);
 }
