@@ -229,6 +229,16 @@ test('トップページは公開日時の新しい記事から並べる', async
   }
   const expected = Object.keys(published).sort((a, b) => published[b] - published[a] || a.localeCompare(b));
   const home = await read('dist/index.html');
-  const order = [...new Set([...home.matchAll(/href="\/reports\/([^/"]+)\/"/g)].map((m) => m[1]))];
-  assert.deepEqual(order, expected);
+  // The masonry columns change the DOM order, so read each card's `order`, which the one-column layout uses.
+  const cards = [...home.matchAll(/<article class="report-card"[^>]*style="order: ?(\d+);?"[\s\S]*?href="\/reports\/([^/"]+)\/"/g)];
+  assert.equal(cards.length, expected.length);
+  assert.deepEqual(cards.sort((a, b) => a[1] - b[1]).map((m) => m[2]), expected);
+});
+
+test('トップページは2列のメイソンリーで、1列のときは新しい順に戻す', async () => {
+  const home = await read('dist/index.html');
+  assert.equal(home.match(/class="masonry-column"/g).length, 2);
+  const source = await read('src/pages/index.astro');
+  assert.match(source, /\.masonry-column \{ display: contents; \}/);
+  assert.match(source, /<img src=\{report\.data\.image\}/);
 });

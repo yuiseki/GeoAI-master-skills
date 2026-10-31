@@ -5,9 +5,21 @@ import Base from '../layouts/Base.astro';
 const reports = (await getCollection('reports')).sort(
   (a, b) => b.data.published.getTime() - a.data.published.getTime() || a.id.localeCompare(b.id),
 );
+
+// Masonry without client JavaScript: estimate each card's height from its image's aspect ratio
+// (the text below adds roughly 0.6 of the column width) and put the next-newest card in the
+// shorter column. Each card keeps its newest-first index as `order`, which the one-column
+// layout uses to restore that order.
+const columns: { report: (typeof reports)[number]; index: number }[][] = [[], []];
+const heights = [0, 0];
+reports.forEach((report, index) => {
+  const column = heights[0] <= heights[1] ? 0 : 1;
+  columns[column].push({ report, index });
+  heights[column] += report.data.imageHeight / report.data.imageWidth + 0.6;
+});
 ---
 
-<Base description="公共交通、交通事故、クマの出没を、地理空間データで調べた研究記事を公開しています。">
+<Base description="地理空間オープンデータを駆使した調査レポートと調査手法を公開中">
   <section id="reports" class="reports-section">
     <div class="shell">
       <div class="section-heading">
@@ -15,8 +27,10 @@ const reports = (await getCollection('reports')).sort(
         <p>各記事から、分析の原本と再現手順を確認できます。</p>
       </div>
       <div class="report-grid">
-        {reports.map((report) => (
-          <article class="report-card">
+        {columns.map((column) => (
+          <div class="masonry-column">
+            {column.map(({ report, index }) => (
+          <article class="report-card" style={`order: ${index}`}>
             <a class="card-image" href={`/reports/${report.id}/`} aria-label={`${report.data.title}を読む`}><img src={report.data.image} alt={report.data.imageAlt} width={report.data.imageWidth} height={report.data.imageHeight} loading="lazy" /></a>
             <div class="card-body">
               <h3><a href={`/reports/${report.id}/`}>{report.data.title}</a></h3>
@@ -24,6 +38,8 @@ const reports = (await getCollection('reports')).sort(
               <a class="read-more" href={`/reports/${report.id}/`}>記事を読む</a>
             </div>
           </article>
+            ))}
+          </div>
         ))}
       </div>
     </div>
@@ -41,7 +57,8 @@ const reports = (await getCollection('reports')).sort(
   .section-heading h1, .method h2 { font-family: var(--display-font); font-weight: 600; font-size: clamp(2rem, 3.3vw, 3rem); line-height: 1.45; letter-spacing: -.05em; margin: 0; }
   .reports-section { scroll-margin-top: 1rem; }
   .section-heading > p { max-width: 25rem; color: var(--muted); font-size: .88rem; margin: 0; }
-  .report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; align-items: start; }
+  .report-grid { display: flex; gap: 2rem; align-items: flex-start; }
+  .masonry-column { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2rem; }
   .report-card { overflow: hidden; background: #fff; border: 1px solid var(--line); }
   .card-image { display: block; overflow: hidden; background: #f6f7f3; }
   .card-image img { height: auto; width: 100%; transition: transform .25s ease; }
@@ -53,7 +70,7 @@ const reports = (await getCollection('reports')).sort(
   .read-more { display: inline-block; color: var(--accent); font-size: .83rem; font-weight: 700; text-underline-offset: .3rem; margin-top: .5rem; }
   .method { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding-block: 6rem 2rem; align-items: center; }
   .method > p { color: var(--muted); font-size: 1rem; line-height: 2.1; }
-  @media (max-width: 760px) { .section-heading, .method { display: block; }.section-heading > p { margin-top: 1rem; }.method { padding-block: 4rem 0; }.report-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .section-heading, .method { display: block; }.section-heading > p { margin-top: 1rem; }.method { padding-block: 4rem 0; }.report-grid { flex-direction: column; align-items: stretch; }.masonry-column { display: contents; } }
   @media (max-width: 430px) { .card-body { padding: 1.25rem; } }
   @media (prefers-reduced-motion: reduce) { .card-image img { transition: none; } }
 </style>
