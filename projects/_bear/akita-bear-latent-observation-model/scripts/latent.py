@@ -166,3 +166,70 @@ def detect(x):
     """+1 / -1 when the 90% interval excludes 0 on that side, 0 otherwise."""
     lo, hi = interval(x)
     return 1 if lo > 0 else (-1 if hi < 0 else 0)
+
+
+TIMES = np.array([2002.0, 2014.0, 2023.0, 2024.0, 2025.0, 2026.0])
+STAGE_PRIORS = {  # plan change 2026-10-31 (stages 2 and 3)
+    "default": {"delta": 0.5, "sw": 0.5, "kappa_sd": 1.0, "s": 0.5, "tau": 0.5 / 3},
+    "wide": {"delta": 1.5, "sw": 1.5, "kappa_sd": 2.0, "s": 1.5, "tau": 1.5 / 3},
+}
+
+
+def _observe_epochs(numpyro, dist, jnp, data, B, H, pr):
+    """B[6, M] over (E6, E7, 2023-2026): Ministry records on the first two, Kumadas counts on the last four."""
+    G = int(data["G"])
+    lE = numpyro.sample("lam_E", dist.HalfNormal(1.0))
+    lK = numpyro.sample("lam_K", dist.HalfNormal(1.0))
+    aE = numpyro.sample("a_E", dist.Normal(0, pr["a"]).expand([2]))
+    cE = numpyro.sample("c_E", dist.Normal(0, 1))
+    cK = numpyro.sample("c_K", dist.Normal(0, 1))
+    rep = _reporting(numpyro, dist, jnp, G, pr, None)
+    lin_E = aE[:, None] + lE * B[:2] + cE * H[None, :]
+    lin_K = data["offset"][None, :] + rep[:, data["muni"]] + lK * B[2:] + cK * H[None, :]
+    numpyro.deterministic("Bk", B[2:])
+    _likelihoods(numpyro, dist, jnp, data, lin_E, lin_K)
+
+
+def model_epoch(data, prior="default"):
+    """Stage 2: B[m, e] = b[m] + delta_e + sw * w[m, e], delta_E6 = 0."""
+    jnp, numpyro, dist = _np()
+    pr, sp = PRIORS[prior], STAGE_PRIORS[prior]
+    M, K = data["XB"].shape
+    beta = numpyro.sample("beta", dist.Normal(0, 1).expand([K]))
+    b = numpyro.deterministic("b", data["XB"] @ beta + numpyro.sample("u", dist.Normal(0, 1).expand([M])))
+    delta = jnp.concatenate([jnp.zeros(1), numpyro.sample("delta", dist.Normal(0, sp["delta"]).expand([5]))])
+    sw = numpyro.sample("sw", dist.HalfNormal(sp["sw"]))
+    w = numpyro.sample("w", dist.Normal(0, 1).expand([6, M]))
+    _observe_epochs(numpyro, dist, jnp, data, b[None, :] + delta[:, None] + sw * w, data["H"], pr)
+
+
+def model_ou(data, prior="default"):
+    """Stage 3: B[m, t] = b[m] + tau (t - 2023) + Z[m, t], Z an OU process with phi(dt) = exp(-kappa dt) and
+    innovation variance s^2 (1 - phi^2), started from its stationary law at E6."""
+    jnp, numpyro, dist = _np()
+    pr, sp = PRIORS[prior], STAGE_PRIORS[prior]
+    M, K = data["XB"].shape
+    beta = numpyro.sample("beta", dist.Normal(0, 1).expand([K]))
+    b = numpyro.deterministic("b", data["XB"] @ beta + numpyro.sample("u", dist.Normal(0, 1).expand([M])))
+    kappa = numpyro.sample("kappa", dist.LogNormal(np.log(0.1), sp["kappa_sd"]))
+    s = numpyro.sample("s", dist.HalfNormal(sp["s"]))
+    tau = numpyro.sample("tau", dist.Normal(0, sp["tau"]))
+    eps = numpyro.sample("eps", dist.Normal(0, 1).expand([6, M]))
+    phi = jnp.exp(-kappa * jnp.diff(jnp.asarray(TIMES)))
+    numpyro.deterministic("phi_1y", jnp.exp(-kappa))
+    Z = [s * eps[0]]
+    for k in range(5):
+        Z.append(phi[k] * Z[-1] + s * jnp.sqrt(1 - phi[k] ** 2) * eps[k + 1])
+    Z = jnp.stack(Z)
+    B = b[None, :] + tau * (jnp.asarray(TIMES) - 2023.0)[:, None] + Z
+    _observe_epochs(numpyro, dist, jnp, data, B, data["H"], pr)
+
+
+def estimands_states(s, data):
+    """T_B, T_R, S_B and the per-mesh change dB (posterior mean) from a stage 2 or 3 fit."""
+    dB = s["Bk"][:, 3, :] - s["Bk"][:, 0, :]
+    r = s["r"]
+    T_R = (s["a"][:, 3] - s["a"][:, 0]) + (r[:, 3, :] - r[:, 0, :])[:, data["muni"]].mean(1)
+    z = data["z_tree"] - data["z_tree"].mean()
+    S_B = ((dB - dB.mean(1, keepdims=True)) * z[None, :]).sum(1) / (z ** 2).sum()
+    return {"T_B": dB.mean(1), "T_R": T_R, "S_B": S_B}, dB.mean(0)

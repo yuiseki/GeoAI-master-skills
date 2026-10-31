@@ -45,7 +45,7 @@ def test_the_intercepts_reproduce_the_record_rates_and_the_mean_count():
 def test_negative_binomial_counts_are_overdispersed_like_phi_2():
     d = fake(M=4000)
     tr = sm.truth(d, "S5", 3, TARGETS)
-    tr["b"][:] = 0
+    tr["B_k"][:] = 0
     tr["rep"][:] = 0
     d["H"][:] = 0
     d["offset"][:] = 0
@@ -76,3 +76,20 @@ def test_history_truth_turns_s2_into_recorded_steps_and_leaves_others_alone():
     assert s2["rep"][2, d["city"]] - s2["rep"][1, d["city"]] == pytest.approx(0.6)
     s1 = sm.truth(d, "S1", 0, TARGETS)
     assert np.allclose(sm.history_truth(d, s1)["rep"], s1["rep"])
+
+
+def test_ou_path_keeps_the_stationary_variance_over_uneven_spacing():
+    Z = sm.ou_path(200_000, np.random.default_rng(0))
+    assert Z.std(1) == pytest.approx(np.full(6, sm.OU_SD), rel=0.02)
+    # correlation between 2002 and 2014 is exp(-0.1 * 12), between 2023 and 2024 exp(-0.1)
+    assert np.corrcoef(Z[0], Z[1])[0, 1] == pytest.approx(np.exp(-1.2), abs=0.01)
+    assert np.corrcoef(Z[2], Z[3])[0, 1] == pytest.approx(np.exp(-0.1), abs=0.01)
+
+
+def test_ou_truth_moves_b_between_epochs_but_keeps_the_scenario_change():
+    d = fake()
+    t0 = sm.truth(d, "S1", 0, TARGETS)
+    t1 = sm.truth(d, "S1", 0, TARGETS, ou=True)
+    assert np.allclose(t0["B_env"][0], t0["b"]) and not np.allclose(t1["B_env"][0], t1["b"])
+    assert np.allclose(t1["B_k"] - t1["b"][None, :] - t1["Z"][2:], t0["d"])
+    assert t1["T_B"] == pytest.approx(t0["T_B"], abs=0.05)

@@ -16,14 +16,37 @@ BEAR_MEAN, BEAR_TREE, BEAR_NOISE = 0.4, 0.4, 0.2
 REP_GLOBAL, REP_CITY = 0.4, 0.6
 HUMAN_UP = 0.6
 FRAC = np.array([0.0, 1 / 3, 2 / 3, 1.0])  # 2023 .. 2026
+TIMES = np.array([2002.0, 2014.0, 2023.0, 2024.0, 2025.0, 2026.0])  # E6, E7, Kumadas years (plan change 2026-10-31)
+OU_KAPPA, OU_SD = 0.1, 0.3
 
 
-def load_core(mesh_table, grid_meta):
-    """Data dict of the real core meshes (records and counts included)."""
+def ou_path(M, rng, kappa=OU_KAPPA, sd=OU_SD, times=TIMES):
+    """Z[t, m]: an OU process started from its stationary law; phi(dt) = exp(-kappa dt), innovation variance
+    sd^2 (1 - phi^2), so the variance stays sd^2 whatever the spacing."""
+    Z = np.empty((len(times), M))
+    Z[0] = rng.normal(0, sd, M)
+    for k in range(1, len(times)):
+        phi = np.exp(-kappa * (times[k] - times[k - 1]))
+        Z[k] = phi * Z[k - 1] + np.sqrt(sd ** 2 * (1 - phi ** 2)) * rng.normal(0, 1, M)
+    return Z
+
+
+def load_core(mesh_table, grid_meta, all_meshes=False):
+    """Data dict of the real core meshes (records and counts included). all_meshes: every mesh in the yo4 frame
+    with complete covariates (sensitivity), with the covariates standardised and H recomputed over that set."""
     import pandas as pd
 
+    import align_inputs as al
+
     t = pd.read_parquet(mesh_table)
-    t = t[t.core].reset_index(drop=True)
+    if all_meshes:
+        t = t[t.in_yo4 & t[al.B_COLS + al.H_COLS].notna().all(axis=1)].reset_index(drop=True)
+        Z = al.standardise(t[al.B_COLS].to_numpy(float))
+        for j, c in enumerate(al.B_COLS):
+            t[f"zB_{c}"] = Z[:, j]
+        t["H"] = al.pc1(t[al.H_COLS].to_numpy(float))[0]
+    else:
+        t = t[t.core].reset_index(drop=True)
     codes = grid_meta["codes"]
     used = sorted(t.muni.unique())
     gidx = {m: i for i, m in enumerate(used)}
@@ -49,8 +72,9 @@ def _solve_intercept(lin, target):
     return (lo + hi) / 2
 
 
-def truth(data, scenario, seed, targets):
-    """The latent truth and its estimands. targets: E6 and E7 record rates, base mean count per mesh."""
+def truth(data, scenario, seed, targets, ou=False):
+    """The latent truth and its estimands. targets: E6 and E7 record rates, base mean count per mesh.
+    ou: add the OU background variation between epochs (stages 2 and 3)."""
     if scenario not in SCENARIOS:
         raise ValueError(scenario)
     rng = np.random.default_rng(seed)
@@ -70,14 +94,18 @@ def truth(data, scenario, seed, targets):
     if scenario == "S3":
         top = data["H"] >= np.quantile(data["H"], 0.75)
         dH = FRAC[:, None] * (HUMAN_UP * top)[None, :]
-    aE = [_solve_intercept(TRUE["lam_E"] * b + TRUE["c_E"] * data["H"], targets[k]) for k in ("E6", "E7")]
-    base = data["offset"] + TRUE["lam_K"] * b + TRUE["c_K"] * data["H"] + r0[data["muni"]]
+    Z = ou_path(M, np.random.default_rng(50_000 + seed)) if ou else np.zeros((len(TIMES), M))
+    B_env = b[None, :] + Z[:2]
+    B_k = b[None, :] + Z[2:] + d
+    aE = [_solve_intercept(TRUE["lam_E"] * B_env[k] + TRUE["c_E"] * data["H"], targets[e]) for k, e in enumerate(("E6", "E7"))]
+    base = data["offset"] + TRUE["lam_K"] * B_k[0] + TRUE["c_K"] * data["H"] + r0[data["muni"]]
     a0 = np.log(targets["count"] * M / np.exp(base).sum())
     z = data["z_tree"] - data["z_tree"].mean()
     T_R = (rep[3] - rep[0])[data["muni"]].mean()
-    return {"b": b, "beta": beta, "d": d, "rep": rep, "dH": dH, "aE": np.array(aE), "a0": a0,
-            "T_B": float(d[3].mean()), "T_R": float(T_R),
-            "S_B": float(((d[3] - d[3].mean()) * z).sum() / (z ** 2).sum()), "scenario": scenario, "seed": seed}
+    dB = B_k[3] - B_k[0]
+    return {"b": b, "beta": beta, "d": d, "Z": Z, "B_env": B_env, "B_k": B_k, "rep": rep, "dH": dH,
+            "aE": np.array(aE), "a0": a0, "T_B": float(dB.mean()), "T_R": float(T_R),
+            "S_B": float(((dB - dB.mean()) * z).sum() / (z ** 2).sum()), "dB": dB, "scenario": scenario, "seed": seed}
 
 
 def simulate(data, tr, seed, extras=()):
@@ -85,9 +113,9 @@ def simulate(data, tr, seed, extras=()):
     rng = np.random.default_rng(10_000 + seed)
     M = data["XB"].shape[0]
     out = {k: data[k] for k in ("XB", "H", "muni", "G", "offset", "env_mask", "y_mask", "z_tree", "city", "block")}
-    linE = tr["aE"][:, None] + TRUE["lam_E"] * tr["b"][None, :] + TRUE["c_E"] * data["H"][None, :]
+    linE = tr["aE"][:, None] + TRUE["lam_E"] * tr["B_env"] + TRUE["c_E"] * data["H"][None, :]
     out["E"] = (rng.random((2, M)) < _logistic(linE)).astype(int)
-    By = tr["b"][None, :] + tr["d"]
+    By = tr["B_k"]
     Hy = data["H"][None, :] + tr["dH"]
     mu = np.exp(data["offset"][None, :] + tr["a0"] + tr["rep"][:, data["muni"]] + TRUE["lam_K"] * By + TRUE["c_K"] * Hy)
     p = TRUE["phi"] / (TRUE["phi"] + mu)
