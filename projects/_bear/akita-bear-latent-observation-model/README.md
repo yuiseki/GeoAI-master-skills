@@ -5,8 +5,8 @@
 新しい予測変数を探す研究ではない。中心は、潜在状態と観測過程の分離と、その識別可能性 (identifiability)。実データに当てる前に、同じ構造の合成データで識別できるかを確かめる。
 
 - 概念モデル: [CONCEPT.md](CONCEPT.md)
-- 計画 (結果を見る前に固定): EXPERIMENT_PLAN.md
-- 実行の記録: EXPERIMENT_TRACKER.md
+- 計画 (結果を見る前に固定): [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)
+- 実行の記録: [EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md)
 - 報告: report.md (最後に書く)
 
 ```
