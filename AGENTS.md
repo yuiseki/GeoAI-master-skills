@@ -13,7 +13,18 @@
 - 頼んだ人が作業場所を指定したら、それに従う。
 - 報告は Markdown で書く (`projects/<名前>/report.md`)。「可視化して」「地図にして」と頼まれても、報告を HTML のページやノートブックにしない。図と地図は PNG にして、報告に画像として貼る。動かせる HTML の図や地図は、頼んだ人がそれを求めたときだけ作り、報告とは別のファイルにして報告からリンクする。
 - 研究論文の執筆を頼まれた場合だけ、`research-paper-writing` で `projects/<名前>/paper.md` を日本語で書く。既存の `report.md` を置き換えず、分析済みの根拠を辿って論文化する。通常の分析では `paper.md` を必須にしない。
-- 構成の例は `projects/sample-project/README.md`。
+- プロジェクトには `README.md` を置き、何を調べるか、再実行のコマンドを書く。構成の例は `projects/sample-project/README.md`。
+- テキストの出力 (CSV、JSON、Markdown、ログ) は UTF-8 で書く。Python では `encoding="utf-8"` を必ず渡す。Windows の既定 (cp932) に任せると、ほかの環境で読めない。
+
+## 終える前に
+
+分析を終える前、報告する前に、必ず次を流す。`ok` が出るまで直す。
+
+```sh
+python3 .agents/skills/analysis-reporting/scripts/check_project.py projects/<名前>
+```
+
+これは、`report.md` の問い、結論、データ、方法、確かめていないことの枠と、結論の数字が `outputs/` (と、報告がリンクするプロジェクトの `outputs/`) にあるかを確かめる。存在しないファイルへのリンク、UTF-8 でないテキスト、`README.md` の欠けも見つける。数字が出力に無いと言われたら、出力から写し直すか、分析に戻って出力に書き出す。報告の中で計算し直さない。`ok` にならない項目を残すなら、その理由を報告に書く。最終回答には、流したコマンドと出力を貼る。
 
 ## 進め方の原則
 

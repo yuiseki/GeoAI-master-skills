@@ -203,3 +203,12 @@ def test_command_line_stops_on_an_html_report(tmp_path):
     r = subprocess.run([sys.executable, str(Path(__file__).with_name("check_report.py")), str(f), "--level", "simple"],
                        capture_output=True, text=True)
     assert r.returncode == 1 and "Markdown" in r.stdout
+
+
+def test_a_value_on_the_rounding_tie_matches_either_way():
+    # towns.csv held 5.665 and the report wrote 5.66: a tie at the report's precision may go either way
+    assert traceable("5.66 件", "5.665") == []
+    assert traceable("5.67 件", "5.665") == []
+    assert traceable("5.66 件", "5.6649") == []
+    assert traceable("5.67 件", "5.664") == ["5.67"]
+    assert traceable("5.65 件", "5.665") == ["5.65"]

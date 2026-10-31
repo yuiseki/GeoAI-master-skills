@@ -14,7 +14,8 @@ reads the answer and, optionally, the outputs it was written from.
                    確かめていないこと  required at "full"; optional otherwise
                  and a length budget: simple at most 8 non-empty lines, standard at most 40, full no limit
     traceable    every number in 結論 must appear in the evidence (tool outputs, logs, the commands run), up to
-                 rounding at the conclusion's own precision (82% matches 0.8183; 0.45 does not match 0.4446).
+                 rounding at the conclusion's own precision (82% matches 0.8183; 0.45 does not match 0.4446). A
+                 value on the tie matches either way (5.66 and 5.67 both match 5.665).
                  Dates are skipped, and so are a 1 that names a unit (1 人あたり), figure and table numbers (図 1,
                  表 2; but not a word ending in 図 or 表, as in 箇所表 0.61, and not a decimal), link targets
                  (#図-1-..., ../other/report.md) and the row number in a table's first cell. A distance in km also
@@ -96,8 +97,10 @@ def traceable(conclusion, evidence):
     missing = []
     for t, v, dec, pct, km in numbers_in(conclusion, units=True):
         candidates = ev + ([e * 100 for e in ev] if pct else []) + ([e / 1000 for e in ev] if km else [])
-        if not any(abs(round(e, dec) - v) < 10 ** -(dec + 6) or abs(round(-e, dec) - v) < 10 ** -(dec + 6)
-                   for e in candidates):
+        # within half a unit of the conclusion's last digit, a tie included: an output's 5.665 may be written 5.66
+        # or 5.67, since the output may itself be rounded from 5.6649 or 5.6651
+        half = 0.5 * 10 ** -dec + 10 ** -(dec + 6)
+        if not any(abs(e - v) <= half or abs(-e - v) <= half for e in candidates):
             missing.append(t)
     return missing
 

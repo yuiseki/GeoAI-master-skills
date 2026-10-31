@@ -59,7 +59,17 @@ python3 scripts/check_report.py tmp/answer.md --level simple --evidence tmp/outp
 
 check_report.py は、答えが Markdown のファイルで、HTML のページの記法 (`<html>`、`<body>`、`<script>`、`<div>` など) を含まないこと、4 つの枠があること、その順序、問いが 1 行であること、データに版か日付があることを確かめる。重い段階では「確かめていないこと」があること、段階ごとの行数の上限も確かめる。`--evidence` を渡すと、結論の数字が出力に現れるかを、結論の側の桁で丸めて確かめる (82% は 0.8183 に合う。0.45 は 0.4446 に合わない)。日付は数字として数えない。
 
-テストは `uvx --with pytest pytest scripts/test_check_report.py`。
+`projects/<名前>/report.md` を書いたら、プロジェクトのフォルダごと `scripts/check_project.py` に渡す。証拠を自分で集めて渡す手間が無く、渡し忘れも起きない。
+
+```sh
+python3 scripts/check_project.py projects/<名前>
+```
+
+check_project.py は、`outputs/` の UTF-8 のテキスト (CSV、JSON、TXT、ログ、Markdown) と、報告がリンクする別のプロジェクトの `outputs/` を証拠にして、check_report.py の確認を全て流す。加えて、報告の中の相対リンクと画像の参照先が存在すること、プロジェクトのテキストのファイルが全て UTF-8 であること、`README.md` があることを確かめる。`outputs/` の外 (`artifacts/` など) の数字を使ったなら、そのファイルを `--evidence` で足す。
+
+数字の照合が ok でも、数字が正しいとは限らない。小さな数や短い小数は、出力のどこかの別の値と偶然に一致しうる。照合が見つけるのは、出力のどこにも無い数字だけ。要点の表の数字は、どの出力のどの値かを自分で辿れるようにしておく。
+
+テストは `uvx --with pytest pytest scripts/test_check_report.py scripts/test_check_project.py`。
 
 ## やらないこと
 
@@ -71,4 +81,4 @@ check_report.py は、答えが Markdown のファイルで、HTML のページ�
 ## 書き出すもの
 
 - 4 つ (と、必要なら 5 つ目) の枠の答え
-- `check_report.py` が ok を返したこと。返さなかった項目を残すなら、その理由
+- `check_report.py` (report.md なら `check_project.py`) が ok を返したこと。返さなかった項目を残すなら、その理由
