@@ -126,5 +126,6 @@ contents:
 | [jma-rain-tokyo](jma-rain-tokyo.md) | 東京都内31観測所の日別・時間別降水量 1974〜2025年 | 気象庁 過去の気象データ・ダウンロード。PDL 1.0 互換 CC BY 4.0 |
 | [jma-rain-chiba](jma-rain-chiba.md) | 千葉県内18観測所の日別・時間別降水量 1974〜2026年9月 | 気象庁 過去の気象データ・ダウンロード。PDL 1.0 互換 CC BY 4.0 |
 | [jma-rain-kanto](jma-rain-kanto.md) | 茨城・埼玉・千葉・神奈川の73観測所の日別・時間別降水量 1974〜2026年9月 | 気象庁 過去の気象データ・ダウンロード。PDL 1.0 互換 CC BY 4.0 |
+| [gsi-inundation-estimate-kita-inbanuma-jp-2026-10](gsi-inundation-estimate-kita-inbanuma-jp-2026-10.md) | 令和8年台風第25号の浸水推定図「北印旛沼」の輪郭線 4版 (2026-09-22〜10-01 の時点) | 国土地理院 浸水推定図。PDL 1.0、出典と加工の表示が要る |
 
 Hugging Face のカードに表示されたライセンスだけで、元データの再配布条件を確定したとは扱わない。特に `license: other` のカードは元の許諾文を読んでから二次配布する。行数は Parquet のメタデータを読んだ値で、全行の値・形状・一意性を検証したという意味ではない。元の ForTy と GHSL のカードは[親索引](../../index.md)から辿る。
