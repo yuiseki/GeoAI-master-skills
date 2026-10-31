@@ -6,16 +6,9 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
 ---
 
 <Base title="地図から社会の課題を調べる" description="公共交通とクマの出没を、地理空間データで調べた研究記事を公開しています。">
-  <section class="hero shell">
-    <div class="hero-copy">
-      <h1>地図から、<br />社会の課題を調べる。</h1>
-      <p class="hero-lead">公共交通とクマの出没を調べた結果を公開しています。図とともに、分析の条件や限界も読めます。</p>
-      <a class="button-link" href="#reports">研究一覧を見る</a>
-    </div>
-    <figure class="hero-figure">
-      <img src="/images/bus-operator-share.png" alt="全国の自治体別に、単一事業者名の停留所圏に住む高齢者の割合を塗り分けた地図" width="960" height="809" fetchpriority="high" />
-      <figcaption>全国のバス停記録と高齢者人口を重ねた分析</figcaption>
-    </figure>
+  <section class="intro shell">
+    <h1>地図から、社会の課題を調べる。</h1>
+    <p>公共交通とクマの出没を調べた結果を公開しています。図とともに、分析の条件や限界も読めます。</p>
   </section>
 
   <section id="reports" class="reports-section">
@@ -47,21 +40,18 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
 </Base>
 
 <style>
-  .hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); padding-block: clamp(4rem, 8vw, 8rem); }
-  .hero h1 { margin: 0 0 1.5rem; line-height: 1.4; font-size: clamp(2.3rem, 3.5vw, 3.7rem); letter-spacing: -.055em; font-family: var(--display-font); font-weight: 600; }
-  .hero-lead { max-width: 30rem; color: var(--muted); font-size: 1.04rem; line-height: 2; margin-bottom: 2rem; }
-  .hero-figure { margin: 0; min-width: 0; background: white; border: 1px solid var(--line); padding: .7rem .7rem 0; }
-  .hero-figure img { width: 100%; height: auto; }
-  .hero-figure figcaption { padding: .65rem .25rem .8rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .77rem; }
+  .intro { padding-block: clamp(3rem, 6vw, 5rem); }
+  .intro h1 { margin: 0 0 1rem; line-height: 1.4; font-size: clamp(2.3rem, 3.5vw, 3.7rem); letter-spacing: -.055em; font-family: var(--display-font); font-weight: 600; }
+  .intro p { max-width: 45rem; color: var(--muted); font-size: 1.04rem; line-height: 2; margin: 0; }
   .reports-section { background: var(--section); padding: 5rem 0 6rem; }
   .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.2rem; }
   .section-heading h2, .method h2 { font-family: var(--display-font); font-weight: 600; font-size: clamp(2rem, 3.3vw, 3rem); line-height: 1.45; letter-spacing: -.05em; margin: 0; }
   .reports-section { scroll-margin-top: 1rem; }
   .section-heading > p { max-width: 25rem; color: var(--muted); font-size: .88rem; margin: 0; }
-  .report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+  .report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; align-items: start; }
   .report-card { overflow: hidden; background: #fff; border: 1px solid var(--line); }
-  .card-image { display: block; aspect-ratio: 16/9; overflow: hidden; background: #f6f7f3; }
-  .card-image img { height: 100%; width: 100%; object-fit: contain; transition: transform .25s ease; }
+  .card-image { display: block; overflow: hidden; background: #f6f7f3; }
+  .card-image img { height: auto; width: 100%; transition: transform .25s ease; }
   .card-image:hover img { transform: scale(1.025); }
   .card-body { padding: 1.5rem 1.7rem 1.8rem; }
   .card-meta { display: flex; gap: .8rem; color: var(--accent); font-size: .75rem; font-weight: 700; margin: 0; }
@@ -72,7 +62,7 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
   .read-more { display: inline-block; color: var(--green); font-size: .83rem; font-weight: 700; text-underline-offset: .3rem; margin-top: .5rem; }
   .method { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding-block: 6rem 2rem; align-items: center; }
   .method > p { color: var(--muted); font-size: 1rem; line-height: 2.1; }
-  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 2rem; padding-block: 4rem; }.section-heading, .method { display: block; }.section-heading > p { margin-top: 1rem; }.method { padding-block: 4rem 0; }.report-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .section-heading, .method { display: block; }.section-heading > p { margin-top: 1rem; }.method { padding-block: 4rem 0; }.report-grid { grid-template-columns: 1fr; } }
   @media (max-width: 430px) { .card-body { padding: 1.25rem; } }
   @media (prefers-reduced-motion: reduce) { .card-image img { transition: none; } }
 </style>

@@ -37,23 +37,26 @@ test('Wrangler は公開用 Worker にデプロイする', async () => {
   assert.equal(config.workers_dev, true);
 });
 
-test('トップは実際の研究図を主役にし、操作文言を簡潔にする', async () => {
+test('トップは簡潔な導入と研究一覧で構成する', async () => {
   const home = await read('src/pages/index.astro');
   const base = await read('src/layouts/Base.astro');
-  assert.match(home, /<img[^>]+src="\/images\/bus-operator-share\.png"[^>]+alt=/);
-  assert.doesNotMatch(home, /hero-graphic|orbit-one|Selected research|Research notes/);
+  assert.match(home, /<section class="intro shell">/);
+  assert.doesNotMatch(home, /hero-figure|hero-graphic|orbit-one|Selected research|Research notes/);
   assert.match(base, /研究一覧/);
   assert.match(base, /prefers-reduced-motion/);
   assert.doesNotMatch(home + base, /GitHub ↗|研究を読む <span|研究を見る <span/);
 });
 
-test('公開ページの画像と操作要素は表示安定性・操作性を備える', async () => {
+test('公開ページの画像は元の縦横比を保ち、操作要素は操作性を備える', async () => {
   const home = await read('src/pages/index.astro');
   const base = await read('src/layouts/Base.astro');
+  const reportPage = await read('src/pages/reports/[slug].astro');
   const bus = await read('src/content/reports/bus-operator-concentration.md');
   const bear = await read('src/content/reports/akita-bear-risk.md');
-  assert.match(home, /bus-operator-share\.png"[^>]+width="960" height="809"[^>]+fetchpriority="high"/);
   assert.match(home, /<img src=\{report\.data\.image\}[^>]+width=\{report\.data\.imageWidth\}[^>]+height=\{report\.data\.imageHeight\}[^>]+loading="lazy"/);
+  assert.doesNotMatch(home, /\.card-image\s*\{[^}]*aspect-ratio:\s*16\/9/);
+  assert.match(home, /\.card-image img\s*\{[^}]*height:\s*auto/);
+  assert.match(reportPage, /\.prose :global\(img\)\s*\{[^}]*height:\s*auto/);
   assert.match(bus, /imageWidth: 960\nimageHeight: 809/);
   assert.match(bear, /imageWidth: 1706\nimageHeight: 2031/);
   assert.match(base, /<meta name="theme-color" content="#f6f7f4"/);
@@ -81,7 +84,7 @@ test('ビルド後の数式・Mermaid・図は公開用ページで参照でき�
   const home = await read('dist/index.html');
   const bus = await read('dist/reports/bus-operator-concentration/index.html');
   const bear = await read('dist/reports/akita-bear-risk/index.html');
-  assert.match(home, /bus-operator-share\.png"[^>]+width="960" height="809" fetchpriority="high"/);
+  assert.doesNotMatch(home, /<figure class="hero-figure"/);
   assert.match(home, /akita-risk-map\.png"[^>]+width="1706" height="2031" loading="lazy"/);
   assert.match(bus, /class="katex/);
   assert.match(bear, /class="mermaid"/);
