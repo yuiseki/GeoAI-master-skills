@@ -293,3 +293,8 @@ test('データセットの一覧と各データセットのページにも、�
   assert.deepEqual(await pngSize('dist/ogp/datasets.png'), [1200, 630]);
   assert.match(await read('dist/datasets/index.html'), /<meta property="og:image" content="https:\/\/geoai\.yuiseki\.net\/ogp\/datasets\.png"/);
 });
+
+test('OGP 画像には時間とともに変わる件数を入れない', async () => {
+  const source = await read('src/pages/ogp/datasets.png.ts');
+  assert.doesNotMatch(source, /getCollection|\.length|\$\{/);
+});
