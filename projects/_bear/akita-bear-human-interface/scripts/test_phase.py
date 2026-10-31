@@ -104,3 +104,8 @@ def test_pair_stats_sees_a_shift_up_the_bear_axis_only():
     later = np.array([False, False, True, True])
     s = ph.pair_stats(pb, ph_, later, ph.quintile(pb), ph.quintile(ph_))
     assert s["cliff_b"] == 1.0 and s["cliff_h"] == 0.0 and s["jsd"] == pytest.approx(1.0)
+
+
+def test_cut_bins_puts_values_on_a_cut_in_the_lower_band():
+    p = np.array([0.1, 0.5, 0.51, 0.85, 0.9, 0.93, 0.99])
+    assert ph.cut_bins(p).tolist() == [1, 1, 2, 3, 3, 4, 5]

@@ -140,3 +140,11 @@ def pair_stats(pb, ph_, is_later, bq, hq):
     np.add.at(ce, (bq[e] - 1, hq[e] - 1), 1)
     np.add.at(cl, (bq[l_] - 1, hq[l_] - 1), 1)
     return {"cliff_b": cliffs_delta(pb[l_], pb[e]), "cliff_h": cliffs_delta(ph_[l_], ph_[e]), "jsd": jsd(ce, cl)}
+
+
+TOP_CUTS = (0.5, 0.8, 0.9, 0.95)  # post-hoc bins (EXPERIMENT_PLAN.md, 計画の変更)
+
+
+def cut_bins(p, cuts=TOP_CUTS):
+    """Band 1..len(cuts)+1 of each percentile; a value equal to a cut goes to the lower band."""
+    return np.searchsorted(np.asarray(cuts), np.asarray(p), side="left") + 1
