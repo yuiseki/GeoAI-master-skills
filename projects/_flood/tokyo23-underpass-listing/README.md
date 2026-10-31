@@ -9,6 +9,7 @@ cd projects/_flood/tokyo23-underpass-listing
 uvx --from 'duckdb>=1.5.5' --with numpy --with pandas --with pyarrow python scripts/01_build.py
 uvx --with numpy --with pandas --with pyarrow python scripts/02_blocks.py
 uvx --from 'duckdb>=1.5.5' --with numpy --with pandas --with pyarrow --with shapely --with matplotlib python scripts/03_fig.py
+uvx --from 'duckdb>=1.5.5' --with numpy --with pandas --with pyarrow --with shapely --with rasterio --with matplotlib --with pillow python scripts/04_layers_gif.py
 ```
 
-01_build.py は、tokyo23-flood-record-vs-a31a の 01_fetch.py が取った区の面と浸水実績 (`artifacts/_flood/tokyo23-flood-record-vs-a31a/raw/`) を読む。テストは `scripts/test_listing.py` の 1 行目のコマンドで流す。
+01_build.py は、tokyo23-flood-record-vs-a31a の 01_fetch.py が取った区の面と浸水実績 (`artifacts/_flood/tokyo23-flood-record-vs-a31a/raw/`) を読む。テストは `scripts/test_listing.py` と `scripts/test_04_layers_gif.py` の 1 行目のコマンドで流す。

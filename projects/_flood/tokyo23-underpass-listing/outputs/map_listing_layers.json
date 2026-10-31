@@ -1,0 +1,38 @@
+{
+ "crs_display": "EPSG:6677",
+ "elevation_drawn": false,
+ "sequence": [
+  "OSM のアンダーパスで国の一覧に載るもの",
+  "OSM のアンダーパスで一覧に載らないもの",
+  "一覧の点で、近くに OSM のアンダーパスが無いもの",
+  "冠水想定箇所",
+  "東京都の浸水実績の区域に入るアンダーパス (黄の輪)"
+ ],
+ "frame_ms": 1200,
+ "counts": {
+  "listed": 80,
+  "unlisted": 172,
+  "unmatched": 24,
+  "kansui": 87,
+  "flood": 44
+ },
+ "a31a_maximum_rows": 136671,
+ "a31a_cells_by_rank_25m": {
+  "1": 157351,
+  "2": 235233,
+  "3": 163133,
+  "4": 46440,
+  "5": 441,
+  "6": 0
+ },
+ "a31a_rule": "25 m の格子に面を塗り、川ごとの面が重なる所は大きいランクを取る (表示のため)",
+ "osm_major_road_parts": 22301,
+ "font": "Noto Sans CJK JP",
+ "sources": {
+  "A31a": "ksj-a31a-flood-tokyo23@5b22592",
+  "OSM": "osm-tokyo23-src-2026-08@38f7a5f",
+  "list": "mlit-underpass@4d00072",
+  "kansui": "mlit-kansui-flood-prone-points-jp-2026-09@d4e2e1f",
+  "units": "outputs of 01_build.py"
+ }
+}

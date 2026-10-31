@@ -6,3 +6,4 @@
 | R002 | B1〜B4 | C1〜C3 | main | 計画の規則 | R001 と同じ | done | outputs/blocks.json、outputs/b4_by_kind.csv | - | C1 支持 (31.7 % [26.3, 37.2])、C2 判定できない (差 0.037 [−0.067, 0.148])、C3 支持 (63.6 % [47.2, 78.1])。載る割合は幹線 77.2 %、細い道路 5.7 % |
 | R003 | 頑健性 | C1〜C3 | main | 距離 50、200 m、service、浸水 30 m、内水、ガード下 | R001 と同じ | done | outputs/blocks.json の variants | - | どの行でも C1 支持、C2 判定できない、C3 支持。ガード下 1,153 か所のうち載るのは 4.3 % |
 | R004 | 図 | C1〜C3 | - | 23 区の地図 | R002 | done | outputs/map_listing.png | - | - |
+| R005 | 図 | - | - | A31a と OSM 主要道路に重ねた地図と、レイヤーを積み足す GIF (標高なし) | R001、ksj-a31a-flood-tokyo23@5b22592 | done | outputs/map_listing_layers.png、outputs/map_listing_layers.gif、outputs/map_listing_layers.json | 計画の流す順に無い図を足した (判定には関わらない) | 冠水想定箇所は 23 区の中に 87 点 |

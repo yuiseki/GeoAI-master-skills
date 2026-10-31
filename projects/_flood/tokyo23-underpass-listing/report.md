@@ -38,6 +38,14 @@
 
 一覧の点のうち 24 点は、100 m 以内に OSM のアンダーパスがありません ([build_summary.json](outputs/build_summary.json)、[unmatched_list_points.csv](outputs/unmatched_list_points.csv))。名前を見ると、明神坂ガード下、宮益架道橋下、第一大久保ガードのような鉄道のガード下と、羽田空港トンネルのような長いトンネルの入口から離れた点が多くを占めます。
 
+### 図 2: A31a と主要道路に重ねた地図
+
+![図 2: A31a と OSM 主要道路に重ねた、23 区のアンダーパスと国の一覧](outputs/map_listing_layers.png)
+
+図 2: 図 1 の点を、A31a の想定最大規模の浸水深と OSM の主要道路に重ねました。標高は載せていません。レイヤーを 1 つずつ積み足す動く版は [outputs/map_listing_layers.gif](outputs/map_listing_layers.gif) です。一覧に載るアンダーパス (赤) は主要道路の上に並び、載らないアンダーパス (紺) は主要道路から外れた所にも多くあります。浸水実績の区域に入るアンダーパス (黄の輪) は、A31a の想定区域の外にもあります。A31a は河川の洪水の想定で、内水を含みません。
+
+図の出典: © OpenStreetMap contributors (ODbL)。国土数値情報 洪水浸水想定区域 (A31a)、「全国のアンダーパス箇所マップ」(国土交通省)、冠水想定箇所 (地方整備局)、東京都「浸水実績図」、国勢調査の境界 (jp-admin-2026-09) をもとに作成。
+
 ### 定義と感度分析
 
 | 項目 | 主分析 | 代わりの定義 |
@@ -58,6 +66,7 @@
 | mlit-kansui-flood-prone-points-jp-2026-09 | d4e2e1f | 東京都の冠水想定箇所 135 点 |
 | tokyo-flood-record-jp | 354b0d9 の flood_area (5,845 行、1974〜2019 年) | 浸水実績の区域 |
 | jp-admin-2026-09 | e6c87b1 の 23 区の面 | 範囲 |
+| ksj-a31a-flood-tokyo23 | 5b22592 の想定最大規模の面 | 図 2 の背景だけ (分析には使っていない) |
 
 件数は [outputs/build_summary.json](outputs/build_summary.json) にあります。出典の表示: © OpenStreetMap contributors (ODbL)。「全国のアンダーパス箇所マップ」(国土交通省) をもとに作成。東京都「浸水実績図」を加工して作成。
 
