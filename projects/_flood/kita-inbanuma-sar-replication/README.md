@@ -3,7 +3,7 @@
 令和8年台風第25号で堤防が決壊した北印旛沼の浸水を、Sentinel-1 の SAR で検知した note 記事 (Mark.n、2026-09-26 と 2026-10-23) を、公開データと組み直したスクリプトで追試する。
 
 - 段 A: 記事 1 (浸水の範囲の判定と、国土地理院の浸水推定図との比較)。計画は [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)、記録は [EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md)。
-- 段 B: 記事 2 (水面の高さ、深さ、水が引いた日)。段 A の後に別の計画で扱う。
+- 段 B: 記事 2 (水面の高さ、深さ、水が引く過程)。計画は [EXPERIMENT_PLAN_B.md](EXPERIMENT_PLAN_B.md)。
 
 大きな生成物は `artifacts/_flood/kita-inbanuma-sar-replication/` に置く。
 
