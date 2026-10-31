@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -6,6 +7,28 @@ import test from 'node:test';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (name) => readFile(path.join(root, name), 'utf8');
+
+test('公開 Markdown は技術文書と AI 文体の両プリセットで検査する', async () => {
+  const pkg = JSON.parse(await read('package.json'));
+  const config = JSON.parse(await read('.textlintrc.json'));
+  assert.match(pkg.scripts['lint:text'], /textlint/);
+  assert.match(pkg.scripts['lint:text'], /src\/content\/reports\/\*\.md/);
+  assert.equal(pkg.scripts.prebuild, 'npm run lint:text');
+  assert.ok(pkg.devDependencies.textlint);
+  assert.ok(pkg.devDependencies['textlint-rule-preset-ja-technical-writing']);
+  assert.ok(pkg.devDependencies['@textlint-ja/textlint-rule-preset-ai-writing']);
+  assert.ok(config.rules['preset-ja-technical-writing']);
+  assert.ok(config.rules['@textlint-ja/preset-ai-writing']);
+});
+
+test('両プリセットが不自然な文と長過ぎる文を検出する', () => {
+  const input = `これは革命的な技術です。\n地理空間の分析では、${'観測値'.repeat(40)}を用いて結果を比較します。\n`;
+  const result = spawnSync(path.join(root, 'node_modules/.bin/textlint'),
+    ['--stdin', '--stdin-filename', 'sample.md'], { cwd: root, input, encoding: 'utf8' });
+  assert.equal(result.status, 1, result.stderr);
+  assert.match(result.stdout, /@textlint-ja\/ai-writing\/no-ai-hype-expressions/);
+  assert.match(result.stdout, /ja-technical-writing\/sentence-length/);
+});
 
 test('Wrangler は公開用 Worker にデプロイする', async () => {
   const config = JSON.parse(await read('wrangler.jsonc'));

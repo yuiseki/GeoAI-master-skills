@@ -9,15 +9,18 @@ cd site
 npm ci
 npm run build
 npm run check
+npm run lint:text
 npm test
 npm run dev
 ```
 
-Astro の Markdown は Unified を使い、`remark-math` と `rehype-katex` で文中 `$...$` と fenced `math` を描く。`astro-mermaid` は fenced `mermaid` をブラウザーで描く。JavaScript が無効な環境では Mermaid 図が表示されない。PNGは公開を選んだ図だけをコピーしたもの。
+Astro の Markdown は Unified を使う。数式には `remark-math` と `rehype-katex` を使う。文中の `$...$` と fenced `math` を描く。`astro-mermaid` は fenced `mermaid` をブラウザーで描く。JavaScript が無効な環境では Mermaid 図が表示されない。PNGは公開を選んだ図だけをコピーしたもの。
+
+`npm run lint:text` は公開記事の Markdown と、この README を検査する。[技術文書向け](https://github.com/textlint-ja/textlint-rule-preset-ja-technical-writing)と[AI 文体向け](https://github.com/textlint-ja/textlint-rule-preset-ai-writing)の textlint プリセットを適用し、`npm run build` の前にも実行する。Astro テンプレート内の UI 文言は対象外。
 
 ## 公開先
 
-Cloudflare Workers の静的アセットとして `site/dist/` を配信する。`astro.config.mjs` の `site` は `https://geoai.yuiseki.net`、`base` は既定の `/`。`wrangler.jsonc` は Custom Domain を宣言しているが、実デプロイ前に `yuiseki.net` のCloudflareゾーン、既存DNSレコード、権限を確認すること。現時点でデプロイは行っていない。
+Cloudflare Workers の静的アセットとして `site/dist/` を配信する。`astro.config.mjs` の `site` は `https://geoai.yuiseki.net`、`base` は既定の `/`。`wrangler.jsonc` は Custom Domain と `workers.dev` を宣言している。
 
 ```sh
 cd site

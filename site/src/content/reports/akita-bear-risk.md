@@ -18,7 +18,7 @@ source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_bear/
 
 ![秋田県の100mセル別クマ出没リスクの地図](/images/akita-risk-map.png)
 
-図の出典: 秋田県の通報記録、行政界、ESA WorldCover 2021、国土地理院の標高タイル、WorldPop 2020、© OpenStreetMap contributors を用いた派生予測。[元の報告とデータの詳細](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_bear/akita-bear-risk-grid-100m/report.md)。
+図の出典: 秋田県の通報記録、行政界、ESA WorldCover 2021、国土地理院の標高タイル、WorldPop 2020、© OpenStreetMap contributors。これらを用いた派生予測です。[元の報告とデータの詳細](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_bear/akita-bear-risk-grid-100m/report.md)。
 
 予測は「森の奥」より、森と人里の境目で高くなっています。ただし、これは通報された場所の順位であり、クマの個体数や遭遇確率そのものではありません。
 
