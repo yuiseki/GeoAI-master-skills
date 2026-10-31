@@ -1,9 +1,10 @@
 ---
 interface Props {
-  title: string;
+  title?: string;
   description: string;
 }
 const { title, description } = Astro.props;
+const siteName = 'yuiseki の GeoAI 研究所';
 ---
 
 <!doctype html>
@@ -14,7 +15,7 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f6f7f4" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title} · GeoAI Research</title>
+    <title>{title ? `${title} · ${siteName}` : siteName}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet" />
@@ -23,8 +24,8 @@ const { title, description } = Astro.props;
     <a class="skip-link" href="#main">本文へ移動</a>
     <header class="site-header">
       <div class="shell header-inner">
-        <a class="wordmark" href="/" aria-label="GeoAI Research ホーム" translate="no">
-          <span>GeoAI Research</span>
+        <a class="wordmark" href="/" aria-label={`${siteName} ホーム`} translate="no">
+          <span>{siteName}</span>
         </a>
         <nav aria-label="メインナビゲーション">
           <a href="/#reports">研究一覧</a>
@@ -36,7 +37,7 @@ const { title, description } = Astro.props;
     <footer class="site-footer">
       <div class="shell footer-inner">
         <div>
-          <p class="footer-name">GeoAI Research</p>
+          <p class="footer-name">{siteName}</p>
           <p>地理空間データを使った研究</p>
         </div>
         <a href="https://github.com/yuiseki/GeoAI-master-skills">分析コードと原本</a>

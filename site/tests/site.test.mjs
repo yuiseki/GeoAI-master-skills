@@ -95,3 +95,12 @@ test('ビルド後の数式・Mermaid・図は公開用ページで参照でき�
   await stat(path.join(root, 'dist/images/akita-risk-map.png'));
   await stat(path.join(root, 'dist/favicon.svg'));
 });
+
+test('サイト名は「yuiseki の GeoAI 研究所」で、ページタイトルにも付く', async () => {
+  const base = await read('src/layouts/Base.astro');
+  const home = await read('src/pages/index.astro');
+  assert.match(base, /const siteName = 'yuiseki の GeoAI 研究所';/);
+  assert.match(base, /<title>\{title \? `\$\{title\} · \$\{siteName\}` : siteName\}<\/title>/);
+  assert.doesNotMatch(base, /GeoAI Research/);
+  assert.match(home, /<Base description=/);
+});

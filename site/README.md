@@ -1,4 +1,4 @@
-# GeoAI Research 公開サイト
+# yuiseki の GeoAI 研究所 公開サイト
 
 `projects/` は分析原本のまま残し、`site/src/content/reports/` に置いた公開用の編集済み記事だけをサイトに載せる。図も `site/public/images/` に選んで置く。`docs/` はリポジトリの入門・用語集であり、サイトの公開元ではない。
 
