@@ -1,0 +1,18 @@
+deaths accidents 50; dead party {'歩行者': 24, '補充票の人': 5, '二輪車': 11, '自転車': 9, '二輪車/二輪車': 1}; party A {'貨物車': 21, '乗用車 (自家用)': 17, '乗用車 (事業用)': 3, 'その他・不明': 4, '自転車': 3, '二輪車': 2}
+deaths hour 0-5 12; hour 19-5 18
+dead pedestrians aged 65+ 10 of 24
+全て: n 12291; top hours [(8, 998), (17, 920), (9, 882), (16, 849)]; weekday (Mon-Fri) n 9105; weekday top hours [(8, 846), (9, 701), (17, 698), (16, 636)]
+若い歩行者・自転車: n 1840; top hours [(8, 203), (16, 185), (17, 167), (18, 142)]; weekday (Mon-Fri) n 1379; weekday top hours [(8, 173), (16, 145), (17, 134), (18, 109)]
+高齢の歩行者: n 509; top hours [(10, 52), (17, 48), (16, 41), (13, 39)]; weekday (Mon-Fri) n 388; weekday top hours [(10, 41), (17, 36), (9, 32), (16, 30)]
+自転車: n 5725; top hours [(8, 556), (9, 480), (16, 447), (10, 419)]; weekday (Mon-Fri) n 4306; weekday top hours [(8, 482), (9, 382), (16, 328), (17, 321)]
+乗用車 (自家用): as party A 5425; as party B 1568
+乗用車 (事業用): as party A 1078; as party B 214
+貨物車: as party A 2466; as party B 1031
+自転車: as party A 2411; as party B 3937
+二輪車: as party A 790; as party B 1656
+bike as B with a car or truck as A 2998
+towns: accidents in towns 12198; most accidents [('大原二丁目', '194', '21'), ('瀬田四丁目', '182', '21'), ('玉川三丁目', '170', '25'), ('上馬四丁目', '163', '17'), ('池尻三丁目', '154', '17'), ('用賀二丁目', '149', '21'), ('三軒茶屋二丁目', '146', '35'), ('代田三丁目', '137', '14')]
+setagaya 7 years: accidents 12291; died 52; hurt 13747
+setagaya shares (%): share_ped 17.6; share_bike 46.6; share_escooter 0.4; share_old_ped 4.1; share_young_pb 15.0; share_strict 32.2; share_broad 43.4; share_night 28.0; share_intersection 43.5
+school map: young pedestrians and cyclists {'young_ped_or_bike': 1840, 'weekday_7_8_or_14_17': 712}
+party cells: 乗用車 (自家用) x 自転車 1689; 自転車 x 相手なし・物件 1149; 乗用車 (自家用) x 乗用車 (自家用) 1062; 貨物車 x 自転車 943; 乗用車 (自家用) x 二輪車 941; 乗用車 (自家用) x 歩行者 866; 乗用車 (自家用) x 貨物車 651; 自転車 x 自転車 623; 自転車 x 歩行者 557; 貨物車 x 二輪車 434; 乗用車 (事業用) x 自転車 366; 貨物車 x 乗用車 (自家用) 361

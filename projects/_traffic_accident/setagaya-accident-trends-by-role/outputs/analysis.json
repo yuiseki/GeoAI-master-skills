@@ -1,0 +1,130 @@
+{
+ "run_date": "2026-10-31",
+ "commit": "4ea54f6238100bee176207ed2334e69bfac51ffc",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_setagaya": 12291,
+  "setagaya_without_point": 0,
+  "coded_and_inside": 12198,
+  "coded_outside": 93,
+  "other_code_inside": 57,
+  "setagaya_rank_of_23": {
+   "per_1000_residents_per_year": 14,
+   "share_ped": 13,
+   "share_bike": 13,
+   "share_escooter": 11,
+   "share_old_ped": 13,
+   "share_young_pb": 2,
+   "share_strict": 8,
+   "share_broad": 9,
+   "share_night": 18,
+   "share_intersection": 11
+  },
+  "national_routes": {
+   "0020": 430,
+   "0246": 1038
+  },
+  "setagaya_points": 12291,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 12,
+   "50m": 14
+  },
+  "hotspot_counts": {
+   "20m": [
+    48,
+    46,
+    33,
+    29,
+    27,
+    26,
+    26,
+    25,
+    25,
+    24,
+    24,
+    22,
+    21,
+    21,
+    21
+   ],
+   "30m": [
+    59,
+    55,
+    43,
+    36,
+    35,
+    34,
+    34,
+    32,
+    32,
+    31,
+    31,
+    29,
+    29,
+    29,
+    28
+   ],
+   "50m": [
+    82,
+    65,
+    65,
+    53,
+    53,
+    49,
+    45,
+    43,
+    43,
+    43,
+    42,
+    42,
+    42,
+    40,
+    38
+   ]
+  },
+  "points_in_towns": 12198,
+  "points_outside_towns": 93
+ },
+ "files": {
+  "yearly": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\yearly.csv",
+  "wards": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\wards.csv",
+  "hours": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\hour_weekday.csv",
+  "parties": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\party_matrix.csv",
+  "deaths": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\deaths.csv",
+  "route": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\route_class.csv",
+  "schools": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\schools.csv",
+  "hotspots": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\hotspots.csv",
+  "towns": "projects\\_traffic_accident\\setagaya-accident-trends-by-role\\outputs\\towns.csv"
+ }
+}

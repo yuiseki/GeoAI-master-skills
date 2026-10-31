@@ -1,0 +1,31 @@
+{
+ "question": "世田谷区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json"
+ ],
+ "n": 277,
+ "notes": "breaks [0.18040364848027562, 0.7615527229064152, 1.0548620946424947, 1.3846482434143303, 1.9667538609478021, 6.40438237649999];",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 277,
+ "units_in_analysis": 277,
+ "highlighted": [
+  "大原二丁目",
+  "駒沢公園",
+  "大蔵三丁目",
+  "野沢四丁目",
+  "玉川三丁目"
+ ],
+ "text_overlaps": [
+  [
+   "二子玉川",
+   "5"
+  ]
+ ]
+}

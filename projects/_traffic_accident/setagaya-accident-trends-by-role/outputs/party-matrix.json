@@ -1,0 +1,12 @@
+{
+ "question": "世田谷区の事故は、誰と誰の間で起きているか",
+ "inputs": [
+  "outputs/party_matrix.csv"
+ ],
+ "n": 12291,
+ "notes": "",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ]
+}

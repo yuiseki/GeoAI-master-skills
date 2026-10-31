@@ -1,0 +1,12 @@
+{
+ "question": "世田谷区で、どの種類の事故が年ごとにどう動いたか",
+ "inputs": [
+  "outputs/yearly.csv"
+ ],
+ "n": 12291,
+ "notes": "縦軸は全て0から。パネルごとに縦軸の範囲が違う",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ]
+}

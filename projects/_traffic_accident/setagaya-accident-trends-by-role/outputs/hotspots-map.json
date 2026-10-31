@@ -1,0 +1,43 @@
+{
+ "question": "世田谷区で人身事故が集まる地点はどこか",
+ "inputs": [
+  "artifacts/_traffic_accident/setagaya-accident-trends-by-role/points.csv",
+  "outputs/hotspots.csv"
+ ],
+ "n": 12291,
+ "notes": "位置の精度は不明。円の濃さは件数に比例",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "hotspots_drawn": 15,
+ "zoomed_in_inset": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  8,
+  9,
+  10,
+  15
+ ],
+ "text_overlaps": [
+  [
+   "用賀",
+   "13"
+  ],
+  [
+   "13",
+   "14"
+  ],
+  [
+   "5",
+   "15"
+  ]
+ ]
+}
