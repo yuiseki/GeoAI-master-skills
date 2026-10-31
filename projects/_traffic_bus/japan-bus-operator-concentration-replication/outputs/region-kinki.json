@@ -1,0 +1,76 @@
+{
+  "value": "割合",
+  "kind": "rate",
+  "unit": "%（停留所圏の65歳以上人口）",
+  "crs": "EPSG:4612",
+  "source": "P11 2022 (442223b)・国勢調査2020メッシュ (6c486c8)・行政界 (e6c87b1)",
+  "method": "fixed",
+  "classes": 5,
+  "breaks": [
+    0.0,
+    20.0,
+    40.0,
+    60.0,
+    80.0,
+    100.0
+  ],
+  "units_per_class": [
+    32,
+    33,
+    59,
+    36,
+    64
+  ],
+  "nodata_units": 3,
+  "palette": "YlOrRd",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 59107,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [
+    "1",
+    "2",
+    "4",
+    "5"
+  ],
+  "inset_at": "lower left",
+  "title": "近畿: 事業者名が1種類のメッシュに住む65歳以上の割合 (番号は人数の上位5)",
+  "aspect": 1.2149545074136816,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": [
+    134.95,
+    135.75,
+    34.45,
+    34.95
+  ],
+  "hidden_by_inset": [],
+  "made": "2026-10-31",
+  "context": {
+    "path": "/Workspaces/tmp/_exp/GeoAI-traffic-accident/GeoAI-master-skills/artifacts/_traffic_bus/japan-bus-operator-concentration-replication/prefectures.parquet",
+    "name": "pref",
+    "where": "pref_code IN ('24', '25', '26', '27', '28', '29', '30')",
+    "source": "jp-admin-2026-09 e6c87b1 prefectures",
+    "crs": "EPSG:4612",
+    "crs_difference": null,
+    "areas": 7,
+    "labelled": [
+      "三重県",
+      "滋賀県",
+      "京都府",
+      "大阪府",
+      "兵庫県",
+      "奈良県",
+      "和歌山県"
+    ]
+  },
+  "highlight": {
+    "path": "/Workspaces/tmp/_exp/GeoAI-traffic-accident/GeoAI-master-skills/projects/_traffic_bus/japan-bus-operator-concentration-replication/outputs/region-kinki-top.csv",
+    "groups": {
+      "人数の上位 5": 5
+    }
+  }
+}

@@ -9,6 +9,8 @@
 - [監査値](outputs/audit.json)と[診断](outputs/diagnostics.json): 報告の数値の根拠。
 - [追加分析](outputs/extended.json): メッシュ内のみ・バス区分別・75歳以上の探索的な感度。
 - [自治体別CSV](outputs/municipalities.csv)と[地図](outputs/municipality-share.png): 自治体別の派生結果。
+- [分析過程の図](outputs/process-obihiro.png): 帯広市を例に、停留所、半径800mの判定、メッシュの分類、人数の集計を1枚に描いた。
+- [地方ごとの地図](outputs/regions.json): 9地方の塗り分け (`outputs/region-*.png`) と、地方ごとの割合と人数の上位5自治体。
 
 入力は `yuiseki/ksj-p11-bus-stop-jp@442223b4544103a922f21081c070dd5c69e4c23e`、`yuiseki/estat-census-mesh-2020@6c486c8649484e09e549c0c99b5fa89b4f416edb`、`yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135`。それぞれの原典・ライセンスは `dataset-discovery/references/` のカードを参照。人口は2020年、P11は2022年度版（資料の時点は事業者ごとに異なる）、境界の形は2020年で、時点は一致しない。
 
@@ -20,6 +22,8 @@ uv run --no-project --with duckdb --with numpy --with scipy --with shapely pytho
 uv run --no-project --with numpy --with scipy python3 projects/_traffic_bus/japan-bus-operator-concentration-replication/scripts/diagnostics.py
 uv run --no-project --with duckdb --with numpy --with scipy python3 projects/_traffic_bus/japan-bus-operator-concentration-replication/scripts/extended.py
 uv run --no-project --with duckdb --with numpy --with scipy --with shapely --with matplotlib python3 projects/_traffic_bus/japan-bus-operator-concentration-replication/scripts/plot.py
+uv run --no-project --with duckdb --with numpy --with scipy --with shapely --with matplotlib python3 projects/_traffic_bus/japan-bus-operator-concentration-replication/scripts/process_map.py
+uv run --no-project --with duckdb --with numpy --with scipy --with shapely --with matplotlib python3 projects/_traffic_bus/japan-bus-operator-concentration-replication/scripts/regional_maps.py
 ```
 
 `analysis.py` は全国のメッシュごとの結果を `artifacts/_traffic_bus/japan-bus-operator-concentration-replication/meshes.csv` に出す（大きいため Git 管理外）。`plot.py` は同じ `artifacts/` に行政界付きの一時的な GeoParquet を作り、リポジトリの `analysis-visualize/scripts/classify_map.py` を使う。小さい数値表、監査JSON、PNGは `outputs/` に置く。乱数は使わない。分類に使う距離は球面の大円距離で、徒歩経路距離ではない。

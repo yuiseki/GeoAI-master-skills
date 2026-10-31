@@ -1,0 +1,71 @@
+{
+  "value": "割合",
+  "kind": "rate",
+  "unit": "%（停留所圏の65歳以上人口）",
+  "crs": "EPSG:4612",
+  "source": "P11 2022 (442223b)・国勢調査2020メッシュ (6c486c8)・行政界 (e6c87b1)",
+  "method": "fixed",
+  "classes": 5,
+  "breaks": [
+    0.0,
+    20.0,
+    40.0,
+    60.0,
+    80.0,
+    100.0
+  ],
+  "units_per_class": [
+    5,
+    16,
+    27,
+    21,
+    35
+  ],
+  "nodata_units": 3,
+  "palette": "YlOrRd",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 40096,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [
+    "1"
+  ],
+  "inset_at": "upper left",
+  "title": "中国: 事業者名が1種類のメッシュに住む65歳以上の割合 (番号は人数の上位5)",
+  "aspect": 1.2280100794870887,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": [
+    132.2,
+    132.85,
+    34.2,
+    34.7
+  ],
+  "hidden_by_inset": [],
+  "made": "2026-10-31",
+  "context": {
+    "path": "/Workspaces/tmp/_exp/GeoAI-traffic-accident/GeoAI-master-skills/artifacts/_traffic_bus/japan-bus-operator-concentration-replication/prefectures.parquet",
+    "name": "pref",
+    "where": "pref_code IN ('31', '32', '33', '34', '35')",
+    "source": "jp-admin-2026-09 e6c87b1 prefectures",
+    "crs": "EPSG:4612",
+    "crs_difference": null,
+    "areas": 5,
+    "labelled": [
+      "鳥取県",
+      "島根県",
+      "岡山県",
+      "広島県",
+      "山口県"
+    ]
+  },
+  "highlight": {
+    "path": "/Workspaces/tmp/_exp/GeoAI-traffic-accident/GeoAI-master-skills/projects/_traffic_bus/japan-bus-operator-concentration-replication/outputs/region-chugoku-top.csv",
+    "groups": {
+      "人数の上位 5": 5
+    }
+  }
+}

@@ -8,3 +8,5 @@
 | 2026-10-26 | 保存済み結果の診断 | 完了 | `outputs/diagnostics.json`。100%自治体29、半径別の上位20重なり16・17件 |
 | 2026-10-26 | 塗り分け地図 | 完了 | `outputs/municipality-share.png` と同名JSON。1666値、75 NoData、各階級件数は添付図と一致。黒い境界線は全国縮尺では密になる |
 | 2026-10-26 | 論文化前の追加区画（探索） | 完了 | 合成テストを5件追加して計12件合格。`outputs/extended.json`、Git管理外の `artifacts/.../extended_meshes.csv`。メッシュ内だけ53.9%、75歳以上上位20の重なり19、事業者区分別人口を固定版から測り直した。`operators_800m`は176,964メッシュ全件で既存出力と照合した |
+| 2026-10-31 | 分析過程の図 | 完了 | `analysis.py` を再実行し、出力は既存と一致。`outputs/process-obihiro.png` と同名JSON。帯広市323メッシュの分類と人数は `municipalities.csv` と一致、文字の重なり0件 |
+| 2026-10-31 | 地方ごとの塗り分け | 完了 | `outputs/region-*.png` 9枚と `outputs/regions.json`。固定の区切りは全国図と同じ。地方の人数の合計は全国と一致。描く範囲の外の離島22自治体は数に含めた。番号の位置の不具合を `classify_map.py` で直した (面の内側の点に置く) |

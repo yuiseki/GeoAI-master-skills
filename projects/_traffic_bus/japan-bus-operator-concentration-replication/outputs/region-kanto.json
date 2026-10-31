@@ -1,0 +1,77 @@
+{
+  "value": "割合",
+  "kind": "rate",
+  "unit": "%（停留所圏の65歳以上人口）",
+  "crs": "EPSG:4612",
+  "source": "P11 2022 (442223b)・国勢調査2020メッシュ (6c486c8)・行政界 (e6c87b1)",
+  "method": "fixed",
+  "classes": 5,
+  "breaks": [
+    0.0,
+    20.0,
+    40.0,
+    60.0,
+    80.0,
+    100.0
+  ],
+  "units_per_class": [
+    84,
+    55,
+    53,
+    38,
+    75
+  ],
+  "nodata_units": 3,
+  "palette": "YlOrRd",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 52041,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [
+    "千葉県"
+  ],
+  "zoomed_in_inset": [
+    "1",
+    "2",
+    "3"
+  ],
+  "inset_at": "lower right",
+  "title": "関東: 事業者名が1種類のメッシュに住む65歳以上の割合 (番号は人数の上位5)",
+  "aspect": 1.2347622166041414,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": [
+    139.35,
+    139.95,
+    35.2,
+    35.75
+  ],
+  "hidden_by_inset": [],
+  "made": "2026-10-31",
+  "context": {
+    "path": "/Workspaces/tmp/_exp/GeoAI-traffic-accident/GeoAI-master-skills/artifacts/_traffic_bus/japan-bus-operator-concentration-replication/prefectures.parquet",
+    "name": "pref",
+    "where": "pref_code IN ('08', '09', '10', '11', '12', '13', '14')",
+    "source": "jp-admin-2026-09 e6c87b1 prefectures",
+    "crs": "EPSG:4612",
+    "crs_difference": null,
+    "areas": 7,
+    "labelled": [
+      "茨城県",
+      "栃木県",
+      "群馬県",
+      "埼玉県",
+      "千葉県",
+      "東京都",
+      "神奈川県"
+    ]
+  },
+  "highlight": {
+    "path": "/Workspaces/tmp/_exp/GeoAI-traffic-accident/GeoAI-master-skills/projects/_traffic_bus/japan-bus-operator-concentration-replication/outputs/region-kanto-top.csv",
+    "groups": {
+      "人数の上位 5": 5
+    }
+  }
+}

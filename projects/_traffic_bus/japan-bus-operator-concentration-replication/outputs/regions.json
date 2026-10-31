@@ -1,0 +1,585 @@
+[
+  {
+    "region": "北海道",
+    "units": 179,
+    "dropped_outside_box": [],
+    "single_older_population": 832545,
+    "stop_older_population": 1566426,
+    "no_stop_older_population": 97597,
+    "share_pct": 53.1,
+    "top": [
+      {
+        "rank": 1,
+        "name": "札幌市",
+        "single_older_population": 183067,
+        "share_pct": 34.0
+      },
+      {
+        "rank": 2,
+        "name": "函館市",
+        "single_older_population": 64115,
+        "share_pct": 72.5
+      },
+      {
+        "rank": 3,
+        "name": "旭川市",
+        "single_older_population": 62291,
+        "share_pct": 56.7
+      },
+      {
+        "rank": 4,
+        "name": "北見市",
+        "single_older_population": 36680,
+        "share_pct": 99.1
+      },
+      {
+        "rank": 5,
+        "name": "苫小牧市",
+        "single_older_population": 33378,
+        "share_pct": 67.8
+      }
+    ],
+    "units_per_class": [
+      17,
+      19,
+      21,
+      10,
+      98
+    ],
+    "nodata_units": 14,
+    "text_overlaps": [],
+    "zoomed_in_inset": [],
+    "hidden_by_inset": []
+  },
+  {
+    "region": "東北",
+    "units": 227,
+    "dropped_outside_box": [],
+    "single_older_population": 1351927,
+    "stop_older_population": 2288552,
+    "no_stop_older_population": 457098,
+    "share_pct": 59.1,
+    "top": [
+      {
+        "rank": 1,
+        "name": "仙台市",
+        "single_older_population": 122111,
+        "share_pct": 48.6
+      },
+      {
+        "rank": 2,
+        "name": "いわき市",
+        "single_older_population": 89781,
+        "share_pct": 100.0
+      },
+      {
+        "rank": 3,
+        "name": "郡山市",
+        "single_older_population": 65995,
+        "share_pct": 88.9
+      },
+      {
+        "rank": 4,
+        "name": "福島市",
+        "single_older_population": 61049,
+        "share_pct": 77.6
+      },
+      {
+        "rank": 5,
+        "name": "秋田市",
+        "single_older_population": 52483,
+        "share_pct": 56.7
+      }
+    ],
+    "units_per_class": [
+      17,
+      26,
+      40,
+      26,
+      106
+    ],
+    "nodata_units": 12,
+    "text_overlaps": [
+      [
+        "宮城県",
+        "1"
+      ]
+    ],
+    "zoomed_in_inset": [],
+    "hidden_by_inset": []
+  },
+  {
+    "region": "関東",
+    "units": 308,
+    "dropped_outside_box": [
+      {
+        "code5": "13362",
+        "name": "利島村"
+      },
+      {
+        "code5": "13363",
+        "name": "新島村"
+      },
+      {
+        "code5": "13364",
+        "name": "神津島村"
+      },
+      {
+        "code5": "13381",
+        "name": "三宅村"
+      },
+      {
+        "code5": "13382",
+        "name": "御蔵島村"
+      },
+      {
+        "code5": "13401",
+        "name": "八丈町"
+      },
+      {
+        "code5": "13402",
+        "name": "青ヶ島村"
+      },
+      {
+        "code5": "13421",
+        "name": "小笠原村"
+      }
+    ],
+    "single_older_population": 3375757,
+    "stop_older_population": 10422761,
+    "no_stop_older_population": 577358,
+    "share_pct": 32.4,
+    "top": [
+      {
+        "rank": 1,
+        "name": "横浜市",
+        "single_older_population": 224577,
+        "share_pct": 24.5
+      },
+      {
+        "rank": 2,
+        "name": "大田区",
+        "single_older_population": 116194,
+        "share_pct": 73.9
+      },
+      {
+        "rank": 3,
+        "name": "横須賀市",
+        "single_older_population": 109613,
+        "share_pct": 91.9
+      },
+      {
+        "rank": 4,
+        "name": "宇都宮市",
+        "single_older_population": 96040,
+        "share_pct": 77.4
+      },
+      {
+        "rank": 5,
+        "name": "相模原市",
+        "single_older_population": 81606,
+        "share_pct": 46.7
+      }
+    ],
+    "units_per_class": [
+      84,
+      55,
+      53,
+      38,
+      75
+    ],
+    "nodata_units": 3,
+    "text_overlaps": [],
+    "zoomed_in_inset": [
+      "1",
+      "2",
+      "3"
+    ],
+    "hidden_by_inset": []
+  },
+  {
+    "region": "中部",
+    "units": 316,
+    "dropped_outside_box": [],
+    "single_older_population": 2747313,
+    "stop_older_population": 5466384,
+    "no_stop_older_population": 581341,
+    "share_pct": 50.3,
+    "top": [
+      {
+        "rank": 1,
+        "name": "名古屋市",
+        "single_older_population": 339898,
+        "share_pct": 60.6
+      },
+      {
+        "rank": 2,
+        "name": "静岡市",
+        "single_older_population": 193249,
+        "share_pct": 93.3
+      },
+      {
+        "rank": 3,
+        "name": "浜松市",
+        "single_older_population": 186001,
+        "share_pct": 90.2
+      },
+      {
+        "rank": 4,
+        "name": "富山市",
+        "single_older_population": 103978,
+        "share_pct": 91.0
+      },
+      {
+        "rank": 5,
+        "name": "長岡市",
+        "single_older_population": 64004,
+        "share_pct": 82.6
+      }
+    ],
+    "units_per_class": [
+      38,
+      62,
+      62,
+      46,
+      96
+    ],
+    "nodata_units": 12,
+    "text_overlaps": [
+      [
+        "富山県",
+        "4"
+      ]
+    ],
+    "zoomed_in_inset": [],
+    "hidden_by_inset": []
+  },
+  {
+    "region": "近畿",
+    "units": 227,
+    "dropped_outside_box": [],
+    "single_older_population": 3000726,
+    "stop_older_population": 5874394,
+    "no_stop_older_population": 374373,
+    "share_pct": 51.1,
+    "top": [
+      {
+        "rank": 1,
+        "name": "大阪市",
+        "single_older_population": 356785,
+        "share_pct": 53.9
+      },
+      {
+        "rank": 2,
+        "name": "堺市",
+        "single_older_population": 189395,
+        "share_pct": 81.8
+      },
+      {
+        "rank": 3,
+        "name": "姫路市",
+        "single_older_population": 127925,
+        "share_pct": 96.3
+      },
+      {
+        "rank": 4,
+        "name": "神戸市",
+        "single_older_population": 109981,
+        "share_pct": 26.6
+      },
+      {
+        "rank": 5,
+        "name": "枚方市",
+        "single_older_population": 98216,
+        "share_pct": 95.7
+      }
+    ],
+    "units_per_class": [
+      32,
+      33,
+      59,
+      36,
+      64
+    ],
+    "nodata_units": 3,
+    "text_overlaps": [],
+    "zoomed_in_inset": [
+      "1",
+      "2",
+      "4",
+      "5"
+    ],
+    "hidden_by_inset": []
+  },
+  {
+    "region": "中国",
+    "units": 107,
+    "dropped_outside_box": [],
+    "single_older_population": 973251,
+    "stop_older_population": 1962359,
+    "no_stop_older_population": 271593,
+    "share_pct": 49.6,
+    "top": [
+      {
+        "rank": 1,
+        "name": "広島市",
+        "single_older_population": 84896,
+        "share_pct": 28.6
+      },
+      {
+        "rank": 2,
+        "name": "下関市",
+        "single_older_population": 81681,
+        "share_pct": 96.8
+      },
+      {
+        "rank": 3,
+        "name": "倉敷市",
+        "single_older_population": 56212,
+        "share_pct": 62.6
+      },
+      {
+        "rank": 4,
+        "name": "福山市",
+        "single_older_population": 55578,
+        "share_pct": 48.1
+      },
+      {
+        "rank": 5,
+        "name": "岡山市",
+        "single_older_population": 55254,
+        "share_pct": 34.4
+      }
+    ],
+    "units_per_class": [
+      5,
+      16,
+      27,
+      21,
+      35
+    ],
+    "nodata_units": 3,
+    "text_overlaps": [],
+    "zoomed_in_inset": [
+      "1"
+    ],
+    "hidden_by_inset": []
+  },
+  {
+    "region": "四国",
+    "units": 95,
+    "dropped_outside_box": [],
+    "single_older_population": 637352,
+    "stop_older_population": 1012714,
+    "no_stop_older_population": 197828,
+    "share_pct": 62.9,
+    "top": [
+      {
+        "rank": 1,
+        "name": "松山市",
+        "single_older_population": 89817,
+        "share_pct": 71.9
+      },
+      {
+        "rank": 2,
+        "name": "高松市",
+        "single_older_population": 65349,
+        "share_pct": 62.6
+      },
+      {
+        "rank": 3,
+        "name": "今治市",
+        "single_older_population": 39846,
+        "share_pct": 85.2
+      },
+      {
+        "rank": 4,
+        "name": "高知市",
+        "single_older_population": 38406,
+        "share_pct": 41.6
+      },
+      {
+        "rank": 5,
+        "name": "新居浜市",
+        "single_older_population": 26797,
+        "share_pct": 80.9
+      }
+    ],
+    "units_per_class": [
+      7,
+      8,
+      16,
+      15,
+      44
+    ],
+    "nodata_units": 5,
+    "text_overlaps": [],
+    "zoomed_in_inset": [],
+    "hidden_by_inset": []
+  },
+  {
+    "region": "九州",
+    "units": 221,
+    "dropped_outside_box": [
+      {
+        "code5": "46222",
+        "name": "奄美市"
+      },
+      {
+        "code5": "46523",
+        "name": "大和村"
+      },
+      {
+        "code5": "46524",
+        "name": "宇検村"
+      },
+      {
+        "code5": "46525",
+        "name": "瀬戸内町"
+      },
+      {
+        "code5": "46527",
+        "name": "龍郷町"
+      },
+      {
+        "code5": "46529",
+        "name": "喜界町"
+      },
+      {
+        "code5": "46530",
+        "name": "徳之島町"
+      },
+      {
+        "code5": "46531",
+        "name": "天城町"
+      },
+      {
+        "code5": "46532",
+        "name": "伊仙町"
+      },
+      {
+        "code5": "46533",
+        "name": "和泊町"
+      },
+      {
+        "code5": "46534",
+        "name": "知名町"
+      },
+      {
+        "code5": "46535",
+        "name": "与論町"
+      }
+    ],
+    "single_older_population": 1891272,
+    "stop_older_population": 3495166,
+    "no_stop_older_population": 333616,
+    "share_pct": 54.1,
+    "top": [
+      {
+        "rank": 1,
+        "name": "福岡市",
+        "single_older_population": 251874,
+        "share_pct": 75.2
+      },
+      {
+        "rank": 2,
+        "name": "北九州市",
+        "single_older_population": 200995,
+        "share_pct": 70.8
+      },
+      {
+        "rank": 3,
+        "name": "大分市",
+        "single_older_population": 80742,
+        "share_pct": 64.9
+      },
+      {
+        "rank": 4,
+        "name": "宮崎市",
+        "single_older_population": 78363,
+        "share_pct": 74.2
+      },
+      {
+        "rank": 5,
+        "name": "佐世保市",
+        "single_older_population": 66931,
+        "share_pct": 91.5
+      }
+    ],
+    "units_per_class": [
+      23,
+      46,
+      44,
+      26,
+      78
+    ],
+    "nodata_units": 4,
+    "text_overlaps": [],
+    "zoomed_in_inset": [],
+    "hidden_by_inset": []
+  },
+  {
+    "region": "沖縄",
+    "units": 39,
+    "dropped_outside_box": [
+      {
+        "code5": "47357",
+        "name": "南大東村"
+      },
+      {
+        "code5": "47358",
+        "name": "北大東村"
+      }
+    ],
+    "single_older_population": 82621,
+    "stop_older_population": 309191,
+    "no_stop_older_population": 15517,
+    "share_pct": 26.7,
+    "top": [
+      {
+        "rank": 1,
+        "name": "那覇市",
+        "single_older_population": 13828,
+        "share_pct": 19.7
+      },
+      {
+        "rank": 2,
+        "name": "うるま市",
+        "single_older_population": 9671,
+        "share_pct": 37.2
+      },
+      {
+        "rank": 3,
+        "name": "石垣市",
+        "single_older_population": 9217,
+        "share_pct": 90.9
+      },
+      {
+        "rank": 4,
+        "name": "豊見城市",
+        "single_older_population": 8980,
+        "share_pct": 69.3
+      },
+      {
+        "rank": 5,
+        "name": "宮古島市",
+        "single_older_population": 6164,
+        "share_pct": 47.7
+      }
+    ],
+    "units_per_class": [
+      9,
+      6,
+      6,
+      1,
+      8
+    ],
+    "nodata_units": 9,
+    "text_overlaps": [],
+    "zoomed_in_inset": [
+      "1",
+      "4"
+    ],
+    "hidden_by_inset": []
+  }
+]
