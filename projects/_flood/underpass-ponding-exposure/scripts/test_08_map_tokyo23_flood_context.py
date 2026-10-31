@@ -35,18 +35,23 @@ def test_map_layer_order_matches_requested_visual_priority():
     assert z["underpass"] > z["kansui"] > z["inferred_underpass"] > z["historical_flood"] > z["osm_roads"] > z["a31a"]
 
 
-def test_osm_bridge_crossing_requires_bridge_above_ordinary_road():
-    assert module.is_underpass_crossing("yes", "1", None, None)
-    assert not module.is_underpass_crossing(None, None, None, None)
-    assert not module.is_underpass_crossing("yes", "0", None, "1")
+def test_h1_uses_allowed_osm_tags_and_excludes_motorways():
+    assert module.is_h1_underpass_road("residential", "yes", None, None)
+    assert module.is_h1_underpass_road("primary", None, "yes", None)
+    assert module.is_h1_underpass_road("tertiary_link", None, None, "-1")
+    assert not module.is_h1_underpass_road("motorway", "yes", None, None)
+    assert not module.is_h1_underpass_road("residential", None, None, "0")
 
 
-def test_dem_profile_dip_detects_lower_center_than_both_approaches():
-    import numpy as np
-    from shapely.geometry import LineString, Point
+def test_h1_lines_are_merged_to_one_representative_point_per_area():
+    from shapely.geometry import LineString, box
 
-    dem = np.full((101, 101), 10.0)
-    dem[49:52, 49:52] = 5.0
-    line = LineString([(100, 500), (900, 500)])
-    dip = module.dem_profile_dip(line, Point(500, 500), dem, (0, 1000, 0, 1000), scale=1.0)
-    assert dip == 5.0
+    records = [
+        {"osm_id": 1, "highway": "primary", "tunnel": "yes", "covered": None, "layer": None,
+         "line": LineString([(15550000, 4258000), (15550100, 4258000)])},
+        {"osm_id": 2, "highway": "residential", "tunnel": None, "covered": "yes", "layer": None,
+         "line": LineString([(15550000, 4258008), (15550100, 4258008)])},
+    ]
+    points, counts = module.build_h1_candidates(records, box(15549900, 4257900, 15550200, 4258100), buffer_ground_m=5)
+    assert len(points) == 1
+    assert counts == {"qualifying_osm_ways": 2, "buffered_line_parts": 2, "merged_candidate_areas": 1}

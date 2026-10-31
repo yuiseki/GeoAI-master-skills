@@ -9,7 +9,7 @@
 ```
 scripts/     コードとテスト (dem.py、roadprofile.py が規則、test_*.py がそのテスト)
 outputs/     報告が引く結果 (JSON) と図 (PNG)
-  tokyo23_underpass_a31a_osm_dem.png  東京23区の登録地点・推定候補・洪水想定・道路・標高の探索図
+  tokyo23_underpass_a31a_osm_dem.png  東京23区の登録地点・OSMタグ由来の推定候補・洪水想定・道路・標高の探索図
 artifacts/_flood/underpass-ponding-exposure/
   raw/          版を固定した入力。planet_osm_line.parquet は手で落とす (下)、roads.parquet はその切り出し
   dem/          標高タイル (dem5a/15、dem/14)。404 は .404 の空のファイル。fetch_log.json
@@ -42,7 +42,7 @@ uvx --from 'duckdb>=1.5.5' --with numpy --with matplotlib --with shapely --with 
   python scripts/08_map_tokyo23_flood_context.py
 ```
 
-この図では、A31a の想定最大規模を25 m格子に描き、河川間で重なる箇所は公表ランクの最大値を表示用に採用する。OSMの橋タグ付き道路と下位レイヤーの道路が交差し、その交差部が両側アプローチよりDEM5Aで2 m以上低い地点を、未検証の推定候補としてひし形で示す。東京都の浸水実績図の点は道路冠水記録ではなく、DEMはアンダーパスの路面高を保証しない。推定候補は公式台帳や現地で確認しておらず、この重ね合わせは危険度の検証結果ではない。
+この図では、A31a の想定最大規模を25 m格子に描き、河川間で重なる箇所は公表ランクの最大値を表示用に採用する。ひし形は `small-rubric-4.md` のH1に沿って、凍結OSMの `tunnel=yes`、`covered`、`layer<0` の道路を15 mバッファで統合した未検証候補である。候補生成に標高データや公式アンダーパス一覧は使わず、標高は背景表示だけに使う。東京都の浸水実績図の点は道路冠水記録ではなく、この重ね合わせは危険度の検証結果ではない。
 
 標高タイルには版の番号が無い。取得した日は dem/fetch_log.json にある。
 
