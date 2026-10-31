@@ -5,7 +5,7 @@ the falsification (F1 block shuffle of the Ministry records, F2 the shared fit o
            mean and sd of the latent b per mesh (artifacts, derived)
     cv     5 folds of 2nd-order mesh blocks; hide the Ministry records (or the Kumadas counts) of a fold, fit with the
            rest, and score the hidden records by log predictive density per mesh
-    f1     cv for L0 and L1 with the Ministry records moved block by block (seeds 0-9), plus the full L1 fit (F2)
+    f1     cv for L0H and L2 with the Ministry records moved block by block (seeds 0-9), plus the full L2 fit (F2)
 
 From repository root:
     PYTHONPATH=projects/_bear/akita-bear-latent-observation-model/scripts uvx --with numpyro==0.22.0 \
@@ -192,9 +192,9 @@ def main():
         for seed in range(10):
             d = dict(data)
             d["E"], d["env_mask"] = shuffle_env(data, seed)
-            cv = cross_validate(d, ["L0", "L1"], prior=args.prior)
-            g = gains(cv, data["block"], [("L1", "L0")])
-            s, diag = lt.fit(partial(MODELS["L1"], prior=args.prior), d, seed=0, chains=4, warmup=1000, samples=1000)
+            cv = cross_validate(d, ["L0H", "L2"], prior=args.prior)  # L1 is not identified on real data (R005)
+            g = gains(cv, data["block"], [("L2", "L0H")])
+            s, diag = lt.fit(partial(MODELS["L2"], prior=args.prior), d, seed=0, chains=4, warmup=1000, samples=1000)
             res["shuffles"].append({"seed": seed, "kept_records": int(d["env_mask"][0].sum()), "gains": g,
                                     "lam_E": summarise(s, ["lam_E"])["lam_E"], "full_diag": diag})
             print("shuffle", seed, json.dumps(g), res["shuffles"][-1]["lam_E"], flush=True)
