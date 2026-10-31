@@ -1,0 +1,18 @@
+deaths accidents 24; dead party {'二輪車': 7, '歩行者': 11, '乗用車 (自家用)': 1, '補充票の人': 2, '自転車': 3}; party A {'二輪車': 3, '乗用車 (事業用)': 6, '乗用車 (自家用)': 5, '貨物車': 10}
+deaths hour 0-5 5; hour 19-5 14
+dead pedestrians aged 65+ 7 of 11
+全て: n 4232; top hours [(17, 315), (12, 276), (18, 274), (11, 273)]; weekday (Mon-Fri) n 3286; weekday top hours [(17, 250), (18, 226), (14, 220), (11, 218)]
+若い歩行者・自転車: n 242; top hours [(17, 23), (12, 20), (16, 20), (10, 18)]; weekday (Mon-Fri) n 183; weekday top hours [(17, 19), (18, 15), (12, 14), (16, 13)]
+高齢の歩行者: n 144; top hours [(13, 18), (11, 15), (12, 12), (8, 11)]; weekday (Mon-Fri) n 122; weekday top hours [(13, 14), (11, 13), (8, 11), (12, 10)]
+自転車: n 1154; top hours [(17, 93), (8, 78), (15, 78), (12, 77)]; weekday (Mon-Fri) n 893; weekday top hours [(17, 71), (8, 69), (9, 67), (18, 63)]
+乗用車 (自家用): as party A 1569; as party B 678
+乗用車 (事業用): as party A 1084; as party B 336
+貨物車: as party A 797; as party B 472
+自転車: as party A 501; as party B 702
+二輪車: as party A 241; as party B 631
+bike as B with a car or truck as A 622
+towns: accidents in towns 4197; most accidents [('大手町一丁目', '213', '16'), ('丸の内一丁目', '128', '30'), ('永田町一丁目', '125', '5'), ('皇居外苑', '120', '12'), ('霞が関二丁目', '114', '5'), ('神田神保町一丁目', '109', '21'), ('霞が関三丁目', '106', '9'), ('北の丸公園', '105', '6')]
+chiyoda 7 years: accidents 4232; died 24; hurt 4853
+chiyoda shares (%): share_ped 19.6; share_bike 27.3; share_escooter 0.4; share_old_ped 3.4; share_young_pb 5.7; share_strict 9.3; share_broad 17.3; share_night 36.1; share_intersection 40.2
+school map: young pedestrians and cyclists {'young_ped_or_bike': 242, 'weekday_7_8_or_14_17': 67}
+party cells: 乗用車 (自家用) x 乗用車 (自家用) 388; 自転車 x 相手なし・物件 280; 乗用車 (自家用) x 二輪車 250; 乗用車 (自家用) x 歩行者 248; 乗用車 (自家用) x 自転車 248; 乗用車 (自家用) x 貨物車 236; 乗用車 (事業用) x 自転車 214; 乗用車 (事業用) x 歩行者 214; 乗用車 (事業用) x 二輪車 207; 貨物車 x 自転車 160; 乗用車 (自家用) x 乗用車 (事業用) 157; 乗用車 (事業用) x 乗用車 (自家用) 153
