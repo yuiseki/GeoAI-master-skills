@@ -269,3 +269,12 @@ test('レポートで使ったデータセットのカードを /datasets/{id}/ 
   assert.doesNotMatch(flood, /href="(?!https:\/\/)[^"]*\.md"/);
   assert.match(flood, /href="https:\/\/github\.com\/yuiseki\/GeoAI-master-skills\/blob\/main\/\.agents\/skills\/dataset-discovery\/references\/huggingface\/yuiseki\/tokyo-flood-record-jp\.md"/);
 });
+
+test('/datasets/ は使ったデータセットをカードで一覧にする', async () => {
+  const index = await read('dist/datasets/index.html');
+  const pages = (await readdir(path.join(root, 'dist/datasets'), { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name);
+  const cards = [...index.matchAll(/<article class="dataset-card"[\s\S]*?href="\/datasets\/([^/"]+)\/"/g)].map((m) => m[1]);
+  assert.deepEqual([...cards].sort(), [...pages].sort());
+  assert.match(index, /<h1[^>]*>使ったデータセット<\/h1>/);
+  assert.match(await read('src/layouts/Base.astro'), /<a href="\/datasets\/">データセット<\/a>/);
+});
