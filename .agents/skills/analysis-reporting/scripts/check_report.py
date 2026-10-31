@@ -14,7 +14,7 @@ reads the answer and, optionally, the outputs it was written from.
                    確かめていないこと  required at "full"; optional otherwise
                  and a length budget: simple at most 8 non-empty lines, standard at most 40, full no limit
     traceable    every number in 結論 must appear in the evidence (tool outputs, logs, the commands run), up to
-                 rounding at the conclusion's own precision (82% matches 0.8183; 0.45 does not match 0.4446). A
+                 rounding at the conclusion's own precision (82% and 82 % match 0.8183; 0.45 does not match 0.4446). A
                  value on the tie matches either way (5.66 and 5.67 both match 5.665).
                  Dates, years (2011 年, 1981〜2000年) and months (9〜12 月) are skipped, and so are a 1 that names a unit (1 人あたり), figure and table numbers (図 1,
                  表 2; but not a word ending in 図 or 表, as in 箇所表 0.61, and not a decimal), link targets
@@ -44,7 +44,8 @@ _DATE = re.compile(r"\d{4}-\d{2}-\d{2}|\d{4}-\d{2}|" + _YEAR + r"\s*(?:[〜~–-
                    + _MONTH + r"\s*(?:[〜~–-]\s*" + _MONTH + r")?\s*月")
 # a comma is a thousands separator only between groups of three digits (1,168,211); otherwise it separates two
 # numbers, as in a CSV row written without spaces (1400,8.4293)
-_NUM = re.compile(r"[−-]?(?:\d{1,3}(?:,\d{3})+(?![\d])|\d+)(?:\.\d+)?(?:[eE][-+]\d+(?![\d.]))?[%‰]?")
+# a percentage or per mille may have a space before its sign ("5.2 %", as this repository writes it)
+_NUM = re.compile(r"[−-]?(?:\d{1,3}(?:,\d{3})+(?![\d])|\d+)(?:\.\d+)?(?:[eE][-+]\d+(?![\d.]))?(?: ?[%‰])?")
 _VERSION = re.compile(r"\d{4}-\d{2}|\d{4} ?年|版|v\d|version|\d+\.\d+")
 
 
@@ -81,7 +82,7 @@ def numbers_in(text, units=False):
         if t == "1" and _PER_UNIT.match(after):
             continue
         pct = t.endswith(("%", "‰"))
-        core = t.rstrip("%‰").replace(",", "").replace("−", "-")
+        core = t.rstrip("%‰").rstrip().replace(",", "").replace("−", "-")
         mantissa, _, exponent = core.lower().partition("e")
         dec = len(mantissa.split(".")[1]) if "." in mantissa else 0
         dec = max(dec - int(exponent), 0) if exponent else dec
@@ -99,7 +100,7 @@ def traceable(conclusion, evidence):
     for t, v, _, _ in numbers_in(evidence):
         ev.append(v)
         if "," in t:
-            ev += [float(x.rstrip("%").replace("−", "-")) for x in t.split(",") if x.strip("%−-")]
+            ev += [float(x.rstrip("%‰").rstrip().replace("−", "-")) for x in t.split(",") if x.strip("%‰ −-")]
     missing = []
     for t, v, dec, pct, km in numbers_in(conclusion, units=True):
         scale = 1000 if t.endswith("‰") else 100  # a percentage or per mille is the fraction times 100 or 1,000

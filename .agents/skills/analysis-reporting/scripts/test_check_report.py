@@ -240,6 +240,20 @@ def test_a_per_mille_matches_the_fraction():
     assert traceable("Q1 の陽性の割合 24.2‰", '{"q1": 0.242}') == ["24.2‰"]
 
 
+def test_a_percentage_written_with_a_space_matches_the_fraction():
+    # this repository writes "5.2 %" (a space before %); blocks_b.json holds 0.052
+    assert traceable("浅い帯の検出率 5.2 %", '{"rate": 0.052}') == []
+    assert traceable("浅い帯の検出率 5.2 %", '{"rate": 0.52}') == ["5.2 %"]
+    assert traceable("Q1 の陽性の割合 24.2 ‰", '{"q1": 0.0242}') == []
+
+
+def test_a_percentage_with_a_space_keeps_its_decimals():
+    # 61.1 % is rounded at one decimal: 0.6114 matches, 0.6124 does not
+    assert traceable("検出率 61.1 %", '{"recall": 0.6114}') == []
+    assert traceable("検出率 61.1 %", '{"recall": 0.6124}') == ["61.1 %"]
+    assert [(t, d, p) for t, _, d, p in numbers_in("61.1 % と 7 件")] == [("61.1 %", 1, True), ("7", 0, False)]
+
+
 def test_a_list_of_figure_numbers_is_a_reference():
     # "図 6、7、9、11、12 は各プロジェクトの地図" and "図 6〜12" number figures, not values
     assert traceable("図 6、7、9、11、12 は地図。図 6〜12 を見る。", "") == []
