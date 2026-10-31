@@ -12,6 +12,8 @@
 7. TODO.md agrees with the files: a checked skill has a SKILL.md with content (an empty one is a stub), every
    reference it lists exists when checked, every reference file is listed, and each stage's (done / all) count holds.
 8. The uvx command on the first line of each test brings every third-party package the test and its script import.
+
+The three externally installed skills in EXCLUDED_SKILLS are outside this repository's checks.
 """
 
 import filecmp
@@ -31,6 +33,17 @@ REQUIRED = {
     "service": COMMON + ["protocol", "operations"],
 }
 JOINS = re.compile(r"^(?:([\w-]+):)?([\w*]+)\.")
+# Externally installed skills are usable locally but are not maintained under this repository's skill rules.
+EXCLUDED_SKILLS = frozenset({"natural-japanese", "stop-describing-ui", "yomiyasu"})
+
+
+def is_excluded(path, root):
+    return path.relative_to(root).parts[0] in EXCLUDED_SKILLS
+
+
+def skill_names(root):
+    return sorted(p.name for p in root.iterdir()
+                  if p.is_dir() and (p / "SKILL.md").exists() and p.name not in EXCLUDED_SKILLS)
 
 
 def read_frontmatter(path):
@@ -175,7 +188,7 @@ def style_problems(root):
     """Bold (**x** or __x__) and the em dash, outside code spans and fenced code blocks."""
     problems = []
     for f in sorted(root.rglob("*.md")):
-        if any(part.startswith(".") for part in f.relative_to(root).parts):
+        if is_excluded(f, root) or any(part.startswith(".") for part in f.relative_to(root).parts):
             continue
         text = re.sub(r"```.*?```", "", f.read_text(), flags=re.S)
         text = re.sub(r"`[^`\n]*`", "", text)
@@ -189,6 +202,8 @@ def style_problems(root):
 def script_test_problems(root):
     problems = []
     for f in sorted(root.glob("*/scripts/*.py")):
+        if is_excluded(f, root):
+            continue
         if not f.name.startswith("test_") and not (f.parent / f"test_{f.name}").exists():
             problems.append(f"{f.relative_to(root)}: no test_{f.name} beside it")
     return problems
@@ -234,6 +249,8 @@ def todo_problems(root):
         if (says_done, says_all) != (done, total):
             problems.append(f"TODO.md: stage {name} says ({says_done} / {says_all}), counted ({done} / {total})")
     for d in sorted(p for p in root.iterdir() if p.is_dir() and (p / "SKILL.md").exists()):
+        if d.name in EXCLUDED_SKILLS:
+            continue
         if d.name not in listed:
             problems.append(f"TODO.md: skill {d.name} is not listed")
             continue
@@ -272,6 +289,8 @@ def test_command_problems(root):
     the scripts beside it use when imported (module level) or, if the test runs them as commands, at all."""
     problems = []
     for t in sorted(root.glob("*/scripts/test_*.py")):
+        if is_excluded(t, root):
+            continue
         text = t.read_text()
         first = text.split("\n", 1)[0]
         if "uvx" not in first:
@@ -294,7 +313,7 @@ def test_command_problems(root):
 
 def main():
     root = Path(__file__).parent
-    skills = sorted(p.name for p in root.iterdir() if p.is_dir() and (p / "SKILL.md").exists())
+    skills = skill_names(root)
     COPIES = {
         "score_folds.py": ["eda-and-baseline", "cross-validation-design"],
         "test_score_folds.py": ["eda-and-baseline", "cross-validation-design"],
