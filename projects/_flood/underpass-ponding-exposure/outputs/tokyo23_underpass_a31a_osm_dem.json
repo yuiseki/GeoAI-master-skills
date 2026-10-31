@@ -1,0 +1,102 @@
+{
+  "question": "東京23区で、2種類の登録地点は地形・主要道路・河川洪水浸水想定・東京都の浸水実績図とどう重なるか",
+  "purpose": "探索的な重ね合わせ。危険度の推定・検証ではない",
+  "crs_display": "EPSG:3857 (display only; no distance/area estimates from this CRS)",
+  "boundary": {
+    "dataset": "jp-admin-2026-09",
+    "revision": "e6c87b1d7095c17422147962185071a986e13135",
+    "crs_source": "EPSG:4612",
+    "wards": 23
+  },
+  "sources": {
+    "underpass": {
+      "revision": "4d00072aa88696cfa7026c4cef7d600bc96f9f13",
+      "crs": "OGC:CRS84",
+      "map_date": "2025-03-31"
+    },
+    "kansui_points": {
+      "revision": "d4e2e1f6a3278a9956044094acd852a73c5283f2",
+      "crs": "EPSG:4326",
+      "snapshot": "2026-10-30",
+      "meaning": "指定された冠水想定箇所。実績ではない"
+    },
+    "A31a": {
+      "revision": "5b2259273128d0b79b491eb758abe0db67c4feac",
+      "crs": "EPSG:6668",
+      "category": "maximum",
+      "rank_rule": "河川別ランクの重複部では最大class_codeを採用",
+      "shown_unit": "想定最大規模の河川洪水。内水・高潮は含まない"
+    },
+    "OSM": {
+      "revision": "38f7a5f961b6e33343d82a11152e768c37d22664",
+      "snapshot": "2026-08-31",
+      "crs": "EPSG:3857",
+      "shown": "motorway–tertiary roads and links"
+    },
+    "GSI_DEM": {
+      "layer": "dem",
+      "zoom": 14,
+      "nominal_ground_resolution": "about 10 m",
+      "retrieved_utc": "2026-10-31T10:01:51.107292+00:00",
+      "tiles": {
+        "requested": 324,
+        "available": 294,
+        "missing_404": 30
+      }
+    },
+    "tokyo_flood_record": {
+      "revision": "354b0d9f8030347192eaa387500f60da76c07e1a",
+      "crs": "EPSG:4612",
+      "period": "1974–2019",
+      "shown": "flood_point records; not road-flood observations"
+    }
+  },
+  "counts_within_23_wards": {
+    "underpass": 99,
+    "kansui": 87,
+    "tokyo_flood_record_points": 90
+  },
+  "a31a_maximum_polygons_in_bbox": 136671,
+  "a31a_maximum_rank_feature_counts_in_bbox": {
+    "1": 77529,
+    "2": 37626,
+    "3": 16225,
+    "4": 5046,
+    "5": 245
+  },
+  "a31a_display": {
+    "resolution_m": 25.0,
+    "aggregation": "per-pixel maximum class_code across river polygons",
+    "pixels_by_maximum_depth_rank": {
+      "1": 223197,
+      "2": 353579,
+      "3": 244856,
+      "4": 67397,
+      "5": 581,
+      "6": 0
+    }
+  },
+  "osm_lines": {
+    "candidate_rows_in_bbox": 21926,
+    "clipped_line_parts_within_wards": 21952,
+    "clipped_line_parts_by_highway": {
+      "motorway": 613,
+      "motorway_link": 970,
+      "primary": 4169,
+      "primary_link": 847,
+      "secondary": 3242,
+      "secondary_link": 283,
+      "tertiary": 9358,
+      "tertiary_link": 239,
+      "trunk": 1799,
+      "trunk_link": 432
+    }
+  },
+  "dem_finite_pixel_count": 18000576,
+  "font": "Noto Sans CJK JP",
+  "warnings": [
+    "A31a polygons are scenario-based river flood extents; no local depth model was fitted.",
+    "GSI DEM does not establish the road-surface elevation at a covered underpass.",
+    "Tokyo flood records are not necessarily road-flood incidents."
+  ]
+}

@@ -9,6 +9,7 @@
 ```
 scripts/     コードとテスト (dem.py、roadprofile.py が規則、test_*.py がそのテスト)
 outputs/     報告が引く結果 (JSON) と図 (PNG)
+  tokyo23_underpass_a31a_osm_dem.png  東京23区の地点・洪水想定・道路・標高の探索図
 artifacts/_flood/underpass-ponding-exposure/
   raw/          版を固定した入力。planet_osm_line.parquet は手で落とす (下)、roads.parquet はその切り出し
   dem/          標高タイル (dem5a/15、dem/14)。404 は .404 の空のファイル。fetch_log.json
@@ -36,7 +37,12 @@ $U python -u scripts/02_dem.py            # 標高タイル (約 2 時間、1 �
 $L $U python scripts/04_profile.py        # 対応、縦断、深さ、集水
 $U python scripts/06_check_fig.py         # 東京都の 10 か所の目視用の図
 $U python scripts/05_blocks.py            # B1〜B4 と頑健性 → outputs/blocks.json
+# A31a・凍結OSM・DEM10Bを重ねた探索図 (別途 rasterio、pyproj が必要)
+uvx --from 'duckdb>=1.5.5' --with numpy --with matplotlib --with shapely --with pyproj --with rasterio \
+  python scripts/08_map_tokyo23_flood_context.py
 ```
+
+この図では、A31a の想定最大規模を25 m格子に描き、河川間で重なる箇所は公表ランクの最大値を表示用に採用する。東京都の浸水実績図の点は道路冠水記録ではなく、DEMはアンダーパスの路面高を保証しない。したがって、この重ね合わせは探索用であり、危険度の検証結果ではない。
 
 標高タイルには版の番号が無い。取得した日は dem/fetch_log.json にある。
 
