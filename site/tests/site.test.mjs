@@ -137,3 +137,10 @@ test('記事の図は公開フォルダーにあり、幅と高さが実画像�
     }
   }
 });
+
+test('クマの記事は評価指標とモデルを専門用語で呼ぶ', async () => {
+  const bear = await read('src/content/reports/akita-bear-risk.md');
+  assert.match(bear, /上位5%での再現率 \(capture@5%\)/);
+  assert.match(bear, /予測モデル `B_env`/);
+  assert.doesNotMatch(bear, /当たり|場所の予測|環境だけの地図/);
+});
