@@ -1,0 +1,23 @@
+{
+ "first_period": [
+  1974,
+  1996
+ ],
+ "second_period": [
+  1997,
+  2019
+ ],
+ "wards_scope": 23,
+ "wards_with_records": 22,
+ "rows": 5845,
+ "units_with_date": 2052,
+ "units_without_date": 197,
+ "units_with_rain": 1933,
+ "disaster_days": 129,
+ "ward_naisui_by_period": {
+  "first": 1048,
+  "second": 280
+ },
+ "gauge_events_flag0": 393,
+ "gauge_events_ge50": 119
+}
