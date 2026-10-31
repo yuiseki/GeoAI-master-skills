@@ -212,3 +212,23 @@ def test_a_value_on_the_rounding_tie_matches_either_way():
     assert traceable("5.66 件", "5.6649") == []
     assert traceable("5.67 件", "5.664") == ["5.67"]
     assert traceable("5.65 件", "5.665") == ["5.65"]
+
+
+def test_a_year_is_a_date_not_a_value():
+    # "1981〜2000年と2006〜2025年で" names periods; a count such as 2000 件 is still a value
+    assert numbers_in("1981〜2000年と2006〜2025年で 0.997。2011 年から 2015年まで") == [("0.997", 0.997, 3, False)]
+    assert numbers_in("2000 件") == [("2000", 2000.0, 0, False)]
+    assert numbers_in("2,000年") == [("2,000", 2000.0, 0, False)]
+
+
+def test_a_number_in_exponent_notation_is_one_number():
+    # common_pixel_summary.json wrote 2.342224132867443e-06; the report says 0.0000023
+    assert traceable("最大0.0000023 Mg/ha", '{"max_abs_delta": 2.342224132867443e-06}') == []
+    assert traceable("最大0.0000024 Mg/ha", '{"max_abs_delta": 2.342224132867443e-06}') == ["0.0000024"]
+    assert traceable("1.5", '{"x": 1.5E+00}') == []
+
+
+def test_a_hash_is_not_read_as_exponent_notation():
+    # jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135: e13135 is part of the hash, not an exponent
+    tokens = [t for t, *_ in numbers_in("版 e6c87b1d7095c17422147962185071a986e13135")]
+    assert not any("e" in t for t in tokens), tokens

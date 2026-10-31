@@ -1,0 +1,6 @@
+{
+  "source": "study-geoai-algo-py@6880b32c097a7c65a6bd72a38682ce1dce1c9a2b/case-studies/006-japan-climate/README.md",
+  "quotes": {
+    "平年値 1.46C、季節ナイーブ 1.09C、ETS 0.96C": "- 気温の平均絶対誤差 (1 か月先): 平年値 1.46C、季節ナイーブ 1.09C、ETS 0.96C、SARIMA 1.00C、ラグ特徴 + GBDT 1.04C。"
+  }
+}

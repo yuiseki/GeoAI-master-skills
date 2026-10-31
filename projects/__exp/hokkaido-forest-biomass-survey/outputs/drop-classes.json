@@ -1,0 +1,8 @@
+{
+  "input": "outputs/cell_metrics.csv",
+  "step_mg_ha": 2.0,
+  "fall_at_least_2": 2667,
+  "rise_more_than_2": 2284,
+  "between": 5279,
+  "cells": 10230
+}
