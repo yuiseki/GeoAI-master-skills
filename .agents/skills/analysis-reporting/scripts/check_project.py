@@ -4,6 +4,10 @@ evidence it is given; this finds the evidence itself, so a project cannot pass b
     report       projects/<name>/report.md exists and passes check_report.py at the given level, with the evidence
                  taken from every UTF-8 text file in outputs/ (.csv .json .txt .log .md .tsv), plus the outputs/ of
                  every project the report links to (a synthesis quotes the projects it links to), plus any --evidence
+    cited        a line that links to files in an outputs/ folder has its numbers traced in those files only, so a
+                 wrong number cannot pass by matching an unrelated table. Each row of the 要点 table in 結論 must
+                 cite at least one such file
+    readers      every number in the Markdown files under reports/ (reports for each reader) is traced the same way
     links        every relative link and image in report.md points at a file that exists (anchors and URLs are not
                  checked, nor links inside code blocks)
     encoding     every text file in the project is UTF-8. A Windows default (cp932) is the usual cause; write text
@@ -16,11 +20,12 @@ Prints "<project>: ok" or one line per problem. Exit status 1 when any project h
 """
 
 import argparse
+import os
 import re
 import sys
 from pathlib import Path
 
-from check_report import check, format_problems
+from check_report import check, format_problems, sections, traceable
 
 TEXT = {".csv", ".json", ".txt", ".log", ".md", ".tsv", ".py", ".yaml", ".yml", ".toml"}
 EVIDENCE = {".csv", ".json", ".txt", ".log", ".md", ".tsv"}
@@ -90,6 +95,63 @@ def evidence_for(project, report_text, extra=()):
     return "\n".join(texts)
 
 
+def _cited(line, base):
+    """Files in an outputs/ folder that the line links to, and the line with those links taken out (a file name such
+    as b1_main.json is not a number to trace)."""
+    files = []
+    for m in _LINK.finditer(line):
+        target = m.group(1).split("#")[0]
+        path = (Path(base) / target).resolve() if target and not re.match(r"^[a-z][a-z0-9+.-]*:", target) else None
+        if path is not None and path.is_file() and "outputs" in path.parts and path.suffix.lower() in EVIDENCE:
+            files.append(path)
+            line = line.replace(m.group(0), " ")
+    return files, line
+
+
+def _segments(line):
+    """A table row is one claim; prose is split into sentences, so a link in one sentence scopes only that sentence."""
+    if line.lstrip().startswith("|"):
+        return [line]
+    return [x for x in re.split(r"(?<=。)", line) if x.strip()]
+
+
+def _trace_lines(lines, base, project, evidence, label, uncited=True):
+    """Problems for numbers in the lines. A segment (table row or sentence) that cites outputs is traced in those
+    files; the rest in evidence, unless uncited is False (the caller traces them). Also returns the segments that cited something, so the
+    caller does not trace them twice."""
+    problems, cited = [], []
+    for line in lines:
+        for segment in _segments(line):
+            files, rest = _cited(segment, base)
+            if files:
+                cited.append(segment)
+                text = "\n".join(f.read_text(encoding="utf-8") for f in files)
+                names = " or ".join(os.path.relpath(f, Path(project).resolve()).replace(os.sep, "/") for f in files)
+                missing = traceable(rest, text)
+                if evidence is not None:
+                    # a small integer (7 年, 上位 5) matches by chance in any file, so scoping it adds nothing;
+                    # it may come from any output
+                    missing = [t for t in missing if not (re.fullmatch(r"\d", t) and not traceable(t, evidence))]
+                problems += [f"{label}: {t} is not in {names}" for t in missing]
+            elif uncited and evidence is not None:
+                problems += [f"{label}: {t} does not appear in the evidence" for t in traceable(segment, evidence)]
+    return problems, cited
+
+
+def _key_rows(conclusion):
+    """Data rows of the 要点 table in the conclusion, numbered from 1."""
+    rows, inside = [], False
+    for line in conclusion:
+        if line.startswith("|") and "要点" in line and not inside:
+            inside = True
+        elif inside and line.startswith("|"):
+            if not re.match(r"^\|[\s:|-]+\|?$", line):
+                rows.append(line)
+        elif inside:
+            break
+    return rows
+
+
 def check_project(project, level="full", extra=()):
     project = Path(project)
     problems = [f"{f} is not UTF-8: write text outputs with encoding='utf-8'" for f in not_utf8(project)]
@@ -104,7 +166,23 @@ def check_project(project, level="full", extra=()):
         return problems
     problems += [f"report.md: links to {t}, which does not exist" for t in dead_links(report)]
     evidence = evidence_for(project, text, extra)
-    problems += [f"report.md: {p}" for p in format_problems(report, text) + check(text, level, evidence)]
+    conclusion = sections(text).get("結論", [])
+    for i, row in enumerate(_key_rows(conclusion), 1):
+        if not _cited(row, project)[0]:
+            problems.append(f"report.md: 要点 row {i} cites no file in outputs/: link the output each number comes from")
+    scoped, cited = _trace_lines(conclusion, project, project, evidence, "report.md", uncited=False)
+    # segments that cite their outputs were traced above; check_report traces the rest of 結論 against all evidence
+    rest = text
+    for segment in cited:
+        rest = rest.replace(segment, "（出典つき）")
+    problems += [f"report.md: {p}" for p in format_problems(report, text) + check(rest, level, evidence)] + scoped
+    for reader in sorted((project / "reports").rglob("*.md")) if (project / "reports").is_dir() else []:
+        try:
+            body = _FENCE.sub("", reader.read_text(encoding="utf-8"))
+        except UnicodeDecodeError:
+            continue
+        label = reader.relative_to(project).as_posix()
+        problems += _trace_lines(body.splitlines(), reader.parent, project, evidence, label)[0]
     return problems
 
 

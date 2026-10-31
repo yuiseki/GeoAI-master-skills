@@ -121,3 +121,87 @@ def test_the_command_line_names_each_project_and_exits_1(tmp_path):
     assert run.returncode == 1
     assert f"{good}: ok" in run.stdout
     assert f"{bad}: report.md: 結論: 23.3% does not appear in the evidence" in run.stdout
+
+
+KEY_TABLE = """# 区の事故
+
+## 問い
+
+区の事故はどこで起きているか。
+
+## 結論
+
+| # | 要点 | 数字 |
+|---:|---|---|
+| 1 | 件数は戻りつつある | 2024 年は 1,837 件 ([yearly.csv](outputs/yearly.csv)) |
+| 2 | 自転車が多い | 27.3% ([wards.csv](outputs/wards.csv)) |
+
+## データ
+
+- 事故: npa-traffic-accidents 版 389500a
+
+## 方法
+
+半径 30 m の円で数えた。
+
+## 確かめていないこと
+
+交通量で割っていない。
+"""
+
+
+def make_cited(root: Path, report: str = KEY_TABLE) -> Path:
+    project = root / "projects" / "cited"
+    (project / "outputs").mkdir(parents=True)
+    (project / "report.md").write_text(report, encoding="utf-8")
+    (project / "README.md").write_text("# cited\n", encoding="utf-8")
+    (project / "outputs" / "yearly.csv").write_text("year,accidents\n2024,1837\n", encoding="utf-8")
+    (project / "outputs" / "wards.csv").write_text("name,share_bike\n世田谷区,0.2727\n", encoding="utf-8")
+    # a big table elsewhere in the outputs that happens to hold 1732
+    (project / "outputs" / "hour_weekday.csv").write_text("hour,accidents\n8,1732\n", encoding="utf-8")
+    return project
+
+
+def test_key_rows_that_cite_their_outputs_pass(tmp_path):
+    assert check_project(make_cited(tmp_path)) == []
+
+
+def test_a_cited_row_is_traced_only_in_the_files_it_cites(tmp_path):
+    # the Setagaya reader report wrote 1,732 for 2024; the outputs held 1732 only in an unrelated table
+    project = make_cited(tmp_path, KEY_TABLE.replace("1,837", "1,732"))
+    assert check_project(project) == ["report.md: 1,732 is not in outputs/yearly.csv"]
+
+
+def test_a_key_row_without_a_cited_output_is_reported(tmp_path):
+    project = make_cited(tmp_path, KEY_TABLE.replace(" ([wards.csv](outputs/wards.csv))", ""))
+    assert check_project(project) == ["report.md: 要点 row 2 cites no file in outputs/: link the output each number comes from"]
+
+
+def test_digits_in_a_cited_file_name_are_not_traced(tmp_path):
+    project = make_cited(tmp_path)
+    (project / "outputs" / "b1_main.json").write_text('{"capture": 0.552}', encoding="utf-8")
+    report = KEY_TABLE.replace("27.3% ([wards.csv](outputs/wards.csv))", "0.552 ([b1_main.json](outputs/b1_main.json))")
+    assert check_project(make_cited(tmp_path / "b", report)) != []  # b1_main.json is missing in the second project
+    (project / "report.md").write_text(report, encoding="utf-8")
+    assert check_project(project) == []
+
+
+def test_numbers_in_reader_reports_are_traced(tmp_path):
+    project = make_cited(tmp_path)
+    (project / "reports").mkdir()
+    (project / "reports" / "municipality.md").write_text(
+        "# 区の担当向け\n\n2024 年は 1,837 件 ([yearly.csv](../outputs/yearly.csv))。自転車は 27.3%。\n", encoding="utf-8")
+    assert check_project(project) == []
+    (project / "reports" / "municipality.md").write_text(
+        "# 区の担当向け\n\n2024 年は 1,732 件 ([yearly.csv](../outputs/yearly.csv))。自転車は 23.3%。\n", encoding="utf-8")
+    assert check_project(project) == ["reports/municipality.md: 1,732 is not in outputs/yearly.csv",
+                                      "reports/municipality.md: 23.3% does not appear in the evidence"]
+
+
+def test_a_small_integer_in_a_cited_row_may_come_from_any_output(tmp_path):
+    # "7 年で" counts the years of the study, not a value of the cited file; small integers match by chance anyway
+    project = make_cited(tmp_path, KEY_TABLE.replace("2024 年は 1,837 件", "7 年のうち 2024 年は 1,837 件"))
+    (project / "outputs" / "summary.txt").write_text("years 7\n", encoding="utf-8")
+    assert check_project(project) == []
+    (project / "outputs" / "summary.txt").write_text("years 9\n", encoding="utf-8")
+    assert check_project(project) == ["report.md: 7 is not in outputs/yearly.csv"]
