@@ -1,0 +1,84 @@
+{
+ "derived": "mesh aggregates of observed records and covariates; not a model output",
+ "input_sha256": {
+  "grid.json": "6ddd6f85dceb4bed84ddb1dfbe43c3fe69110ff54f852f1da68bf6bb78336523",
+  "grid_mask.npz": "acaa98d8fd8ba20819772fcc1635e9c263af23c0f0e6c82bb57057d8c5bddf24",
+  "cells.parquet": "8a86f502d86ca6cedc0ab7e9d4a14fa8a28b9e3e11213bbbc6bf077cae9e14fa",
+  "worldcover.npz": "2d5601b2c672657134270d517464bd56e85aa1d1f563626384a74961c3d20009",
+  "dem.npz": "d40bda548be312c7087180f61b68f9fa76fa8a97b37f8a9a5bf6304f6708742b",
+  "worldpop.npz": "49dbc2ea5c8f7c27db3256d6dd185e5ef7b76fa37cdfaea817b1151d563958d2",
+  "osm.npz": "9ee83730a5d3d815747690ee8d8587a07dd6bf052e66812fe51cfd5d81520282",
+  "reports_by_year.npz": "b7f5d77e9e263dd0761a088c6e8b0259f4f67ef1a6497e9c093699e2dcb015a4",
+  "reports.parquet": "61df40920b0a3a8c79b63d36161b785ddaae4e4fe07adb72b2a45330d52dd747"
+ },
+ "yo4_source": "hf://datasets/yuiseki/env-biodic-bear-distribution-mesh-jp@7f635cbfb92be5093fa707dbe6afec0e37d240f4/parquet/bear_mesh_long.parquet",
+ "min_cells": 1200,
+ "meshes_touching": 550,
+ "meshes_in_yo4": 549,
+ "core_meshes": 480,
+ "noncore_meshes_with_a_missing_covariate": 1,
+ "core_E6_rate": 0.7583333333333333,
+ "core_E7_rate": 0.94375,
+ "core_E6_E7_table": {
+  "E6=0,E7=0": 27,
+  "E6=0,E7=1": 89,
+  "E6=1,E7=0": 0,
+  "E6=1,E7=1": 364
+ },
+ "core_mean_count": {
+  "2023": 3.41875,
+  "2024": 2.4770833333333333,
+  "2025": 8.254166666666666,
+  "2026": 6.822916666666667
+ },
+ "core_total_count": {
+  "2023": 1641,
+  "2024": 1189,
+  "2025": 3962,
+  "2026": 3275
+ },
+ "prefecture_reports_apr_sep": {
+  "2023": 1671,
+  "2024": 1205,
+  "2025": 4052,
+  "2026": 3366
+ },
+ "core_zero_share": {
+  "2023": 0.4,
+  "2024": 0.44166666666666665,
+  "2025": 0.29583333333333334,
+  "2026": 0.34375
+ },
+ "core_count_var_to_mean": {
+  "2023": 9.187227351314629,
+  "2024": 7.44675706853534,
+  "2025": 21.730023954077303,
+  "2026": 33.7105196895568
+ },
+ "core_municipalities": 24,
+ "H_pc1": {
+  "columns": [
+   "log_pop",
+   "log_bldg",
+   "crop",
+   "built",
+   "road_share"
+  ],
+  "loadings": [
+   0.481,
+   0.4519,
+   0.4064,
+   0.3908,
+   0.4964
+  ],
+  "variance_share": 0.7358282777129502
+ },
+ "B_prior_columns": [
+  "tree",
+  "water",
+  "elev",
+  "slope",
+  "log_d_stream"
+ ],
+ "corr_H_tree": -0.8434229958274501
+}
