@@ -1,6 +1,14 @@
 {
   "rules": {
-    "preset-ja-technical-writing": true,
+    "preset-ja-technical-writing": {
+      "max-kanji-continuous-len": {
+        "max": 6,
+        "allow": [
+          "東北森林管理局",
+          "交通事故統計情報"
+        ]
+      }
+    },
     "@textlint-ja/preset-ai-writing": true
   }
 }

@@ -110,3 +110,30 @@ test('サイト名は「yuiseki の GeoAI 研究所」で、ページタイト�
   assert.doesNotMatch(base, /GeoAI Research/);
   assert.match(home, /<Base description=/);
 });
+
+test('記事のタイトルはやったことを伝え、冒頭で問いとわかったことを示す', async () => {
+  const titles = {
+    'akita-bear-risk.md': 'オープンデータに基づいた熊出没予測モデルの構築とその限界の調査',
+    'taito-traffic-accidents.md': '東京都・台東区の交通事故事例の多角的分析',
+    'bus-operator-concentration.md': '高齢化地域におけるバス事業者集中リスクの調査',
+  };
+  for (const [file, title] of Object.entries(titles)) {
+    const markdown = await read(`src/content/reports/${file}`);
+    assert.match(markdown, new RegExp(`^title: ${title}$`, 'm'), file);
+    const headings = [...markdown.matchAll(/^## (.+)$/gm)].map((m) => m[1]);
+    assert.deepEqual(headings.slice(0, 2), ['問いと取り組んだこと', 'わかったこと'], file);
+    assert.ok(headings.includes('限界'), file);
+  }
+});
+
+test('記事の図は公開フォルダーにあり、幅と高さが実画像と一致する', async () => {
+  for (const file of await readdir(path.join(root, 'src/content/reports'))) {
+    const markdown = await read(`src/content/reports/${file}`);
+    const images = [...markdown.matchAll(/<img src="(\/images\/[^"]+\.png)"[^>]*width="(\d+)" height="(\d+)"/g)];
+    assert.ok(images.length > 0, file);
+    for (const [, src, width, height] of images) {
+      const png = await readFile(path.join(root, 'public', src));
+      assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [Number(width), Number(height)], `${file} ${src}`);
+    }
+  }
+});

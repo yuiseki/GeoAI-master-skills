@@ -46,6 +46,11 @@ const { Content } = await render(report);
   .prose :global(h2) { font-family: var(--display-font); font-weight: 600; font-size: 1.5rem; line-height: 1.45; letter-spacing: -.04em; margin: 3.5rem 0 1.2rem; padding-left: 1rem; border-left: 3px solid var(--green); }
   .prose :global(h2[id]) { scroll-margin-top: 1rem; }
   .prose :global(p) { margin: 1.1rem 0; }
+  .prose :global(h3) { font-family: var(--display-font); font-weight: 600; font-size: 1.2rem; line-height: 1.5; margin: 2.5rem 0 .8rem; }
+  .prose :global(table) { display: block; overflow-x: auto; border-collapse: collapse; margin: 1.5rem 0; font-size: .86rem; line-height: 1.7; }
+  .prose :global(th), .prose :global(td) { border-bottom: 1px solid var(--line); padding: .55rem .8rem; vertical-align: top; text-align: left; }
+  .prose :global(th) { background: var(--section); font-weight: 700; white-space: nowrap; }
+  .prose :global(td[align="right"]), .prose :global(th[align="right"]) { text-align: right; white-space: nowrap; }
   .prose :global(a) { color: var(--green); text-underline-offset: .25rem; }
   .prose :global(img) { border: 1px solid var(--line); border-radius: .3rem; background: white; margin: 2rem 0; width: 100%; height: auto; }
   .prose :global(.mermaid) { overflow-x: auto; background: white; border: 1px solid var(--line); border-radius: .3rem; padding: 1rem; }
