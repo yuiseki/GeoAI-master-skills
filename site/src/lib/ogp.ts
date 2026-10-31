@@ -99,22 +99,12 @@ async function toPng(tree: Node): Promise<Buffer> {
   return new Resvg(svg, { font: { loadSystemFonts: false } }).render().asPng();
 }
 
-export interface OgpContent {
-  title: string;
-  /** Small labels above the title, such as the topic and the area. */
-  labels?: string[];
-}
-
-export async function renderOgpPng({ title, labels = [] }: OgpContent): Promise<Buffer> {
+export async function renderOgpPng({ title }: { title: string }): Promise<Buffer> {
   const { marble } = loadAssets();
   const body = h('div', { flex: 1, display: 'flex', alignItems: 'center', gap: 48 }, [
-    h('div', { flex: 1, display: 'flex', flexDirection: 'column', gap: 28 }, [
-      h('div', { display: 'flex', gap: 28, fontFamily: 'Noto Sans JP', fontSize: 26 },
-        labels.map((label, i) => h('div', { color: i === 0 ? colors.accent : colors.muted }, label))),
-      wrapped(title, {
-        fontFamily: 'Noto Serif JP', fontSize: titleSize(title), lineHeight: 1.42, color: colors.ink, letterSpacing: '-0.02em',
-      }),
-    ]),
+    wrapped(title, {
+      flex: 1, fontFamily: 'Noto Serif JP', fontSize: titleSize(title), lineHeight: 1.42, color: colors.ink, letterSpacing: '-0.02em',
+    }),
     img(marble, 192),
   ]);
   return toPng(card(body, footer(SITE_NAME, 'geoai.yuiseki.net')));

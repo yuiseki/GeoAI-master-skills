@@ -14,9 +14,8 @@ const { Content } = await render(report);
 
 <Base title={report.data.title} description={report.data.summary} ogImage={`/ogp/${report.id}.png`}>
   <div class="report-shell shell">
-    <nav class="breadcrumb" aria-label="パンくずリスト"><a href="/#reports">研究一覧</a><span>{report.data.topic}</span></nav>
+    <nav class="breadcrumb" aria-label="パンくずリスト"><a href="/#reports">研究一覧</a></nav>
     <header class="report-header">
-      <p class="report-meta"><span>{report.data.topic}</span><span>{report.data.kicker}</span></p>
       <h1>{report.data.title}</h1>
       <p class="lede">{report.data.summary}</p>
     </header>
@@ -36,10 +35,9 @@ const { Content } = await render(report);
 
 <style>
   .report-shell { padding-top: 2.5rem; }
-  .breadcrumb { display: flex; gap: 1rem; color: var(--muted); font-size: .8rem; }.breadcrumb span { border-left: 1px solid var(--line); padding-left: 1rem; }.breadcrumb a { text-decoration: none; }.breadcrumb a:hover { color: var(--accent); }
+  .breadcrumb { display: flex; gap: 1rem; color: var(--muted); font-size: .8rem; }.breadcrumb a { text-decoration: none; }.breadcrumb a:hover { color: var(--accent); }
   .report-header { max-width: 840px; padding: 4.5rem 0 3.5rem; }
   .report-header h1 { font-family: var(--display-font); font-weight: 600; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.38; letter-spacing: -.055em; margin: 1rem 0 1.2rem; }
-  .report-meta { display: flex; flex-wrap: wrap; gap: 1rem; color: var(--accent); font-size: .8rem; font-weight: 700; }
   .lede { color: var(--muted); font-size: clamp(1rem, 1.55vw, 1.2rem); line-height: 1.9; }
   .report-layout { display: grid; grid-template-columns: minmax(0, 760px) minmax(180px, 250px); gap: min(6vw, 5rem); align-items: start; border-top: 1px solid var(--line); padding-top: 1.5rem; }
   .prose { min-width: 0; line-height: 2; }

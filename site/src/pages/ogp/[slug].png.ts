@@ -6,11 +6,11 @@ export async function getStaticPaths() {
   const reports = await getCollection('reports');
   return reports.map((report) => ({
     params: { slug: report.id },
-    props: { title: report.data.title, labels: [report.data.topic, report.data.kicker] },
+    props: { title: report.data.title },
   }));
 }
 
 export const GET: APIRoute = async ({ props }) => {
-  const { title, labels } = props as { title: string; labels: string[] };
-  return new Response(await renderOgpPng({ title, labels }), { headers: { 'Content-Type': 'image/png' } });
+  const { title } = props as { title: string };
+  return new Response(await renderOgpPng({ title }), { headers: { 'Content-Type': 'image/png' } });
 };

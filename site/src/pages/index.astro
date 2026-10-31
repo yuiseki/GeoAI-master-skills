@@ -17,7 +17,6 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
           <article class="report-card">
             <a class="card-image" href={`/reports/${report.id}/`} aria-label={`${report.data.title}を読む`}><img src={report.data.image} alt={report.data.imageAlt} width={report.data.imageWidth} height={report.data.imageHeight} loading="lazy" /></a>
             <div class="card-body">
-              <p class="card-meta"><span>{report.data.topic}</span><span>{report.data.kicker}</span></p>
               <h3><a href={`/reports/${report.id}/`}>{report.data.title}</a></h3>
               <p>{report.data.summary}</p>
               <a class="read-more" href={`/reports/${report.id}/`}>記事を読む</a>
@@ -46,11 +45,9 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
   .card-image img { height: auto; width: 100%; transition: transform .25s ease; }
   .card-image:hover img { transform: scale(1.025); }
   .card-body { padding: 1.5rem 1.7rem 1.8rem; }
-  .card-meta { display: flex; gap: .8rem; color: var(--accent); font-size: .75rem; font-weight: 700; margin: 0; }
-  .card-meta span + span { color: var(--muted); font-weight: 500; }
   .card-body h3 { font-family: var(--display-font); font-weight: 600; font-size: clamp(1.3rem, 2vw, 1.8rem); line-height: 1.5; letter-spacing: -.04em; margin: .75rem 0; }
   .card-body h3 a { text-decoration: none; }.card-body h3 a:hover { color: var(--accent); }
-  .card-body > p:not(.card-meta) { color: var(--muted); font-size: .91rem; min-height: 3.3rem; }
+  .card-body > p { color: var(--muted); font-size: .91rem; min-height: 3.3rem; }
   .read-more { display: inline-block; color: var(--accent); font-size: .83rem; font-weight: 700; text-underline-offset: .3rem; margin-top: .5rem; }
   .method { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding-block: 6rem 2rem; align-items: center; }
   .method > p { color: var(--muted); font-size: 1rem; line-height: 2.1; }

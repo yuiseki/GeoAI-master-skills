@@ -7,8 +7,6 @@ const reports = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    topic: z.string(),
-    kicker: z.string(),
     image: z.string(),
     imageAlt: z.string(),
     imageWidth: z.number().int().positive(),

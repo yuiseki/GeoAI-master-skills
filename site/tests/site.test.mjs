@@ -204,3 +204,14 @@ test('アクセントカラーはファビコンの GeoAI の文字のシアン�
   const sources = [base, ogp, await read('src/pages/index.astro'), await read('src/pages/reports/[slug].astro')].join('\n');
   assert.doesNotMatch(sources, /--green|--orange|#16584f|#9d412c|#b45e35|#104b42/);
 });
+
+test('記事にトピックや地域のラベルを付けない', async () => {
+  const sources = [
+    await read('src/content.config.ts'), await read('src/pages/index.astro'), await read('src/pages/reports/[slug].astro'),
+    await read('src/pages/ogp/[slug].png.ts'), await read('src/lib/ogp.ts'),
+  ].join('\n');
+  assert.doesNotMatch(sources, /topic|kicker|labels|card-meta|report-meta/);
+  for (const file of await readdir(path.join(root, 'src/content/reports'))) {
+    assert.doesNotMatch(await read(`src/content/reports/${file}`), /^(topic|kicker):/m, file);
+  }
+});
