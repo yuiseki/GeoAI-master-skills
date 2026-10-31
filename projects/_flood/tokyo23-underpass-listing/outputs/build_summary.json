@@ -1,0 +1,27 @@
+{
+ "wards": 23,
+ "list_points_in_wards": 99,
+ "kansui_points_tokyo": 135,
+ "flood_areas": 5845,
+ "populations": {
+  "main": {
+   "roads": 489,
+   "units": 252,
+   "listed_100m": 80,
+   "flood": 44
+  },
+  "service": {
+   "roads": 865,
+   "units": 481,
+   "listed_100m": 83,
+   "flood": 61
+  },
+  "guard": {
+   "roads": 4430,
+   "units": 1153,
+   "listed_100m": 50,
+   "flood": 209
+  }
+ },
+ "list_points_without_main_unit_100m": 24
+}

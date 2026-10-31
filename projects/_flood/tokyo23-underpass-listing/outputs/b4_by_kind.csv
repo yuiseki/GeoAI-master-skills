@@ -1,0 +1,9 @@
+by,value,units,listed,listed_share,kansui,kansui_share,flood,len_m_median
+road_class,minor,105,6,0.057,5,0.048,20,25.3
+road_class,secondary_tertiary,90,30,0.333,21,0.233,15,101.1
+road_class,trunk_primary,57,44,0.772,43,0.754,9,297.3
+form,layer_only,32,2,0.062,2,0.062,10,80.6
+form,tunnel,220,78,0.355,67,0.305,34,58.3
+length,short,84,5,0.06,5,0.06,17,21.3
+length,middle,84,22,0.262,18,0.214,11,59.3
+length,long,84,53,0.631,46,0.548,16,346.3

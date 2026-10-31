@@ -1,0 +1,275 @@
+{
+ "main": {
+  "units": 252,
+  "listed": 80,
+  "flood": 44,
+  "flood_listed": 16,
+  "flood_unlisted": 28,
+  "blocks": 103,
+  "B1_share_listed": 0.317,
+  "B1_ci": [
+   0.263,
+   0.372
+  ],
+  "B2_flood_share_listed": 0.2,
+  "B2_flood_share_unlisted": 0.163,
+  "B2_diff": 0.037,
+  "B2_ci": [
+   -0.067,
+   0.148
+  ],
+  "B3_unlisted_share_of_flood": 0.636,
+  "B3_ci": [
+   0.472,
+   0.781
+  ],
+  "bootstrap_used": {
+   "B2": 2000,
+   "B3": 2000
+  },
+  "verdict": {
+   "C1": "支持",
+   "C2": "判定できない",
+   "C3": "支持"
+  },
+  "B1_share_listed_pct": 31.7,
+  "B2_flood_share_listed_pct": 20.0,
+  "B2_flood_share_unlisted_pct": 16.3,
+  "B3_unlisted_share_of_flood_pct": 63.6
+ },
+ "variants": {
+  "d_50": {
+   "units": 252,
+   "listed": 75,
+   "flood": 44,
+   "flood_listed": 16,
+   "flood_unlisted": 28,
+   "blocks": 103,
+   "B1_share_listed": 0.298,
+   "B1_ci": [
+    0.243,
+    0.352
+   ],
+   "B2_flood_share_listed": 0.213,
+   "B2_flood_share_unlisted": 0.158,
+   "B2_diff": 0.055,
+   "B2_ci": [
+    -0.048,
+    0.167
+   ],
+   "B3_unlisted_share_of_flood": 0.636,
+   "B3_ci": [
+    0.472,
+    0.781
+   ],
+   "bootstrap_used": {
+    "B2": 2000,
+    "B3": 2000
+   },
+   "verdict": {
+    "C1": "支持",
+    "C2": "判定できない",
+    "C3": "支持"
+   },
+   "B1_share_listed_pct": 29.8,
+   "B2_flood_share_listed_pct": 21.3,
+   "B2_flood_share_unlisted_pct": 15.8,
+   "B3_unlisted_share_of_flood_pct": 63.6
+  },
+  "d_200": {
+   "units": 252,
+   "listed": 89,
+   "flood": 44,
+   "flood_listed": 17,
+   "flood_unlisted": 27,
+   "blocks": 103,
+   "B1_share_listed": 0.353,
+   "B1_ci": [
+    0.297,
+    0.406
+   ],
+   "B2_flood_share_listed": 0.191,
+   "B2_flood_share_unlisted": 0.166,
+   "B2_diff": 0.025,
+   "B2_ci": [
+    -0.078,
+    0.137
+   ],
+   "B3_unlisted_share_of_flood": 0.614,
+   "B3_ci": [
+    0.439,
+    0.765
+   ],
+   "bootstrap_used": {
+    "B2": 2000,
+    "B3": 2000
+   },
+   "verdict": {
+    "C1": "支持",
+    "C2": "判定できない",
+    "C3": "支持"
+   },
+   "B1_share_listed_pct": 35.3,
+   "B2_flood_share_listed_pct": 19.1,
+   "B2_flood_share_unlisted_pct": 16.6,
+   "B3_unlisted_share_of_flood_pct": 61.4
+  },
+  "flood_30m": {
+   "units": 252,
+   "listed": 80,
+   "flood": 60,
+   "flood_listed": 19,
+   "flood_unlisted": 41,
+   "blocks": 103,
+   "B1_share_listed": 0.317,
+   "B1_ci": [
+    0.263,
+    0.372
+   ],
+   "B2_flood_share_listed": 0.237,
+   "B2_flood_share_unlisted": 0.238,
+   "B2_diff": -0.001,
+   "B2_ci": [
+    -0.112,
+    0.119
+   ],
+   "B3_unlisted_share_of_flood": 0.683,
+   "B3_ci": [
+    0.541,
+    0.797
+   ],
+   "bootstrap_used": {
+    "B2": 2000,
+    "B3": 2000
+   },
+   "verdict": {
+    "C1": "支持",
+    "C2": "判定できない",
+    "C3": "支持"
+   },
+   "B1_share_listed_pct": 31.7,
+   "B2_flood_share_listed_pct": 23.7,
+   "B2_flood_share_unlisted_pct": 23.8,
+   "B3_unlisted_share_of_flood_pct": 68.3
+  },
+  "flood_naisui": {
+   "units": 252,
+   "listed": 80,
+   "flood": 39,
+   "flood_listed": 12,
+   "flood_unlisted": 27,
+   "blocks": 103,
+   "B1_share_listed": 0.317,
+   "B1_ci": [
+    0.263,
+    0.372
+   ],
+   "B2_flood_share_listed": 0.15,
+   "B2_flood_share_unlisted": 0.157,
+   "B2_diff": -0.007,
+   "B2_ci": [
+    -0.103,
+    0.097
+   ],
+   "B3_unlisted_share_of_flood": 0.692,
+   "B3_ci": [
+    0.52,
+    0.839
+   ],
+   "bootstrap_used": {
+    "B2": 2000,
+    "B3": 2000
+   },
+   "verdict": {
+    "C1": "支持",
+    "C2": "判定できない",
+    "C3": "支持"
+   },
+   "B1_share_listed_pct": 31.7,
+   "B2_flood_share_listed_pct": 15.0,
+   "B2_flood_share_unlisted_pct": 15.7,
+   "B3_unlisted_share_of_flood_pct": 69.2
+  },
+  "service": {
+   "units": 481,
+   "listed": 83,
+   "flood": 61,
+   "flood_listed": 16,
+   "flood_unlisted": 45,
+   "blocks": 129,
+   "B1_share_listed": 0.173,
+   "B1_ci": [
+    0.139,
+    0.213
+   ],
+   "B2_flood_share_listed": 0.193,
+   "B2_flood_share_unlisted": 0.113,
+   "B2_diff": 0.08,
+   "B2_ci": [
+    -0.009,
+    0.171
+   ],
+   "B3_unlisted_share_of_flood": 0.738,
+   "B3_ci": [
+    0.625,
+    0.843
+   ],
+   "bootstrap_used": {
+    "B2": 2000,
+    "B3": 2000
+   },
+   "verdict": {
+    "C1": "支持",
+    "C2": "判定できない",
+    "C3": "支持"
+   },
+   "B1_share_listed_pct": 17.3,
+   "B2_flood_share_listed_pct": 19.3,
+   "B2_flood_share_unlisted_pct": 11.3,
+   "B3_unlisted_share_of_flood_pct": 73.8
+  },
+  "guard": {
+   "units": 1153,
+   "listed": 50,
+   "flood": 209,
+   "flood_listed": 9,
+   "flood_unlisted": 200,
+   "blocks": 121,
+   "B1_share_listed": 0.043,
+   "B1_ci": [
+    0.027,
+    0.062
+   ],
+   "B2_flood_share_listed": 0.18,
+   "B2_flood_share_unlisted": 0.181,
+   "B2_diff": -0.001,
+   "B2_ci": [
+    -0.114,
+    0.165
+   ],
+   "B3_unlisted_share_of_flood": 0.957,
+   "B3_ci": [
+    0.92,
+    0.985
+   ],
+   "bootstrap_used": {
+    "B2": 2000,
+    "B3": 2000
+   },
+   "verdict": {
+    "C1": "支持",
+    "C2": "判定できない",
+    "C3": "支持"
+   },
+   "B1_share_listed_pct": 4.3,
+   "B2_flood_share_listed_pct": 18.0,
+   "B2_flood_share_unlisted_pct": 18.1,
+   "B3_unlisted_share_of_flood_pct": 95.7
+  }
+ },
+ "kansui": {
+  "units_with_kansui_100m": 69,
+  "share": 0.274,
+  "both_list_and_kansui": 67
+ }
+}
