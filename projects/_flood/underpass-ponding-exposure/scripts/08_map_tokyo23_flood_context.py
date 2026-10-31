@@ -87,6 +87,13 @@ def historical_marker_style() -> dict[str, object]:
     return {"marker": "o", "color": "#F0E442", "edgecolor": "#6F6200", "alpha": 0.62}
 
 
+def visible_animation_layers(frame: int) -> tuple[str, ...]:
+    """Return the cumulative point layers visible through a given animation frame."""
+    if frame < 0 or frame >= len(ANIMATION_LAYER_SEQUENCE):
+        raise IndexError(f"animation frame out of range: {frame}")
+    return ANIMATION_LAYER_SEQUENCE[:frame + 1]
+
+
 def save_layer_switch_gif(fig, layer_artists, output: Path, counts: dict[str, int]) -> None:
     """Save an animation that toggles point layers while leaving map context fixed."""
     from matplotlib.animation import FuncAnimation, PillowWriter
@@ -100,12 +107,13 @@ def save_layer_switch_gif(fig, layer_artists, output: Path, counts: dict[str, in
 
     def update(frame: int):
         active_key = ANIMATION_LAYER_SEQUENCE[frame]
+        visible_keys = set(visible_animation_layers(frame))
         label = ANIMATION_LAYER_LABELS[frame]
         count_key = "inferred_underpass_candidates" if active_key == "inferred_underpass" else active_key
-        indicator.set_text(f"{label}  ({counts.get(count_key, 0):,}地点)")
+        indicator.set_text(f"ここまで表示: {label}  (+{counts.get(count_key, 0):,}地点)")
         for key, artists in layer_artists.items():
             for artist in artists:
-                artist.set_visible(key == active_key)
+                artist.set_visible(key in visible_keys)
         return [indicator, *(artist for artists in layer_artists.values() for artist in artists)]
 
     animation = FuncAnimation(fig, update, frames=len(ANIMATION_LAYER_SEQUENCE),
@@ -520,7 +528,7 @@ def main() -> None:
         "visual_layer_order_top_to_bottom": ["国交省アンダーパス", "地方整備局・冠水想定", "OSMタグ由来の推定候補", "東京都の浸水実績図・地点", "OSM主要道路", "A31a"],
         "layer_switch_gif": {"file":gif.name,"sequence":list(ANIMATION_LAYER_LABELS),
             "frame_duration_ms":ANIMATION_FRAME_DURATION_MS,"loop":True,
-            "switches":"one point layer at a time; DEM, A31a, OSM major roads and ward boundaries stay fixed"},
+            "switches":"cumulatively add one point layer per frame; DEM, A31a, OSM major roads and ward boundaries stay fixed"},
         "inferred_underpass_method": {"status":"exploratory candidates, not verified underpasses",
             "reference":"evals/tasks/small-rubric-4.md H1; this generator uses no official underpass list for candidate construction",
             "osm_rule":"highway in trunk/primary/secondary/tertiary/unclassified/residential/living_street and links, plus tunnel=yes OR covered tag other than no/false/0 OR layer<0",

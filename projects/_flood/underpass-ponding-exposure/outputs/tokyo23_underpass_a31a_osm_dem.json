@@ -20,7 +20,7 @@
     ],
     "frame_duration_ms": 900,
     "loop": true,
-    "switches": "one point layer at a time; DEM, A31a, OSM major roads and ward boundaries stay fixed"
+    "switches": "cumulatively add one point layer per frame; DEM, A31a, OSM major roads and ward boundaries stay fixed"
   },
   "inferred_underpass_method": {
     "status": "exploratory candidates, not verified underpasses",
@@ -1165,7 +1165,7 @@
       "layer": "dem",
       "zoom": 14,
       "nominal_ground_resolution": "about 10 m",
-      "retrieved_utc": "2026-10-31T10:46:26.152099+00:00",
+      "retrieved_utc": "2026-10-31T10:49:24.293371+00:00",
       "tiles": {
         "requested": 324,
         "available": 294,

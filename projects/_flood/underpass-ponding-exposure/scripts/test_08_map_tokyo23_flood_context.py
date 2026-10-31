@@ -42,6 +42,12 @@ def test_gif_switches_the_four_point_layers_in_requested_order():
     assert module.ANIMATION_LAYER_LABELS == (
         "国交省アンダーパス", "地方整備局冠水想定", "OSMタグアンダーパス推定", "浸水実績"
     )
+    assert [module.visible_animation_layers(frame) for frame in range(4)] == [
+        ("underpass",),
+        ("underpass", "kansui"),
+        ("underpass", "kansui", "inferred_underpass"),
+        ("underpass", "kansui", "inferred_underpass", "tokyo_flood_record_points"),
+    ]
 
 
 def test_h1_uses_allowed_osm_tags_and_excludes_motorways():
