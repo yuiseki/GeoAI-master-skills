@@ -66,13 +66,14 @@ test('公開ページの画像は元の縦横比を保ち、操作要素は操�
   assert.match(base, /text-wrap: balance/);
 });
 
-test('公開記事は選定済みの六件だけで、出典と限界を持つ', async () => {
+test('公開記事は選定済みの七件だけで、出典と限界を持つ', async () => {
   const entries = [
     'src/content/reports/bus-operator-concentration.md',
     'src/content/reports/akita-bear-risk.md',
     'src/content/reports/taito-traffic-accidents.md',
     'src/content/reports/tokyo23-daytime-evac-stress.md',
     'src/content/reports/tokyo23-flood-record-vs-a31a.md',
+    'src/content/reports/tokyo23-underpass-listing.md',
     'src/content/reports/chiyoda-traffic-accidents.md',
   ];
   assert.deepEqual((await readdir(path.join(root, 'src/content/reports'))).sort(), entries.map((entry) => path.basename(entry)).sort());

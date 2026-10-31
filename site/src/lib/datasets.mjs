@@ -32,6 +32,8 @@ export const PUBLISHED_CARDS = [
     'kyoto-bear-sighting',
     'landsat5-fagus-crenata-sites-jp-2026-10',
     'mlit-1km-fromto-2022-01',
+    'mlit-kansui-flood-prone-points-jp-2026-09',
+    'mlit-underpass',
     'nagaoka-bear-sighting',
     'npa-traffic-accidents',
     'osm-japan-src-2026-08',
