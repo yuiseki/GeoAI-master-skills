@@ -7,6 +7,8 @@ const reports = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
+    /** When the report first went up on the site; the home page lists the newest first. */
+    published: z.coerce.date(),
     image: z.string(),
     imageAlt: z.string(),
     imageWidth: z.number().int().positive(),

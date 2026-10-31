@@ -48,3 +48,4 @@ Cloudflare Workers の静的アセットとして `site/dist/` を配信する�
 
 公開記事を増やすときは、元の `projects/**/report.md` を無条件に取り込まず、編集した Markdown と必要な図だけを追加し、原本への `source` と限界を必ず書く。
 カード用の図には、実画像のピクセル寸法を `imageWidth` と `imageHeight` に記録する。
+`published` には記事をサイトに載せた日時を書く。トップページは新しい順に並べる。

@@ -2,7 +2,9 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 
-const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompare(b.id));
+const reports = (await getCollection('reports')).sort(
+  (a, b) => b.data.published.getTime() - a.data.published.getTime() || a.id.localeCompare(b.id),
+);
 ---
 
 <Base description="公共交通、交通事故、クマの出没を、地理空間データで調べた研究記事を公開しています。">

@@ -219,3 +219,16 @@ test('記事にトピックや地域のラベルを付けない', async () => {
     assert.doesNotMatch(await read(`src/content/reports/${file}`), /^(topic|kicker):/m, file);
   }
 });
+
+test('トップページは公開日時の新しい記事から並べる', async () => {
+  const published = {};
+  for (const file of await readdir(path.join(root, 'src/content/reports'))) {
+    const match = (await read(`src/content/reports/${file}`)).match(/^published: (.+)$/m);
+    assert.ok(match, file);
+    published[file.replace(/\.md$/, '')] = new Date(match[1]).getTime();
+  }
+  const expected = Object.keys(published).sort((a, b) => published[b] - published[a] || a.localeCompare(b));
+  const home = await read('dist/index.html');
+  const order = [...new Set([...home.matchAll(/href="\/reports\/([^/"]+)\/"/g)].map((m) => m[1]))];
+  assert.deepEqual(order, expected);
+});
