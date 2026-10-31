@@ -40,6 +40,12 @@ uv run --no-project --with shapely --with pillow --with numpy python3 scripts/ma
 
 OGP 画像の左下には、`src/assets/ogp/avatar.jpg` のアバターを置く。
 
+## データカード
+
+`/datasets/{dataset_id}/` には、公開したレポートが実際に使ったデータセットのカードを置く。カードの原本は `.agents/skills/dataset-discovery/references/` にあり、サイトはビルド時にそこから直接読む。複製は持たない。`{dataset_id}` はカードの `id` から `yuiseki/` を外し、`/` を `-` にしたもの。
+
+載せるカードは `src/lib/datasets.mjs` の `PUBLISHED_CARDS` に並べる。レポートは front matter の `datasets` に id を書く。一覧に無い id を書くとビルドが失敗する。カードの中の別のカードへの相対リンクは、載せたカードならサイトのページへ、載せていないカードなら GitHub へ張り替える。
+
 ## 公開先
 
 Cloudflare Workers の静的アセットとして `site/dist/` を配信する。`astro.config.mjs` の `site` は `https://geoai.yuiseki.net`、`base` は既定の `/`。`wrangler.jsonc` は Custom Domain と `workers.dev` を宣言している。

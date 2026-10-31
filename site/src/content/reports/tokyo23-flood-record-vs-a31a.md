@@ -7,6 +7,14 @@ imageAlt: 予測モデルの上位46.7%の区域とA31a想定最大規模の区�
 imageWidth: 1798
 imageHeight: 1337
 source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_flood/tokyo23-flood-record-vs-a31a/report.md
+datasets:
+  - tokyo-flood-record-jp
+  - ksj-a31a-flood-tokyo23
+  - jma-rain-tokyo
+  - gsi-dem-tiles
+  - osm-tokyo23-src-2026-08
+  - esa-worldcover-tokyo-2021-100m
+  - jp-admin-2026-09
 ---
 
 ## 問いと取り組んだこと

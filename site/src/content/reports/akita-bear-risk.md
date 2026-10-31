@@ -7,6 +7,21 @@ imageAlt: 秋田県の100mセル別クマ出没リスクの地図
 imageWidth: 1706
 imageHeight: 2031
 source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_bear/bear-synthesis/report.md
+datasets:
+  - akita-kumadas-wildlife-sighting
+  - gifu-bear-sighting
+  - kyoto-bear-sighting
+  - ishikawa-bear-incident
+  - nagaoka-bear-sighting
+  - jp-admin-2026-09
+  - esa-worldcover
+  - gsi-dem-tiles
+  - worldpop-jp-2026-01
+  - osm-japan-src-2026-08
+  - akita-vegetation-2024
+  - fagus-crenata-masting-jp-2026-06
+  - agera5-japan-monthly-temperature-1979-2026
+  - landsat5-fagus-crenata-sites-jp-2026-10
 ---
 
 ## 問いと取り組んだこと

@@ -7,6 +7,10 @@ imageAlt: 自治体別の、単一事業者メッシュに住む65歳以上人�
 imageWidth: 960
 imageHeight: 809
 source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_bus/japan-bus-operator-concentration-replication/report.md
+datasets:
+  - ksj-p11-bus-stop-jp
+  - estat-census-mesh-2020
+  - jp-admin-2026-09
 ---
 
 ## 問いと取り組んだこと

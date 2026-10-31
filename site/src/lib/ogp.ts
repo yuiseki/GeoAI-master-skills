@@ -82,7 +82,7 @@ function card(body: Node, foot: Node): Node {
   ]);
 }
 
-async function toPng(tree: Node): Promise<Buffer> {
+async function toPng(tree: Node): Promise<Uint8Array<ArrayBuffer>> {
   const { serif, sans } = loadAssets();
   const svg = await satori(tree as Parameters<typeof satori>[0], {
     width: OGP_WIDTH,
@@ -96,10 +96,10 @@ async function toPng(tree: Node): Promise<Buffer> {
       throw new Error(`OGP fonts lack glyphs for ${JSON.stringify(segment)} (${code}); rerun scripts/subset-fonts.py`);
     },
   });
-  return new Resvg(svg, { font: { loadSystemFonts: false } }).render().asPng();
+  return new Uint8Array(new Resvg(svg, { font: { loadSystemFonts: false } }).render().asPng());
 }
 
-export async function renderOgpPng({ title }: { title: string }): Promise<Buffer> {
+export async function renderOgpPng({ title }: { title: string }): Promise<Uint8Array<ArrayBuffer>> {
   const { marble } = loadAssets();
   const body = h('div', { flex: 1, display: 'flex', alignItems: 'center', gap: 48 }, [
     wrapped(title, {
@@ -111,7 +111,7 @@ export async function renderOgpPng({ title }: { title: string }): Promise<Buffer
 }
 
 /** The home page card: the marble, the site name as h1 and the tagline as h2. */
-export async function renderHomeOgpPng(): Promise<Buffer> {
+export async function renderHomeOgpPng(): Promise<Uint8Array<ArrayBuffer>> {
   const { marble } = loadAssets();
   const body = h('div', { flex: 1, display: 'flex', alignItems: 'center', gap: 56 }, [
     img(marble, 288),

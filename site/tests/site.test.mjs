@@ -242,3 +242,30 @@ test('トップページは2列のメイソンリーで、1列のときは新し
   assert.match(source, /\.masonry-column \{ display: contents; \}/);
   assert.match(source, /<img src=\{report\.data\.image\}/);
 });
+
+test('レポートで使ったデータセットのカードを /datasets/{id}/ に置き、相互にリンクする', async () => {
+  const reports = await readdir(path.join(root, 'src/content/reports'));
+  const used = new Set();
+  for (const file of reports) {
+    const id = file.replace(/\.md$/, '');
+    const markdown = await read(`src/content/reports/${file}`);
+    const block = markdown.match(/^datasets:\n((?: {2}- .+\n)+)/m);
+    assert.ok(block, `${file} lists its datasets`);
+    const datasets = [...block[1].matchAll(/- (.+)/g)].map((m) => m[1].trim());
+    const reportHtml = await read(`dist/reports/${id}/index.html`);
+    for (const dataset of datasets) {
+      used.add(dataset);
+      assert.match(reportHtml, new RegExp(`href="/datasets/${dataset}/"`), `${id} -> ${dataset}`);
+      const datasetHtml = await read(`dist/datasets/${dataset}/index.html`);
+      assert.match(datasetHtml, new RegExp(`href="/reports/${id}/"`), `${dataset} -> ${id}`);
+      assert.match(datasetHtml, /ライセンス/);
+    }
+  }
+  const built = (await readdir(path.join(root, 'dist/datasets'), { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name);
+  assert.deepEqual(built.sort(), [...used].sort(), 'only datasets used by a report get a page');
+  // Links between cards point at the site when the target is published, otherwise at GitHub.
+  const flood = await read('dist/datasets/tokyo-flood-record-jp/index.html');
+  assert.match(flood, /href="\/datasets\/ksj-a31a-flood-tokyo23\/"/);
+  assert.doesNotMatch(flood, /href="(?!https:\/\/)[^"]*\.md"/);
+  assert.match(flood, /href="https:\/\/github\.com\/yuiseki\/GeoAI-master-skills\/blob\/main\/\.agents\/skills\/dataset-discovery\/references\/huggingface\/yuiseki\/tokyo-flood-record-jp\.md"/);
+});

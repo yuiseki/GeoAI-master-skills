@@ -7,6 +7,11 @@ imageAlt: 台東区の人身事故の分布と、事故多発地点の上位15�
 imageWidth: 2154
 imageHeight: 1071
 source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/taito-accident-trends-by-role/report.md
+datasets:
+  - npa-traffic-accidents
+  - jp-admin-2026-09
+  - estat-boundary-2020
+  - osm-tokyo23-src-2026-08
 ---
 
 ## 問いと取り組んだこと

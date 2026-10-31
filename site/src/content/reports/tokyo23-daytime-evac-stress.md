@@ -7,6 +7,11 @@ imageAlt: 東京23区の1kmメッシュごとに、昼間に避難所1件あた�
 imageWidth: 1512
 imageHeight: 1602
 source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_evacuation_shelter/tokyo23-daytime-evac-stress/report.md
+datasets:
+  - estat-census-mesh-2020
+  - mlit-1km-fromto-2022-01
+  - gsi-evacuation-sites-jp
+  - jp-admin-2026-09
 ---
 
 ## 問いと取り組んだこと
