@@ -59,6 +59,15 @@ DEPTH_COLORS = {
     4: "#4292c6", 5: "#2171b5", 6: "#084594",
 }
 
+# Higher values are drawn later and therefore remain visually on top.
+MAP_LAYER_ZORDER = {
+    "a31a": 2,
+    "osm_roads": 3,
+    "historical_flood": 7,
+    "kansui": 8,
+    "underpass": 9,
+}
+
 
 def depth_label(class_code: int) -> str:
     try:
@@ -304,7 +313,7 @@ def main() -> None:
     flood_norm = BoundaryNorm(np.arange(-0.5,7.5,1), flood_cmap.N)
     flood_masked = np.ma.masked_where(flood_grid == 0, flood_grid)
     ax.imshow(flood_masked, extent=(bx0,bx1,by0,by1), origin="upper", cmap=flood_cmap,
-              norm=flood_norm, alpha=0.72, interpolation="nearest", zorder=2)
+              norm=flood_norm, alpha=0.72, interpolation="nearest", zorder=MAP_LAYER_ZORDER["a31a"])
 
     road_style = {
         "motorway": ("#333333", 0.36), "motorway_link": ("#555555", 0.24),
@@ -317,7 +326,7 @@ def main() -> None:
         color, linewidth = road_style[highway]
         for line in geometries:
             x, y = line.xy
-            ax.plot(x, y, color=color, linewidth=linewidth, alpha=0.72, zorder=3)
+            ax.plot(x, y, color=color, linewidth=linewidth, alpha=0.72, zorder=MAP_LAYER_ZORDER["osm_roads"])
 
     for name, geom in ward_geoms:
         for polygon in _polygons(geom):
@@ -332,16 +341,16 @@ def main() -> None:
     if len(historical):
         ax.scatter(historical[:,0], historical[:,1], s=42, marker=history_style["marker"],
                    c=history_style["color"], edgecolors=history_style["edgecolor"],
-                   linewidths=0.55, alpha=history_style["alpha"], zorder=7)
+                   linewidths=0.55, alpha=history_style["alpha"], zorder=MAP_LAYER_ZORDER["historical_flood"])
     for key, _, _, _, color, marker in point_specs:
         xy = points[key]
         if len(xy):
             if key == "underpass":
                 ax.scatter(xy[:,0], xy[:,1], s=23, marker=marker, facecolors="none", edgecolors=color,
-                           linewidths=0.9, alpha=0.95, zorder=8)
+                           linewidths=0.9, alpha=0.95, zorder=MAP_LAYER_ZORDER["underpass"])
             else:
                 ax.scatter(xy[:,0], xy[:,1], s=28, marker=marker, c=color, edgecolors="white",
-                           linewidths=0.35, alpha=0.9, zorder=9)
+                           linewidths=0.35, alpha=0.9, zorder=MAP_LAYER_ZORDER["kansui"])
 
     ax.set_xlim(bx0, bx1)
     ax.set_ylim(by0, by1)
@@ -353,7 +362,6 @@ def main() -> None:
     ax.text(0.5, 1.005, subtitle, transform=ax.transAxes, ha="center", va="bottom", fontsize=9)
 
     handles = [
-        Line2D([], [], color="#666666", lw=1.1, label="OSM主要道路"),
         Line2D([], [], marker="o", markerfacecolor="none", markeredgecolor="#0072B2", linestyle="none",
                markersize=7, label=f"国交省アンダーパス ({counts['underpass']})"),
         Line2D([], [], marker="^", markerfacecolor="#D55E00", markeredgecolor="white", linestyle="none",
@@ -361,6 +369,7 @@ def main() -> None:
         Line2D([], [], marker=history_style["marker"], markerfacecolor=history_style["color"],
                markeredgecolor=history_style["edgecolor"], alpha=history_style["alpha"], linestyle="none",
                markersize=7, label=f"東京都の浸水実績図・地点 ({counts['tokyo_flood_record_points']})"),
+        Line2D([], [], color="#666666", lw=1.1, label="OSM主要道路"),
     ]
     for rank in range(1,7):
         if not a31a_counts.get(rank):
@@ -399,6 +408,7 @@ def main() -> None:
         "question": "東京23区で、2種類の登録地点は地形・主要道路・河川洪水浸水想定・東京都の浸水実績図とどう重なるか",
         "purpose": "探索的な重ね合わせ。危険度の推定・検証ではない",
         "crs_display": "EPSG:3857 (display only; no distance/area estimates from this CRS)",
+        "visual_layer_order_top_to_bottom": ["国交省アンダーパス", "地方整備局・冠水想定", "東京都の浸水実績図・地点", "OSM主要道路", "A31a"],
         "historical_flood_record_marker": {"shape":"circle", "color":history_style["color"], "alpha":history_style["alpha"], "edgecolor":history_style["edgecolor"]},
         "boundary": {"dataset":"jp-admin-2026-09", "revision":"e6c87b1d7095c17422147962185071a986e13135", "crs_source":"EPSG:4612", "wards":n_wards},
         "sources": {

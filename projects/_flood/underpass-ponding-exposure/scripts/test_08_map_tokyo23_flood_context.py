@@ -28,3 +28,8 @@ def test_historical_flood_points_use_translucent_yellow_circles():
     assert style["color"] == "#F0E442"
     assert style["edgecolor"] == "#6F6200"
     assert 0 < style["alpha"] < 1
+
+
+def test_map_layer_order_matches_requested_visual_priority():
+    z = module.MAP_LAYER_ZORDER
+    assert z["underpass"] > z["kansui"] > z["historical_flood"] > z["osm_roads"] > z["a31a"]
