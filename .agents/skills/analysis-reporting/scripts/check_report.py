@@ -16,7 +16,7 @@ reads the answer and, optionally, the outputs it was written from.
     traceable    every number in 結論 must appear in the evidence (tool outputs, logs, the commands run), up to
                  rounding at the conclusion's own precision (82% matches 0.8183; 0.45 does not match 0.4446). A
                  value on the tie matches either way (5.66 and 5.67 both match 5.665).
-                 Dates and years (2011 年, 1981〜2000年) are skipped, and so are a 1 that names a unit (1 人あたり), figure and table numbers (図 1,
+                 Dates, years (2011 年, 1981〜2000年) and months (9〜12 月) are skipped, and so are a 1 that names a unit (1 人あたり), figure and table numbers (図 1,
                  表 2; but not a word ending in 図 or 表, as in 箇所表 0.61, and not a decimal), link targets
                  (#図-1-..., ../other/report.md) and the row number in a table's first cell. A distance in km also
                  matches the evidence in metres (1 km against --catchment 1000). In the evidence, a comma-grouped
@@ -37,9 +37,11 @@ OPTIONAL = ["確かめていないこと"]
 LIMITS = {"simple": 8, "standard": 40, "full": None}
 _LABEL = re.compile(r"^\s*(?:#{1,6}\s*)?(問い|結論|データ|方法|確かめていないこと)\s*(?:[:：]\s*(.*))?$")
 _PAGE = re.compile(r"<\s*(?:!doctype|html|head|body|script|style|iframe|div)\b", re.IGNORECASE)
-# a date (2026-10-31, 2026-10) and a year: one followed by 年, or either end of a range of years (1981〜2000年)
+# a date (2026-10-31, 2026-10), a year (2011 年, 1981〜2000年) and a month (10 月, 9〜12 月)
 _YEAR = r"(?<![\d,.])(?:1[89]|20)\d{2}"
-_DATE = re.compile(r"\d{4}-\d{2}-\d{2}|\d{4}-\d{2}|" + _YEAR + r"\s*(?:[〜~–-]\s*" + _YEAR + r")?\s*年")
+_MONTH = r"(?<![\d,.])(?:1[0-2]|0?[1-9])(?![\d.])"
+_DATE = re.compile(r"\d{4}-\d{2}-\d{2}|\d{4}-\d{2}|" + _YEAR + r"\s*(?:[〜~–-]\s*" + _YEAR + r")?\s*年|"
+                   + _MONTH + r"\s*(?:[〜~–-]\s*" + _MONTH + r")?\s*月")
 # a comma is a thousands separator only between groups of three digits (1,168,211); otherwise it separates two
 # numbers, as in a CSV row written without spaces (1400,8.4293)
 _NUM = re.compile(r"[−-]?(?:\d{1,3}(?:,\d{3})+(?![\d])|\d+)(?:\.\d+)?(?:[eE][-+]\d+(?![\d.]))?[%‰]?")
@@ -60,10 +62,10 @@ def sections(text):
 
 
 # references, not results: a link target (#図-1-件数の推移, ../grid-100m/report.md), a figure or table number (図 1,
-# 表 2) and the row number in the first cell of a table (| 3 | ...)
+# 表 2, and a list or range of them: 図 6、7、9 and 図 6〜12) and the row number in the first cell of a table (| 3 | ...)
 # 図 and 表 after another kanji are part of a word (箇所表 0.61, 地図 9 枚), and a reference number is whole, not a
 # decimal (図 0.61 is a value)
-_REFERENCE = re.compile(r"\]\([^)]*\)|(?<![\u4e00-\u9fff])[図表]\s*\d+(?![\d.])|^\|\s*\d+\s*(?=\|)", re.MULTILINE)
+_REFERENCE = re.compile(r"\]\([^)]*\)|(?<![\u4e00-\u9fff])[図表]\s*\d+(?:\s*[、,〜~]\s*\d+)*(?![\d.])|^\|\s*\d+\s*(?=\|)", re.MULTILINE)
 _PER_UNIT = re.compile(r"\s*(?:[^\s\d]{1,3}\s*)?あたり|\s*[人校件台]に")
 _KM = re.compile(r"\s*km")
 

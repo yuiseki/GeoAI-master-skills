@@ -238,3 +238,15 @@ def test_a_per_mille_matches_the_fraction():
     # b5_diagnostics.json holds 0.0242 and the report writes 24.2‰
     assert traceable("Q1 の陽性の割合 24.2‰", '{"q1": 0.0242}') == []
     assert traceable("Q1 の陽性の割合 24.2‰", '{"q1": 0.242}') == ["24.2‰"]
+
+
+def test_a_list_of_figure_numbers_is_a_reference():
+    # "図 6、7、9、11、12 は各プロジェクトの地図" and "図 6〜12" number figures, not values
+    assert traceable("図 6、7、9、11、12 は地図。図 6〜12 を見る。", "") == []
+    assert traceable("図 6 は 0.552", "") == ["0.552"]
+
+
+def test_a_month_is_a_date_not_a_value():
+    # "4 週先の 9〜12 月の MAE は 8.429" and "10 月以降" name months
+    assert [t for t, *_ in numbers_in("4 週先の 9〜12 月の MAE は 8.429。10 月以降")] == ["4", "8.429"]
+    assert [t for t, *_ in numbers_in("13 月")] == ["13"]
