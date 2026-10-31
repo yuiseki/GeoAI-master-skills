@@ -1,0 +1,106 @@
+{
+ "vh_threshold_plan_db": -6.105,
+ "split_of_missed": {
+  "missed_pixels": 19170,
+  "in_zone_dark": 1637,
+  "in_zone_not_dark": 4699,
+  "out_zone_dark": 3577,
+  "out_zone_not_dark": 9257,
+  "dark_at_-3.3": 9143,
+  "out_zone": 12834,
+  "out_zone_share": 0.669,
+  "in_zone_dark_share": 0.085,
+  "out_zone_pct": 66.9,
+  "in_zone_dark_pct": 8.5
+ },
+ "missed_dem_median_m": 1.45,
+ "both_dem_median_m": 1.05,
+ "trials": {
+  "plan": {
+   "zone_km2": 30.426,
+   "vv": {
+    "recall": 0.611,
+    "precision": 0.754
+   },
+   "vvvh": {
+    "recall": 0.644,
+    "precision": 0.749,
+    "missed_km2": 1.753,
+    "extra_km2": 1.062
+   },
+   "vvvh_pct": {
+    "recall": 64.4,
+    "precision": 74.9
+   },
+   "recall_gain": 0.033,
+   "area_vv_km2": 6.896,
+   "area_vvvh_km2": 7.516
+  },
+  "level_p99": {
+   "zone_km2": 166.882,
+   "vv": {
+    "recall": 0.681,
+    "precision": 0.615
+   },
+   "vvvh": {
+    "recall": 0.741,
+    "precision": 0.557,
+    "missed_km2": 1.276,
+    "extra_km2": 2.901
+   },
+   "vvvh_pct": {
+    "recall": 74.1,
+    "precision": 55.7
+   },
+   "recall_gain": 0.06,
+   "area_vv_km2": 15.651,
+   "area_vvvh_km2": 20.336
+  },
+  "vh_-3.3": {
+   "zone_km2": 30.426,
+   "vv": {
+    "recall": 0.611,
+    "precision": 0.754
+   },
+   "vvvh": {
+    "recall": 0.673,
+    "precision": 0.731,
+    "missed_km2": 1.609,
+    "extra_km2": 1.22
+   },
+   "vvvh_pct": {
+    "recall": 67.3,
+    "precision": 73.1
+   },
+   "recall_gain": 0.062,
+   "area_vv_km2": 6.896,
+   "area_vvvh_km2": 8.478
+  },
+  "level_p99_vh_-3.3": {
+   "zone_km2": 166.882,
+   "vv": {
+    "recall": 0.681,
+    "precision": 0.615
+   },
+   "vvvh": {
+    "recall": 0.807,
+    "precision": 0.422,
+    "missed_km2": 0.949,
+    "extra_km2": 5.446
+   },
+   "vvvh_pct": {
+    "recall": 80.7,
+    "precision": 42.2
+   },
+   "recall_gain": 0.126,
+   "area_vv_km2": 15.651,
+   "area_vvvh_km2": 36.755
+  }
+ },
+ "levels": {
+  "plan_median_of_parts": 1.31,
+  "p99_median_of_parts": 1.82,
+  "largest_part_plan": 1.0,
+  "largest_part_p99": 6.4
+ }
+}

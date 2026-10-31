@@ -1,0 +1,2 @@
+Contains modified Copernicus Sentinel data 2026 (Planetary Computer sentinel-1-rtc)。
+国土地理院「浸水推定図『北印旛沼』」の輪郭線、DEM5A、ESA WorldCover 2021 を加工して作成

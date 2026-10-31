@@ -1,0 +1,61 @@
+{
+ "grid": {
+  "crs": "EPSG:32654",
+  "shape": [
+   1700,
+   2700
+  ],
+  "transform": [
+   10.0,
+   0.0,
+   419480.0,
+   0.0,
+   -10.0,
+   3971220.0
+  ],
+  "window_col_row": [
+   100,
+   100
+  ]
+ },
+ "missing": {
+  "vv_b": 0,
+  "vh_b": 0,
+  "vv_a": 0,
+  "vh_a": 0,
+  "dem": 0
+ },
+ "dem_source_pixels": {
+  "dem5a": 4268247,
+  "dem10b": 321753,
+  "none": 0
+ },
+ "worldcover_classes": {
+  "10": 1575441,
+  "30": 394697,
+  "40": 1436822,
+  "50": 929181,
+  "60": 32260,
+  "80": 197568,
+  "90": 24031
+ },
+ "water_pixels": 197568,
+ "outlines": {
+  "ref_0922": {
+   "polygon_utm_km2": 5.5928,
+   "painted_km2": 5.5934
+  },
+  "ref_0924": {
+   "polygon_utm_km2": 4.9367,
+   "painted_km2": 4.9391
+  },
+  "ref_0925": {
+   "polygon_utm_km2": 3.1493,
+   "painted_km2": 3.1499
+  },
+  "ref_1001": {
+   "polygon_utm_km2": 1.317,
+   "painted_km2": 1.318
+  }
+ }
+}

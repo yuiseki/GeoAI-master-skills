@@ -1,0 +1,46 @@
+{
+ "params": {
+  "post": 0.5,
+  "sure": 0.9,
+  "min_size": 100,
+  "level_q": 0.5,
+  "vh_pct": 1.0,
+  "change_pct": 5.0,
+  "land_min_elev": 15.0,
+  "use_floodable": true
+ },
+ "fit": {
+  "mu_w": -18.593,
+  "sd_w": 5.959,
+  "mu_l": -7.76,
+  "sd_l": 4.231,
+  "dvv_land_pct": -4.278,
+  "dvh_land_pct": -6.105,
+  "n_land": 2186787,
+  "n_water": 197568,
+  "n_parts": 63
+ },
+ "vh_threshold_db_article": -3.3,
+ "parts": {
+  "n": 63,
+  "pixels_total": 47739,
+  "largest_pixels": [
+   14465,
+   8587,
+   2649,
+   1897,
+   1416
+  ],
+  "level_m_of_largest": 0.998850817134953,
+  "level_m_quantiles": [
+   -0.21,
+   0.09,
+   1.31,
+   1.5,
+   2.51
+  ]
+ },
+ "zone_km2": 30.426,
+ "det_vv_km2": 6.896,
+ "det_vvvh_km2": 7.516
+}

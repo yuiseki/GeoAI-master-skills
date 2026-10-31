@@ -1,0 +1,447 @@
+{
+ "window": {
+  "buffer_m": 1101.4,
+  "buffer_km2": 38.0,
+  "window_pixels": 379991,
+  "window_km2_without_water": 33.461,
+  "water_pixels_in_window": 45384,
+  "bbox_km2": 32.711
+ },
+ "main": {
+  "B1": {
+   "core_pixels": 13153,
+   "share_det_vv": 0.892,
+   "share_pct": 89.2,
+   "rule_min_pct": 90
+  },
+  "B2": {
+   "ref_m2": 4.925,
+   "det_m2": 3.988,
+   "both_m2": 3.007,
+   "missed_m2": 1.917,
+   "extra_m2": 0.981,
+   "recall": 0.611,
+   "precision": 0.754,
+   "recall_pct": 61.1,
+   "precision_pct": 75.4
+  },
+  "B3": {
+   "ref_m2": 4.925,
+   "det_m2": 4.233,
+   "both_m2": 3.171,
+   "missed_m2": 1.753,
+   "extra_m2": 1.062,
+   "recall": 0.644,
+   "precision": 0.749,
+   "recall_pct": 64.4,
+   "precision_pct": 74.9,
+   "recall_gain": 0.033,
+   "precision_change": -0.005,
+   "missed_ratio": 0.915
+  },
+  "B4": {
+   "both": {
+    "pixels": 30075,
+    "dvv": -11.96,
+    "dvh": -10.51,
+    "vv_b": -8.37,
+    "vv_a": -20.4,
+    "vh_b": -14.09,
+    "vh_a": -24.61
+   },
+   "missed": {
+    "pixels": 19170,
+    "dvv": -1.16,
+    "dvh": -3.03,
+    "vv_b": -8.3,
+    "vv_a": -9.52,
+    "vh_b": -14.04,
+    "vh_a": -17.39
+   },
+   "extra": {
+    "pixels": 9807,
+    "dvv": -12.52,
+    "dvh": -9.66,
+    "vv_b": -7.36,
+    "vv_a": -20.77,
+    "vh_b": -14.04,
+    "vh_a": -24.34
+   },
+   "neither": {
+    "pixels": 275555,
+    "dvv": 0.06,
+    "dvh": -0.47,
+    "vv_b": -8.12,
+    "vv_a": -8.0,
+    "vh_b": -13.64,
+    "vh_a": -14.12
+   }
+  },
+  "B5": {
+   "det_vv_km2": 6.896,
+   "det_vvvh_km2": 7.516,
+   "ratio": 1.09
+  }
+ },
+ "judgement": {
+  "A1": {
+   "conditions": {
+    "core_share_ge_0.90": false
+   },
+   "reproduced": false
+  },
+  "A2": {
+   "conditions": {
+    "recall_41_71": true,
+    "precision_ge_0.74": true,
+    "recall_lt_precision": true
+   },
+   "reproduced": true
+  },
+  "A3": {
+   "conditions": {
+    "recall_gain_ge_0.10": false,
+    "precision_down": true,
+    "missed_ratio_le_0.7": false
+   },
+   "reproduced": false
+  },
+  "A4": {
+   "conditions": {
+    "missed_dvh_1db_below_dvv": true,
+    "both_dvv_le_-8": true
+   },
+   "reproduced": true
+  },
+  "A5": {
+   "conditions": {
+    "vv_2.4_7.2": true,
+    "ratio_ge_1.5": false
+   },
+   "reproduced": false
+  }
+ },
+ "variants": {
+  "post_0.3": {
+   "B1": 0.919,
+   "B1_pct": 91.9,
+   "B2": {
+    "ref_m2": 4.925,
+    "det_m2": 4.266,
+    "both_m2": 3.183,
+    "missed_m2": 1.741,
+    "extra_m2": 1.082,
+    "recall": 0.646,
+    "precision": 0.746,
+    "recall_pct": 64.6,
+    "precision_pct": 74.6
+   },
+   "B3": {
+    "ref_m2": 4.925,
+    "det_m2": 4.42,
+    "both_m2": 3.28,
+    "missed_m2": 1.645,
+    "extra_m2": 1.14,
+    "recall": 0.666,
+    "precision": 0.742,
+    "recall_pct": 66.6,
+    "precision_pct": 74.2,
+    "recall_gain": 0.02,
+    "precision_change": -0.004,
+    "missed_ratio": 0.945
+   },
+   "B5": {
+    "det_vv_km2": 7.85,
+    "det_vvvh_km2": 8.216,
+    "ratio": 1.047
+   },
+   "judgement": {
+    "A1": true,
+    "A2": true,
+    "A3": false,
+    "A4": true,
+    "A5": false
+   }
+  },
+  "post_0.7": {
+   "B1": 0.865,
+   "B1_pct": 86.5,
+   "B2": {
+    "ref_m2": 4.925,
+    "det_m2": 3.755,
+    "both_m2": 2.841,
+    "missed_m2": 2.084,
+    "extra_m2": 0.914,
+    "recall": 0.577,
+    "precision": 0.757,
+    "recall_pct": 57.7,
+    "precision_pct": 75.7
+   },
+   "B3": {
+    "ref_m2": 4.925,
+    "det_m2": 4.112,
+    "both_m2": 3.091,
+    "missed_m2": 1.833,
+    "extra_m2": 1.021,
+    "recall": 0.628,
+    "precision": 0.752,
+    "recall_pct": 62.8,
+    "precision_pct": 75.2,
+    "recall_gain": 0.051,
+    "precision_change": -0.005,
+    "missed_ratio": 0.88
+   },
+   "B5": {
+    "det_vv_km2": 6.231,
+    "det_vvvh_km2": 7.158,
+    "ratio": 1.149
+   },
+   "judgement": {
+    "A1": false,
+    "A2": true,
+    "A3": false,
+    "A4": true,
+    "A5": false
+   }
+  },
+  "min_size_25": {
+   "B1": 0.892,
+   "B1_pct": 89.2,
+   "B2": {
+    "ref_m2": 4.925,
+    "det_m2": 5.773,
+    "both_m2": 3.353,
+    "missed_m2": 1.571,
+    "extra_m2": 2.419,
+    "recall": 0.681,
+    "precision": 0.581,
+    "recall_pct": 68.1,
+    "precision_pct": 58.1
+   },
+   "B3": {
+    "ref_m2": 4.925,
+    "det_m2": 6.928,
+    "both_m2": 3.649,
+    "missed_m2": 1.275,
+    "extra_m2": 3.279,
+    "recall": 0.741,
+    "precision": 0.527,
+    "recall_pct": 74.1,
+    "precision_pct": 52.7,
+    "recall_gain": 0.06,
+    "precision_change": -0.054,
+    "missed_ratio": 0.812
+   },
+   "B5": {
+    "det_vv_km2": 38.715,
+    "det_vvvh_km2": 46.146,
+    "ratio": 1.192
+   },
+   "judgement": {
+    "A1": false,
+    "A2": false,
+    "A3": false,
+    "A4": true,
+    "A5": false
+   }
+  },
+  "min_size_400": {
+   "B1": 0.886,
+   "B1_pct": 88.6,
+   "B2": {
+    "ref_m2": 4.925,
+    "det_m2": 3.519,
+    "both_m2": 2.638,
+    "missed_m2": 2.287,
+    "extra_m2": 0.882,
+    "recall": 0.536,
+    "precision": 0.749,
+    "recall_pct": 53.6,
+    "precision_pct": 74.9
+   },
+   "B3": {
+    "ref_m2": 4.925,
+    "det_m2": 3.687,
+    "both_m2": 2.727,
+    "missed_m2": 2.197,
+    "extra_m2": 0.96,
+    "recall": 0.554,
+    "precision": 0.74,
+    "recall_pct": 55.4,
+    "precision_pct": 74.0,
+    "recall_gain": 0.018,
+    "precision_change": -0.01,
+    "missed_ratio": 0.961
+   },
+   "B5": {
+    "det_vv_km2": 5.179,
+    "det_vvvh_km2": 5.466,
+    "ratio": 1.055
+   },
+   "judgement": {
+    "A1": false,
+    "A2": true,
+    "A3": false,
+    "A4": true,
+    "A5": false
+   }
+  },
+  "level_q_0.75": {
+   "B1": 0.892,
+   "B1_pct": 89.2,
+   "B2": {
+    "ref_m2": 4.925,
+    "det_m2": 4.939,
+    "both_m2": 3.297,
+    "missed_m2": 1.628,
+    "extra_m2": 1.642,
+    "recall": 0.669,
+    "precision": 0.668,
+    "recall_pct": 66.9,
+    "precision_pct": 66.8
+   },
+   "B3": {
+    "ref_m2": 4.925,
+    "det_m2": 5.81,
+    "both_m2": 3.579,
+    "missed_m2": 1.346,
+    "extra_m2": 2.231,
+    "recall": 0.727,
+    "precision": 0.616,
+    "recall_pct": 72.7,
+    "precision_pct": 61.6,
+    "recall_gain": 0.057,
+    "precision_change": -0.052,
+    "missed_ratio": 0.827
+   },
+   "B5": {
+    "det_vv_km2": 9.091,
+    "det_vvvh_km2": 10.946,
+    "ratio": 1.204
+   },
+   "judgement": {
+    "A1": false,
+    "A2": false,
+    "A3": false,
+    "A4": true,
+    "A5": false
+   }
+  },
+  "vh_pct_5": {
+   "B1": 0.892,
+   "B1_pct": 89.2,
+   "B2": {
+    "ref_m2": 4.925,
+    "det_m2": 3.988,
+    "both_m2": 3.007,
+    "missed_m2": 1.917,
+    "extra_m2": 0.981,
+    "recall": 0.611,
+    "precision": 0.754,
+    "recall_pct": 61.1,
+    "precision_pct": 75.4
+   },
+   "B3": {
+    "ref_m2": 4.925,
+    "det_m2": 4.416,
+    "both_m2": 3.26,
+    "missed_m2": 1.664,
+    "extra_m2": 1.156,
+    "recall": 0.662,
+    "precision": 0.738,
+    "recall_pct": 66.2,
+    "precision_pct": 73.8,
+    "recall_gain": 0.051,
+    "precision_change": -0.016,
+    "missed_ratio": 0.868
+   },
+   "B5": {
+    "det_vv_km2": 6.896,
+    "det_vvvh_km2": 8.072,
+    "ratio": 1.171
+   },
+   "judgement": {
+    "A1": false,
+    "A2": true,
+    "A3": false,
+    "A4": true,
+    "A5": false
+   }
+  },
+  "no_zone": {
+   "B1": 0.892,
+   "B1_pct": 89.2,
+   "B2": {
+    "ref_m2": 4.925,
+    "det_m2": 5.773,
+    "both_m2": 3.353,
+    "missed_m2": 1.571,
+    "extra_m2": 2.419,
+    "recall": 0.681,
+    "precision": 0.581,
+    "recall_pct": 68.1,
+    "precision_pct": 58.1
+   },
+   "B3": {
+    "ref_m2": 4.925,
+    "det_m2": 6.928,
+    "both_m2": 3.649,
+    "missed_m2": 1.275,
+    "extra_m2": 3.279,
+    "recall": 0.741,
+    "precision": 0.527,
+    "recall_pct": 74.1,
+    "precision_pct": 52.7,
+    "recall_gain": 0.06,
+    "precision_change": -0.054,
+    "missed_ratio": 0.812
+   },
+   "B5": {
+    "det_vv_km2": 38.735,
+    "det_vvvh_km2": 46.167,
+    "ratio": 1.192
+   },
+   "judgement": {
+    "A1": false,
+    "A2": false,
+    "A3": false,
+    "A4": true,
+    "A5": false
+   }
+  },
+  "window_bbox": {
+   "B2": {
+    "ref_m2": 4.925,
+    "det_m2": 3.85,
+    "both_m2": 3.007,
+    "missed_m2": 1.917,
+    "extra_m2": 0.843,
+    "recall": 0.611,
+    "precision": 0.781,
+    "recall_pct": 61.1,
+    "precision_pct": 78.1
+   },
+   "B3": {
+    "ref_m2": 4.925,
+    "det_m2": 4.063,
+    "both_m2": 3.171,
+    "missed_m2": 1.753,
+    "extra_m2": 0.892,
+    "recall": 0.644,
+    "precision": 0.78,
+    "recall_pct": 64.4,
+    "precision_pct": 78.0,
+    "recall_gain": 0.033,
+    "precision_change": -0.001,
+    "missed_ratio": 0.915
+   },
+   "judgement": {
+    "A1": false,
+    "A2": true,
+    "A3": false,
+    "A4": true,
+    "A5": false
+   }
+  }
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "source": "Mark.n「千葉の台風25号豪雨災害を、無料のレーダー衛星データで解析してみた ― 北印旛沼の堤防決壊による浸水の検知」note、2026-09-26 公開、2026-09-27 追記。本文は https://note.com/api/v3/notes/n1f4bfbc7b6ad から 2026-10-31 に取得して書き写した",
+ "scene": {
+  "before": "2026-09-12",
+  "after": "2026-09-24 17:41",
+  "satellite": "Sentinel-1C",
+  "product": "IW GRD VV VH"
+ },
+ "area_box_km": [
+  27,
+  17
+ ],
+ "area_vv_km2": 4.8,
+ "area_vvvh_km2": 9.2,
+ "comparison_window_km2": 38,
+ "gsi_0924_km2": 4.9,
+ "det_vv_in_window_km2": 3.1,
+ "both_vv_km2": 2.8,
+ "recall_vv_pct": 56,
+ "precision_vv_pct": 89,
+ "recall_vvvh_pct": 80,
+ "precision_vvvh_pct": 81,
+ "missed_vv_km2": 2.2,
+ "missed_vvvh_km2": 1.0,
+ "extra_vv_km2": 0.35,
+ "extra_vvvh_km2": 0.95,
+ "vh_threshold_db": 3.3,
+ "both_vv_db": {
+  "before": -8,
+  "after": -21,
+  "change": -13
+ },
+ "missed_vv_db": {
+  "before": -8,
+  "after": -11,
+  "change": -2.5
+ },
+ "missed_vh_db": {
+  "before": -14,
+  "after": -19,
+  "change": -5
+ },
+ "lake_vv_db": -23,
+ "geolocation_check_max_cm": 1.5,
+ "before_after_shift_m": 0.16,
+ "gsi_version_compared": "2026-09-24 14:00"
+}
