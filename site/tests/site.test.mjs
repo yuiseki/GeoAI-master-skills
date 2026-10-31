@@ -144,3 +144,14 @@ test('クマの記事は評価指標とモデルを専門用語で呼ぶ', async
   assert.match(bear, /予測モデル `B_env`/);
   assert.doesNotMatch(bear, /当たり|場所の予測|環境だけの地図/);
 });
+
+test('バスと台東区の記事は定義した用語で書く', async () => {
+  const bus = await read('src/content/reports/bus-operator-concentration.md');
+  const taito = await read('src/content/reports/taito-traffic-accidents.md');
+  assert.match(bus, /単一事業者メッシュと呼びます/);
+  assert.match(bus, /## 定義と感度分析/);
+  assert.doesNotMatch(bus, /読み方|停留所圏/);
+  assert.match(taito, /### 用語の定義/);
+  assert.match(taito, /## 定義と感度分析/);
+  assert.doesNotMatch(taito, /読み方|過失の重い側が|狭い読み|広い読み|若い \(/);
+});
