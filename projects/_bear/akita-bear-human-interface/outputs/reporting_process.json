@@ -139,7 +139,8 @@
      }
     }
    },
-   "human_axis": "axes_2024-2025.npz"
+   "human_axis": "axes_2024-2025.npz",
+   "top_human_quintile_report_share": 0.9377618192698982
   },
   "2024": {
    "reports": 1205,
@@ -280,7 +281,8 @@
      }
     }
    },
-   "human_axis": "b1_dev_2023_to_2024.npz"
+   "human_axis": "b1_dev_2023_to_2024.npz",
+   "top_human_quintile_report_share": 0.9037344398340249
   },
   "2025": {
    "reports": 4052,
@@ -422,7 +424,8 @@
      }
     }
    },
-   "human_axis": "b2_confirm_2023-2024_to_2025.npz"
+   "human_axis": "b2_confirm_2023-2024_to_2025.npz",
+   "top_human_quintile_report_share": 0.9355873642645607
   },
   "2026": {
    "reports": 3366,
@@ -562,7 +565,8 @@
      }
     }
    },
-   "human_axis": "b3_confirm_2023-2025_to_2026.npz"
+   "human_axis": "b3_confirm_2023-2025_to_2026.npz",
+   "top_human_quintile_report_share": 0.9313725490196079
   }
  },
  "pairs": {

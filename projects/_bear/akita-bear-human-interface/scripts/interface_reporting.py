@@ -94,7 +94,8 @@ def main():
             "akita_city_report_share": as_share(muni_rep).get("秋田市", 0.0),
             "info_type_share": as_share(info), "info_type_count": info,
             "pop_500_positive": ph.summary(feat["pop_500"][pos[y]]), "bldg_500_positive": ph.summary(feat["bldg_500"][pos[y]]),
-            "by_human_side_quintile": by_q, "human_axis": YEAR_AXIS[y][0]}
+            "by_human_side_quintile": by_q, "human_axis": YEAR_AXIS[y][0],
+            "top_human_quintile_report_share": by_q["5"]["reports"] / len(r)}
         if str(y) in r040["years"]:  # reuse check
             old = r040["years"][str(y)]
             if old["n_reports"] != len(r) or old["n_positive_cells"] != int(pos[y].sum()):
