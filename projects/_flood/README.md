@@ -4,6 +4,6 @@
 
 | プロジェクト | 問い | 使っているもの |
 |---|---|---|
-| [tokyo23-flood-record-vs-a31a](tokyo23-flood-record-vs-a31a/) | 23 区の 100 m セルで、浸水の記録から学んだ地図は、後の期間の浸水を A31a (洪水浸水想定区域) より多く捉えるか | |
+| [tokyo23-flood-record-vs-a31a](tokyo23-flood-record-vs-a31a/) | 23 区の 100 m セルで、浸水の記録から学習した予測モデルの上位の区域は、後の期間の浸水を A31a (洪水浸水想定区域) より多く捉えるか | |
 | [underpass-ponding-exposure](underpass-ponding-exposure/) | 全国のアンダーパスで、公開の標高と道路で測る溜まりやすさの順位は、設定でどれだけ変わり、浸水や冠水の記録とどの程度合うか | mlit-underpass、OSM の道路、国土地理院の標高タイル、浸水実績、箇所表 |
 | [tokyo-overfloor-rain-threshold](tokyo-overfloor-rain-threshold/) | 東京都の浸水実績で、都の雨量計の時間雨量が強い記録ほど床上浸水の割合は高いか。気象庁の観測所は強い雨をどれだけ見落とすか | tokyo-flood-record-jp、jma-rain-tokyo |

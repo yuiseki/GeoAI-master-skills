@@ -73,16 +73,16 @@ def main():
 
     figs = [
         ("fig1_model_rank", rows, ["model_pct"], BASE | context | {
-            "question": "記録から学んだ地図の順位 (1974〜1996 年の記録で学習)", "value": "model_pct", "kind": "sequential",
+            "question": "予測モデルの予測得点の順位 (1974〜1996 年の記録で学習)", "value": "model_pct", "kind": "sequential",
             "unit": "セル", "value_unit": "%", "class_method": "fixed", "classes": 6, "thresholds": [1, 5, 10, 20, 46.66],
             "palette": "YlOrRd_r", "unit_linewidth": 0, "expect_units": len(rows)}),
         ("fig2_agreement", rows, ["agree"], BASE | context | {
-            "question": "記録から学んだ地図の上位 46.7% と A31a 想定最大規模の区域", "value": "agree", "kind": "category",
-            "unit": "セル", "categories": {"1": "両方", "2": "学んだ地図だけ", "3": "A31a だけ", "4": "どちらでもない"},
+            "question": "予測モデルの上位 46.7% と A31a 想定最大規模の区域", "value": "agree", "kind": "category",
+            "unit": "セル", "categories": {"1": "両方", "2": "予測モデルだけ", "3": "A31a だけ", "4": "どちらでもない"},
             "category_colors": {"1": "#2b6cb0", "2": "#d62728", "3": "#e377c2", "4": "#e8e8e8"}, "unit_linewidth": 0, "expect_units": len(rows)}),
         ("fig3_test_cells", [r for r in rows if r["test_cat"] is not None], ["test_cat"], BASE | context | {
-            "question": "1997〜2019 年に浸水が記録されたセルは、どちらの地図に入ったか", "value": "test_cat", "kind": "category",
-            "unit": "セル", "categories": {"1": "両方", "2": "学んだ地図だけ", "3": "A31a だけ", "4": "どちらでもない"},
+            "question": "1997〜2019 年に浸水が記録されたセルは、どちらの区域に入ったか", "value": "test_cat", "kind": "category",
+            "unit": "セル", "categories": {"1": "両方", "2": "予測モデルだけ", "3": "A31a だけ", "4": "どちらでもない"},
             "category_colors": {"1": "#2b6cb0", "2": "#d62728", "3": "#e377c2", "4": "#222222"}, "unit_linewidth": 0.15, "expect_units": 3057}),
     ]
     for name, rs, keys, cfg in figs:

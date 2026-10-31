@@ -21,7 +21,7 @@ RUNS = [("b1_main", "本解析 (100 m、2 km ブロック)"), ("rob_block_5km", 
         ("rob_grid_250_off125", "250 m 格子、125 m ずらし"), ("rob_grid_500", "500 m 格子"), ("rob_split_1990", "学習 1974-1989、試験 1990-2004"),
         ("rob_label_centre", "陽性 = 中心が記録の中"), ("rob_naisui", "内水の記録だけ"), ("rob_issui", "溢水の記録だけ"),
         ("rob_a31a_planned", "A31a 計画規模"), ("rob_a31a_max_0.5m", "A31a 最大規模 0.5 m 以上")]
-PAIRS = [(("model_static", "a31a"), "C1: 記録から学んだ地図 − A31a"), (("a31a", "random"), "C2: A31a − でたらめ")]
+PAIRS = [(("model_static", "a31a"), "予測モデル − A31a"), (("a31a", "random"), "A31a − 無作為な順位")]
 
 
 def main():
