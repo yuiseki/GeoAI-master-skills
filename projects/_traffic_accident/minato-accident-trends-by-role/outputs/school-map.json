@@ -1,0 +1,21 @@
+{
+ "question": "学校の近くで、若い歩行者と自転車の事故はどこで起きているか",
+ "inputs": [
+  "artifacts/_traffic_accident/minato-accident-trends-by-role/points.csv",
+  "outputs/schools.csv"
+ ],
+ "n": {
+  "young_ped_or_bike": 573,
+  "weekday_7_8_or_14_17": 178
+ },
+ "notes": "0〜24歳は年齢の最小の区分で、通学のみではない。円は直線距離",
+ "source": "出所: 警察庁「交通事故統計のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) より加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、令和2年国勢調査 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "schools_drawn": 31,
+ "text_overlaps": []
+}

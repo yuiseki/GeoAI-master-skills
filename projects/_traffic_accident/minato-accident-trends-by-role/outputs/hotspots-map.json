@@ -1,0 +1,44 @@
+{
+ "question": "港区で事故が集まる地点はどこか",
+ "inputs": [
+  "artifacts/_traffic_accident/minato-accident-trends-by-role/points.csv",
+  "outputs/hotspots.csv"
+ ],
+ "n": 7830,
+ "notes": "位置の精度は不詳。円の濃さは件数に比例",
+ "source": "出所: 警察庁「交通事故統計のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) より加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、令和2年国勢調査 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "hotspots_drawn": 15,
+ "zoomed_in_inset": [
+  1,
+  2,
+  3,
+  5,
+  7,
+  8,
+  9,
+  10,
+  12,
+  13,
+  15
+ ],
+ "text_overlaps": [
+  [
+   "新橋",
+   "14"
+  ],
+  [
+   "芝",
+   "11"
+  ],
+  [
+   "2",
+   "7"
+  ]
+ ]
+}

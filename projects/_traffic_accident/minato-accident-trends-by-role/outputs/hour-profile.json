@@ -1,0 +1,12 @@
+{
+ "question": "日のどの時間帯に、どんな人に関わる事故が多いか",
+ "inputs": [
+  "outputs/hour_weekday.csv"
+ ],
+ "n": null,
+ "notes": "高齢歩行者は夜間にも発生するが昼間に山があり、全体では夜間も高い水準を維持",
+ "source": "出所: 警察庁「交通事故統計のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) より加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、令和2年国勢調査 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ]
+}

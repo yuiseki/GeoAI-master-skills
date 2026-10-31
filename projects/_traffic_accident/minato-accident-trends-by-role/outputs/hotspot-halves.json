@@ -1,0 +1,12 @@
+{
+ "question": "事故の多い地点は、前半と後半でどう動いたか",
+ "inputs": [
+  "outputs/hotspots.csv"
+ ],
+ "n": 15,
+ "notes": "上位地点の多くで後半にかけて減少傾向がみられるが、依然として高水準な交差点も残る",
+ "source": "出所: 警察庁「交通事故統計のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) より加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、令和2年国勢調査 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ]
+}

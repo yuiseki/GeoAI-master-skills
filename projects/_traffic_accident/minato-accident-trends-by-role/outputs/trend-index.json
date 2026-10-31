@@ -1,0 +1,15 @@
+{
+ "question": "港区の事故の件数は23区全体と比べてどう動いたか",
+ "inputs": [
+  "outputs/yearly.csv"
+ ],
+ "n": {
+  "港区": 7831,
+  "23区": 144716
+ },
+ "notes": "2019年を100とした推移。2020年の落ち込みから2023-2024年にかけての戻り方を比較",
+ "source": "出所: 警察庁「交通事故統計のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) より加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、令和2年国勢調査 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ]
+}

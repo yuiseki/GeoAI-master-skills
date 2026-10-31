@@ -1,0 +1,67 @@
+{
+ "value": "per_road_km_year",
+ "kind": "rate",
+ "unit": "件/道路km/年",
+ "crs": "EPSG:4612",
+ "source": "警察庁2019-2025/OSM",
+ "method": "quantile",
+ "classes": 5,
+ "breaks": [
+  0.2718071957666064,
+  1.71767544836219,
+  2.2810986890093914,
+  2.8315668994908965,
+  3.554480790172334,
+  6.4633866153283694
+ ],
+ "units_per_class": [
+  24,
+  23,
+  24,
+  23,
+  24
+ ],
+ "nodata_units": 0,
+ "palette": "viridis",
+ "boundary": "#404040",
+ "labels": null,
+ "labelled_units": 0,
+ "zero_area_rings_left_out": 0,
+ "font": "Noto Sans JP",
+ "unit_edges": true,
+ "covered_by_inset": [],
+ "zoomed_in_inset": [],
+ "inset_at": "lower right",
+ "title": "港区 事故密度の町丁分布 (分位)",
+ "aspect": 1.230671860356465,
+ "legend": "outside",
+ "text_overlaps": [],
+ "inset": null,
+ "hidden_by_inset": [],
+ "made": "2026-10-31",
+ "context": {
+  "path": "artifacts/_traffic_accident/chiyoda-accident-trends-by-role/_cache/municipalities.parquet",
+  "name": "name",
+  "where": "code5 between '13101' and '13123'",
+  "source": "jp-admin-2026-09@e6c87b1",
+  "crs": "EPSG:4612",
+  "crs_difference": null,
+  "areas": 8,
+  "labelled": [
+   "千代田区",
+   "中央区",
+   "港区",
+   "新宿区",
+   "江東区",
+   "品川区",
+   "目黒区",
+   "渋谷区"
+  ]
+ },
+ "highlight": {
+  "path": "projects/_traffic_accident/minato-accident-trends-by-role/tmp/town-highlights.csv",
+  "groups": {
+   "top": 5
+  }
+ }
+}

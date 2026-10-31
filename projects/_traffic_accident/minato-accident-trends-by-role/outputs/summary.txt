@@ -1,0 +1,19 @@
+deaths accidents 28; dead party {'二輪車': 20, '歩行者': 6, '自転車': 1, '補充票の人': 1}; party A {'二輪車': 16, '貨物車': 4, '乗用車 (自家用)': 4, '自転車': 1, '乗用車 (事業用)': 3}
+deaths hour 0-5 5; hour 19-5 13
+dead pedestrians aged 65+ 1 of 6
+全て: n 7831; top hours [(17, 539), (18, 508), (9, 494), (13, 482)]; weekday (Mon-Fri) n 6123; weekday top hours [(17, 448), (9, 417), (18, 406), (13, 382)]
+若い歩行者・自転車: n 573; top hours [(16, 57), (17, 51), (15, 48), (18, 47)]; weekday (Mon-Fri) n 415; weekday top hours [(16, 44), (17, 43), (18, 40), (15, 38)]
+高齢の歩行者: n 217; top hours [(14, 19), (17, 19), (12, 18), (9, 17)]; weekday (Mon-Fri) n 180; weekday top hours [(12, 16), (9, 15), (11, 15), (17, 14)]
+自転車: n 2392; top hours [(9, 187), (8, 176), (10, 161), (11, 158)]; weekday (Mon-Fri) n 1839; weekday top hours [(9, 158), (8, 145), (17, 130), (10, 129)]
+乗用車 (自家用): as party A 2578; as party B 1091
+乗用車 (事業用): as party A 2462; as party B 645
+貨物車: as party A 1288; as party B 715
+自転車: as party A 907; as party B 1600
+二輪車: as party A 490; as party B 1143
+bike as B with a car or truck as A 1416
+towns: accidents in towns 7765; most accidents [('六本木三丁目', '202', '43'), ('海岸三丁目', '181', '11'), ('北青山三丁目', '176', '21'), ('南青山二丁目', '159', '20'), ('六本木七丁目', '149', '30'), ('芝五丁目', '135', '36'), ('高輪三丁目', '134', '29'), ('東新橋一丁目', '134', '17')]
+minato 7 years: accidents 7831; died 28; hurt 8908
+minato shares (%): share_ped 19.7; share_bike 30.6; share_escooter 0.4; share_old_ped 2.8; share_young_pb 7.3; share_strict 15.1; share_broad 24.4; share_night 38.1; share_intersection 37.4
+minato ranks of 23: {'per_1000_residents_per_year': 3, 'share_ped': 6, 'share_bike': 22, 'share_escooter': 10, 'share_old_ped': 23, 'share_young_pb': 21, 'share_strict': 20, 'share_broad': 21, 'share_night': 2, 'share_intersection': 20}; total_wards: 23
+school map: young pedestrians and cyclists {'young_ped_or_bike': 573, 'weekday_7_8_or_14_17': 178}
+party cells: 乗用車 (事業用) x 自転車 625; 乗用車 (自家用) x 乗用車 (自家用) 545; 乗用車 (事業用) x 歩行者 499; 乗用車 (自家用) x 自転車 497; 自転車 x 相手なし・物件 463; 乗用車 (事業用) x 二輪車 450; 乗用車 (自家用) x 二輪車 430; 乗用車 (自家用) x 歩行者 371; 乗用車 (自家用) x 乗用車 (事業用) 338; 乗用車 (自家用) x 貨物車 328; 自転車 x 歩行者 307; 二輪車 x 相手なし・物件 307

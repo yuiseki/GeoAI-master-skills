@@ -1,0 +1,35 @@
+{
+ "question": "港区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json"
+ ],
+ "n": 118,
+ "notes": "breaks [0.2718071957666064, 1.71767544836219, 2.2810986890093914, 2.8315668994908965, 3.554480790172334, 6.4633866153283694];",
+ "source": "出所: 警察庁「交通事故統計のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) より加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、令和2年国勢調査 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 118,
+ "units_in_analysis": 118,
+ "highlighted": [
+  "北青山三丁目",
+  "新橋一丁目",
+  "麻布十番一丁目",
+  "新橋二丁目",
+  "三田三丁目"
+ ],
+ "text_overlaps": [
+  [
+   "新橋",
+   "2"
+  ],
+  [
+   "麻布十番",
+   "3"
+  ]
+ ]
+}
