@@ -1,6 +1,7 @@
 deaths accidents 28; dead party {'二輪車': 20, '歩行者': 6, '自転車': 1, '補充票の人': 1}; party A {'二輪車': 16, '貨物車': 4, '乗用車 (自家用)': 4, '自転車': 1, '乗用車 (事業用)': 3}
 deaths hour 0-5 5; hour 19-5 13
 dead pedestrians aged 65+ 1 of 6
+dead pedestrians hour 21-2 4 of 6
 全て: n 7831; top hours [(17, 539), (18, 508), (9, 494), (13, 482)]; weekday (Mon-Fri) n 6123; weekday top hours [(17, 448), (9, 417), (18, 406), (13, 382)]
 若い歩行者・自転車: n 573; top hours [(16, 57), (17, 51), (15, 48), (18, 47)]; weekday (Mon-Fri) n 415; weekday top hours [(16, 44), (17, 43), (18, 40), (15, 38)]
 高齢の歩行者: n 217; top hours [(14, 19), (17, 19), (12, 18), (9, 17)]; weekday (Mon-Fri) n 180; weekday top hours [(12, 16), (9, 15), (11, 15), (17, 14)]

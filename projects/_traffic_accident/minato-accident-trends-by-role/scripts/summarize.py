@@ -26,6 +26,8 @@ def main():
                  f"hour 19-5 {sum(int(r['hour']) >= 19 or int(r['hour']) <= 5 for r in deaths)}")
     ages = [r["age_A"] if r["type_A"] == "歩行者" else r["age_B"] for r in deaths if r["dead_party"] == "歩行者"]
     lines.append(f"dead pedestrians aged 65+ {sum(a in ('65', '75') for a in ages)} of {len(ages)}")
+    ped_hours = [int(r['hour']) for r in deaths if r['dead_party'] == '歩行者']
+    lines.append(f"dead pedestrians hour 21-2 {sum(h in (21, 22, 23, 0, 1, 2) for h in ped_hours)} of {len(ped_hours)}")
     hours = rows("hour_weekday.csv")
     for group in ("全て", "若い歩行者・自転車", "高齢の歩行者", "自転車"):
         every, weekday = Counter(), Counter()
