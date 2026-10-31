@@ -150,7 +150,7 @@ test('バスと台東区の記事は定義した用語で書く', async () => {
   const taito = await read('src/content/reports/taito-traffic-accidents.md');
   assert.match(bus, /単一事業者メッシュと呼びます/);
   assert.match(bus, /## 定義と感度分析/);
-  assert.doesNotMatch(bus, /読み方|停留所圏/);
+  assert.doesNotMatch(bus, /読み方|停留所圏|追試|元の報告|既存の報告/);
   assert.match(taito, /### 用語の定義/);
   assert.match(taito, /## 定義と感度分析/);
   assert.doesNotMatch(taito, /読み方|過失の重い側が|狭い読み|広い読み|若い \(/);
