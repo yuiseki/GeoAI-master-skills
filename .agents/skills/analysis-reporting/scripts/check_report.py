@@ -16,9 +16,11 @@ reads the answer and, optionally, the outputs it was written from.
     traceable    every number in 結論 must appear in the evidence (tool outputs, logs, the commands run), up to
                  rounding at the conclusion's own precision (82% matches 0.8183; 0.45 does not match 0.4446).
                  Dates are skipped, and so are a 1 that names a unit (1 人あたり), figure and table numbers (図 1,
-                 表 2), link targets (#図-1-..., ../other/report.md) and the row number in a table's first cell. A distance in km also matches the
-                 evidence in metres (1 km against --catchment 1000). A number the evidence does not hold was computed or remembered somewhere
-                 else: find where, or take it out.
+                 表 2; but not a word ending in 図 or 表, as in 箇所表 0.61, and not a decimal), link targets
+                 (#図-1-..., ../other/report.md) and the row number in a table's first cell. A distance in km also
+                 matches the evidence in metres (1 km against --catchment 1000). In the evidence, a comma-grouped
+                 number also counts as its parts, so a CSV row such as 285,245,13 holds 285, 245 and 13. A number the
+                 evidence does not hold was computed or remembered somewhere else: find where, or take it out.
 
 Usage:
     python3 check_report.py ANSWER.md --level simple|standard|full [--evidence OUTPUT.txt ...]
@@ -56,7 +58,9 @@ def sections(text):
 
 # references, not results: a link target (#図-1-件数の推移, ../grid-100m/report.md), a figure or table number (図 1,
 # 表 2) and the row number in the first cell of a table (| 3 | ...)
-_REFERENCE = re.compile(r"\]\([^)]*\)|[図表]\s*\d+|^\|\s*\d+\s*(?=\|)")
+# 図 and 表 after another kanji are part of a word (箇所表 0.61, 地図 9 枚), and a reference number is whole, not a
+# decimal (図 0.61 is a value)
+_REFERENCE = re.compile(r"\]\([^)]*\)|(?<![\u4e00-\u9fff])[図表]\s*\d+(?![\d.])|^\|\s*\d+\s*(?=\|)", re.MULTILINE)
 _PER_UNIT = re.compile(r"\s*(?:[^\s\d]{1,3}\s*)?あたり|\s*[人校件台]に")
 _KM = re.compile(r"\s*km")
 
@@ -80,8 +84,15 @@ def numbers_in(text, units=False):
 
 
 def traceable(conclusion, evidence):
-    """The conclusion's numbers that no evidence number rounds to."""
-    ev = [v for _, v, _, _ in numbers_in(evidence)]
+    """The conclusion's numbers that no evidence number rounds to. References in the conclusion are skipped. In the
+    evidence, a number grouped by commas is also read as its parts, since a CSV row of three-digit values
+    (285,245,13) looks like a thousands-grouped number."""
+    conclusion = _REFERENCE.sub(" ", conclusion)
+    ev = []
+    for t, v, _, _ in numbers_in(evidence):
+        ev.append(v)
+        if "," in t:
+            ev += [float(x.rstrip("%").replace("−", "-")) for x in t.split(",") if x.strip("%−-")]
     missing = []
     for t, v, dec, pct, km in numbers_in(conclusion, units=True):
         candidates = ev + ([e * 100 for e in ev] if pct else []) + ([e / 1000 for e in ev] if km else [])
@@ -126,7 +137,7 @@ def check(text, level, evidence=None):
         problems.append(f"{len(lines)} non-empty lines for a {level} answer (at most {limit}); shorten it or "
                         "choose the level the analysis needs")
     if evidence is not None and "結論" in s:
-        for t in traceable(" ".join(_REFERENCE.sub(" ", x) for x in s["結論"]), evidence):
+        for t in traceable("\n".join(s["結論"]), evidence):
             problems.append(f"結論: {t} does not appear in the evidence")
     return problems
 

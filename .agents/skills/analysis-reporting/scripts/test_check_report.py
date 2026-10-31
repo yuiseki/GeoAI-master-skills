@@ -85,6 +85,27 @@ def test_csv_rows_are_read_as_separate_numbers_and_thousands_need_groups_of_thre
     assert [n[1] for n in numbers_in("1,168,211 セル、12,345 件")] == [1168211.0, 12345.0]
 
 
+def test_a_csv_row_of_three_digit_values_in_the_evidence_is_also_read_value_by_value():
+    # "285,245,13" looks like the thousands-grouped 285,245; in the evidence each value must also count
+    ev = "ward,both,model_only\n品川区,285,245,13"
+    assert traceable("品川区は両方 285、予測モデルだけ 245", ev) == []
+    assert traceable("285,245 件", ev) == []  # the grouped reading stays possible
+    # in the conclusion, a grouped number is still one number
+    assert traceable("1,168,211 セル", "1168211") == []
+    assert traceable("1,168 セル", "1,168211") == ["1,168"]
+
+
+def test_a_word_ending_in_table_or_figure_is_not_a_reference():
+    ev = "auc 0.6149 n 835"
+    # 箇所表 (a list of places) and 地図 (a map) are words, not "表 N" or "図 N"
+    assert traceable("箇所表 0.61、835 か所", ev) == []
+    assert traceable("箇所表 0.72", ev) == ["0.72"]
+    assert traceable("地図 9 枚", ev) == ["9"]
+    # a reference is followed by a whole number, not a decimal
+    assert traceable("図 0.61 の値", ev) == []
+    assert traceable("図 4 と表 2 のとおり 0.61", ev) == []
+
+
 def test_figure_and_table_references_and_row_numbers_are_not_results():
     # a figure-led conclusion: the points table numbers its rows and links to "### 図 N: ..." headings
     md = """## 問い
