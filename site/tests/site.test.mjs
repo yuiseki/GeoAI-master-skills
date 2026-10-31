@@ -37,6 +37,16 @@ test('Wrangler は公開用 Worker にデプロイする', async () => {
   assert.equal(config.workers_dev, true);
 });
 
+test('トップは実際の研究図を主役にし、操作文言を簡潔にする', async () => {
+  const home = await read('src/pages/index.astro');
+  const base = await read('src/layouts/Base.astro');
+  assert.match(home, /<img[^>]+src="\/images\/bus-operator-share\.png"[^>]+alt=/);
+  assert.doesNotMatch(home, /hero-graphic|orbit-one|Selected research|Research notes/);
+  assert.match(base, /研究一覧/);
+  assert.match(base, /prefers-reduced-motion/);
+  assert.doesNotMatch(home + base, /GitHub ↗|研究を読む <span|研究を見る <span/);
+});
+
 test('公開記事は選定済みの二件だけで、出典と限界を持つ', async () => {
   const entries = [
     'src/content/reports/bus-operator-concentration.md',

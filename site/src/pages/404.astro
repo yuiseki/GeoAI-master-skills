@@ -2,6 +2,6 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base title="ページが見つかりません" description="指定されたページは見つかりませんでした。">
-  <div class="shell missing"><p class="eyebrow">404 / Not found</p><h1>ページが見つかりません。</h1><p>URLを確認するか、研究一覧に戻ってください。</p><a class="button-link" href="/">研究一覧へ戻る</a></div>
+  <div class="shell missing"><h1>ページが見つかりません。</h1><p>URLを確認してください。</p><a class="button-link" href="/#reports">研究一覧に戻る</a></div>
 </Base>
-<style>.missing { min-height: 55vh; padding-block: 6rem; }.missing h1 { font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.05em; }.missing p:not(.eyebrow) { color: var(--muted); margin-bottom: 2rem; }</style>
+<style>.missing { min-height: 55vh; padding-block: 6rem; }.missing h1 { font-family: var(--display-font); font-weight: 600; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.05em; }.missing p { color: var(--muted); margin-bottom: 2rem; }</style>
