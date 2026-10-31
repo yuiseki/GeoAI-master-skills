@@ -10,6 +10,7 @@
 scripts/     コードとテスト (dem.py、roadprofile.py が規則、test_*.py がそのテスト)
 outputs/     報告が引く結果 (JSON) と図 (PNG)
   tokyo23_underpass_a31a_osm_dem.png  東京23区の登録地点・OSMタグ由来の推定候補・洪水想定・道路・標高の探索図
+  tokyo23_underpass_layer_switch.gif  4種類の地点レイヤーを約0.9秒ごとに切替 (道路・A31a・標高・区境界は固定)
 artifacts/_flood/underpass-ponding-exposure/
   raw/          版を固定した入力。planet_osm_line.parquet は手で落とす (下)、roads.parquet はその切り出し
   dem/          標高タイル (dem5a/15、dem/14)。404 は .404 の空のファイル。fetch_log.json

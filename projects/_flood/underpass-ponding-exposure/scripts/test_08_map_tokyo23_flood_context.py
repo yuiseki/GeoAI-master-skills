@@ -35,6 +35,15 @@ def test_map_layer_order_matches_requested_visual_priority():
     assert z["underpass"] > z["kansui"] > z["inferred_underpass"] > z["historical_flood"] > z["osm_roads"] > z["a31a"]
 
 
+def test_gif_switches_the_four_point_layers_in_requested_order():
+    assert module.ANIMATION_LAYER_SEQUENCE == (
+        "underpass", "kansui", "inferred_underpass", "tokyo_flood_record_points"
+    )
+    assert module.ANIMATION_LAYER_LABELS == (
+        "国交省アンダーパス", "地方整備局冠水想定", "OSMタグアンダーパス推定", "浸水実績"
+    )
+
+
 def test_h1_uses_allowed_osm_tags_and_excludes_motorways():
     assert module.is_h1_underpass_road("residential", "yes", None, None)
     assert module.is_h1_underpass_road("primary", None, "yes", None)

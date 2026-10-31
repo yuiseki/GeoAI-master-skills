@@ -10,6 +10,18 @@
     "OSM主要道路",
     "A31a"
   ],
+  "layer_switch_gif": {
+    "file": "tokyo23_underpass_layer_switch.gif",
+    "sequence": [
+      "国交省アンダーパス",
+      "地方整備局冠水想定",
+      "OSMタグアンダーパス推定",
+      "浸水実績"
+    ],
+    "frame_duration_ms": 900,
+    "loop": true,
+    "switches": "one point layer at a time; DEM, A31a, OSM major roads and ward boundaries stay fixed"
+  },
   "inferred_underpass_method": {
     "status": "exploratory candidates, not verified underpasses",
     "reference": "evals/tasks/small-rubric-4.md H1; this generator uses no official underpass list for candidate construction",
@@ -1153,7 +1165,7 @@
       "layer": "dem",
       "zoom": 14,
       "nominal_ground_resolution": "about 10 m",
-      "retrieved_utc": "2026-10-31T10:42:48.041792+00:00",
+      "retrieved_utc": "2026-10-31T10:46:26.152099+00:00",
       "tiles": {
         "requested": 324,
         "available": 294,

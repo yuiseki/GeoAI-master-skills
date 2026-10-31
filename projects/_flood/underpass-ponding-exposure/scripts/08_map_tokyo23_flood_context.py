@@ -68,6 +68,9 @@ MAP_LAYER_ZORDER = {
     "kansui": 8,
     "underpass": 9,
 }
+ANIMATION_LAYER_SEQUENCE = ("underpass", "kansui", "inferred_underpass", "tokyo_flood_record_points")
+ANIMATION_LAYER_LABELS = ("国交省アンダーパス", "地方整備局冠水想定", "OSMタグアンダーパス推定", "浸水実績")
+ANIMATION_FRAME_DURATION_MS = 900
 H1_ROAD_CLASSES = {"trunk", "primary", "secondary", "tertiary", "unclassified", "residential", "living_street",
                    "trunk_link", "primary_link", "secondary_link", "tertiary_link"}
 
@@ -82,6 +85,33 @@ def depth_label(class_code: int) -> str:
 def historical_marker_style() -> dict[str, object]:
     """Style historical flood records distinctly from hazard polygons and sites."""
     return {"marker": "o", "color": "#F0E442", "edgecolor": "#6F6200", "alpha": 0.62}
+
+
+def save_layer_switch_gif(fig, layer_artists, output: Path, counts: dict[str, int]) -> None:
+    """Save an animation that toggles point layers while leaving map context fixed."""
+    from matplotlib.animation import FuncAnimation, PillowWriter
+
+    ax = fig.axes[0]
+    indicator = ax.text(
+        0.018, 0.975, "", transform=ax.transAxes, ha="left", va="top", fontsize=11,
+        color="#111111", zorder=20,
+        bbox={"facecolor":"white", "edgecolor":"#555555", "alpha":0.94, "boxstyle":"round,pad=0.35"},
+    )
+
+    def update(frame: int):
+        active_key = ANIMATION_LAYER_SEQUENCE[frame]
+        label = ANIMATION_LAYER_LABELS[frame]
+        count_key = "inferred_underpass_candidates" if active_key == "inferred_underpass" else active_key
+        indicator.set_text(f"{label}  ({counts.get(count_key, 0):,}地点)")
+        for key, artists in layer_artists.items():
+            for artist in artists:
+                artist.set_visible(key == active_key)
+        return [indicator, *(artist for artists in layer_artists.values() for artist in artists)]
+
+    animation = FuncAnimation(fig, update, frames=len(ANIMATION_LAYER_SEQUENCE),
+                              interval=ANIMATION_FRAME_DURATION_MS, repeat=True, blit=False)
+    animation.save(output, writer=PillowWriter(fps=1000 / ANIMATION_FRAME_DURATION_MS), dpi=100)
+    plt.close(fig)
 
 
 def is_h1_underpass_road(highway, tunnel, covered, layer) -> bool:
@@ -397,25 +427,31 @@ def main() -> None:
         ax.text(rp.x, rp.y, name, fontsize=7.3, ha="center", va="center", color="#263238",
                 bbox={"facecolor":"white","edgecolor":"none","alpha":0.68,"pad":0.6}, zorder=5)
 
+    layer_artists = {key: [] for key in ANIMATION_LAYER_SEQUENCE}
+
     # These historical flood records are not road-flood observations.
     history_style = historical_marker_style()
     if len(historical):
-        ax.scatter(historical[:,0], historical[:,1], s=42, marker=history_style["marker"],
-                   c=history_style["color"], edgecolors=history_style["edgecolor"],
-                   linewidths=0.55, alpha=history_style["alpha"], zorder=MAP_LAYER_ZORDER["historical_flood"])
+        layer_artists["tokyo_flood_record_points"].append(
+            ax.scatter(historical[:,0], historical[:,1], s=42, marker=history_style["marker"],
+                       c=history_style["color"], edgecolors=history_style["edgecolor"],
+                       linewidths=0.55, alpha=history_style["alpha"], zorder=MAP_LAYER_ZORDER["historical_flood"]))
     if len(inferred_xy):
-        ax.scatter(inferred_xy[:,0], inferred_xy[:,1], s=48, marker="D", c="#CC79A7",
-                   edgecolors="#4A1736", linewidths=0.55, alpha=0.92,
-                   zorder=MAP_LAYER_ZORDER["inferred_underpass"])
+        layer_artists["inferred_underpass"].append(
+            ax.scatter(inferred_xy[:,0], inferred_xy[:,1], s=48, marker="D", c="#CC79A7",
+                       edgecolors="#4A1736", linewidths=0.55, alpha=0.92,
+                       zorder=MAP_LAYER_ZORDER["inferred_underpass"]))
     for key, _, _, _, color, marker in point_specs:
         xy = points[key]
         if len(xy):
             if key == "underpass":
-                ax.scatter(xy[:,0], xy[:,1], s=23, marker=marker, facecolors="none", edgecolors=color,
-                           linewidths=0.9, alpha=0.95, zorder=MAP_LAYER_ZORDER["underpass"])
+                layer_artists[key].append(
+                    ax.scatter(xy[:,0], xy[:,1], s=23, marker=marker, facecolors="none", edgecolors=color,
+                               linewidths=0.9, alpha=0.95, zorder=MAP_LAYER_ZORDER["underpass"]))
             else:
-                ax.scatter(xy[:,0], xy[:,1], s=28, marker=marker, c=color, edgecolors="white",
-                           linewidths=0.35, alpha=0.9, zorder=MAP_LAYER_ZORDER["kansui"])
+                layer_artists[key].append(
+                    ax.scatter(xy[:,0], xy[:,1], s=28, marker=marker, c=color, edgecolors="white",
+                               linewidths=0.35, alpha=0.9, zorder=MAP_LAYER_ZORDER["kansui"]))
 
     ax.set_xlim(bx0, bx1)
     ax.set_ylim(by0, by1)
@@ -470,7 +506,8 @@ def main() -> None:
 
     png = OUT / "tokyo23_underpass_a31a_osm_dem.png"
     fig.savefig(png, dpi=160, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
+    gif = OUT / "tokyo23_underpass_layer_switch.gif"
+    save_layer_switch_gif(fig, layer_artists, gif, counts)
     inferred_lonlat = Transformer.from_crs("EPSG:3857", "EPSG:4326", always_xy=True)
     inferred_point_metadata = []
     for candidate in inferred:
@@ -481,6 +518,9 @@ def main() -> None:
         "purpose": "探索的な重ね合わせ。危険度の推定・検証ではない",
         "crs_display": "EPSG:3857 (display only; no distance/area estimates from this CRS)",
         "visual_layer_order_top_to_bottom": ["国交省アンダーパス", "地方整備局・冠水想定", "OSMタグ由来の推定候補", "東京都の浸水実績図・地点", "OSM主要道路", "A31a"],
+        "layer_switch_gif": {"file":gif.name,"sequence":list(ANIMATION_LAYER_LABELS),
+            "frame_duration_ms":ANIMATION_FRAME_DURATION_MS,"loop":True,
+            "switches":"one point layer at a time; DEM, A31a, OSM major roads and ward boundaries stay fixed"},
         "inferred_underpass_method": {"status":"exploratory candidates, not verified underpasses",
             "reference":"evals/tasks/small-rubric-4.md H1; this generator uses no official underpass list for candidate construction",
             "osm_rule":"highway in trunk/primary/secondary/tertiary/unclassified/residential/living_street and links, plus tunnel=yes OR covered tag other than no/false/0 OR layer<0",
@@ -514,7 +554,7 @@ def main() -> None:
                      "Tokyo flood records are not necessarily road-flood incidents."],
     }
     (OUT / "tokyo23_underpass_a31a_osm_dem.json").write_text(json.dumps(meta,ensure_ascii=False,indent=2)+"\n")
-    print(json.dumps({"png":str(png),"counts":counts,"a31a_rows":a31a_rows_count,
+    print(json.dumps({"png":str(png),"gif":str(gif),"counts":counts,"a31a_rows":a31a_rows_count,
                       "roads":len(road_rows),"dem_tiles":tile_counts},ensure_ascii=False))
 
 
