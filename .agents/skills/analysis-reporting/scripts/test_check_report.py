@@ -232,3 +232,9 @@ def test_a_hash_is_not_read_as_exponent_notation():
     # jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135: e13135 is part of the hash, not an exponent
     tokens = [t for t, *_ in numbers_in("版 e6c87b1d7095c17422147962185071a986e13135")]
     assert not any("e" in t for t in tokens), tokens
+
+
+def test_a_per_mille_matches_the_fraction():
+    # b5_diagnostics.json holds 0.0242 and the report writes 24.2‰
+    assert traceable("Q1 の陽性の割合 24.2‰", '{"q1": 0.0242}') == []
+    assert traceable("Q1 の陽性の割合 24.2‰", '{"q1": 0.242}') == ["24.2‰"]

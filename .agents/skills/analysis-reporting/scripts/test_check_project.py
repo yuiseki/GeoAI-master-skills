@@ -230,3 +230,13 @@ def test_a_key_row_without_numbers_needs_no_citation(tmp_path):
     report = KEY_TABLE.replace("| 2 | 自転車が多い | 27.3% ([wards.csv](outputs/wards.csv)) |",
                                "| 2 | 次に要るのは別のデータ | 事業者別の速度と基地局の位置 |")
     assert check_project(make_cited(tmp_path, report)) == []
+
+
+def test_a_setting_in_the_method_may_appear_in_an_uncited_sentence(tmp_path):
+    # "置換 (10,000 回)" is a setting written in 方法; a figure caption in 結論 may repeat it without a citation
+    report = KEY_TABLE.replace("## データ", "p は置換 10,000 回から求めた。\n\n## データ").replace(
+        "半径 30 m の円で数えた。", "半径 30 m の円で数え、p は置換 10,000 回から求めた。")
+    assert check_project(make_cited(tmp_path, report)) == []
+    report = report.replace("p は置換 10,000 回から求めた。\n\n## 確かめていないこと", "\n\n## 確かめていないこと")
+    assert check_project(make_cited(tmp_path / "b", report.replace("半径 30 m の円で数え、p は置換 10,000 回から求めた。", "半径 30 m の円で数えた。"))) == [
+        "report.md: 結論: 10,000 does not appear in the evidence"]

@@ -42,7 +42,7 @@ _YEAR = r"(?<![\d,.])(?:1[89]|20)\d{2}"
 _DATE = re.compile(r"\d{4}-\d{2}-\d{2}|\d{4}-\d{2}|" + _YEAR + r"\s*(?:[〜~–-]\s*" + _YEAR + r")?\s*年")
 # a comma is a thousands separator only between groups of three digits (1,168,211); otherwise it separates two
 # numbers, as in a CSV row written without spaces (1400,8.4293)
-_NUM = re.compile(r"[−-]?(?:\d{1,3}(?:,\d{3})+(?![\d])|\d+)(?:\.\d+)?(?:[eE][-+]\d+(?![\d.]))?%?")
+_NUM = re.compile(r"[−-]?(?:\d{1,3}(?:,\d{3})+(?![\d])|\d+)(?:\.\d+)?(?:[eE][-+]\d+(?![\d.]))?[%‰]?")
 _VERSION = re.compile(r"\d{4}-\d{2}|\d{4} ?年|版|v\d|version|\d+\.\d+")
 
 
@@ -78,8 +78,8 @@ def numbers_in(text, units=False):
         after = text[m.end():m.end() + 6]
         if t == "1" and _PER_UNIT.match(after):
             continue
-        pct = t.endswith("%")
-        core = t.rstrip("%").replace(",", "").replace("−", "-")
+        pct = t.endswith(("%", "‰"))
+        core = t.rstrip("%‰").replace(",", "").replace("−", "-")
         mantissa, _, exponent = core.lower().partition("e")
         dec = len(mantissa.split(".")[1]) if "." in mantissa else 0
         dec = max(dec - int(exponent), 0) if exponent else dec
@@ -100,7 +100,8 @@ def traceable(conclusion, evidence):
             ev += [float(x.rstrip("%").replace("−", "-")) for x in t.split(",") if x.strip("%−-")]
     missing = []
     for t, v, dec, pct, km in numbers_in(conclusion, units=True):
-        candidates = ev + ([e * 100 for e in ev] if pct else []) + ([e / 1000 for e in ev] if km else [])
+        scale = 1000 if t.endswith("‰") else 100  # a percentage or per mille is the fraction times 100 or 1,000
+        candidates = ev + ([e * scale for e in ev] if pct else []) + ([e / 1000 for e in ev] if km else [])
         # within half a unit of the conclusion's last digit, a tie included: an output's 5.665 may be written 5.66
         # or 5.67, since the output may itself be rounded from 5.6649 or 5.6651
         half = 0.5 * 10 ** -dec + 10 ** -(dec + 6)

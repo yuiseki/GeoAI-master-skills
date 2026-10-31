@@ -183,7 +183,10 @@ def check_project(project, level="full", extra=()):
     rest = text
     for segment in cited:
         rest = rest.replace(segment, "（出典つき）")
-    problems += [f"report.md: {p}" for p in format_problems(report, text) + check(rest, level, evidence)] + scoped
+    # settings written in 問い and 方法 are definitions, so the rest of 結論 may repeat them too
+    definitions = "\n".join(parts.get("問い", []) + parts.get("方法", []))
+    problems += [f"report.md: {p}" for p in format_problems(report, text) + check(rest, level, evidence + "\n" + definitions)]
+    problems += scoped
     for reader in sorted((project / "reports").rglob("*.md")) if (project / "reports").is_dir() else []:
         try:
             body = _FENCE.sub("", reader.read_text(encoding="utf-8"))
