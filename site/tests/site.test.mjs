@@ -7,6 +7,12 @@ import test from 'node:test';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (name) => readFile(path.join(root, name), 'utf8');
 
+test('Wrangler は公開用 Worker にデプロイする', async () => {
+  const config = JSON.parse(await read('wrangler.jsonc'));
+  assert.equal(config.name, 'geoai-yuiseki-net');
+  assert.equal(config.assets.directory, './dist');
+});
+
 test('公開記事は選定済みの二件だけで、出典と限界を持つ', async () => {
   const entries = [
     'src/content/reports/bus-operator-concentration.md',
