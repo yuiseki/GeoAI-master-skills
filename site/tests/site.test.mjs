@@ -66,12 +66,13 @@ test('公開ページの画像は元の縦横比を保ち、操作要素は操�
   assert.match(base, /text-wrap: balance/);
 });
 
-test('公開記事は選定済みの四件だけで、出典と限界を持つ', async () => {
+test('公開記事は選定済みの五件だけで、出典と限界を持つ', async () => {
   const entries = [
     'src/content/reports/bus-operator-concentration.md',
     'src/content/reports/akita-bear-risk.md',
     'src/content/reports/taito-traffic-accidents.md',
     'src/content/reports/tokyo23-daytime-evac-stress.md',
+    'src/content/reports/tokyo23-flood-record-vs-a31a.md',
   ];
   assert.deepEqual((await readdir(path.join(root, 'src/content/reports'))).sort(), entries.map((entry) => path.basename(entry)).sort());
   for (const entry of entries) {
@@ -119,6 +120,7 @@ test('記事のタイトルはやったことを伝え、冒頭で問いとわ�
     'taito-traffic-accidents.md': '東京都・台東区の交通事故事例の多角的分析',
     'bus-operator-concentration.md': '高齢化地域におけるバス事業者集中リスクの調査',
     'tokyo23-daytime-evac-stress.md': '東京23区の平日昼間人口から見た避難所の潜在的逼迫の分析',
+    'tokyo23-flood-record-vs-a31a.md': '東京23区の浸水実績から学習した予測モデルと洪水浸水想定区域 \\(A31a\\) の比較',
   };
   for (const [file, title] of Object.entries(titles)) {
     const markdown = await read(`src/content/reports/${file}`);
