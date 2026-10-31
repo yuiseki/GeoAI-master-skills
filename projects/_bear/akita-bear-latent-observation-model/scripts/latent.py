@@ -143,7 +143,9 @@ def fit(model, data, seed=0, chains=2, warmup=500, samples=500, dense=None, **kw
     rhat = max(float(np.nanmax(s["r_hat"])) for s in stats.values())
     ess = min(float(np.nanmin(s["n_eff"])) for s in stats.values())
     div = float(np.mean(np.asarray(mcmc.get_extra_fields()["diverging"])))
-    return {k: np.asarray(v) for k, v in mcmc.get_samples().items()}, {"max_rhat": rhat, "min_ess": ess, "divergent_share": div}
+    out = {k: np.asarray(v) for k, v in mcmc.get_samples().items()}
+    jax.clear_caches()  # each fit compiles anew; without this a process grows to ~5 GB over 20 fits
+    return out, {"max_rhat": rhat, "min_ess": ess, "divergent_share": div}
 
 
 def estimands(s, data):
