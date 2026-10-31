@@ -12,7 +12,7 @@
 | [bear-risk-transfer](bear-risk-transfer/) | 秋田で学習した 100 m のモデルを、岐阜、京都、石川、長岡へそのまま当てはめられるか | akita-bear-risk-grid-100m |
 | [bear-risk-sources](bear-risk-sources/) | 当てはめで、建物、道路、川のデータの出どころや学習の地域の数で当たりがどう変わるか | akita-bear-risk-grid-100m、bear-risk-transfer |
 | [akita-bear-mast-exposure](akita-bear-mast-exposure/) | 年のブナの豊凶 × ブナ・ナラ類の植生は、B_env の順位を良くするか (しなかった。cross-fit の追加の診断あり) | akita-bear-risk-grid-100m、beech-masting-triggers |
-| [akita-bear-human-interface](akita-bear-human-interface/) | B_env の予測力は熊側、人側、両者の境目の proxy のどこから来ているか。通報のセルは年度ごとにその平面のどちらへ動いたか (予測変数は足さない) | akita-bear-risk-grid-100m |
+| [akita-bear-human-interface](akita-bear-human-interface/) | B_env の予測力は熊側、人側、両者の境目の proxy のどこから来ているか。通報のセルは年度ごとにその平面のどちらへ動いたか (人側の特徴量だけで B_env の当たりの 96〜98%。静的な proxy では熊側の拡大と通報の過程の変化を分けられない) | akita-bear-risk-grid-100m |
 
 ## ブナの豊凶
 
