@@ -76,6 +76,8 @@ def main():
         s = np.array(p["s"])
         ax1.plot(s, p["e5a"], color="#d8452b", label="DEM5A")
         ax1.plot(s, p["e10b"], color="#3b7dd8", label="DEM10B")
+        if "emt" in p and p["emt"] is not None:
+            ax1.plot(s, p["emt"], color="#2a9d5c", lw=1.0, label="Mapterhorn z16")
         ax1.axvline(0, color="black", lw=0.6)
         ax1.axvspan(-30, 30, color="#eee")
         ax1.set_xlabel("点からの距離 (m、縦断に沿って)", fontsize=8)
@@ -89,7 +91,7 @@ def main():
         log.append({"id": r.id, "name": r["name"], "match_m": r.match_m, "highway": r.highway, "tunnel": bool(r.tunnel),
                     "ambiguous": bool(r.ambiguous), "roads_drawn": len(near)})
     fig.text(0.01, 0.995, "赤: 下を通る道路として選んだ線 (つないだ縦断)、青: 50 m 以内の他の候補、灰色の破線: 橋。"
-             "右の灰色の帯は底を探す範囲 (±30 m)。出典: OpenStreetMap、国土地理院の標高タイル", fontsize=8, va="top")
+             "右の灰色の帯は底を探す範囲 (±30 m)。出典: OpenStreetMap、国土地理院の標高タイル (Mapterhorn の線は © Mapterhorn、国土地理院の数値標高モデル)", fontsize=8, va="top")
     fig.tight_layout(rect=(0, 0, 1, 0.99))
     Path(a.out).parent.mkdir(exist_ok=True)
     fig.savefig(a.out, dpi=110)
