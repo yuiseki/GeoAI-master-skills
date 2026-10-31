@@ -39,13 +39,28 @@ function loadAssets() {
  * joining phrases with zero-width spaces each phrase becomes its own flex item.
  */
 export function phrases(text: string): string[] {
-  return parser.parse(text);
+  // budoux can join words across spaces, and a dataset id such as
+  // `(akita-kumadas-wildlife-sighting)` is one phrase. Break after spaces, keep an id whole so it
+  // moves to the next line intact, and split it after hyphens only when it cannot fit on a line.
+  const pieces = parser
+    .parse(text)
+    .flatMap((phrase) => phrase.split(/(?<= )/)) // a space is always a break opportunity
+    .flatMap((phrase) => (phrase.length > 36 ? phrase.split(/(?<=[-/_])/) : [phrase]));
+  // Move a leading space onto the previous piece, where it ends a line invisibly instead of indenting the next.
+  return pieces.reduce<string[]>((out, piece) => {
+    const lead = piece.match(/^ +/)?.[0] ?? '';
+    if (lead && out.length) out[out.length - 1] += lead;
+    const rest = piece.slice(lead.length);
+    if (rest) out.push(rest);
+    return out;
+  }, []);
 }
 
 function titleSize(title: string): number {
   if (title.length <= 20) return 64;
   if (title.length <= 30) return 56;
-  return 50;
+  if (title.length <= 42) return 50;
+  return 44;
 }
 
 type Node = { type: string; props: Record<string, unknown> };
@@ -99,12 +114,16 @@ async function toPng(tree: Node): Promise<Uint8Array<ArrayBuffer>> {
   return new Uint8Array(new Resvg(svg, { font: { loadSystemFonts: false } }).render().asPng());
 }
 
-export async function renderOgpPng({ title }: { title: string }): Promise<Uint8Array<ArrayBuffer>> {
+/** A card for one page: the title, an optional line under it, and the marble. */
+export async function renderOgpPng({ title, subtitle }: { title: string; subtitle?: string }): Promise<Uint8Array<ArrayBuffer>> {
   const { marble } = loadAssets();
+  const heading = wrapped(title, {
+    fontFamily: 'Noto Serif JP', fontSize: titleSize(title), lineHeight: 1.42, color: colors.ink, letterSpacing: '-0.02em',
+  });
   const body = h('div', { flex: 1, display: 'flex', alignItems: 'center', gap: 48 }, [
-    wrapped(title, {
-      flex: 1, fontFamily: 'Noto Serif JP', fontSize: titleSize(title), lineHeight: 1.42, color: colors.ink, letterSpacing: '-0.02em',
-    }),
+    h('div', { flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 22 }, subtitle
+      ? [heading, wrapped(subtitle, { fontFamily: 'Noto Sans JP', fontSize: 28, lineHeight: 1.6, color: colors.muted })]
+      : [heading]),
     img(marble, 192),
   ]);
   return toPng(card(body, footer(SITE_NAME, 'geoai.yuiseki.net')));

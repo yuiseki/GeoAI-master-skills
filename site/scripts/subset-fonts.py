@@ -2,7 +2,7 @@
 
 satori needs static OTF/TTF files, and the full fonts are about 17MB each.
 The subsets keep ASCII, kana, Japanese punctuation, JIS X 0208 level 1 and 2
-kanji and every character in the report front matter, so new titles usually
+kanji, every character in the report front matter and every data card title, so new titles usually
 render without regenerating the fonts.
 
 Run from site/:
@@ -22,6 +22,7 @@ from fontTools.ttLib import TTFont
 SITE = Path(__file__).resolve().parent.parent
 OUT = SITE / "src/assets/fonts"
 REPORTS = SITE / "src/content/reports"
+CARDS = SITE.parent / ".agents/skills/dataset-discovery/references"
 SOURCES = {
     # Debian fonts-noto-cjk 1:20230817; index 0 of each collection is JP.
     "NotoSerifJP-SemiBold.otf": Path("/usr/share/fonts/opentype/noto/NotoSerifCJK-SemiBold.ttc"),
@@ -52,6 +53,16 @@ def front_matter_text() -> str:
     return "".join(text)
 
 
+def card_titles() -> str:
+    """The first heading of every data card, since dataset pages put it on their OGP image."""
+    titles = []
+    for path in sorted(CARDS.rglob("*.md")):
+        match = re.search(r"^# (.+)$", path.read_text(encoding="utf-8"), re.M)
+        if match:
+            titles.append(match.group(1))
+    return "".join(titles)
+
+
 def charset() -> str:
     ranges = [
         (0x20, 0x7E),      # ASCII
@@ -61,12 +72,12 @@ def charset() -> str:
         (0xFF01, 0xFF9F),  # full-width and half-width forms
     ]
     chars = {chr(c) for start, end in ranges for c in range(start, end + 1)}
-    chars |= set(jis_x_0208_kanji()) | set(front_matter_text()) | set(EXTRA)
+    chars |= set(jis_x_0208_kanji()) | set(front_matter_text()) | set(card_titles()) | set(EXTRA)
     return "".join(sorted(c for c in chars if c not in "\n\r\t"))
 
 
 def check() -> int:
-    needed = set(front_matter_text()) | set(EXTRA)
+    needed = set(front_matter_text()) | set(card_titles()) | set(EXTRA)
     needed -= set("\n\r\t")
     failed = 0
     for name in SOURCES:

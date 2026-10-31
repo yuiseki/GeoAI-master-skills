@@ -13,7 +13,7 @@ const datasets = (await getCollection('datasets'))
   .sort((a, b) => b.usedBy.length - a.usedBy.length || a.dataset.id.localeCompare(b.dataset.id));
 ---
 
-<Base title="使ったデータセット" description="公開した調査レポートで実際に使ったデータセットのデータカード">
+<Base title="使ったデータセット" description="公開した調査レポートで実際に使ったデータセットのデータカード" ogImage="/ogp/datasets.png">
   <section class="datasets-section">
     <div class="shell">
       <div class="section-heading">

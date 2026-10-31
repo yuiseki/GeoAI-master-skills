@@ -278,3 +278,18 @@ test('/datasets/ は使ったデータセットをカードで一覧にする', 
   assert.match(index, /<h1[^>]*>使ったデータセット<\/h1>/);
   assert.match(await read('src/layouts/Base.astro'), /<a href="\/datasets\/">データセット<\/a>/);
 });
+
+test('データセットの一覧と各データセットのページにも、それぞれの OGP 画像を付ける', async () => {
+  const pngSize = async (file) => {
+    const png = await readFile(path.join(root, file));
+    return [png.readUInt32BE(16), png.readUInt32BE(20)];
+  };
+  const pages = (await readdir(path.join(root, 'dist/datasets'), { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name);
+  for (const id of pages) {
+    assert.deepEqual(await pngSize(`dist/ogp/datasets/${id}.png`), [1200, 630], id);
+    assert.match(await read(`dist/datasets/${id}/index.html`),
+      new RegExp(`<meta property="og:image" content="https://geoai\\.yuiseki\\.net/ogp/datasets/${id}\\.png"`), id);
+  }
+  assert.deepEqual(await pngSize('dist/ogp/datasets.png'), [1200, 630]);
+  assert.match(await read('dist/datasets/index.html'), /<meta property="og:image" content="https:\/\/geoai\.yuiseki\.net\/ogp\/datasets\.png"/);
+});

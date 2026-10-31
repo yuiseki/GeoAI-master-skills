@@ -20,9 +20,9 @@ Astro の Markdown は Unified を使う。数式には `remark-math` と `rehyp
 
 ## OGP 画像
 
-1200x630 の PNG をビルド時に生成する。記事ごとの画像は `src/pages/ogp/[slug].png.ts`、トップ用の別レイアウトは `src/pages/ogp/default.png.ts` が作る。`src/lib/ogp.ts` が satori で SVG を作り、resvg で PNG にする。タイトルは budoux で文節に分け、文節ごとに折り返す。Noto CJK にはゼロ幅スペースの字形が無いため、文節をゼロ幅スペースでつながず、別々の要素にしている。
+1200x630 の PNG をビルド時に生成する。記事ごとの画像は `src/pages/ogp/[slug].png.ts`、トップ用の別レイアウトは `src/pages/ogp/default.png.ts` が作る。データセットの一覧とカードの画像は `src/pages/ogp/datasets.png.ts` と `src/pages/ogp/datasets/[id].png.ts` が作る。`src/lib/ogp.ts` が satori で SVG を作り、resvg で PNG にする。タイトルは budoux で文節に分け、文節ごとに折り返す。Noto CJK にはゼロ幅スペースの字形が無いため、文節をゼロ幅スペースでつながず、別々の要素にしている。
 
-フォントは `src/assets/fonts/` に置いた Noto Serif CJK JP SemiBold と Noto Sans CJK JP Bold のサブセット。ライセンスは SIL Open Font License で、本文は `LICENSE-Noto-CJK.txt` にある。サブセットは ASCII、かな、記号、JIS 第1・第2水準の漢字と、記事の front matter の全文字を含む。フォントに無い文字がタイトルに入ると、ビルドは失敗する。その場合は、Debian の `fonts-noto-cjk` を入れた環境でサブセットを作り直す。
+フォントは `src/assets/fonts/` に置いた Noto Serif CJK JP SemiBold と Noto Sans CJK JP Bold のサブセット。ライセンスは SIL Open Font License で、本文は `LICENSE-Noto-CJK.txt` にある。サブセットは ASCII、かな、記号、JIS 第1・第2水準の漢字、記事の front matter の全文字、データカードの見出しの全文字を含む。フォントに無い文字がタイトルに入ると、ビルドは失敗する。その場合は、Debian の `fonts-noto-cjk` を入れた環境でサブセットを作り直す。
 
 ```sh
 cd site

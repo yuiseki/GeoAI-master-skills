@@ -20,7 +20,7 @@ const cardSource = dataset.filePath ? `${GITHUB_BLOB}${path.relative(REPO, path.
 const isUrl = (value: string) => /^https?:\/\//.test(value);
 ---
 
-<Base title={title} description={dataset.data.description}>
+<Base title={title} description={dataset.data.description} ogImage={`/ogp/datasets/${dataset.id}.png`}>
   <div class="report-shell shell">
     <nav class="breadcrumb" aria-label="パンくずリスト"><a href="/#reports">研究一覧</a></nav>
     <div class="report-layout">
