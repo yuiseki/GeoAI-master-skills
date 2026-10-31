@@ -298,3 +298,18 @@ test('OGP 画像には時間とともに変わる件数を入れない', async (
   const source = await read('src/pages/ogp/datasets.png.ts');
   assert.doesNotMatch(source, /getCollection|\.length|\$\{/);
 });
+
+test('各レポートと各データセットに X とはてなブックマークの共有ボタンを置く', async () => {
+  const pages = [
+    ...(await readdir(path.join(root, 'src/content/reports'))).map((f) => `reports/${f.replace(/\.md$/, '')}`),
+    ...(await readdir(path.join(root, 'dist/datasets'), { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => `datasets/${d.name}`),
+  ];
+  for (const page of pages) {
+    const html = await read(`dist/${page}/index.html`);
+    const url = `https://geoai.yuiseki.net/${page}/`;
+    assert.match(html, new RegExp(`<a href="https://x\\.com/share\\?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-url="${url.replaceAll('.', '\\.')}"`), page);
+    assert.match(html, /<script async src="https:\/\/platform\.x\.com\/widgets\.js" charset="utf-8"><\/script>/, page);
+    assert.match(html, new RegExp(`<a href="https://b\\.hatena\\.ne\\.jp/entry/s/geoai\\.yuiseki\\.net/${page}/" class="hatena-bookmark-button"`), page);
+    assert.match(html, /<script type="text\/javascript" src="https:\/\/b\.st-hatena\.com\/js\/bookmark_button\.js" charset="utf-8" async="async"><\/script>/, page);
+  }
+});

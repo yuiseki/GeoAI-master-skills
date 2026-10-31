@@ -2,6 +2,7 @@
 import path from 'node:path';
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
 import { GITHUB_BLOB, REPO } from '../../lib/datasets.mjs';
 
 export async function getStaticPaths() {
@@ -23,6 +24,7 @@ const isUrl = (value: string) => /^https?:\/\//.test(value);
 <Base title={title} description={dataset.data.description} ogImage={`/ogp/datasets/${dataset.id}.png`}>
   <div class="report-shell shell">
     <nav class="breadcrumb" aria-label="パンくずリスト"><a href="/#reports">研究一覧</a></nav>
+    <div class="share-row"><ShareButtons title={title} /></div>
     <div class="report-layout">
       <article class="prose card-prose"><Content /></article>
       <aside class="sidebar" aria-label="データセットの概要">
@@ -55,6 +57,7 @@ const isUrl = (value: string) => /^https?:\/\//.test(value);
 <style>
   .report-shell { padding-top: 2.5rem; }
   .breadcrumb { display: flex; gap: 1rem; color: var(--muted); font-size: .8rem; }.breadcrumb a { text-decoration: none; }.breadcrumb a:hover { color: var(--accent); }
+  .share-row { margin-top: 1.5rem; }
   .report-layout { display: grid; grid-template-columns: minmax(0, 760px) minmax(200px, 280px); gap: min(6vw, 5rem); align-items: start; padding-top: 1.5rem; }
   .prose { min-width: 0; line-height: 2; }
   .prose :global(h1) { font-family: var(--display-font); font-weight: 600; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.4; letter-spacing: -.045em; margin: 1.5rem 0 1.5rem; }

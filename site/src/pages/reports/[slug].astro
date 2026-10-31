@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntries, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
 import 'katex/dist/katex.min.css';
 
 export async function getStaticPaths() {
@@ -19,6 +20,7 @@ const datasets = await getEntries(report.data.datasets);
     <header class="report-header">
       <h1>{report.data.title}</h1>
       <p class="lede">{report.data.summary}</p>
+      <ShareButtons title={report.data.title} />
     </header>
     <div class="report-layout">
       <article class="prose"><Content /></article>
