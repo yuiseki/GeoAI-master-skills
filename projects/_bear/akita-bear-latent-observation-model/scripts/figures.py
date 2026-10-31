@@ -149,7 +149,7 @@ def voi(out, plt):
     for ax, t in ((a1, "正しい判定の割合 (点線 0.8)"), (a2, "熊側の変化の誤検出か失敗の割合 (点線 0.2)")):
         ax.set_xlim(0, 1)
         ax.set_title(t, loc="left", fontsize=10)
-        ax.legend(fontsize=8, frameon=False, loc="lower right")
+        ax.legend(fontsize=8, frameon=False, loc="upper center", ncol=2, bbox_to_anchor=(0.5, -0.1))
     fig.suptitle(f"追加のデータの価値 (合成、L3 + そのデータ、seed 0〜{v['seeds'] - 1})", x=0.01, ha="left", fontsize=11)
     fig.text(0.01, 0.005, "V5 は「通報の過程の変化は全て記録された運用の変化」という強い仮定に依存する", fontsize=7, color=MUTED)
     fig.tight_layout(rect=(0, 0.03, 1, 0.94))

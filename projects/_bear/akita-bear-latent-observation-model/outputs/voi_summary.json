@@ -1,0 +1,107 @@
+{
+ "baseline": {
+  "S1_correct": 0.0,
+  "S2_correct": 0.4,
+  "S3_false_bear": 0.1,
+  "S5_false_bear": 0.1,
+  "converged_share": 0.925,
+  "n_per_scenario": {
+   "S1": 10,
+   "S2": 10,
+   "S3": 10,
+   "S5": 10
+  },
+  "S1S2_correct_mean": 0.2
+ },
+ "seeds": 10,
+ "V1": {
+  "S1_correct": 0.5,
+  "S2_correct": 1.0,
+  "S3_false_bear": 0.0,
+  "S5_false_bear": 0.1,
+  "converged_share": 1.0,
+  "n_per_scenario": {
+   "S1": 10,
+   "S2": 10,
+   "S3": 10,
+   "S5": 10
+  },
+  "S1S2_correct_mean": 0.75,
+  "gain_S1S2_correct": 0.55
+ },
+ "V2": {
+  "S1_correct": 0.7,
+  "S2_correct": 0.8,
+  "S3_false_bear": 0.3,
+  "S5_false_bear": 0.1,
+  "converged_share": 0.95,
+  "n_per_scenario": {
+   "S1": 10,
+   "S2": 10,
+   "S3": 10,
+   "S5": 10
+  },
+  "S1S2_correct_mean": 0.75,
+  "gain_S1S2_correct": 0.55
+ },
+ "V3": {
+  "S1_correct": 0.8,
+  "S2_correct": 0.8,
+  "S3_false_bear": 0.1,
+  "S5_false_bear": 0.1,
+  "converged_share": 0.95,
+  "n_per_scenario": {
+   "S1": 10,
+   "S2": 10,
+   "S3": 10,
+   "S5": 10
+  },
+  "S1S2_correct_mean": 0.8,
+  "gain_S1S2_correct": 0.6
+ },
+ "V4": {
+  "S1_correct": 0.1,
+  "S2_correct": 0.5,
+  "S3_false_bear": 0.1,
+  "S5_false_bear": 0.1,
+  "converged_share": 0.925,
+  "n_per_scenario": {
+   "S1": 10,
+   "S2": 10,
+   "S3": 10,
+   "S5": 10
+  },
+  "S1S2_correct_mean": 0.3,
+  "gain_S1S2_correct": 0.1
+ },
+ "V5": {
+  "S1_correct": 0.0,
+  "S2_correct": 0.7,
+  "S3_false_bear": 0.1,
+  "S5_false_bear": 0.2,
+  "converged_share": 0.875,
+  "n_per_scenario": {
+   "S1": 10,
+   "S2": 10,
+   "S3": 10,
+   "S5": 10
+  },
+  "S1S2_correct_mean": 0.35,
+  "gain_S1S2_correct": 0.15
+ },
+ "V6": {
+  "S1_correct": 0.0,
+  "S2_correct": 0.3,
+  "S3_false_bear": 0.1,
+  "S5_false_bear": 0.0,
+  "converged_share": 0.85,
+  "n_per_scenario": {
+   "S1": 10,
+   "S2": 10,
+   "S3": 10,
+   "S5": 10
+  },
+  "S1S2_correct_mean": 0.15,
+  "gain_S1S2_correct": -0.05
+ }
+}
