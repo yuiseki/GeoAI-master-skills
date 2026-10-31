@@ -8,10 +8,10 @@ import check_skills
 
 
 class ExcludedSkillsTest(unittest.TestCase):
-    def test_only_three_external_skills_are_excluded_from_all_scans(self):
+    def test_only_four_external_skills_are_excluded_from_all_scans(self):
         self.assertEqual(
             check_skills.EXCLUDED_SKILLS,
-            {"natural-japanese", "stop-describing-ui", "yomiyasu"},
+            {"frontend-design", "natural-japanese", "stop-describing-ui", "yomiyasu"},
         )
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
