@@ -176,3 +176,18 @@ test('記事ごとの OGP 画像を 1200x630 で生成し、メタタグから�
   assert.match(home, /<meta property="og:site_name" content="yuiseki の GeoAI 研究所"/);
   assert.match(home, /<meta name="twitter:card" content="summary_large_image"/);
 });
+
+test('ファビコンは 32x32 のドット絵で、整数倍に拡大して使う', async () => {
+  const pngSize = async (file) => {
+    const png = await readFile(path.join(root, file));
+    return [png.readUInt32BE(16), png.readUInt32BE(20)];
+  };
+  const svg = await read('public/favicon.svg');
+  assert.match(svg, /viewBox="0 0 32 32"/);
+  assert.match(svg, /shape-rendering="crispEdges"/);
+  assert.deepEqual(await pngSize('public/favicon-32.png'), [32, 32]);
+  assert.deepEqual(await pngSize('public/apple-touch-icon.png'), [180, 180]);
+  const base = await read('src/layouts/Base.astro');
+  assert.match(base, /<link rel="icon" type="image\/svg\+xml" href="\/favicon\.svg"/);
+  assert.match(base, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png"/);
+});

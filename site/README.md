@@ -20,7 +20,7 @@ Astro の Markdown は Unified を使う。数式には `remark-math` と `rehyp
 
 ## OGP 画像
 
-`src/pages/ogp/[slug].png.ts` が記事ごとに、`src/pages/ogp/default.png.ts` がトップ用に、1200x630 の PNG をビルド時に生成する。`src/lib/ogp.ts` が satori で SVG を作り、resvg で PNG にする。タイトルは budoux で文節に分け、文節ごとに折り返す。Noto CJK にはゼロ幅スペースの字形が無いため、文節をゼロ幅スペースでつながず、別々の要素にしている。
+1200x630 の PNG をビルド時に生成する。記事ごとの画像は `src/pages/ogp/[slug].png.ts`、トップ用の別レイアウトは `src/pages/ogp/default.png.ts` が作る。`src/lib/ogp.ts` が satori で SVG を作り、resvg で PNG にする。タイトルは budoux で文節に分け、文節ごとに折り返す。Noto CJK にはゼロ幅スペースの字形が無いため、文節をゼロ幅スペースでつながず、別々の要素にしている。
 
 フォントは `src/assets/fonts/` に置いた Noto Serif CJK JP SemiBold と Noto Sans CJK JP Bold のサブセット。ライセンスは SIL Open Font License で、本文は `LICENSE-Noto-CJK.txt` にある。サブセットは ASCII、かな、記号、JIS 第1・第2水準の漢字と、記事の front matter の全文字を含む。フォントに無い文字がタイトルに入ると、ビルドは失敗する。その場合は、Debian の `fonts-noto-cjk` を入れた環境でサブセットを作り直す。
 
@@ -28,6 +28,17 @@ Astro の Markdown は Unified を使う。数式には `remark-math` と `rehyp
 cd site
 uv run --no-project --with fonttools python3 scripts/subset-fonts.py
 ```
+
+## ファビコン
+
+`scripts/make-favicon.py` が、`public/` の `favicon.svg`、`favicon-32.png`、`apple-touch-icon.png` を生成する。32x32 のドット絵で、青い地球に「GeoAI」をドット文字で載せた。地球は Natural Earth 110m の陸地を、日本を中心に正射図法で描く。陸地のデータはコミットを固定した URL から取得し、sha256 を確かめる。雲は固定した正弦波から作るので、乱数を使わず毎回同じ画像になる。大きいサイズは同じ格子の整数倍の拡大で、OGP 画像にも同じ SVG を使う。
+
+```sh
+cd site
+uv run --no-project --with shapely --with pillow --with numpy python3 scripts/make-favicon.py
+```
+
+OGP 画像の左下には、`src/assets/ogp/avatar.jpg` のアバターを置く。
 
 ## 公開先
 
