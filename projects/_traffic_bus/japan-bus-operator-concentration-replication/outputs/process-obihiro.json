@@ -1,0 +1,66 @@
+{
+  "question": "帯広市で、事業者名 1 種類の割合はどの手順で決まるか",
+  "kind": "diagnostic (method illustration)",
+  "reads": [
+    "artifacts/.../meshes.csv",
+    "outputs/municipalities.csv",
+    "outputs/audit.json"
+  ],
+  "datasets": {
+    "stops": "https://huggingface.co/datasets/yuiseki/ksj-p11-bus-stop-jp/resolve/442223b4544103a922f21081c070dd5c69e4c23e/parquet/bus_stop.parquet",
+    "census": "https://huggingface.co/datasets/yuiseki/estat-census-mesh-2020/resolve/6c486c8649484e09e549c0c99b5fa89b4f416edb/parquet/T001140.parquet",
+    "admin": "https://huggingface.co/datasets/yuiseki/jp-admin-2026-09/resolve/e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet"
+  },
+  "municipality": {
+    "code5": "01207",
+    "name": "帯広市",
+    "meshes": 323,
+    "classes": {
+      "2+": 28,
+      "1": 57,
+      "0": 123,
+      "out": 115
+    },
+    "older_population": {
+      "2+": 25951,
+      "1": 22218,
+      "0": 1175
+    }
+  },
+  "examples": [
+    {
+      "mesh_code": "64432192",
+      "age65": 1525,
+      "operators_800m": 2,
+      "near": "大谷高校前",
+      "operators": [
+        "北海道拓殖バス（株）",
+        "十勝バス（株）"
+      ]
+    },
+    {
+      "mesh_code": "64432175",
+      "age65": 1498,
+      "operators_800m": 1,
+      "near": "弥生通西10条",
+      "operators": [
+        "十勝バス（株）"
+      ]
+    },
+    {
+      "mesh_code": "64432123",
+      "age65": 81,
+      "operators_800m": 0,
+      "near": "川西8号",
+      "operators": []
+    }
+  ],
+  "example_rule": "各分類で 65 歳以上が最も多いメッシュ",
+  "stops_drawn": 1106,
+  "crs": "経緯度 (P11 EPSG:6668、行政界 EPSG:4612。差は線の幅より小さい)",
+  "aspect": "1/cos(42.804)",
+  "text_overlaps": [],
+  "font": [
+    "Noto Sans CJK JP"
+  ]
+}
