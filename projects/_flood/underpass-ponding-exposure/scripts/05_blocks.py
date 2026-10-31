@@ -94,7 +94,8 @@ def measurable(rows, score):
 def b1(rows, thresh, n_all):
     m = measurable(rows, MAIN)
     cap = m & (rows[MAIN] >= thresh)
-    by = lambda col: {str(k): {"n": int(len(g)), "measurable": int(m[g.index].sum()), "captured": int(cap[g.index].sum())}
+    by = lambda col: {str(k): {"n": int(len(g)), "measurable": int(m[g.index].sum()), "captured": int(cap[g.index].sum()),
+                               "share_of_measurable": cap[g.index].sum() / max(m[g.index].sum(), 1)}
                       for k, g in rows.groupby(col)}
     return {"threshold_m": thresh, "n_all": n_all, "matched": int(rows["matched"].sum()), "measurable": int(m.sum()),
             "captured": int(cap.sum()), "share_of_all": cap.sum() / n_all, "share_of_measurable": cap.sum() / max(m.sum(), 1),
@@ -171,18 +172,22 @@ def kansui_labels(rows):
         left join '{ART / 'raw/kansui_pdf_records.parquet'}' r on r.pdf_key = pp.pdf_key""")
     c.execute(f"""create table lab as select fid, pref, lon, lat, pdf_match = 'pdf_unique' and parse_status is not null
             and parse_status <> 'layout_unknown' readable,
+            (regexp_matches(txt, '{RECORD}') and not regexp_matches(txt, '{NONE}')) rec_text,
+            regexp_matches(deep, '^(有|あり)') rec_deep,
             (regexp_matches(txt, '{RECORD}') and not regexp_matches(txt, '{NONE}')) or regexp_matches(deep, '^(有|あり)') rec,
             regexp_matches(txt, 'ポンプ') pump, regexp_matches(txt, '水位センサ|冠水センサ|水位計') sensor from k""")
     c.execute("""create table near as select u.id, arg_min(lab.fid, st_distance_sphere(st_point(u.lon, u.lat), st_point(lab.lon, lab.lat))) fid,
             min(st_distance_sphere(st_point(u.lon, u.lat), st_point(lab.lon, lab.lat))) d
         from u join lab on abs(u.lat - lab.lat) < 0.01 and abs(u.lon - lab.lon) < 0.01 group by 1""")
     prefs = [r[0] for r in c.execute("select distinct pref from lab where readable and rec").fetchall()]
-    lab = c.execute("select near.id, lab.readable, lab.rec, lab.pump, lab.sensor from near join lab using (fid) where d <= 30").fetchdf()
+    lab = c.execute("select near.id, lab.readable, lab.rec, lab.rec_text, lab.rec_deep, lab.pump, lab.sensor from near join lab using (fid) where d <= 30").fetchdf()
     return lab, prefs
 
 
-def b4(rows, rng):
+def b4(rows, rng, label="rec"):
+    """label: rec (the plan: text record or the Hokuriku 1 m flag), rec_text (text records only, exploratory)."""
     lab, prefs = kansui_labels(rows)
+    lab["rec"] = lab[label]
     d = rows.merge(lab, on="id")
     d = d[measurable(d, MAIN) & d["readable"] & d["pref"].isin(prefs)]
     use = [p for p, g in d.groupby("pref") if g["rec"].sum() >= 3 and (~g["rec"]).sum() >= 3]
@@ -202,7 +207,7 @@ def b4(rows, rng):
         boot.append(weighted(bs))
     per = {p: {"n": len(s), "positives": int(y.sum()), "auc": auc(s, y)} for p, (s, y) in groups.items()}
     desc = {f: auc(d[MAIN], d[f].astype(bool)) for f in ("pump", "sensor")}
-    return {"prefs_with_signs": prefs, "prefs_used": use, "n": int(len(d)), "positives": int(d["rec"].sum()),
+    return {"prefs_with_signs": prefs, "prefs_used": use, "n_prefs_used": len(use), "n": int(len(d)), "positives": int(d["rec"].sum()),
             "auc_weighted": weighted(groups), "auc_weighted_90": interval(boot), "by_pref": per,
             "descriptive_auc_equipment": desc}
 
@@ -218,6 +223,10 @@ def main():
                       "ambiguous": int((rows["matched"] & rows["ambiguous"].fillna(False)).sum()),
                       "tunnel": int((rows["matched"] & rows["tunnel"].fillna(False)).sum())}}
     m = measurable(rows, "depth_mix_100")
+    mt = rows["matched"]
+    res["sanity"]["not_measurable_reason"] = {
+        "short_side": int((mt & ((rows["left_m"] < 50) | (rows["right_m"] < 50))).sum()),
+        "short_side_or_no_value": int((mt & ~measurable(rows, "depth_mix_100")).sum())}
     res["sanity"]["dip_only_away_from_point"] = int((m & (rows["depth_mix_100"] < 2) & (rows["depthw_mix_100"] >= 2)).sum())
     for prefix, mode in (("depth", "confirmatory"), ("depthw", "exploratory")):
         use(prefix)
@@ -239,6 +248,7 @@ def main():
         for kw in ({"dist": 0}, {"dist": 100}, {"dist": 30, "since": 1997}, {"dist": 30, "heavy": 30},
                    {"dist": 30, "heavy": 50}):
             rob["B3_" + "_".join(f"{k}{v}" for k, v in kw.items())] = b3(rows, rng, **kw)
+        rob["B4_text_records_only"] = b4(rows, rng, label="rec_text")  # exploratory: the 1 m flag can follow depth by construction
         r["robustness"] = rob
         res[prefix] = r
     Path(a.out).parent.mkdir(exist_ok=True)

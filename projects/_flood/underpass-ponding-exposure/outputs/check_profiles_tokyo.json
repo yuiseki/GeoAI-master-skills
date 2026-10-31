@@ -1,0 +1,92 @@
+[
+ {
+  "id": "83knt-0701",
+  "name": "徳丸アンダー",
+  "match_m": 2.3842447592920024,
+  "highway": "trunk",
+  "tunnel": true,
+  "ambiguous": false,
+  "roads_drawn": 162
+ },
+ {
+  "id": "83knt-0718",
+  "name": "日本橋２丁目～京橋１丁目　（八重洲地下自動車道）",
+  "match_m": 0.7829678876425435,
+  "highway": "primary",
+  "tunnel": true,
+  "ambiguous": false,
+  "roads_drawn": 234
+ },
+ {
+  "id": "83knt-0731",
+  "name": "北品川１丁目　（八ッ山アンダーパス）",
+  "match_m": 0.10529812601055245,
+  "highway": "tertiary",
+  "tunnel": true,
+  "ambiguous": false,
+  "roads_drawn": 166
+ },
+ {
+  "id": "83knt-0738",
+  "name": "湾岸道路下アンダーパス",
+  "match_m": 2.5234175916840584,
+  "highway": "primary",
+  "tunnel": true,
+  "ambiguous": false,
+  "roads_drawn": 73
+ },
+ {
+  "id": "83knt-0745",
+  "name": "野方三丁目　（野方アンダーパス）",
+  "match_m": 2.727400180392635,
+  "highway": "primary",
+  "tunnel": true,
+  "ambiguous": false,
+  "roads_drawn": 154
+ },
+ {
+  "id": "83knt-0756",
+  "name": "南千住四丁目　（JR貨物線下）　南千住アンダーパス",
+  "match_m": 2.927149504321839,
+  "highway": "secondary",
+  "tunnel": true,
+  "ambiguous": false,
+  "roads_drawn": 174
+ },
+ {
+  "id": "83knt-0777",
+  "name": "北野町586番地先　　浅川架道橋　　日本オイルターミナル㈱横",
+  "match_m": 2.544468276210725,
+  "highway": "tertiary",
+  "tunnel": false,
+  "ambiguous": false,
+  "roads_drawn": 36
+ },
+ {
+  "id": "83knt-0792",
+  "name": "矢崎町１丁目",
+  "match_m": 0.18467109108386517,
+  "highway": "unclassified",
+  "tunnel": true,
+  "ambiguous": false,
+  "roads_drawn": 60
+ },
+ {
+  "id": "83knt-0796",
+  "name": "昭島つつじヶ丘立体",
+  "match_m": 3.075436779829036,
+  "highway": "secondary",
+  "tunnel": true,
+  "ambiguous": true,
+  "roads_drawn": 51
+ },
+ {
+  "id": "83knt-0807",
+  "name": "清瀬立体",
+  "match_m": 3.1299356713491795,
+  "highway": "primary",
+  "tunnel": true,
+  "ambiguous": false,
+  "roads_drawn": 145
+ }
+]
