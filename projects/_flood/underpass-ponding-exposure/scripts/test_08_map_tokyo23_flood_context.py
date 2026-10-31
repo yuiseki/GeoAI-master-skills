@@ -32,4 +32,21 @@ def test_historical_flood_points_use_translucent_yellow_circles():
 
 def test_map_layer_order_matches_requested_visual_priority():
     z = module.MAP_LAYER_ZORDER
-    assert z["underpass"] > z["kansui"] > z["historical_flood"] > z["osm_roads"] > z["a31a"]
+    assert z["underpass"] > z["kansui"] > z["inferred_underpass"] > z["historical_flood"] > z["osm_roads"] > z["a31a"]
+
+
+def test_osm_bridge_crossing_requires_bridge_above_ordinary_road():
+    assert module.is_underpass_crossing("yes", "1", None, None)
+    assert not module.is_underpass_crossing(None, None, None, None)
+    assert not module.is_underpass_crossing("yes", "0", None, "1")
+
+
+def test_dem_profile_dip_detects_lower_center_than_both_approaches():
+    import numpy as np
+    from shapely.geometry import LineString, Point
+
+    dem = np.full((101, 101), 10.0)
+    dem[49:52, 49:52] = 5.0
+    line = LineString([(100, 500), (900, 500)])
+    dip = module.dem_profile_dip(line, Point(500, 500), dem, (0, 1000, 0, 1000), scale=1.0)
+    assert dip == 5.0

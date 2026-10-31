@@ -1,14 +1,50 @@
 {
-  "question": "東京23区で、2種類の登録地点は地形・主要道路・河川洪水浸水想定・東京都の浸水実績図とどう重なるか",
+  "question": "東京23区の登録地点とOSM・DEMからの探索的アンダーパス候補は、地形・主要道路・河川洪水浸水想定・東京都の浸水実績図とどう重なるか",
   "purpose": "探索的な重ね合わせ。危険度の推定・検証ではない",
   "crs_display": "EPSG:3857 (display only; no distance/area estimates from this CRS)",
   "visual_layer_order_top_to_bottom": [
     "国交省アンダーパス",
     "地方整備局・冠水想定",
+    "OSM・DEMからの推定アンダーパス",
     "東京都の浸水実績図・地点",
     "OSM主要道路",
     "A31a"
   ],
+  "inferred_underpass_method": {
+    "status": "exploratory candidates, not verified underpasses",
+    "osm_rule": "tagged bridge way intersects an unbridged road with lower layer (missing bridge/layer defaults to bridge layer 1 and road layer 0)",
+    "dem_dataset": "GSI DEM5A, zoom 15 (about 5 m; separate from the DEM10B map backdrop)",
+    "dem_rule": "minimum elevation within 10 m of crossing is at least 2 m below the lower of median elevations on both 30–60 m approaches",
+    "minimum_approach_length_m": 60,
+    "known_underpass_exclusion_m": 30,
+    "candidate_deduplication_m": 25,
+    "counts": {
+      "osm_grade_separated_crossings": 5070,
+      "dem_profiles_measured": 644,
+      "dem_dip_ge_2m_before_deduplication": 3
+    },
+    "dem_tiles": {
+      "requested": 1225,
+      "available": 1103,
+      "missing_404": 122
+    },
+    "candidate_points": [
+      {
+        "lon": 139.77298166203843,
+        "lat": 35.67491716829843,
+        "dem_dip_m": 5.225,
+        "upper_osm_way_id": 45138860,
+        "lower_osm_way_id": 178988161
+      },
+      {
+        "lon": 139.75714674022416,
+        "lat": 35.64647241932421,
+        "dem_dip_m": 4.17,
+        "upper_osm_way_id": 45021992,
+        "lower_osm_way_id": 968221183
+      }
+    ]
+  },
   "historical_flood_record_marker": {
     "shape": "circle",
     "color": "#F0E442",
@@ -50,11 +86,21 @@
       "layer": "dem",
       "zoom": 14,
       "nominal_ground_resolution": "about 10 m",
-      "retrieved_utc": "2026-10-31T10:13:41.896140+00:00",
+      "retrieved_utc": "2026-10-31T10:36:32.712792+00:00",
       "tiles": {
         "requested": 324,
         "available": 294,
         "missing_404": 30
+      }
+    },
+    "GSI_DEM5A_inference": {
+      "layer": "dem5a",
+      "zoom": 15,
+      "nominal_ground_resolution": "about 5 m",
+      "tiles": {
+        "requested": 1225,
+        "available": 1103,
+        "missing_404": 122
       }
     },
     "tokyo_flood_record": {
@@ -67,6 +113,7 @@
   "counts_within_23_wards": {
     "underpass": 99,
     "kansui": 87,
+    "inferred_underpass_candidates": 2,
     "tokyo_flood_record_points": 90
   },
   "a31a_maximum_polygons_in_bbox": 136671,
@@ -108,6 +155,8 @@
   "dem_finite_pixel_count": 18000576,
   "font": "Noto Sans CJK JP",
   "warnings": [
+    "OSM・DEMからの推定地点は探索的候補であり、現地確認・公式台帳との照合を経たアンダーパスではない。",
+    "DEM10B elevation may not represent road-surface elevation at a covered underpass.",
     "A31a polygons are scenario-based river flood extents; no local depth model was fitted.",
     "GSI DEM does not establish the road-surface elevation at a covered underpass.",
     "Tokyo flood records are not necessarily road-flood incidents."

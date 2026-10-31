@@ -32,6 +32,7 @@ from shapely.ops import unary_union
 from rasterio.features import rasterize
 from rasterio.transform import from_origin
 from matplotlib.colors import BoundaryNorm, ListedColormap, Normalize
+from shapely.strtree import STRtree
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
@@ -48,7 +49,6 @@ DEM_Z = 14  # GSI DEM10B, about 10 m ground sampling
 DEM_LAYER = "dem"
 TILE_SIZE = 256
 RADIUS = 6_378_137.0
-TILE_CACHE = ART / "dem" / str(DEM_Z)
 WEBMERCATOR_LIMIT = math.pi * RADIUS
 DEPTH_LABELS = {
     1: "0–0.5 m", 2: "0.5–3 m", 3: "3–5 m",
@@ -64,9 +64,11 @@ MAP_LAYER_ZORDER = {
     "a31a": 2,
     "osm_roads": 3,
     "historical_flood": 7,
+    "inferred_underpass": 7.5,
     "kansui": 8,
     "underpass": 9,
 }
+INFERRED_DIP_THRESHOLD_M = 2.0
 
 
 def depth_label(class_code: int) -> str:
@@ -79,6 +81,112 @@ def depth_label(class_code: int) -> str:
 def historical_marker_style() -> dict[str, object]:
     """Style historical flood records distinctly from hazard polygons and sites."""
     return {"marker": "o", "color": "#F0E442", "edgecolor": "#6F6200", "alpha": 0.62}
+
+
+def is_underpass_crossing(bridge, bridge_layer, lower_bridge, lower_layer) -> bool:
+    """Require a tagged elevated bridge crossing an unbridged road on a lower OSM layer."""
+    if bridge is None or str(bridge).lower() in {"", "no", "false", "0"}:
+        return False
+    if lower_bridge is not None and str(lower_bridge).lower() not in {"", "no", "false", "0"}:
+        return False
+
+    def level(value, default):
+        try:
+            return float(str(value).split(";")[0])
+        except (TypeError, ValueError):
+            return default
+
+    return level(bridge_layer, 1.0) > level(lower_layer, 0.0)
+
+
+def dem_profile_dip(line, crossing, dem, extent, scale: float) -> float | None:
+    """Estimate a local road dip: lower of two approach medians minus center minimum (metres)."""
+    left, right, bottom, top = extent
+    rows, cols = dem.shape
+    station = line.project(crossing)
+
+    def elevation_at(offset_m):
+        distance = station + offset_m / scale
+        if distance < 0 or distance > line.length:
+            return np.nan
+        p = line.interpolate(distance)
+        col = int((p.x - left) / (right - left) * cols)
+        row = int((top - p.y) / (top - bottom) * rows)
+        if row < 0 or row >= rows or col < 0 or col >= cols:
+            return np.nan
+        return float(dem[row, col])
+
+    center = np.asarray([elevation_at(offset) for offset in (-10, -5, 0, 5, 10)])
+    approach_left = np.asarray([elevation_at(offset) for offset in (-60, -50, -40, -30)])
+    approach_right = np.asarray([elevation_at(offset) for offset in (30, 40, 50, 60)])
+    if not (np.isfinite(center).any() and np.isfinite(approach_left).any() and np.isfinite(approach_right).any()):
+        return None
+    sill = min(float(np.nanmedian(approach_left)), float(np.nanmedian(approach_right)))
+    return sill - float(np.nanmin(center))
+
+
+def _intersection_points(geom):
+    if geom.is_empty:
+        return []
+    if geom.geom_type == "Point":
+        return [geom]
+    if geom.geom_type in ("MultiPoint", "GeometryCollection"):
+        return [p for part in geom.geoms for p in _intersection_points(part)]
+    return []
+
+
+def infer_underpass_candidates(road_records, dem, extent, ward_union, known_points):
+    """Exploratory OSM grade-separation + >=2 m DEM-dip candidates (not verified underpasses)."""
+    lines = [record["line"] for record in road_records]
+    tree = STRtree(lines)
+    scale = math.cos(math.radians(35.68))
+    examined = set()
+    candidates = []
+    crossing_pairs = 0
+    profiles_measured = 0
+    for i, upper in enumerate(road_records):
+        if upper["bridge"] is None or str(upper["bridge"]).lower() in {"", "no", "false", "0"}:
+            continue
+        for raw_j in tree.query(upper["line"]):
+            j = int(raw_j)
+            lower = road_records[j]
+            if i == j or upper["osm_id"] == lower["osm_id"]:
+                continue
+            pair = (upper["osm_id"], lower["osm_id"])
+            if pair in examined:
+                continue
+            examined.add(pair)
+            if not is_underpass_crossing(upper["bridge"], upper["layer"], lower["bridge"], lower["layer"]):
+                continue
+            try:
+                intersections = upper["line"].intersection(lower["line"])
+            except Exception:
+                continue
+            for point in _intersection_points(intersections):
+                if not ward_union.contains(point):
+                    continue
+                crossing_pairs += 1
+                if lower["line"].project(point) * scale < 60 or (lower["line"].length - lower["line"].project(point)) * scale < 60:
+                    continue
+                dip = dem_profile_dip(lower["line"], point, dem, extent, scale)
+                if dip is None:
+                    continue
+                profiles_measured += 1
+                if dip < INFERRED_DIP_THRESHOLD_M:
+                    continue
+                if known_points.size and np.min(np.hypot(known_points[:, 0] - point.x, known_points[:, 1] - point.y)) * scale < 30:
+                    continue
+                candidates.append({"point": point, "dip_m": dip, "upper_osm_id": upper["osm_id"],
+                                   "lower_osm_id": lower["osm_id"]})
+
+    # Collapse duplicated road-way segments near the same crossing; retain the strongest DEM dip.
+    deduped = []
+    for candidate in sorted(candidates, key=lambda x: x["dip_m"], reverse=True):
+        if all(candidate["point"].distance(old["point"]) * scale >= 25 for old in deduped):
+            deduped.append(candidate)
+    return deduped, {"osm_grade_separated_crossings": crossing_pairs,
+                     "dem_profiles_measured": profiles_measured,
+                     "dem_dip_ge_2m_before_deduplication": len(candidates)}
 
 
 def remove_zero_area_holes(geometry: dict) -> dict:
@@ -112,13 +220,14 @@ def _geojson(geometry) -> dict:
     return json.loads(geometry)
 
 
-def _fetch_tile(x: int, y: int) -> Path:
-    TILE_CACHE.mkdir(parents=True, exist_ok=True)
-    path = TILE_CACHE / f"{x}_{y}.txt"
-    missing = TILE_CACHE / f"{x}_{y}.404"
+def _fetch_tile(x: int, y: int, layer: str = DEM_LAYER, zoom: int = DEM_Z) -> Path:
+    tile_cache = ART / layer / str(zoom)
+    tile_cache.mkdir(parents=True, exist_ok=True)
+    path = tile_cache / f"{x}_{y}.txt"
+    missing = tile_cache / f"{x}_{y}.404"
     if path.exists() or missing.exists():
         return path
-    url = f"https://cyberjapandata.gsi.go.jp/xyz/{DEM_LAYER}/{DEM_Z}/{x}/{y}.txt"
+    url = f"https://cyberjapandata.gsi.go.jp/xyz/{layer}/{zoom}/{x}/{y}.txt"
     try:
         with urllib.request.urlopen(url, timeout=60) as response:
             payload = response.read()
@@ -131,9 +240,9 @@ def _fetch_tile(x: int, y: int) -> Path:
     return path
 
 
-def _dem_mosaic(bounds_3857: tuple[float, float, float, float]):
+def _dem_mosaic(bounds_3857: tuple[float, float, float, float], layer: str = DEM_LAYER, zoom: int = DEM_Z):
     xmin, ymin, xmax, ymax = bounds_3857
-    n = 2**DEM_Z
+    n = 2**zoom
     tile_span = 2 * WEBMERCATOR_LIMIT / n
     tx0 = max(0, int(math.floor((xmin + WEBMERCATOR_LIMIT) / tile_span)))
     tx1 = min(n - 1, int(math.floor((xmax + WEBMERCATOR_LIMIT) / tile_span)))
@@ -146,7 +255,7 @@ def _dem_mosaic(bounds_3857: tuple[float, float, float, float]):
     for ty in range(ty0, ty1 + 1):
         for tx in range(tx0, tx1 + 1):
             counts["requested"] += 1
-            path = _fetch_tile(tx, ty)
+            path = _fetch_tile(tx, ty, layer, zoom)
             if path.exists():
                 arr = parse_tile(path.read_text())
                 if arr.shape != (TILE_SIZE, TILE_SIZE):
@@ -228,14 +337,16 @@ def main() -> None:
 
     # Major OSM roads only; full residential streets would obscure the thematic layers at this scale.
     bx0, by0, bx1, by1 = map_bounds
-    road_rows = con.execute(f"""SELECT highway, ST_AsGeoJSON(way) FROM '{OSM}'
+    road_rows = con.execute(f"""SELECT osm_id, highway, bridge, layer, ST_AsGeoJSON(way) FROM '{OSM}'
         WHERE highway IN ('motorway','motorway_link','trunk','trunk_link','primary','primary_link',
                           'secondary','secondary_link','tertiary','tertiary_link')
           AND bbox.xmax >= {bx0} AND bbox.xmin <= {bx1}
           AND bbox.ymax >= {by0} AND bbox.ymin <= {by1}""").fetchall()
     roads = defaultdict(list)
-    for highway, geometry in road_rows:
+    road_records = []
+    for osm_id, highway, bridge, layer, geometry in road_rows:
         for line in _line_geometries(_geojson(geometry)):
+            road_records.append({"osm_id":int(osm_id), "bridge":bridge, "layer":layer, "line":line})
             clipped = line.intersection(ward_union)
             roads[highway].extend(_line_geometries(mapping(clipped)))
     counts["osm_major_road_rows_in_bbox"] = len(road_rows)
@@ -293,6 +404,12 @@ def main() -> None:
     counts["a31a_maximum_polygons_in_extent"] = a31a_rows_count
 
     dem, dem_extent, tile_counts = _dem_mosaic(map_bounds)
+    inference_dem, inference_dem_extent, inference_dem_tiles = _dem_mosaic(map_bounds, layer="dem5a", zoom=15)
+    inferred, inference_counts = infer_underpass_candidates(
+        road_records, inference_dem, inference_dem_extent, ward_union, points["underpass"]
+    )
+    inferred_xy = np.asarray([(c["point"].x, c["point"].y) for c in inferred], dtype=float).reshape((-1, 2))
+    counts["inferred_underpass_candidates"] = len(inferred)
 
     from cjk_font import use_cjk_font
     all_labels = "東京23区 アンダーパス 冠水想定 洪水浸水想定区域 OSM 標高 過去の浸水実績 2026"
@@ -342,6 +459,10 @@ def main() -> None:
         ax.scatter(historical[:,0], historical[:,1], s=42, marker=history_style["marker"],
                    c=history_style["color"], edgecolors=history_style["edgecolor"],
                    linewidths=0.55, alpha=history_style["alpha"], zorder=MAP_LAYER_ZORDER["historical_flood"])
+    if len(inferred_xy):
+        ax.scatter(inferred_xy[:,0], inferred_xy[:,1], s=48, marker="D", c="#CC79A7",
+                   edgecolors="#4A1736", linewidths=0.55, alpha=0.92,
+                   zorder=MAP_LAYER_ZORDER["inferred_underpass"])
     for key, _, _, _, color, marker in point_specs:
         xy = points[key]
         if len(xy):
@@ -366,6 +487,8 @@ def main() -> None:
                markersize=7, label=f"国交省アンダーパス ({counts['underpass']})"),
         Line2D([], [], marker="^", markerfacecolor="#D55E00", markeredgecolor="white", linestyle="none",
                markersize=7, label=f"地方整備局・冠水想定 ({counts['kansui']})"),
+        Line2D([], [], marker="D", markerfacecolor="#CC79A7", markeredgecolor="#4A1736", linestyle="none",
+               markersize=6, label=f"OSM・DEMからの推定アンダーパス ({counts['inferred_underpass_candidates']})"),
         Line2D([], [], marker=history_style["marker"], markerfacecolor=history_style["color"],
                markeredgecolor=history_style["edgecolor"], alpha=history_style["alpha"], linestyle="none",
                markersize=7, label=f"東京都の浸水実績図・地点 ({counts['tokyo_flood_record_points']})"),
@@ -398,17 +521,30 @@ def main() -> None:
                 arrowprops={"arrowstyle":"-|>","color":"#222222","lw":1.4}, ha="center", va="bottom", fontsize=9)
     fig.text(0.015, 0.012,
              "注意: A31aは河川洪水の想定で、内水・高潮等は含まない。東京都の実績点は道路冠水の記録ではない。"
-             " DEMは路面標高を保証せず、OSMは2026-08時点。重なりは危険度の実証ではない。",
+             " 推定点はOSM+DEMの未検証候補。DEMは路面標高を保証しない。重なりは危険度の実証ではない。",
              fontsize=8, color="#333333")
 
     png = OUT / "tokyo23_underpass_a31a_osm_dem.png"
     fig.savefig(png, dpi=160, bbox_inches="tight", facecolor="white")
     plt.close(fig)
+    inferred_lonlat = Transformer.from_crs("EPSG:3857", "EPSG:4326", always_xy=True)
+    inferred_point_metadata = []
+    for candidate in inferred:
+        lon, lat = inferred_lonlat.transform(candidate["point"].x, candidate["point"].y)
+        inferred_point_metadata.append({"lon":lon, "lat":lat, "dem_dip_m":candidate["dip_m"],
+            "upper_osm_way_id":candidate["upper_osm_id"], "lower_osm_way_id":candidate["lower_osm_id"]})
     meta = {
-        "question": "東京23区で、2種類の登録地点は地形・主要道路・河川洪水浸水想定・東京都の浸水実績図とどう重なるか",
+        "question": "東京23区の登録地点とOSM・DEMからの探索的アンダーパス候補は、地形・主要道路・河川洪水浸水想定・東京都の浸水実績図とどう重なるか",
         "purpose": "探索的な重ね合わせ。危険度の推定・検証ではない",
         "crs_display": "EPSG:3857 (display only; no distance/area estimates from this CRS)",
-        "visual_layer_order_top_to_bottom": ["国交省アンダーパス", "地方整備局・冠水想定", "東京都の浸水実績図・地点", "OSM主要道路", "A31a"],
+        "visual_layer_order_top_to_bottom": ["国交省アンダーパス", "地方整備局・冠水想定", "OSM・DEMからの推定アンダーパス", "東京都の浸水実績図・地点", "OSM主要道路", "A31a"],
+        "inferred_underpass_method": {"status":"exploratory candidates, not verified underpasses",
+            "osm_rule":"tagged bridge way intersects an unbridged road with lower layer (missing bridge/layer defaults to bridge layer 1 and road layer 0)",
+            "dem_dataset":"GSI DEM5A, zoom 15 (about 5 m; separate from the DEM10B map backdrop)",
+            "dem_rule":"minimum elevation within 10 m of crossing is at least 2 m below the lower of median elevations on both 30–60 m approaches",
+            "minimum_approach_length_m":60, "known_underpass_exclusion_m":30,
+            "candidate_deduplication_m":25, "counts":inference_counts, "dem_tiles":inference_dem_tiles,
+            "candidate_points":inferred_point_metadata},
         "historical_flood_record_marker": {"shape":"circle", "color":history_style["color"], "alpha":history_style["alpha"], "edgecolor":history_style["edgecolor"]},
         "boundary": {"dataset":"jp-admin-2026-09", "revision":"e6c87b1d7095c17422147962185071a986e13135", "crs_source":"EPSG:4612", "wards":n_wards},
         "sources": {
@@ -417,9 +553,10 @@ def main() -> None:
             "A31a": {"revision":"5b2259273128d0b79b491eb758abe0db67c4feac", "crs":"EPSG:6668", "category":"maximum", "rank_rule":"河川別ランクの重複部では最大class_codeを採用", "shown_unit":"想定最大規模の河川洪水。内水・高潮は含まない"},
             "OSM": {"revision":"38f7a5f961b6e33343d82a11152e768c37d22664", "snapshot":"2026-08-31", "crs":"EPSG:3857", "shown":"motorway–tertiary roads and links"},
             "GSI_DEM": {"layer":"dem", "zoom":DEM_Z, "nominal_ground_resolution":"about 10 m", "retrieved_utc":datetime.now(timezone.utc).isoformat(), "tiles":tile_counts},
+            "GSI_DEM5A_inference": {"layer":"dem5a", "zoom":15, "nominal_ground_resolution":"about 5 m", "tiles":inference_dem_tiles},
             "tokyo_flood_record": {"revision":"354b0d9f8030347192eaa387500f60da76c07e1a", "crs":"EPSG:4612", "period":"1974–2019", "shown":"flood_point records; not road-flood observations"},
         },
-        "counts_within_23_wards": {k:counts[k] for k in ("underpass","kansui","tokyo_flood_record_points")},
+        "counts_within_23_wards": {k:counts[k] for k in ("underpass","kansui","inferred_underpass_candidates","tokyo_flood_record_points")},
         "a31a_maximum_polygons_in_bbox": a31a_rows_count,
         "a31a_maximum_rank_feature_counts_in_bbox": {str(k):v for k,v in sorted(a31a_counts.items())},
         "a31a_display": {"resolution_m":flood_resolution,"aggregation":"per-pixel maximum class_code across river polygons",
@@ -428,7 +565,9 @@ def main() -> None:
                       "clipped_line_parts_by_highway":{k:len(v) for k,v in sorted(roads.items())}},
         "dem_finite_pixel_count": int(np.isfinite(dem).sum()),
         "font":font,
-        "warnings": ["A31a polygons are scenario-based river flood extents; no local depth model was fitted.",
+        "warnings": ["OSM・DEMからの推定地点は探索的候補であり、現地確認・公式台帳との照合を経たアンダーパスではない。",
+                     "DEM10B elevation may not represent road-surface elevation at a covered underpass.",
+                     "A31a polygons are scenario-based river flood extents; no local depth model was fitted.",
                      "GSI DEM does not establish the road-surface elevation at a covered underpass.",
                      "Tokyo flood records are not necessarily road-flood incidents."],
     }
