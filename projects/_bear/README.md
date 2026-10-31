@@ -13,6 +13,7 @@
 | [bear-risk-sources](bear-risk-sources/) | 当てはめで、建物、道路、川のデータの出どころや学習の地域の数で当たりがどう変わるか | akita-bear-risk-grid-100m、bear-risk-transfer |
 | [akita-bear-mast-exposure](akita-bear-mast-exposure/) | 年のブナの豊凶 × ブナ・ナラ類の植生は、B_env の順位を良くするか (しなかった。cross-fit の追加の診断あり) | akita-bear-risk-grid-100m、beech-masting-triggers |
 | [akita-bear-human-interface](akita-bear-human-interface/) | B_env の予測力は熊側、人側、両者の境目の proxy のどこから来ているか。通報のセルは年度ごとにその平面のどちらへ動いたか (人側の特徴量だけで B_env の当たりの 96〜98%。静的な proxy では熊側の拡大と通報の過程の変化を分けられない) | akita-bear-risk-grid-100m |
+| [akita-bear-latent-observation-model](akita-bear-latent-observation-model/) | 熊の正解のデータは無いことを前提に、環境省の分布メッシュとクマダスの通報に共通する潜在の bear / human space use と、観測系ごとの偏りをどこまで識別できるか (合成データで識別可能性を先に確かめる) | akita-bear-risk-grid-100m、akita-bear-human-interface |
 
 ## ブナの豊凶
 
