@@ -74,6 +74,8 @@ def test_schedule_preserves_intervals_and_groups(tmp_path):
     assert meta["n"] == 3
     assert meta["groups"] == 2
     assert meta["time_range"] == [8 * 3600, 11 * 3600]
+    # a report quotes the clock time, so the output holds it as written, not only as seconds
+    assert meta["time_range_clock"] == ["08:00", "11:00"]
 
 
 def test_schedule_rejects_overlapping_intervals_in_one_group(tmp_path):

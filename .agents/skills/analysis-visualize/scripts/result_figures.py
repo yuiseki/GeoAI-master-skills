@@ -113,7 +113,8 @@ def schedule(data, ax):
     from matplotlib.patches import Patch
     ax.legend(handles=[Patch(facecolor=colors[kind], label=kind) for kind in kinds], frameon=False)
     return {"n": len(checked), "groups": len(groups), "kind_counts": dict(Counter(r[3] for r in checked)),
-            "time_range": [low, high]}
+            "time_range": [low, high],
+            "time_range_clock": [f"{int(t) // 3600:02d}:{int(t) % 3600 // 60:02d}" for t in (low, high)]}
 
 
 def draw(input_path: Path, output: Path):
