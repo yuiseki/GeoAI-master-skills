@@ -1,0 +1,31 @@
+{
+ "question": "千代田区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json"
+ ],
+ "n": 116,
+ "notes": "breaks [0.0, 1.4745488141029783, 1.9303324773119928, 2.64622604744991, 3.4978943967057115, 9.523142788714221];",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 115,
+ "units_in_analysis": 115,
+ "highlighted": [
+  "神田小川町一丁目",
+  "神田西福田町",
+  "神田佐久間町一丁目",
+  "内幸町一丁目",
+  "皇居外苑"
+ ],
+ "text_overlaps": [
+  [
+   "皇居",
+   "5"
+  ]
+ ]
+}

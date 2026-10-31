@@ -1,0 +1,65 @@
+{
+  "value": "per_road_km_year",
+  "kind": "rate",
+  "unit": "件/道路 km/年",
+  "crs": "EPSG:4612",
+  "source": "警察庁2019-2025/OSM",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    0.0,
+    1.4745488141029783,
+    1.9303324773119928,
+    2.64622604744991,
+    3.4978943967057115,
+    9.523142788714221
+  ],
+  "units_per_class": [
+    23,
+    23,
+    23,
+    23,
+    23
+  ],
+  "nodata_units": 0,
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [],
+  "inset_at": "lower right",
+  "title": "千代田区 町丁別事故率 (分位)",
+  "aspect": 1.231198034572106,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": null,
+  "hidden_by_inset": [],
+  "made": "2026-10-31",
+  "context": {
+    "path": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet",
+    "name": "name",
+    "where": "code5 between '13101' and '13123'",
+    "source": "jp-admin-2026-09@e6c87b1",
+    "crs": "EPSG:4612",
+    "crs_difference": null,
+    "areas": 6,
+    "labelled": [
+      "千代田区",
+      "中央区",
+      "港区",
+      "新宿区",
+      "文京区",
+      "台東区"
+    ]
+  },
+  "highlight": {
+    "path": "projects/_traffic_accident/chiyoda-accident-trends-by-role/tmp/town-highlights.csv",
+    "groups": {
+      "top": 5
+    }
+  }
+}

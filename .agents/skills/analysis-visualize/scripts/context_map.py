@@ -25,7 +25,10 @@ Functions used by classify_map.py, and a command that turns grid-cell centres in
 
 import argparse
 import math
-import resource
+try:
+    import resource
+except ImportError:
+    resource = None
 
 import numpy as np
 
@@ -181,8 +184,9 @@ def limit_memory(gb):
     """Cap this process's address space, so that an input too big for the method stops it with MemoryError."""
     if gb and gb > 0:
         cap = int(gb * 1024 ** 3)
-        soft, hard = resource.getrlimit(resource.RLIMIT_DATA)
-        resource.setrlimit(resource.RLIMIT_DATA, (cap if hard == resource.RLIM_INFINITY else min(cap, hard), hard))
+        if resource is not None:
+            soft, hard = resource.getrlimit(resource.RLIMIT_DATA)
+            resource.setrlimit(resource.RLIMIT_DATA, (cap if hard == resource.RLIM_INFINITY else min(cap, hard), hard))
 
 
 def squares_command(a):

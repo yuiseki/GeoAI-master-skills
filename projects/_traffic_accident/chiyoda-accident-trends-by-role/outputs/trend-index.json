@@ -1,0 +1,15 @@
+{
+ "question": "千代田区の事故件数は23区全体と比べてどう推移したか",
+ "inputs": [
+  "outputs/yearly.csv"
+ ],
+ "n": {
+  "千代田区": 4232,
+  "23区": 144716
+ },
+ "notes": "縦軸は60から始まる (指数の比較のため)。帯は年ごとの件数の記録の揺れの目安で、年をまたぐ差の検定ではない",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans JP"
+ ]
+}

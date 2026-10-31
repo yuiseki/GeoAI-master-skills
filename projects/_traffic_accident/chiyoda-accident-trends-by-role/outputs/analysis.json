@@ -1,0 +1,133 @@
+{
+ "run_date": "2026-10-31",
+ "commit": "1da32926f4136323159ceddb55e2e3008b8735a8",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_chiyoda": 4232,
+  "chiyoda_without_point": 0,
+  "coded_and_inside": 4197,
+  "coded_outside": 35,
+  "other_code_inside": 30,
+  "chiyoda_rank_of_23": {
+   "per_1000_residents_per_year": 1,
+   "share_ped": 7,
+   "share_bike": 23,
+   "share_escooter": 12,
+   "share_old_ped": 21,
+   "share_young_pb": 23,
+   "share_strict": 23,
+   "share_broad": 23,
+   "share_night": 4,
+   "share_intersection": 14
+  },
+  "national_routes": {
+   "0001": 24,
+   "0020": 117,
+   "0246": 60,
+   "0004": 138,
+   "0017": 11
+  },
+  "chiyoda_points": 4232,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 12,
+   "50m": 10
+  },
+  "hotspot_counts": {
+   "20m": [
+    24,
+    21,
+    21,
+    21,
+    17,
+    16,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+   ],
+   "30m": [
+    32,
+    32,
+    31,
+    28,
+    28,
+    26,
+    24,
+    24,
+    23,
+    23,
+    23,
+    22,
+    22,
+    21,
+    21
+   ],
+   "50m": [
+    46,
+    44,
+    42,
+    39,
+    38,
+    38,
+    37,
+    34,
+    34,
+    32,
+    32,
+    32,
+    32,
+    32,
+    31
+   ]
+  },
+  "points_in_towns": 4197,
+  "points_outside_towns": 35
+ },
+ "files": {
+  "yearly": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\yearly.csv",
+  "wards": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\wards.csv",
+  "hours": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\hour_weekday.csv",
+  "parties": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\party_matrix.csv",
+  "deaths": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\deaths.csv",
+  "route": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\route_class.csv",
+  "schools": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\schools.csv",
+  "hotspots": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\hotspots.csv",
+  "towns": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\towns.csv"
+ }
+}
