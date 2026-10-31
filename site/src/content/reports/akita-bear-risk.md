@@ -5,6 +5,8 @@ topic: 野生動物
 kicker: 秋田県・100mセル
 image: /images/akita-risk-map.png
 imageAlt: 秋田県の100mセル別クマ出没リスクの地図
+imageWidth: 1706
+imageHeight: 2031
 source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_bear/bear-synthesis/report.md
 ---
 
@@ -16,7 +18,7 @@ source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_bear/
 
 100mセルの場所を絞る予測では、環境だけから学習した地図 `B_env` が、過去の通報密度という基準を上回りました。一方、過去の通報、年の豊凶と植生、直前の通報を足しても、未使用年度での当たりは改善しませんでした。週ごとの量や大量出没の年も、単純な基準を超える予測はできませんでした。
 
-![秋田県の100mセル別クマ出没リスクの地図](/images/akita-risk-map.png)
+<img src="/images/akita-risk-map.png" alt="秋田県の100mセル別クマ出没リスクの地図" width="1706" height="2031" loading="lazy">
 
 図の出典: 秋田県の通報記録、行政界、ESA WorldCover 2021、国土地理院の標高タイル、WorldPop 2020、© OpenStreetMap contributors。これらを用いた派生予測です。[元の報告とデータの詳細](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_bear/akita-bear-risk-grid-100m/report.md)。
 

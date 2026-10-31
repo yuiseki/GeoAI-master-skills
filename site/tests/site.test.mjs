@@ -47,6 +47,20 @@ test('トップは実際の研究図を主役にし、操作文言を簡潔に�
   assert.doesNotMatch(home + base, /GitHub ↗|研究を読む <span|研究を見る <span/);
 });
 
+test('公開ページの画像と操作要素は表示安定性・操作性を備える', async () => {
+  const home = await read('src/pages/index.astro');
+  const base = await read('src/layouts/Base.astro');
+  const bus = await read('src/content/reports/bus-operator-concentration.md');
+  const bear = await read('src/content/reports/akita-bear-risk.md');
+  assert.match(home, /bus-operator-share\.png"[^>]+width="960" height="809"[^>]+fetchpriority="high"/);
+  assert.match(home, /<img src=\{report\.data\.image\}[^>]+width=\{report\.data\.imageWidth\}[^>]+height=\{report\.data\.imageHeight\}[^>]+loading="lazy"/);
+  assert.match(bus, /imageWidth: 960\nimageHeight: 809/);
+  assert.match(bear, /imageWidth: 1706\nimageHeight: 2031/);
+  assert.match(base, /<meta name="theme-color" content="#f6f7f4"/);
+  assert.match(base, /touch-action: manipulation/);
+  assert.match(base, /text-wrap: balance/);
+});
+
 test('公開記事は選定済みの二件だけで、出典と限界を持つ', async () => {
   const entries = [
     'src/content/reports/bus-operator-concentration.md',
@@ -64,10 +78,15 @@ test('公開記事は選定済みの二件だけで、出典と限界を持つ',
 });
 
 test('ビルド後の数式・Mermaid・図は公開用ページで参照できる', async () => {
+  const home = await read('dist/index.html');
   const bus = await read('dist/reports/bus-operator-concentration/index.html');
   const bear = await read('dist/reports/akita-bear-risk/index.html');
+  assert.match(home, /bus-operator-share\.png"[^>]+width="960" height="809" fetchpriority="high"/);
+  assert.match(home, /akita-risk-map\.png"[^>]+width="1706" height="2031" loading="lazy"/);
   assert.match(bus, /class="katex/);
   assert.match(bear, /class="mermaid"/);
+  assert.match(bus, /bus-operator-share\.png"[^>]+width="960" height="809" loading="lazy"/);
+  assert.match(bear, /akita-risk-map\.png"[^>]+width="1706" height="2031" loading="lazy"/);
   assert.doesNotMatch(bus + bear, /href="\/GeoAI-master-skills\//);
   await stat(path.join(root, 'dist/images/bus-operator-share.png'));
   await stat(path.join(root, 'dist/images/akita-risk-map.png'));

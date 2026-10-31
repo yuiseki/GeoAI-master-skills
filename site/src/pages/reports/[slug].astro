@@ -44,6 +44,7 @@ const { Content } = await render(report);
   .report-layout { display: grid; grid-template-columns: minmax(0, 760px) minmax(180px, 250px); gap: min(6vw, 5rem); align-items: start; border-top: 1px solid var(--line); padding-top: 1.5rem; }
   .prose { min-width: 0; line-height: 2; }
   .prose :global(h2) { font-family: var(--display-font); font-weight: 600; font-size: 1.5rem; line-height: 1.45; letter-spacing: -.04em; margin: 3.5rem 0 1.2rem; padding-left: 1rem; border-left: 3px solid var(--green); }
+  .prose :global(h2[id]) { scroll-margin-top: 1rem; }
   .prose :global(p) { margin: 1.1rem 0; }
   .prose :global(a) { color: var(--green); text-underline-offset: .25rem; }
   .prose :global(img) { border: 1px solid var(--line); border-radius: .3rem; background: white; margin: 2rem 0; width: 100%; }

@@ -13,7 +13,7 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
       <a class="button-link" href="#reports">研究一覧を見る</a>
     </div>
     <figure class="hero-figure">
-      <img src="/images/bus-operator-share.png" alt="全国の自治体別に、単一事業者名の停留所圏に住む高齢者の割合を塗り分けた地図" width="960" height="809" />
+      <img src="/images/bus-operator-share.png" alt="全国の自治体別に、単一事業者名の停留所圏に住む高齢者の割合を塗り分けた地図" width="960" height="809" fetchpriority="high" />
       <figcaption>全国のバス停記録と高齢者人口を重ねた分析</figcaption>
     </figure>
   </section>
@@ -25,9 +25,9 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
         <p>各記事から、分析の原本と再現手順を確認できます。</p>
       </div>
       <div class="report-grid">
-        {reports.map((report, index) => (
+        {reports.map((report) => (
           <article class="report-card">
-            <a class="card-image" href={`/reports/${report.id}/`} aria-label={`${report.data.title}を読む`}><img src={report.data.image} alt={report.data.imageAlt} loading={index === 0 ? 'eager' : 'lazy'} /></a>
+            <a class="card-image" href={`/reports/${report.id}/`} aria-label={`${report.data.title}を読む`}><img src={report.data.image} alt={report.data.imageAlt} width={report.data.imageWidth} height={report.data.imageHeight} loading="lazy" /></a>
             <div class="card-body">
               <p class="card-meta"><span>{report.data.topic}</span><span>{report.data.kicker}</span></p>
               <h3><a href={`/reports/${report.id}/`}>{report.data.title}</a></h3>
@@ -56,6 +56,7 @@ const reports = (await getCollection('reports')).sort((a, b) => a.id.localeCompa
   .reports-section { background: var(--section); padding: 5rem 0 6rem; }
   .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.2rem; }
   .section-heading h2, .method h2 { font-family: var(--display-font); font-weight: 600; font-size: clamp(2rem, 3.3vw, 3rem); line-height: 1.45; letter-spacing: -.05em; margin: 0; }
+  .reports-section { scroll-margin-top: 1rem; }
   .section-heading > p { max-width: 25rem; color: var(--muted); font-size: .88rem; margin: 0; }
   .report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
   .report-card { overflow: hidden; background: #fff; border: 1px solid var(--line); }

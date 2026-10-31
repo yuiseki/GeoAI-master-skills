@@ -12,6 +12,7 @@ const { title, description } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#f6f7f4" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} · GeoAI Research</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,7 +23,7 @@ const { title, description } = Astro.props;
     <a class="skip-link" href="#main">本文へ移動</a>
     <header class="site-header">
       <div class="shell header-inner">
-        <a class="wordmark" href="/" aria-label="GeoAI Research ホーム">
+        <a class="wordmark" href="/" aria-label="GeoAI Research ホーム" translate="no">
           <span>GeoAI Research</span>
         </a>
         <nav aria-label="メインナビゲーション">
@@ -49,7 +50,8 @@ const { title, description } = Astro.props;
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Noto Sans JP', sans-serif; line-height: 1.75; }
-  a { color: inherit; }
+  a { color: inherit; touch-action: manipulation; }
+  h1, h2, h3 { text-wrap: balance; }
   img { display: block; max-width: 100%; }
   .shell { width: min(100% - 2.5rem, 1120px); margin-inline: auto; }
   .skip-link { position: absolute; top: -5rem; left: 1rem; z-index: 20; padding: .5rem 1rem; background: white; }

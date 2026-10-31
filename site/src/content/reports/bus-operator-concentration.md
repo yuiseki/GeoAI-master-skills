@@ -5,6 +5,8 @@ topic: 公共交通
 kicker: 全国・1kmメッシュ
 image: /images/bus-operator-share.png
 imageAlt: 自治体別の、単一事業者名メッシュの65歳以上人口割合を示す地図
+imageWidth: 960
+imageHeight: 809
 source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_bus/japan-bus-operator-concentration-replication/report.md
 ---
 
@@ -16,7 +18,7 @@ source: https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traff
 
 停留所が800m圏にあるメッシュの65歳以上人口は約3,240万人。そのうち約1,489万人、46.0%が、記録上は事業者名1種類の停留所圏に住んでいました。停留所がない地域の約291万人は、集中とは分けて数えています。
 
-![自治体別の単一事業者名メッシュの65歳以上人口割合](/images/bus-operator-share.png)
+<img src="/images/bus-operator-share.png" alt="自治体別の単一事業者名メッシュの65歳以上人口割合" width="960" height="809" loading="lazy">
 
 図の出典: 国土交通省「国土数値情報 P11（2022年度）」、総務省統計局「2020年国勢調査メッシュ」、行政界の加工結果。[データの版と利用条件](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_bus/japan-bus-operator-concentration-replication/README.md)。
 

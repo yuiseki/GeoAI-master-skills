@@ -29,3 +29,4 @@ npx wrangler deploy
 ```
 
 公開記事を増やすときは、元の `projects/**/report.md` を無条件に取り込まず、編集した Markdown と必要な図だけを追加し、原本への `source` と限界を必ず書く。
+カード用の図には、実画像のピクセル寸法を `imageWidth` と `imageHeight` に記録する。

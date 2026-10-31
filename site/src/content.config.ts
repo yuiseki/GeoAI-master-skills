@@ -11,6 +11,8 @@ const reports = defineCollection({
     kicker: z.string(),
     image: z.string(),
     imageAlt: z.string(),
+    imageWidth: z.number().int().positive(),
+    imageHeight: z.number().int().positive(),
     source: z.url(),
   }),
 });
