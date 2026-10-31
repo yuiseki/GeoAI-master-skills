@@ -1,0 +1,77 @@
+{
+  "question": "東京23区で、2種類の国土交通省関連地点はどこに分布するか？",
+  "kind": "category",
+  "value": "value",
+  "unit": "区",
+  "n": 23,
+  "nodata": 0,
+  "counts": {
+    "東京23区": 23
+  },
+  "breaks": null,
+  "class_method": null,
+  "class_changes": null,
+  "scale": null,
+  "categories": {
+    "0": "東京23区"
+  },
+  "crs": "EPSG:6677",
+  "source": "mlit-underpass + mlit-kansui-flood-prone-points-jp-2026-09 + jp-admin-2026-09",
+  "geometry_source": "jp-admin-2026-09 municipalities.parquet (Tokyo 23 ward polygons; transformed from EPSG:4612)",
+  "data_version": "underpass map date 2025-03-31; kansui snapshot 2026-10-30; admin boundary/population vintage 2020",
+  "font": "Noto Sans CJK JP",
+  "source_commit": null,
+  "method": null,
+  "outline": false,
+  "context_areas_count": 23,
+  "labelled_areas": [
+    "世田谷区",
+    "中央区",
+    "中野区",
+    "北区",
+    "千代田区",
+    "台東区",
+    "品川区",
+    "墨田区",
+    "大田区",
+    "文京区",
+    "新宿区",
+    "杉並区",
+    "板橋区",
+    "江戸川区",
+    "江東区",
+    "渋谷区",
+    "港区",
+    "目黒区",
+    "練馬区",
+    "荒川区",
+    "葛飾区",
+    "豊島区",
+    "足立区"
+  ],
+  "roads_count": 0,
+  "roads_label": "主要道路 (OSM)",
+  "landmarks_count": 0,
+  "labelled_landmarks": [],
+  "focus_areas": [],
+  "highlights_count": 0,
+  "highlights": [],
+  "point_groups": [
+    {
+      "label": "国交省アンダーパス (99地点)",
+      "count": 99
+    },
+    {
+      "label": "地方整備局・冠水想定箇所 (87地点)",
+      "count": 87
+    }
+  ],
+  "scalebar_m": 5000,
+  "text_overlaps": [],
+  "source_counts_within_23_wards": {
+    "underpass": 99,
+    "kansui": 87
+  },
+  "spatial_filter": "ST_Within(point, Tokyo 23 ward polygons); parent-city geometries excluded",
+  "interpretation_note": "kansui points are designated flood-prone locations, not observed inundation events"
+}
