@@ -11,6 +11,7 @@ test('Wrangler は公開用 Worker にデプロイする', async () => {
   const config = JSON.parse(await read('wrangler.jsonc'));
   assert.equal(config.name, 'geoai-yuiseki-net');
   assert.equal(config.assets.directory, './dist');
+  assert.equal(config.workers_dev, true);
 });
 
 test('公開記事は選定済みの二件だけで、出典と限界を持つ', async () => {
