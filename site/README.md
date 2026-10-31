@@ -22,11 +22,7 @@ Astro の Markdown は Unified を使う。数式には `remark-math` と `rehyp
 
 Cloudflare Workers の静的アセットとして `site/dist/` を配信する。`astro.config.mjs` の `site` は `https://geoai.yuiseki.net`、`base` は既定の `/`。`wrangler.jsonc` は Custom Domain と `workers.dev` を宣言している。
 
-```sh
-cd site
-npm run build
-npx wrangler deploy
-```
+ブランチに push すると、Cloudflare 側でビルドとデプロイが走る。このリポジトリにデプロイ用の GitHub Actions は無い。`npx wrangler deploy` を手で実行する必要はない。反映後は、公開ページの `<title>` や見出しを見て確かめる。
 
 公開記事を増やすときは、元の `projects/**/report.md` を無条件に取り込まず、編集した Markdown と必要な図だけを追加し、原本への `source` と限界を必ず書く。
 カード用の図には、実画像のピクセル寸法を `imageWidth` と `imageHeight` に記録する。
