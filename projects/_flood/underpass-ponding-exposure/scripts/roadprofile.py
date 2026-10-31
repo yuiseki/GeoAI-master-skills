@@ -79,7 +79,9 @@ def node_index(lines, all_vertices):
     nodes = {}
     for i, ln in enumerate(lines):
         c = list(ln.coords)
-        for j in (range(len(c)) if all_vertices else {0, len(c) - 1}):
+        # a closed way (first node = last node) is entered at its first node only, as the plan's run did
+        ends = [0] if c[0] == c[-1] else [0, len(c) - 1]
+        for j in (range(len(c)) if all_vertices else ends):
             nodes.setdefault(tuple(c[j]), []).append((i, j))
     return nodes
 

@@ -90,3 +90,28 @@ def test_drain_to_nan_is_not_entered():
     a = np.array([[3, 2, np.nan]], float)
     d = drain_to(a)
     assert d[0, 0] == 1 and d[0, 1] == 1 and d[0, 2] == 2
+
+
+def test_terrarium_decode():
+    from dem import terrarium
+    rgb = np.zeros((1, 2, 3), np.uint8)
+    rgb[0, 0] = (128, 0, 0)        # 0 m
+    rgb[0, 1] = (128, 25, 64)      # 25.25 m
+    v = terrarium(rgb)
+    assert v[0, 0] == 0.0 and v[0, 1] == 25.25
+
+
+def test_mapterhorn_tiles_512(tmp_path):
+    from PIL import Image
+    from dem import Tiles, terrarium_encode
+    arr = np.add.outer(np.arange(512) * 1.0, np.arange(512) * 0.25)  # value = row + col / 4
+    d = tmp_path / "mt" / "16"
+    d.mkdir(parents=True)
+    Image.fromarray(terrarium_encode(arr)).save(d / "3_5.webp", lossless=True)
+    t = Tiles(tmp_path, "mt")
+    assert t.size == 512 and t.z == 16
+    assert t.pixel(3 * 512 + 10.5, 5 * 512 + 7.5) == 7 + 10 * 0.25
+    lon = (3 * 512 + 100.5) / (512 * 2 ** 16) * 360 - 180
+    lat = math.degrees(math.atan(math.sinh(math.pi * (1 - 2 * (5 * 512 + 50.5) / (512 * 2 ** 16)))))
+    a, m, r, c = t.window(lon, lat, 3 * metres_per_pixel(lat, 16, 512))
+    assert a[r, c] == 50 + 100 * 0.25

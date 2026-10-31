@@ -5,7 +5,8 @@ uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pyarrow python scr
 Writes artifacts/_flood/underpass-ponding-exposure/measures.parquet (one row per underpass) and profiles.parquet
 (the sampled profiles of the main road, both DEMs, for the figures and checks). --max-lon limits the run to the
 points west of a longitude (for trying the script while tiles are still being fetched). --chain vertices (the
-exploratory rule added after the results) writes to --out measures_vertices.parquet.
+exploratory rule added after the results) writes to --out measures_vertices.parquet. --with-mt adds the
+Mapterhorn z16 columns (`*_mt_*`, exploratory) and writes to --out measures_mt.parquet.
 """
 import argparse
 import math
@@ -45,8 +46,8 @@ def catchment(tiles, lon, lat, blon, blat):
     if np.isnan(win).mean() > 0.5:
         return None
     d = drain_to(win)
-    gx, gy = global_pixel(lon, lat, tiles.z)
-    bx, by = global_pixel(blon, blat, tiles.z)
+    gx, gy = global_pixel(lon, lat, tiles.z, tiles.size)
+    bx, by = global_pixel(blon, blat, tiles.z, tiles.size)
     br, bc = r + int(by) - int(gy), c + int(bx) - int(gx)
     yy, xx = np.indices(win.shape)
     pits = np.flatnonzero((np.hypot(yy - br, xx - bc) * m <= CATCH_PIT).ravel())
@@ -57,12 +58,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-lon", type=float, default=None)
     ap.add_argument("--out", default=str(ART / "measures.parquet"))
+    ap.add_argument("--with-mt", action="store_true", help="also measure on the Mapterhorn z16 tiles (exploratory)")
     ap.add_argument("--chain", choices=["ends", "vertices"], default="ends",
                     help="ends: the plan's rule; vertices: also follow lines through a node (exploratory)")
     a = ap.parse_args()
     lines, meta, ends, n_roads = load_roads(a.chain == "vertices")
     tree = STRtree(lines)
-    tiles = {k: Tiles(ART / "dem", v) for k, v in DEMS.items()}
+    dems = dict(DEMS, **({"mt": "mt"} if a.with_mt else {}))
+    tiles = {k: Tiles(ART / "dem", v) for k, v in dems.items()}
     q = f"select id, pref, block, lon, lat from '{ART / 'raw/underpass.parquet'}'"
     if a.max_lon:
         q += f" where lon < {a.max_lon}"
@@ -73,7 +76,7 @@ def main():
         scale = math.cos(math.radians(lat))
         P = Point(*lonlat_to_merc(lon, lat))
         row = {"id": pid, "pref": pref, "block": block, "lon": lon, "lat": lat}
-        for k, key in DEMS.items():
+        for k in dems:
             win, m, r, c = tiles[k].window(lon, lat, 55)
             row[f"surface_{k}"] = surface_depth(win, m, r, c)
         cand = tree.query(P.buffer(MATCH_MAX / scale))
@@ -95,8 +98,8 @@ def main():
         s = np.array([t[0] for t in smp])
         lonlat = [merc_to_lonlat(x, y) for _, x, y in smp]
         elev = {}
-        for k in DEMS:
-            elev[k] = np.array([tiles[k].bilinear(*global_pixel(lo, la, tiles[k].z)) for lo, la in lonlat])
+        for k in dems:
+            elev[k] = np.array([tiles[k].bilinear(*global_pixel(lo, la, tiles[k].z, tiles[k].size)) for lo, la in lonlat])
             for L in LS:
                 d, sb, ok = depth(s, elev[k], L)
                 row[f"depth_{k}_{L}"], row[f"bottom_{k}_{L}"], row[f"ok_{k}_{L}"] = d, sb, ok
@@ -112,7 +115,7 @@ def main():
             k = row["dem_mix_100"]
             ib = int(np.argmin(np.abs(s - row["bottom_mix_100"])))
             row["catch_m2"] = catchment(tiles[k], lon, lat, *lonlat[ib])
-        prof.append({"id": pid, "s": s.tolist(), "e5a": elev["5a"].tolist(), "e10b": elev["10b"].tolist(),
+        prof.append({"id": pid, "s": s.tolist(), **{f"e{k}": elev[k].tolist() for k in dems},
                      "chain_wkt": chain.wkt, "other_wkt": [lines[i].wkt for i in cand[1:]]})
         out.append(row)
         if n % 250 == 0:

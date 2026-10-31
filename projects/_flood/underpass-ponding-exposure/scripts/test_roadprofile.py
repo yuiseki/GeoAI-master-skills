@@ -123,3 +123,8 @@ def test_node_index_endpoints_only_matches_old_ends():
     lines = [LineString([(0, 0), (1, 0), (2, 0)])]
     assert set(_nodes(lines, False)) == {(0, 0), (2, 0)}
     assert set(_nodes(lines, True)) == {(0, 0), (1, 0), (2, 0)}
+
+
+def test_closed_way_is_entered_forward_only_with_endpoints():
+    lines = [LineString([(0, 0), (10, 0), (10, 10), (0, 0)])]
+    assert _nodes(lines, False) == {(0, 0): [(0, 0)]}

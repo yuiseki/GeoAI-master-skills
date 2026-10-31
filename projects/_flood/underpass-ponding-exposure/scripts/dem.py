@@ -2,30 +2,47 @@
 
 DEM5A is layer `dem5a` at zoom 15, DEM10B is layer `dem` at zoom 14. A tile is 256 x 256 values in m, rows from north
 to south; `e` is no value, and a tile with no land is a 404 (kept as a `.404` file next to the tiles).
+Mapterhorn is layer `mt` at zoom 16: 512 x 512 lossless WebP, elevation encoded as Terrarium (R * 256 + G + B / 256
+- 32768).
 """
 import math
 from pathlib import Path
 
 import numpy as np
 
-LAYERS = {"dem5a": 15, "dem": 14}
+LAYERS = {"dem5a": 15, "dem": 14, "mt": 16}
+SIZE = {"dem5a": 256, "dem": 256, "mt": 512}
 
 
-def global_pixel(lon, lat, z):
+def global_pixel(lon, lat, z, size=256):
     """Pixel coordinates over the whole zoom level (pixel centres at .5)."""
-    n = 256 * 2 ** z
+    n = size * 2 ** z
     return (lon + 180) / 360 * n, (1 - math.asinh(math.tan(math.radians(lat))) / math.pi) / 2 * n
 
 
-def metres_per_pixel(lat, z):
-    return 2 * math.pi * 6378137 * math.cos(math.radians(lat)) / (256 * 2 ** z)
+def metres_per_pixel(lat, z, size=256):
+    return 2 * math.pi * 6378137 * math.cos(math.radians(lat)) / (size * 2 ** z)
 
 
-def tiles_around(lon, lat, z, radius_m):
-    gx, gy = global_pixel(lon, lat, z)
-    k = radius_m / metres_per_pixel(lat, z)
-    return {(x, y) for x in range(int((gx - k) // 256), int((gx + k) // 256) + 1)
-            for y in range(int((gy - k) // 256), int((gy + k) // 256) + 1)}
+def tiles_around(lon, lat, z, radius_m, size=256):
+    gx, gy = global_pixel(lon, lat, z, size)
+    k = radius_m / metres_per_pixel(lat, z, size)
+    return {(x, y) for x in range(int((gx - k) // size), int((gx + k) // size) + 1)
+            for y in range(int((gy - k) // size), int((gy + k) // size) + 1)}
+
+
+def terrarium(rgb):
+    rgb = rgb.astype(float)
+    return rgb[..., 0] * 256 + rgb[..., 1] + rgb[..., 2] / 256 - 32768
+
+
+def terrarium_encode(a):
+    """Inverse of terrarium, for tests."""
+    v = np.asarray(a, float) + 32768
+    r = np.floor(v / 256)
+    g = np.floor(v - r * 256)
+    b = np.round((v - r * 256 - g) * 256)
+    return np.stack([r, g, b], -1).astype(np.uint8)
 
 
 def parse_tile(text):
@@ -39,18 +56,26 @@ class Tiles:
     def __init__(self, root, layer):
         self.dir = Path(root) / layer / str(LAYERS[layer])
         self.z = LAYERS[layer]
+        self.size = SIZE[layer]
+        self.webp = layer == "mt"
         self.cache = {}
 
     def tile(self, x, y):
         if (x, y) not in self.cache:
-            p = self.dir / f"{x}_{y}.txt"
-            self.cache[(x, y)] = parse_tile(p.read_text()) if p.exists() else None
+            if self.webp:
+                from PIL import Image
+                p = self.dir / f"{x}_{y}.webp"
+                self.cache[(x, y)] = terrarium(np.array(Image.open(p).convert("RGB"))) if p.exists() else None
+            else:
+                p = self.dir / f"{x}_{y}.txt"
+                self.cache[(x, y)] = parse_tile(p.read_text()) if p.exists() else None
         return self.cache[(x, y)]
 
     def pixel(self, px, py):
         """Value of the pixel that contains global pixel coordinates (px, py)."""
-        t = self.tile(int(px // 256), int(py // 256))
-        return np.nan if t is None else t[int(py % 256), int(px % 256)]
+        n = self.size
+        t = self.tile(int(px // n), int(py // n))
+        return np.nan if t is None else t[int(py % n), int(px % n)]
 
     def bilinear(self, px, py):
         """Bilinear between the four pixel centres around (px, py); nan if any of them is missing."""
@@ -62,20 +87,21 @@ class Tiles:
 
     def window(self, lon, lat, radius_m):
         """Square of pixels around a point: (array, metres per pixel, row and column of the point)."""
-        gx, gy = global_pixel(lon, lat, self.z)
-        m = metres_per_pixel(lat, self.z)
+        n = self.size
+        gx, gy = global_pixel(lon, lat, self.z, n)
+        m = metres_per_pixel(lat, self.z, n)
         k = int(math.ceil(radius_m / m))
         cx, cy = int(gx), int(gy)
         x0, y0 = cx - k, cy - k
         a = np.full((2 * k + 1, 2 * k + 1), np.nan)
-        for tx in range(x0 // 256, (cx + k) // 256 + 1):
-            for ty in range(y0 // 256, (cy + k) // 256 + 1):
+        for tx in range(x0 // n, (cx + k) // n + 1):
+            for ty in range(y0 // n, (cy + k) // n + 1):
                 t = self.tile(tx, ty)
                 if t is None:
                     continue
-                c0, c1 = max(x0, tx * 256), min(cx + k + 1, tx * 256 + 256)
-                r0, r1 = max(y0, ty * 256), min(cy + k + 1, ty * 256 + 256)
-                a[r0 - y0:r1 - y0, c0 - x0:c1 - x0] = t[r0 - ty * 256:r1 - ty * 256, c0 - tx * 256:c1 - tx * 256]
+                c0, c1 = max(x0, tx * n), min(cx + k + 1, tx * n + n)
+                r0, r1 = max(y0, ty * n), min(cy + k + 1, ty * n + n)
+                a[r0 - y0:r1 - y0, c0 - x0:c1 - x0] = t[r0 - ty * n:r1 - ty * n, c0 - tx * n:c1 - tx * n]
         return a, m, k, k
 
 
