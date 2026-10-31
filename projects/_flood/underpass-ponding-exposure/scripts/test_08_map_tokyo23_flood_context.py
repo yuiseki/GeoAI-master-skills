@@ -20,3 +20,11 @@ def test_a31a_unknown_class_is_rejected():
         assert "unknown A31a maximum-depth class" in str(exc)
     else:
         raise AssertionError("unknown A31a class must not be silently mapped")
+
+
+def test_historical_flood_points_use_translucent_yellow_circles():
+    style = module.historical_marker_style()
+    assert style["marker"] == "o"
+    assert style["color"] == "#F0E442"
+    assert style["edgecolor"] == "#6F6200"
+    assert 0 < style["alpha"] < 1

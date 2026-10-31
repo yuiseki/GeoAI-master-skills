@@ -2,6 +2,12 @@
   "question": "東京23区で、2種類の登録地点は地形・主要道路・河川洪水浸水想定・東京都の浸水実績図とどう重なるか",
   "purpose": "探索的な重ね合わせ。危険度の推定・検証ではない",
   "crs_display": "EPSG:3857 (display only; no distance/area estimates from this CRS)",
+  "historical_flood_record_marker": {
+    "shape": "circle",
+    "color": "#F0E442",
+    "alpha": 0.62,
+    "edgecolor": "#6F6200"
+  },
   "boundary": {
     "dataset": "jp-admin-2026-09",
     "revision": "e6c87b1d7095c17422147962185071a986e13135",
@@ -37,7 +43,7 @@
       "layer": "dem",
       "zoom": 14,
       "nominal_ground_resolution": "about 10 m",
-      "retrieved_utc": "2026-10-31T10:01:51.107292+00:00",
+      "retrieved_utc": "2026-10-31T10:05:49.430164+00:00",
       "tiles": {
         "requested": 324,
         "available": 294,

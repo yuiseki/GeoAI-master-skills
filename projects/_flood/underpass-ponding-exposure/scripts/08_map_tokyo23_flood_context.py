@@ -67,6 +67,11 @@ def depth_label(class_code: int) -> str:
         raise ValueError(f"unknown A31a maximum-depth class: {class_code}") from exc
 
 
+def historical_marker_style() -> dict[str, object]:
+    """Style historical flood records distinctly from hazard polygons and sites."""
+    return {"marker": "o", "color": "#F0E442", "edgecolor": "#6F6200", "alpha": 0.62}
+
+
 def remove_zero_area_holes(geometry: dict) -> dict:
     """Discard known zero-area boundary seams without removing real holes."""
     geom = shape(geometry)
@@ -322,10 +327,12 @@ def main() -> None:
         ax.text(rp.x, rp.y, name, fontsize=7.3, ha="center", va="center", color="#263238",
                 bbox={"facecolor":"white","edgecolor":"none","alpha":0.68,"pad":0.6}, zorder=5)
 
-    # Existing flood record points are stars; these are not road-flood observations.
+    # These historical flood records are not road-flood observations.
+    history_style = historical_marker_style()
     if len(historical):
-        ax.scatter(historical[:,0], historical[:,1], s=34, marker="*", c="#CC3311", edgecolors="white",
-                   linewidths=0.35, alpha=0.95, zorder=7)
+        ax.scatter(historical[:,0], historical[:,1], s=42, marker=history_style["marker"],
+                   c=history_style["color"], edgecolors=history_style["edgecolor"],
+                   linewidths=0.55, alpha=history_style["alpha"], zorder=7)
     for key, _, _, _, color, marker in point_specs:
         xy = points[key]
         if len(xy):
@@ -351,8 +358,9 @@ def main() -> None:
                markersize=7, label=f"国交省アンダーパス ({counts['underpass']})"),
         Line2D([], [], marker="^", markerfacecolor="#D55E00", markeredgecolor="white", linestyle="none",
                markersize=7, label=f"地方整備局・冠水想定 ({counts['kansui']})"),
-        Line2D([], [], marker="*", markerfacecolor="#CC3311", markeredgecolor="white", linestyle="none",
-               markersize=9, label=f"東京都の浸水実績図・地点 ({counts['tokyo_flood_record_points']})"),
+        Line2D([], [], marker=history_style["marker"], markerfacecolor=history_style["color"],
+               markeredgecolor=history_style["edgecolor"], alpha=history_style["alpha"], linestyle="none",
+               markersize=7, label=f"東京都の浸水実績図・地点 ({counts['tokyo_flood_record_points']})"),
     ]
     for rank in range(1,7):
         if not a31a_counts.get(rank):
@@ -391,6 +399,7 @@ def main() -> None:
         "question": "東京23区で、2種類の登録地点は地形・主要道路・河川洪水浸水想定・東京都の浸水実績図とどう重なるか",
         "purpose": "探索的な重ね合わせ。危険度の推定・検証ではない",
         "crs_display": "EPSG:3857 (display only; no distance/area estimates from this CRS)",
+        "historical_flood_record_marker": {"shape":"circle", "color":history_style["color"], "alpha":history_style["alpha"], "edgecolor":history_style["edgecolor"]},
         "boundary": {"dataset":"jp-admin-2026-09", "revision":"e6c87b1d7095c17422147962185071a986e13135", "crs_source":"EPSG:4612", "wards":n_wards},
         "sources": {
             "underpass": {"revision":"4d00072aa88696cfa7026c4cef7d600bc96f9f13", "crs":"OGC:CRS84", "map_date":"2025-03-31"},
