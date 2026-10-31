@@ -9,6 +9,12 @@
 
 図は `outputs/source-values.csv` の値から再生成できます。
 
+既存の指定緊急避難場所の件数と想定収容人数の合計は、`outputs/existing-shelters.csv` から `outputs/existing-shelters-summary.json` に書き出します。
+
+```sh
+uv run python scripts/summarize_existing.py
+```
+
 ```sh
 uv run --with matplotlib python scripts/plot.py
 ```

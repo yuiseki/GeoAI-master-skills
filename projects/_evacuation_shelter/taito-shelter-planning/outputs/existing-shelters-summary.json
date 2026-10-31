@@ -1,0 +1,7 @@
+{
+  "input": "outputs/existing-shelters.csv",
+  "existing_shelters_count": 17,
+  "existing_shelters_capacity_total": 2244,
+  "arakawa_open_shelters_count": 3,
+  "arakawa_open_shelters_capacity": 374
+}

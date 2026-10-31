@@ -4,9 +4,10 @@ evidence it is given; this finds the evidence itself, so a project cannot pass b
     report       projects/<name>/report.md exists and passes check_report.py at the given level, with the evidence
                  taken from every UTF-8 text file in outputs/ (.csv .json .txt .log .md .tsv), plus the outputs/ of
                  every project the report links to (a synthesis quotes the projects it links to), plus any --evidence
-    cited        a line that links to files in an outputs/ folder has its numbers traced in those files only, so a
-                 wrong number cannot pass by matching an unrelated table. Each row of the 要点 table in 結論 must
-                 cite at least one such file
+    cited        a table row or sentence that links to files in an outputs/ folder has its numbers traced in those
+                 files only (their names included: top20_delta.csv holds a 20), so a wrong number cannot pass by
+                 matching an unrelated table. Integers below 10 and settings written in 問い or 方法 (100 m, 65 歳)
+                 may come from anywhere. Each row of the 要点 table in 結論 must cite at least one such file
     readers      every number in the Markdown files under reports/ (reports for each reader) is traced the same way
     links        every relative link and image in report.md points at a file that exists (anchors and URLs are not
                  checked, nor links inside code blocks)
@@ -25,7 +26,7 @@ import re
 import sys
 from pathlib import Path
 
-from check_report import check, format_problems, sections, traceable
+from check_report import check, format_problems, numbers_in, sections, traceable
 
 TEXT = {".csv", ".json", ".txt", ".log", ".md", ".tsv", ".py", ".yaml", ".yml", ".toml"}
 EVIDENCE = {".csv", ".json", ".txt", ".log", ".md", ".tsv"}
@@ -115,7 +116,7 @@ def _segments(line):
     return [x for x in re.split(r"(?<=。)", line) if x.strip()]
 
 
-def _trace_lines(lines, base, project, evidence, label, uncited=True):
+def _trace_lines(lines, base, project, evidence, label, uncited=True, settings=()):
     """Problems for numbers in the lines. A segment (table row or sentence) that cites outputs is traced in those
     files; the rest in evidence, unless uncited is False (the caller traces them). Also returns the segments that cited something, so the
     caller does not trace them twice."""
@@ -125,13 +126,16 @@ def _trace_lines(lines, base, project, evidence, label, uncited=True):
             files, rest = _cited(segment, base)
             if files:
                 cited.append(segment)
-                text = "\n".join(f.read_text(encoding="utf-8") for f in files)
+                # a file's name says what it holds (top20_delta.csv holds the top 20)
+                text = "\n".join(f.name + "\n" + f.read_text(encoding="utf-8") for f in files)
                 names = " or ".join(os.path.relpath(f, Path(project).resolve()).replace(os.sep, "/") for f in files)
                 missing = traceable(rest, text)
                 if evidence is not None:
                     # a small integer (7 年, 上位 5) matches by chance in any file, so scoping it adds nothing;
                     # it may come from any output
                     missing = [t for t in missing if not (re.fullmatch(r"\d", t) and not traceable(t, evidence))]
+                # a setting stated in 問い or 方法 (100 m, 800 m, 65 歳) is a definition, not a value of the file
+                missing = [t for t in missing if t not in settings]
                 problems += [f"{label}: {t} is not in {names}" for t in missing]
             elif uncited and evidence is not None:
                 problems += [f"{label}: {t} does not appear in the evidence" for t in traceable(segment, evidence)]
@@ -170,7 +174,9 @@ def check_project(project, level="full", extra=()):
     for i, row in enumerate(_key_rows(conclusion), 1):
         if not _cited(row, project)[0]:
             problems.append(f"report.md: 要点 row {i} cites no file in outputs/: link the output each number comes from")
-    scoped, cited = _trace_lines(conclusion, project, project, evidence, "report.md", uncited=False)
+    parts = sections(text)
+    settings = {t for name in ("問い", "方法") for t, *_ in numbers_in("\n".join(parts.get(name, [])))}
+    scoped, cited = _trace_lines(conclusion, project, project, evidence, "report.md", uncited=False, settings=settings)
     # segments that cite their outputs were traced above; check_report traces the rest of 結論 against all evidence
     rest = text
     for segment in cited:
@@ -182,7 +188,7 @@ def check_project(project, level="full", extra=()):
         except UnicodeDecodeError:
             continue
         label = reader.relative_to(project).as_posix()
-        problems += _trace_lines(body.splitlines(), reader.parent, project, evidence, label)[0]
+        problems += _trace_lines(body.splitlines(), reader.parent, project, evidence, label, settings=settings)[0]
     return problems
 
 

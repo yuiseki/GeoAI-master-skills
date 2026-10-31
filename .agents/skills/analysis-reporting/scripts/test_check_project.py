@@ -205,3 +205,21 @@ def test_a_small_integer_in_a_cited_row_may_come_from_any_output(tmp_path):
     assert check_project(project) == []
     (project / "outputs" / "summary.txt").write_text("years 9\n", encoding="utf-8")
     assert check_project(project) == ["report.md: 7 is not in outputs/yearly.csv"]
+
+
+def test_a_setting_stated_in_the_method_may_appear_in_a_cited_row(tmp_path):
+    # "100m配分" names a method; the method section says 100 m, the cited file has no 100 in it
+    report = KEY_TABLE.replace("2024 年は 1,837 件", "100m配分で 2024 年は 1,837 件").replace(
+        "半径 30 m の円で数えた。", "半径 30 m の円で数え、人口は 100 m の格子で配った。")
+    assert check_project(make_cited(tmp_path, report)) == []
+    assert check_project(make_cited(tmp_path / "b", report.replace("100 m の格子", "細かい格子"))) == [
+        "report.md: 100 is not in outputs/yearly.csv"]
+
+
+def test_a_number_in_a_cited_file_name_counts_as_evidence(tmp_path):
+    # "Δ 上位20の区別は" cites top20_delta.csv, whose name says it holds the top 20
+    project = make_cited(tmp_path)
+    (project / "outputs" / "top20_delta.csv").write_text("mesh,ward\n1,千代田区\n", encoding="utf-8")
+    report = KEY_TABLE.replace("27.3% ([wards.csv](outputs/wards.csv))", "上位20 ([top20_delta.csv](outputs/top20_delta.csv))")
+    (project / "report.md").write_text(report, encoding="utf-8")
+    assert check_project(project) == []
