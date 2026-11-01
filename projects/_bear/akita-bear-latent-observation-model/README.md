@@ -10,6 +10,7 @@
 - 実行の記録: [EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md)
 - 報告: [report.md](report.md)
 - 熊の観測データの棚卸し (観測の過程で並べ、次に取るデータを決める): [BEAR_OBSERVATION_INVENTORY.md](BEAR_OBSERVATION_INVENTORY.md)
+- V1〜V3 の存在の確認 (公開資料の一次確認): [BEAR_DATA_AVAILABILITY_AUDIT.md](BEAR_DATA_AVAILABILITY_AUDIT.md)
 
 ```
 scripts/     コードとテスト (pytest)
