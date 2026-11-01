@@ -9,6 +9,7 @@
 - 計画 (結果を見る前に固定): [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)
 - 実行の記録: [EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md)
 - 報告: [report.md](report.md)
+- 熊の観測データの棚卸し (観測の過程で並べ、次に取るデータを決める): [BEAR_OBSERVATION_INVENTORY.md](BEAR_OBSERVATION_INVENTORY.md)
 
 ```
 scripts/     コードとテスト (pytest)
