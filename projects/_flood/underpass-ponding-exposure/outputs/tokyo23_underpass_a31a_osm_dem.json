@@ -24,7 +24,7 @@
   },
   "inferred_underpass_method": {
     "status": "exploratory candidates, not verified underpasses",
-    "reference": "evals/tasks/small-rubric-4.md H1; this generator uses no official underpass list for candidate construction",
+    "reference": "task-28 rubric H1; this generator uses no official underpass list for candidate construction",
     "osm_rule": "highway in trunk/primary/secondary/tertiary/unclassified/residential/living_street and links, plus tunnel=yes OR covered tag other than no/false/0 OR layer<0",
     "dem_used_for_candidate_generation": false,
     "grouping_rule": "buffer qualifying road segments by 15 ground metres, merge overlapping areas within Tokyo 23 wards, and emit one representative point per merged area",

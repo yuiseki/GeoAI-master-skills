@@ -1,6 +1,6 @@
 # experiment-design の独立した評価 (課題 26)
 
-2026-10-17。課題文 `../tasks/experiment-tasks.md` と解答 `../tasks/experiment-rubric.md` は、スキルを書く前に凍結した (17860d8、数字の訂正 9c63a79)。スキルは d315f8e。
+2026-10-17。課題文 `../tasks/experiment/26.md` と解答 `../tasks/experiment/rubrics/26.md` は、スキルを書く前に凍結した (17860d8、数字の訂正 9c63a79)。スキルは d315f8e。
 
 ## 実行条件
 

@@ -1,6 +1,6 @@
 # 小課題 12〜14 (2026-10-14)
 
-スキルは 9bac20a。Docker (CPU 8、メモリ 16g)。課題と解答は `../tasks/small-tasks.md`、`small-rubric.md`。成果物の本体は、リポジトリの外 (`~/tmp/geoai-repro/runs/small-tasks-20261014/`)。
+スキルは 9bac20a。Docker (CPU 8、メモリ 16g)。対象は課題 12〜14 (`../tasks/small/12.md`〜`../tasks/small/14.md`) と対応する採点基準 (`../tasks/small/rubrics/12.md`〜`../tasks/small/rubrics/14.md`)。成果物の本体は、リポジトリの外 (`~/tmp/geoai-repro/runs/small-tasks-20261014/`)。
 
 | 設定 | 内容 |
 |---|---|

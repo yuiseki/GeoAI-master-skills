@@ -15,11 +15,14 @@
 
 | 場所 | 中身 |
 |---|---|
-| `tasks/tasks.md` | 教科書的な課題 (問いと使い道だけ)。課題 1〜8 は、スキルを直すために結果を読んだので、評価としては汚染済み。課題 9〜11 は、直す前の保留 |
-| `tasks/rubric.md` | 課題ごとの、拾うべき落とし穴と実測値 (解答) |
-| `tasks/medium-tasks.md` | 中難易度課題。対象量と限界を明示し、地図・集計と小さい感度確認で現地調査候補を作る。1 回に 1 課題を渡す |
-| `tasks/medium-rubric.md` | 中難易度課題の採点観点。エージェントには渡さない |
-| `tasks/hard-tasks.md` | 高難易度の正式課題。中難易度と同じ固定版一覧を持つ |
+| `tasks/<suite>/<id>.md` | 1 ファイル 1 課題。YAML frontmatter に `task_id`、難易度、状態、タイトルなどを記録 |
+| `tasks/<suite>/rubrics/<id>.md` | 同じ `task_id` を持つ採点基準。`visibility: evaluator-only`。作業場所には渡さない |
+| `tasks/foundational/` | 教科書的な課題 1〜11。1〜8 は開発に使った汚染済み、9〜11 は保留 |
+| `tasks/small/` | 小さい課題 12〜17、19〜22、27〜29。`28-truth.csv` は採点用の正解データ |
+| `tasks/medium/` | 中難易度課題。分析判断を絞り、現地確認候補を作る |
+| `tasks/hard/` | 高難易度の正式課題 30〜44 |
+| `tasks/raster/`, `tasks/areal/`, `tasks/interpolation/`, `tasks/observation/`, `tasks/experiment/` | 手法・落とし穴別の課題 18、23〜26 |
+| `tasks/world-visualize/` | 世界規模の可視化候補 W1〜W7 |
 | `curriculum/task-cards/` | 提案・レビュー履歴。正式課題と混同しない |
 | `curriculum/incoming/` | 外部から受け取った候補の原文。検証・採用を意味しない |
 | `curriculum/reviews/` | 候補の採否と修正理由。元の pilot 数値は再検証まで答えにしない |
@@ -28,7 +31,7 @@
 | `run_codex_docker.sh` | 作業場所を Docker (`../Dockerfile.evals.codex`) に閉じ込めて Codex を流す。CPU、メモリ、プロセス数の上限はここで強制する (テスト付き) |
 | `prepare_workdir.py` | エージェントの作業場所を、`evals/` なしで用意する (テスト付き) |
 | `score_points.py` | 予測の点と正解の点を、半径 (m) の中で 1 対 1 に組にして、適合率、再現率、F1 を出す。課題 28 (アンダーパス) の採点に使う (テスト付き) |
-| `tasks/underpass28-truth.csv` | 課題 28 の正解 (23 区の 99 点)。作業場所は `--hide mlit-underpass` で作り、データカードを消す |
+| `tasks/small/28-truth.csv` | 課題 28 の正解 (23 区の 99 点)。作業場所は `--hide mlit-underpass` で作り、データカードを消す |
 | `results/agent-runs.md` | これまでの実行の一覧 (成果物の本体は、リポジトリの外) |
 | `results/overview.md` | 設計、結果、直したこと、残った隙のまとめ |
 
@@ -37,7 +40,7 @@
 1. エージェントの作業場所を用意する。エージェントに clone させない。clone すると `evals/` が入る。
 
    ```sh
-   python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md --number 9 \
+   python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/foundational/09.md \
      --template evals/prompts/agent-task.md > <指示文>
    ```
 
@@ -45,7 +48,7 @@
    スキルありの作業場所には、リポジトリの `projects/sample-project/` と `artifacts/sample-project/` (構成の例の README だけ) も入る。採点では、この 2 つを成果物として数えない。エージェントが `artifacts/<名前>/` に置いた生成物は、報告から指されていれば見る。
 
 2. 指示文を、エージェント (Codex や Claude など) に渡す。作業場所の外、特に `evals/` を含む元のリポジトリを読ませない (指示文に書いてある)。
-3. 成果物を回収し、`tasks/rubric.md` で採点する。同じ課題を 2 回流し、再現を確かめる (コピーして流し直し、出力を比べる)。
+3. 成果物を回収し、課題と同じ番号の `rubrics/<id>.md` で採点する。同じ課題を 2 回流し、再現を確かめる (コピーして流し直し、出力を比べる)。
 4. 禁止パスのコマンドの読み取りが 0 件かを、エージェントのログで確かめる。
 5. 結果を `results/` に書く。スキルあり、なし、の両方を同じ表に並べる。
 
@@ -71,7 +74,7 @@ docker build -f Dockerfile.evals.codex -t geoai-master-skills-evals-codex .
 evals/run_codex_docker.sh --login
 
 # 作業場所と、/work を書いた指示文を作って流す (baseline は --baseline を付けるだけ)
-python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md --number 9 \
+python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/foundational/09.md \
   --template evals/prompts/agent-task.md --prompt-workdir /work > <指示文>
 evals/run_codex_docker.sh --prompt <指示文> <作業場所> -m gpt-6-luna -c model_reasoning_effort=medium
 ```
@@ -99,7 +102,7 @@ docker build -f Dockerfile.evals.gemini -t geoai-master-skills-evals-gemini .
 evals/run_gemini_docker.sh --login      # OAuth: 表示された URL でサインインし、認可コードを貼る。トークンは ~/.gemini-evals に保存
 cp .env.example .env                     # API キー: 値を書く (.env は git に入れない)
 
-python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md --number 9 \
+python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/foundational/09.md \
   --template evals/prompts/agent-task.md --prompt-workdir /work > <指示文>
 evals/run_gemini_docker.sh --prompt <指示文> <作業場所> > <ログ.jsonl>
 ```
@@ -124,7 +127,7 @@ Codex、Gemini と同じ課題、作業場所、CPU、メモリ、プロセス�
 ```sh
 docker build -f Dockerfile.evals.opencode -t geoai-master-skills-evals-opencode .
 
-python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/tasks.md --number 9 \
+python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/foundational/09.md \
   --template evals/prompts/agent-task.md --prompt-workdir /work > <指示文>
 EVAL_MODEL=opencode/glm-5.3-flash-free evals/run_opencode_docker.sh --prompt <指示文> <作業場所> > <ログ.jsonl>
 ```

@@ -1,6 +1,6 @@
 # spatial-interpolation の独立した評価 (課題 24)
 
-2026-10-14。課題文 `../tasks/interpolation-tasks.md` と解答 `../tasks/interpolation-rubric.md` は、スキルを書く前に凍結した (ad01b7b)。スキルは db696ee。
+2026-10-14。課題文 `../tasks/interpolation/24.md` と解答 `../tasks/interpolation/rubrics/24.md` は、スキルを書く前に凍結した (ad01b7b)。スキルは db696ee。
 
 ## 実行条件
 

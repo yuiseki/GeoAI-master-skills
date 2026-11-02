@@ -123,7 +123,7 @@ def save_layer_switch_gif(fig, layer_artists, output: Path, counts: dict[str, in
 
 
 def is_h1_underpass_road(highway, tunnel, covered, layer) -> bool:
-    """The OSM-only H1 heuristic from small-rubric-4; DEM is deliberately not an input."""
+    """The task-28 OSM-only H1 heuristic; DEM is deliberately not an input."""
     if highway not in H1_ROAD_CLASSES:
         return False
     tunnel_yes = str(tunnel).lower() == "yes" if tunnel is not None else False
@@ -530,7 +530,7 @@ def main() -> None:
             "frame_duration_ms":ANIMATION_FRAME_DURATION_MS,"loop":True,
             "switches":"cumulatively add one point layer per frame; DEM, A31a, OSM major roads and ward boundaries stay fixed"},
         "inferred_underpass_method": {"status":"exploratory candidates, not verified underpasses",
-            "reference":"evals/tasks/small-rubric-4.md H1; this generator uses no official underpass list for candidate construction",
+            "reference":"task-28 rubric H1; this generator uses no official underpass list for candidate construction",
             "osm_rule":"highway in trunk/primary/secondary/tertiary/unclassified/residential/living_street and links, plus tunnel=yes OR covered tag other than no/false/0 OR layer<0",
             "dem_used_for_candidate_generation":False,
             "grouping_rule":"buffer qualifying road segments by 15 ground metres, merge overlapping areas within Tokyo 23 wards, and emit one representative point per merged area",

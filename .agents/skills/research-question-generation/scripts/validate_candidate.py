@@ -58,16 +58,20 @@ def load_catalog(root=ROOT):
 
 def load_history(root=ROOT):
     tasks = []
-    for filename, prefix in (("hard-tasks.md", ""), ("medium-tasks.md", "M")):
-        path = root / "evals" / "tasks" / filename
-        if not path.exists():
-            continue
-        text = path.read_text()
-        for match in re.finditer(r"^## 課題 (\d+):[^\n]*\n(.*?)(?=^## 課題 |\Z)", text, re.M | re.S):
-            question = re.search(r"^問い: (.+)$", match.group(2), re.M)
+    for suite, prefix in (("hard", ""), ("medium", "M")):
+        directory = root / "evals" / "tasks" / suite
+        for path in sorted(directory.glob("[0-9][0-9].md")):
+            text = path.read_text(encoding="utf-8")
+            parts = text.split("---\n", 2)
+            if len(parts) != 3:
+                continue
+            metadata = yaml.safe_load(parts[1]) or {}
+            if metadata.get("kind") != "task" or metadata.get("suite") != suite:
+                continue
+            question = re.search(r"^問い: (.+)$", parts[2], re.M)
             if question:
-                number = int(match.group(1))
-                tasks.append((f"{prefix}{number}" if prefix else number, question.group(1)))
+                number = str(metadata.get("number", path.stem))
+                tasks.append((f"{prefix}{number}" if prefix else int(number), question.group(1)))
     return tasks
 
 

@@ -3,25 +3,33 @@
 import re
 import unittest
 from pathlib import Path
+import sys
 
 
 
 ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT))
+from prepare_workdir import parse_frontmatter
 
 
 class MediumTaskTests(unittest.TestCase):
     def test_task_and_rubric_are_paired(self):
-        tasks = (ROOT / "tasks/medium-tasks.md").read_text()
-        rubric = (ROOT / "tasks/medium-rubric.md").read_text()
-        task_ids = re.findall(r"^## 課題 (\d+):", tasks, re.MULTILINE)
-        rubric_ids = re.findall(r"^## 課題 (\d+):", rubric, re.MULTILINE)
-        self.assertEqual(task_ids, ["1", "2", "3"])
-        self.assertEqual(rubric_ids, task_ids)
-        for section in re.split(r"^## 課題 \d+:", tasks, flags=re.MULTILINE)[1:]:
+        task_paths = sorted((ROOT / "tasks/medium").glob("[0-9][0-9].md"))
+        self.assertEqual([path.stem for path in task_paths], ["01", "02", "03"])
+        tasks = []
+        for path in task_paths:
+            metadata, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+            rubric_metadata, rubric = parse_frontmatter(
+                (path.parent / "rubrics" / path.name).read_text(encoding="utf-8"))
+            self.assertEqual(metadata["kind"], "task")
+            self.assertEqual(rubric_metadata["kind"], "rubric")
+            self.assertEqual(metadata["task_id"], rubric_metadata["task_id"])
+            tasks.append(body)
+        for section in tasks:
             for field in ("問い:", "使い道:", "使うデータ:", "範囲:", "提出:"):
                 self.assertIn(field, section)
-        self.assertIn("公表登録", tasks)
-        self.assertNotIn("熱海市", tasks)
+        self.assertIn("公表登録", "\n".join(tasks))
+        self.assertNotIn("熱海市", "\n".join(tasks))
 
     def test_subagent_review_preserves_unverified_pilot_status(self):
         review = (ROOT / "curriculum/reviews/2026-10-25-subagent-topics.md").read_text()

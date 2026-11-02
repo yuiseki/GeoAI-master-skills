@@ -7,7 +7,7 @@ cannot leak the answers.
 
 Usage:
     python prepare_workdir.py REV DEST [--baseline] [--repo PATH]
-    python prepare_workdir.py REV DEST --task evals/tasks/tasks.md --number 9 \
+    python prepare_workdir.py REV DEST --task evals/tasks/foundational/09.md \
         --template evals/prompts/agent-task.md
 
 --baseline gives an empty working copy (only projects/), for measuring the agent without the skills.
@@ -90,7 +90,41 @@ def pointers_into_evals(dest):
     return leaks
 
 
-def extract_task(text, number):
+def parse_frontmatter(text):
+    """Parse the deliberately flat, scalar-only YAML header used by task records."""
+    match = re.match(r"\A---\r?\n(.*?)\r?\n---\r?\n(.*)\Z", text, re.S)
+    if not match:
+        return None, text
+    metadata = {}
+    for line in match.group(1).splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        key, separator, value = line.partition(":")
+        if not separator or not re.fullmatch(r"[a-z][a-z0-9_]*", key.strip()):
+            raise SystemExit(f"invalid task YAML frontmatter line: {line}")
+        value = value.strip()
+        if value.startswith('"'):
+            try:
+                import json
+                value = json.loads(value)
+            except ValueError as exc:
+                raise SystemExit(f"invalid quoted YAML value for {key}") from exc
+        metadata[key.strip()] = value
+    return metadata, match.group(2)
+
+
+def extract_task(text, number=None):
+    if number is None:
+        metadata, body = parse_frontmatter(text)
+        if metadata is None:
+            raise SystemExit("a single task file with YAML frontmatter is required when --number is omitted")
+        if metadata.get("kind") != "task":
+            raise SystemExit("task file frontmatter kind must be 'task'")
+        if not metadata.get("task_id"):
+            raise SystemExit("task file frontmatter must include task_id")
+        if not body.strip():
+            raise SystemExit("task file body is empty")
+        return body.rstrip() + "\n"
     m = re.search(rf"^## 課題 {number}:.*?(?=^## 課題 |\Z)", text, re.S | re.M)
     if not m:
         raise SystemExit(f"task {number} not found")
@@ -119,8 +153,8 @@ def main():
     p.add_argument("dest")
     p.add_argument("--baseline", action="store_true")
     p.add_argument("--repo", default=str(Path(__file__).resolve().parent.parent))
-    p.add_argument("--task", help="the tasks file")
-    p.add_argument("--number", type=int, help="which task in it")
+    p.add_argument("--task", help="one task Markdown file (legacy collections also accept --number)")
+    p.add_argument("--number", type=int, help="legacy: which task to extract from a collection file")
     p.add_argument("--template")
     p.add_argument("--prompt-workdir", help="the path to write into the prompt (default: DEST); "
                    "/work when the agent runs in Docker")
@@ -130,17 +164,17 @@ def main():
     p.add_argument("--time-limit", type=int, metavar="MIN", help="tell the agent the run is cut off after MIN minutes")
     a = p.parse_args()
     prepare(a.repo, a.rev, a.dest, a.baseline, a.hide)
-    task = extract_task(Path(a.task).read_text(), a.number) if a.task else None
+    task = extract_task(Path(a.task).read_text(encoding="utf-8"), a.number) if a.task else None
     if a.table_file:
         if task is None:
-            raise SystemExit("--table-file needs --task and --number")
+            raise SystemExit("--table-file needs --task")
         (Path(a.dest) / "data").mkdir(exist_ok=True)
-        (Path(a.dest) / "data" / a.table_file).write_text(extract_table(task))
+        (Path(a.dest) / "data" / a.table_file).write_text(extract_table(task), encoding="utf-8")
         workdir = a.prompt_workdir or Path(a.dest).resolve()
         task += f"\n上の表と同じ内容のファイルを {workdir}/data/{a.table_file} に置いてある。\n"
     if a.time_limit:
         if task is None:
-            raise SystemExit("--time-limit needs --task and --number")
+            raise SystemExit("--time-limit needs --task")
         workdir = a.prompt_workdir or Path(a.dest).resolve()
         task += (f"\n時間の上限: この実行は {a.time_limit} 分で打ち切られる。打ち切られた時点で "
                  f"{workdir}/projects/ にある報告を採点する。\n")

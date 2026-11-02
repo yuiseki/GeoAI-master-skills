@@ -77,13 +77,25 @@ def test_extract_task_returns_only_that_section():
         extract_task(text, 3)
 
 
+def test_extract_task_reads_one_frontmatter_task_without_number():
+    from prepare_workdir import extract_task
+    text = '---\ntask_id: "small-12"\nkind: "task"\n---\n# 課題タイトル\n\n問いです。\n'
+    assert extract_task(text) == "# 課題タイトル\n\n問いです。\n"
+
+
+def test_extract_task_rejects_non_task_frontmatter():
+    from prepare_workdir import extract_task
+    with pytest.raises(SystemExit, match="kind.*task"):
+        extract_task('---\ntask_id: "small-12"\nkind: "rubric"\n---\n# 解答\n')
+
+
 def test_prompt_workdir_overrides_the_path_in_the_prompt(repo, tmp_path):
-    (repo / "t.md").write_text("## 課題 1: a\n問い\n")
+    (repo / "t.md").write_text('---\ntask_id: "small-01"\nkind: "task"\n---\n# a\n問い\n')
     (repo / "tpl.md").write_text("at {{WORKDIR}} {{SHA}}\n{{TASK}}")
     here = Path(__file__).parent
     out = subprocess.run(
         ["python", str(here / "prepare_workdir.py"), "HEAD", str(tmp_path / "w"), "--repo", str(repo),
-         "--task", str(repo / "t.md"), "--number", "1", "--template", str(repo / "tpl.md"),
+         "--task", str(repo / "t.md"), "--template", str(repo / "tpl.md"),
          "--prompt-workdir", "/work"], check=True, capture_output=True, text=True).stdout
     assert out.startswith("at /work ")
 
@@ -155,7 +167,7 @@ def test_hide_removes_a_dataset_the_task_keeps_as_its_answer(repo, tmp_path):
     assert not any("secret-set" in p.read_text() for p in dest.rglob("*") if p.is_file())
 
 
-@pytest.mark.parametrize("ref", ["evals/results/x-2026-10-17.md", "evals/tasks/small-rubric-3.md"])
+@pytest.mark.parametrize("ref", ["evals/results/x-2026-10-17.md", "evals/tasks/small/rubrics/27.md"])
 def test_refuses_a_copy_whose_files_point_into_the_results_or_the_tasks(repo, tmp_path, ref):
     # an index of results kept outside evals/ (docs/eval-status.md was one) hands the answers to the agent
     (repo / "docs" / "status.md").write_text(f"see `{ref}`: the court is in the palace\n")
@@ -187,24 +199,45 @@ def test_the_repository_keeps_analyses_out_of_git_but_the_sample_in():
 
 
 def test_hard_tasks_and_rubric_cover_the_same_numbered_tasks_with_pinned_datasets():
+    from prepare_workdir import parse_frontmatter
     repo = Path(__file__).resolve().parent.parent
-    tasks = (repo / "evals" / "tasks" / "hard-tasks.md").read_text()
-    rubric = (repo / "evals" / "tasks" / "hard-rubric.md").read_text()
-
-    heading = re.compile(r"^## 課題 (\d+):", re.MULTILINE)
-    task_numbers = [int(n) for n in heading.findall(tasks)]
-    rubric_numbers = [int(n) for n in heading.findall(rubric)]
+    task_paths = sorted((repo / "evals/tasks/hard").glob("[0-9][0-9].md"))
+    task_numbers = []
+    for task_path in task_paths:
+        metadata, body = parse_frontmatter(task_path.read_text(encoding="utf-8"))
+        assert metadata["kind"] == "task"
+        task_numbers.append(int(metadata["number"]))
+        rubric_path = task_path.parent / "rubrics" / task_path.name
+        rubric_metadata, rubric_body = parse_frontmatter(rubric_path.read_text(encoding="utf-8"))
+        assert rubric_metadata["kind"] == "rubric"
+        assert rubric_metadata["visibility"] == "evaluator-only"
+        assert rubric_metadata["task_id"] == metadata["task_id"]
+        assert "採点の項目:" in rubric_body and "実測: 未。" in rubric_body
+        assert all(label in body for label in ("問い:", "使い道:", "使うデータ:", "範囲:"))
     assert task_numbers == list(range(30, 45))
-    assert rubric_numbers == task_numbers
-
-    task_sections = re.split(r"^## 課題 \d+:", tasks, flags=re.MULTILINE)[1:]
-    for section in task_sections:
-        assert all(label in section for label in ("問い:", "使い道:", "使うデータ:", "範囲:"))
-    rubric_sections = re.split(r"^## 課題 \d+:", rubric, flags=re.MULTILINE)[1:]
-    for section in rubric_sections:
-        assert "採点の項目:" in section and "実測: 未。" in section
-
+    tasks = "\n".join(path.read_text(encoding="utf-8") for path in task_paths)
     pinned = set(re.findall(r"^\| `([^`]+)` \| `([^`]+)` \|$", tasks, re.MULTILINE))
     pinned_names = {name for name, revision in pinned if revision}
     used = set(re.findall(r"`(yuiseki/[^`]+)`", tasks))
     assert used <= pinned_names
+
+
+def test_every_task_is_one_frontmatter_file_with_a_paired_evaluator_rubric():
+    from prepare_workdir import parse_frontmatter
+    root = Path(__file__).resolve().parent.parent / "evals/tasks"
+    task_paths = sorted(path for path in root.glob("*/[0-9w][0-9w].md") if path.parent.name != "rubrics")
+    assert len(task_paths) == 54
+    seen_ids = set()
+    for path in task_paths:
+        metadata, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+        assert metadata["kind"] == "task"
+        assert metadata["task_id"] not in seen_ids
+        seen_ids.add(metadata["task_id"])
+        assert metadata["title"]
+        assert len(re.findall(r"^# ", body, re.MULTILINE)) == 1
+        rubric_path = path.parent / "rubrics" / path.name
+        rubric_metadata, rubric_body = parse_frontmatter(rubric_path.read_text(encoding="utf-8"))
+        assert rubric_metadata["task_id"] == metadata["task_id"]
+        assert rubric_metadata["kind"] == "rubric"
+        assert rubric_metadata["visibility"] == "evaluator-only"
+        assert len(re.findall(r"^# ", rubric_body, re.MULTILINE)) == 1

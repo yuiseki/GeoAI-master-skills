@@ -1,10 +1,10 @@
 # 小さい課題 15 から 17 (データ指定版) の結果
 
-2026-10-14。課題文に使うデータを書いた版 (`../tasks/small-tasks-fixed.md`)。スキルは 74e16d1 (osm-japan-src の bbox の注意を含む。df3e0a3 以降)。Codex (gpt-6-luna、medium) と Gemini (agy、gemini-3.8-flash-low) を、baseline とスキルありで、課題ごとに 3 回ずつ、合計 36 件流した。条件は同じ Docker の制限 (CPU 8、メモリ 16 GiB)。実行の出力は `~/tmp/geoai-repro/runs/small-fixed-20261014/`。
+2026-10-14。課題文に使うデータを書いた版の課題 15〜17 (`../tasks/small/15.md`〜`../tasks/small/17.md`) と対応する採点基準 (`../tasks/small/rubrics/15.md`〜`../tasks/small/rubrics/17.md`)。スキルは 74e16d1 (osm-japan-src の bbox の注意を含む。df3e0a3 以降)。Codex (gpt-6-luna、medium) と Gemini (agy、gemini-3.8-flash-low) を、baseline とスキルありで、課題ごとに 3 回ずつ、合計 36 件流した。条件は同じ Docker の制限 (CPU 8、メモリ 16 GiB)。実行の出力は `~/tmp/geoai-repro/runs/small-fixed-20261014/`。
 
 ## 結果
 
-合格は、`../tasks/small-rubric.md` の基準による (落とし穴を踏んでいない、答えが妥当)。
+合格は、各課題に対応する `../tasks/small/rubrics/15.md`〜`../tasks/small/rubrics/17.md` の基準による (落とし穴を踏んでいない、答えが妥当)。
 
 | 課題 | Codex baseline | Codex スキル | Gemini baseline | Gemini スキル |
 |---|---|---|---|---|

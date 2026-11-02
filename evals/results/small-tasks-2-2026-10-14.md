@@ -1,6 +1,6 @@
 # 小さい課題 19 から 22 の結果
 
-2026-10-14。課題文は `../tasks/small-tasks-2.md`、解答は `../tasks/small-rubric-2.md`。版 32e1c5d。Codex (gpt-6-luna、medium) で、baseline とスキルありを課題ごとに 3 回ずつ、計 24 件 (全て exit 0)。Gemini は 5 時間枠の上限で流していない。実行の出力は `~/tmp/geoai-repro/runs/small2-20261014/`。
+2026-10-14。対象は課題 19〜22 (`../tasks/small/19.md`〜`../tasks/small/22.md`) と対応する採点基準 (`../tasks/small/rubrics/19.md`〜`../tasks/small/rubrics/22.md`)。版 32e1c5d。Codex (gpt-6-luna、medium) で、baseline とスキルありを課題ごとに 3 回ずつ、計 24 件 (全て exit 0)。Gemini は 5 時間枠の上限で流していない。実行の出力は `~/tmp/geoai-repro/runs/small2-20261014/`。
 
 ## 正解
 

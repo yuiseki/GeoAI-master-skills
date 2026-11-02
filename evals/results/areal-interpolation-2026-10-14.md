@@ -1,6 +1,6 @@
 # areal-interpolation の独立した評価 (課題 23)
 
-2026-10-14。課題文 `../tasks/areal-tasks.md` と解答 `../tasks/areal-rubric.md` は、スキルを書く前に凍結した (63775ad、3ae7edc)。
+2026-10-14。課題文 `../tasks/areal/23.md` と解答 `../tasks/areal/rubrics/23.md` は、スキルを書く前に凍結した (63775ad、3ae7edc)。
 
 ## 実行条件
 

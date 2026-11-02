@@ -1,6 +1,6 @@
 # observation-bias-audit の独立した評価 (課題 25)
 
-2026-10-14。課題文 `../tasks/observation-tasks.md` と解答 `../tasks/observation-rubric.md` は、スキルを書く前に凍結した (629a884)。スキルは 961a200。
+2026-10-14。課題文 `../tasks/observation/25.md` と解答 `../tasks/observation/rubrics/25.md` は、スキルを書く前に凍結した (629a884)。スキルは 961a200。
 
 ## 実行条件
 

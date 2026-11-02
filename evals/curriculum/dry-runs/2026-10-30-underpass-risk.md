@@ -5,7 +5,7 @@
 ## 読んだもの
 
 - データカード: mlit-underpass (版 4d00072、3,841 点、2025-03-31 時点、危険度や冠水の記録の列は無い)、gsi-dem-tiles、osm-japan-src-2026-08、tokyo-flood-record-jp、jp-admin-2026-09、mlit-nlftp の目録。
-- 既存の課題と候補: small-tasks-4 の課題 28 (アンダーパスの場所の推測)、proposals/2026-10-24-underpass-evacuation (通れないと仮定した避難経路)、proposals/2026-10-27-tokyo-pluvial-hazard-blindspot、projects/_flood/tokyo23-flood-record-vs-a31a (記録から学んだ地図と A31a の比較)。
+- 既存の課題と候補: [課題 28](../../tasks/small/28.md) (アンダーパスの場所の推測)、proposals/2026-10-24-underpass-evacuation (通れないと仮定した避難経路)、proposals/2026-10-27-tokyo-pluvial-hazard-blindspot、projects/_flood/tokyo23-flood-record-vs-a31a (記録から学んだ地図と A31a の比較)。
 - 全国で使えるもの: アンダーパスの点、標高タイル (DEM5A、DEM10B)、OSM の道路、行政界。カタログに無いもの: 全国の冠水や通行止めの記録、全国の A31a、全国の時間雨量。jma-rain-tokyo (東京都の 31 観測所、本土 11) は東京都の照合にだけ使える (依頼者の問いを受けて検討し、候補 5 の頑健性の確かめに足した)。
 
 ## pilot (2026-10-30、DuckDB 2.0.0、固定版)
