@@ -62,6 +62,19 @@ test('トップは導入文を置かず、研究一覧から始める', async ()
   assert.doesNotMatch(home + base, /GitHub ↗|研究を読む <span|研究を見る <span/);
 });
 
+test('狭い画面では本文を画面の幅に収め、広い表やコードはその中で横に送る', async () => {
+  // a column flex keeps the wide layout's align-items: start, so the article grows to its widest table
+  for (const page of ['src/pages/reports/[slug].astro', 'src/pages/datasets/[id].astro']) {
+    const source = await read(page);
+    const narrow = source.match(/@media \(max-width: 820px\) \{([^\n]+)\}/);
+    assert.ok(narrow, page);
+    assert.match(narrow[1], /\.report-layout \{[^}]*flex-direction: column;[^}]*align-items: stretch;/, page);
+    // a long URL that is not a link cannot wrap otherwise
+    assert.match(source, /\.prose \{ min-width: 0; overflow-wrap: break-word;/, page);
+    assert.match(source, /\.prose :global\(table\) \{ display: block; overflow-x: auto;/, page);
+  }
+});
+
 test('公開ページの画像は元の縦横比を保ち、操作要素は操作性を備える', async () => {
   const home = await read('src/pages/index.astro');
   const base = await read('src/layouts/Base.astro');

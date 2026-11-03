@@ -59,7 +59,7 @@ const isUrl = (value: string) => /^https?:\/\//.test(value);
   .breadcrumb { display: flex; gap: 1rem; color: var(--muted); font-size: .8rem; }.breadcrumb a { text-decoration: none; }.breadcrumb a:hover { color: var(--accent); }
   .share-row { margin-top: 1.5rem; }
   .report-layout { display: grid; grid-template-columns: minmax(0, 760px) minmax(200px, 280px); gap: min(6vw, 5rem); align-items: start; padding-top: 1.5rem; }
-  .prose { min-width: 0; line-height: 2; }
+  .prose { min-width: 0; overflow-wrap: break-word; line-height: 2; }
   .prose :global(h1) { font-family: var(--display-font); font-weight: 600; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.4; letter-spacing: -.045em; margin: 1.5rem 0 1.5rem; }
   .prose :global(h2) { font-family: var(--display-font); font-weight: 600; font-size: 1.5rem; line-height: 1.45; letter-spacing: -.04em; margin: 3.5rem 0 1.2rem; padding-left: 1rem; border-left: 3px solid var(--accent); }
   .prose :global(h3) { font-family: var(--display-font); font-weight: 600; font-size: 1.2rem; line-height: 1.5; margin: 2.5rem 0 .8rem; }
@@ -77,5 +77,5 @@ const isUrl = (value: string) => /^https?:\/\//.test(value);
   .facts ul { margin: 0; padding-left: 1.1rem; }
   .facts a, .card-source { color: var(--accent); text-underline-offset: .25rem; }
   .card-source { display: inline-block; margin-top: 1.5rem; font-size: .82rem; font-weight: 700; }
-  @media (max-width: 820px) { .report-layout { display: flex; flex-direction: column; gap: 2rem; }.sidebar { position: static; width: 100%; } }
+  @media (max-width: 820px) { .report-layout { display: flex; flex-direction: column; align-items: stretch; gap: 2rem; }.sidebar { position: static; width: 100%; } }
 </style>
