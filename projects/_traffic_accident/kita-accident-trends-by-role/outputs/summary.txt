@@ -1,0 +1,20 @@
+deaths accidents 25; dead party {'歩行者': 9, '二輪車': 10, '自転車': 6}; party A {'乗用車 (事業用)': 3, '貨物車': 10, '乗用車 (自家用)': 8, '二輪車': 3, '自転車': 1}
+deaths hour 0-5 9; hour 19-5 12
+dead pedestrians aged 65+ 4 of 9
+全て: n 3939; top hours [(8, 302), (17, 279), (10, 273), (16, 271)]; weekday (Mon-Fri) n 3000; weekday top hours [(8, 262), (17, 224), (16, 213), (10, 209)]
+若い歩行者・自転車: n 492; top hours [(16, 65), (17, 56), (8, 50), (15, 38)]; weekday (Mon-Fri) n 375; weekday top hours [(16, 53), (17, 45), (8, 44), (15, 31)]
+高齢の歩行者: n 231; top hours [(16, 26), (10, 25), (11, 22), (15, 21)]; weekday (Mon-Fri) n 167; weekday top hours [(16, 18), (10, 17), (15, 17), (17, 15)]
+自転車: n 2027; top hours [(16, 177), (8, 171), (10, 162), (11, 152)]; weekday (Mon-Fri) n 1547; weekday top hours [(8, 154), (16, 139), (9, 121), (10, 120)]
+乗用車 (自家用): as party A 1362; as party B 374
+乗用車 (事業用): as party A 335; as party B 46
+貨物車: as party A 794; as party B 345
+自転車: as party A 1115; as party B 1151
+二輪車: as party A 308; as party B 447
+bike as B with a car or truck as A 815
+towns: accidents in towns 3923; most accidents [('王子一丁目', '213', '18'), ('岩淵町', '128', '14'), ('滝野川一丁目', '107', '14'), ('神谷三丁目', '104', '9'), ('滝野川六丁目', '88', '18'), ('西ヶ原一丁目', '83', '13'), ('赤羽北二丁目', '80', '16'), ('滝野川七丁目', '78', '7')]
+kita 7 years: accidents 3939; died 25; hurt 4301
+kita shares (%): share_ped 17.6; share_bike 51.5; share_escooter 0.1; share_old_ped 5.9; share_young_pb 12.5; share_strict 25.0; share_broad 37.6; share_night 28.9; share_intersection 40.8
+school map: young pedestrians and cyclists {'young_ped_or_bike': 492, 'weekday_7_8_or_14_17': 202}
+party cells: 自転車 x 相手なし・物件 623; 乗用車 (自家用) x 自転車 434; 貨物車 x 自転車 289; 自転車 x 自転車 239; 乗用車 (自家用) x 二輪車 236; 乗用車 (自家用) x 乗用車 (自家用) 231; 自転車 x 歩行者 224; 乗用車 (自家用) x 歩行者 211; 乗用車 (自家用) x 貨物車 191; 二輪車 x 相手なし・物件 136; 貨物車 x 二輪車 132; 貨物車 x 歩行者 129
+route classes 7 years: 区道 1922; 主要地方道 (都道) 894; 国道 486; 一般都道 471; その他 87; 首都高速 79
+top 15 hotspots: top route {'主要地方道 (都道)': 9, '国道 122号': 5, '国道 17号': 1}; road_1 {'明治通り': 5, '北本通り': 4, '環七通り': 4, '赤羽西台線': 1, '中山道': 1}; with 首都高速 accidents 2

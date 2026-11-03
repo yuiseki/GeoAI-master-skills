@@ -24,3 +24,4 @@
 | [katsushika-accident-trends-by-role](katsushika-accident-trends-by-role/) | 2019〜2025 年の葛飾区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [adachi-accident-trends-by-role](adachi-accident-trends-by-role/) | 2019〜2025 年の足立区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [edogawa-accident-trends-by-role](edogawa-accident-trends-by-role/) | 2019〜2025 年の江戸川区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
+| [kita-accident-trends-by-role](kita-accident-trends-by-role/) | 2019〜2025 年の北区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
