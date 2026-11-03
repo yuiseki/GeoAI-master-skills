@@ -92,13 +92,19 @@ def fig_trend(wards):
         ax.plot([1, float(w["ratio_2025_2019"])], [i, i], color="#dddddd", zorder=1)
         ax.scatter([float(w["ratio_2025_2019"])], [i], color=color[w["trend_2025"]], s=40, zorder=2)
         ax.scatter([float(w["ratio_2022_2025_mean_2019"])], [i], marker="|", color="#333333", s=60, zorder=3)
+        # Without the cyclist-alone accidents (R008): a hollow diamond in the colour of its own class.
+        ax.scatter([float(w["ratio_2025_2019_without_bike_alone"])], [i], marker="D", s=26, facecolor="none",
+                   edgecolor=color[w["trend_2025_without_bike_alone"]], lw=1.2, zorder=2)
     ax.axvline(1, color="#333333", lw=0.8)
     ax.axvline(total, color="#c0392b", lw=0.8, ls="--")
     ax.text(total, len(order) - 0.3, f" 23区全体 {total:.3f}", color="#c0392b", fontsize=8)
     ax.set_yticks(range(len(order)), [w["name"] for w in order], fontsize=8)
-    ax.set_xlabel("2025年の件数 / 2019年の件数 (縦の棒は 2022〜2025年の平均 / 2019年)")
+    ax.set_xlabel("2025年の件数 / 2019年の件数 (縦の棒は 2022〜2025年の平均 / 2019年、◇は自転車の単独を除く)")
     handles = [plt.Line2D([], [], marker="o", ls="", color=c, label=f"{k} ({sum(w['trend_2025'] == k for w in wards)}区)")
                for k, c in color.items()]
+    handles += [plt.Line2D([], [], marker="D", ls="", markerfacecolor="none", markeredgecolor=c,
+                           label=f"自転車の単独を除く: {k} ({sum(w['trend_2025_without_bike_alone'] == k for w in wards)}区)")
+                for k, c in color.items()]
     ax.legend(handles=handles, loc="lower right", fontsize=8, title="2025年と2019年の95%区間", title_fontsize=8)
     for side in ("top", "right"):
         ax.spines[side].set_visible(False)
@@ -183,7 +189,7 @@ def main():
     use_cjk_font("".join(w["name"] for w in wards) + "".join(LABELS.values()) + SOURCE
                  + "0123456789.,%()/〜²年件人口千あたり道路面積順位括弧赤都心区群平均差標準偏差何倍数字構成色高低上横線分け方"
                  "唯一主成分第割合似近並結果見後足図記録縦棒全体増減区別できない間重書規則同じ量夜間昼交通分母大きく出"
-                 "地点町丁国勢調査小地域単位水面除少数集まいるかどれだけ変わ")
+                 "地点町丁国勢調査小地域単位水面除少数集まいるかどれだけ変わ単独◇")
     fig_rates(wards)
     fig_trend(wards)
     fig_heatmap(wards, z, features)

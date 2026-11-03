@@ -131,6 +131,9 @@ def main():
         name, pop, area, lon, lat = wards_geo[code]
         by_year = Counter(r["file_year"] for r in ws)
         n0, n1 = by_year["2019"], by_year["2025"]
+        # The reading without cyclist-alone accidents, which tripled in the 23 wards from 2019 to 2025 (R008)
+        other = Counter(r["file_year"] for r in ws if not r["bike_single"])
+        m0, m1 = other["2019"], other["2025"]
         late = sum(by_year[y] for y in ("2022", "2023", "2024", "2025")) / 4
         xy = np.array([(x, y) for x, y in con.execute(
             "select x, y from p where ward = ?", [code]).fetchall()])  # the order of acc, as the ward projects
@@ -147,6 +150,8 @@ def main():
             "died_per_100k_residents_per_year": round(1e5 * died / 7 / pop, 3),
             "n_2019": n0, "n_2025": n1, "ratio_2025_2019": round(n1 / n0, 3),
             "ratio_2022_2025_mean_2019": round(late / n0, 3), "trend_2025": trend_class(n0, n1),
+            "ratio_2025_2019_without_bike_alone": round(m1 / m0, 3),
+            "trend_2025_without_bike_alone": trend_class(m0, m1),
             **{f"share_{k}": round(sum(r[k] for r in ws) / n, 4) for k in
                ("ped", "bike", "old_ped", "young_pb", "strict", "night", "intersection", "bike_single",
                 "business_car_A", "truck_A", "weekend", "expressway", "escooter")},
@@ -186,6 +191,14 @@ def main():
         "spearman_of_rates": {f"{a} vs {b}": spearman(a, b) for i, a in enumerate(rates) for b in rates[i + 1:]},
         "rank_of_rates": {k: ranks(k) for k in rates},
         "trend_classes": dict(Counter(w["trend_2025"] for w in wards)),
+        "trend_classes_without_bike_alone": dict(Counter(w["trend_2025_without_bike_alone"] for w in wards)),
+        "bike_alone_by_year_23_wards": {y: sum(1 for r in rows if r["file_year"] == y and r["bike_single"]) for y in YEARS},
+        "ratio_23_wards_without_bike_alone": round(
+            sum(1 for r in rows if r["file_year"] == "2025" and not r["bike_single"])
+            / sum(1 for r in rows if r["file_year"] == "2019" and not r["bike_single"]), 3),
+        "trend_23_wards_without_bike_alone": trend_class(
+            sum(1 for r in rows if r["file_year"] == "2019" and not r["bike_single"]),
+            sum(1 for r in rows if r["file_year"] == "2025" and not r["bike_single"])),
         "coded_vs_inside": {w["code"]: [w["accidents"], w["accidents_inside_polygon"]] for w in wards},
         "z_abs_1_or_more": {w["name"]: [k for k in FEATURES if abs(zs[k][i]) >= 1] for i, w in enumerate(wards)},
     }

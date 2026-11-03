@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "1e1b0bdc2f98c315bda7715215105b5c88f4d263",
+ "commit": "d2a5569341c81c1ced79f9eb0c2a496415b9dd88",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -159,6 +159,22 @@
    "減った": 4,
    "増えた": 9
   },
+  "trend_classes_without_bike_alone": {
+   "減った": 11,
+   "増えた": 3,
+   "区別できない": 9
+  },
+  "bike_alone_by_year_23_wards": {
+   "2019": 1035,
+   "2020": 1083,
+   "2021": 1626,
+   "2022": 2817,
+   "2023": 3187,
+   "2024": 3140,
+   "2025": 3039
+  },
+  "ratio_23_wards_without_bike_alone": 0.917,
+  "trend_23_wards_without_bike_alone": "減った",
   "coded_vs_inside": {
    "101": [
     4232,

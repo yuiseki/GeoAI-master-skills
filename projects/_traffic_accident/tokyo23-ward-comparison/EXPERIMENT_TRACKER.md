@@ -9,3 +9,4 @@
 | R005 | C3、C6 | exploratory | done | outputs/pca.json, outputs/composition-pca.png | 群が 2 つしか安定しなかったので、結果を見た後に、12 の割合の主成分を足した。区の違いの向きを言葉にするため。群の名前や順位の判断には使わない | 第 1 主成分 57%、第 2 主成分 12% |
 | R006 | C6 | exploratory | done | outputs/profiles.csv | - | 区ごとに、標準化した差が 1 以上と -1 以下の特徴、3 つの分母の順位、推移を並べた |
 | R007 | - | - | done | outputs/rates.png, outputs/trend.png, outputs/composition.png, outputs/composition-pca.png, outputs/concentration.png, outputs/map-bike.png, outputs/map-trend.png | 1 回目の主成分の図は、図の JSON の名前 (pca.json) が主成分の結果を上書きした。図の名前を composition-pca に替えた。散布図の区の名前の重なりを `text_overlaps` で数え、4 つの名前を動かして 0 件にした | 地図 2 枚は classify_map.py。text_overlaps は全て 0 件 |
+| R008 | C2 | exploratory | done | outputs/wards.csv, outputs/analysis.json, outputs/trend.png | 板橋区の報告で、自転車 (A) と相手なし・物件 (B) の事故が 23 区で 2021 年から 2022 年に跳ねたと分かったので、結果を見た後に、この事故を除いた推移を並べる読み方として足した | 23 区は 1,035 件 (2019 年) から 3,039 件 (2025 年)。除くと 23 区全体は 0.917 で減った。増えた 3 区、減った 11 区、区別できない 9 区 |
