@@ -1,0 +1,27 @@
+{
+ "question": "文京区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json",
+  "tmp/town-rate-quantile.stdout.txt"
+ ],
+ "n": 68,
+ "notes": "breaks [0.4422856487179186, 0.9994893132259115, 1.715454094785286, 2.1354708568229634, 2.741281610902434, 5.623784414872135]; 分位と等間隔で色の変わる町丁 0.721 (classify_map.py の出力)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 68,
+ "units_in_analysis": 68,
+ "highlighted": [
+  "春日一丁目",
+  "千駄木四丁目",
+  "小石川一丁目",
+  "千駄木三丁目",
+  "向丘一丁目"
+ ],
+ "text_overlaps": []
+}

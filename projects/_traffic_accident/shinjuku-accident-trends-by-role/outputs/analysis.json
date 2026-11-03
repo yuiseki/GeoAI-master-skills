@@ -1,0 +1,250 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "74f6b2b3dc97fc834d18990c76253e8cd31a9866",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_shinjuku": 6512,
+  "shinjuku_without_point": 0,
+  "coded_and_inside": 6467,
+  "coded_outside": 45,
+  "other_code_inside": 122,
+  "shinjuku_station_by_year": {
+   "069": {
+    "2019": 25,
+    "2020": 20,
+    "2021": 7,
+    "2022": 10,
+    "2023": 14,
+    "2024": 11,
+    "2025": 8
+   },
+   "100": {
+    "2019": 0,
+    "2020": 0,
+    "2021": 0,
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 1
+   },
+   "332": {
+    "2019": 0,
+    "2020": 0,
+    "2021": 0,
+    "2022": 0,
+    "2023": 3,
+    "2024": 1,
+    "2025": 1
+   },
+   "333": {
+    "2019": 5,
+    "2020": 4,
+    "2021": 6,
+    "2022": 3,
+    "2023": 6,
+    "2024": 0,
+    "2025": 0
+   },
+   "435": {
+    "2019": 144,
+    "2020": 143,
+    "2021": 134,
+    "2022": 232,
+    "2023": 241,
+    "2024": 240,
+    "2025": 234
+   },
+   "436": {
+    "2019": 278,
+    "2020": 236,
+    "2021": 266,
+    "2022": 223,
+    "2023": 280,
+    "2024": 384,
+    "2025": 459
+   },
+   "437": {
+    "2019": 103,
+    "2020": 138,
+    "2021": 199,
+    "2022": 175,
+    "2023": 292,
+    "2024": 231,
+    "2025": 214
+   },
+   "438": {
+    "2019": 188,
+    "2020": 132,
+    "2021": 156,
+    "2022": 246,
+    "2023": 270,
+    "2024": 253,
+    "2025": 283
+   },
+   "439": {
+    "2019": 1,
+    "2020": 0,
+    "2021": 0,
+    "2022": 2,
+    "2023": 0,
+    "2024": 0,
+    "2025": 2
+   },
+   "440": {
+    "2019": 0,
+    "2020": 0,
+    "2021": 0,
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 1
+   },
+   "551": {
+    "2019": 1,
+    "2020": 2,
+    "2021": 0,
+    "2022": 2,
+    "2023": 0,
+    "2024": 1,
+    "2025": 0
+   },
+   "775": {
+    "2019": 0,
+    "2020": 0,
+    "2021": 0,
+    "2022": 0,
+    "2023": 0,
+    "2024": 1,
+    "2025": 0
+   }
+  },
+  "shinjuku_rank_of_23": {
+   "per_1000_residents_per_year": 6,
+   "share_ped": 1,
+   "share_bike": 21,
+   "share_escooter": 3,
+   "share_old_ped": 19,
+   "share_young_pb": 18,
+   "share_strict": 16,
+   "share_broad": 15,
+   "share_night": 1,
+   "share_intersection": 15
+  },
+  "national_routes": {
+   "0020": 432
+  },
+  "shinjuku_points": 6512,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 10,
+   "50m": 12
+  },
+  "hotspot_counts": {
+   "20m": [
+    38,
+    28,
+    26,
+    26,
+    24,
+    23,
+    20,
+    20,
+    19,
+    19,
+    18,
+    18,
+    18,
+    18,
+    18
+   ],
+   "30m": [
+    47,
+    45,
+    39,
+    37,
+    33,
+    30,
+    30,
+    29,
+    28,
+    26,
+    25,
+    25,
+    25,
+    25,
+    25
+   ],
+   "50m": [
+    72,
+    63,
+    58,
+    51,
+    45,
+    43,
+    41,
+    40,
+    39,
+    38,
+    38,
+    37,
+    36,
+    36,
+    36
+   ]
+  },
+  "town_rows": 154,
+  "towns_merged": [
+   "山吹町 (2)"
+  ],
+  "towns": 153,
+  "towns_without_road": [
+   {
+    "name": "神楽坂四丁目",
+    "accidents": 1
+   }
+  ],
+  "points_in_towns": 6467,
+  "points_outside_towns": 45
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/shinjuku-accident-trends-by-role/outputs/towns.csv"
+ }
+}

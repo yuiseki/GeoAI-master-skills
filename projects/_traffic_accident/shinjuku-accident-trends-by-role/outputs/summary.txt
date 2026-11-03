@@ -1,0 +1,18 @@
+deaths accidents 32; dead party {'自転車': 3, '歩行者': 20, '二輪車': 7, '乗用車 (自家用)': 1, '貨物車': 1}; party A {'貨物車': 14, '乗用車 (事業用)': 8, '乗用車 (自家用)': 5, '二輪車': 3, 'その他・不明': 2}
+deaths hour 0-5 10; hour 19-5 14
+dead pedestrians aged 65+ 8 of 20
+全て: n 6512; top hours [(17, 446), (18, 446), (13, 393), (12, 382)]; weekday (Mon-Fri) n 4906; weekday top hours [(18, 344), (17, 339), (13, 301), (19, 298)]
+若い歩行者・自転車: n 602; top hours [(17, 53), (18, 46), (15, 43), (19, 42)]; weekday (Mon-Fri) n 432; weekday top hours [(17, 37), (18, 36), (15, 34), (13, 31)]
+高齢の歩行者: n 234; top hours [(13, 27), (12, 22), (17, 22), (16, 19)]; weekday (Mon-Fri) n 178; weekday top hours [(13, 20), (12, 19), (17, 16), (16, 15)]
+自転車: n 2291; top hours [(18, 177), (12, 165), (11, 157), (9, 156)]; weekday (Mon-Fri) n 1730; weekday top hours [(18, 146), (9, 125), (8, 117), (12, 116)]
+乗用車 (自家用): as party A 2219; as party B 707
+乗用車 (事業用): as party A 1795; as party B 359
+貨物車: as party A 1114; as party B 540
+自転車: as party A 867; as party B 1587
+二輪車: as party A 411; as party B 1025
+bike as B with a car or truck as A 1294
+towns: accidents in towns 6467; most accidents [('新宿三丁目', '234', '67'), ('新宿五丁目', '228', '43'), ('歌舞伎町二丁目', '220', '124'), ('西新宿一丁目', '168', '36'), ('四谷四丁目', '160', '27'), ('歌舞伎町一丁目', '146', '71'), ('西早稲田三丁目', '146', '24'), ('西新宿三丁目', '143', '13')]
+shinjuku 7 years: accidents 6512; died 32; hurt 7245
+shinjuku shares (%): share_ped 22.9; share_bike 35.2; share_escooter 1.0; share_old_ped 3.6; share_young_pb 9.2; share_strict 20.2; share_broad 32.4; share_night 40.0; share_intersection 40.2
+school map: young pedestrians and cyclists {'young_ped_or_bike': 602, 'weekday_7_8_or_14_17': 162}
+party cells: 乗用車 (自家用) x 自転車 509; 乗用車 (事業用) x 自転車 454; 乗用車 (自家用) x 二輪車 422; 乗用車 (事業用) x 歩行者 392; 乗用車 (自家用) x 歩行者 392; 乗用車 (自家用) x 乗用車 (自家用) 389; 自転車 x 相手なし・物件 387; 乗用車 (事業用) x 二輪車 357; 貨物車 x 自転車 331; 自転車 x 歩行者 295; 乗用車 (自家用) x 貨物車 277; 貨物車 x 歩行者 259

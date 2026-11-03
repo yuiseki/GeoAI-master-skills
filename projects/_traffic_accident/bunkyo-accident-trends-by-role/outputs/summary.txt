@@ -1,0 +1,18 @@
+deaths accidents 10; dead party {'自転車': 2, '歩行者': 3, '二輪車': 5}; party A {'自転車': 1, '貨物車': 5, '乗用車 (事業用)': 2, '乗用車 (自家用)': 2}
+deaths hour 0-5 5; hour 19-5 6
+dead pedestrians aged 65+ 3 of 3
+全て: n 3124; top hours [(10, 240), (11, 235), (8, 223), (16, 219)]; weekday (Mon-Fri) n 2395; weekday top hours [(10, 193), (8, 186), (11, 172), (17, 172)]
+若い歩行者・自転車: n 387; top hours [(17, 36), (15, 32), (16, 32), (14, 29)]; weekday (Mon-Fri) n 285; weekday top hours [(17, 30), (16, 25), (15, 24), (18, 23)]
+高齢の歩行者: n 125; top hours [(10, 16), (14, 14), (11, 13), (12, 11)]; weekday (Mon-Fri) n 84; weekday top hours [(10, 12), (14, 10), (11, 8), (12, 7)]
+自転車: n 1393; top hours [(8, 122), (11, 122), (10, 117), (9, 107)]; weekday (Mon-Fri) n 1055; weekday top hours [(8, 107), (10, 94), (9, 88), (11, 88)]
+乗用車 (自家用): as party A 979; as party B 316
+乗用車 (事業用): as party A 528; as party B 88
+貨物車: as party A 609; as party B 271
+自転車: as party A 720; as party B 821
+二輪車: as party A 253; as party B 446
+bike as B with a car or truck as A 620
+towns: accidents in towns 3098; most accidents [('本郷三丁目', '126', '20'), ('春日一丁目', '114', '17'), ('千駄木三丁目', '113', '20'), ('後楽一丁目', '113', '18'), ('関口一丁目', '110', '25'), ('湯島三丁目', '102', '27'), ('本郷一丁目', '93', '6'), ('小石川一丁目', '85', '16')]
+bunkyo 7 years: accidents 3124; died 10; hurt 3395
+bunkyo shares (%): share_ped 18.5; share_bike 44.6; share_escooter 0.5; share_old_ped 4.0; share_young_pb 12.4; share_strict 18.3; share_broad 29.9; share_night 30.4; share_intersection 38.6
+school map: young pedestrians and cyclists {'young_ped_or_bike': 387, 'weekday_7_8_or_14_17': 136}
+party cells: 自転車 x 相手なし・物件 368; 乗用車 (自家用) x 自転車 255; 貨物車 x 自転車 208; 自転車 x 歩行者 197; 乗用車 (自家用) x 二輪車 194; 乗用車 (自家用) x 乗用車 (自家用) 188; 乗用車 (事業用) x 自転車 157; 自転車 x 自転車 148; 乗用車 (自家用) x 貨物車 143; 二輪車 x 相手なし・物件 140; 乗用車 (自家用) x 歩行者 129; 乗用車 (事業用) x 二輪車 119
