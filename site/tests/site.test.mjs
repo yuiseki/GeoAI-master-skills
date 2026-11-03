@@ -30,6 +30,19 @@ test('両プリセットが不自然な文と長過ぎる文を検出する', ()
   assert.match(result.stdout, /ja-technical-writing\/sentence-length/);
 });
 
+test('評価指標を「当たり」と呼ぶ文を禁句として検出し、「1人当たり」は通す', () => {
+  const lint = (input) => spawnSync(path.join(root, 'node_modules/.bin/textlint'),
+    ['--stdin', '--stdin-filename', 'sample.md'], { cwd: root, input, encoding: 'utf8' });
+  for (const input of ['上位5%の当たりは0.55です。\n', '予測モデルは確認期間で当たりました。\n']) {
+    const result = lint(input);
+    assert.equal(result.status, 1, input);
+    assert.match(result.stdout, /prh/, input);
+  }
+  for (const input of ['1人当たりの件数は3件です。\n', '1万人当たりの件数は3件です。\n', '要点1に当たる確認です。\n']) {
+    assert.equal(lint(input).status, 0, input);
+  }
+});
+
 test('Wrangler は公開用 Worker にデプロイする', async () => {
   const config = JSON.parse(await read('wrangler.jsonc'));
   assert.equal(config.name, 'geoai-yuiseki-net');

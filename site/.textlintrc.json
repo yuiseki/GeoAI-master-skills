@@ -17,6 +17,11 @@
         ]
       }
     },
-    "@textlint-ja/preset-ai-writing": true
+    "@textlint-ja/preset-ai-writing": true,
+    "prh": {
+      "rulePaths": [
+        "./prh.yml"
+      ]
+    }
   }
 }
