@@ -18,3 +18,4 @@
 | [koto-accident-trends-by-role](koto-accident-trends-by-role/) | 2019〜2025 年の江東区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [shinagawa-accident-trends-by-role](shinagawa-accident-trends-by-role/) | 2019〜2025 年の品川区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [meguro-accident-trends-by-role](meguro-accident-trends-by-role/) | 2019〜2025 年の目黒区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
+| [nakano-accident-trends-by-role](nakano-accident-trends-by-role/) | 2019〜2025 年の中野区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |

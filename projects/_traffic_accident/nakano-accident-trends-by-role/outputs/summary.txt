@@ -1,0 +1,18 @@
+deaths accidents 16; dead party {'歩行者': 13, '二輪車': 1, '自転車': 2}; party A {'貨物車': 6, '自転車': 3, '乗用車 (自家用)': 4, 'その他・不明': 1, '乗用車 (事業用)': 2}
+deaths hour 0-5 4; hour 19-5 7
+dead pedestrians aged 65+ 6 of 13
+全て: n 4471; top hours [(8, 340), (17, 315), (16, 307), (10, 298)]; weekday (Mon-Fri) n 3346; weekday top hours [(8, 294), (16, 240), (17, 240), (9, 231)]
+若い歩行者・自転車: n 639; top hours [(8, 71), (16, 66), (17, 56), (15, 54)]; weekday (Mon-Fri) n 478; weekday top hours [(8, 62), (16, 48), (17, 46), (15, 39)]
+高齢の歩行者: n 210; top hours [(16, 29), (11, 19), (15, 19), (17, 19)]; weekday (Mon-Fri) n 161; weekday top hours [(16, 23), (15, 16), (17, 16), (11, 15)]
+自転車: n 2557; top hours [(8, 228), (10, 185), (9, 182), (15, 179)]; weekday (Mon-Fri) n 1901; weekday top hours [(8, 202), (9, 146), (10, 132), (15, 131)]
+乗用車 (自家用): as party A 1297; as party B 300
+乗用車 (事業用): as party A 461; as party B 65
+貨物車: as party A 757; as party B 260
+自転車: as party A 1482; as party B 1475
+二輪車: as party A 383; as party B 491
+bike as B with a car or truck as A 921
+towns: accidents in towns 4444; most accidents [('中野五丁目', '144', '43'), ('中野四丁目', '132', '36'), ('中央二丁目', '126', '24'), ('本町一丁目', '119', '17'), ('中央一丁目', '115', '17'), ('中央五丁目', '109', '18'), ('本町四丁目', '108', '21'), ('中央四丁目', '105', '21')]
+nakano 7 years: accidents 4471; died 16; hurt 4801
+nakano shares (%): share_ped 18.5; share_bike 57.2; share_escooter 0.9; share_old_ped 4.7; share_young_pb 14.3; share_strict 37.9; share_broad 49.4; share_night 29.9; share_intersection 38.0
+school map: young pedestrians and cyclists {'young_ped_or_bike': 639, 'weekday_7_8_or_14_17': 256}
+party cells: 自転車 x 相手なし・物件 757; 乗用車 (自家用) x 自転車 439; 自転車 x 自転車 400; 貨物車 x 自転車 328; 自転車 x 歩行者 275; 乗用車 (自家用) x 二輪車 230; 乗用車 (自家用) x 歩行者 225; 乗用車 (自家用) x 乗用車 (自家用) 183; 乗用車 (事業用) x 自転車 154; 乗用車 (自家用) x 貨物車 151; 二輪車 x 相手なし・物件 144; 二輪車 x 自転車 142
