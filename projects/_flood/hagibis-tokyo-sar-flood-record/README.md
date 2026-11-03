@@ -37,4 +37,4 @@ $E uvx --with numpy --with matplotlib --with shapely --with pyproj --with pillow
 - ESA WorldCover 2021 (CC BY 4.0)
 - © OpenStreetMap contributors (ODbL 1.0)。多摩川の中心線
 - 気象庁 過去の気象データ (時間雨量、HF yuiseki/jma-rain-tokyo)
-- 大田区「大田区浸水実績図 (昭和60年〜令和7年)」(07_ota_map.py。PDF は artifacts の raw/docs に置き、リポジトリには入れない)、e-Stat 国勢調査 2020 境界データ (HF yuiseki/estat-boundary-2020、CC BY 4.0)
+- 大田区「大田区浸水実績図 (昭和60年〜令和7年)」(07_ota_map.py。区の利用条件で無断の転載と二次利用ができないため、PDF、切り出し、なぞった範囲は artifacts にだけ置き、リポジトリには入れない)、e-Stat 国勢調査 2020 境界データ (HF yuiseki/estat-boundary-2020、CC BY 4.0)

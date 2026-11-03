@@ -9,8 +9,10 @@ revision 823195c, raw/estat/parquet/r2ka13.parquet, JGD2000).
 1. Georeference: the dark line work of the map (grey < 110) is matched to the 町丁 boundaries drawn in JGD2000 plane
    rectangular IX (EPSG:2451) at 2 m, by phase correlation, over scale 1.016 m/px x {0.998, 1, 1.002} and rotation
    {-0.1, 0, 0.1} degrees (a wider search at 4 m, 0.98 to 1.03 and -1 to 1 degrees, peaked at 1.016 m/px and 0
-   degrees). The best score and the transform go to outputs/ota_map.json; outputs/ota_map_overlay.png shows the 町丁
-   boundaries (red) over the map at 田園調布 to check it by eye.
+   degrees). The best score and the transform go to outputs/ota_map.json; artifacts/.../local_only/ota_map_overlay.png
+   shows the 町丁 boundaries (red) over the map at 田園調布 to check it by eye. It is a crop of the ward's map, whose
+   terms (https://www.city.ota.tokyo.jp/aboutweb/policy.html) forbid reuse without permission, so it stays out of the
+   repository.
 2. Mask of legend No. 22 (令和元年 10月13日 台風, 559 件): pixels within 22 (RGB distance) of the legend swatch colour
    and nearer to it than to any other swatch, outside the legend box, opened with a 5 x 5 window (a first run picked
    the brownish anti-aliased rims of orange fills under black text), closed with a 7 x 7 window (to bridge the street
@@ -111,7 +113,8 @@ def main():
         for p in getattr(g, "geoms", [g]):
             d.line([((X - X0) / mpp - crop[0], (Y0 - Y) / mpp - crop[1]) for X, Y in p.exterior.coords],
                    fill=(255, 0, 0), width=3)
-    sub.save(OUT / "ota_map_overlay.png")
+    (ART / "local_only").mkdir(exist_ok=True)
+    sub.save(ART / "local_only/ota_map_overlay.png")  # a crop of the ward's map: kept out of the repository (see report)
 
     # 2. mask of No. 22
     def dist(v):  # row block by row block, to keep the memory small
