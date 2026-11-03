@@ -32,6 +32,7 @@ def main():
     analysis = json.loads((OUT / "analysis.json").read_text(encoding="utf-8"))
     features = analysis["settings"]["features"] + ["share_top15_hotspots", "share_top10pct_towns"]
     ranks = analysis["audit"]["rank_of_rates"]
+    pca = json.loads((OUT / "pca.json").read_text(encoding="utf-8"))["scores"]
     rows = []
     for code, w in wards.items():
         above, below = notable(zs[code], features)
@@ -41,7 +42,9 @@ def main():
                      "rank_per_1000": ranks["per_1000_residents_per_year"][code],
                      "rank_per_road_km": ranks["per_road_km_per_year"][code],
                      "rank_per_km2": ranks["per_km2_per_year"][code],
-                     "ratio_2025_2019": w["ratio_2025_2019"], "trend_2025": w["trend_2025"]})
+                     "ratio_2025_2019": w["ratio_2025_2019"], "trend_2025": w["trend_2025"],
+                     "trend_2025_without_bike_alone": w["trend_2025_without_bike_alone"],
+                     "pc1": pca[code][0], "pc2": pca[code][1]})
     with (OUT / "profiles.csv").open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
         writer.writeheader()
