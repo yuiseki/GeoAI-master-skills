@@ -424,11 +424,14 @@ def main():
                     ST_LineInterpolatePoint(p, greatest(0, f - {ROAD_STEP} / len)) a,
                     ST_LineInterpolatePoint(p, least(1, f + {ROAD_STEP} / len)) b from loc)""", [name]).fetchall()
             near.append((name, d, (ends[0][2] - ends[0][0], ends[0][3] - ends[0][1]) if ends else None))
-        near_names = [near[0][0]] if near else []
+        # The nearest named road names the hotspot only within RADIUS: Edogawa's first hotspot sits on unnamed roads,
+        # and the nearest name, 京葉道路, was 428 m away. Its distance is kept either way (road_1_m).
+        road_1_m = near[0][1] if near else None
+        near_names = [near[0][0]] if near and road_1_m <= RADIUS else []
         second, dist = crossing_road(near)
         # A crossing road farther than RADIUS is not the hotspot's crossing: left empty, so that hotspots.csv read
         # alone does not show an intersection (Nakano's 中野四季の森通り was 253 m away).
-        if second is not None and dist <= RADIUS:
+        if second is not None and dist <= RADIUS and near_names:
             near_names.append(second)
         else:
             dist = None
@@ -450,6 +453,7 @@ def main():
                     # viaduct (Katsushika's 11th, 15 of 16 on the expressway, named after a surface road).
                     "expressway": sum(5000 <= int(m["route"]) < 5500 for m in ms),
                     "road_1": near_names[0] if near_names else "",
+                    "road_1_m": round(road_1_m, 1) if road_1_m is not None else None,
                     "road_2": near_names[1] if len(near_names) > 1 else "",
                     "road_2_m": round(dist, 1) if dist is not None else None})
     files["hotspots"] = write_csv("hotspots.csv", hot)

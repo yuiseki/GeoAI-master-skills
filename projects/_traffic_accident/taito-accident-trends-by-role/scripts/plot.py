@@ -74,7 +74,7 @@ TEXT = ("0123456789,.%()/-−×・:年月日時件人数率区台東23全自転�
         "等間隔分割種類過失重い側主若者件区間95%Poissonの範囲順位立場選ぶ半分割合色点円上位1530m500mkmyNEnsitivityxv"
         "数えた本票ファイル計上されたと関わる以内線括弧単路信号小中高大集まり平均昼間別回目下位帯を描く都心側ここ灰色黒白赤青黄緑紫"
         "通り首都高速明治春日言問江戸昭和御徒町駅中央不忍国際入口蔵前橋ひすいアベニュー浅草アメ横上野御徒町中央通り口あけぼの"
-        "比べる位置向きスケールバーOSMの道路のうち幹線を太く7年合計ありWeekday土日平日値水面短振れ大")
+        "比べる位置向きスケールバーOSMの道路のうち幹線を太く7年合計ありWeekday土日平日値水面短振れ大無けれ")
 
 
 def read_csv(name):
@@ -391,7 +391,9 @@ def fig_hotspot_halves():
         ax.plot([a, b], [y, y], color="#bbbbbb", zorder=1)
         ax.scatter([a], [y], color="#2c7fb8", zorder=2, label="2019〜2021年 (年平均)" if i == 0 else None)
         ax.scatter([b], [y], color="#c0392b", zorder=2, label="2022〜2025年 (年平均)" if i == 0 else None)
-        name = h["road_1"] + (f" × {h['road_2']}" if h["road_2"] and float(h["road_2_m"]) <= 30 else "")
+        # A hotspot with no named road within 30 m is called by its census town.
+        name = (h["road_1"] + (f" × {h['road_2']}" if h["road_2"] and float(h["road_2_m"]) <= 30 else "")
+                if h["road_1"] else f"({h['town']})")
         ax.text(-0.3, y, f"{h['rank']}. {name}", ha="right", va="center", fontsize=8)
     ax.set_yticks([])
     ax.set_xlim(0, None)
@@ -400,7 +402,8 @@ def fig_hotspot_halves():
     for side in ("left", "right", "top"):
         ax.spines[side].set_visible(False)
     ax.set_title("事故の多い地点の上位15: 前半と後半の年平均", fontsize=11)
-    fig.text(0.01, -0.02, "地点名は、地点の中心に最も近いOSMの道路名 (2本目は30 m以内のときだけ)。首都高速の名前は除いた。", fontsize=7)
+    fig.text(0.01, -0.02, "地点名は、地点の中心に最も近いOSMの道路名 (30 m以内のときだけ。無ければ括弧に町丁名)。"
+             "2本目は1本目と交わる道。首都高速の名前は除いた。", fontsize=7)
     save(fig, "hotspot-halves", "事故の多い地点は、前半と後半で続いているか", ["outputs/hotspots.csv"],
          sum(int(h["accidents"]) for h in hot), "上位は7年合計で選んだので、選んだ期間と同じデータで見ている (平均への回帰が起きうる)")
 
