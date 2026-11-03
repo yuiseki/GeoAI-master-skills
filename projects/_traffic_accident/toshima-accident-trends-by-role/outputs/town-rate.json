@@ -1,0 +1,27 @@
+{
+ "question": "豊島区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
+ ],
+ "n": 83,
+ "notes": "breaks [0.21682905638308161, 0.8207378542727515, 1.0608834174768773, 1.515055066578198, 2.2332109001518687, 5.937939828117153]; 分位と等間隔で色の変わる町丁 0.771 (classify_map.py の出力)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 83,
+ "units_in_analysis": 83,
+ "highlighted": [
+  "西池袋一丁目",
+  "南池袋一丁目",
+  "西巣鴨三丁目",
+  "目白一丁目",
+  "上池袋二丁目"
+ ],
+ "text_overlaps": []
+}

@@ -1,0 +1,20 @@
+deaths accidents 24; dead party {'歩行者': 16, '補充票の人': 1, '二輪車': 4, 'その他・不明': 1, '自転車': 2}; party A {'貨物車': 8, '乗用車 (自家用)': 6, '二輪車': 3, 'その他・不明': 4, '乗用車 (事業用)': 3}
+deaths hour 0-5 7; hour 19-5 11
+dead pedestrians aged 65+ 8 of 16
+全て: n 3919; top hours [(9, 268), (11, 265), (10, 260), (17, 256)]; weekday (Mon-Fri) n 2964; weekday top hours [(9, 229), (8, 199), (17, 198), (10, 197)]
+若い歩行者・自転車: n 451; top hours [(18, 43), (17, 41), (16, 38), (15, 37)]; weekday (Mon-Fri) n 363; weekday top hours [(8, 34), (16, 34), (18, 33), (17, 30)]
+高齢の歩行者: n 169; top hours [(11, 19), (18, 15), (14, 13), (15, 13)]; weekday (Mon-Fri) n 119; weekday top hours [(11, 18), (18, 11), (15, 10), (9, 8)]
+自転車: n 1773; top hours [(10, 164), (9, 148), (11, 136), (17, 134)]; weekday (Mon-Fri) n 1350; weekday top hours [(9, 125), (10, 123), (8, 108), (17, 101)]
+乗用車 (自家用): as party A 1355; as party B 374
+乗用車 (事業用): as party A 599; as party B 134
+貨物車: as party A 788; as party B 319
+自転車: as party A 838; as party B 1140
+二輪車: as party A 263; as party B 527
+bike as B with a car or truck as A 836
+towns: accidents in towns 3881; most accidents [('東池袋一丁目', '226', '61'), ('南池袋一丁目', '197', '35'), ('池袋二丁目', '164', '66'), ('西池袋一丁目', '147', '76'), ('上池袋二丁目', '125', '22'), ('池袋四丁目', '123', '10'), ('高田三丁目', '114', '17'), ('東池袋三丁目', '111', '28')]
+toshima 7 years: accidents 3919; died 25; hurt 4331
+toshima shares (%): share_ped 21.1; share_bike 45.2; share_escooter 0.7; share_old_ped 4.3; share_young_pb 11.5; share_strict 32.4; share_broad 43.2; share_night 32.7; share_intersection 40.1
+school map: young pedestrians and cyclists {'young_ped_or_bike': 451, 'weekday_7_8_or_14_17': 169}
+party cells: 乗用車 (自家用) x 自転車 385; 自転車 x 相手なし・物件 358; 貨物車 x 自転車 273; 自転車 x 歩行者 248; 乗用車 (自家用) x 二輪車 247; 乗用車 (自家用) x 歩行者 235; 乗用車 (自家用) x 乗用車 (自家用) 222; 自転車 x 自転車 205; 乗用車 (事業用) x 自転車 178; 乗用車 (自家用) x 貨物車 168; 貨物車 x 歩行者 144; 貨物車 x 二輪車 137
+route classes 7 years: 区道 2106; 主要地方道 (都道) 879; 国道 418; 一般都道 261; その他 135; 首都高速 120
+top 15 hotspots: top route {'主要地方道 (都道)': 7, '国道 254号': 4, '区道': 3, '首都高速': 1}; road_1 {'明治通り': 4, '川越街道': 4, '山手通り': 2, '春日通り': 1, 'トキワ通り': 1, '劇場通り': 1, '白山通り': 1, '要町通り': 1}; with 首都高速 accidents 6

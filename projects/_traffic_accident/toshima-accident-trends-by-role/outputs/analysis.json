@@ -1,0 +1,217 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "ac11e446425739d05815d4b56c42f80639dcadeb",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "min_road_km": 0.5,
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_ward": 3919,
+  "ward_without_point": 0,
+  "coded_and_inside": 3881,
+  "coded_outside": 38,
+  "other_code_inside": 30,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 574,
+    "inside": 568
+   },
+   "2020": {
+    "coded": 499,
+    "inside": 498
+   },
+   "2021": {
+    "coded": 607,
+    "inside": 604
+   },
+   "2022": {
+    "coded": 582,
+    "inside": 581
+   },
+   "2023": {
+    "coded": 593,
+    "inside": 596
+   },
+   "2024": {
+    "coded": 540,
+    "inside": 540
+   },
+   "2025": {
+    "coded": 524,
+    "inside": 524
+   }
+  },
+  "ward_rank_of_23": {
+   "per_1000_residents_per_year": 14,
+   "share_ped": 2,
+   "share_bike": 15,
+   "share_escooter": 5,
+   "share_old_ped": 12,
+   "share_young_pb": 14,
+   "share_strict": 7,
+   "share_broad": 11,
+   "share_night": 6,
+   "share_intersection": 16
+  },
+  "closed_schools_left_out": [
+   "旧・豊島区立 文成小学校",
+   "旧豊島区立 第十中学校"
+  ],
+  "national_routes": {
+   "0254": 260,
+   "0017": 158
+  },
+  "ward_points": 3919,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 11,
+   "50m": 11,
+   "30m_without_expressway": 13
+  },
+  "hotspot_counts": {
+   "20m": [
+    40,
+    22,
+    22,
+    18,
+    18,
+    17,
+    17,
+    17,
+    16,
+    16,
+    16,
+    16,
+    15,
+    14,
+    14
+   ],
+   "30m": [
+    61,
+    28,
+    24,
+    24,
+    23,
+    22,
+    22,
+    22,
+    22,
+    21,
+    21,
+    21,
+    21,
+    20,
+    20
+   ],
+   "50m": [
+    91,
+    43,
+    42,
+    35,
+    33,
+    32,
+    31,
+    31,
+    31,
+    29,
+    29,
+    28,
+    26,
+    25,
+    25
+   ]
+  },
+  "expressway_points": 120,
+  "hotspot_counts_without_expressway": [
+   58,
+   28,
+   24,
+   24,
+   23,
+   22,
+   22,
+   21,
+   21,
+   21,
+   20,
+   19,
+   19,
+   18,
+   18
+  ],
+  "expressway_in_top15": {
+   "accidents": 24,
+   "per_rank": [
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    14,
+    0,
+    0,
+    2,
+    0,
+    0,
+    2,
+    1
+   ]
+  },
+  "town_rows": 83,
+  "towns_merged": [],
+  "points_in_towns": 3881,
+  "points_outside_towns": 38,
+  "towns_without_road": [],
+  "water_units": [],
+  "small_road_units": [],
+  "town_top5": [
+   "13116009001",
+   "13116008001",
+   "13116003003",
+   "13116014001",
+   "13116006002"
+  ]
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/party_matrix.csv",
+  "parties_by_year": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/party_by_year.csv",
+  "deaths": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/toshima-accident-trends-by-role/outputs/towns.csv"
+ }
+}
