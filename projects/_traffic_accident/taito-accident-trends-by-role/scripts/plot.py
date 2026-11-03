@@ -70,7 +70,7 @@ TEXT = ("0123456789,.%()/-−×・:年月日時件人数率区台東23全自転�
         "等間隔分割種類過失重い側主若者件区間95%Poissonの範囲順位立場選ぶ半分割合色点円上位1530m500mkmyNEnsitivityxv"
         "数えた本票ファイル計上されたと関わる以内線括弧単路信号小中高大集まり平均昼間別回目下位帯を描く都心側ここ灰色黒白赤青黄緑紫"
         "通り首都高速明治春日言問江戸昭和御徒町駅中央不忍国際入口蔵前橋ひすいアベニュー浅草アメ横上野御徒町中央通り口あけぼの"
-        "比べる位置向きスケールバーOSMの道路のうち幹線を太く7年合計ありWeekday土日平日値水面")
+        "比べる位置向きスケールバーOSMの道路のうち幹線を太く7年合計ありWeekday土日平日値水面短振れ大")
 
 
 def read_csv(name):
@@ -444,7 +444,10 @@ def fig_town_rate(base):
         raise RuntimeError(f"drew {len(geoms)} towns, the analysis has {len(rows)}, prepare counted {TOWN_UNITS}")
     # A town without roads, or a water tract, has no rate (empty in towns.csv): drawn hatched as NoData, never in
     # the top five.
-    top = sorted((r for r in rows.values() if r["per_road_km_year"]), key=lambda r: -float(r["per_road_km_year"]))[:5]
+    # The top five as analyze.py ranked them: towns with less road than its MIN_ROAD_KM are coloured, not ranked.
+    top = [rows[k] for k in audit["town_top5"]]
+    # Short-road towns above the fifth: they would have been ranked, and the margin names them.
+    small = [u for u in audit["small_road_units"] if top and u["per_road_km_year"] > float(top[-1]["per_road_km_year"])]
     fig, ax = plt.subplots(figsize=(8.5, 8))
     shapes = {}
     for code, g in geoms:
@@ -483,7 +486,9 @@ def fig_town_rate(base):
     k = len(breaks) - 1
     fig.text(0.01, 0.01, f"分位{k}階級 (各階級に約{per_class:.0f}町丁)。等間隔{k}階級にすると{100 * changes['equal']:.0f}%の"
              f"町丁の色が変わる。道路はOSMの車道の延長で、交通量ではない。町丁の外の{outside}件は入らない。"
-             + (f"水面の{sum(w['accidents'] for w in audit['water_units'])}件は値なし。" if water else "") + SOURCE,
+             + (f"水面の{sum(w['accidents'] for w in audit['water_units'])}件は値なし。" if water else "")
+             + ("道路が短い町丁 (" + "、".join(f"{u['name']} {u['road_km']:.2f} km" for u in small)
+                + ") は値が大きく振れるので、上位5に数えない。" if small else "") + SOURCE,
              fontsize=6.5, wrap=True)
     save(fig, "town-rate", f"{WARD_NAME}のどの町丁で、道路の長さに比べて事故が多いか",
          ["outputs/towns.csv", "outputs/town-rate-quantile.json", "outputs/analysis.json"], len(rows),

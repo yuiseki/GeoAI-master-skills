@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "11f6569ef00516834916f719cdd2758f81da10af",
+ "commit": "b80f98616b144b8fd8eff7efc9399dec1fcb9db7",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -11,6 +11,7 @@
  "settings": {
   "year": "file year",
   "ward": "市区町村コード",
+  "min_road_km": 0.5,
   "strict": [
    "01",
    "02",
@@ -187,7 +188,30 @@
   "points_in_towns": 4464,
   "points_outside_towns": 53,
   "towns_without_road": [],
-  "water_units": []
+  "water_units": [],
+  "small_road_units": [
+   {
+    "key_code": "13106005003",
+    "name": "池之端三丁目",
+    "accidents": 2,
+    "road_km": 0.109,
+    "per_road_km_year": 2.62
+   },
+   {
+    "key_code": "13106014006",
+    "name": "谷中六丁目",
+    "accidents": 7,
+    "road_km": 0.471,
+    "per_road_km_year": 2.122
+   }
+  ],
+  "town_top5": [
+   "13106004002",
+   "13106004004",
+   "131060020",
+   "13106004007",
+   "13106004006"
+  ]
  },
  "files": {
   "yearly": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/yearly.csv",

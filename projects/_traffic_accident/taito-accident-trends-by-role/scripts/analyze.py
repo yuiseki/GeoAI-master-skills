@@ -37,6 +37,10 @@ SCHOOL_RADIUS = 500.0
 MIN_CROSSING_ANGLE = 30.0
 ROAD_STEP = 20.0
 ROAD_CANDIDATES = 6
+# A town with less road than this keeps its rate and colour but is not ranked among the top five (color-and-scale,
+# 分母の小さい単位の率): at 0.5 km one accident more moves the rate by 0.29 per km per year. Ota's river bank, 0.134 km
+# of road and 7 accidents, ranked first at 7.46. Decided at R013, before looking at the ranks of the wards to come.
+MIN_ROAD_KM = 0.5
 WATER = "8154"  # HCODE of a census water tract (水面調査区); 8101 is a town (町丁・字等)
 
 STRICT = {"01", "02", "11"}
@@ -82,20 +86,40 @@ def party_group(kind, use):
     return "その他・不明"
 
 
+def neighbours(xy, radius):
+    """For each point, the sorted indices of the points within radius (itself included), found through square cells
+    of side radius, so that memory grows with the number of near pairs, not with the square of the points."""
+    xy = np.asarray(xy, dtype=float)
+    cells = np.floor(xy / radius).astype(np.int64)
+    by_cell = {}
+    for i, c in enumerate(map(tuple, cells)):
+        by_cell.setdefault(c, []).append(i)
+    by_cell = {c: np.array(v) for c, v in by_cell.items()}
+    out = [None] * len(xy)
+    for (cx, cy), here in by_cell.items():
+        cand = np.sort(np.concatenate([by_cell[(cx + dx, cy + dy)] for dx in (-1, 0, 1) for dy in (-1, 0, 1)
+                                       if (cx + dx, cy + dy) in by_cell]))
+        # The same arithmetic as a full distance matrix, so a point on the circle is in or out alike.
+        near = ((xy[here][:, None, :] - xy[cand][None, :, :]) ** 2).sum(axis=2) <= radius * radius
+        for row, i in enumerate(here):
+            out[i] = cand[near[row]]
+    return out
+
+
 def greedy_hotspots(xy, radius, k):
     """Pick up to k centres among the points: the point with most points within radius, then drop
-    those points and repeat. Returns (index of centre, member indices) pairs; members never overlap."""
-    xy = np.asarray(xy, dtype=float)
-    alive = np.ones(len(xy), dtype=bool)
-    d2 = ((xy[:, None, :] - xy[None, :, :]) ** 2).sum(axis=2)
-    near = d2 <= radius * radius
+    those points and repeat. Returns (index of centre, member indices) pairs; members never overlap.
+    Ties go to the lowest index. Ota's 10,335 points took 3.8 GB as an n x n matrix; neighbour lists do not."""
+    nb = neighbours(xy, radius)
+    alive = np.ones(len(nb), dtype=bool)
+    counts = np.array([len(n) for n in nb], dtype=np.int64)
     picked = []
     while len(picked) < k and alive.any():
-        counts = (near & alive[None, :]).sum(axis=1)
-        counts[~alive] = -1
-        centre = int(np.argmax(counts))
-        members = np.flatnonzero(near[centre] & alive)
+        centre = int(np.argmax(np.where(alive, counts, -1)))
+        members = nb[centre][alive[nb[centre]]]
         picked.append((centre, members))
+        # Each removed point leaves the counts of the points near it.
+        np.subtract.at(counts, np.concatenate([nb[m] for m in members]), 1)
         alive[members] = False
     return picked
 
@@ -202,6 +226,12 @@ def unit_name(key_code, s_name, hcode):
     if hcode == WATER:
         return f"水面 ({key_code})"
     return s_name if s_name else f"名前なし ({key_code})"
+
+
+def unit_names(pairs):
+    """KEY_CODE -> name, with the code added to a name that more than one unit carries (Ota's two 令和島)."""
+    seen = Counter(name for _, name in pairs)
+    return {code: f"{name} ({code})" if seen[name] > 1 else name for code, name in pairs}
 
 
 def write_csv(name, rows):
@@ -457,6 +487,8 @@ def main():
     con.sql(f"""create table towns as select KEY_CODE, unit_name(KEY_CODE, any_value(S_NAME), any_value(HCODE)) as S_NAME,
         any_value(HCODE) as HCODE, sum(JINKO) as JINKO, count(*) as pieces, ST_Transform(ST_Union_Agg(ST_GeomFromWKB(geometry)), 'EPSG:4612', 'EPSG:6677') as g,
         ST_Union_Agg(ST_GeomFromWKB(geometry)) as g_lonlat from '{ART / 'towns.parquet'}' group by KEY_CODE""")
+    for code, name in unit_names(con.execute("select KEY_CODE, S_NAME from towns order by KEY_CODE").fetchall()).items():
+        con.execute("update towns set S_NAME = ? where KEY_CODE = ?", [name, code])
     audit.update(town_rows=con.execute(f"select count(*) from '{ART / 'towns.parquet'}'").fetchall()[0][0],
                  towns_merged=[n for (n,) in con.execute(
                      "select S_NAME || ' (' || pieces || ')' from towns where pieces > 1 order by S_NAME").fetchall()])
@@ -492,12 +524,17 @@ def main():
         order by {rate.format('accidents / road_km')} desc nulls last, KEY_CODE""").fetchall()
     files["towns"] = write_csv("towns.csv", [dict(zip(["key_code", "name", "population", "accidents", "ped", "road_km",
                                                         "area_km2", "per_road_km_year"], t)) for t in trows])
-    # The top five towns by rate, for classify_map.py --highlight (README); trows is sorted by rate, NoData last.
+    # The top five towns by rate, for classify_map.py --highlight (README) and plot.py; trows is sorted by rate,
+    # NoData last. Towns with less than MIN_ROAD_KM of road are left out of the ranking, and listed.
+    audit["small_road_units"] = [{"key_code": t[0], "name": t[1], "accidents": t[3], "road_km": t[5],
+                                  "per_road_km_year": t[7]} for t in trows if t[7] is not None and t[5] < MIN_ROAD_KM]
+    top = [t for t in trows if t[7] is not None and t[5] >= MIN_ROAD_KM][:5]
+    audit["town_top5"] = [t[0] for t in top]
     (PROJECT / "tmp").mkdir(exist_ok=True)
     with (PROJECT / "tmp/town-highlights.csv").open("w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["id", "group", "rank"])
-        writer.writerows([t[0], "道路あたり上位5", i] for i, t in enumerate(trows[:5], 1) if t[7] is not None)
+        writer.writerows([t[0], "道路あたり上位5", i] for i, t in enumerate(top, 1))
 
     commit = git_head(ROOT)
     (OUT / "analysis.json").write_text(json.dumps({
@@ -506,7 +543,7 @@ def main():
                    "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
                    "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
                    "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"},
-        "settings": {"year": "file year", "ward": "市区町村コード", "strict": sorted(STRICT), "broad": sorted(BROAD),
+        "settings": {"year": "file year", "ward": "市区町村コード", "min_road_km": MIN_ROAD_KM, "strict": sorted(STRICT), "broad": sorted(BROAD),
                      "radius_m": RADIUS, "radii_m": RADII, "school_radius_m": SCHOOL_RADIUS, "crs_metric": "EPSG:6677"},
         "audit": audit, "files": files}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(audit, ensure_ascii=False, indent=1))

@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 
 from analyze import (crossing_road, git_head, greedy_hotspots, involves, is_seikatsu, line_angle, party_group,
-                     poisson_interval, unit_name, ward_ranks)
+                     poisson_interval, unit_name, unit_names, ward_ranks)
 
 
 def test_seikatsu_strict_and_broad():
@@ -103,3 +103,45 @@ def test_unit_name_names_water_and_nameless_units():
     assert unit_name("131030310", "‐", "8154") == "水面 (131030310)"
     assert unit_name("131020390", "水面調査区", "8154") == "水面 (131020390)"
     assert unit_name("131089990", None, "8101") == "名前なし (131089990)"
+
+
+def _greedy_by_matrix(xy, radius, k):
+    """The first implementation, with the n x n distance matrix: the reference the neighbour lists must match."""
+    xy = np.asarray(xy, dtype=float)
+    alive = np.ones(len(xy), dtype=bool)
+    near = ((xy[:, None, :] - xy[None, :, :]) ** 2).sum(axis=2) <= radius * radius
+    picked = []
+    while len(picked) < k and alive.any():
+        counts = (near & alive[None, :]).sum(axis=1)
+        counts[~alive] = -1
+        centre = int(np.argmax(counts))
+        members = np.flatnonzero(near[centre] & alive)
+        picked.append((centre, members))
+        alive[members] = False
+    return picked
+
+
+def test_greedy_hotspots_matches_the_distance_matrix_without_building_it():
+    # Ota's 10,335 points made the n x n matrix take about 3.8 GB; the neighbour lists must pick the same centres
+    # and members, ties included (points on a 10 m lattice tie often).
+    rng = np.random.default_rng(3)
+    xy = np.concatenate([rng.normal(0, 300, (1500, 2)), rng.normal(800, 40, (300, 2)),
+                         np.round(rng.uniform(-500, 500, (400, 2)) / 10) * 10])
+    for radius in (20.0, 30.0, 50.0):
+        got = greedy_hotspots(xy, radius, 15)
+        want = _greedy_by_matrix(xy, radius, 15)
+        assert [c for c, _ in got] == [c for c, _ in want]
+        assert all(np.array_equal(a, b) for (_, a), (_, b) in zip(got, want))
+
+
+def test_greedy_hotspots_runs_on_many_points():
+    # 60,000 points: the matrix would need 3.6e9 cells; the neighbour lists finish in seconds.
+    rng = np.random.default_rng(5)
+    picked = greedy_hotspots(rng.uniform(0, 20000, (60000, 2)), 30.0, 15)
+    assert len(picked) == 15
+
+
+def test_unit_names_tell_apart_units_of_one_name():
+    # Ota's 令和島 is two KEY_CODE; towns.csv showed two rows named 令和島.
+    got = unit_names([("131110811", "令和島"), ("131110812", "令和島"), ("131110010", "大森本町一丁目")])
+    assert got == {"131110811": "令和島 (131110811)", "131110812": "令和島 (131110812)", "131110010": "大森本町一丁目"}
