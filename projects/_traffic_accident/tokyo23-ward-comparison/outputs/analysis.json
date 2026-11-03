@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "d2a5569341c81c1ced79f9eb0c2a496415b9dd88",
+ "commit": "3f6b228a721fdfd58215d1ad352ec5fd0e08707e",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -300,8 +300,7 @@
     "share_bike_single",
     "share_business_car_A",
     "share_truck_A",
-    "share_weekend",
-    "share_expressway"
+    "share_weekend"
    ],
    "新宿区": [
     "share_ped",
@@ -311,7 +310,9 @@
     "share_business_car_A",
     "share_truck_A"
    ],
-   "文京区": [],
+   "文京区": [
+    "share_expressway"
+   ],
    "台東区": [
     "share_strict",
     "share_intersection",
@@ -383,8 +384,7 @@
    "練馬区": [
     "share_intersection",
     "share_business_car_A",
-    "share_truck_A",
-    "share_expressway"
+    "share_truck_A"
    ],
    "足立区": [
     "share_ped",

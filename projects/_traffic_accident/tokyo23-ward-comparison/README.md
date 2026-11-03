@@ -20,6 +20,7 @@ env -u PYTHONPATH uvx --with duckdb --with scikit-learn --with pyarrow --with sc
   --method dpmm --max-components 10 --covariance-scale 0.3,1,3,10,30 > $O/clusters-dpmm.txt
 env -u PYTHONPATH uvx --with duckdb --with scikit-learn --with numpy python projects/_traffic_accident/tokyo23-ward-comparison/scripts/clusters.py
 python3 projects/_traffic_accident/tokyo23-ward-comparison/scripts/summarize.py
+python3 projects/_traffic_accident/tokyo23-ward-comparison/scripts/ward_table.py
 env -u PYTHONPATH uvx --with numpy --with matplotlib python projects/_traffic_accident/tokyo23-ward-comparison/scripts/plot.py
 env -u PYTHONPATH uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with matplotlib python projects/_traffic_accident/tokyo23-ward-comparison/scripts/maps.py
 ```

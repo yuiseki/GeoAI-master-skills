@@ -3,7 +3,7 @@
  "settings": {
   "2": {
    "stability_kmeans": 1.0,
-   "stability_ward": 0.995,
+   "stability_ward": 0.99,
    "kmeans_vs_ward_ari": 1.0,
    "passes": true,
    "labels_kmeans": [
@@ -33,8 +33,8 @@
    ]
   },
   "3": {
-   "stability_kmeans": 0.559,
-   "stability_ward": 0.566,
+   "stability_kmeans": 0.649,
+   "stability_ward": 0.542,
    "kmeans_vs_ward_ari": 0.334,
    "passes": false,
    "labels_kmeans": [
@@ -64,8 +64,8 @@
    ]
   },
   "4": {
-   "stability_kmeans": 0.435,
-   "stability_ward": 0.588,
+   "stability_kmeans": 0.422,
+   "stability_ward": 0.608,
    "kmeans_vs_ward_ari": 0.258,
    "passes": false,
    "labels_kmeans": [
@@ -95,65 +95,65 @@
    ]
   },
   "5": {
-   "stability_kmeans": 0.538,
-   "stability_ward": 0.657,
+   "stability_kmeans": 0.522,
+   "stability_ward": 0.674,
    "kmeans_vs_ward_ari": 0.713,
    "passes": false,
    "labels_kmeans": [
-    3,
-    3,
-    3,
     1,
-    2,
-    2,
-    4,
-    4,
-    2,
-    2,
-    4,
-    2,
     1,
+    1,
+    3,
+    4,
+    4,
     0,
+    0,
+    4,
+    4,
+    0,
+    4,
+    3,
+    2,
+    4,
+    4,
     2,
     2,
     0,
     0,
-    4,
-    4,
-    4,
-    4,
-    4
+    0,
+    0,
+    0
    ]
   },
   "6": {
-   "stability_kmeans": 0.55,
-   "stability_ward": 0.675,
-   "kmeans_vs_ward_ari": 0.751,
+   "stability_kmeans": 0.582,
+   "stability_ward": 0.647,
+   "kmeans_vs_ward_ari": 0.648,
    "passes": false,
    "labels_kmeans": [
+    1,
+    1,
+    1,
+    3,
+    4,
     2,
     2,
     2,
+    4,
+    4,
     5,
-    1,
-    1,
+    5,
+    3,
+    0,
+    5,
     4,
     0,
-    1,
-    1,
-    4,
-    4,
+    0,
+    2,
     5,
-    3,
-    4,
-    1,
-    1,
-    3,
-    1,
-    4,
-    4,
-    4,
-    4
+    5,
+    5,
+    5
    ]
   }
  },
@@ -193,7 +193,7 @@
     "share_business_car_A": 0.1013,
     "share_truck_A": 0.2045,
     "share_weekend": 0.2454,
-    "share_expressway": 0.0173
+    "share_expressway": 0.0189
    }
   },
   "k=2 group 1": {
@@ -230,7 +230,7 @@
     "share_business_car_A": 0.1013,
     "share_truck_A": 0.2045,
     "share_weekend": 0.2454,
-    "share_expressway": 0.0173
+    "share_expressway": 0.0189
    },
    "others_mean": {
     "share_ped": 0.2058,

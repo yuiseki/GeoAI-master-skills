@@ -31,7 +31,7 @@ SOURCE = ("出典: 警察庁「交通事故統計情報のオープンデータ�
 LABELS = {"share_ped": "歩行者", "share_bike": "自転車", "share_old_ped": "高齢の歩行者",
           "share_young_pb": "若い歩行者・自転車", "share_strict": "生活道路", "share_night": "夜",
           "share_intersection": "交差点", "share_bike_single": "自転車の単独", "share_business_car_A": "事業用の乗用車がA",
-          "share_truck_A": "貨物車がA", "share_weekend": "土日", "share_expressway": "首都高速",
+          "share_truck_A": "貨物車がA", "share_weekend": "土日", "share_expressway": "高速道路",
           "share_top15_hotspots": "上位15地点", "share_top10pct_towns": "上位10%の町丁"}
 GROUP_COLOR = {0: "#c0392b", 1: "#2c7fb8"}
 # Ward names on the scatter plots moved from above right of their point (points, x, y), where two would overlap.

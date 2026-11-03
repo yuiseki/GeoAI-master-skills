@@ -95,7 +95,7 @@ def main():
         row["business_car_A"] = taito.party_group(row["type_A"], row["use_A"]) == "乗用車 (事業用)"
         row["truck_A"] = taito.party_group(row["type_A"], row["use_A"]) == "貨物車"
         row["weekend"] = row["weekday"] in (1, 7)  # 曜日: 1 = 日, 7 = 土
-        row["expressway"] = 5000 <= int(row["route"]) < 5500
+        row["expressway"] = 4000 <= int(row["route"]) < 5500  # 高速自動車国道 and 首都高速 (template R020)
     con.sql("load spatial")
     con.sql("set geometry_always_xy = true")
     wards_geo = {c: (n, p, a, lon, lat) for c, n, p, a, lon, lat in con.execute(f"""select substr(code5, 3), name,
