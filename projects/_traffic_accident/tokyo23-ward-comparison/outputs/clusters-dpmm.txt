@@ -1,0 +1,10 @@
+units: 23, features: ['share_ped', 'share_bike', 'share_old_ped', 'share_young_pb', 'share_strict', 'share_night', 'share_intersection', 'share_bike_single', 'share_business_car_A', 'share_truck_A', 'share_weekend', 'share_expressway'] (standardised), method: dpmm
+max_components=10,covariance_scale=0.3 clusters 10, noise 0, silhouette 0.108, stability ARI 0.442 (sd 0.184)
+    sizes: 0:1, 1:4, 2:2, 3:4, 4:3, 5:5, 6:1, 7:1, 8:1, 9:1
+max_components=10,covariance_scale=1.0 clusters 10, noise 0, silhouette 0.108, stability ARI 0.442 (sd 0.184)
+    sizes: 0:1, 1:4, 2:2, 3:4, 4:3, 5:5, 6:1, 7:1, 8:1, 9:1
+max_components=10,covariance_scale=3.0 clusters 10, noise 0, silhouette 0.108, stability ARI 0.439 (sd 0.186)
+    sizes: 0:1, 1:4, 2:2, 3:4, 4:3, 5:5, 6:1, 7:1, 8:1, 9:1
+max_components=10,covariance_scale=10.0 clusters 2, noise 0, silhouette 0.440, stability ARI 0.840 (sd 0.284)
+    sizes: 0:5, 1:18
+max_components=10,covariance_scale=30.0 clusters 1, noise 0: no clustering found; stability, agreement and cohesion are not measured

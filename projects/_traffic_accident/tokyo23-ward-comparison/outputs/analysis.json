@@ -1,0 +1,397 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "1e1b0bdc2f98c315bda7715215105b5c88f4d263",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "features": [
+   "share_ped",
+   "share_bike",
+   "share_old_ped",
+   "share_young_pb",
+   "share_strict",
+   "share_night",
+   "share_intersection",
+   "share_bike_single",
+   "share_business_car_A",
+   "share_truck_A",
+   "share_weekend",
+   "share_expressway"
+  ],
+  "known_division": {
+   "都心・副都心": [
+    "101",
+    "102",
+    "103",
+    "104",
+    "113",
+    "116"
+   ],
+   "東部": [
+    "106",
+    "107",
+    "108",
+    "118",
+    "121",
+    "122",
+    "123"
+   ],
+   "その他": [
+    "105",
+    "109",
+    "110",
+    "111",
+    "112",
+    "114",
+    "115",
+    "117",
+    "119",
+    "120"
+   ]
+  },
+  "radius_m": 30.0,
+  "top_hotspots": 15,
+  "town_top": 0.1,
+  "template": "taito-accident-trends-by-role/scripts/analyze.py"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "by_year_23_wards": {
+   "2019": 21098,
+   "2020": 17662,
+   "2021": 19201,
+   "2022": 21431,
+   "2023": 22438,
+   "2024": 21449,
+   "2025": 21437
+  },
+  "trend_23_wards_2025": "区別できない",
+  "ratio_23_wards_2025_2019": 1.016,
+  "spearman_of_rates": {
+   "per_1000_residents_per_year vs per_road_km_per_year": 0.808,
+   "per_1000_residents_per_year vs per_km2_per_year": 0.651,
+   "per_road_km_per_year vs per_km2_per_year": 0.826
+  },
+  "rank_of_rates": {
+   "per_1000_residents_per_year": {
+    "101": 1,
+    "102": 2,
+    "103": 3,
+    "104": 6,
+    "105": 15,
+    "106": 4,
+    "107": 13,
+    "108": 9,
+    "109": 8,
+    "110": 10,
+    "111": 12,
+    "112": 14,
+    "113": 5,
+    "114": 17,
+    "115": 20,
+    "116": 16,
+    "117": 21,
+    "118": 22,
+    "119": 18,
+    "120": 23,
+    "121": 7,
+    "122": 19,
+    "123": 11
+   },
+   "per_road_km_per_year": {
+    "101": 3,
+    "102": 1,
+    "103": 2,
+    "104": 4,
+    "105": 7,
+    "106": 6,
+    "107": 13,
+    "108": 10,
+    "109": 8,
+    "110": 11,
+    "111": 18,
+    "112": 16,
+    "113": 5,
+    "114": 9,
+    "115": 21,
+    "116": 12,
+    "117": 15,
+    "118": 17,
+    "119": 20,
+    "120": 23,
+    "121": 14,
+    "122": 22,
+    "123": 19
+   },
+   "per_km2_per_year": {
+    "101": 3,
+    "102": 1,
+    "103": 6,
+    "104": 4,
+    "105": 10,
+    "106": 2,
+    "107": 11,
+    "108": 23,
+    "109": 12,
+    "110": 9,
+    "111": 22,
+    "112": 16,
+    "113": 5,
+    "114": 8,
+    "115": 17,
+    "116": 7,
+    "117": 19,
+    "118": 14,
+    "119": 15,
+    "120": 21,
+    "121": 13,
+    "122": 20,
+    "123": 18
+   }
+  },
+  "trend_classes": {
+   "区別できない": 10,
+   "減った": 4,
+   "増えた": 9
+  },
+  "coded_vs_inside": {
+   "101": [
+    4232,
+    4227
+   ],
+   "102": [
+    5260,
+    5260
+   ],
+   "103": [
+    7831,
+    7816
+   ],
+   "104": [
+    6512,
+    6589
+   ],
+   "105": [
+    3124,
+    3125
+   ],
+   "106": [
+    4517,
+    4476
+   ],
+   "107": [
+    3706,
+    3710
+   ],
+   "108": [
+    7853,
+    7832
+   ],
+   "109": [
+    6364,
+    6334
+   ],
+   "110": [
+    4121,
+    4109
+   ],
+   "111": [
+    10335,
+    10332
+   ],
+   "112": [
+    12291,
+    12255
+   ],
+   "113": [
+    5109,
+    5078
+   ],
+   "114": [
+    4471,
+    4488
+   ],
+   "115": [
+    6863,
+    6865
+   ],
+   "116": [
+    3919,
+    3911
+   ],
+   "117": [
+    3939,
+    3943
+   ],
+   "118": [
+    2322,
+    2353
+   ],
+   "119": [
+    7147,
+    7172
+   ],
+   "120": [
+    7407,
+    7349
+   ],
+   "121": [
+    12169,
+    12171
+   ],
+   "122": [
+    5368,
+    5375
+   ],
+   "123": [
+    9856,
+    9848
+   ]
+  },
+  "z_abs_1_or_more": {
+   "千代田区": [
+    "share_bike",
+    "share_old_ped",
+    "share_young_pb",
+    "share_strict",
+    "share_night",
+    "share_bike_single",
+    "share_business_car_A",
+    "share_weekend",
+    "share_expressway"
+   ],
+   "中央区": [
+    "share_ped",
+    "share_bike",
+    "share_young_pb",
+    "share_strict",
+    "share_business_car_A",
+    "share_weekend",
+    "share_expressway"
+   ],
+   "港区": [
+    "share_bike",
+    "share_old_ped",
+    "share_young_pb",
+    "share_strict",
+    "share_night",
+    "share_intersection",
+    "share_bike_single",
+    "share_business_car_A",
+    "share_truck_A",
+    "share_weekend",
+    "share_expressway"
+   ],
+   "新宿区": [
+    "share_ped",
+    "share_bike",
+    "share_night",
+    "share_bike_single",
+    "share_business_car_A",
+    "share_truck_A"
+   ],
+   "文京区": [],
+   "台東区": [
+    "share_strict",
+    "share_intersection",
+    "share_expressway"
+   ],
+   "墨田区": [
+    "share_intersection",
+    "share_truck_A"
+   ],
+   "江東区": [
+    "share_ped",
+    "share_intersection",
+    "share_bike_single",
+    "share_truck_A"
+   ],
+   "品川区": [
+    "share_intersection"
+   ],
+   "目黒区": [],
+   "大田区": [
+    "share_ped",
+    "share_truck_A"
+   ],
+   "世田谷区": [
+    "share_young_pb",
+    "share_weekend"
+   ],
+   "渋谷区": [
+    "share_bike",
+    "share_old_ped",
+    "share_young_pb",
+    "share_night",
+    "share_intersection",
+    "share_bike_single",
+    "share_business_car_A",
+    "share_truck_A",
+    "share_weekend",
+    "share_expressway"
+   ],
+   "中野区": [
+    "share_bike",
+    "share_strict",
+    "share_bike_single",
+    "share_truck_A"
+   ],
+   "杉並区": [
+    "share_night",
+    "share_weekend"
+   ],
+   "豊島区": [
+    "share_ped"
+   ],
+   "北区": [
+    "share_old_ped",
+    "share_bike_single"
+   ],
+   "荒川区": [
+    "share_bike",
+    "share_old_ped",
+    "share_strict",
+    "share_night",
+    "share_bike_single",
+    "share_expressway"
+   ],
+   "板橋区": [
+    "share_old_ped",
+    "share_truck_A"
+   ],
+   "練馬区": [
+    "share_intersection",
+    "share_business_car_A",
+    "share_truck_A",
+    "share_expressway"
+   ],
+   "足立区": [
+    "share_ped",
+    "share_business_car_A"
+   ],
+   "葛飾区": [
+    "share_ped",
+    "share_young_pb",
+    "share_strict",
+    "share_bike_single",
+    "share_business_car_A",
+    "share_weekend"
+   ],
+   "江戸川区": [
+    "share_young_pb",
+    "share_intersection",
+    "share_business_car_A"
+   ]
+  }
+ },
+ "files": {
+  "wards": "projects/_traffic_accident/tokyo23-ward-comparison/outputs/wards.csv",
+  "yearly": "projects/_traffic_accident/tokyo23-ward-comparison/outputs/yearly.csv",
+  "features_z": "projects/_traffic_accident/tokyo23-ward-comparison/outputs/features_z.csv"
+ }
+}

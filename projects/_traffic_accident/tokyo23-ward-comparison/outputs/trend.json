@@ -1,0 +1,13 @@
+{
+ "question": "区ごとに、2019年から2025年に件数はどう変わったか",
+ "inputs": [
+  "outputs/wards.csv",
+  "outputs/analysis.json"
+ ],
+ "n": 23,
+ "notes": "",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。人口: 国勢調査2020 (jp-admin-2026-09@e6c87b1)。道路: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)",
+ "font": [
+  "Noto Sans CJK JP"
+ ]
+}

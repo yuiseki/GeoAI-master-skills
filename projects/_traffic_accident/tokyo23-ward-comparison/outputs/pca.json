@@ -1,0 +1,144 @@
+{
+ "features": [
+  "share_ped",
+  "share_bike",
+  "share_old_ped",
+  "share_young_pb",
+  "share_strict",
+  "share_night",
+  "share_intersection",
+  "share_bike_single",
+  "share_business_car_A",
+  "share_truck_A",
+  "share_weekend",
+  "share_expressway"
+ ],
+ "explained": [
+  0.57,
+  0.123
+ ],
+ "loadings": [
+  {
+   "share_ped": 0.285,
+   "share_bike": -0.353,
+   "share_old_ped": -0.273,
+   "share_young_pb": -0.346,
+   "share_strict": -0.283,
+   "share_night": 0.355,
+   "share_intersection": -0.201,
+   "share_bike_single": -0.277,
+   "share_business_car_A": 0.371,
+   "share_truck_A": -0.195,
+   "share_weekend": -0.158,
+   "share_expressway": 0.276
+  },
+  {
+   "share_ped": -0.254,
+   "share_bike": -0.135,
+   "share_old_ped": 0.122,
+   "share_young_pb": -0.197,
+   "share_strict": -0.419,
+   "share_night": -0.116,
+   "share_intersection": 0.317,
+   "share_bike_single": -0.01,
+   "share_business_car_A": -0.075,
+   "share_truck_A": 0.533,
+   "share_weekend": -0.527,
+   "share_expressway": 0.081
+  }
+ ],
+ "scores": {
+  "101": [
+   4.967,
+   1.591
+  ],
+  "102": [
+   4.012,
+   1.628
+  ],
+  "103": [
+   5.277,
+   0.207
+  ],
+  "104": [
+   3.692,
+   -1.41
+  ],
+  "105": [
+   0.514,
+   0.179
+  ],
+  "106": [
+   0.475,
+   0.575
+  ],
+  "107": [
+   -0.464,
+   1.49
+  ],
+  "108": [
+   -0.873,
+   1.208
+  ],
+  "109": [
+   0.137,
+   0.149
+  ],
+  "110": [
+   0.121,
+   -1.165
+  ],
+  "111": [
+   -1.969,
+   0.696
+  ],
+  "112": [
+   -1.51,
+   -1.012
+  ],
+  "113": [
+   3.954,
+   -2.6
+  ],
+  "114": [
+   -1.651,
+   -2.39
+  ],
+  "115": [
+   -1.245,
+   -0.896
+  ],
+  "116": [
+   0.721,
+   -0.733
+  ],
+  "117": [
+   -1.639,
+   0.449
+  ],
+  "118": [
+   -3.415,
+   -0.353
+  ],
+  "119": [
+   -1.365,
+   1.489
+  ],
+  "120": [
+   -2.192,
+   0.921
+  ],
+  "121": [
+   -2.262,
+   0.602
+  ],
+  "122": [
+   -2.699,
+   -0.793
+  ],
+  "123": [
+   -2.586,
+   0.167
+  ]
+ }
+}

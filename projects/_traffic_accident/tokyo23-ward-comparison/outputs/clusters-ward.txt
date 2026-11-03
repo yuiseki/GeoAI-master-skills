@@ -1,0 +1,12 @@
+units: 23, features: ['share_ped', 'share_bike', 'share_old_ped', 'share_young_pb', 'share_strict', 'share_night', 'share_intersection', 'share_bike_single', 'share_business_car_A', 'share_truck_A', 'share_weekend', 'share_expressway'] (standardised), method: ward
+k=2                    clusters 2, noise 0, silhouette 0.440, stability ARI 0.995 (sd 0.032), ARI vs known_division 0.341, same cluster among 4 nearest 0.72 (shuffled 0.64, p 0.067)
+    sizes: 0:18, 1:5
+k=3                    clusters 3, noise 0, silhouette 0.181, stability ARI 0.566 (sd 0.218), ARI vs known_division 0.303, same cluster among 4 nearest 0.51 (shuffled 0.39, p 0.023)
+    sizes: 0:13, 1:5, 2:5
+k=4                    clusters 4, noise 0, silhouette 0.199, stability ARI 0.588 (sd 0.268), ARI vs known_division 0.232, same cluster among 4 nearest 0.37 (shuffled 0.27, p 0.050)
+    sizes: 0:5, 1:10, 2:5, 3:3
+k=5                    clusters 5, noise 0, silhouette 0.219, stability ARI 0.657 (sd 0.222), ARI vs known_division 0.158, same cluster among 4 nearest 0.35 (shuffled 0.24, p 0.039)
+    sizes: 0:10, 1:2, 2:5, 3:3, 4:3
+k=6                    clusters 6, noise 0, silhouette 0.215, stability ARI 0.675 (sd 0.184), ARI vs known_division 0.141, same cluster among 4 nearest 0.32 (shuffled 0.21, p 0.030)
+    sizes: 0:9, 1:2, 2:5, 3:3, 4:3, 5:1
+labels: artifacts/_traffic_accident/tokyo23-ward-comparison/labels-ward.parquet

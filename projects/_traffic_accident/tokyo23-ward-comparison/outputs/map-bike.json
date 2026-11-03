@@ -1,0 +1,49 @@
+{
+  "value": "自転車の割合",
+  "kind": "rate",
+  "unit": "%",
+  "crs": "EPSG:4612",
+  "source": "警察庁 交通事故オープンデータ 2019-2025 (npa-traffic-accidents@389500a)、行政界 (jp-admin-2026-09@e6c87b1)",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    27.27,
+    38.946000000000005,
+    45.616,
+    47.578,
+    50.72,
+    61.760000000000005
+  ],
+  "units_per_class": [
+    5,
+    4,
+    5,
+    4,
+    5
+  ],
+  "nodata_units": 0,
+  "class_change_share": {},
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": "name",
+  "labelled_units": 23,
+  "zero_area_rings_left_out": 2492,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [],
+  "inset_at": "lower right",
+  "title": "23区の人身事故のうち、自転車が関わる割合 (2019〜2025年、太枠は都心の5区の群)",
+  "aspect": 1.2309250756413823,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": null,
+  "hidden_by_inset": [],
+  "made": "2026-11-03",
+  "highlight": {
+    "path": "/Workspaces/tmp/_exp/GeoAI-traffic-accident/GeoAI-master-skills/projects/_traffic_accident/tokyo23-ward-comparison/tmp/central-five.csv",
+    "groups": {
+      "都心の5区の群": 5
+    }
+  }
+}
