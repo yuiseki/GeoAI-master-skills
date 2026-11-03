@@ -13,6 +13,7 @@ export const GITHUB_BLOB = 'https://github.com/yuiseki/GeoAI-master-skills/blob/
 export const PUBLISHED_CARDS = [
   'esa-worldcover',
   'gsi-dem-tiles',
+  'planetary-computer/sentinel-1',
   'worldpop/japan',
   ...[
     'agera5-japan-monthly-temperature-1979-2026',
@@ -25,6 +26,7 @@ export const PUBLISHED_CARDS = [
     'fagus-crenata-masting-jp-2026-06',
     'gifu-bear-sighting',
     'gsi-evacuation-sites-jp',
+    'gsi-inundation-estimate-kita-inbanuma-jp-2026-10',
     'ishikawa-bear-incident',
     'jma-rain-tokyo',
     'jp-admin-2026-09',
