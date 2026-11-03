@@ -1,0 +1,27 @@
+{
+ "question": "江戸川区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
+ ],
+ "n": 200,
+ "notes": "breaks [0.0, 0.6640375676682878, 0.9669909819687177, 1.377544909415847, 1.961952084691032, 4.499770017776411]; 分位と等間隔で色の変わる町丁 0.739 (classify_map.py の出力)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 200,
+ "units_in_analysis": 200,
+ "highlighted": [
+  "春江町四丁目",
+  "小松川三丁目 (13123001103)",
+  "中央一丁目",
+  "東小松川一丁目",
+  "一之江一丁目"
+ ],
+ "text_overlaps": []
+}

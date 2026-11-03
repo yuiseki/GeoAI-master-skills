@@ -1,0 +1,239 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "c79f5e3d5ee794dce4fa693046a47dceea1aba26",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "min_road_km": 0.5,
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_ward": 9856,
+  "ward_without_point": 0,
+  "coded_and_inside": 9841,
+  "coded_outside": 15,
+  "other_code_inside": 7,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 1728,
+    "inside": 1726
+   },
+   "2020": {
+    "coded": 1400,
+    "inside": 1398
+   },
+   "2021": {
+    "coded": 1342,
+    "inside": 1342
+   },
+   "2022": {
+    "coded": 1414,
+    "inside": 1413
+   },
+   "2023": {
+    "coded": 1369,
+    "inside": 1368
+   },
+   "2024": {
+    "coded": 1326,
+    "inside": 1324
+   },
+   "2025": {
+    "coded": 1277,
+    "inside": 1277
+   }
+  },
+  "ward_rank_of_23": {
+   "per_1000_residents_per_year": 11,
+   "share_ped": 19,
+   "share_bike": 4,
+   "share_escooter": 21,
+   "share_old_ped": 8,
+   "share_young_pb": 1,
+   "share_strict": 12,
+   "share_broad": 10,
+   "share_night": 17,
+   "share_intersection": 1
+  },
+  "national_routes": {
+   "0014": 949,
+   "0357": 129
+  },
+  "ward_points": 9856,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 11,
+   "50m": 10,
+   "30m_without_expressway": 15
+  },
+  "hotspot_counts": {
+   "20m": [
+    54,
+    32,
+    28,
+    25,
+    25,
+    23,
+    21,
+    20,
+    20,
+    18,
+    18,
+    17,
+    17,
+    17,
+    17
+   ],
+   "30m": [
+    56,
+    38,
+    38,
+    32,
+    30,
+    27,
+    26,
+    26,
+    26,
+    25,
+    25,
+    25,
+    24,
+    24,
+    23
+   ],
+   "50m": [
+    58,
+    51,
+    50,
+    47,
+    45,
+    39,
+    39,
+    34,
+    34,
+    33,
+    33,
+    33,
+    31,
+    31,
+    30
+   ]
+  },
+  "expressway_points": 119,
+  "hotspot_counts_without_expressway": [
+   56,
+   38,
+   38,
+   32,
+   30,
+   27,
+   26,
+   26,
+   26,
+   25,
+   25,
+   25,
+   24,
+   24,
+   23
+  ],
+  "expressway_in_top15": {
+   "accidents": 0,
+   "per_rank": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "town_rows": 200,
+  "towns_merged": [],
+  "points_in_towns": 9841,
+  "points_outside_towns": 15,
+  "towns_without_road": [
+   {
+    "name": "臨海町五丁目",
+    "accidents": 1
+   }
+  ],
+  "water_units": [],
+  "small_road_units": [
+   {
+    "key_code": "13123001203",
+    "name": "小松川三丁目 (13123001203)",
+    "accidents": 13,
+    "road_km": 0.479,
+    "per_road_km_year": 3.881
+   },
+   {
+    "key_code": "131230330",
+    "name": "東篠崎町",
+    "accidents": 10,
+    "road_km": 0.449,
+    "per_road_km_year": 3.181
+   },
+   {
+    "key_code": "131230240",
+    "name": "鹿骨町",
+    "accidents": 0,
+    "road_km": 0.082,
+    "per_road_km_year": 0.0
+   }
+  ],
+  "town_top5": [
+   "13123013004",
+   "13123001103",
+   "13123003001",
+   "13123006001",
+   "13123011001"
+  ]
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/edogawa-accident-trends-by-role/outputs/towns.csv"
+ }
+}

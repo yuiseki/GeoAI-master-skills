@@ -1,0 +1,20 @@
+deaths accidents 42; dead party {'二輪車': 6, '自転車': 13, '歩行者': 17, '乗用車 (自家用)': 3, '補充票の人': 3}; party A {'二輪車': 5, '貨物車': 17, '乗用車 (自家用)': 18, '乗用車 (事業用)': 1, '自転車': 1}
+deaths hour 0-5 10; hour 19-5 16
+dead pedestrians aged 65+ 11 of 17
+全て: n 9856; top hours [(8, 833), (17, 781), (18, 679), (16, 644)]; weekday (Mon-Fri) n 7462; weekday top hours [(8, 713), (17, 625), (18, 532), (7, 475)]
+若い歩行者・自転車: n 1675; top hours [(8, 223), (16, 175), (17, 163), (15, 153)]; weekday (Mon-Fri) n 1279; weekday top hours [(8, 193), (16, 142), (17, 135), (15, 118)]
+高齢の歩行者: n 449; top hours [(17, 43), (11, 39), (18, 36), (10, 34)]; weekday (Mon-Fri) n 332; weekday top hours [(17, 35), (18, 26), (13, 25), (12, 24)]
+自転車: n 5168; top hours [(8, 539), (17, 418), (11, 369), (9, 359)]; weekday (Mon-Fri) n 3962; weekday top hours [(8, 465), (17, 345), (9, 283), (16, 268)]
+乗用車 (自家用): as party A 4315; as party B 1178
+乗用車 (事業用): as party A 535; as party B 80
+貨物車: as party A 1872; as party B 617
+自転車: as party A 2266; as party B 3493
+二輪車: as party A 808; as party B 1240
+bike as B with a car or truck as A 2589
+towns: accidents in towns 9841; most accidents [('平井五丁目', '224', '32'), ('臨海町六丁目', '211', '6'), ('小松川三丁目 (13123001103)', '156', '11'), ('西小岩一丁目', '156', '35'), ('瑞江一丁目', '156', '9'), ('松島一丁目', '156', '20'), ('西小松川町', '148', '12'), ('中央一丁目', '141', '20')]
+edogawa 7 years: accidents 9856; died 42; hurt 11018
+edogawa shares (%): share_ped 14.9; share_bike 52.4; share_escooter 0.0; share_old_ped 4.6; share_young_pb 17.0; share_strict 28.8; share_broad 43.3; share_night 28.6; share_intersection 49.5
+school map: young pedestrians and cyclists {'young_ped_or_bike': 1675, 'weekday_7_8_or_14_17': 755}
+party cells: 乗用車 (自家用) x 自転車 1661; 自転車 x 相手なし・物件 1175; 乗用車 (自家用) x 乗用車 (自家用) 795; 貨物車 x 自転車 749; 乗用車 (自家用) x 二輪車 741; 自転車 x 自転車 591; 乗用車 (自家用) x 歩行者 570; 自転車 x 歩行者 405; 乗用車 (自家用) x 貨物車 403; 貨物車 x 二輪車 356; 二輪車 x 相手なし・物件 322; 二輪車 x 自転車 309
+route classes 7 years: 区道 5831; 主要地方道 (都道) 1983; 国道 1078; その他 463; 一般都道 382; 首都高速 119
+top 15 hotspots: top route {'区道': 6, '国道 14号': 5, '主要地方道 (都道)': 4}; road_1 {'京葉道路': 7, '新大橋通り': 3, '環七通り': 2, '松江四中通り': 1, 'ゆりのき橋通り': 1, '上平井橋江戸川大橋線': 1}; with 首都高速 accidents 0
