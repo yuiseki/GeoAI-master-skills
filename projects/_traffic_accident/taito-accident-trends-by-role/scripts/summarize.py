@@ -1,6 +1,6 @@
 """Print the derived counts quoted in the reports (from outputs/*.csv) into outputs/summary.txt.
 
-Run from the repository root after analyze.py:
+Run from the repository root after analyze.py and plot.py (it reads plot.py's school-map.json):
 python3 projects/_traffic_accident/taito-accident-trends-by-role/scripts/summarize.py
 """
 
