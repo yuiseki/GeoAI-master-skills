@@ -1,0 +1,244 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "ab5226a2cb409be098bcf64e5e773d4706815426",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "min_road_km": 0.5,
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_ward": 6863,
+  "ward_without_point": 0,
+  "coded_and_inside": 6804,
+  "coded_outside": 59,
+  "other_code_inside": 61,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 1091,
+    "inside": 1093
+   },
+   "2020": {
+    "coded": 858,
+    "inside": 859
+   },
+   "2021": {
+    "coded": 899,
+    "inside": 902
+   },
+   "2022": {
+    "coded": 913,
+    "inside": 918
+   },
+   "2023": {
+    "coded": 1045,
+    "inside": 1045
+   },
+   "2024": {
+    "coded": 1055,
+    "inside": 1049
+   },
+   "2025": {
+    "coded": 1002,
+    "inside": 999
+   }
+  },
+  "bike_alone_by_year": {
+   "2019": {
+    "ward": 18,
+    "23_wards": 1035
+   },
+   "2020": {
+    "ward": 14,
+    "23_wards": 1083
+   },
+   "2021": {
+    "ward": 62,
+    "23_wards": 1626
+   },
+   "2022": {
+    "ward": 101,
+    "23_wards": 2817
+   },
+   "2023": {
+    "ward": 122,
+    "23_wards": 3187
+   },
+   "2024": {
+    "ward": 174,
+    "23_wards": 3140
+   },
+   "2025": {
+    "ward": 167,
+    "23_wards": 3039
+   }
+  },
+  "ward_rank_of_23": {
+   "per_1000_residents_per_year": 20,
+   "share_ped": 15,
+   "share_bike": 14,
+   "share_escooter": 8,
+   "share_old_ped": 17,
+   "share_young_pb": 8,
+   "share_strict": 4,
+   "share_broad": 4,
+   "share_night": 22,
+   "share_intersection": 17,
+   "share_bike_alone": 13
+  },
+  "closed_schools_left_out": [],
+  "national_routes": {
+   "0020": 367
+  },
+  "ward_points": 6863,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 10,
+   "50m": 13,
+   "30m_without_expressway": 14
+  },
+  "hotspot_counts": {
+   "20m": [
+    39,
+    25,
+    21,
+    20,
+    20,
+    20,
+    20,
+    19,
+    18,
+    18,
+    18,
+    18,
+    17,
+    17,
+    16
+   ],
+   "30m": [
+    47,
+    46,
+    30,
+    30,
+    28,
+    27,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    24,
+    24,
+    23
+   ],
+   "50m": [
+    66,
+    54,
+    46,
+    43,
+    42,
+    42,
+    41,
+    41,
+    39,
+    34,
+    34,
+    32,
+    31,
+    31,
+    31
+   ]
+  },
+  "expressway_points": 108,
+  "hotspot_counts_without_expressway": [
+   47,
+   46,
+   30,
+   28,
+   28,
+   27,
+   25,
+   25,
+   25,
+   25,
+   25,
+   25,
+   24,
+   23,
+   23
+  ],
+  "expressway_in_top15": {
+   "accidents": 4,
+   "per_rank": [
+    0,
+    0,
+    0,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    0
+   ]
+  },
+  "town_rows": 139,
+  "towns_merged": [],
+  "points_in_towns": 6804,
+  "points_outside_towns": 59,
+  "towns_without_road": [],
+  "water_units": [],
+  "small_road_units": [],
+  "town_top5": [
+   "13115021001",
+   "13115010001",
+   "13115018005",
+   "13115032001",
+   "13115036001"
+  ]
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/party_matrix.csv",
+  "parties_by_year": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/party_by_year.csv",
+  "deaths": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/suginami-accident-trends-by-role/outputs/towns.csv"
+ }
+}

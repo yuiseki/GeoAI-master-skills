@@ -1,0 +1,20 @@
+deaths accidents 33; dead party {'二輪車': 11, '歩行者': 14, '自転車': 7, '補充票の人': 1}; party A {'乗用車 (自家用)': 13, '貨物車': 12, '二輪車': 3, '乗用車 (事業用)': 3, '自転車': 2}
+deaths hour 0-5 11; hour 19-5 17
+dead pedestrians aged 65+ 8 of 14
+全て: n 6863; top hours [(8, 533), (11, 486), (9, 484), (16, 467)]; weekday (Mon-Fri) n 5104; weekday top hours [(8, 448), (9, 384), (16, 348), (11, 336)]
+若い歩行者・自転車: n 888; top hours [(8, 106), (16, 96), (17, 81), (13, 70)]; weekday (Mon-Fri) n 669; weekday top hours [(16, 83), (8, 82), (17, 62), (15, 51)]
+高齢の歩行者: n 270; top hours [(12, 29), (11, 26), (9, 23), (16, 21)]; weekday (Mon-Fri) n 203; weekday top hours [(11, 22), (12, 20), (9, 17), (16, 17)]
+自転車: n 3137; top hours [(8, 293), (11, 260), (9, 240), (16, 231)]; weekday (Mon-Fri) n 2348; weekday top hours [(8, 247), (9, 190), (16, 171), (11, 169)]
+乗用車 (自家用): as party A 2855; as party B 904
+乗用車 (事業用): as party A 584; as party B 118
+貨物車: as party A 1409; as party B 736
+自転車: as party A 1475; as party B 2106
+二輪車: as party A 460; as party B 931
+bike as B with a car or truck as A 1475
+towns: accidents in towns 6804; most accidents [('和泉一丁目', '193', '20'), ('上高井戸一丁目', '185', '23'), ('梅里一丁目', '172', '21'), ('下高井戸一丁目', '169', '12'), ('高円寺南四丁目', '157', '25'), ('高円寺南二丁目', '135', '17'), ('和田三丁目', '130', '27'), ('高円寺北二丁目', '128', '19')]
+suginami 7 years: accidents 6863; died 34; hurt 7784
+suginami shares (%): share_ped 16.3; share_bike 45.7; share_escooter 0.5; share_old_ped 3.9; share_young_pb 12.9; share_strict 34.7; share_broad 47.7; share_night 26.3; share_intersection 39.4; share_bike_alone 9.6
+school map: young pedestrians and cyclists {'young_ped_or_bike': 888, 'weekday_7_8_or_14_17': 368}
+party cells: 乗用車 (自家用) x 自転車 777; 自転車 x 相手なし・物件 658; 乗用車 (自家用) x 乗用車 (自家用) 618; 貨物車 x 自転車 510; 乗用車 (自家用) x 二輪車 489; 乗用車 (自家用) x 貨物車 462; 自転車 x 自転車 444; 乗用車 (自家用) x 歩行者 401; 自転車 x 歩行者 334; 貨物車 x 二輪車 250; 貨物車 x 乗用車 (自家用) 218; 貨物車 x 貨物車 214
+route classes 7 years: 主要地方道 (都道) 2860; 区道 2628; 一般都道 732; 国道 367; その他 168; 首都高速 108
+top 15 hotspots: top route {'主要地方道 (都道)': 12, '国道 20号': 3}; road_1 {'環七通り': 6, '青梅街道': 4, '環八通り': 3, '甲州街道': 1, '東八道路': 1}; with 首都高速 accidents 2
