@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "56cbe59af2bb4b15367eb40b7098a7a414f7d83c",
+ "commit": "27852f26d9c07d09f08888b136775eca71c449ba",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -70,6 +70,36 @@
     "inside": 662
    }
   },
+  "bike_alone_by_year": {
+   "2019": {
+    "ward": 12,
+    "23_wards": 1035
+   },
+   "2020": {
+    "ward": 24,
+    "23_wards": 1083
+   },
+   "2021": {
+    "ward": 35,
+    "23_wards": 1626
+   },
+   "2022": {
+    "ward": 52,
+    "23_wards": 2817
+   },
+   "2023": {
+    "ward": 74,
+    "23_wards": 3187
+   },
+   "2024": {
+    "ward": 65,
+    "23_wards": 3140
+   },
+   "2025": {
+    "ward": 64,
+    "23_wards": 3039
+   }
+  },
   "ward_rank_of_23": {
    "per_1000_residents_per_year": 4,
    "share_ped": 8,
@@ -80,7 +110,8 @@
    "share_strict": 21,
    "share_broad": 20,
    "share_night": 8,
-   "share_intersection": 4
+   "share_intersection": 4,
+   "share_bike_alone": 19
   },
   "closed_schools_left_out": [],
   "national_routes": {

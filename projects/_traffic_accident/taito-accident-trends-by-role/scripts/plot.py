@@ -75,7 +75,7 @@ TEXT = ("0123456789,.%()/-−×・:年月日時件人数率区台東23全自転�
         "等間隔分割種類過失重い側主若者件区間95%Poissonの範囲順位立場選ぶ半分割合色点円上位1530m500mkmyNEnsitivityxv"
         "数えた本票ファイル計上されたと関わる以内線括弧単路信号小中高大集まり平均昼間別回目下位帯を描く都心側ここ灰色黒白赤青黄緑紫"
         "通り首都高速明治春日言問江戸昭和御徒町駅中央不忍国際入口蔵前橋ひすいアベニュー浅草アメ横上野御徒町中央通り口あけぼの"
-        "比べる位置向きスケールバーOSMの道路のうち幹線を太く7年合計ありWeekday土日平日値水面短振れ大無けれ")
+        "比べる位置向きスケールバーOSMの道路のうち幹線を太く7年合計ありWeekday土日平日値水面短振れ大無けれ破線単独除")
 
 
 def read_csv(name):
@@ -180,6 +180,9 @@ def fig_trend():
         hi = [100 * float(r["hi95"]) / base for r in rs]
         ax.fill_between(years, lo, hi, color=color, alpha=0.15, lw=0)
         ax.plot(years, idx, marker="o", color=color, label=f"{scope} (2019年 {int(base):,}件)")
+        # Beside it, the index without the cyclist-alone accidents, whose recording rose from 2021 to 2022.
+        ax.plot(years, [float(r["index_2019_without_bike_alone"]) for r in rs], ls="--", color=color, lw=1,
+                label=f"{scope} 自転車の単独を除く")
     ax.axhline(100, color="#999999", lw=0.8, ls=":")
     # The range is read from the intervals of both scopes, on 5-point steps with a margin.
     ends = [100 * float(r[k]) / float(next(x for x in rows if x["scope"] == r["scope"])["accidents"])
@@ -188,9 +191,10 @@ def fig_trend():
     ax.set_ylim(*ylim)
     ax.set_xlabel("年 (統計に計上された年)")
     ax.set_ylabel("人身事故件数の指数 (2019年=100)")
-    ax.legend(loc="lower right", fontsize=9)
+    ax.legend(loc="lower right", fontsize=8)
     ax.set_title(f"{WARD_NAME}と23区の人身事故件数の推移", fontsize=11)
-    ax.text(0, -0.2, "帯: 各年の件数のPoisson 95%区間を指数に換算。" + SOURCE[:40] + "…", transform=ax.transAxes, fontsize=7)
+    ax.text(0, -0.2, "帯: 各年の件数のPoisson 95%区間を指数に換算。破線: 自転車 (A) と相手なし・物件 (B) の事故を除いた指数。"
+            + SOURCE[:40] + "…", transform=ax.transAxes, fontsize=7)
     save(fig, "trend-index", f"{WARD_NAME}の事故件数は23区全体と比べてどう推移したか", ["outputs/yearly.csv"],
          {r["scope"]: sum(int(x["accidents"]) for x in rows if x["scope"] == r["scope"]) for r in rows},
          f"縦軸は{ylim[0]}から{ylim[1]} (指数の比較のため、区間の両端から決めた)。帯は年ごとの件数の記録の揺れの目安で、年をまたぐ差の検定ではない",

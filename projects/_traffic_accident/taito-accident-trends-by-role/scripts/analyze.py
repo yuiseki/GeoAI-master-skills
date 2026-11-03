@@ -279,6 +279,8 @@ def flags(row):
         "broad": is_seikatsu(row["width"], broad=True),
         "night": row["daynight"] in NIGHT,
         "intersection": row["shape"] in {"01", "31"},
+        # 自転車 as A with 相手なし・物件 as B: tripled in the 23 wards from 2021 to 2022 (bike_alone_by_year)
+        "bike_alone": row["type_A"] in BIKE and row["type_B"] in {"75", "76"},
     }
 
 
@@ -307,8 +309,14 @@ def main():
                count(*) filter (where longitude is not null and ST_Contains(w.g, ST_Point(longitude, latitude)))
         from acc, w group by file_year order by file_year""").fetchall()}
 
+    # Cyclist-alone accidents (自転車 as A, 相手なし・物件 as B) by year, the ward and the 23 wards: in the 23 wards
+    # they went from 1,035 in 2019 to 2,817 in 2022 and 3,039 in 2025 while the other accidents fell, which looks like
+    # a change in what is recorded (Itabashi). The yearly reading without them goes beside the main one.
+    audit["bike_alone_by_year"] = {y: {"ward": sum(r["bike_alone"] for r in mine if r["file_year"] == y),
+                                       "23_wards": sum(r["bike_alone"] for r in rows if r["file_year"] == y)} for y in YEARS}
+
     # B1 yearly counts, the ward and the 23 wards.
-    keys = ["ped", "bike", "escooter", "old_ped", "young_pb", "strict", "broad", "night", "intersection"]
+    keys = ["ped", "bike", "escooter", "old_ped", "young_pb", "strict", "broad", "night", "intersection", "bike_alone"]
     yearly = []
     for scope, subset in ((WARD_NAME, mine), ("23区", rows)):
         base = sum(r["file_year"] == "2019" for r in subset)
@@ -317,6 +325,8 @@ def main():
             lo, hi = poisson_interval(len(ys))
             yearly.append({"scope": scope, "year": y, "accidents": len(ys), "lo95": round(lo, 1), "hi95": round(hi, 1),
                            "index_2019": round(100 * len(ys) / base, 1),
+                           "index_2019_without_bike_alone": round(100 * sum(not r["bike_alone"] for r in ys) / sum(
+                               r["file_year"] == "2019" and not r["bike_alone"] for r in subset), 1),
                            "died": sum(r["died"] for r in ys), "hurt": sum(r["hurt"] for r in ys),
                            **{k: sum(r[k] for r in ys) for k in keys}})
     files = {"yearly": write_csv("yearly.csv", yearly)}
@@ -409,7 +419,9 @@ def main():
     files["schools"] = write_csv("schools.csv", school_rows)
 
     # B5 hotspots: greedy non-overlapping 30 m circles, and the 20 m / 50 m readings.
-    road_names = con.execute(f"""select name, ST_AsWKB(ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677'))
+    # A name with the English in parentheses is the same road as the name without it (Itabashi's
+    # 山手通り (Yamate-dori Avenue) beside 山手通り): the parenthesis is dropped before names are compared.
+    road_names = con.execute(f"""select regexp_replace(name, '\\s*\\([A-Za-z][^)]*\\)$', ''), ST_AsWKB(ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677'))
         from '{ART / 'roads.parquet'}' where name is not null and highway not in ('motorway', 'motorway_link')""").fetchall()
     con.sql("create table rn as select * from (values (null::varchar, null::blob)) t(name, g) where false")
     con.executemany("insert into rn values (?, ?)", road_names)
