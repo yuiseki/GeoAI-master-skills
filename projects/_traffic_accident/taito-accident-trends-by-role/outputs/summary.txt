@@ -16,3 +16,5 @@ taito 7 years: accidents 4517; died 16; hurt 4959
 taito shares (%): share_ped 19.4; share_bike 46.9; share_escooter 0.5; share_old_ped 4.9; share_young_pb 9.2; share_strict 14.5; share_broad 25.6; share_night 31.0; share_intersection 45.9
 school map: young pedestrians and cyclists {'young_ped_or_bike': 415, 'weekday_7_8_or_14_17': 146}
 party cells: 乗用車 (自家用) x 自転車 521; 貨物車 x 自転車 376; 自転車 x 相手なし・物件 326; 乗用車 (事業用) x 自転車 279; 乗用車 (自家用) x 乗用車 (自家用) 249; 自転車 x 歩行者 249; 乗用車 (自家用) x 歩行者 247; 自転車 x 自転車 240; 乗用車 (自家用) x 二輪車 232; 乗用車 (自家用) x 貨物車 188; 乗用車 (事業用) x 二輪車 156; 貨物車 x 歩行者 155
+route classes 7 years: 区道 1879; 一般都道 1027; 国道 837; 主要地方道 (都道) 648; その他 118; 首都高速 8
+top 15 hotspots: top route {'一般都道': 7, '国道 4号': 6, '国道 6号': 1, '主要地方道 (都道)': 1}; road_1 {'中央通り': 3, '春日通り': 3, '昭和通り': 3, '言問通り': 2, '江戸通り': 1, '明治通り': 1, 'ひすいアベニュー': 1, '不忍通り': 1}; with 首都高速 accidents 1

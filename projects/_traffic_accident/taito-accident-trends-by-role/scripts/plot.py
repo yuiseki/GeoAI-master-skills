@@ -35,6 +35,7 @@ from cjk_font import use_cjk_font  # noqa: E402
 from context_map import fill_polygons, text_overlaps  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.dont_write_bytecode = True  # importing analyze and prepare would leave scripts/__pycache__ (Katsushika)
 from analyze import WARD, WARD_NAME  # noqa: E402
 from prepare import TOWN_UNITS  # noqa: E402
 
@@ -60,6 +61,9 @@ ZOOM_TITLE = "上野・御徒町"
 # Rank numbers moved from beside their circle (metres east, north): 8 sits under the name 入谷 when written above
 # right, and under 4 to its left; it is written below.
 NUMBER_OFFSETS = {"8": (60, -150)}
+# The same in the zoom, where a number goes above right (45, 25) by default. 12 sat on circle 2 and 13 on circle 12
+# until numbers were checked against the other circles (R014); both are written below their circle.
+ZOOM_NUMBER_OFFSETS = {"12": (-20, -75), "13": (-20, -75)}
 # Names left off the town map, where they sit on a numbered town: 上野 is on the town numbered 2, named in the legend.
 TOWN_MAP_SKIP = ("上野",)
 MAJOR = {"motorway", "trunk", "primary", "secondary", "trunk_link", "primary_link"}
@@ -331,7 +335,8 @@ def fig_hotspots(base):
     zoom = (min(x for x, _ in uz) - 200, max(x for x, _ in uz) + 200,
             min(y for _, y in uz) - 200, max(y for _, y in uz) + 200)
     texts = {0: [], 1: []}
-    names, circles = [], []
+    names, circles = [], {0: [], 1: []}
+    numbers = {0: [], 1: []}
     zoomed = []
     for i, ax in enumerate(axes):
         if i == 0:
@@ -348,13 +353,13 @@ def fig_hotspots(base):
                 # Darker with more accidents, capped at 0.95 (Taito's top is 39; a ward with 44 or more passed 1).
                 circle = ax.add_patch(Circle((x, y), 30, fc="#c0392b", ec="#7b241c", alpha=min(0.95, 0.35 + 0.015 * n),
                                              zorder=4))
-                if i == 0:
-                    circles.append((f"circle {h['rank']}", circle))
+                circles[i].append((f"circle {h['rank']}", circle))
             if (i == 1 and inside) or (i == 0 and not inside):
-                dx, dy = (45, 25) if i else NUMBER_OFFSETS.get(h["rank"], (70, 50))
-                texts[i].append(ax.text(x + dx, y + dy, h["rank"],
-                                        fontsize=8 if i == 0 else 10, color="#7b241c", weight="bold", zorder=6,
-                                        bbox=NUMBER_BOX))
+                dx, dy = ZOOM_NUMBER_OFFSETS.get(h["rank"], (45, 25)) if i else NUMBER_OFFSETS.get(h["rank"], (70, 50))
+                number = ax.text(x + dx, y + dy, h["rank"], fontsize=8 if i == 0 else 10, color="#7b241c",
+                                 weight="bold", zorder=6, bbox=NUMBER_BOX)
+                texts[i].append(number)
+                numbers[i].append(number)
             elif i == 0:
                 zoomed.append(int(h["rank"]))
         if i == 0:
@@ -365,8 +370,12 @@ def fig_hotspots(base):
     fig.text(0.01, 0.01, "地点は、半径30 mの円の中の7年の事故数が多い順に、重ならないように選んだ。番号は順位。" + SOURCE,
              fontsize=7, wrap=True)
     # Numbers sit beside their own circle; the place names must not hide any circle (map-context 11).
+    # A number must not hide another hotspot's circle either (Katsushika's 15 sat on circle 1); its own circle it
+    # touches by design.
     overlaps = (text_overlaps(fig, texts[0]) + text_overlaps(fig, texts[1])
-                + [o for o in text_overlaps(fig, names, marks=circles) if o[1].startswith("circle")])
+                + [o for o in text_overlaps(fig, names, marks=circles[0]) if o[1].startswith("circle")]
+                + [o for i in (0, 1) for o in text_overlaps(fig, numbers[i], marks=circles[i])
+                   if o[1].startswith("circle") and o[1] != f"circle {o[0]}"])
     save(fig, "hotspots-map", f"{WARD_NAME}で人身事故が集まる地点はどこか",
          [f"{ART_REL}/points.csv", "outputs/hotspots.csv"], len(pts),
          "位置の精度は不明。円の濃さは件数に比例",

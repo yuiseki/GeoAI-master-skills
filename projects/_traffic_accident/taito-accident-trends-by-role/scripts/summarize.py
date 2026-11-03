@@ -59,6 +59,16 @@ def main():
     school_map = json.loads((OUT / "school-map.json").read_text(encoding="utf-8"))
     lines.append(f"school map: young pedestrians and cyclists {school_map['n']}")
     lines.append(f"party cells: " + "; ".join(f"{r['party_A']} x {r['party_B']} {r['accidents']}" for r in parties[:12]))
+    # Route classes over the 7 years (route_class.csv is by year), and the routes and roads of the top 15 hotspots
+    # (Katsushika added both after its first run; they are part of the template now).
+    routes = Counter()
+    for r in rows("route_class.csv"):
+        routes[r["route_class"]] += int(r["accidents"])
+    lines.append("route classes 7 years: " + "; ".join(f"{k} {v}" for k, v in routes.most_common()))
+    hot = rows("hotspots.csv")
+    lines.append("top 15 hotspots: top route " + str(dict(Counter(h["top_route"] for h in hot).most_common()))
+                 + "; road_1 " + str(dict(Counter(h["road_1"] for h in hot).most_common()))
+                 + f"; with 首都高速 accidents {sum(int(h['expressway']) > 0 for h in hot)}")
     (OUT / "summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
 

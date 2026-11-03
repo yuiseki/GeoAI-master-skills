@@ -446,6 +446,9 @@ def main():
                     "night": sum(m["night"] for m in ms),
                     "top_route": routes.most_common(1)[0][0], "top_route_n": routes.most_common(1)[0][1],
                     "top_combo": combos.most_common(1)[0][0], "top_combo_n": combos.most_common(1)[0][1],
+                    # 首都高速 accidents in the circle: where they are most, road_1 names the road under the
+                    # viaduct (Katsushika's 11th, 15 of 16 on the expressway, named after a surface road).
+                    "expressway": sum(5000 <= int(m["route"]) < 5500 for m in ms),
                     "road_1": near_names[0] if near_names else "",
                     "road_2": near_names[1] if len(near_names) > 1 else "",
                     "road_2_m": round(dist, 1) if dist is not None else None})
