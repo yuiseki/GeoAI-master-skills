@@ -1,0 +1,18 @@
+deaths accidents 14; dead party {'自転車': 6, '歩行者': 5, '乗用車 (事業用)': 1, '二輪車': 2}; party A {'貨物車': 5, '乗用車 (自家用)': 4, '乗用車 (事業用)': 4, 'その他・不明': 1}
+deaths hour 0-5 4; hour 19-5 6
+dead pedestrians aged 65+ 2 of 5
+全て: n 4121; top hours [(10, 306), (11, 303), (13, 285), (16, 283)]; weekday (Mon-Fri) n 3091; weekday top hours [(10, 239), (11, 221), (8, 218), (16, 211)]
+若い歩行者・自転車: n 483; top hours [(17, 51), (16, 49), (8, 37), (14, 36)]; weekday (Mon-Fri) n 364; weekday top hours [(16, 42), (17, 38), (8, 35), (15, 25)]
+高齢の歩行者: n 183; top hours [(11, 20), (12, 16), (17, 16), (9, 14)]; weekday (Mon-Fri) n 144; weekday top hours [(11, 16), (10, 12), (12, 12), (16, 11)]
+自転車: n 1972; top hours [(10, 167), (9, 161), (11, 145), (14, 138)]; weekday (Mon-Fri) n 1485; weekday top hours [(10, 128), (9, 122), (8, 121), (11, 103)]
+乗用車 (自家用): as party A 1655; as party B 428
+乗用車 (事業用): as party A 656; as party B 120
+貨物車: as party A 748; as party B 305
+自転車: as party A 776; as party B 1387
+二輪車: as party A 224; as party B 463
+bike as B with a car or truck as A 1100
+towns: accidents in towns 4072; most accidents [('上目黒一丁目', '159', '21'), ('大橋二丁目', '155', '17'), ('青葉台四丁目', '144', '8'), ('碑文谷五丁目', '136', '9'), ('自由が丘一丁目', '97', '57'), ('碑文谷四丁目', '91', '10'), ('平町一丁目', '90', '17'), ('柿の木坂一丁目', '87', '10')]
+meguro 7 years: accidents 4121; died 14; hurt 4547
+meguro shares (%): share_ped 20.3; share_bike 47.9; share_escooter 1.2; share_old_ped 4.4; share_young_pb 11.7; share_strict 34.0; share_broad 47.5; share_night 30.0; share_intersection 43.9
+school map: young pedestrians and cyclists {'young_ped_or_bike': 483, 'weekday_7_8_or_14_17': 185}
+party cells: 乗用車 (自家用) x 自転車 564; 自転車 x 相手なし・物件 376; 乗用車 (自家用) x 歩行者 324; 貨物車 x 自転車 293; 乗用車 (自家用) x 乗用車 (自家用) 259; 乗用車 (事業用) x 自転車 243; 乗用車 (自家用) x 二輪車 225; 自転車 x 自転車 191; 自転車 x 歩行者 191; 乗用車 (自家用) x 貨物車 178; 乗用車 (事業用) x 歩行者 135; 貨物車 x 乗用車 (自家用) 119

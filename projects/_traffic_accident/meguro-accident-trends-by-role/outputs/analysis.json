@@ -1,0 +1,262 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "39eedaf0cce7c1c12eb534a976df7541e32bbcf4",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "city": "110",
+  "code5": "13110",
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_meguro": 4121,
+  "meguro_without_point": 0,
+  "coded_and_inside": 4072,
+  "coded_outside": 49,
+  "other_code_inside": 37,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 488,
+    "inside": 488
+   },
+   "2020": {
+    "coded": 403,
+    "inside": 404
+   },
+   "2021": {
+    "coded": 536,
+    "inside": 532
+   },
+   "2022": {
+    "coded": 716,
+    "inside": 711
+   },
+   "2023": {
+    "coded": 703,
+    "inside": 701
+   },
+   "2024": {
+    "coded": 632,
+    "inside": 632
+   },
+   "2025": {
+    "coded": 643,
+    "inside": 641
+   }
+  },
+  "by_year_station": {
+   "2019 069": 26,
+   "2019 220": 1,
+   "2019 325": 6,
+   "2019 327": 1,
+   "2019 329": 209,
+   "2019 330": 240,
+   "2019 331": 4,
+   "2019 333": 1,
+   "2020 069": 17,
+   "2020 217": 1,
+   "2020 218": 1,
+   "2020 220": 1,
+   "2020 325": 5,
+   "2020 329": 166,
+   "2020 330": 204,
+   "2020 331": 6,
+   "2020 333": 2,
+   "2021 069": 11,
+   "2021 218": 2,
+   "2021 220": 4,
+   "2021 325": 2,
+   "2021 327": 1,
+   "2021 329": 233,
+   "2021 330": 276,
+   "2021 331": 7,
+   "2022 069": 20,
+   "2022 218": 2,
+   "2022 220": 2,
+   "2022 325": 3,
+   "2022 329": 283,
+   "2022 330": 395,
+   "2022 331": 9,
+   "2022 333": 2,
+   "2023 069": 18,
+   "2023 218": 2,
+   "2023 325": 1,
+   "2023 329": 308,
+   "2023 330": 367,
+   "2023 331": 4,
+   "2023 333": 3,
+   "2024 069": 23,
+   "2024 217": 1,
+   "2024 220": 1,
+   "2024 325": 7,
+   "2024 327": 1,
+   "2024 329": 249,
+   "2024 330": 345,
+   "2024 331": 4,
+   "2024 333": 1,
+   "2025 069": 19,
+   "2025 218": 1,
+   "2025 220": 2,
+   "2025 325": 6,
+   "2025 329": 262,
+   "2025 330": 347,
+   "2025 331": 5,
+   "2025 333": 1
+  },
+  "meguro_rank_of_23": {
+   "per_1000_residents_per_year": 10,
+   "share_ped": 4,
+   "share_bike": 9,
+   "share_escooter": 1,
+   "share_old_ped": 9,
+   "share_young_pb": 13,
+   "share_strict": 5,
+   "share_broad": 5,
+   "share_night": 11,
+   "share_intersection": 10
+  },
+  "national_routes": {
+   "0246": 166
+  },
+  "meguro_points": 4121,
+  "expressway_points": 134,
+  "hotspot_counts_without_expressway": [
+   30,
+   26,
+   26,
+   25,
+   25,
+   25,
+   22,
+   21,
+   21,
+   19,
+   19,
+   18,
+   18,
+   18,
+   18
+  ],
+  "expressway_in_top15": {
+   "accidents": 33,
+   "per_rank": [
+    0,
+    10,
+    3,
+    5,
+    1,
+    0,
+    0,
+    0,
+    3,
+    5,
+    5,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 14,
+   "50m": 13,
+   "30m_without_expressway": 14
+  },
+  "hotspot_counts": {
+   "20m": [
+    21,
+    21,
+    20,
+    18,
+    18,
+    17,
+    17,
+    16,
+    16,
+    16,
+    15,
+    15,
+    15,
+    15,
+    15
+   ],
+   "30m": [
+    30,
+    29,
+    28,
+    27,
+    27,
+    26,
+    25,
+    25,
+    24,
+    24,
+    21,
+    21,
+    19,
+    19,
+    18
+   ],
+   "50m": [
+    48,
+    45,
+    43,
+    43,
+    40,
+    38,
+    37,
+    35,
+    34,
+    32,
+    31,
+    28,
+    26,
+    25,
+    23
+   ]
+  },
+  "town_rows": 88,
+  "towns_merged": [],
+  "points_in_towns": 4072,
+  "points_outside_towns": 49,
+  "towns_without_road": []
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/meguro-accident-trends-by-role/outputs/towns.csv"
+ }
+}
