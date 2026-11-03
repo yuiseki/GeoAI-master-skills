@@ -191,7 +191,8 @@ def fig_trend():
     ax.set_ylim(*ylim)
     ax.set_xlabel("年 (統計に計上された年)")
     ax.set_ylabel("人身事故件数の指数 (2019年=100)")
-    ax.legend(loc="lower right", fontsize=8)
+    # Outside the axes: inside, it hid the 2025 end of a ward whose line fell (Setagaya's 76.8).
+    ax.legend(loc="upper left", bbox_to_anchor=(1.01, 1.0), fontsize=8)
     ax.set_title(f"{WARD_NAME}と23区の人身事故件数の推移", fontsize=11)
     ax.text(0, -0.2, "帯: 各年の件数のPoisson 95%区間を指数に換算。破線: 自転車 (A) と相手なし・物件 (B) の事故を除いた指数。"
             + SOURCE[:40] + "…", transform=ax.transAxes, fontsize=7)

@@ -429,7 +429,9 @@ def main():
     # B5 hotspots: greedy non-overlapping 30 m circles, and the 20 m / 50 m readings.
     # A name with the English in parentheses is the same road as the name without it (Itabashi's
     # 山手通り (Yamate-dori Avenue) beside 山手通り): the parenthesis is dropped before names are compared.
-    road_names = con.execute(f"""select regexp_replace(name, '\\s*\\([A-Za-z][^)]*\\)$', ''), ST_AsWKB(ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677'))
+    # OSM can also hold several names joined by ';' (Setagaya's 梅丘通り;主要生活道路405号線), and a former name
+    # in Japanese parentheses (世田谷観音通り(旧 明薬通り)): the first name, without any trailing parenthesis.
+    road_names = con.execute(f"""select regexp_replace(split_part(name, ';', 1), '\\s*[(（][^)）]*[)）]$', ''), ST_AsWKB(ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677'))
         from '{ART / 'roads.parquet'}' where name is not null and highway not in ('motorway', 'motorway_link')""").fetchall()
     con.sql("create table rn as select * from (values (null::varchar, null::blob)) t(name, g) where false")
     con.executemany("insert into rn values (?, ?)", road_names)
