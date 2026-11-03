@@ -396,8 +396,12 @@ def main():
             near.append((name, d, (ends[0][2] - ends[0][0], ends[0][3] - ends[0][1]) if ends else None))
         near_names = [near[0][0]] if near else []
         second, dist = crossing_road(near)
-        if second is not None:
+        # A crossing road farther than RADIUS is not the hotspot's crossing: left empty, so that hotspots.csv read
+        # alone does not show an intersection (Nakano's 中野四季の森通り was 253 m away).
+        if second is not None and dist <= RADIUS:
             near_names.append(second)
+        else:
+            dist = None
         routes = Counter(route_class(m["route"]) + (f" {int(m['route'])}号" if int(m["route"]) < 1000 else "") for m in ms)
         combos = Counter(f"{party_group(m['type_A'], m['use_A'])} × {party_group(m['type_B'], m['use_B'])}" for m in ms)
         hot.append({"rank": rank, "lon": round(prow[centre]["longitude"], 6), "lat": round(prow[centre]["latitude"], 6),
@@ -424,6 +428,19 @@ def main():
         overlap[f"{int(radius)}m"] = int(sum(np.hypot(*(others - xy[c]).T).min() <= RADIUS for c, _ in sets[RADIUS]))
     audit["hotspot_overlap_of_top15_within_30m"] = overlap
     audit["hotspot_counts"] = {f"{int(r)}m": [len(m) for _, m in sets[r]] for r in RADII}
+    # The 30 m hotspots without the 首都高速 accidents (route 5000-5499), beside the main reading: an expressway on
+    # a viaduct or in a tunnel shares x, y with the road under or over it (Shibuya, Meguro and Nakano each added
+    # this reading; it is part of every run now, and is 0 accidents where no expressway runs).
+    surface = np.flatnonzero([route_class(p["route"]) != "首都高速" for p in prow])
+    no_expr = [(surface[c], surface[m]) for c, m in greedy_hotspots(xy[surface], RADIUS, TOP)]
+    others = np.array([xy[c] for c, _ in no_expr])
+    overlap["30m_without_expressway"] = int(sum(np.hypot(*(others - xy[c]).T).min() <= RADIUS for c, _ in sets[RADIUS]))
+    audit["expressway_points"] = len(prow) - len(surface)
+    audit["hotspot_counts_without_expressway"] = [len(m) for _, m in no_expr]
+    audit["expressway_in_top15"] = {"accidents": int(sum(route_class(prow[i]["route"]) == "首都高速"
+                                                       for _, m in sets[RADIUS] for i in m)),
+                                    "per_rank": [int(sum(route_class(prow[i]["route"]) == "首都高速" for i in m))
+                                                 for _, m in sets[RADIUS]]}
 
     # B6 towns: accidents and OSM road length per census small area.
     # A census town (KEY_CODE) can be several rows of the boundary file (Shinjuku's 山吹町 is two; Taito has none),
@@ -475,6 +492,12 @@ def main():
         order by {rate.format('accidents / road_km')} desc nulls last, KEY_CODE""").fetchall()
     files["towns"] = write_csv("towns.csv", [dict(zip(["key_code", "name", "population", "accidents", "ped", "road_km",
                                                         "area_km2", "per_road_km_year"], t)) for t in trows])
+    # The top five towns by rate, for classify_map.py --highlight (README); trows is sorted by rate, NoData last.
+    (PROJECT / "tmp").mkdir(exist_ok=True)
+    with (PROJECT / "tmp/town-highlights.csv").open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["id", "group", "rank"])
+        writer.writerows([t[0], "道路あたり上位5", i] for i, t in enumerate(trows[:5], 1) if t[7] is not None)
 
     commit = git_head(ROOT)
     (OUT / "analysis.json").write_text(json.dumps({
