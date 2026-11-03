@@ -73,6 +73,48 @@
    "file": null,
    "quote": "世田谷区 (無堤防溢水)",
    "note": "出典の手がかりとしてだけ使い、数字や事実は上の一次資料で確かめた"
+  },
+  {
+   "claim": "川崎市の排水樋管周辺の浸水 (東京都の外、分析の範囲の箱の中)",
+   "title": "令和元年東日本台風による排水樋管周辺地域の浸水に関する検証報告書【概要版】",
+   "publisher": "川崎市上下水道局",
+   "date": "2020-04",
+   "url": "https://www.city.kawasaki.jp/800/cmsfiles/contents/0000117/117078/hikan_houkoku.pdf",
+   "file": "artifacts/_flood/hagibis-tokyo-sar-flood-record/raw/docs/kawasaki_hikan_houkoku.pdf",
+   "quote": "多摩川沿い5箇所の排水樋管周辺地域で浸水被害が発生した。排水樋管周辺における浸水面積は、計約110haであった。",
+   "sha256": "969fcc2b565fca46d3bb6ba51e55b2e528cb8e2d886b4c10786c9396ca540fee",
+   "note": "2 ページの地図に浸水範囲 (青線) と浸水面積: 山王 約60ha、宇奈根 約22ha、諏訪 約15ha、宮内 約12ha、二子 約1ha。範囲は画像だけで、GIS のデータは見つけていない"
+  },
+  {
+   "claim": "山王排水樋管の溢水と逆流",
+   "title": "令和元年東日本台風による浸水に関する検証結果について（前編）",
+   "publisher": "川崎市上下水道局",
+   "date": "2020",
+   "url": "https://www.city.kawasaki.jp/800/cmsfiles/contents/0000118/118531/text1.pdf",
+   "file": "artifacts/_flood/hagibis-tokyo-sar-flood-record/raw/docs/kawasaki_text1.pdf",
+   "quote": "山王排水樋管では、２１時１０分に計画高水位を超え、その１０分後に丸子ポンプ場で浸 (水) / 浸水の原因については、過去最高を記録した河川水位の影響により、逆流した河川水の溢 (水)",
+   "sha256": "ea6976b7e0d0f904fdd102bfdc07f2b0394188275bff391d67a8a06a3c6f2070"
+  },
+  {
+   "claim": "山王排水樋管の区域と武蔵小杉",
+   "title": "令和元年台風第１９号による排水樋管周辺地域 (山王) の住民説明会議事録 (令和元年12月21日)",
+   "publisher": "川崎市上下水道局",
+   "date": "2020-01-10",
+   "url": "https://www.city.kawasaki.jp/800/cmsfiles/contents/0000112/112277/1221_giji.pdf",
+   "file": "artifacts/_flood/hagibis-tokyo-sar-flood-record/raw/docs/kawasaki_1221_giji.pdf",
+   "quote": "場所 パークシティ武蔵小杉 ミッドスカイタワー / このマンションの裏側の…との間、あちらも 50cm 位、膝下までの浸水がありました",
+   "sha256": "4501327bd1abdc0352d579355ba718651963c9ae54fa1247587a04422950c5d5",
+   "note": "住民の発言の記録で、市の調べた事実ではない。ステーションフォレストタワー (Wikipedia の記事) とは別の棟"
+  },
+  {
+   "claim": "ステーションフォレストタワーの被害 (二次資料)",
+   "title": "パークシティ武蔵小杉ステーションフォレストタワー",
+   "publisher": "Wikipedia 日本語版",
+   "date": "2026-11-03 閲覧",
+   "url": "https://ja.wikipedia.org/wiki/パークシティ武蔵小杉ステーションフォレストタワー",
+   "file": null,
+   "quote": "令和元年東日本台風（台風19号）に伴う内水氾濫による浸水により、地下受電施設等が冠水した。",
+   "note": "出典は毎日新聞 (2019-10-19) など報道。排水樋管の名前は書かれていない"
   }
  ]
 }
