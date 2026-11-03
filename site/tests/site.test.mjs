@@ -179,7 +179,7 @@ test('記事の図は公開フォルダーにあり、幅と高さが実画像�
 test('クマの記事は評価指標とモデルを専門用語で呼ぶ', async () => {
   const bear = await read('src/content/reports/akita-bear-risk.md');
   assert.match(bear, /上位5%での再現率 \(capture@5%\)/);
-  assert.match(bear, /予測モデル `B_env`/);
+  assert.match(bear, /予測モデル \$B_\{env\}\$/);
   assert.doesNotMatch(bear, /当たり|場所の予測|環境だけの地図/);
 });
 
@@ -355,4 +355,12 @@ test('23区の比較の区ごとの特徴は、表でなく区ごとの入れ子
   assert.equal(wards.length, 23);
   assert.match(section, /^- 千代田区 .*\n {2}- 量の順位: .*\n {2}- 2025年 \/ 2019年: .*\n {2}- 高い: .*\n {2}- 低い: /m);
   assert.match(section, /^- 千代田区 .*\[区ごとの分析\]\(\/reports\/chiyoda-traffic-accidents\/\)/m);
+});
+
+test('熊の記事の B_env は、コードでなく数式の記号として書く', async () => {
+  const markdown = await read('src/content/reports/akita-bear-risk.md');
+  assert.doesNotMatch(markdown, /`B_env`/);
+  assert.match(markdown, /\$B_\{env\}\$/);
+  const prose = markdown.split('\n').filter((line) => !/^\s*[A-G]\[|-->|^<img/.test(line)).join('\n');
+  assert.doesNotMatch(prose.replace(/\$[^$\n]*\$/g, ''), /B_env/);
 });
