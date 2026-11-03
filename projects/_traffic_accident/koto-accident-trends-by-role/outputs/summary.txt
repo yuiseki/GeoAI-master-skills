@@ -1,0 +1,21 @@
+deaths accidents 41; dead party {'乗用車 (自家用)': 3, '貨物車': 1, '二輪車': 16, '歩行者': 12, '自転車': 9}; party A {'貨物車': 18, '二輪車': 7, '乗用車 (自家用)': 12, '乗用車 (事業用)': 3, 'その他・不明': 1}
+deaths hour 0-5 8; hour 19-5 14
+dead pedestrians aged 65+ 7 of 12
+全て: n 7853; top hours [(8, 588), (17, 559), (9, 550), (16, 529)]; weekday (Mon-Fri) n 5963; weekday top hours [(8, 502), (9, 443), (17, 425), (16, 392)]
+若い歩行者・自転車: n 900; top hours [(16, 94), (17, 90), (8, 81), (15, 73)]; weekday (Mon-Fri) n 677; weekday top hours [(8, 74), (16, 72), (17, 67), (15, 54)]
+高齢の歩行者: n 298; top hours [(11, 31), (9, 30), (10, 29), (16, 29)]; weekday (Mon-Fri) n 230; weekday top hours [(11, 25), (9, 24), (10, 23), (16, 23)]
+自転車: n 3828; top hours [(8, 330), (9, 288), (16, 278), (10, 276)]; weekday (Mon-Fri) n 2805; weekday top hours [(8, 286), (9, 232), (16, 194), (17, 193)]
+乗用車 (自家用): as party A 2436; as party B 857
+乗用車 (事業用): as party A 832; as party B 138
+貨物車: as party A 1804; as party B 713
+自転車: as party A 2151; as party B 2009
+二輪車: as party A 576; as party B 1114
+bike as B with a car or truck as A 1529
+towns: accidents in towns 7798; most accidents [('南砂二丁目', '215', '29'), ('有明三丁目', '209', '10'), ('塩浜二丁目', '196', '24'), ('新木場一丁目', '185', '20'), ('豊洲六丁目', '177', '14'), ('亀戸七丁目', '149', '6'), ('東雲一丁目', '132', '26'), ('辰巳三丁目', '127', '12')]
+koto 7 years: accidents 7853; died 41; hurt 8762
+koto shares (%): share_ped 13.6; share_bike 48.8; share_escooter 0.1; share_old_ped 3.8; share_young_pb 11.5; share_strict 18.1; share_broad 26.8; share_night 29.3; share_intersection 36.8
+school map: young pedestrians and cyclists {'young_ped_or_bike': 900, 'weekday_7_8_or_14_17': 362}
+party cells: 自転車 x 相手なし・物件 1442; 乗用車 (自家用) x 自転車 800; 乗用車 (自家用) x 二輪車 491; 貨物車 x 自転車 490; 乗用車 (自家用) x 乗用車 (自家用) 398; 貨物車 x 二輪車 370; 貨物車 x 乗用車 (自家用) 350; 自転車 x 自転車 332; 乗用車 (自家用) x 貨物車 326; 自転車 x 歩行者 325; 貨物車 x 貨物車 301; 乗用車 (自家用) x 歩行者 300
+deaths by kind (01 人対車両, 21 車両相互, 41 車両単独) x dead party {'21 乗用車 (自家用)': 2, '21 貨物車': 1, '21 二輪車': 11, '01 歩行者': 12, '21 自転車': 9, '41 二輪車': 5, '41 乗用車 (自家用)': 1}
+bike alone (A 自転車, B 相手なし・物件) 1442; share of all 18.4%
+hotspots top 15: second half per year above first 12; below 2; both halves with accidents 15

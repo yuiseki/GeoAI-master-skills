@@ -1,0 +1,73 @@
+{
+  "value": "per_road_km_year",
+  "kind": "rate",
+  "unit": "件/道路 km/年",
+  "crs": "EPSG:4612",
+  "source": "警察庁 交通事故オープンデータ 2019-2025 (npa-traffic-accidents@389500a)、国勢調査2020小地域 (estat-boundary-2020@823195c)、道路延長 OSM 2026-08-31 (osm-tokyo23-src@38f7a5f)",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    0.10927149697107819,
+    1.1370307498625813,
+    1.5473794306674442,
+    2.135196030843976,
+    2.7242839735431925,
+    5.122692337627992
+  ],
+  "units_per_class": [
+    32,
+    31,
+    31,
+    31,
+    31
+  ],
+  "nodata_units": 1,
+  "class_change_share": {
+    "equal": 0.526,
+    "jenks": 0.34
+  },
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [],
+  "inset_at": "lower right",
+  "title": "江東区のどの町丁で、道路の長さに比べて人身事故が多いか (2019〜2025年)",
+  "aspect": 1.230611228983744,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": null,
+  "hidden_by_inset": [],
+  "made": "2026-11-03",
+  "context": {
+    "path": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet",
+    "name": "name",
+    "where": "code5 between '13101' and '13123'",
+    "source": "jp-admin-2026-09@e6c87b1",
+    "crs": "EPSG:4612",
+    "crs_difference": null,
+    "areas": 11,
+    "labelled": [
+      "千代田区",
+      "中央区",
+      "港区",
+      "文京区",
+      "台東区",
+      "墨田区",
+      "江東区",
+      "品川区",
+      "大田区",
+      "江戸川区"
+    ]
+  },
+  "highlight": {
+    "path": "projects/_traffic_accident/koto-accident-trends-by-role/tmp/town-highlights.csv",
+    "groups": {
+      "道路あたり上位5": 5
+    }
+  }
+}
