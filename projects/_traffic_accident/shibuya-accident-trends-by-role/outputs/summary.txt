@@ -1,0 +1,21 @@
+deaths accidents 23; dead party {'二輪車': 6, '歩行者': 14, '補充票の人': 1, '自転車': 2}; party A {'乗用車 (自家用)': 8, '貨物車': 6, '乗用車 (事業用)': 5, '二輪車': 4}
+deaths hour 0-5 7; hour 19-5 11
+dead pedestrians aged 65+ 7 of 14
+全て: n 5109; top hours [(17, 357), (10, 347), (18, 346), (16, 323)]; weekday (Mon-Fri) n 3745; weekday top hours [(17, 282), (18, 274), (10, 261), (19, 252)]
+若い歩行者・自転車: n 445; top hours [(15, 44), (19, 41), (17, 33), (9, 30)]; weekday (Mon-Fri) n 311; weekday top hours [(15, 31), (19, 30), (17, 27), (8, 23)]
+高齢の歩行者: n 158; top hours [(16, 17), (17, 16), (14, 14), (12, 13)]; weekday (Mon-Fri) n 122; weekday top hours [(17, 15), (16, 12), (10, 10), (9, 9)]
+自転車: n 1843; top hours [(10, 149), (9, 140), (17, 129), (12, 127)]; weekday (Mon-Fri) n 1354; weekday top hours [(9, 112), (10, 105), (17, 103), (19, 96)]
+乗用車 (自家用): as party A 1826; as party B 630
+乗用車 (事業用): as party A 1339; as party B 297
+貨物車: as party A 842; as party B 387
+自転車: as party A 701; as party B 1255
+二輪車: as party A 316; as party B 854
+bike as B with a car or truck as A 1048
+towns: accidents in towns 4999; most accidents [('渋谷二丁目', '253', '41'), ('神宮前六丁目', '188', '25'), ('神宮前一丁目', '186', '29'), ('道玄坂一丁目', '139', '26'), ('本町一丁目', '139', '14'), ('笹塚二丁目', '136', '20'), ('道玄坂二丁目', '131', '55'), ('幡ケ谷二丁目', '117', '18')]
+shibuya 7 years: accidents 5109; died 23; hurt 5713
+shibuya shares (%): share_ped 20.3; share_bike 36.1; share_escooter 1.2; share_old_ped 3.1; share_young_pb 8.7; share_strict 22.5; share_broad 31.7; share_night 37.9; share_intersection 34.5
+school map: young pedestrians and cyclists {'young_ped_or_bike': 445, 'weekday_7_8_or_14_17': 124}
+hotspots road_1 {'明治通り': 6, '甲州街道': 3, '山手通り': 2, '西原通り': 1, '玉川通り': 3}; road_1 or road_2 (within 30 m) 明治通り 7
+dead pedestrians party A {'乗用車 (自家用)': 6, '乗用車 (事業用)': 4, '二輪車': 2, '貨物車': 2}
+schools 25; young weekday 7-8 per school min 0 max 5
+party cells: 乗用車 (自家用) x 自転車 409; 乗用車 (自家用) x 乗用車 (自家用) 387; 乗用車 (事業用) x 自転車 381; 乗用車 (自家用) x 二輪車 345; 自転車 x 相手なし・物件 334; 乗用車 (事業用) x 二輪車 302; 乗用車 (自家用) x 歩行者 266; 貨物車 x 自転車 258; 乗用車 (事業用) x 歩行者 255; 自転車 x 歩行者 238; 乗用車 (自家用) x 貨物車 213; 貨物車 x 歩行者 176
