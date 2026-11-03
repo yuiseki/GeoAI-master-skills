@@ -1,0 +1,111 @@
+---
+interface Props {
+  title?: string;
+  description: string;
+  /** Report pages pass their own image; other pages share the default. */
+  ogImage?: string;
+}
+const { title, description, ogImage } = Astro.props;
+const siteName = 'yuiseki の GeoAI 研究所';
+const pageTitle = title ? `${title} · ${siteName}` : siteName;
+const ogImageURL = new URL(ogImage ?? '/ogp/default.png', Astro.site);
+const pageURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#061a38" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <title>{pageTitle}</title>
+    <link rel="canonical" href={pageURL} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content={ogImage ? 'article' : 'website'} />
+    <meta property="og:title" content={title ?? siteName} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageURL} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へ移動</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="wordmark" href="/" aria-label={`${siteName} ホーム`} translate="no">
+          <img src="/favicon.svg" alt="" width="32" height="32" />
+          <span>{siteName}</span>
+        </a>
+        <nav aria-label="メインナビゲーション">
+          <a href="/#reports">研究一覧</a>
+          <a href="/datasets/">データセット</a>
+          <a href="https://github.com/yuiseki/GeoAI-master-skills">GitHub</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div>
+          <p class="footer-name">{siteName}</p>
+          <p>地理空間データを使った研究</p>
+        </div>
+        <a href="https://github.com/yuiseki/GeoAI-master-skills">分析コードと原本</a>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: light;
+    /* The accent comes from the GeoAI lettering on the favicon: bright cyan on navy. */
+    --cyan: #96f0e8;
+    --navy: #061a38;
+    --navy-raised: #0d2a50;
+    /* The same hue darkened for text on the light paper (6:1). */
+    --accent: #066b62;
+    --accent-hover: #04524b;
+    --ink: #13243a; --muted: #4f5f6b; --line: #c8d3d6; --paper: #f5f8f8; --section: #e6eff0;
+    --on-navy: #d9e4ea;
+    --display-font: 'Noto Serif JP', serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Noto Sans JP', sans-serif; line-height: 1.75; }
+  a { color: inherit; touch-action: manipulation; }
+  h1, h2, h3 { text-wrap: balance; }
+  img { display: block; max-width: 100%; }
+  .shell { width: min(100% - 2.5rem, 1120px); margin-inline: auto; }
+  .skip-link { position: absolute; top: -5rem; left: 1rem; z-index: 20; padding: .5rem 1rem; background: white; }
+  .skip-link:focus { top: 1rem; }
+  .site-header { background: var(--navy); color: var(--on-navy); border-bottom: 3px solid var(--cyan); }
+  .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .wordmark { display: inline-flex; align-items: center; gap: .7rem; color: var(--cyan); text-decoration: none; font-size: 1.05rem; font-weight: 700; letter-spacing: -.035em; }
+  .wordmark img { image-rendering: pixelated; }
+  .site-header nav { display: flex; gap: 1.8rem; font-size: .82rem; font-weight: 600; }
+  .site-header nav a, .site-footer a { text-decoration: none; }
+  .site-header nav a:hover, .site-footer a:hover { color: var(--cyan); text-decoration: underline; }
+  .site-footer { border-top: 3px solid var(--cyan); background: var(--navy); margin-top: 6rem; padding: 2.25rem 0; color: var(--on-navy); font-size: .85rem; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 1rem; align-items: end; }
+  .site-footer p { margin: 0; }
+  .footer-name { color: var(--cyan); font-weight: 700; font-size: 1rem; }
+  .eyebrow { color: var(--accent); font-size: .76rem; font-weight: 700; }
+  .button-link { display: inline-flex; align-items: center; color: var(--cyan); background: var(--navy); border: 1px solid var(--navy); padding: .75rem 1.25rem; text-decoration: none; font-size: .9rem; font-weight: 700; }
+  .button-link:hover { background: var(--navy-raised); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .site-header :focus-visible, .site-footer :focus-visible { outline-color: var(--cyan); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media (max-width: 620px) { .shell { width: min(100% - 1.5rem, 1120px); } .header-inner { min-height: 68px; } .site-header nav { gap: .8rem; font-size: .75rem; } .site-footer { margin-top: 3rem; } .footer-inner { display: block; } .footer-inner a { display: inline-block; margin-top: 1rem; } }
+</style>

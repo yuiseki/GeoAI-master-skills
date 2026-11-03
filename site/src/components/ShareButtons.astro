@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+// Share the canonical URL, not whatever host or query string the page happens to be served with.
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const hatenaEntry = `https://b.hatena.ne.jp/entry/s/${url.replace(/^https:\/\//, '')}`;
+---
+
+<div class="share-buttons">
+  <a href="https://x.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-url={url} data-text={title}>Post</a><script is:inline async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+  <a href={hatenaEntry} class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script is:inline type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+</div>
+
+<style>
+  .share-buttons { display: flex; align-items: center; gap: .75rem; min-height: 28px; }
+</style>
