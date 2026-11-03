@@ -346,3 +346,13 @@ test('各レポートと各データセットに X とはてなブックマー�
     assert.match(html, /<script type="text\/javascript" src="https:\/\/b\.st-hatena\.com\/js\/bookmark_button\.js" charset="utf-8" async="async"><\/script>/, page);
   }
 });
+
+test('23区の比較の区ごとの特徴は、表でなく区ごとの入れ子の箇条書きで書く', async () => {
+  const markdown = await read('src/content/reports/tokyo23-traffic-accident-wards.md');
+  const section = markdown.split('## 区ごとの特徴\n')[1].split('\n## ')[0];
+  assert.doesNotMatch(section, /^\|/m);
+  const wards = section.match(/^- [^\s]+区 /gm) ?? [];
+  assert.equal(wards.length, 23);
+  assert.match(section, /^- 千代田区 .*\n {2}- 量の順位: .*\n {2}- 2025年 \/ 2019年: .*\n {2}- 高い: .*\n {2}- 低い: /m);
+  assert.match(section, /^- 千代田区 .*\[区ごとの分析\]\(\/reports\/chiyoda-traffic-accidents\/\)/m);
+});

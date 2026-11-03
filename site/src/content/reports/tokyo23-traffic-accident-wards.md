@@ -30,7 +30,7 @@ datasets:
 ### 用語の定義
 
 - 当事者A: 警察の記録の区分で、過失の重い側 (第1当事者) である。被害者とは限らない。
-- 12の割合: 区の事故のうち、次の12の区分に当たるものの割合である。歩行者、自転車、高齢の歩行者、若い歩行者・自転車、生活道路、夜、交差点、自転車の単独、事業用の乗用車が当事者A、貨物車が当事者A、土日、首都高速 (図と表では高速道路)。
+- 12の割合: 区の事故のうち、次の12の区分に当たるものの割合である。歩行者、自転車、高齢の歩行者、若い歩行者・自転車、生活道路、夜、交差点、自転車の単独、事業用の乗用車が当事者A、貨物車が当事者A、土日、首都高速 (図と区ごとの特徴では高速道路)。
 - 自転車の単独: 当事者Aが自転車で、相手 (当事者B) が無いか物件の事故である。
 - 生活道路: 車道幅員の区分が01・02・11の道路 (狭義) である。
 - z: 区の割合が、23区の平均から標準偏差いくつ分離れているかを表す値である。
@@ -54,7 +54,7 @@ datasets:
 | 読み手 | 結論 | 検討する材料 |
 |---|---|---|
 | 都の交通安全担当 | 都心の5区は、事業用の車、夜、歩行者の事故の区。残りの18区は、自転車、生活道路、若い人の事故の区。施策を同じ型の区どうしで比べる | 自転車の単独の事故が2021年から2022年に跳ねた理由 (記録の変化か)。除いても増えた新宿、渋谷、目黒の3区 |
-| 区の交通安全担当 | 自分の区で、23区の平均から標準偏差の1倍以上離れる割合を、区ごとの特徴の表で見る。似た区は、構成の主成分の図で近くに並ぶ区 | 似た区の区ごとの分析と、その区の施策 |
+| 区の交通安全担当 | 自分の区で、23区の平均から標準偏差の1倍以上離れる割合を、区ごとの特徴で見る。似た区は、構成の主成分の図で近くに並ぶ区 | 似た区の区ごとの分析と、その区の施策 |
 | 研究者 | 分母で順位が変わり、型は2つしか安定しない。量の順位も型も、1つの読み方で断定しない | 昼の人口と交通量の分母、区の境界の近くの事故 |
 
 ## 量: 上位は都心の3区
@@ -105,37 +105,127 @@ datasets:
 
 ## 区ごとの特徴
 
-23区の平均から外れる割合 (zが+1以上を「高い」、-1以下を「低い」) と、量の順位 (人口、道路、面積の順)、推移を並べました。台東区と千代田区は、このサイトの記事にリンクしています。他の区は、分析の原本にリンクしています。
+23区の平均から標準偏差の1倍以上離れる割合を、区ごとに「高い」「低い」に分けて並べました。括弧の中の数は、23区の平均から標準偏差いくつ分離れているかです。量の順位と推移も添えました。台東区と千代田区は、このサイトの記事にリンクしています。他の区は、分析の原本にリンクしています。
 
-| 区 | 高い | 低い | 量の順位 | 2025年 / 2019年 | 自転車の単独を除く | 区ごとの分析 |
-|---|---|---|---|---|---|---|
-| 千代田区 | 高速道路 5.9% (z +2.29)、上位10%の町丁 32.4% (z +1.49)、事業用の乗用車がA 25.6% (z +1.40)、夜 36.1% (z +1.36) | 自転車 27.3% (z -2.26)、若い歩行者・自転車 5.7% (z -2.14)、生活道路 9.3% (z -1.93)、土日 22.4% (z -1.62)、高齢の歩行者 3.4% (z -1.18)、自転車の単独 6.6% (z -1.09) | 1、3、3 | 区別できない (0.901) | 減った | [chiyoda](/reports/chiyoda-traffic-accidents/) |
-| 中央区 | 高速道路 5.6% (z +2.08)、事業用の乗用車がA 26.7% (z +1.54)、歩行者 20.5% (z +1.06) | 土日 21.8% (z -2.07)、若い歩行者・自転車 7.2% (z -1.61)、生活道路 12.7% (z -1.53)、自転車 36.0% (z -1.18) | 2、1、1 | 区別できない (0.898) | 減った | [chuo](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/chuo-accident-trends-by-role/report.md) |
-| 港区 | 事業用の乗用車がA 31.4% (z +2.10)、夜 38.1% (z +1.87) | 土日 21.8% (z -2.07)、高齢の歩行者 2.8% (z -2.05)、自転車 30.6% (z -1.85)、貨物車がA 16.4% (z -1.66)、若い歩行者・自転車 7.3% (z -1.56)、自転車の単独 5.9% (z -1.26)、生活道路 15.1% (z -1.26)、交差点 37.4% (z -1.14)、上位10%の町丁 23.0% (z -1.05) | 3、2、6 | 減った (0.802) | 減った | [minato](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/minato-accident-trends-by-role/report.md) |
-| 新宿区 | 上位10%の町丁 37.5% (z +2.87)、夜 40.0% (z +2.35)、歩行者 22.9% (z +1.93)、事業用の乗用車がA 27.6% (z +1.64) | 貨物車がA 17.1% (z -1.33)、自転車 35.2% (z -1.28)、自転車の単独 5.9% (z -1.25) | 6、4、4 | 増えた (1.615) | 増えた | [shinjuku](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/shinjuku-accident-trends-by-role/report.md) |
-| 文京区 | 上位15地点 10.5% (z +1.51) | 高速道路 0.8% (z -1.07) | 15、7、10 | 区別できない (1.119) | 区別できない | [bunkyo](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/bunkyo-accident-trends-by-role/report.md) |
-| 台東区 | 交差点 45.9% (z +1.03) | 高速道路 0.2% (z -1.48)、生活道路 14.5% (z -1.33) | 4、6、2 | 区別できない (0.933) | 区別できない | [taito](/reports/taito-traffic-accidents/) |
-| 墨田区 | 交差点 47.2% (z +1.36)、貨物車がA 22.5% (z +1.30) | なし | 13、13、11 | 増えた (1.271) | 区別できない | [sumida](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/sumida-accident-trends-by-role/report.md) |
-| 江東区 | 自転車の単独 18.4% (z +1.77)、貨物車がA 23.0% (z +1.54) | 歩行者 13.6% (z -1.47)、交差点 36.8% (z -1.31)、上位15地点 4.7% (z -1.04) | 9、10、23 | 増えた (1.214) | 区別できない | [koto](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/koto-accident-trends-by-role/report.md) |
-| 品川区 | なし | 交差点 36.7% (z -1.33) | 8、8、12 | 増えた (1.201) | 区別できない | [shinagawa](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/shinagawa-accident-trends-by-role/report.md) |
-| 目黒区 | なし | なし | 10、11、9 | 増えた (1.318) | 増えた | [meguro](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/meguro-accident-trends-by-role/report.md) |
-| 大田区 | 貨物車がA 22.7% (z +1.40) | 上位15地点 3.5% (z -1.55)、歩行者 14.7% (z -1.07) | 12、18、22 | 増えた (1.198) | 区別できない | [ota](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/ota-accident-trends-by-role/report.md) |
-| 世田谷区 | 土日 25.9% (z +1.34)、若い歩行者・自転車 15.0% (z +1.21) | 上位15地点 4.4% (z -1.17) | 14、16、16 | 減った (0.829) | 減った | [setagaya](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/setagaya-accident-trends-by-role/report.md) |
-| 渋谷区 | 土日 26.7% (z +1.98)、夜 37.9% (z +1.80)、高速道路 5.0% (z +1.69)、事業用の乗用車がA 26.2% (z +1.48) | 交差点 34.5% (z -1.90)、貨物車がA 16.5% (z -1.64)、高齢の歩行者 3.1% (z -1.61)、自転車 36.1% (z -1.17)、自転車の単独 6.5% (z -1.11)、若い歩行者・自転車 8.7% (z -1.06) | 5、5、5 | 増えた (1.332) | 増えた | [shibuya](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/shibuya-accident-trends-by-role/report.md) |
-| 中野区 | 自転車 57.2% (z +1.44)、自転車の単独 16.9% (z +1.42)、生活道路 37.9% (z +1.36) | 貨物車がA 16.9% (z -1.42) | 17、9、8 | 区別できない (0.896) | 減った | [nakano](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/nakano-accident-trends-by-role/report.md) |
-| 杉並区 | 土日 25.6% (z +1.10) | 夜 26.3% (z -1.16) | 20、21、17 | 区別できない (0.918) | 減った | [suginami](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/suginami-accident-trends-by-role/report.md) |
-| 豊島区 | 上位10%の町丁 33.7% (z +1.83)、歩行者 21.1% (z +1.30)、上位15地点 9.5% (z +1.05) | なし | 16、12、7 | 区別できない (0.913) | 減った | [toshima](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/toshima-accident-trends-by-role/report.md) |
-| 北区 | 高齢の歩行者 5.9% (z +2.21)、上位15地点 9.8% (z +1.18)、自転車の単独 15.8% (z +1.15) | なし | 21、15、19 | 区別できない (1.07) | 区別できない | [kita](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/kita-accident-trends-by-role/report.md) |
-| 荒川区 | 自転車の単独 19.6% (z +2.07)、自転車 61.8% (z +2.01)、上位15地点 10.4% (z +1.46)、生活道路 36.8% (z +1.23)、高齢の歩行者 5.1% (z +1.19) | 高速道路 0.0% (z -1.59)、夜 26.2% (z -1.19) | 22、17、14 | 区別できない (0.991) | 減った | [arakawa](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/arakawa-accident-trends-by-role/report.md) |
-| 板橋区 | 貨物車がA 23.2% (z +1.67)、高齢の歩行者 5.4% (z +1.58) | なし | 18、20、15 | 増えた (1.252) | 区別できない | [itabashi](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/itabashi-accident-trends-by-role/report.md) |
-| 練馬区 | 貨物車がA 22.3% (z +1.22)、交差点 46.4% (z +1.16) | 上位10%の町丁 22.5% (z -1.20)、事業用の乗用車がA 4.7% (z -1.11)、上位15地点 4.6% (z -1.06) | 23、23、21 | 区別できない (0.923) | 減った | [nerima](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/nerima-accident-trends-by-role/report.md) |
-| 足立区 | なし | 歩行者 12.5% (z -1.87)、上位15地点 3.2% (z -1.70)、事業用の乗用車がA 4.7% (z -1.10) | 7、14、13 | 減った (0.903) | 減った | [adachi](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/adachi-accident-trends-by-role/report.md) |
-| 葛飾区 | 生活道路 38.2% (z +1.40)、自転車の単独 16.0% (z +1.21)、若い歩行者・自転車 14.5% (z +1.03)、土日 25.5% (z +1.02) | 歩行者 13.2% (z -1.62)、事業用の乗用車がA 5.2% (z -1.04) | 19、22、20 | 増えた (1.204) | 区別できない | [katsushika](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/katsushika-accident-trends-by-role/report.md) |
-| 江戸川区 | 交差点 49.5% (z +1.95)、若い歩行者・自転車 17.0% (z +1.94) | 上位15地点 4.5% (z -1.11)、事業用の乗用車がA 5.4% (z -1.02) | 11、19、18 | 減った (0.739) | 減った | [edogawa](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/edogawa-accident-trends-by-role/report.md) |
+- 千代田区 ([区ごとの分析](/reports/chiyoda-traffic-accidents/))
+  - 量の順位: 人口あたり1位、道路あたり3位、面積あたり3位
+  - 2025年 / 2019年: 区別できない (0.901)。自転車の単独を除くと減った
+  - 高い: 高速道路 5.9% (+2.29)、上位10%の町丁 32.4% (+1.49)、事業用の乗用車がA 25.6% (+1.40)、夜 36.1% (+1.36)
+  - 低い: 自転車 27.3% (−2.26)、若い歩行者・自転車 5.7% (−2.14)、生活道路 9.3% (−1.93)、土日 22.4% (−1.62)。高齢の歩行者 3.4% (−1.18)、自転車の単独 6.6% (−1.09)
+- 中央区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/chuo-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり2位、道路あたり1位、面積あたり1位
+  - 2025年 / 2019年: 区別できない (0.898)。自転車の単独を除くと減った
+  - 高い: 高速道路 5.6% (+2.08)、事業用の乗用車がA 26.7% (+1.54)、歩行者 20.5% (+1.06)
+  - 低い: 土日 21.8% (−2.07)、若い歩行者・自転車 7.2% (−1.61)、生活道路 12.7% (−1.53)、自転車 36.0% (−1.18)
+- 港区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/minato-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり3位、道路あたり2位、面積あたり6位
+  - 2025年 / 2019年: 減った (0.802)。自転車の単独を除くと減った
+  - 高い: 事業用の乗用車がA 31.4% (+2.10)、夜 38.1% (+1.87)
+  - 低い: 土日 21.8% (−2.07)、高齢の歩行者 2.8% (−2.05)、自転車 30.6% (−1.85)、貨物車がA 16.4% (−1.66)。若い歩行者・自転車 7.3% (−1.56)、自転車の単独 5.9% (−1.26)、生活道路 15.1% (−1.26)、交差点 37.4% (−1.14)。上位10%の町丁 23.0% (−1.05)
+- 新宿区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/shinjuku-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり6位、道路あたり4位、面積あたり4位
+  - 2025年 / 2019年: 増えた (1.615)。自転車の単独を除くと増えた
+  - 高い: 上位10%の町丁 37.5% (+2.87)、夜 40.0% (+2.35)、歩行者 22.9% (+1.93)、事業用の乗用車がA 27.6% (+1.64)
+  - 低い: 貨物車がA 17.1% (−1.33)、自転車 35.2% (−1.28)、自転車の単独 5.9% (−1.25)
+- 文京区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/bunkyo-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり15位、道路あたり7位、面積あたり10位
+  - 2025年 / 2019年: 区別できない (1.119)。自転車の単独を除くと区別できない
+  - 高い: 上位15地点 10.5% (+1.51)
+  - 低い: 高速道路 0.8% (−1.07)
+- 台東区 ([区ごとの分析](/reports/taito-traffic-accidents/))
+  - 量の順位: 人口あたり4位、道路あたり6位、面積あたり2位
+  - 2025年 / 2019年: 区別できない (0.933)。自転車の単独を除くと区別できない
+  - 高い: 交差点 45.9% (+1.03)
+  - 低い: 高速道路 0.2% (−1.48)、生活道路 14.5% (−1.33)
+- 墨田区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/sumida-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり13位、道路あたり13位、面積あたり11位
+  - 2025年 / 2019年: 増えた (1.271)。自転車の単独を除くと区別できない
+  - 高い: 交差点 47.2% (+1.36)、貨物車がA 22.5% (+1.30)
+  - 低い: なし
+- 江東区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/koto-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり9位、道路あたり10位、面積あたり23位
+  - 2025年 / 2019年: 増えた (1.214)。自転車の単独を除くと区別できない
+  - 高い: 自転車の単独 18.4% (+1.77)、貨物車がA 23.0% (+1.54)
+  - 低い: 歩行者 13.6% (−1.47)、交差点 36.8% (−1.31)、上位15地点 4.7% (−1.04)
+- 品川区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/shinagawa-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり8位、道路あたり8位、面積あたり12位
+  - 2025年 / 2019年: 増えた (1.201)。自転車の単独を除くと区別できない
+  - 高い: なし
+  - 低い: 交差点 36.7% (−1.33)
+- 目黒区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/meguro-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり10位、道路あたり11位、面積あたり9位
+  - 2025年 / 2019年: 増えた (1.318)。自転車の単独を除くと増えた
+  - 高い: なし
+  - 低い: なし
+- 大田区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/ota-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり12位、道路あたり18位、面積あたり22位
+  - 2025年 / 2019年: 増えた (1.198)。自転車の単独を除くと区別できない
+  - 高い: 貨物車がA 22.7% (+1.40)
+  - 低い: 上位15地点 3.5% (−1.55)、歩行者 14.7% (−1.07)
+- 世田谷区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/setagaya-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり14位、道路あたり16位、面積あたり16位
+  - 2025年 / 2019年: 減った (0.829)。自転車の単独を除くと減った
+  - 高い: 土日 25.9% (+1.34)、若い歩行者・自転車 15.0% (+1.21)
+  - 低い: 上位15地点 4.4% (−1.17)
+- 渋谷区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/shibuya-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり5位、道路あたり5位、面積あたり5位
+  - 2025年 / 2019年: 増えた (1.332)。自転車の単独を除くと増えた
+  - 高い: 土日 26.7% (+1.98)、夜 37.9% (+1.80)、高速道路 5.0% (+1.69)、事業用の乗用車がA 26.2% (+1.48)
+  - 低い: 交差点 34.5% (−1.90)、貨物車がA 16.5% (−1.64)、高齢の歩行者 3.1% (−1.61)、自転車 36.1% (−1.17)。自転車の単独 6.5% (−1.11)、若い歩行者・自転車 8.7% (−1.06)
+- 中野区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/nakano-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり17位、道路あたり9位、面積あたり8位
+  - 2025年 / 2019年: 区別できない (0.896)。自転車の単独を除くと減った
+  - 高い: 自転車 57.2% (+1.44)、自転車の単独 16.9% (+1.42)、生活道路 37.9% (+1.36)
+  - 低い: 貨物車がA 16.9% (−1.42)
+- 杉並区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/suginami-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり20位、道路あたり21位、面積あたり17位
+  - 2025年 / 2019年: 区別できない (0.918)。自転車の単独を除くと減った
+  - 高い: 土日 25.6% (+1.10)
+  - 低い: 夜 26.3% (−1.16)
+- 豊島区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/toshima-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり16位、道路あたり12位、面積あたり7位
+  - 2025年 / 2019年: 区別できない (0.913)。自転車の単独を除くと減った
+  - 高い: 上位10%の町丁 33.7% (+1.83)、歩行者 21.1% (+1.30)、上位15地点 9.5% (+1.05)
+  - 低い: なし
+- 北区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/kita-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり21位、道路あたり15位、面積あたり19位
+  - 2025年 / 2019年: 区別できない (1.07)。自転車の単独を除くと区別できない
+  - 高い: 高齢の歩行者 5.9% (+2.21)、上位15地点 9.8% (+1.18)、自転車の単独 15.8% (+1.15)
+  - 低い: なし
+- 荒川区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/arakawa-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり22位、道路あたり17位、面積あたり14位
+  - 2025年 / 2019年: 区別できない (0.991)。自転車の単独を除くと減った
+  - 高い: 自転車の単独 19.6% (+2.07)、自転車 61.8% (+2.01)、上位15地点 10.4% (+1.46)、生活道路 36.8% (+1.23)。高齢の歩行者 5.1% (+1.19)
+  - 低い: 高速道路 0.0% (−1.59)、夜 26.2% (−1.19)
+- 板橋区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/itabashi-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり18位、道路あたり20位、面積あたり15位
+  - 2025年 / 2019年: 増えた (1.252)。自転車の単独を除くと区別できない
+  - 高い: 貨物車がA 23.2% (+1.67)、高齢の歩行者 5.4% (+1.58)
+  - 低い: なし
+- 練馬区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/nerima-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり23位、道路あたり23位、面積あたり21位
+  - 2025年 / 2019年: 区別できない (0.923)。自転車の単独を除くと減った
+  - 高い: 貨物車がA 22.3% (+1.22)、交差点 46.4% (+1.16)
+  - 低い: 上位10%の町丁 22.5% (−1.20)、事業用の乗用車がA 4.7% (−1.11)、上位15地点 4.6% (−1.06)
+- 足立区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/adachi-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり7位、道路あたり14位、面積あたり13位
+  - 2025年 / 2019年: 減った (0.903)。自転車の単独を除くと減った
+  - 高い: なし
+  - 低い: 歩行者 12.5% (−1.87)、上位15地点 3.2% (−1.70)、事業用の乗用車がA 4.7% (−1.10)
+- 葛飾区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/katsushika-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり19位、道路あたり22位、面積あたり20位
+  - 2025年 / 2019年: 増えた (1.204)。自転車の単独を除くと区別できない
+  - 高い: 生活道路 38.2% (+1.40)、自転車の単独 16.0% (+1.21)、若い歩行者・自転車 14.5% (+1.03)、土日 25.5% (+1.02)
+  - 低い: 歩行者 13.2% (−1.62)、事業用の乗用車がA 5.2% (−1.04)
+- 江戸川区 ([区ごとの分析](https://github.com/yuiseki/GeoAI-master-skills/blob/main/projects/_traffic_accident/edogawa-accident-trends-by-role/report.md))
+  - 量の順位: 人口あたり11位、道路あたり19位、面積あたり18位
+  - 2025年 / 2019年: 減った (0.739)。自転車の単独を除くと減った
+  - 高い: 交差点 49.5% (+1.95)、若い歩行者・自転車 17.0% (+1.94)
+  - 低い: 上位15地点 4.5% (−1.11)、事業用の乗用車がA 5.4% (−1.02)
 
 文京区と目黒区は、どの割合も1標準偏差を超えません。23区の平均に最も近い構成の区でした。
 
-区ごとの分析は、数え方の型が直されていく途中で順に書いたので、型の版が区で違います。この記事の数字は全ての区を最新の型で数え直したものなので、区どうしはこの表の数字で比べてください。
+区ごとの分析は、数え方の型が直されていく途中で順に書いたので、型の版が区で違います。この記事の数字は全ての区を最新の型で数え直したものなので、区どうしはこの記事の数字で比べてください。
 
 ## 定義と感度分析
 
