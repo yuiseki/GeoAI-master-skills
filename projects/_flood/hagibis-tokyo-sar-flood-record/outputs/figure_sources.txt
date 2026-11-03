@@ -1,0 +1,1 @@
+Contains modified Copernicus Sentinel data 2019 (Planetary Computer sentinel-1-rtc)。東京都「水害リスク情報システム 浸水実績図データ」、国土交通省 国土数値情報 (洪水浸水想定区域 A31a、行政区域 N03)、ESA WorldCover 2021、© OpenStreetMap contributors (ODbL) を加工して作成

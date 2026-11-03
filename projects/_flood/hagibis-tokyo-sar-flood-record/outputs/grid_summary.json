@@ -1,0 +1,331 @@
+{
+ "grid": {
+  "crs": "EPSG:32654",
+  "transform": [
+   10.0,
+   0.0,
+   335030.0,
+   0.0,
+   -10.0,
+   3957750.0
+  ],
+  "rows": 2294,
+  "cols": 4744
+ },
+ "orbits": {
+  "46": {
+   "scenes": [
+    {
+     "date": "2019-07-26",
+     "role": "pre",
+     "datetimes": [
+      "2019-07-26T20:43:34.113816Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20190726T204321_20190726T204346_028293_03324B_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-08-07",
+     "role": "pre",
+     "datetimes": [
+      "2019-08-07T20:43:35.026181Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20190807T204322_20190807T204347_028468_0337A7_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-08-19",
+     "role": "pre",
+     "datetimes": [
+      "2019-08-19T20:43:35.741432Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20190819T204323_20190819T204348_028643_033DB5_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-09-12",
+     "role": "pre",
+     "datetimes": [
+      "2019-09-12T20:43:36.708820Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20190912T204324_20190912T204349_028993_0349E6_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-09-24",
+     "role": "pre",
+     "datetimes": [
+      "2019-09-24T20:43:37.321987Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20190924T204324_20190924T204349_029168_034FDF_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-10-06",
+     "role": "pre",
+     "datetimes": [
+      "2019-10-06T20:43:37.521116Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20191006T204325_20191006T204350_029343_0355EA_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-10-12",
+     "role": "event",
+     "datetimes": [
+      "2019-10-12T20:43:00.541392Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20191012T204248_20191012T204313_018447_022C0C_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-10-18",
+     "role": "after",
+     "datetimes": [
+      "2019-10-18T20:43:37.472120Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20191018T204324_20191018T204349_029518_035BEF_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-10-30",
+     "role": "after",
+     "datetimes": [
+      "2019-10-30T20:43:37.537801Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20191030T204325_20191030T204350_029693_036207_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    }
+   ],
+   "pre_vs_water_shift_rows_cols": [
+    0.35,
+    2.35
+   ],
+   "shift_back": [
+    0,
+    2
+   ]
+  },
+  "39": {
+   "scenes": [
+    {
+     "date": "2019-07-20",
+     "role": "pre",
+     "datetimes": [
+      "2019-07-20T08:41:20.017848Z",
+      "2019-07-20T08:41:45.017839Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20190720T084107_20190720T084132_017215_020602_rtc",
+      "S1B_IW_GRDH_1SDV_20190720T084132_20190720T084157_017215_020602_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-08-01",
+     "role": "pre",
+     "datetimes": [
+      "2019-08-01T08:41:20.613157Z",
+      "2019-08-01T08:41:45.613190Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20190801T084108_20190801T084133_017390_020B33_rtc",
+      "S1B_IW_GRDH_1SDV_20190801T084133_20190801T084158_017390_020B33_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-08-13",
+     "role": "pre",
+     "datetimes": [
+      "2019-08-13T08:41:21.609697Z",
+      "2019-08-13T08:41:46.609630Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20190813T084109_20190813T084134_017565_021096_rtc",
+      "S1B_IW_GRDH_1SDV_20190813T084134_20190813T084159_017565_021096_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-08-25",
+     "role": "pre",
+     "datetimes": [
+      "2019-08-25T08:41:22.144819Z",
+      "2019-08-25T08:41:47.144813Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20190825T084109_20190825T084134_017740_02160F_rtc",
+      "S1B_IW_GRDH_1SDV_20190825T084134_20190825T084159_017740_02160F_rtc"
+     ],
+     "missing_vv_in_tokyo": 3
+    },
+    {
+     "date": "2019-09-06",
+     "role": "pre",
+     "datetimes": [
+      "2019-09-06T08:41:22.823590Z",
+      "2019-09-06T08:41:47.823603Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20190906T084110_20190906T084135_017915_021B76_rtc",
+      "S1B_IW_GRDH_1SDV_20190906T084135_20190906T084200_017915_021B76_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-09-18",
+     "role": "pre",
+     "datetimes": [
+      "2019-09-18T08:41:23.208682Z",
+      "2019-09-18T08:41:48.208705Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20190918T084110_20190918T084135_018090_0220F0_rtc",
+      "S1B_IW_GRDH_1SDV_20190918T084135_20190918T084200_018090_0220F0_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-09-30",
+     "role": "pre",
+     "datetimes": [
+      "2019-09-30T08:41:23.762160Z",
+      "2019-09-30T08:41:48.762214Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20190930T084111_20190930T084136_018265_022654_rtc",
+      "S1B_IW_GRDH_1SDV_20190930T084136_20190930T084201_018265_022654_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-10-12",
+     "role": "event",
+     "datetimes": [
+      "2019-10-12T08:41:34.939024Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20191012T084122_20191012T084147_018440_022BD1_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-10-18",
+     "role": "after",
+     "datetimes": [
+      "2019-10-18T08:42:27.546510Z"
+     ],
+     "platforms": [
+      "SENTINEL-1A"
+     ],
+     "items": [
+      "S1A_IW_GRDH_1SDV_20191018T084215_20191018T084240_029511_035BAD_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    },
+    {
+     "date": "2019-10-24",
+     "role": "after",
+     "datetimes": [
+      "2019-10-24T08:41:23.845468Z",
+      "2019-10-24T08:41:48.845662Z"
+     ],
+     "platforms": [
+      "SENTINEL-1B"
+     ],
+     "items": [
+      "S1B_IW_GRDH_1SDV_20191024T084111_20191024T084136_018615_023124_rtc",
+      "S1B_IW_GRDH_1SDV_20191024T084136_20191024T084201_018615_023124_rtc"
+     ],
+     "missing_vv_in_tokyo": 0
+    }
+   ],
+   "pre_vs_water_shift_rows_cols": [
+    2.2,
+    0.05
+   ],
+   "shift_back": [
+    2,
+    0
+   ]
+  }
+ },
+ "pixels": {
+  "tokyo": 7961343,
+  "rec": 13308,
+  "rec_in_tokyo": 13308,
+  "a31a_in_tokyo": 1922469,
+  "tama_line": 6057,
+  "wc_water_in_tokyo": 43650
+ }
+}

@@ -108,3 +108,43 @@ def apply_int_shift(a, s):
     c0, c1 = max(dc, 0), a.shape[1] + min(dc, 0)
     out[r0:r1, c0:c1] = a[r0 - dr:r1 - dr, c0 - dc:c1 - dc]
     return out
+
+
+def rate_draws(flag, units, n, rng):
+    """Bootstrap draws of the rate of flag, resampling whole units."""
+    return _draws(flag, units, n, rng)
+
+
+def std_rate_draws(flag, cls, units, weights, n, rng):
+    """Bootstrap draws of the standardised rate sum_c weights[c] * rate_c, resampling whole units of the reference.
+
+    weights: {class: weight}, summing to 1 over the classes kept."""
+    flag, cls, units = np.asarray(flag), np.asarray(cls), np.asarray(units)
+    u, inv = np.unique(units, return_inverse=True)
+    cs = list(weights)
+    S = np.stack([np.bincount(inv, weights=(flag & (cls == c)).astype(float), minlength=len(u)) for c in cs], 1)
+    C = np.stack([np.bincount(inv, weights=(cls == c).astype(float), minlength=len(u)) for c in cs], 1)
+    w = np.array([weights[c] for c in cs])
+    out = np.empty(n)
+    for i in range(n):
+        idx = rng.integers(0, len(u), len(u))
+        s, c = S[idx].sum(0), C[idx].sum(0)
+        with np.errstate(invalid="ignore", divide="ignore"):
+            out[i] = np.dot(w, s / c)
+    return out
+
+
+def lift_draws(flag, in_a, units, n, rng):
+    """Bootstrap draws of lift(flag, in_a, all), resampling whole units."""
+    flag, in_a = np.asarray(flag, bool), np.asarray(in_a, bool)
+    u, inv = np.unique(units, return_inverse=True)
+    fa = np.bincount(inv, weights=(flag & in_a).astype(float))
+    f = np.bincount(inv, weights=flag.astype(float))
+    a = np.bincount(inv, weights=in_a.astype(float))
+    t = np.bincount(inv).astype(float)
+    out = np.empty(n)
+    for i in range(n):
+        idx = rng.integers(0, len(u), len(u))
+        with np.errstate(invalid="ignore", divide="ignore"):
+            out[i] = (fa[idx].sum() / f[idx].sum()) / (a[idx].sum() / t[idx].sum())
+    return out

@@ -121,3 +121,28 @@ def test_apply_int_shift_fills_nan():
     b = flood.apply_int_shift(a, (1, 0))
     assert np.isnan(b[0]).all()
     assert (b[1] == a[0]).all()
+
+
+def test_std_rate_draws_centre_on_the_point_value():
+    rng = np.random.default_rng(4)
+    units = np.repeat(np.arange(300), 40)
+    cls = rng.choice([10, 50], size=units.size, p=[0.7, 0.3])
+    flag = np.where(cls == 50, rng.random(units.size) < 0.2, rng.random(units.size) < 0.05)
+    w = {10: 0.2, 50: 0.8}  # the target's class mix
+    point = 0.2 * flag[cls == 10].mean() + 0.8 * flag[cls == 50].mean()
+    d = flood.std_rate_draws(flag, cls, units, w, n=400, rng=np.random.default_rng(0))
+    assert d.shape == (400,)
+    assert d.mean() == pytest.approx(point, abs=0.005)
+    assert np.quantile(d, 0.05) < point < np.quantile(d, 0.95)
+
+
+def test_rate_draws_and_lift_draws():
+    rng = np.random.default_rng(5)
+    units = np.repeat(np.arange(200), 30)
+    in_a = np.repeat(rng.random(200) < 0.3, 30)
+    flag = np.where(in_a, rng.random(units.size) < 0.3, rng.random(units.size) < 0.1)
+    d = flood.rate_draws(flag, units, n=300, rng=np.random.default_rng(0))
+    assert d.mean() == pytest.approx(flag.mean(), abs=0.01)
+    ld = flood.lift_draws(flag, in_a, units, n=300, rng=np.random.default_rng(0))
+    pt = flood.lift(flag, in_a, np.ones_like(flag))
+    assert np.quantile(ld, 0.05) < pt < np.quantile(ld, 0.95)

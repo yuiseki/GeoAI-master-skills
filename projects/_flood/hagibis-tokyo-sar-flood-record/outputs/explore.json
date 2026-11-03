@@ -1,0 +1,186 @@
+{
+ "note": "exploratory, after the confirmatory results",
+ "placebo_2019-10-06": {
+  "B0": {
+   "p_target": 0.0548,
+   "p_target_ci": [
+    0.0509,
+    0.0587
+   ],
+   "p_ref_std": 0.0603,
+   "p_ref_std_ci": [
+    0.058,
+    0.0626
+   ],
+   "ratio": 0.909,
+   "ratio_ci": [
+    0.8373,
+    0.9878
+   ],
+   "target_pixels": 128883,
+   "dropped_share": 0.0001,
+   "dropped_classes": [
+    90
+   ],
+   "ref_class_rates": {
+    "tree": 0.056,
+    "grass": 0.0709,
+    "crop": 0.0722,
+    "built": 0.0304,
+    "bare": 0.0742
+   }
+  },
+  "B1": {
+   "p_target": 0.0397,
+   "p_target_ci": [
+    0.0302,
+    0.0505
+   ],
+   "p_ref_std": 0.0333,
+   "p_ref_std_ci": [
+    0.0324,
+    0.0342
+   ],
+   "ratio": 1.191,
+   "ratio_ci": [
+    0.9026,
+    1.5257
+   ],
+   "target_pixels": 13308,
+   "dropped_share": 0.0,
+   "dropped_classes": [],
+   "ref_class_rates": {
+    "tree": 0.056,
+    "grass": 0.0709,
+    "crop": 0.0722,
+    "built": 0.0304,
+    "bare": 0.0742
+   }
+  },
+  "B2": {
+   "p_target": 0.0046,
+   "p_target_ci": [
+    0.0022,
+    0.0058
+   ],
+   "p_ref_std": 0.0037,
+   "p_ref_std_ci": [
+    0.0035,
+    0.004
+   ],
+   "ratio": 1.233,
+   "ratio_ci": [
+    0.5799,
+    1.5723
+   ],
+   "target_pixels": 11929,
+   "dropped_share": 0.0,
+   "dropped_classes": [],
+   "ref_class_rates": {
+    "built": 0.0037
+   }
+  },
+  "B3": {
+   "lift": 0.96,
+   "lift_ci": [
+    0.932,
+    0.989
+   ],
+   "pop_pixels": 7774349,
+   "a31a_share_of_pop": 0.2453,
+   "a31a_share_of_dark": 0.2355,
+   "dark_pixels": 316018,
+   "lift_by_landcover": {
+    "tree": 0.942,
+    "grass": 1.207,
+    "crop": 1.206,
+    "built": 1.057,
+    "bare": 0.979
+   }
+  },
+  "ctrl_median_db": {
+   "vv": -0.631,
+   "vh": -0.387
+  },
+  "decisions": {
+   "C0": "rejected",
+   "C1": "rejected",
+   "C2": "rejected",
+   "C3": "rejected",
+   "C4": "rejected"
+  }
+ },
+ "return_of_brightening": {
+  "2019-10-18": {
+   "REC": {
+    "bright_pixels": 1231,
+    "share_back_below_1.5db": 0.3331,
+    "median_db_then": 2.401
+   },
+   "CTRL": {
+    "bright_pixels": 64863,
+    "share_back_below_1.5db": 0.2424,
+    "median_db_then": 2.857
+   },
+   "A31A": {
+    "bright_pixels": 32313,
+    "share_back_below_1.5db": 0.2416,
+    "median_db_then": 2.887
+   }
+  },
+  "2019-10-30": {
+   "REC": {
+    "bright_pixels": 1231,
+    "share_back_below_1.5db": 0.8343,
+    "median_db_then": 0.077
+   },
+   "CTRL": {
+    "bright_pixels": 64863,
+    "share_back_below_1.5db": 0.6613,
+    "median_db_then": 0.753
+   },
+   "A31A": {
+    "bright_pixels": 32313,
+    "share_back_below_1.5db": 0.6748,
+    "median_db_then": 0.676
+   }
+  }
+ },
+ "rec_built_bright_by_municipality": {
+  "13111": {
+   "rec_built_pixels": 1076,
+   "bright_share": 0.4052,
+   "bright_share_placebo": 0.0019
+  },
+  "13112": {
+   "rec_built_pixels": 4360,
+   "bright_share": 0.0739,
+   "bright_share_placebo": 0.0046
+  },
+  "13201": {
+   "rec_built_pixels": 882,
+   "bright_share": 0.0998,
+   "bright_share_placebo": 0.0102
+  },
+  "13208": {
+   "rec_built_pixels": 3944,
+   "bright_share": 0.0441,
+   "bright_share_placebo": 0.0061
+  },
+  "13212": {
+   "rec_built_pixels": 596,
+   "bright_share": 0.0721,
+   "bright_share_placebo": 0.0
+  },
+  "13219": {
+   "rec_built_pixels": 1042,
+   "bright_share": 0.1583,
+   "bright_share_placebo": 0.0
+  },
+  "13228": {
+   "rec_built_pixels": 29,
+   "bright_share": 0.1034,
+   "bright_share_placebo": 0.0
+  }
+ }
+}
