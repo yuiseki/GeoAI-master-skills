@@ -1,0 +1,266 @@
+{
+ "note": "exploratory, after the results",
+ "wards": 23,
+ "min_built_pixels": 200,
+ "rec_share_min": 0.2,
+ "cells": 2943,
+ "cell_m": 250,
+ "record_cells": [
+  {
+   "ward_code": 13111,
+   "rec_share": 0.653,
+   "bright_event": 0.4162,
+   "rank_event": 1,
+   "bright_placebo": 0.0039,
+   "rank_placebo": 498,
+   "lon": 139.65776,
+   "lat": 35.59289
+  },
+  {
+   "ward_code": 13111,
+   "rec_share": 0.597,
+   "bright_event": 0.2913,
+   "rank_event": 2,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2818,
+   "lon": 139.65772,
+   "lat": 35.59515
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.339,
+   "bright_event": 0.2137,
+   "rank_event": 3,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2801,
+   "lon": 139.65493,
+   "lat": 35.59737
+  },
+  {
+   "ward_code": 13111,
+   "rec_share": 0.645,
+   "bright_event": 0.1973,
+   "rank_event": 5,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2817,
+   "lon": 139.65497,
+   "lat": 35.59512
+  },
+  {
+   "ward_code": 13111,
+   "rec_share": 0.378,
+   "bright_event": 0.1475,
+   "rank_event": 8,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2833,
+   "lon": 139.66052,
+   "lat": 35.59292
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.594,
+   "bright_event": 0.0778,
+   "rank_event": 26,
+   "bright_placebo": 0.0227,
+   "rank_placebo": 115,
+   "lon": 139.64937,
+   "lat": 35.59956
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.891,
+   "bright_event": 0.0706,
+   "rank_event": 40,
+   "bright_placebo": 0.0034,
+   "rank_placebo": 528,
+   "lon": 139.64941,
+   "lat": 35.59731
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.806,
+   "bright_event": 0.067,
+   "rank_event": 46,
+   "bright_placebo": 0.0077,
+   "rank_placebo": 358,
+   "lon": 139.64661,
+   "lat": 35.59953
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.309,
+   "bright_event": 0.066,
+   "rank_event": 47,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2753,
+   "lon": 139.63826,
+   "lat": 35.60394
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.579,
+   "bright_event": 0.0617,
+   "rank_event": 59,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2713,
+   "lon": 139.63542,
+   "lat": 35.60842
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.221,
+   "bright_event": 0.0573,
+   "rank_event": 79,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2832,
+   "lon": 139.655,
+   "lat": 35.59286
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.958,
+   "bright_event": 0.0535,
+   "rank_event": 102,
+   "bright_placebo": 0.013,
+   "rank_placebo": 243,
+   "lon": 139.65217,
+   "lat": 35.59734
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.206,
+   "bright_event": 0.0179,
+   "rank_event": 719,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2788,
+   "lon": 139.64385,
+   "lat": 35.5995
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.606,
+   "bright_event": 0.0145,
+   "rank_event": 899,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2816,
+   "lon": 139.65221,
+   "lat": 35.59509
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.482,
+   "bright_event": 0.0143,
+   "rank_event": 914,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2731,
+   "lon": 139.63546,
+   "lat": 35.60617
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.374,
+   "bright_event": 0.0139,
+   "rank_event": 922,
+   "bright_placebo": 0.0087,
+   "rank_placebo": 329,
+   "lon": 139.65213,
+   "lat": 35.59959
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.245,
+   "bright_event": 0.009,
+   "rank_event": 1226,
+   "bright_placebo": 0.0,
+   "rank_placebo": 2800,
+   "lon": 139.64665,
+   "lat": 35.59728
+  }
+ ],
+ "top10_event": [
+  {
+   "ward_code": 13111,
+   "rec_share": 0.653,
+   "bright_event": 0.4162,
+   "bright_placebo": 0.0039,
+   "lon": 139.65776,
+   "lat": 35.59289
+  },
+  {
+   "ward_code": 13111,
+   "rec_share": 0.597,
+   "bright_event": 0.2913,
+   "bright_placebo": 0.0,
+   "lon": 139.65772,
+   "lat": 35.59515
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.339,
+   "bright_event": 0.2137,
+   "bright_placebo": 0.0,
+   "lon": 139.65493,
+   "lat": 35.59737
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.0,
+   "bright_event": 0.2094,
+   "bright_placebo": 0.0,
+   "lon": 139.61595,
+   "lat": 35.61721
+  },
+  {
+   "ward_code": 13111,
+   "rec_share": 0.645,
+   "bright_event": 0.1973,
+   "bright_placebo": 0.0,
+   "lon": 139.65497,
+   "lat": 35.59512
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.0,
+   "bright_event": 0.1587,
+   "bright_placebo": 0.0153,
+   "lon": 139.66317,
+   "lat": 35.59972
+  },
+  {
+   "ward_code": 13115,
+   "rec_share": 0.0,
+   "bright_event": 0.1511,
+   "bright_placebo": 0.0,
+   "lon": 139.64241,
+   "lat": 35.68513
+  },
+  {
+   "ward_code": 13111,
+   "rec_share": 0.378,
+   "bright_event": 0.1475,
+   "bright_placebo": 0.0,
+   "lon": 139.66052,
+   "lat": 35.59292
+  },
+  {
+   "ward_code": 13120,
+   "rec_share": 0.0,
+   "bright_event": 0.1447,
+   "bright_placebo": 0.0,
+   "lon": 139.61653,
+   "lat": 35.74344
+  },
+  {
+   "ward_code": 13112,
+   "rec_share": 0.0,
+   "bright_event": 0.1363,
+   "bright_placebo": 0.0099,
+   "lon": 139.61533,
+   "lat": 35.65327
+  }
+ ],
+ "median_bright_event": 0.0062,
+ "ota_pixels_in_grid": 152829,
+ "ota_area_n03_m2_utm": 54966658.0,
+ "ota_share_in_grid": 0.278
+}
