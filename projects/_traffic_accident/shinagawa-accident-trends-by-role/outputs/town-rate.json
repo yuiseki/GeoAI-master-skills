@@ -1,0 +1,27 @@
+{
+ "question": "品川区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
+ ],
+ "n": 131,
+ "notes": "breaks [0.16115100641808297, 1.0591504761115116, 1.5278747368585588, 2.1716292993482793, 2.79042449740255, 4.82763852804992]; 分位と等間隔で色の変わる町丁 0.519 (classify_map.py の出力)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 131,
+ "units_in_analysis": 131,
+ "highlighted": [
+  "西中延一丁目",
+  "戸越三丁目",
+  "東大井五丁目",
+  "西五反田一丁目",
+  "荏原三丁目"
+ ],
+ "text_overlaps": []
+}

@@ -1,0 +1,19 @@
+deaths accidents 19; dead party {'自転車': 4, '歩行者': 8, '補充票の人': 1, '二輪車': 5, '乗用車 (自家用)': 1}; party A {'貨物車': 10, '二輪車': 2, '乗用車 (自家用)': 5, '乗用車 (事業用)': 2}
+deaths hour 0-5 3; hour 19-5 6
+dead pedestrians aged 65+ 5 of 8
+全て: n 6364; top hours [(8, 447), (11, 433), (17, 426), (9, 420)]; weekday (Mon-Fri) n 4839; weekday top hours [(8, 388), (9, 341), (18, 326), (17, 323)]
+若い歩行者・自転車: n 655; top hours [(16, 75), (17, 68), (15, 63), (8, 56)]; weekday (Mon-Fri) n 489; weekday top hours [(16, 63), (15, 52), (8, 51), (17, 49)]
+高齢の歩行者: n 305; top hours [(10, 36), (12, 24), (16, 24), (17, 24)]; weekday (Mon-Fri) n 237; weekday top hours [(10, 26), (16, 21), (12, 20), (17, 20)]
+自転車: n 2753; top hours [(8, 232), (17, 211), (9, 206), (16, 202)]; weekday (Mon-Fri) n 2059; weekday top hours [(8, 205), (9, 166), (18, 157), (17, 155)]
+乗用車 (自家用): as party A 2096; as party B 650
+乗用車 (事業用): as party A 856; as party B 191
+貨物車: as party A 1372; as party B 596
+自転車: as party A 1393; as party B 1640
+二輪車: as party A 547; as party B 910
+bike as B with a car or truck as A 1178
+towns: accidents in towns 6316; most accidents [('八潮三丁目', '198', '2'), ('西五反田二丁目', '183', '18'), ('東品川三丁目', '149', '28'), ('西五反田七丁目', '142', '9'), ('大井一丁目', '125', '42'), ('東五反田五丁目', '123', '21'), ('上大崎二丁目', '121', '28'), ('西五反田一丁目', '120', '25')]
+shinagawa 7 years: accidents 6364; died 19; hurt 6974
+shinagawa shares (%): share_ped 18.7; share_bike 43.3; share_escooter 0.6; share_old_ped 4.8; share_young_pb 10.3; share_strict 29.9; share_broad 40.2; share_night 30.3; share_intersection 36.7
+route class 7 years: {'区道': 3023, '主要地方道 (都道)': 1218, '国道': 1127, '一般都道': 573, 'その他': 267, '首都高速': 156}
+school map: young pedestrians and cyclists {'young_ped_or_bike': 655, 'weekday_7_8_or_14_17': 263}
+party cells: 自転車 x 相手なし・物件 725; 乗用車 (自家用) x 自転車 571; 貨物車 x 自転車 401; 乗用車 (自家用) x 二輪車 395; 乗用車 (自家用) x 歩行者 355; 乗用車 (自家用) x 乗用車 (自家用) 344; 自転車 x 歩行者 342; 乗用車 (自家用) x 貨物車 285; 自転車 x 自転車 280; 貨物車 x 二輪車 263; 二輪車 x 相手なし・物件 239; 貨物車 x 貨物車 234

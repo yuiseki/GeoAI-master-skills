@@ -1,0 +1,205 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "7fa6d7697dc32ad1c352d6f0c9d47a438882d768",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "city": "109",
+  "code5": "13109",
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_shinagawa": 6364,
+  "shinagawa_without_point": 0,
+  "coded_and_inside": 6316,
+  "coded_outside": 48,
+  "other_code_inside": 18,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 790,
+    "inside": 784
+   },
+   "2020": {
+    "coded": 787,
+    "inside": 783
+   },
+   "2021": {
+    "coded": 922,
+    "inside": 916
+   },
+   "2022": {
+    "coded": 957,
+    "inside": 956
+   },
+   "2023": {
+    "coded": 1013,
+    "inside": 1005
+   },
+   "2024": {
+    "coded": 946,
+    "inside": 945
+   },
+   "2025": {
+    "coded": 949,
+    "inside": 945
+   }
+  },
+  "shinagawa_rank_of_23": {
+   "per_1000_residents_per_year": 8,
+   "share_ped": 9,
+   "share_bike": 18,
+   "share_escooter": 6,
+   "share_old_ped": 5,
+   "share_young_pb": 17,
+   "share_strict": 10,
+   "share_broad": 13,
+   "share_night": 10,
+   "share_intersection": 22
+  },
+  "national_routes": {
+   "0357": 173,
+   "0015": 439,
+   "0001": 515
+  },
+  "shinagawa_points": 6364,
+  "expressway_points": 156,
+  "hotspot_counts_without_expressway": [
+   39,
+   30,
+   27,
+   26,
+   26,
+   26,
+   24,
+   24,
+   24,
+   24,
+   24,
+   23,
+   22,
+   22,
+   22
+  ],
+  "expressway_in_top15": {
+   "accidents": 0,
+   "per_rank": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 13,
+   "50m": 13,
+   "30m_without_expressway": 15
+  },
+  "hotspot_counts": {
+   "20m": [
+    30,
+    23,
+    20,
+    20,
+    20,
+    19,
+    19,
+    19,
+    18,
+    17,
+    17,
+    16,
+    16,
+    15,
+    15
+   ],
+   "30m": [
+    39,
+    30,
+    27,
+    26,
+    26,
+    26,
+    24,
+    24,
+    24,
+    24,
+    24,
+    23,
+    22,
+    22,
+    22
+   ],
+   "50m": [
+    52,
+    48,
+    47,
+    39,
+    37,
+    36,
+    36,
+    35,
+    34,
+    32,
+    32,
+    32,
+    31,
+    31,
+    31
+   ]
+  },
+  "town_rows": 131,
+  "towns_merged": [],
+  "points_in_towns": 6316,
+  "points_outside_towns": 48,
+  "towns_without_road": []
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/shinagawa-accident-trends-by-role/outputs/towns.csv"
+ }
+}
