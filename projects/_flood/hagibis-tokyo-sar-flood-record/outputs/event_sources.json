@@ -1,0 +1,78 @@
+{
+ "checked": "2026-11-03",
+ "sources": [
+  {
+   "claim": "台風第 19 号の名称",
+   "title": "令和元年に顕著な災害をもたらした台風の名称について",
+   "publisher": "気象庁予報部",
+   "date": "2020-02-19",
+   "url": "https://www.jma.go.jp/jma/press/2002/19a/20200219_typhoonname.pdf",
+   "file": "artifacts/_flood/hagibis-tokyo-sar-flood-record/raw/docs/jma_typhoonname_20200219.pdf",
+   "quote": "台風第19号については「令和元年東日本台風」と名称を定めました。",
+   "sha256": "b37431add0dfb38bfccc7672905f9d9d369d3404768a937a885dd8220fc6e715"
+  },
+  {
+   "claim": "世田谷区の多摩川の溢水",
+   "title": "令和元年台風第１９号等による被害状況等について（第５４報）",
+   "publisher": "国土交通省",
+   "date": "2020-04-10",
+   "url": "https://www.mlit.go.jp/common/001340439.pdf",
+   "file": "artifacts/_flood/hagibis-tokyo-sar-flood-record/raw/docs/mlit_hagibis_report54.pdf",
+   "quote": "関東 多摩川 多摩川 世田谷 左岸 17.9 溢水",
+   "note": "表の行。左岸 17.9 km 地点の溢水。同じ表の他の列の意味は確かめていない",
+   "sha256": "24726dab73968f4d9fe2c63a1144e00255e36a19d3c26414a5b0d6cd569dc082"
+  },
+  {
+   "claim": "狛江市・調布市の浸水の原因と世帯数",
+   "title": "令和５年度（第16回）「国土交通大臣賞（循環のみち下水道賞）」応募資料 (令和元年東日本台風による浸水を受けて)",
+   "publisher": "東京都狛江市 (国土交通省の下水道賞のページに掲載)",
+   "date": "2023 (令和5年度)",
+   "url": "https://www.mlit.go.jp/mizukokudo/sewerage/content/001629283.pdf",
+   "file": "artifacts/_flood/hagibis-tokyo-sar-flood-record/raw/docs/mlit_komae_gesuido_award_r5.pdf",
+   "quote": "多摩川の水位上昇により２箇所の雨水幹線から放流が十分にできず浸水 / から河川水が逆流し浸水が拡大 / 狛江市・調布市の床上床下計654世帯が浸水",
+   "households": {
+    "komae": {
+     "above_floor": 134,
+     "below_floor": 314,
+     "total": 448
+    },
+    "chofu": {
+     "above_floor": 122,
+     "below_floor": 84,
+     "total": 206
+    }
+   },
+   "sha256": "09ab4e36b810b12f3cf5abe4f676bc74d74af2b30c8f4451559a6cfe2fbb32d2"
+  },
+  {
+   "claim": "大田区田園調布の浸水の原因",
+   "title": "令和元年台風19号における田園調布地区内水解析検討について",
+   "publisher": "大田区",
+   "date": "不明 (検証結果のページの資料 4)",
+   "url": "https://www.city.ota.tokyo.jp/seikatsu/chiiki/bousai/suigai/2019t19_denen-chofu_kensyo-kekka.files/4.pdf",
+   "file": "artifacts/_flood/hagibis-tokyo-sar-flood-record/raw/docs/ota_denenchofu_naisui_kaiseki.pdf",
+   "quote": "多摩川が最高水位となり、谷沢川から田園調布地区一帯で浸水 / 計画どおり等々力排水樋門を閉鎖した場合の…多摩川からの逆流がなくなり、浸水の広がり…",
+   "note": "内水の解析 (シミュレーション) の資料で、観測の記録ではない",
+   "sha256": "8acaacd2c2640fc305f91d03064f513009e881023e3004364539324d197b7733"
+  },
+  {
+   "claim": "世田谷区の検証委員会",
+   "title": "令和元年台風第19号に伴う浸水被害検証委員会",
+   "publisher": "世田谷区",
+   "date": "2019-12 設置、2020-09 とりまとめ",
+   "url": "https://www.city.setagaya.lg.jp/02401/706.html",
+   "file": null,
+   "quote": "複合的な要因で広範囲に浸水被害が発生した上野毛・野毛地区と玉堤地区"
+  },
+  {
+   "claim": "手がかり (二次資料)",
+   "title": "令和元年東日本台風",
+   "publisher": "Wikipedia 日本語版",
+   "date": "2026-11-03 閲覧",
+   "url": "https://ja.wikipedia.org/wiki/令和元年東日本台風",
+   "file": null,
+   "quote": "世田谷区 (無堤防溢水)",
+   "note": "出典の手がかりとしてだけ使い、数字や事実は上の一次資料で確かめた"
+  }
+ ]
+}
