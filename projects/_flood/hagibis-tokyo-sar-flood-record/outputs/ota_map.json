@@ -1,0 +1,129 @@
+{
+ "note": "exploratory, after the results; the extent is traced from a map image, not an observation",
+ "georef": {
+  "crs": "EPSG:2451",
+  "m_per_px": 1.016,
+  "rotation_deg": 0.0,
+  "X0": -16865.02,
+  "Y0": -42434.98,
+  "score": 0.2126,
+  "tried": [
+   [
+    0.998,
+    -0.1,
+    0.166
+   ],
+   [
+    0.998,
+    0.0,
+    0.1789
+   ],
+   [
+    0.998,
+    0.1,
+    0.1674
+   ],
+   [
+    1.0,
+    -0.1,
+    0.1876
+   ],
+   [
+    1.0,
+    0.0,
+    0.2126
+   ],
+   [
+    1.0,
+    0.1,
+    0.1925
+   ],
+   [
+    1.002,
+    -0.1,
+    0.1697
+   ],
+   [
+    1.002,
+    0.0,
+    0.19
+   ],
+   [
+    1.002,
+    0.1,
+    0.1757
+   ]
+  ]
+ },
+ "mask": {
+  "legend_no": 22,
+  "swatch_rgb": [
+   188,
+   138,
+   85
+  ],
+  "tol": 22.0,
+  "open_px": 5,
+  "close_px": 7,
+  "legend_box_px": [
+   430,
+   5500,
+   2700,
+   8950
+  ],
+  "min_m2": 50.0,
+  "parts": 44,
+  "area_m2_jgd2000_ix": 55630.0,
+  "close_streets_px": 25,
+  "with_streets_area_m2_jgd2000_ix": 89381.0
+ },
+ "on_grid": {
+  "m19_pixels_in_ota": 534,
+  "rec_pixels_ota": 1181,
+  "rec_share_in_m19": 0.2981,
+  "m19_share_in_rec": 0.6592
+ },
+ "on_grid_with_streets": {
+  "m19s_pixels_in_ota": 885,
+  "rec_share_in_m19s": 0.5165,
+  "m19s_share_in_rec": 0.6893
+ },
+ "sar": {
+  "m19": {
+   "built_pixels": 515,
+   "bright": 0.4369,
+   "dark": 0.0,
+   "bright_placebo": 0.0
+  },
+  "m19_not_rec": {
+   "built_pixels": 182,
+   "bright": 0.3132,
+   "dark": 0.0,
+   "bright_placebo": 0.0
+  },
+  "ota_rest": {
+   "built_pixels": 131995,
+   "bright": 0.0208,
+   "dark": 0.015,
+   "bright_placebo": 0.0032
+  },
+  "m19s": {
+   "built_pixels": 859,
+   "bright": 0.4738,
+   "dark": 0.0,
+   "bright_placebo": 0.0023
+  },
+  "m19s_not_rec": {
+   "built_pixels": 274,
+   "bright": 0.3248,
+   "dark": 0.0,
+   "bright_placebo": 0.0
+  },
+  "ota_rest_s": {
+   "built_pixels": 131651,
+   "bright": 0.0195,
+   "dark": 0.015,
+   "bright_placebo": 0.0032
+  }
+ }
+}

@@ -20,6 +20,11 @@ uvx --with duckdb==1.5.5 --with pyproj python scripts/01_fetch_vectors.py
 $E uvx --with rasterio --with numpy --with pyproj python -u scripts/01_fetch_sar.py
 $E uvx --with rasterio --with numpy --with scipy --with shapely --with pyproj --with scikit-image python -u scripts/02_grid.py
 $E uvx --with numpy --with scipy --with scikit-image --with pyproj python -u scripts/03_blocks.py
+$E uvx --with numpy --with matplotlib --with shapely --with pyproj python scripts/04_fig.py
+$E uvx --with numpy --with scipy --with scikit-image --with pyproj python -u scripts/05_explore.py
+$E uvx --with numpy --with scipy --with scikit-image --with pyproj --with shapely python -u scripts/06_rank_cells.py
+$E uvx --with pillow --with numpy --with duckdb==1.5.5 --with shapely --with pyproj --with scipy --with scikit-image --with rasterio --with pypdf python -u scripts/07_ota_map.py
+$E uvx --with numpy --with matplotlib --with shapely --with pyproj --with pillow python scripts/08_ota_fig.py
 ```
 
 `env -u` は、作者の環境で anaconda の GDAL の変数が rasterio を壊すのを避けるため。浸水実績と A31a は、HF の公開データセットのローカルの作業木 (scripts/common.py のパス) を読む。OSM は作者の Overpass (overpass.yuiseki.net、2025-09-14 の版) を読み、公開の OSM のサーバーは使わない。
@@ -32,3 +37,4 @@ $E uvx --with numpy --with scipy --with scikit-image --with pyproj python -u scr
 - ESA WorldCover 2021 (CC BY 4.0)
 - © OpenStreetMap contributors (ODbL 1.0)。多摩川の中心線
 - 気象庁 過去の気象データ (時間雨量、HF yuiseki/jma-rain-tokyo)
+- 大田区「大田区浸水実績図 (昭和60年〜令和7年)」(07_ota_map.py。PDF は artifacts の raw/docs に置き、リポジトリには入れない)、e-Stat 国勢調査 2020 境界データ (HF yuiseki/estat-boundary-2020、CC BY 4.0)
