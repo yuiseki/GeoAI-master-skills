@@ -27,6 +27,9 @@ def main():
     deaths = rows("deaths.csv")
     lines.append(f"deaths accidents {len(deaths)}; dead party {dict(Counter(r['dead_party'] for r in deaths))}; "
                  f"party A {dict(Counter(r['type_A'] for r in deaths))}")
+    lines.append("deaths party A x B: " + "; ".join(f"{k} {v}" for k, v in Counter(
+        f"{r['type_A']} x {r['type_B']}" for r in deaths).most_common()))
+    lines.append(f"deaths on expressways (route 4000-5499) {sum(r['expressway'] == 'True' for r in deaths)}")
     lines.append(f"deaths hour 0-5 {sum(int(r['hour']) <= 5 for r in deaths)}; "
                  f"hour 19-5 {sum(int(r['hour']) >= 19 or int(r['hour']) <= 5 for r in deaths)}")
     ages = [r["age_A"] if r["type_A"] == "歩行者" else r["age_B"] for r in deaths if r["dead_party"] == "歩行者"]

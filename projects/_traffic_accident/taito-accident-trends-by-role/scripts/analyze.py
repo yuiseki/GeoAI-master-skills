@@ -369,6 +369,8 @@ def main():
     deaths = [{"year": r["file_year"], "type_A": party_group(r["type_A"], r["use_A"]), "age_A": r["age_A"],
                "type_B": party_group(r["type_B"], r["use_B"]), "age_B": r["age_B"], "hour": r["hour"],
                "kind": r["kind"], "died": r["died"],
+               # the road: Minato's motorcyclist deaths could not be told on the expressway or not (R021)
+               "route": r["route"], "expressway": 4000 <= int(r["route"]) < 5500,
                "dead_party": "/".join(party_group(r[f"type_{s}"], r[f"use_{s}"]) for s in "AB" if r[f"injury_{s}"] == "1")
                or "補充票の人"} for r in mine if r["died"] > 0]
     files["deaths"] = write_csv("deaths.csv", sorted(deaths, key=lambda d: d["year"]))
