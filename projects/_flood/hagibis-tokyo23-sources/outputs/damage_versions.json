@@ -1,0 +1,10 @@
+{
+ "question": "都の報の版ごとに、世田谷区と大田区の床上・床下浸水の数はどれだけ動いたか",
+ "inputs": [
+  "outputs/damage_versions.csv"
+ ],
+ "n_points": 14,
+ "y_axis": "棟 (10-16 は件)、0 から",
+ "note": "点は報の版。線は棟の点だけを結ぶ。区間は無い (速報の値そのもの)",
+ "font": "Noto Sans CJK JP"
+}

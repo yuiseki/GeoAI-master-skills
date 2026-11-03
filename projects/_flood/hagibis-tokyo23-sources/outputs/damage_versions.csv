@@ -1,0 +1,15 @@
+ward,as_of,above_floor,below_floor,unit,local_file,checked_against_pdf
+世田谷区,2019-10-15 12:00,156,2,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_honbu2_2019101502.pdf,yes
+大田区,2019-10-15 12:00,11,4,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_honbu2_2019101502.pdf,yes
+世田谷区,2019-10-16 12:00,136,12,件,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_20191016.pdf,yes
+大田区,2019-10-16 12:00,583,7,件,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_20191016.pdf,yes
+世田谷区,2019-10-18 14:00,295,26,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_20191018.pdf,yes
+大田区,2019-10-18 14:00,583,7,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_20191018.pdf,yes
+世田谷区,2019-10-23 14:00,324,35,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_20191023.pdf,yes
+大田区,2019-10-23 14:00,373,209,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_20191023.pdf,yes
+世田谷区,2019-10-25 14:00,334,37,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_20191025.pdf,yes
+大田区,2019-10-25 14:00,373,209,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_20191025.pdf,yes
+世田谷区,2019-11-05 18:00,372,43,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_2019110602.pdf,yes
+大田区,2019-11-05 18:00,203,267,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_2019110602.pdf,yes
+世田谷区,2019-11-08 14:00,372,42,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_191108.pdf,yes
+大田区,2019-11-08 14:00,203,267,棟,artifacts/_flood/hagibis-tokyo23-sources/raw/docs/tokyo_higai_191108.pdf,yes

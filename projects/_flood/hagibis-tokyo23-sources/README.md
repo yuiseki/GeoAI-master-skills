@@ -15,6 +15,17 @@
 ```sh
 cd projects/_flood/hagibis-tokyo23-sources
 uvx --with duckdb==1.5.5 python scripts/01_record_vs_reports.py
+python3 scripts/02_tables.py
+uvx --with duckdb==1.5.5 python scripts/03_units.py
+cd ../../..
+uvx --with numpy --with duckdb --with shapely --with matplotlib python .agents/skills/analysis-visualize/scripts/classify_map.py \
+    artifacts/_flood/hagibis-tokyo23-sources/wards23.parquet code 床上浸水 --kind count --unit "棟" --method fixed \
+    --thresholds 0.5 9.5 99.5 --compare quantile jenks --crs EPSG:6677 \
+    --source "東京都 令和元年台風第19号による被害状況 (2019-11-08 14:00、第142報)。国土数値情報 N03 (2026-01-01)。NoData は表に行の無い区" \
+    --label name --title "令和元年東日本台風の 23 区の床上浸水 (棟、都の 2019-11-08 14 時の集計)" --expect-units 23 \
+    --png projects/_flood/hagibis-tokyo23-sources/outputs/map_above_floor.png
+cd projects/_flood/hagibis-tokyo23-sources
+uvx --with matplotlib python scripts/04_figures.py
 ```
 
 資料の検索と転記は手作業 (2026-11-03)。数は資料に書かれたとおりで、計算や推定はしていない。

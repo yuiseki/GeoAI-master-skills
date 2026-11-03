@@ -1,0 +1,44 @@
+{
+  "value": "床上浸水",
+  "kind": "count",
+  "unit": "棟",
+  "crs": "EPSG:6677",
+  "source": "東京都 令和元年台風第19号による被害状況 (2019-11-08 14:00、第142報)。国土数値情報 N03 (2026-01-01)。NoData は表に行の無い区",
+  "method": "fixed",
+  "classes": 4,
+  "breaks": [
+    0.0,
+    0.5,
+    9.5,
+    99.5,
+    372.0
+  ],
+  "units_per_class": [
+    10,
+    4,
+    0,
+    2
+  ],
+  "nodata_units": 7,
+  "class_change_share": {
+    "quantile": 0.375,
+    "jenks": 0.25
+  },
+  "palette": "YlOrRd",
+  "boundary": "#404040",
+  "labels": "name",
+  "labelled_units": 23,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [],
+  "inset_at": "lower right",
+  "title": "令和元年東日本台風の 23 区の床上浸水 (棟、都の 2019-11-08 14 時の集計)",
+  "aspect": 1.0,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": null,
+  "hidden_by_inset": [],
+  "made": "2026-11-03"
+}

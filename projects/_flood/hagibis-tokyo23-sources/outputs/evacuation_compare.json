@@ -1,0 +1,11 @@
+{
+ "question": "23 区を全て載せる唯一の表 (都の 13 日 05 時) は、区などの資料の最大の値からどれだけ離れているか",
+ "inputs": [
+  "outputs/evacuation_compare.csv"
+ ],
+ "n_wards": 23,
+ "n_with_ward_value": 8,
+ "x_axis": "人、対数。0 は左端の点線の上に白抜きで描く。都の表の空欄は「空欄」と書く",
+ "note": "区などの資料の値は、最大、総数、ピーク時など資料ごとに意味が違う (evacuation_compare.csv の ward_doc_kind)",
+ "font": "Noto Sans CJK JP"
+}
