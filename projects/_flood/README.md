@@ -11,3 +11,4 @@
 | [kita-inbanuma-sar-changepoint](kita-inbanuma-sar-changepoint/) | 北印旛沼の周りで、Sentinel-1 の同じ軌道の 3〜10 月の時系列に画素ごとの変化点の検定を当てると、浸水した所で浸水の始まった日と水が引いた日が出るか。隣り合う 2 枚の差より得か | sentinel-1-rtc (軌道 39 と 141)、浸水推定図の輪郭線、DEM5A、WorldCover |
 | [tokyo23-underpass-listing](tokyo23-underpass-listing/) | OSM のタグから作った 23 区のアンダーパスのうち、国の一覧に載るのはどれか。一覧は浸水実績の区域に入る箇所に寄っているか | 凍結の OSM、mlit-underpass、冠水想定箇所、tokyo-flood-record-jp |
 | [hagibis-tokyo-sar-flood-record](hagibis-tokyo-sar-flood-record/) | 台風第 19 号 (2019) の雨の後の Sentinel-1 で、東京都の浸水実績の区域は背景より暗くなるか。河道は見えるか。暗くなった所は A31a の区域に寄るか | sentinel-1-rtc (軌道 46 と 39)、tokyo-flood-record-jp、A31a 想定最大規模、N03、OSM の多摩川、WorldCover |
+| [hagibis-tokyo23-sources](hagibis-tokyo23-sources/) | 令和元年東日本台風で、東京 23 区のどこが何で浸水し、どれだけ避難したか。区、都、国は何を公表したか。浸水範囲の地図や GIS はあるか | 東京都の被害状況の報、23 区の区の資料、国土交通省、気象庁、tokyo-flood-record-jp |
