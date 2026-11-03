@@ -1,0 +1,248 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "ac11e446425739d05815d4b56c42f80639dcadeb",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "min_road_km": 0.5,
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_ward": 7147,
+  "ward_without_point": 0,
+  "coded_and_inside": 7133,
+  "coded_outside": 14,
+  "other_code_inside": 39,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 981,
+    "inside": 987
+   },
+   "2020": {
+    "coded": 905,
+    "inside": 911
+   },
+   "2021": {
+    "coded": 867,
+    "inside": 869
+   },
+   "2022": {
+    "coded": 1027,
+    "inside": 1031
+   },
+   "2023": {
+    "coded": 1031,
+    "inside": 1032
+   },
+   "2024": {
+    "coded": 1108,
+    "inside": 1111
+   },
+   "2025": {
+    "coded": 1228,
+    "inside": 1231
+   }
+  },
+  "ward_rank_of_23": {
+   "per_1000_residents_per_year": 18,
+   "share_ped": 14,
+   "share_bike": 16,
+   "share_escooter": 17,
+   "share_old_ped": 2,
+   "share_young_pb": 11,
+   "share_strict": 13,
+   "share_broad": 12,
+   "share_night": 14,
+   "share_intersection": 6
+  },
+  "bike_alone_by_year": {
+   "2019": {
+    "ward": 23,
+    "wards_23": 1035
+   },
+   "2020": {
+    "ward": 17,
+    "wards_23": 1083
+   },
+   "2021": {
+    "ward": 19,
+    "wards_23": 1626
+   },
+   "2022": {
+    "ward": 112,
+    "wards_23": 2817
+   },
+   "2023": {
+    "ward": 135,
+    "wards_23": 3187
+   },
+   "2024": {
+    "ward": 178,
+    "wards_23": 3140
+   },
+   "2025": {
+    "ward": 216,
+    "wards_23": 3039
+   }
+  },
+  "closed_schools_left_out": [
+   "旧板橋第九小学校",
+   "旧板橋第四中学校",
+   "旧高島第七小学校"
+  ],
+  "national_routes": {
+   "0017": 862,
+   "0254": 647
+  },
+  "ward_points": 7147,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 11,
+   "50m": 11,
+   "30m_without_expressway": 13
+  },
+  "hotspot_counts": {
+   "20m": [
+    49,
+    28,
+    27,
+    21,
+    21,
+    20,
+    19,
+    18,
+    18,
+    18,
+    17,
+    17,
+    16,
+    16,
+    15
+   ],
+   "30m": [
+    62,
+    41,
+    32,
+    31,
+    28,
+    27,
+    25,
+    23,
+    22,
+    22,
+    22,
+    22,
+    21,
+    20,
+    20
+   ],
+   "50m": [
+    74,
+    55,
+    51,
+    38,
+    36,
+    35,
+    34,
+    34,
+    32,
+    31,
+    31,
+    30,
+    30,
+    30,
+    29
+   ]
+  },
+  "expressway_points": 173,
+  "hotspot_counts_without_expressway": [
+   61,
+   41,
+   32,
+   31,
+   28,
+   26,
+   25,
+   22,
+   22,
+   20,
+   20,
+   20,
+   20,
+   19,
+   19
+  ],
+  "expressway_in_top15": {
+   "accidents": 11,
+   "per_rank": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    3,
+    0,
+    0,
+    2,
+    3,
+    1,
+    0,
+    0
+   ]
+  },
+  "town_rows": 134,
+  "towns_merged": [],
+  "points_in_towns": 7133,
+  "points_outside_towns": 14,
+  "towns_without_road": [],
+  "water_units": [],
+  "small_road_units": [],
+  "town_top5": [
+   "13119028001",
+   "131190120",
+   "13119030001",
+   "13119039003",
+   "131190190"
+  ]
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/party_matrix.csv",
+  "parties_by_year": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/party_by_year.csv",
+  "deaths": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/itabashi-accident-trends-by-role/outputs/towns.csv"
+ }
+}

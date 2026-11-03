@@ -1,0 +1,70 @@
+{
+  "value": "per_road_km_year",
+  "kind": "rate",
+  "unit": "件/道路 km/年",
+  "crs": "EPSG:4612",
+  "source": "警察庁 交通事故オープンデータ 2019-2025 (npa-traffic-accidents@389500a)、国勢調査2020小地域 (estat-boundary-2020@823195c)、道路延長 OSM 2026-08-31 (osm-tokyo23-src@38f7a5f)",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    0.07970126527116517,
+    0.7290731271873124,
+    0.9775009506840755,
+    1.4213248263354412,
+    1.8056828921393753,
+    3.8731272948970346
+  ],
+  "units_per_class": [
+    27,
+    27,
+    26,
+    27,
+    27
+  ],
+  "nodata_units": 0,
+  "class_change_share": {
+    "equal": 0.649,
+    "jenks": 0.701
+  },
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [],
+  "inset_at": "lower right",
+  "title": "板橋区のどの町丁で、道路の長さに比べて人身事故が多いか (2019〜2025年)",
+  "aspect": 1.2324586097142074,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": null,
+  "hidden_by_inset": [],
+  "made": "2026-11-03",
+  "context": {
+    "path": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet",
+    "name": "name",
+    "where": "substr(code5, 1, 2) in ('11', '12', '13', '14') and ward is null",
+    "source": "jp-admin-2026-09@e6c87b1",
+    "crs": "EPSG:4612",
+    "crs_difference": null,
+    "areas": 10,
+    "labelled": [
+      "川口市",
+      "戸田市",
+      "和光市",
+      "豊島区",
+      "北区",
+      "板橋区",
+      "練馬区"
+    ]
+  },
+  "highlight": {
+    "path": "projects/_traffic_accident/itabashi-accident-trends-by-role/tmp/town-highlights.csv",
+    "groups": {
+      "道路あたり上位5": 5
+    }
+  }
+}

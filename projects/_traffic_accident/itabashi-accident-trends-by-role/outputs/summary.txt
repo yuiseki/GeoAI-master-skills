@@ -1,0 +1,20 @@
+deaths accidents 42; dead party {'歩行者': 18, '乗用車 (自家用)': 4, '自転車': 8, '二輪車': 10, '補充票の人': 2}; party A {'乗用車 (自家用)': 10, '自転車': 2, '貨物車': 22, 'その他・不明': 2, '二輪車': 3, '乗用車 (事業用)': 3}
+deaths hour 0-5 9; hour 19-5 16
+dead pedestrians aged 65+ 9 of 18
+全て: n 7147; top hours [(8, 602), (17, 522), (10, 482), (18, 477)]; weekday (Mon-Fri) n 5434; weekday top hours [(8, 518), (17, 399), (10, 365), (7, 363)]
+若い歩行者・自転車: n 879; top hours [(16, 104), (8, 99), (15, 90), (17, 83)]; weekday (Mon-Fri) n 693; weekday top hours [(8, 84), (16, 83), (15, 77), (17, 73)]
+高齢の歩行者: n 386; top hours [(17, 41), (16, 35), (10, 34), (13, 26)]; weekday (Mon-Fri) n 303; weekday top hours [(16, 32), (17, 29), (10, 28), (14, 21)]
+自転車: n 3212; top hours [(8, 341), (17, 254), (16, 245), (10, 244)]; weekday (Mon-Fri) n 2479; weekday top hours [(8, 300), (17, 199), (16, 192), (10, 186)]
+乗用車 (自家用): as party A 2995; as party B 875
+乗用車 (事業用): as party A 527; as party B 109
+貨物車: as party A 1661; as party B 748
+自転車: as party A 1368; as party B 2186
+二輪車: as party A 546; as party B 979
+bike as B with a car or truck as A 1646
+towns: accidents in towns 7133; most accidents [('南常盤台一丁目', '169', '17'), ('仲宿', '162', '24'), ('熊野町', '160', '9'), ('成増二丁目', '147', '34'), ('大和町', '140', '14'), ('高島平二丁目', '138', '20'), ('高島平一丁目', '136', '17'), ('本町', '119', '17')]
+itabashi 7 years: accidents 7147; died 43; hurt 8000
+itabashi shares (%): share_ped 17.0; share_bike 44.9; share_escooter 0.1; share_old_ped 5.4; share_young_pb 12.3; share_strict 28.0; share_broad 40.3; share_night 29.2; share_intersection 44.6
+school map: young pedestrians and cyclists {'young_ped_or_bike': 879, 'weekday_7_8_or_14_17': 416}
+party cells: 乗用車 (自家用) x 自転車 948; 自転車 x 相手なし・物件 700; 乗用車 (自家用) x 乗用車 (自家用) 552; 貨物車 x 自転車 544; 乗用車 (自家用) x 二輪車 513; 乗用車 (自家用) x 貨物車 447; 乗用車 (自家用) x 歩行者 444; 自転車 x 自転車 342; 貨物車 x 二輪車 307; 自転車 x 歩行者 276; 貨物車 x 歩行者 268; 貨物車 x 貨物車 251
+route classes 7 years: 区道 3783; 国道 1509; 主要地方道 (都道) 874; 一般都道 605; その他 203; 首都高速 173
+top 15 hotspots: top route {'国道 17号': 6, '主要地方道 (都道)': 4, '国道 254号': 3, '一般都道': 1, '区道': 1}; road_1 {'中山道': 6, '環七通り': 3, '山手通り': 2, '山手通り (Yamate-dori Avenue)': 1, '赤塚高台通り': 1, '高島通り': 1, '環八通り': 1}; with 首都高速 accidents 6
