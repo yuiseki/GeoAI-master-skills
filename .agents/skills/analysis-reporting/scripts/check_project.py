@@ -9,7 +9,8 @@ evidence it is given; this finds the evidence itself, so a project cannot pass b
                  matching an unrelated table. Integers below 10 and settings written in 問い or 方法 (100 m, 65 歳)
                  may come from anywhere. Each row of the 要点 table in 結論 that states a number must cite at least
                  one such file
-    readers      every number in the Markdown files under reports/ (reports for each reader) is traced the same way
+    readers      every number in the Markdown files under reports/ (reports for each reader) is traced the same way;
+                 settings of report.md and those in the reader report's own 問い or 方法 may come from anywhere
     links        every relative link and image in report.md points at a file that exists (anchors and URLs are not
                  checked, nor links inside code blocks)
     encoding     every text file in the project is UTF-8. A Windows default (cp932) is the usual cause; write text
@@ -139,8 +140,14 @@ def _trace_lines(lines, base, project, evidence, label, uncited=True, settings=(
                 missing = [t for t in missing if t not in settings]
                 problems += [f"{label}: {t} is not in {names}" for t in missing]
             elif uncited and evidence is not None:
-                problems += [f"{label}: {t} does not appear in the evidence" for t in traceable(segment, evidence)]
+                problems += [f"{label}: {t} does not appear in the evidence" for t in traceable(segment, evidence)
+                             if t not in settings]
     return problems, cited
+
+
+def _settings(parts):
+    """Numbers written in 問い and 方法 (100 m, 65〜74 歳): definitions, which the other parts may repeat."""
+    return {t for name in ("問い", "方法") for t, *_ in numbers_in("\n".join(parts.get(name, [])))}
 
 
 def _key_rows(conclusion):
@@ -177,7 +184,7 @@ def check_project(project, level="full", extra=()):
         if numbers_in(re.sub(r"^\|\s*\d+\s*\|", "|", _REFERENCE.sub(" ", row))) and not _cited(row, project)[0]:
             problems.append(f"report.md: 要点 row {i} cites no file in outputs/: link the output each number comes from")
     parts = sections(text)
-    settings = {t for name in ("問い", "方法") for t, *_ in numbers_in("\n".join(parts.get(name, [])))}
+    settings = _settings(parts)
     scoped, cited = _trace_lines(conclusion, project, project, evidence, "report.md", uncited=False, settings=settings)
     # segments that cite their outputs were traced above; check_report traces the rest of 結論 against all evidence
     rest = text
@@ -193,7 +200,9 @@ def check_project(project, level="full", extra=()):
         except UnicodeDecodeError:
             continue
         label = reader.relative_to(project).as_posix()
-        problems += _trace_lines(body.splitlines(), reader.parent, project, evidence, label, settings=settings)[0]
+        # a reader report may state settings of its own in its 方法 (route codes 5000〜5499 for an auditor)
+        own = settings | _settings(sections(body))
+        problems += _trace_lines(body.splitlines(), reader.parent, project, evidence, label, settings=own)[0]
     return problems
 
 

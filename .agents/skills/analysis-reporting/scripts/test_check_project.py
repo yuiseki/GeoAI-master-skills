@@ -240,3 +240,26 @@ def test_a_setting_in_the_method_may_appear_in_an_uncited_sentence(tmp_path):
     report = report.replace("p は置換 10,000 回から求めた。\n\n## 確かめていないこと", "\n\n## 確かめていないこと")
     assert check_project(make_cited(tmp_path / "b", report.replace("半径 30 m の円で数え、p は置換 10,000 回から求めた。", "半径 30 m の円で数えた。"))) == [
         "report.md: 結論: 10,000 does not appear in the evidence"]
+
+
+def test_a_setting_in_the_report_method_may_appear_in_an_uncited_reader_sentence(tmp_path):
+    # the Shibuya reports named the age class 65〜74 歳 (code 65); 74 is a definition, not a value of an output
+    report = REPORT.replace("半径 30 m の円で数えた。", "半径 30 m の円で数えた。高齢は年齢層 65〜74 歳と 75 歳以上。")
+    project = make_project(tmp_path, report)
+    (project / "reports").mkdir()
+    (project / "reports" / "resident.md").write_text(
+        "# 住民向け\n\n65〜74 歳の歩行者に気をつける。\n", encoding="utf-8")
+    assert check_project(project) == []
+    (project / "reports" / "resident.md").write_text(
+        "# 住民向け\n\n65〜73 歳の歩行者に気をつける。\n", encoding="utf-8")
+    assert check_project(project) == ["reports/resident.md: 73 does not appear in the evidence"]
+
+
+def test_a_setting_in_a_reader_report_method_counts_for_that_report_only(tmp_path):
+    # the Shibuya auditor report set out route codes 5000〜5499 (首都高速) in its own 方法
+    project = make_project(tmp_path)
+    (project / "reports").mkdir()
+    auditor = "# 診断向け\n\n首都高速 (5000〜5499) の事故を除いても地点は残る。\n\n## 方法\n\n路線コード 5000〜5499 を首都高速とした。\n"
+    (project / "reports" / "auditor.md").write_text(auditor, encoding="utf-8")
+    (project / "reports" / "resident.md").write_text("# 住民向け\n\n路線 5499 の事故。\n", encoding="utf-8")
+    assert check_project(project) == ["reports/resident.md: 5499 does not appear in the evidence"]

@@ -180,6 +180,21 @@ def test_cli_compares_methods_and_common_against_separate_bins(tmp_path):
     assert "units changing class, equal vs jenks" in out.stdout
 
 
+def test_cli_keeps_the_compared_class_changes_in_the_json(tmp_path):
+    # a report cites the share from the JSON next to the map, not from a copy of stdout
+    rng = np.random.default_rng(2)
+    p = _write(tmp_path, list(rng.lognormal(0, 1, 30)), areas_grow=False)
+    out = _cli(tmp_path, p, "id", "v", "--kind", "rate", "--unit", "per 1,000", "--method", "equal", "--classes",
+               "4", "--compare", "quantile", "jenks", "--crs", "EPSG:6677", "--source", "synthetic",
+               "--png", str(tmp_path / "m.png"))
+    assert out.returncode == 0, out.stderr
+    meta = json.loads((tmp_path / "m.json").read_text(encoding="utf-8"))
+    shares = meta["class_change_share"]
+    assert set(shares) == {"quantile", "jenks"}
+    for m, share in shares.items():
+        assert f"units changing class, equal vs {m}: {share:.3f}" in out.stdout
+
+
 def test_cli_refuses_a_category_with_numeric_classes(tmp_path):
     p = _write(tmp_path, [1, 2, 3, 1], areas_grow=False)
     out = _cli(tmp_path, p, "id", "v", "--kind", "category", "--method", "quantile", "--classes", "3",

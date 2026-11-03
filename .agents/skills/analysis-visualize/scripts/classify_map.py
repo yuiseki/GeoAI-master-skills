@@ -239,9 +239,11 @@ def main():
         cls = assign(vals[ok], b)
     counts = np.bincount(cls, minlength=len(b) - (0 if a.kind == "category" else 1)).tolist()
     print(f"{a.method or 'category'} breaks: {[round(x, 6) for x in b]}; units per class {counts}")
+    changes = {}
     for m in a.compare:
         other = assign(vals[ok], breaks(vals[ok], m, a.classes, a.thresholds, centre))
-        print(f"units changing class, {a.method} vs {m}: {changed_share(cls, other):.3f}")
+        changes[m] = round(changed_share(cls, other), 3)
+        print(f"units changing class, {a.method} vs {m}: {changes[m]:.3f}")
     if groups is not None and a.kind != "category":
         print(f"class shares by {a.groups}, bins shared by all groups vs computed per group:")
         for gv in np.unique(groups[ok]):
@@ -253,7 +255,7 @@ def main():
             print(f"  {gv}: shared {share(cls[m])}, own {share(own)}")
 
     if a.png:
-        draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette, hl, areas_note)
+        draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette, hl, areas_note, changes)
 
 
 HIGHLIGHT = ["#8e2675", "#157f9b", "#b45f06", "#000000"]  # outline colours of highlighted groups, in order of appearance
@@ -263,7 +265,7 @@ def read_highlights(path, ids):
     """(id, group, rank) rows of a CSV with columns id, group and optionally rank; unknown ids stop the run."""
     import csv
 
-    with open(path, newline="") as fh:
+    with open(path, newline="", encoding="utf-8") as fh:
         rows = [(r["id"], r["group"], (r.get("rank") or "").strip()) for r in csv.DictReader(fh)]
     unknown = [i for i, _, _ in rows if i not in set(map(str, ids))]
     if unknown:
@@ -274,7 +276,7 @@ def read_highlights(path, ids):
     return rows, groups
 
 
-def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette, hl, crs_note):
+def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette, hl, crs_note, changes=None):
     import matplotlib
 
     matplotlib.use("Agg")
@@ -422,7 +424,7 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
               "zoom into them (--inset)")
     meta = {"value": a.value, "kind": a.kind, "unit": a.unit, "crs": a.crs, "source": a.source,
             "method": a.method or "category", "classes": len(counts), "breaks": b, "units_per_class": counts,
-            "nodata_units": int((~ok).sum()), "palette": palette, "boundary": EDGE, "labels": label_col,
+            "nodata_units": int((~ok).sum()), "class_change_share": changes or {}, "palette": palette, "boundary": EDGE, "labels": label_col,
             "labelled_units": len(names) if names else 0, "zero_area_rings_left_out": seams, "font": font,
             "unit_edges": edges, "covered_by_inset": [t.get_text() for t in under],
             "zoomed_in_inset": [t.get_text() for t in zoomed], "inset_at": a.inset_at,
@@ -437,7 +439,7 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
         meta["highlight"] = {"path": a.highlight, "groups": {g: sum(1 for _, gg, _ in hl_rows if gg == g)
                                                             for g in groups}}
         out = Path(a.png).with_name(Path(a.png).stem + "-highlights.csv")
-        with out.open("w") as fh:
+        with out.open("w", encoding="utf-8") as fh:
             fh.write("id,group,rank,area\n")
             for i, g, rank in hl_rows:
                 fh.write(f"{i},{g},{rank},{areas_containing(label_point(by_id[i]), areas)}\n")

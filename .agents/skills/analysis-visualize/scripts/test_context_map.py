@@ -105,6 +105,20 @@ def test_overlapping_texts_and_a_text_under_the_legend_are_reported():
     assert not any("CCCC" in pair for pair in found)
 
 
+
+def test_a_text_covering_a_mark_is_reported_with_the_mark_name():
+    # a place name over a hotspot circle or a school square hides it, though no two texts overlap
+    from matplotlib.patches import Circle
+
+    fig, ax = _ax()
+    name = ax.text(5, 5, "笹塚", fontsize=12, ha="center", va="center")
+    far = ax.text(1, 9, "CCCC", fontsize=12)
+    under = ax.add_patch(Circle((5, 5), 0.2))
+    clear = ax.add_patch(Circle((9, 1), 0.2))
+    found = text_overlaps(fig, [name, far], marks=[("circle 3", under), ("circle 8", clear)])
+    assert found == [("笹塚", "circle 3")]
+    assert text_overlaps(fig, [name, far]) == []
+
 def test_cli_turns_cell_centres_into_squares(tmp_path):
     import duckdb
 

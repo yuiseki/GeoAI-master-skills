@@ -19,7 +19,7 @@ Functions used by classify_map.py, and a command that turns grid-cell centres in
 - label_areas: names of the background areas, only for areas big enough in the view, on a white box.
 - areas_containing: every background area holding a point. Administrative polygons often overlap
   along shared borders, so a point on a border belongs to both.
-- text_overlaps: pairs of texts that overlap one another or a legend, measured on the drawn figure.
+- text_overlaps: pairs of texts that overlap one another, a legend, or a given mark, measured on the drawn figure.
   A label under a legend, or a rank number hidden by its neighbour, is found without looking.
 """
 
@@ -164,11 +164,15 @@ def areas_containing(point, areas):
     return "/".join(name for name, g in areas if g.covers(point))
 
 
-def text_overlaps(fig, texts, legends=()):
-    """(text, text) and (text, "legend") pairs whose drawn boxes overlap."""
+def text_overlaps(fig, texts, legends=(), marks=()):
+    """(text, text), (text, "legend") and (text, mark name) pairs whose drawn boxes overlap.
+
+    marks are (name, artist) pairs of the symbols a text must not hide (a hotspot circle, a school square):
+    a place name over them overlaps no other text, so it is only found when they are given here."""
     fig.canvas.draw()
     r = fig.canvas.get_renderer()
     boxes = [(t.get_text(), t.get_window_extent(r)) for t in texts if t.get_visible() and t.get_text()]
+    mark_boxes = [(name, m.get_window_extent(r)) for name, m in marks if m.get_visible()]
     found = []
     for i, (a, ba) in enumerate(boxes):
         for b, bb in boxes[i + 1:]:
@@ -177,6 +181,9 @@ def text_overlaps(fig, texts, legends=()):
         for leg in legends:
             if ba.overlaps(leg.get_window_extent(r)):
                 found.append((a, "legend"))
+        for name, bm in mark_boxes:
+            if ba.overlaps(bm):
+                found.append((a, name))
     return found
 
 
