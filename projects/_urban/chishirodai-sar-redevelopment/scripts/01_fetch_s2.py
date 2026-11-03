@@ -52,7 +52,7 @@ def fetch(it, tok, box):
             out[b] = src.read(1, window=w, out_shape=ref, resampling=Resampling.nearest, boundless=True, fill_value=0)
     out["processing_baseline"] = np.array(it["properties"].get("s2:processing_baseline", ""))
     out["datetime"] = np.array(it["properties"]["datetime"])
-    tmp = path.with_suffix(".part.npz")
+    tmp = path.with_name(path.stem + ".part.npz")
     np.savez_compressed(tmp, **out)
     tmp.rename(path)
     return path
@@ -73,7 +73,7 @@ def main():
     items = json.loads(items_path.read_text(encoding="utf-8"))
     print("items", len(items), flush=True)
     tok = token(items[0]["assets"]["B02"]["href"])
-    with ThreadPoolExecutor(8) as ex:
+    with ThreadPoolExecutor(24) as ex:
         paths = []
         for k, f in enumerate([ex.submit(fetch, it, tok, box) for it in items]):
             paths.append(f.result())
