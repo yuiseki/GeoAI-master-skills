@@ -1,6 +1,6 @@
 {
- "run_date": "2026-10-31",
- "commit": "1bacada54ad00474a609d6fec4cca8c57f339cf1",
+ "run_date": "2026-11-03",
+ "commit": "6fa51e81277a056f97d21ec5700dcf7b40d18d6b",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -11,6 +11,7 @@
  "settings": {
   "year": "file year",
   "ward": "市区町村コード",
+  "min_road_km": 0.5,
   "strict": [
    "01",
    "02",
@@ -34,12 +35,72 @@
  },
  "audit": {
   "rows_23_wards": 144716,
-  "rows_minato": 7831,
-  "minato_without_point": 1,
+  "rows_ward": 7831,
+  "ward_without_point": 1,
   "coded_and_inside": 7765,
   "coded_outside": 65,
   "other_code_inside": 51,
-  "minato_rank_of_23": {
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 1312,
+    "inside": 1317
+   },
+   "2020": {
+    "coded": 952,
+    "inside": 950
+   },
+   "2021": {
+    "coded": 963,
+    "inside": 963
+   },
+   "2022": {
+    "coded": 1167,
+    "inside": 1162
+   },
+   "2023": {
+    "coded": 1237,
+    "inside": 1233
+   },
+   "2024": {
+    "coded": 1148,
+    "inside": 1142
+   },
+   "2025": {
+    "coded": 1052,
+    "inside": 1049
+   }
+  },
+  "bike_alone_by_year": {
+   "2019": {
+    "ward": 46,
+    "23_wards": 1035
+   },
+   "2020": {
+    "ward": 46,
+    "23_wards": 1083
+   },
+   "2021": {
+    "ward": 47,
+    "23_wards": 1626
+   },
+   "2022": {
+    "ward": 102,
+    "23_wards": 2817
+   },
+   "2023": {
+    "ward": 81,
+    "23_wards": 3187
+   },
+   "2024": {
+    "ward": 67,
+    "23_wards": 3140
+   },
+   "2025": {
+    "ward": 74,
+    "23_wards": 3039
+   }
+  },
+  "ward_rank_of_23": {
    "per_1000_residents_per_year": 3,
    "share_ped": 6,
    "share_bike": 22,
@@ -49,7 +110,19 @@
    "share_strict": 20,
    "share_broad": 21,
    "share_night": 2,
-   "share_intersection": 20
+   "share_intersection": 20,
+   "share_bike_alone": 23
+  },
+  "closed_schools_left_out": [
+   "旧三光小学校",
+   "旧神応小学校"
+  ],
+  "other_route_codes": {
+   "9500": 222,
+   "9900": 74,
+   "8501": 55,
+   "8500": 21,
+   "9000": 9
   },
   "national_routes": {
    "0015": 547,
@@ -58,10 +131,11 @@
    "0246": 309,
    "0357": 36
   },
-  "minato_points": 7830,
+  "ward_points": 7830,
   "hotspot_overlap_of_top15_within_30m": {
    "20m": 14,
-   "50m": 10
+   "50m": 10,
+   "30m_without_expressway": 15
   },
   "hotspot_counts": {
    "20m": [
@@ -116,18 +190,92 @@
     34
    ]
   },
+  "expressway_points": 309,
+  "hotspot_counts_without_expressway": [
+   44,
+   40,
+   40,
+   34,
+   32,
+   32,
+   30,
+   28,
+   28,
+   27,
+   27,
+   26,
+   26,
+   24,
+   23
+  ],
+  "expressway_in_top15": {
+   "accidents": 9,
+   "per_rank": [
+    0,
+    1,
+    1,
+    3,
+    0,
+    0,
+    2,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ]
+  },
+  "town_rows": 140,
+  "towns_merged": [
+   "台場一丁目 (2)",
+   "水面 (131030310) (22)"
+  ],
   "points_in_towns": 7765,
-  "points_outside_towns": 65
+  "points_outside_towns": 65,
+  "towns_without_road": [],
+  "water_units": [
+   {
+    "key_code": "131030310",
+    "accidents": 18
+   }
+  ],
+  "small_road_units": [
+   {
+    "key_code": "13103011002",
+    "name": "愛宕二丁目",
+    "accidents": 8,
+    "road_km": 0.322,
+    "per_road_km_year": 3.549
+   },
+   {
+    "key_code": "131030120",
+    "name": "麻布狸穴町",
+    "accidents": 4,
+    "road_km": 0.294,
+    "per_road_km_year": 1.944
+   }
+  ],
+  "town_top5": [
+   "13103024003",
+   "13103004001",
+   "13103019001",
+   "13103004002",
+   "13103006003"
+  ]
  },
  "files": {
-  "yearly": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\yearly.csv",
-  "wards": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\wards.csv",
-  "hours": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\hour_weekday.csv",
-  "parties": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\party_matrix.csv",
-  "deaths": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\deaths.csv",
-  "route": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\route_class.csv",
-  "schools": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\schools.csv",
-  "hotspots": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\hotspots.csv",
-  "towns": "projects\\_traffic_accident\\minato-accident-trends-by-role\\outputs\\towns.csv"
+  "yearly": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/party_matrix.csv",
+  "parties_by_year": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/party_by_year.csv",
+  "deaths": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/minato-accident-trends-by-role/outputs/towns.csv"
  }
 }

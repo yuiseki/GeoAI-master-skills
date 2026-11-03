@@ -2,13 +2,14 @@
  "question": "港区のどの町丁で、道路の長さに比べて事故が多いか",
  "inputs": [
   "outputs/towns.csv",
-  "outputs/town-rate-quantile.json"
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
  ],
  "n": 118,
- "notes": "breaks [0.2718071957666064, 1.71767544836219, 2.2810986890093914, 2.8315668994908965, 3.554480790172334, 6.4633866153283694];",
- "source": "出所: 警察庁「交通事故統計のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) より加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、令和2年国勢調査 (estat-boundary-2020@823195c)",
+ "notes": "breaks [0.4836905203819655, 1.7351897276659072, 2.2912217082126602, 2.8359669132630967, 3.556338581243703, 6.463386615366646]; 分位と等間隔で色の変わる町丁 0.581 (classify_map.py の出力)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
  "font": [
-  "Noto Sans JP"
+  "Noto Sans CJK JP"
  ],
  "map_crs": "EPSG:6677",
  "background": "roads OGC:CRS84, ward and towns EPSG:4612",
@@ -22,14 +23,5 @@
   "新橋二丁目",
   "三田三丁目"
  ],
- "text_overlaps": [
-  [
-   "新橋",
-   "2"
-  ],
-  [
-   "麻布十番",
-   "3"
-  ]
- ]
+ "text_overlaps": []
 }

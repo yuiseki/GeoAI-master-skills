@@ -1,15 +1,15 @@
 """Count Minato's injury accidents (2019-2025 file years) for the four role reports.
 
-Run from repository root after prepare.py:
+Run from the repository root after prepare.py:
 uvx --from 'duckdb>=1.5.5' --with numpy python projects/_traffic_accident/minato-accident-trends-by-role/scripts/analyze.py
 
-Reads artifacts/_traffic_accident/minato-accident-trends-by-role/*.parquet and writes tables to outputs/ and
-per-accident points (with EPSG:6677 x, y) to artifacts/.../points.parquet.
+Reads artifacts/_traffic_accident/minato-accident-trends-by-role/*.parquet and writes the tables to outputs/ and
+the per-accident points (with EPSG:6677 x, y) to artifacts/.../points.csv.
 """
 
 import csv
 import json
-import subprocess
+import math
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -19,9 +19,12 @@ import numpy as np
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
-ART = ROOT / "artifacts/_traffic_accident/minato-accident-trends-by-role"
+ART = ROOT / "artifacts/_traffic_accident" / PROJECT.name
 OUT = PROJECT / "outputs"
-MINATO = "103"
+# The ward: the NPA 市区町村コード (3 digits) and the jp-admin code5 (13 + the same 3 digits).
+CODE = "103"
+WARD = f"13{CODE}"
+WARD_NAME = "港区"  # as in wards.csv, and the scope of yearly.csv
 WARD_CODES = [f"{i:03d}" for i in range(101, 124)]
 YEARS = [str(y) for y in range(2019, 2026)]
 FIRST_HALF = {"2019", "2020", "2021"}
@@ -29,6 +32,16 @@ RADIUS = 30.0
 RADII = (20.0, 30.0, 50.0)
 TOP = 15
 SCHOOL_RADIUS = 500.0
+# A hotspot is named by the nearest road and the nearest other road that crosses it: at least this angle between
+# their directions within ROAD_STEP metres either side of the point nearest the centre (map-context 13).
+MIN_CROSSING_ANGLE = 30.0
+ROAD_STEP = 20.0
+ROAD_CANDIDATES = 6
+# A town with less road than this keeps its rate and colour but is not ranked among the top five (color-and-scale,
+# 分母の小さい単位の率): at 0.5 km one accident more moves the rate by 0.29 per km per year. Ota's river bank, 0.134 km
+# of road and 7 accidents, ranked first at 7.46. Decided at R013, before looking at the ranks of the wards to come.
+MIN_ROAD_KM = 0.5
+WATER = "8154"  # HCODE of a census water tract (水面調査区); 8101 is a town (町丁・字等)
 
 STRICT = {"01", "02", "11"}
 BROAD = STRICT | {"14", "17"}
@@ -39,6 +52,7 @@ YOUNG = {"01"}
 OLD = {"65", "75"}
 NIGHT = {"21", "22", "23"}
 
+# Party type code -> group for the A x B matrix. 用途別 01 (事業用) splits passenger cars.
 GROUPS = [
     ("歩行者", {"61"}),
     ("自転車", {"51", "52"}),
@@ -72,25 +86,46 @@ def party_group(kind, use):
     return "その他・不明"
 
 
-def greedy_hotspots(xy, radius, k):
-    """Pick up to k centres among points: point with most points within radius, then drop them and repeat."""
+def neighbours(xy, radius):
+    """For each point, the sorted indices of the points within radius (itself included), found through square cells
+    of side radius, so that memory grows with the number of near pairs, not with the square of the points."""
     xy = np.asarray(xy, dtype=float)
-    alive = np.ones(len(xy), dtype=bool)
-    d2 = ((xy[:, None, :] - xy[None, :, :]) ** 2).sum(axis=2)
-    near = d2 <= radius * radius
+    cells = np.floor(xy / radius).astype(np.int64)
+    by_cell = {}
+    for i, c in enumerate(map(tuple, cells)):
+        by_cell.setdefault(c, []).append(i)
+    by_cell = {c: np.array(v) for c, v in by_cell.items()}
+    out = [None] * len(xy)
+    for (cx, cy), here in by_cell.items():
+        cand = np.sort(np.concatenate([by_cell[(cx + dx, cy + dy)] for dx in (-1, 0, 1) for dy in (-1, 0, 1)
+                                       if (cx + dx, cy + dy) in by_cell]))
+        # The same arithmetic as a full distance matrix, so a point on the circle is in or out alike.
+        near = ((xy[here][:, None, :] - xy[cand][None, :, :]) ** 2).sum(axis=2) <= radius * radius
+        for row, i in enumerate(here):
+            out[i] = cand[near[row]]
+    return out
+
+
+def greedy_hotspots(xy, radius, k):
+    """Pick up to k centres among the points: the point with most points within radius, then drop
+    those points and repeat. Returns (index of centre, member indices) pairs; members never overlap.
+    Ties go to the lowest index. Ota's 10,335 points took 3.8 GB as an n x n matrix; neighbour lists do not."""
+    nb = neighbours(xy, radius)
+    alive = np.ones(len(nb), dtype=bool)
+    counts = np.array([len(n) for n in nb], dtype=np.int64)
     picked = []
     while len(picked) < k and alive.any():
-        counts = (near & alive[None, :]).sum(axis=1)
-        counts[~alive] = -1
-        centre = int(np.argmax(counts))
-        members = np.flatnonzero(near[centre] & alive)
+        centre = int(np.argmax(np.where(alive, counts, -1)))
+        members = nb[centre][alive[nb[centre]]]
         picked.append((centre, members))
+        # Each removed point leaves the counts of the points near it.
+        np.subtract.at(counts, np.concatenate([nb[m] for m in members]), 1)
         alive[members] = False
     return picked
 
 
 def poisson_interval(n):
-    """Exact 95% interval of a Poisson count (Garwood) via chi-square quantiles."""
+    """Exact 95% interval of a Poisson count (Garwood) via the chi-square quantiles."""
     from math import isclose
     lo = 0.0 if n == 0 else chi2_ppf(0.025, 2 * n) / 2
     hi = chi2_ppf(0.975, 2 * n + 2) / 2
@@ -99,7 +134,7 @@ def poisson_interval(n):
 
 
 def chi2_ppf(p, dof):
-    """Chi-square quantile by bisection on regularised gamma function."""
+    """Chi-square quantile by bisection on the regularised gamma function (no scipy)."""
     from math import exp, lgamma, log
 
     def cdf(x):
@@ -124,6 +159,81 @@ def chi2_ppf(p, dof):
     return (lo + hi) / 2
 
 
+def ward_ranks(wards, code):
+    """Rank (1 = highest) of the ward with this 3-digit code among the rows of wards, for each share_ and per_
+    column. Ties share the better rank. Stops if the code is missing or repeated."""
+    mine = [w for w in wards if w["code"] == code]
+    if len(mine) != 1:
+        raise ValueError(f"ward code {code} appears {len(mine)} times in the ward table")
+    return {k: 1 + sum(w[k] > mine[0][k] for w in wards)
+            for k in mine[0] if k.startswith("share_") or k.startswith("per_")}
+
+
+def git_head(root):
+    """The commit of the working tree, read from the files in .git without running git (a subagent may not run
+    git). Follows a worktree's .git file and packed-refs. Returns None if it cannot be read."""
+    try:
+        git = root / ".git"
+        if git.is_file():
+            git = (root / git.read_text(encoding="utf-8").split(":", 1)[1].strip()).resolve()
+        head = (git / "HEAD").read_text(encoding="utf-8").strip()
+        if not head.startswith("ref: "):
+            return head
+        ref = head[5:]
+        common = git / "commondir"
+        base = (git / common.read_text(encoding="utf-8").strip()).resolve() if common.exists() else git
+        for d in (git, base):
+            if (d / ref).exists():
+                return (d / ref).read_text(encoding="utf-8").strip()
+        for d in (git, base):
+            packed = d / "packed-refs"
+            if packed.exists():
+                for line in packed.read_text(encoding="utf-8").splitlines():
+                    if line.endswith(" " + ref):
+                        return line.split()[0]
+    except OSError:
+        return None
+    return None
+
+
+def line_angle(u, v):
+    """Angle in degrees (0-90) between two undirected lines given as direction vectors; None for a zero vector."""
+    nu, nv = math.hypot(*u), math.hypot(*v)
+    if nu == 0 or nv == 0:
+        return None
+    return math.degrees(math.acos(min(1.0, abs(u[0] * v[0] + u[1] * v[1]) / (nu * nv))))
+
+
+def crossing_road(near):
+    """The second name of a hotspot: from (name, distance, direction) sorted by distance, the nearest name after the
+    first whose direction crosses the first's by MIN_CROSSING_ANGLE or more. OSM can give one road two names
+    (Shinagawa's 環状六号線 and 山手通り), which are not an intersection. (None, None) if no name crosses."""
+    if len(near) < 2:
+        return None, None
+    first = near[0][2]
+    for name, dist, direction in near[1:]:
+        if direction is None:
+            continue
+        angle = None if first is None else line_angle(first, direction)
+        if first is None or (angle is not None and angle >= MIN_CROSSING_ANGLE):
+            return name, dist
+    return None, None
+
+
+def unit_name(key_code, s_name, hcode):
+    """The name of a census unit for the tables. Water tracts (HCODE 8154) are named 水面 whatever their S_NAME
+    (Chuo 水面調査区, Minato '‐', Koto and Shinagawa empty); a town with no name keeps its code."""
+    if hcode == WATER:
+        return f"水面 ({key_code})"
+    return s_name if s_name else f"名前なし ({key_code})"
+
+
+def unit_names(pairs):
+    """KEY_CODE -> name, with the code added to a name that more than one unit carries (Ota's two 令和島)."""
+    seen = Counter(name for _, name in pairs)
+    return {code: f"{name} ({code})" if seen[name] > 1 else name for code, name in pairs}
+
+
 def write_csv(name, rows):
     path = OUT / name
     with path.open("w", newline="", encoding="utf-8") as f:
@@ -135,6 +245,7 @@ def write_csv(name, rows):
 
 def load(con):
     con.sql("load spatial")
+    # Every geometry here is (lon, lat) or (easting, northing); EPSG:6677 output is (x = easting, y = northing).
     con.sql("set geometry_always_xy = true")
     con.sql(f"""create table acc as select
         file_year, "市区町村コード" as ward, "警察署等コード" as station, "本票番号" as no,
@@ -148,11 +259,11 @@ def load(con):
         "人身損傷程度（当事者A）" as injury_A, "人身損傷程度（当事者B）" as injury_B,
         cast("発生日時　　時" as integer) as hour, cast("曜日(発生年月日)" as integer) as weekday,
         longitude, latitude
-        from '{(ART / "tokyo_honhyo.parquet").as_posix()}' where "市区町村コード" in ({",".join(repr(c) for c in WARD_CODES)})""")
+        from '{ART / "tokyo_honhyo.parquet"}' where "市区町村コード" in ({",".join(repr(c) for c in WARD_CODES)})""")
     con.sql(f"""create table pts as select *,
         ST_X(ST_Transform(ST_Point(longitude, latitude), 'OGC:CRS84', 'EPSG:6677')) as x,
         ST_Y(ST_Transform(ST_Point(longitude, latitude), 'OGC:CRS84', 'EPSG:6677')) as y
-        from acc where ward = '{MINATO}' and longitude is not null""")
+        from acc where ward = '{CODE}' and longitude is not null""")
     cols = [c[0] for c in con.execute("select * from acc limit 0").description]
     return [dict(zip(cols, r)) for r in con.execute("select * from acc").fetchall()]
 
@@ -168,6 +279,8 @@ def flags(row):
         "broad": is_seikatsu(row["width"], broad=True),
         "night": row["daynight"] in NIGHT,
         "intersection": row["shape"] in {"01", "31"},
+        # 自転車 as A with 相手なし・物件 as B: tripled in the 23 wards from 2021 to 2022 (bike_alone_by_year)
+        "bike_alone": row["type_A"] in BIKE and row["type_B"] in {"75", "76"},
     }
 
 
@@ -177,83 +290,106 @@ def main():
     rows = load(con)
     for row in rows:
         row.update(flags(row))
-    minato = [r for r in rows if r["ward"] == MINATO]
-    audit = {"rows_23_wards": len(rows), "rows_minato": len(minato),
-             "minato_without_point": sum(r["longitude"] is None for r in minato)}
+    mine = [r for r in rows if r["ward"] == CODE]
+    audit = {"rows_23_wards": len(rows), "rows_ward": len(mine),
+             "ward_without_point": sum(r["longitude"] is None for r in mine)}
 
-    # Coded ward vs point in ward polygon
-    inside = con.execute(f"""with w as (select ST_GeomFromWKB(geometry) g from '{(ART / "wards.parquet").as_posix()}' where code5 = '13103')
-        select count(*) filter (where ward = '{MINATO}' and ST_Contains(w.g, ST_Point(longitude, latitude))),
-               count(*) filter (where ward = '{MINATO}' and not ST_Contains(w.g, ST_Point(longitude, latitude))),
-               count(*) filter (where ward <> '{MINATO}' and ST_Contains(w.g, ST_Point(longitude, latitude)))
+    # Coded ward vs the point in the ward polygon (the alternative reading of "the ward's accidents").
+    inside = con.execute(f"""with w as (select ST_GeomFromWKB(geometry) g from '{ART / "wards.parquet"}' where code5 = '{WARD}')
+        select count(*) filter (where ward = '{CODE}' and ST_Contains(w.g, ST_Point(longitude, latitude))),
+               count(*) filter (where ward = '{CODE}' and not ST_Contains(w.g, ST_Point(longitude, latitude))),
+               count(*) filter (where ward <> '{CODE}' and ST_Contains(w.g, ST_Point(longitude, latitude)))
         from acc, w where longitude is not null""").fetchall()[0]
     audit.update(coded_and_inside=inside[0], coded_outside=inside[1], other_code_inside=inside[2])
+    # The same by year, so that a change between years can be told from a change in how accidents are coded to a
+    # ward (Shibuya, Sumida, Koto and Shinagawa each added this after seeing a jump; it is part of the run now).
+    audit["by_year_coded_vs_inside"] = {y: {"coded": c, "inside": n} for y, c, n in con.execute(f"""
+        with w as (select ST_GeomFromWKB(geometry) g from '{ART / "wards.parquet"}' where code5 = '{WARD}')
+        select file_year, count(*) filter (where ward = '{CODE}'),
+               count(*) filter (where longitude is not null and ST_Contains(w.g, ST_Point(longitude, latitude)))
+        from acc, w group by file_year order by file_year""").fetchall()}
 
-    # B1 yearly counts, Minato and 23 wards
-    keys = ["ped", "bike", "escooter", "old_ped", "young_pb", "strict", "broad", "night", "intersection"]
+    # Cyclist-alone accidents (自転車 as A, 相手なし・物件 as B) by year, the ward and the 23 wards: in the 23 wards
+    # they went from 1,035 in 2019 to 2,817 in 2022 and 3,039 in 2025 while the other accidents fell, which looks like
+    # a change in what is recorded (Itabashi). The yearly reading without them goes beside the main one.
+    audit["bike_alone_by_year"] = {y: {"ward": sum(r["bike_alone"] for r in mine if r["file_year"] == y),
+                                       "23_wards": sum(r["bike_alone"] for r in rows if r["file_year"] == y)} for y in YEARS}
+
+    # B1 yearly counts, the ward and the 23 wards.
+    keys = ["ped", "bike", "escooter", "old_ped", "young_pb", "strict", "broad", "night", "intersection", "bike_alone"]
     yearly = []
-    for scope, subset in (("港区", minato), ("23区", rows)):
+    for scope, subset in ((WARD_NAME, mine), ("23区", rows)):
         base = sum(r["file_year"] == "2019" for r in subset)
         for y in YEARS:
             ys = [r for r in subset if r["file_year"] == y]
             lo, hi = poisson_interval(len(ys))
             yearly.append({"scope": scope, "year": y, "accidents": len(ys), "lo95": round(lo, 1), "hi95": round(hi, 1),
-                           "index_2019": round(100 * len(ys) / base, 1) if base > 0 else 0.0,
+                           "index_2019": round(100 * len(ys) / base, 1),
+                           "index_2019_without_bike_alone": round(100 * sum(not r["bike_alone"] for r in ys) / sum(
+                               r["file_year"] == "2019" and not r["bike_alone"] for r in subset), 1),
                            "died": sum(r["died"] for r in ys), "hurt": sum(r["hurt"] for r in ys),
                            **{k: sum(r[k] for r in ys) for k in keys}})
     files = {"yearly": write_csv("yearly.csv", yearly)}
 
-    # B2 composition of each of 23 wards (7 years pooled)
-    names = dict(con.execute(f"select substr(code5, 3), name from '{(ART / 'wards.parquet').as_posix()}'").fetchall())
-    pops = dict(con.execute(f"select substr(code5, 3), population from '{(ART / 'wards.parquet').as_posix()}'").fetchall())
+    # B2 composition of each of the 23 wards (7 years pooled).
+    names = dict(con.execute(f"select substr(code5, 3), name from '{ART / 'wards.parquet'}'").fetchall())
+    pops = dict(con.execute(f"select substr(code5, 3), population from '{ART / 'wards.parquet'}'").fetchall())
     wards = []
-    minato_idx = 0
-    for idx, code in enumerate(WARD_CODES):
-        if code == MINATO:
-            minato_idx = idx
+    for code in WARD_CODES:
         ws = [r for r in rows if r["ward"] == code]
         wards.append({"code": code, "name": names[code], "accidents": len(ws), "population_2020": pops[code],
                       "per_1000_residents_per_year": round(1000 * len(ws) / 7 / pops[code], 2),
                       **{f"share_{k}": round(sum(r[k] for r in ws) / len(ws), 4) for k in keys}})
     files["wards"] = write_csv("wards.csv", wards)
+    # The ward's rank among the 23 wards (1 = highest share), found by its code (not by its place in the list).
+    audit["ward_rank_of_23"] = ward_ranks(wards, CODE)
 
-    # Minato rank among 23 wards (1 = highest share/rate)
-    target_ward = wards[minato_idx]
-    audit["minato_rank_of_23"] = {k: 1 + sum(w[k] > target_ward[k] for w in wards)
-                                  for k in target_ward if k.startswith("share_") or k.startswith("per_")}
-
-    # B3 hour x weekday in Minato
+    # B3 hour x weekday in the ward.
     hours = []
     for group, test in (("全て", lambda r: True), ("若い歩行者・自転車", lambda r: r["young_pb"]),
                         ("高齢の歩行者", lambda r: r["old_ped"]), ("自転車", lambda r: r["bike"])):
-        c = Counter((r["weekday"], r["hour"]) for r in minato if test(r))
+        c = Counter((r["weekday"], r["hour"]) for r in mine if test(r))
         hours += [{"group": group, "weekday": wd, "hour": h, "accidents": c[(wd, h)]}
                   for wd in range(1, 8) for h in range(24)]
     files["hours"] = write_csv("hour_weekday.csv", hours)
 
-    # Party matrix and deaths
-    matrix = Counter((party_group(r["type_A"], r["use_A"]), party_group(r["type_B"], r["use_B"])) for r in minato)
+    # Party A x party B matrix and the deaths.
+    matrix = Counter((party_group(r["type_A"], r["use_A"]), party_group(r["type_B"], r["use_B"])) for r in mine)
     files["parties"] = write_csv("party_matrix.csv", [{"party_A": a, "party_B": b, "accidents": n}
                                                        for (a, b), n in sorted(matrix.items(), key=lambda kv: -kv[1])])
+    # The same by year, to tell which pair moved in a year that jumped (Kita's cyclists rose in 2022-2023).
+    by_year = Counter((r["file_year"], party_group(r["type_A"], r["use_A"]), party_group(r["type_B"], r["use_B"]))
+                      for r in mine)
+    files["parties_by_year"] = write_csv("party_by_year.csv", [
+        {"year": y, "party_A": a, "party_B": b, "accidents": n} for (y, a, b), n in sorted(by_year.items())])
+    closed = ART / "schools_closed.csv"
+    if closed.exists():
+        with closed.open(encoding="utf-8") as f:
+            audit["closed_schools_left_out"] = [r["name"] for r in csv.DictReader(f)]
     deaths = [{"year": r["file_year"], "type_A": party_group(r["type_A"], r["use_A"]), "age_A": r["age_A"],
                "type_B": party_group(r["type_B"], r["use_B"]), "age_B": r["age_B"], "hour": r["hour"],
                "kind": r["kind"], "died": r["died"],
                "dead_party": "/".join(party_group(r[f"type_{s}"], r[f"use_{s}"]) for s in "AB" if r[f"injury_{s}"] == "1")
-               or "補充票の人"} for r in minato if r["died"] > 0]
-    files["deaths"] = write_csv("deaths.csv", sorted(deaths, key=lambda d: d["year"])) if deaths else ""
+               or "補充票の人"} for r in mine if r["died"] > 0]
+    files["deaths"] = write_csv("deaths.csv", sorted(deaths, key=lambda d: d["year"]))
 
-    # Route class
+    # Road type (route code: 0001-0999 national, 1000-1499 major prefectural, 2000-2999 prefectural,
+    # 3000-3999 municipal, 4000-4999 national expressway (中央道, 東名, 関越: Suginami, Setagaya, Nerima),
+    # 5000-5499 首都高速; 9000- private and other).
     def route_class(code):
         n = int(code)
         return ("国道" if n < 1000 else "主要地方道 (都道)" if n < 1500 else "一般都道" if 2000 <= n < 3000
-                else "区道" if 3000 <= n < 4000 else "首都高速" if 5000 <= n < 5500 else "その他")
-    roads = Counter((r["file_year"], route_class(r["route"])) for r in minato)
-    nat = Counter(r["route"] for r in minato if int(r["route"]) < 1000)
+                else "区道" if 3000 <= n < 4000 else "高速自動車国道" if 4000 <= n < 5000
+                else "首都高速" if 5000 <= n < 5500 else "その他")
+    roads = Counter((r["file_year"], route_class(r["route"])) for r in mine)
+    # What その他 holds, by route code (Suginami had to count it outside the outputs).
+    audit["other_route_codes"] = dict(Counter(r["route"] for r in mine if route_class(r["route"]) == "その他").most_common())
+    nat = Counter(r["route"] for r in mine if int(r["route"]) < 1000)
     files["route"] = write_csv("route_class.csv", [{"year": y, "route_class": c, "accidents": n}
                                                    for (y, c), n in sorted(roads.items())])
     audit["national_routes"] = dict(nat)
 
-    # Points in EPSG:6677
+    # Points in EPSG:6677 (JGD2011 plane IX, metres) for the distance work.
     pcols = [c[0] for c in con.execute("select * from pts limit 0").description]
     prow = [dict(zip(pcols, r)) for r in con.execute("select * from pts").fetchall()]
     for p in prow:
@@ -264,13 +400,13 @@ def main():
         writer.writeheader()
         writer.writerows(prow)
     xy = np.array([[p["x"], p["y"]] for p in prow])
-    audit["minato_points"] = len(prow)
+    audit["ward_points"] = len(prow)
 
-    # B4 schools
+    # B4 schools: young pedestrians and cyclists within 500 m (straight line).
     schools = con.execute(f"""select name,
         ST_X(ST_Transform(ST_Point(lon, lat), 'OGC:CRS84', 'EPSG:6677')),
         ST_Y(ST_Transform(ST_Point(lon, lat), 'OGC:CRS84', 'EPSG:6677')), lon, lat
-        from '{(ART / 'schools.parquet').as_posix()}' order by name""").fetchall()
+        from '{ART / 'schools.parquet'}' order by name""").fetchall()
     young = np.array([p["young_pb"] for p in prow])
     pb = np.array([p["ped"] or p["bike"] for p in prow])
     morning = np.array([p["weekday"] in range(2, 7) and 7 <= p["hour"] <= 8 for p in prow])
@@ -286,9 +422,11 @@ def main():
     school_rows.sort(key=lambda s: -s["young_ped_or_bike"])
     files["schools"] = write_csv("schools.csv", school_rows)
 
-    # B5 hotspots: greedy non-overlapping 30 m circles
-    road_names = con.execute(f"""select name, ST_AsWKB(ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677'))
-        from '{(ART / 'roads.parquet').as_posix()}' where name is not null and highway not in ('motorway', 'motorway_link')""").fetchall()
+    # B5 hotspots: greedy non-overlapping 30 m circles, and the 20 m / 50 m readings.
+    # A name with the English in parentheses is the same road as the name without it (Itabashi's
+    # 山手通り (Yamate-dori Avenue) beside 山手通り): the parenthesis is dropped before names are compared.
+    road_names = con.execute(f"""select regexp_replace(name, '\\s*\\([A-Za-z][^)]*\\)$', ''), ST_AsWKB(ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677'))
+        from '{ART / 'roads.parquet'}' where name is not null and highway not in ('motorway', 'motorway_link')""").fetchall()
     con.sql("create table rn as select * from (values (null::varchar, null::blob)) t(name, g) where false")
     con.executemany("insert into rn values (?, ?)", road_names)
     sets = {}
@@ -298,10 +436,30 @@ def main():
     for rank, (centre, members) in enumerate(sets[RADIUS], 1):
         ms = [prow[i] for i in members]
         cx, cy = xy[centre]
-        near_names = [n for (n,) in con.execute(f"""select name from rn
-            group by name order by min(ST_Distance(ST_GeomFromWKB(g), ST_Point({cx}, {cy}))) limit 2""").fetchall()]
-        dist = con.execute(f"""select min(ST_Distance(ST_GeomFromWKB(g), ST_Point({cx}, {cy}))) from rn
-            where name = ?""", [near_names[1]]).fetchall()[0][0] if len(near_names) > 1 else None
+        near = []
+        for name, d in con.execute(f"""select name, min(ST_Distance(ST_GeomFromWKB(g), ST_Point({cx}, {cy}))) d from rn
+                group by name order by d, name limit {ROAD_CANDIDATES}""").fetchall():
+            # The direction of the named road where it passes nearest the centre: its nearest piece, ROAD_STEP m
+            # either side of the point nearest the centre.
+            ends = con.execute(f"""with pieces as (select unnest(ST_Dump(ST_GeomFromWKB(g))).geom as p from rn where name = ?),
+                near as (select p from pieces where ST_GeometryType(p) = 'LINESTRING' and ST_Length(p) > 0
+                         order by ST_Distance(p, ST_Point({cx}, {cy})) limit 1),
+                loc as (select p, ST_LineLocatePoint(p, ST_Point({cx}, {cy})) f, ST_Length(p) len from near)
+                select ST_X(a), ST_Y(a), ST_X(b), ST_Y(b) from (select
+                    ST_LineInterpolatePoint(p, greatest(0, f - {ROAD_STEP} / len)) a,
+                    ST_LineInterpolatePoint(p, least(1, f + {ROAD_STEP} / len)) b from loc)""", [name]).fetchall()
+            near.append((name, d, (ends[0][2] - ends[0][0], ends[0][3] - ends[0][1]) if ends else None))
+        # The nearest named road names the hotspot only within RADIUS: Edogawa's first hotspot sits on unnamed roads,
+        # and the nearest name, 京葉道路, was 428 m away. Its distance is kept either way (road_1_m).
+        road_1_m = near[0][1] if near else None
+        near_names = [near[0][0]] if near and road_1_m <= RADIUS else []
+        second, dist = crossing_road(near)
+        # A crossing road farther than RADIUS is not the hotspot's crossing: left empty, so that hotspots.csv read
+        # alone does not show an intersection (Nakano's 中野四季の森通り was 253 m away).
+        if second is not None and dist <= RADIUS and near_names:
+            near_names.append(second)
+        else:
+            dist = None
         routes = Counter(route_class(m["route"]) + (f" {int(m['route'])}号" if int(m["route"]) < 1000 else "") for m in ms)
         combos = Counter(f"{party_group(m['type_A'], m['use_A'])} × {party_group(m['type_B'], m['use_B'])}" for m in ms)
         hot.append({"rank": rank, "lon": round(prow[centre]["longitude"], 6), "lat": round(prow[centre]["latitude"], 6),
@@ -316,7 +474,11 @@ def main():
                     "night": sum(m["night"] for m in ms),
                     "top_route": routes.most_common(1)[0][0], "top_route_n": routes.most_common(1)[0][1],
                     "top_combo": combos.most_common(1)[0][0], "top_combo_n": combos.most_common(1)[0][1],
+                    # 首都高速 accidents in the circle: where they are most, road_1 names the road under the
+                    # viaduct (Katsushika's 11th, 15 of 16 on the expressway, named after a surface road).
+                    "expressway": sum(4000 <= int(m["route"]) < 5500 for m in ms),
                     "road_1": near_names[0] if near_names else "",
+                    "road_1_m": round(road_1_m, 1) if road_1_m is not None else None,
                     "road_2": near_names[1] if len(near_names) > 1 else "",
                     "road_2_m": round(dist, 1) if dist is not None else None})
     files["hotspots"] = write_csv("hotspots.csv", hot)
@@ -328,41 +490,99 @@ def main():
         overlap[f"{int(radius)}m"] = int(sum(np.hypot(*(others - xy[c]).T).min() <= RADIUS for c, _ in sets[RADIUS]))
     audit["hotspot_overlap_of_top15_within_30m"] = overlap
     audit["hotspot_counts"] = {f"{int(r)}m": [len(m) for _, m in sets[r]] for r in RADII}
+    # The 30 m hotspots without the 首都高速 accidents (route 5000-5499), beside the main reading: an expressway on
+    # a viaduct or in a tunnel shares x, y with the road under or over it (Shibuya, Meguro and Nakano each added
+    # this reading; it is part of every run now, and is 0 accidents where no expressway runs).
+    # Expressways are 4000-5499 (高速自動車国道 and 首都高速, the routes with a 高速票); Suginami found 4000-4999 left in.
+    surface = np.flatnonzero([not 4000 <= int(p["route"]) < 5500 for p in prow])
+    no_expr = [(surface[c], surface[m]) for c, m in greedy_hotspots(xy[surface], RADIUS, TOP)]
+    others = np.array([xy[c] for c, _ in no_expr])
+    overlap["30m_without_expressway"] = int(sum(np.hypot(*(others - xy[c]).T).min() <= RADIUS for c, _ in sets[RADIUS]))
+    audit["expressway_points"] = len(prow) - len(surface)
+    audit["hotspot_counts_without_expressway"] = [len(m) for _, m in no_expr]
+    audit["expressway_in_top15"] = {"accidents": int(sum(4000 <= int(prow[i]["route"]) < 5500
+                                                       for _, m in sets[RADIUS] for i in m)),
+                                    "per_rank": [int(sum(4000 <= int(prow[i]["route"]) < 5500 for i in m))
+                                                 for _, m in sets[RADIUS]]}
 
-    # B6 towns
-    con.sql(f"""create table towns as select KEY_CODE, S_NAME, JINKO,
-        ST_Transform(ST_GeomFromWKB(geometry), 'EPSG:4612', 'EPSG:6677') as g,
-        ST_GeomFromWKB(geometry) as g_lonlat from '{(ART / 'towns.parquet').as_posix()}'""")
+    # B6 towns: accidents and OSM road length per census small area.
+    # A census town (KEY_CODE) can be several rows of the boundary file (Shinjuku's 山吹町 is two; Minato's 台場一丁目 is
+    # two and its water tract 22), so the rows are merged into one unit per KEY_CODE: the shapes united and the
+    # population summed.
+    # An empty S_NAME counts as a name here, so a code with one named and one empty row stops too.
+    names_per_code = con.execute(f"""select max(n) from (select count(distinct coalesce(S_NAME, '')) n
+        from '{ART / 'towns.parquet'}' group by KEY_CODE)""").fetchall()[0][0]
+    kinds_per_code = con.execute(f"""select max(n) from (select count(distinct HCODE) n
+        from '{ART / 'towns.parquet'}' group by KEY_CODE)""").fetchall()[0][0]
+    if names_per_code != 1 or kinds_per_code != 1:
+        raise RuntimeError(f"a KEY_CODE has {names_per_code} names or {kinds_per_code} HCODE")
+    # Water tracts (HCODE 8154) and towns without a name are named by unit_name (Koto has both; Minato has its water
+    # tract, S_NAME '‐', and no nameless town).
+    con.create_function("unit_name", unit_name, ["VARCHAR", "VARCHAR", "VARCHAR"], "VARCHAR")
+    con.sql(f"""create table towns as select KEY_CODE, unit_name(KEY_CODE, any_value(S_NAME), any_value(HCODE)) as S_NAME,
+        any_value(HCODE) as HCODE, sum(JINKO) as JINKO, count(*) as pieces, ST_Transform(ST_Union_Agg(ST_GeomFromWKB(geometry)), 'EPSG:4612', 'EPSG:6677') as g,
+        ST_Union_Agg(ST_GeomFromWKB(geometry)) as g_lonlat from '{ART / 'towns.parquet'}' group by KEY_CODE""")
+    for code, name in unit_names(con.execute("select KEY_CODE, S_NAME from towns order by KEY_CODE").fetchall()).items():
+        con.execute("update towns set S_NAME = ? where KEY_CODE = ?", [name, code])
+    audit.update(town_rows=con.execute(f"select count(*) from '{ART / 'towns.parquet'}'").fetchall()[0][0],
+                 towns_merged=[n for (n,) in con.execute(
+                     "select S_NAME || ' (' || pieces || ')' from towns where pieces > 1 order by S_NAME").fetchall()])
     con.sql(f"""create table road_m as select ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677') as g,
-        highway from '{(ART / 'roads.parquet').as_posix()}'""")
-    con.sql("""create table town_counts as select t.KEY_CODE, t.S_NAME, t.JINKO,
+        highway from '{ART / 'roads.parquet'}'""")
+    con.sql("""create table town_counts as select t.KEY_CODE, t.S_NAME, t.HCODE, t.JINKO,
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))) as accidents,
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))
             and ('61' in (p.type_A, p.type_B))) as ped,
+        -- expressway accidents (4000-5499): a town under a viaduct counts them, and its road length counts the viaduct (Adachi)
+        (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))
+            and p.route between '4000' and '5499') as expressway,
         (select coalesce(sum(ST_Length(ST_Intersection(r.g, t.g))), 0) from road_m r where ST_Intersects(r.g, t.g)) / 1000 as road_km,
         ST_Area(t.g) / 1e6 as area_km2, t.g_lonlat as geometry
         from towns t""")
+    # Principle 12 of map-context: name every census town holding each hotspot centre.
     for h in hot:
         h["town"] = con.execute(f"""select coalesce(string_agg(S_NAME, '/' order by S_NAME), '区外')
             from towns where ST_Covers(g, ST_Point({h['x']}, {h['y']}))""").fetchall()[0][0]
     files["hotspots"] = write_csv("hotspots.csv", hot)
     in_towns = con.execute("select sum(accidents) from town_counts").fetchall()[0][0]
     audit.update(points_in_towns=int(in_towns), points_outside_towns=len(prow) - int(in_towns))
+    # A town with no OSM road inside it has no denominator: its rate is NoData (null), not inf or 0
+    # (Shinjuku's 神楽坂四丁目; Minato has none). A water tract is not a town: NoData too, its accidents counted
+    # (Koto's 85 on bridges and wharves).
+    audit["towns_without_road"] = [{"name": n, "accidents": int(a)} for n, a in con.execute(
+        f"select S_NAME, accidents from town_counts where road_km = 0 and HCODE <> '{WATER}' order by S_NAME").fetchall()]
+    audit["water_units"] = [{"key_code": k, "accidents": int(a)} for k, a in con.execute(
+        f"select KEY_CODE, accidents from town_counts where HCODE = '{WATER}' order by KEY_CODE").fetchall()]
+    rate = f"case when road_km > 0 and HCODE <> '{WATER}' then {{}} end"
     con.sql(f"""copy (select KEY_CODE, S_NAME, JINKO, accidents, ped, road_km, area_km2,
-        case when road_km >= 0.05 then accidents / 7 / road_km else 0.0 end as per_road_km_year, geometry from town_counts) to '{(ART / 'town_counts.parquet').as_posix()}' (format parquet)""")
-    trows = con.execute("""select KEY_CODE, S_NAME, JINKO, accidents, ped, round(road_km, 3), round(area_km2, 4),
-        round(case when road_km >= 0.05 then accidents / 7 / road_km else 0.0 end, 3) from town_counts order by case when road_km >= 0.05 then accidents / 7 / road_km else 0.0 end desc""").fetchall()
+        {rate.format('accidents / 7 / road_km')} as per_road_km_year, geometry from town_counts)
+        to '{ART / 'town_counts.parquet'}' (format parquet)""")
+    trows = con.execute(f"""select KEY_CODE, S_NAME, JINKO, accidents, ped, round(road_km, 3), round(area_km2, 4),
+        {rate.format('round(accidents / 7 / road_km, 3)')}, expressway from town_counts
+        order by {rate.format('accidents / road_km')} desc nulls last, KEY_CODE""").fetchall()
     files["towns"] = write_csv("towns.csv", [dict(zip(["key_code", "name", "population", "accidents", "ped", "road_km",
-                                                        "area_km2", "per_road_km_year"], t)) for t in trows])
+                                                        "area_km2", "per_road_km_year", "expressway"], t))
+                                               for t in trows])
+    # The top five towns by rate, for classify_map.py --highlight (README) and plot.py; trows is sorted by rate,
+    # NoData last. Towns with less than MIN_ROAD_KM of road are left out of the ranking, and listed.
+    audit["small_road_units"] = [{"key_code": t[0], "name": t[1], "accidents": t[3], "road_km": t[5],
+                                  "per_road_km_year": t[7]} for t in trows if t[7] is not None and t[5] < MIN_ROAD_KM]
+    top = [t for t in trows if t[7] is not None and t[5] >= MIN_ROAD_KM][:5]
+    audit["town_top5"] = [t[0] for t in top]
+    (PROJECT / "tmp").mkdir(exist_ok=True)
+    with (PROJECT / "tmp/town-highlights.csv").open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["id", "group", "rank"])
+        writer.writerows([t[0], "道路あたり上位5", i] for i, t in enumerate(top, 1))
 
-    commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    commit = git_head(ROOT)
     (OUT / "analysis.json").write_text(json.dumps({
         "run_date": str(date.today()), "commit": commit, "duckdb": duckdb.__version__,
         "inputs": {"npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
                    "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
                    "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
                    "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"},
-        "settings": {"year": "file year", "ward": "市区町村コード", "strict": sorted(STRICT), "broad": sorted(BROAD),
+        "settings": {"year": "file year", "ward": "市区町村コード", "min_road_km": MIN_ROAD_KM, "strict": sorted(STRICT), "broad": sorted(BROAD),
                      "radius_m": RADIUS, "radii_m": RADII, "school_radius_m": SCHOOL_RADIUS, "crs_metric": "EPSG:6677"},
         "audit": audit, "files": files}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(audit, ensure_ascii=False, indent=1))
