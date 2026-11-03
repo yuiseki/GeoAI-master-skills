@@ -36,6 +36,7 @@ TOWN_POPULATION = 211444
 # A name starting with 旧 is a closed school kept on the map (Sumida's 旧墨田区立 鐘淵中学校; 17 such names in the
 # 23 wards, none in Taito).
 SCHOOL = "amenity = 'school' and (name like '%小学校' or name like '%中学校') and name not like '旧%'"
+CLOSED = "amenity = 'school' and (name like '%小学校' or name like '%中学校') and name like '旧%'"
 
 
 def main():
@@ -66,7 +67,7 @@ def main():
 
     con.sql(f"""copy (
         select KEY_CODE, S_NAME, HCODE, cast(JINKO as integer) as JINKO, geometry from '{TOWNS}'
-        where CITY = '{CITY}' and PREF = '13'
+        where CITY = '{CITY}' and PREF = '13' order by KEY_CODE, S_NAME
     ) to '{OUT / "towns.parquet"}' (format parquet)""")
     n, units, pop = con.execute(
         f"select count(*), count(distinct KEY_CODE), sum(JINKO) from '{OUT / 'towns.parquet'}'").fetchall()[0]
@@ -89,6 +90,14 @@ def main():
         select name, avg(ST_X(p)) as lon, avg(ST_Y(p)) as lat, count(*) as shapes
         from school_shapes, ward_shape where ST_Contains(ward_shape.g, p) group by name order by name
     ) to '{OUT / "schools.parquet"}' (format parquet)""")
+    # The closed schools left out, by name, so that the reports can say how many (Kita could not).
+    con.sql(f"""copy (select distinct name from (
+        select name, ST_Transform(ST_Centroid(way), 'EPSG:3857', 'EPSG:4326', always_xy := true) as p
+        from '{OSM}/planet_osm_polygon.parquet' where {CLOSED}
+        union all
+        select name, ST_Transform(way, 'EPSG:3857', 'EPSG:4326', always_xy := true)
+        from '{OSM}/planet_osm_point.parquet' where {CLOSED}), ward_shape where ST_Contains(ward_shape.g, p) order by name
+    ) to '{OUT / "schools_closed.csv"}' (header, delimiter ',')""")
 
     con.sql(f"""copy (
         select osm_id, highway, name,
@@ -98,7 +107,8 @@ def main():
                           'living_street','motorway_link','trunk_link','primary_link','secondary_link','tertiary_link')
           and ST_Intersects(ST_Transform(way, 'EPSG:3857', 'EPSG:4326', always_xy := true),
                             ST_MakeEnvelope({xmin - 0.003}, {ymin - 0.003}, {xmax + 0.003}, {ymax + 0.003}))
-    ) to '{OUT / "roads.parquet"}' (format parquet)""")
+        order by osm_id, highway, name
+    ) to '{OUT / "roads.parquet"}' (format parquet)""")  # a fixed order: the maps draw roads in it
 
     for name in ["tokyo_honhyo", "wards", "towns", "schools", "roads"]:
         print(name, con.execute(f"select count(*) from '{OUT / name}.parquet'").fetchall()[0][0])

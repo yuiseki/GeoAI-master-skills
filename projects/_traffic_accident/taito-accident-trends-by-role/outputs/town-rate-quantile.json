@@ -12,7 +12,7 @@
     1.8292521105978317,
     2.2495401772723156,
     2.80371086764374,
-    8.358840779427425
+    8.358840779427423
   ],
   "units_per_class": [
     22,
@@ -46,7 +46,7 @@
   "context": {
     "path": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet",
     "name": "name",
-    "where": "code5 between '13101' and '13123'",
+    "where": "substr(code5, 1, 2) in ('11', '12', '13', '14') and ward is null",
     "source": "jp-admin-2026-09@e6c87b1",
     "crs": "EPSG:4612",
     "crs_difference": null,

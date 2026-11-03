@@ -347,6 +347,15 @@ def main():
     matrix = Counter((party_group(r["type_A"], r["use_A"]), party_group(r["type_B"], r["use_B"])) for r in mine)
     files["parties"] = write_csv("party_matrix.csv", [{"party_A": a, "party_B": b, "accidents": n}
                                                        for (a, b), n in sorted(matrix.items(), key=lambda kv: -kv[1])])
+    # The same by year, to tell which pair moved in a year that jumped (Kita's cyclists rose in 2022-2023).
+    by_year = Counter((r["file_year"], party_group(r["type_A"], r["use_A"]), party_group(r["type_B"], r["use_B"]))
+                      for r in mine)
+    files["parties_by_year"] = write_csv("party_by_year.csv", [
+        {"year": y, "party_A": a, "party_B": b, "accidents": n} for (y, a, b), n in sorted(by_year.items())])
+    closed = ART / "schools_closed.csv"
+    if closed.exists():
+        with closed.open(encoding="utf-8") as f:
+            audit["closed_schools_left_out"] = [r["name"] for r in csv.DictReader(f)]
     deaths = [{"year": r["file_year"], "type_A": party_group(r["type_A"], r["use_A"]), "age_A": r["age_A"],
                "type_B": party_group(r["type_B"], r["use_B"]), "age_B": r["age_B"], "hour": r["hour"],
                "kind": r["kind"], "died": r["died"],

@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "2279133505ccf5b1c9278cde13ad18096795a3a6",
+ "commit": "56cbe59af2bb4b15367eb40b7098a7a414f7d83c",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -82,6 +82,7 @@
    "share_night": 8,
    "share_intersection": 4
   },
+  "closed_schools_left_out": [],
   "national_routes": {
    "0004": 626,
    "0006": 211
@@ -218,6 +219,7 @@
   "wards": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/wards.csv",
   "hours": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/hour_weekday.csv",
   "parties": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/party_matrix.csv",
+  "parties_by_year": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/party_by_year.csv",
   "deaths": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/deaths.csv",
   "route": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/route_class.csv",
   "schools": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/schools.csv",

@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.colors import BoundaryNorm, ListedColormap  # noqa: E402
 from matplotlib.patches import Circle, Patch, Rectangle  # noqa: E402
+from matplotlib.ticker import MaxNLocator  # noqa: E402
 from shapely import wkb  # noqa: E402
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -115,6 +116,12 @@ class Base:
             ST_X(ST_Transform(ST_Point(lon, lat), 'OGC:CRS84', 'EPSG:6677')),
             ST_Y(ST_Transform(ST_Point(lon, lat), 'OGC:CRS84', 'EPSG:6677')) from '{ART / 'schools.parquet'}'""").fetchall()
 
+    def map_height(self, width):
+        """A map figure's height for this width, from the ward's height / width: a wide ward (Arakawa, Ota,
+        Shinagawa) left a band of blank paper under a fixed square figure. Between 4.5 and 10 inches."""
+        xmin, ymin, xmax, ymax = self.ward.bounds
+        return float(min(10.0, max(4.5, width * (ymax - ymin) / (xmax - xmin))))
+
     def point_rows(self):
         return self.points
 
@@ -203,6 +210,7 @@ def fig_categories():
             ax.plot(years, [int(r["broad"]) for r in rows], marker="s", color="#2c7fb8", label="広い読み")
             ax.legend(fontsize=8, loc="lower left")
         ax.set_ylim(0, None)
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))  # counts: 0.2 steps showed for 0-1 cases (Arakawa)
         ax.set_title(title, fontsize=10)
         ax.set_ylabel("件", fontsize=9)
         ax.grid(axis="y", color="#eeeeee")
@@ -295,7 +303,7 @@ def fig_hour_profile():
 def fig_school_map(base):
     pts = [p for p in base.point_rows() if p["young_pb"]]
     schools = read_csv("schools.csv")
-    fig, ax = plt.subplots(figsize=(8, 8))
+    fig, ax = plt.subplots(figsize=(8, base.map_height(8)))
     texts = base.draw(ax)
     xy = {n: (x, y) for n, x, y in base.schools}
     squares = []
@@ -460,7 +468,7 @@ def fig_town_rate(base):
     top = [rows[k] for k in audit["town_top5"]]
     # Short-road towns above the fifth: they would have been ranked, and the margin names them.
     small = [u for u in audit["small_road_units"] if top and u["per_road_km_year"] > float(top[-1]["per_road_km_year"])]
-    fig, ax = plt.subplots(figsize=(8.5, 8))
+    fig, ax = plt.subplots(figsize=(8.5, base.map_height(8.5)))
     shapes = {}
     for code, g in geoms:
         geom = wkb.loads(g)
