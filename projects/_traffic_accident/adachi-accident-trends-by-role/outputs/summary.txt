@@ -1,0 +1,20 @@
+deaths accidents 59; dead party {'歩行者': 26, '自転車': 13, '二輪車': 10, '補充票の人': 3, '乗用車 (自家用)': 4, '貨物車': 3}; party A {'その他・不明': 2, '乗用車 (自家用)': 24, '貨物車': 25, '二輪車': 4, '乗用車 (事業用)': 2, '自転車': 2}
+deaths hour 0-5 16; hour 19-5 28
+dead pedestrians aged 65+ 17 of 26
+全て: n 12169; top hours [(17, 951), (8, 916), (16, 862), (18, 827)]; weekday (Mon-Fri) n 9229; weekday top hours [(8, 790), (17, 757), (7, 663), (16, 654)]
+若い歩行者・自転車: n 1691; top hours [(16, 205), (8, 195), (17, 187), (15, 164)]; weekday (Mon-Fri) n 1284; weekday top hours [(8, 178), (16, 161), (17, 153), (15, 130)]
+高齢の歩行者: n 494; top hours [(18, 47), (10, 45), (11, 41), (17, 39)]; weekday (Mon-Fri) n 372; weekday top hours [(10, 34), (17, 32), (18, 32), (9, 29)]
+自転車: n 5975; top hours [(8, 548), (17, 472), (16, 470), (11, 426)]; weekday (Mon-Fri) n 4545; weekday top hours [(8, 482), (17, 382), (16, 352), (15, 312)]
+乗用車 (自家用): as party A 5350; as party B 1491
+乗用車 (事業用): as party A 576; as party B 117
+貨物車: as party A 2483; as party B 1034
+自転車: as party A 2776; as party B 3807
+二輪車: as party A 918; as party B 1753
+bike as B with a car or truck as A 2877
+towns: accidents in towns 12153; most accidents [('宮城二丁目', '238', '28'), ('鹿浜二丁目', '213', '11'), ('一ツ家一丁目', '140', '17'), ('一ツ家三丁目', '135', '6'), ('扇二丁目', '129', '10'), ('足立一丁目', '127', '10'), ('中川四丁目', '126', '14'), ('綾瀬四丁目', '118', '23')]
+adachi 7 years: accidents 12169; died 59; hurt 13473
+adachi shares (%): share_ped 12.5; share_bike 49.1; share_escooter 0.0; share_old_ped 4.1; share_young_pb 13.9; share_strict 29.7; share_broad 43.8; share_night 27.3; share_intersection 44.4
+school map: young pedestrians and cyclists {'young_ped_or_bike': 1691, 'weekday_7_8_or_14_17': 774}
+party cells: 乗用車 (自家用) x 自転車 1811; 自転車 x 相手なし・物件 1757; 乗用車 (自家用) x 二輪車 1022; 乗用車 (自家用) x 乗用車 (自家用) 1008; 貨物車 x 自転車 897; 乗用車 (自家用) x 歩行者 663; 乗用車 (自家用) x 貨物車 637; 自転車 x 自転車 608; 貨物車 x 二輪車 496; 貨物車 x 乗用車 (自家用) 374; 二輪車 x 相手なし・物件 350; 貨物車 x 貨物車 344
+route classes 7 years: 区道 7497; 主要地方道 (都道) 2275; 一般都道 977; 国道 741; その他 488; 首都高速 191
+top 15 hotspots: top route {'主要地方道 (都道)': 12, '国道 4号': 2, '区道': 1}; road_1 {'環七通り': 10, '日光街道': 2, '綾瀬川通り': 1, '尾久橋通り': 1, '環七南通り': 1}; with 首都高速 accidents 0

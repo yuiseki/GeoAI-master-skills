@@ -1,0 +1,231 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "c79f5e3d5ee794dce4fa693046a47dceea1aba26",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "min_road_km": 0.5,
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_ward": 12169,
+  "ward_without_point": 0,
+  "coded_and_inside": 12153,
+  "coded_outside": 16,
+  "other_code_inside": 18,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 1792,
+    "inside": 1790
+   },
+   "2020": {
+    "coded": 1534,
+    "inside": 1533
+   },
+   "2021": {
+    "coded": 1679,
+    "inside": 1681
+   },
+   "2022": {
+    "coded": 1878,
+    "inside": 1880
+   },
+   "2023": {
+    "coded": 1922,
+    "inside": 1924
+   },
+   "2024": {
+    "coded": 1746,
+    "inside": 1744
+   },
+   "2025": {
+    "coded": 1618,
+    "inside": 1619
+   }
+  },
+  "ward_rank_of_23": {
+   "per_1000_residents_per_year": 7,
+   "share_ped": 23,
+   "share_bike": 7,
+   "share_escooter": 21,
+   "share_old_ped": 15,
+   "share_young_pb": 6,
+   "share_strict": 11,
+   "share_broad": 8,
+   "share_night": 20,
+   "share_intersection": 8
+  },
+  "national_routes": {
+   "0004": 741
+  },
+  "ward_points": 12169,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 8,
+   "50m": 8,
+   "30m_without_expressway": 15
+  },
+  "hotspot_counts": {
+   "20m": [
+    27,
+    23,
+    20,
+    20,
+    19,
+    18,
+    18,
+    18,
+    17,
+    17,
+    17,
+    17,
+    17,
+    17,
+    17
+   ],
+   "30m": [
+    37,
+    35,
+    32,
+    26,
+    24,
+    24,
+    24,
+    23,
+    23,
+    23,
+    23,
+    23,
+    23,
+    22,
+    22
+   ],
+   "50m": [
+    56,
+    55,
+    44,
+    43,
+    38,
+    38,
+    38,
+    35,
+    34,
+    34,
+    33,
+    30,
+    30,
+    30,
+    30
+   ]
+  },
+  "expressway_points": 191,
+  "hotspot_counts_without_expressway": [
+   37,
+   35,
+   32,
+   26,
+   24,
+   24,
+   24,
+   23,
+   23,
+   23,
+   23,
+   23,
+   23,
+   22,
+   22
+  ],
+  "expressway_in_top15": {
+   "accidents": 0,
+   "per_rank": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "town_rows": 268,
+  "towns_merged": [],
+  "points_in_towns": 12153,
+  "points_outside_towns": 16,
+  "towns_without_road": [
+   {
+    "name": "西伊興町",
+    "accidents": 0
+   }
+  ],
+  "water_units": [],
+  "small_road_units": [
+   {
+    "key_code": "131210090",
+    "name": "入谷町，舎人町",
+    "accidents": 10,
+    "road_km": 0.431,
+    "per_road_km_year": 3.318
+   },
+   {
+    "key_code": "13121023002",
+    "name": "古千谷二丁目",
+    "accidents": 4,
+    "road_km": 0.444,
+    "per_road_km_year": 1.288
+   }
+  ],
+  "town_top5": [
+   "13121049002",
+   "13121039001",
+   "13121049003",
+   "13121052001",
+   "13121011008"
+  ]
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/adachi-accident-trends-by-role/outputs/towns.csv"
+ }
+}

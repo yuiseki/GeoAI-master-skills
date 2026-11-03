@@ -1,0 +1,69 @@
+{
+  "value": "per_road_km_year",
+  "kind": "rate",
+  "unit": "件/道路 km/年",
+  "crs": "EPSG:4612",
+  "source": "警察庁 交通事故オープンデータ 2019-2025 (npa-traffic-accidents@389500a)、国勢調査2020小地域 (estat-boundary-2020@823195c)、道路延長 OSM 2026-08-31 (osm-tokyo23-src@38f7a5f)",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    0.23327169195231925,
+    0.8321535840253611,
+    1.1322031690905752,
+    1.609053466491965,
+    2.1648064200129316,
+    5.689741833669719
+  ],
+  "units_per_class": [
+    54,
+    53,
+    53,
+    53,
+    54
+  ],
+  "nodata_units": 1,
+  "class_change_share": {
+    "equal": 0.783,
+    "jenks": 0.633
+  },
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [],
+  "inset_at": "lower right",
+  "title": "足立区のどの町丁で、道路の長さに比べて人身事故が多いか (2019〜2025年)",
+  "aspect": 1.232609009336988,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": null,
+  "hidden_by_inset": [],
+  "made": "2026-11-03",
+  "context": {
+    "path": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet",
+    "name": "name",
+    "where": "code5 between '13101' and '13123'",
+    "source": "jp-admin-2026-09@e6c87b1",
+    "crs": "EPSG:4612",
+    "crs_difference": null,
+    "areas": 8,
+    "labelled": [
+      "墨田区",
+      "豊島区",
+      "北区",
+      "荒川区",
+      "足立区",
+      "葛飾区"
+    ]
+  },
+  "highlight": {
+    "path": "projects/_traffic_accident/adachi-accident-trends-by-role/tmp/town-highlights.csv",
+    "groups": {
+      "道路あたり上位5": 5
+    }
+  }
+}
