@@ -19,6 +19,7 @@ Functions used by classify_map.py, and a command that turns grid-cell centres in
 - label_areas: names of the background areas, only for areas big enough in the view, on a white box.
 - areas_containing: every background area holding a point. Administrative polygons often overlap
   along shared borders, so a point on a border belongs to both.
+- fill_polygons: polygons drawn with their holes empty (a water tract around islands, a town around a park).
 - text_overlaps: pairs of texts that overlap one another, a legend, or a given mark, measured on the drawn figure.
   A label under a legend, or a rank number hidden by its neighbour, is found without looking.
 """
@@ -117,30 +118,45 @@ def read_areas(path, name_col, where=None, view=None, geometry="geometry"):
     return out
 
 
-def _patches(ax, geom, **kw):
-    from matplotlib.patches import PathPatch
+def polygon_path(poly):
+    """A matplotlib Path of a shapely Polygon, its holes empty. matplotlib fills by the nonzero winding rule, so a
+    hole wound the same way as the exterior would be filled; the rings are oriented first (exterior
+    counter-clockwise, holes clockwise), since unions and reprojection do not keep the file's orientation."""
     from matplotlib.path import Path as MPath
+    from shapely.geometry.polygon import orient
 
+    poly = orient(poly, 1.0)
+    verts, codes = [], []
+    for ring in [poly.exterior, *poly.interiors]:
+        xy = [c[:2] for c in ring.coords]
+        verts += xy
+        codes += [MPath.MOVETO] + [MPath.LINETO] * (len(xy) - 2) + [MPath.CLOSEPOLY]
+    return MPath(verts, codes)
+
+
+def fill_polygons(ax, geom, **kw):
+    """Draw each polygon of a (Multi)Polygon as one patch with its holes left empty, and return the patches.
+    ax.fill(poly.exterior.xy) paints over the holes, so a ring-shaped area drawn after the areas inside it hides them.
+    Parts that are not polygons are skipped."""
+    from matplotlib.patches import PathPatch
+
+    out = []
     for poly in getattr(geom, "geoms", [geom]):
         if poly.geom_type != "Polygon" or poly.is_empty:
             continue
-        verts, codes = [], []
-        for ring in [poly.exterior, *poly.interiors]:
-            xy = list(ring.coords)
-            verts += xy
-            codes += [MPath.MOVETO] + [MPath.LINETO] * (len(xy) - 2) + [MPath.CLOSEPOLY]
-        ax.add_patch(PathPatch(MPath(verts, codes), **kw))
+        out.append(ax.add_patch(PathPatch(polygon_path(poly), **kw)))
+    return out
 
 
 def draw_areas_under(ax, areas):
     ax.set_facecolor(WATER)
     for _, g in areas:
-        _patches(ax, g, facecolor=LAND, edgecolor="none", zorder=0)
+        fill_polygons(ax, g, facecolor=LAND, edgecolor="none", zorder=0)
 
 
 def draw_areas_over(ax, areas):
     for _, g in areas:
-        _patches(ax, g, facecolor="none", edgecolor=LINE, linewidth=0.6, zorder=4)
+        fill_polygons(ax, g, facecolor="none", edgecolor=LINE, linewidth=0.6, zorder=4)
 
 
 def label_areas(ax, areas, view, min_share=0.005, fontsize=8):

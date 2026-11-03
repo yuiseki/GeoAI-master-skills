@@ -12,6 +12,8 @@ from context_map import (
     areas_containing,
     aspect,
     check_context_crs,
+    fill_polygons,
+    polygon_path,
     fit_grid,
     label_areas,
     text_overlaps,
@@ -180,3 +182,46 @@ def test_memory_limit_stops_the_command_with_an_error(tmp_path):
                           "--row", "r", "--col", "c", "--x", "x", "--y", "y", "--out", str(tmp_path / "s.parquet"),
                           "--max-memory-gb", "0.2"], capture_output=True, text=True, timeout=120)
     assert out.returncode != 0 and "MemoryError" in out.stderr
+
+
+def _pixel(geom, xy, fill):
+    """The colour drawn at xy (map units in 0..24) when geom is filled black on white."""
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=(2.4, 2.4), dpi=10)
+    fig.subplots_adjust(0, 0, 1, 1)
+    ax.set_xlim(0, 24)
+    ax.set_ylim(0, 24)
+    ax.axis("off")
+    patches = fill(ax, geom)
+    fig.canvas.draw()
+    rgb = np.asarray(fig.canvas.buffer_rgba())[23 - int(xy[1]), int(xy[0]), :3]
+    plt.close(fig)
+    return patches, tuple(int(v) for v in rgb)
+
+
+def test_a_polygon_is_filled_with_its_holes_left_empty():
+    # ax.fill(poly.exterior.xy) paints over the hole: Chuo's water tract rings 月島, 勝どき and 佃, and painted
+    # them over when it was drawn after them
+    ring = shapely.Polygon([(0, 0), (10, 0), (10, 10), (0, 10)], [[(3, 3), (3, 7), (7, 7), (7, 3)]])
+    island = shapely.Polygon([(20, 0), (22, 0), (22, 2), (20, 2)])
+    geom = shapely.MultiPolygon([ring, island])
+    fill = lambda ax, g: fill_polygons(ax, g, facecolor="black", edgecolor="none")
+    patches, rgb = _pixel(geom, (1.5, 1.5), fill)
+    assert len(patches) == 2 and rgb == (0, 0, 0)
+    assert _pixel(geom, (5.5, 5.5), fill)[1] == (255, 255, 255)
+    assert _pixel(geom, (21.5, 1.5), fill)[1] == (0, 0, 0)
+    fig, ax = _ax()
+    assert fill_polygons(ax, shapely.Point(0, 0)) == []
+
+
+def test_a_hole_wound_like_its_exterior_is_still_empty():
+    # matplotlib fills by the nonzero winding rule: a hole that runs the same way round as the exterior is painted
+    # (Path.contains_point does not show this; only the drawn pixels do)
+    from matplotlib.patches import PathPatch
+
+    same = shapely.Polygon([(0, 0), (10, 0), (10, 10), (0, 10)], [[(3, 3), (7, 3), (7, 7), (3, 7)]])
+    assert same.exterior.is_ccw and same.interiors[0].is_ccw
+    fill = lambda ax, g: [ax.add_patch(PathPatch(polygon_path(g), facecolor="black", edgecolor="none"))]
+    assert _pixel(same, (5.5, 5.5), fill)[1] == (255, 255, 255)
+    assert _pixel(same, (1.5, 1.5), fill)[1] == (0, 0, 0)

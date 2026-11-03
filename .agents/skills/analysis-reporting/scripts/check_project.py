@@ -5,8 +5,9 @@ evidence it is given; this finds the evidence itself, so a project cannot pass b
                  taken from every UTF-8 text file in outputs/ (.csv .json .txt .log .md .tsv), plus the outputs/ of
                  every project the report links to (a synthesis quotes the projects it links to), plus any --evidence
     cited        a table row or sentence that links to files in an outputs/ folder has its numbers traced in those
-                 files only (their names included: top20_delta.csv holds a 20), so a wrong number cannot pass by
-                 matching an unrelated table. Integers below 10 and settings written in 問い or 方法 (100 m, 65 歳)
+                 files only (their names included: top20_delta.csv holds a 20; so is the row count of a cited CSV:
+                 41 校 for a schools.csv of 41 rows), so a wrong number cannot pass by matching an unrelated table.
+                 It still passes a wrong number that some cell of the cited file happens to hold. Integers below 10 and settings written in 問い or 方法 (100 m, 65 歳)
                  may come from anywhere. Each row of the 要点 table in 結論 that states a number must cite at least
                  one such file
     readers      every number in the Markdown files under reports/ (reports for each reader) is traced the same way;
@@ -111,6 +112,14 @@ def _cited(line, base):
     return files, line
 
 
+def _rows(path):
+    """The number of data rows of a CSV or TSV (lines after the header that are not empty), as text; '' otherwise."""
+    if path.suffix.lower() not in {".csv", ".tsv"}:
+        return ""
+    lines = [x for x in path.read_text(encoding="utf-8").splitlines()[1:] if x.strip()]
+    return f"rows {len(lines)}"
+
+
 def _segments(line):
     """A table row is one claim; prose is split into sentences, so a link in one sentence scopes only that sentence."""
     if line.lstrip().startswith("|"):
@@ -128,8 +137,9 @@ def _trace_lines(lines, base, project, evidence, label, uncited=True, settings=(
             files, rest = _cited(segment, base)
             if files:
                 cited.append(segment)
-                # a file's name says what it holds (top20_delta.csv holds the top 20)
-                text = "\n".join(f.name + "\n" + f.read_text(encoding="utf-8") for f in files)
+                # a file's name says what it holds (top20_delta.csv holds the top 20), and a table's row count is
+                # a number of it (schools.csv with 41 rows holds "41 校")
+                text = "\n".join(f.name + "\n" + _rows(f) + "\n" + f.read_text(encoding="utf-8") for f in files)
                 names = " or ".join(os.path.relpath(f, Path(project).resolve()).replace(os.sep, "/") for f in files)
                 missing = traceable(rest, text)
                 if evidence is not None:

@@ -263,3 +263,15 @@ def test_a_setting_in_a_reader_report_method_counts_for_that_report_only(tmp_pat
     (project / "reports" / "auditor.md").write_text(auditor, encoding="utf-8")
     (project / "reports" / "resident.md").write_text("# 住民向け\n\n路線 5499 の事故。\n", encoding="utf-8")
     assert check_project(project) == ["reports/resident.md: 5499 does not appear in the evidence"]
+
+
+def test_the_row_count_of_a_cited_table_counts_as_evidence(tmp_path):
+    # Shinagawa's "41 校" cited schools.csv, which has one row per school and 41 rows, but no 41 in any cell
+    project = make_cited(tmp_path)
+    rows = "".join(f"学校{i},{i % 7}\n" for i in range(41))
+    (project / "outputs" / "schools.csv").write_text("name,young\n" + rows, encoding="utf-8")
+    report = KEY_TABLE.replace("27.3% ([wards.csv](outputs/wards.csv))", "41 校 ([schools.csv](outputs/schools.csv))")
+    (project / "report.md").write_text(report, encoding="utf-8")
+    assert check_project(project) == []
+    (project / "report.md").write_text(report.replace("41 校", "43 校"), encoding="utf-8")
+    assert check_project(project) == ["report.md: 43 is not in outputs/schools.csv"]

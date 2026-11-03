@@ -285,7 +285,7 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
     from matplotlib.patches import Patch, PathPatch
     from matplotlib.path import Path as MPath
 
-    from context_map import (areas_containing, aspect, draw_areas_over, draw_areas_under, label_areas,
+    from context_map import (areas_containing, aspect, draw_areas_over, draw_areas_under, label_areas, polygon_path,
                              read_areas, text_overlaps)
 
     if a.kind == "category":
@@ -324,11 +324,7 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
             for poly in getattr(g, "geoms", [g]):
                 poly, n = drop_degenerate_holes(poly)
                 seams += n
-                verts = [np.asarray(poly.exterior.coords)] + [np.asarray(r.coords) for r in poly.interiors]
-                codes = []
-                for v in verts:
-                    codes += [MPath.MOVETO] + [MPath.LINETO] * (len(v) - 2) + [MPath.CLOSEPOLY]
-                path = MPath(np.concatenate(verts), codes)
+                path = polygon_path(poly)
                 face = (0.85, 0.85, 0.85) if c < 0 else cmap(int(c))
                 ax.add_patch(PathPatch(path, facecolor=face, edgecolor=EDGE if edges else face,
                                        lw=0.4 if edges else 0.1, hatch="//" if c < 0 else None, zorder=2))
