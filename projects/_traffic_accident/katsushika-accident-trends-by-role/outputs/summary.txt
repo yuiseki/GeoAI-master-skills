@@ -1,0 +1,20 @@
+deaths accidents 27; dead party {'二輪車': 8, '乗用車 (自家用)': 2, '歩行者': 7, '自転車': 8, '貨物車': 1, '補充票の人': 1}; party A {'二輪車': 2, '乗用車 (自家用)': 13, '貨物車': 12}
+deaths hour 0-5 5; hour 19-5 12
+dead pedestrians aged 65+ 3 of 7
+全て: n 5368; top hours [(8, 430), (17, 421), (16, 378), (15, 370)]; weekday (Mon-Fri) n 3997; weekday top hours [(8, 364), (17, 307), (16, 299), (7, 272)]
+若い歩行者・自転車: n 778; top hours [(16, 101), (8, 97), (15, 78), (17, 70)]; weekday (Mon-Fri) n 597; weekday top hours [(8, 88), (16, 84), (15, 63), (17, 53)]
+高齢の歩行者: n 220; top hours [(10, 23), (11, 20), (17, 19), (9, 17)]; weekday (Mon-Fri) n 174; weekday top hours [(10, 19), (11, 16), (17, 16), (9, 14)]
+自転車: n 2818; top hours [(8, 264), (16, 227), (15, 210), (17, 210)]; weekday (Mon-Fri) n 2124; weekday top hours [(8, 230), (16, 184), (15, 159), (9, 155)]
+乗用車 (自家用): as party A 2325; as party B 694
+乗用車 (事業用): as party A 280; as party B 61
+貨物車: as party A 1049; as party B 410
+自転車: as party A 1341; as party B 1726
+二輪車: as party A 342; as party B 640
+bike as B with a car or truck as A 1336
+towns: accidents in towns 5351; most accidents [('亀有三丁目', '148', '30'), ('青戸八丁目', '143', '8'), ('堀切四丁目', '140', '14'), ('四つ木五丁目', '100', '9'), ('四つ木四丁目', '94', '9'), ('新小岩一丁目', '79', '15'), ('奥戸七丁目', '75', '7'), ('亀有二丁目', '73', '10')]
+katsushika 7 years: accidents 5368; died 27; hurt 5921
+katsushika shares (%): share_ped 13.2; share_bike 52.5; share_escooter 0.0; share_old_ped 4.1; share_young_pb 14.5; share_strict 38.2; share_broad 49.6; share_night 27.4; share_intersection 43.9
+hotspots: top_route {'国道 6号': 8, '主要地方道 (都道)': 6, '首都高速': 1}; named with {'水戸街道': 8, '環七通り': 4, '青戸銀座通り': 1, '平和橋通り': 2, '千住新宿町線': 1, '蔵前橋通り': 1, '川の手通り': 1, '東京都道450号新荒川葛西堤防線': 1, '堀切橋金町浄水場線': 1, '奥戸街道': 1, '中川側道': 1}; in both halves 15
+route class 7 years: {'区道': 3187, '主要地方道 (都道)': 1114, '国道': 565, '一般都道': 204, 'その他': 166, '首都高速': 132}
+school map: young pedestrians and cyclists {'young_ped_or_bike': 778, 'weekday_7_8_or_14_17': 374}
+party cells: 自転車 x 相手なし・物件 861; 乗用車 (自家用) x 自転車 846; 乗用車 (自家用) x 乗用車 (自家用) 465; 貨物車 x 自転車 383; 乗用車 (自家用) x 二輪車 380; 乗用車 (自家用) x 歩行者 281; 乗用車 (自家用) x 貨物車 261; 自転車 x 自転車 249; 貨物車 x 乗用車 (自家用) 192; 貨物車 x 二輪車 178; 自転車 x 歩行者 172; 二輪車 x 自転車 140

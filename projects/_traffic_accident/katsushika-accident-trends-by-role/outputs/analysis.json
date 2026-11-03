@@ -1,0 +1,212 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "00c09f04f8dc6bf06b5a45c74f03d016e1b4a5f3",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "min_road_km": 0.5,
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_ward": 5368,
+  "ward_without_point": 0,
+  "coded_and_inside": 5351,
+  "coded_outside": 17,
+  "other_code_inside": 24,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 803,
+    "inside": 805
+   },
+   "2020": {
+    "coded": 529,
+    "inside": 531
+   },
+   "2021": {
+    "coded": 602,
+    "inside": 602
+   },
+   "2022": {
+    "coded": 857,
+    "inside": 855
+   },
+   "2023": {
+    "coded": 851,
+    "inside": 851
+   },
+   "2024": {
+    "coded": 759,
+    "inside": 764
+   },
+   "2025": {
+    "coded": 967,
+    "inside": 967
+   }
+  },
+  "ward_rank_of_23": {
+   "per_1000_residents_per_year": 19,
+   "share_ped": 22,
+   "share_bike": 3,
+   "share_escooter": 20,
+   "share_old_ped": 14,
+   "share_young_pb": 3,
+   "share_strict": 1,
+   "share_broad": 2,
+   "share_night": 19,
+   "share_intersection": 9
+  },
+  "national_routes": {
+   "0006": 556,
+   "0298": 9
+  },
+  "ward_points": 5368,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 11,
+   "50m": 12,
+   "30m_without_expressway": 14
+  },
+  "hotspot_counts": {
+   "20m": [
+    31,
+    22,
+    18,
+    16,
+    15,
+    15,
+    15,
+    15,
+    14,
+    13,
+    13,
+    12,
+    12,
+    12,
+    12
+   ],
+   "30m": [
+    37,
+    28,
+    22,
+    22,
+    21,
+    18,
+    18,
+    18,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16
+   ],
+   "50m": [
+    53,
+    30,
+    29,
+    28,
+    28,
+    28,
+    27,
+    26,
+    25,
+    24,
+    23,
+    22,
+    21,
+    20,
+    20
+   ]
+  },
+  "expressway_points": 132,
+  "hotspot_counts_without_expressway": [
+   37,
+   28,
+   22,
+   22,
+   21,
+   18,
+   18,
+   18,
+   16,
+   16,
+   16,
+   16,
+   16,
+   16,
+   15
+  ],
+  "expressway_in_top15": {
+   "accidents": 15,
+   "per_rank": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    15,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "town_rows": 155,
+  "towns_merged": [],
+  "points_in_towns": 5351,
+  "points_outside_towns": 17,
+  "towns_without_road": [],
+  "water_units": [],
+  "small_road_units": [],
+  "town_top5": [
+   "13122016001",
+   "13122013008",
+   "13122014001",
+   "13122022004",
+   "13122011003"
+  ]
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/katsushika-accident-trends-by-role/outputs/towns.csv"
+ }
+}

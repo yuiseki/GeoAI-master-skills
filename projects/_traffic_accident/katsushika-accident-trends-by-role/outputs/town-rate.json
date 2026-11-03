@@ -1,0 +1,27 @@
+{
+ "question": "葛飾区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
+ ],
+ "n": 155,
+ "notes": "breaks [0.034826490830869694, 0.5665424244204997, 0.7515791430933041, 1.0584690630511926, 1.6024946093659416, 3.607372958900162]; 分位と等間隔で色の変わる町丁 0.774 (classify_map.py の出力)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 155,
+ "units_in_analysis": 155,
+ "highlighted": [
+  "西新小岩一丁目",
+  "青戸八丁目",
+  "新小岩一丁目",
+  "新宿四丁目",
+  "亀有三丁目"
+ ],
+ "text_overlaps": []
+}
