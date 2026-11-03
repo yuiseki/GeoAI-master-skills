@@ -120,6 +120,7 @@ contents:
 | [fagus-crenata-masting-jp-2026-06](fagus-crenata-masting-jp-2026-06.md) | 東北と渡島半島のブナ 102 地点の結実の評価 1989〜2008年 (秋田県 31 地点) と気温の手がかり | Dryad の記録 (Masaki ほか、版 5)。CC0 1.0、引用を求められている |
 | [landsat5-fagus-crenata-sites-jp-2026-10](landsat5-fagus-crenata-sites-jp-2026-10.md) | ブナの 102 地点の周り 300 m の Landsat 5 TM の反射率、QA、NDVI、NDMI。撮影ごと、1989〜2008年の4〜5月と7〜8月 | USGS の public domain と Dryad の CC0。豊凶の値は含まない |
 | [akita-vegetation-2024](akita-vegetation-2024.md) | 秋田県の現存植生図2024 (1/25,000) の群落の面 174,576 個。ブナ、ミズナラ、コナラの群落を凡例で識別できる | 環境省生物多様性センター。PDL1.0、2026-10-28 取得 |
+| [env-biodic-bear-distribution-mesh-jp](env-biodic-bear-distribution-mesh-jp.md) | 全国のクマ類の分布メッシュ 28,194 行。自然環境保全基礎調査の第 2、4、5、6 回と要注意鳥獣 (クマ等) 生息分布調査。いた記録の集計で、いないことの証拠ではない | 環境省生物多様性センター。PDL1.0、2026-10-31 取得 |
 | [akita-forest-resource-mesh-2026](akita-forest-resource-mesh-2026.md) | 秋田県の全国森林資源メッシュ 20 m セル 29,088,595 個。林種、森林簿樹種 (広葉樹は 1 区分)、林齢、民有林・国有林 | 林野庁。PDL1.0、2026-10-28 取得 |
 | [kamisunagawa-higuma-sighting](kamisunagawa-higuma-sighting.md) | 上砂川町のヒグマ出没 FY2024〜FY2026途中 | 上砂川町ヒグマ出没マップ (BODIK)。CC BY 4.0 |
 | [tokyo-flood-record-jp](tokyo-flood-record-jp.md) | 東京都の浸水実績図 1974〜2019年 (43年分、面 5,845・点 121) | 東京都水害リスク情報システム。CC BY 4.0 |

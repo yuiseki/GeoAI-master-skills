@@ -74,6 +74,7 @@
 | [tokyo-flood-record-jp](huggingface/yuiseki/tokyo-flood-record-jp.md) | 東京都の浸水実績図 (1974〜2019年の43年分、浸水区域の面 5,845 行と点 121 行、棟数・世帯数・原因・最寄り雨量) | 東京都 (23区・多摩・島しょ) | 1974〜2019年、2026-10-26 取得 |
 | [fagus-crenata-masting-jp-2026-06](huggingface/yuiseki/fagus-crenata-masting-jp-2026-06.md) | ブナの結実の 4 段階の評価 (地点 × 年)、夏と春の気温の手がかり、カヌマ沢の種子トラップ、個体群モデルの推定値 | 東北 98 地点と北海道渡島半島 4 地点の点 | 1989〜2008年、Dryad 版 5 (2026-06-05) |
 | [akita-vegetation-2024](huggingface/yuiseki/akita-vegetation-2024.md) | 現存植生図2024 の群落の面 (凡例名、植生区分、植生自然度)。ブナ、ミズナラ、コナラの群落を識別できる (PDL1.0) | 秋田県 | 作成年度 2001〜2022、2026-10-28 取得 |
+| [env-biodic-bear-distribution-mesh-jp](huggingface/yuiseki/env-biodic-bear-distribution-mesh-jp.md) | クマ類の分布メッシュ (5 つの調査、いた記録の集計)。通報と偏りの違う 2 つ目の観測系 (PDL1.0) | 日本全国 | 1978〜2018 年の調査、2026-10-31 取得 |
 | [akita-forest-resource-mesh-2026](huggingface/yuiseki/akita-forest-resource-mesh-2026.md) | 全国森林資源メッシュの 20 m セル (林種、森林簿樹種、林齢、民有林・国有林、市町村)。広葉樹は 1 区分でブナとナラを分けられない (PDL1.0) | 秋田県の陸地全体 | 森林簿 2019〜2024、2026-10-28 取得 |
 | [jma-rain-tokyo](huggingface/yuiseki/jma-rain-tokyo.md) | 気象庁の東京都内31観測所の日別 (588,783行) と時間別 (8,660,976行) の降水量、品質・均質番号つき | 東京都内31観測所 (本土11・島しょ20) | 1974〜2025年、2026-10-26 取得 |
 | [jma-rain-kanto](huggingface/yuiseki/jma-rain-kanto.md) | 気象庁の関東4県73観測所の日別 (1,406,418行) と時間別 (29,536,104行) の降水量、品質・均質番号つき。県ごとのファイルで、県を足して育てる | 茨城・埼玉・千葉・神奈川の73観測所 (気象官署9・アメダス64) | 1974〜2026年9月、2026-10-31 取得 |

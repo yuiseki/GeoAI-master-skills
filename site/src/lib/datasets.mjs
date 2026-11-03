@@ -18,6 +18,7 @@ export const PUBLISHED_CARDS = [
     'agera5-japan-monthly-temperature-1979-2026',
     'akita-kumadas-wildlife-sighting',
     'akita-vegetation-2024',
+    'env-biodic-bear-distribution-mesh-jp',
     'esa-worldcover-tokyo-2021-100m',
     'estat-boundary-2020',
     'estat-census-mesh-2020',

@@ -22,6 +22,7 @@ datasets:
   - fagus-crenata-masting-jp-2026-06
   - agera5-japan-monthly-temperature-1979-2026
   - landsat5-fagus-crenata-sites-jp-2026-10
+  - env-biodic-bear-distribution-mesh-jp
 ---
 
 ## 問いと取り組んだこと
@@ -231,7 +232,7 @@ flowchart TD
 - 植生: 環境省「現存植生図2024」(PDL1.0)。
 - 豊凶: 東北森林管理局「ブナ開花・結実調査」(PDL1.0) の5県の指数と、東北98地点の結実の記録 (Dryad、Masakiほか、CC0)。
 - 気象と衛星: AgERA5 (CC BY 4.0)、Landsat 5、MODIS。
-- 熊の2つ目の観測系: 環境省の自然環境保全基礎調査による分布メッシュ (5km)。
+- 熊の2つ目の観測系: 環境省の要注意鳥獣 (クマ等) 生息分布調査による分布メッシュ (5km)。`yuiseki/env-biodic-bear-distribution-mesh-jp` の版 `7f635cb` を使った。
 - データの所在: 秋田県と林野庁の公開資料 (2026-11-01取得)。値を数えて使ってはいない。
 
 ## 限界
