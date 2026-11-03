@@ -1,6 +1,6 @@
 """Blocks A1, A2, B1, B2 of EXPERIMENT_PLAN.md and the robustness table.
 
-env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA uvx --with numpy --with scipy python -u scripts/04_blocks.py
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA uvx --with numpy --with scipy --with pyproj python -u scripts/04_blocks.py
 
 Reads stack.npy and aux.npz (02_grid.py), labels/labels.csv and outputs/s2_break.json (03_s2.py). Writes
 - outputs/blocks.json: every observable, the decision of each claim, and the robustness variants

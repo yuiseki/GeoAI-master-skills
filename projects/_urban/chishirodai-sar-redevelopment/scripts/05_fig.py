@@ -1,6 +1,6 @@
 """Figures: outputs/site_series.png, outputs/tile_ranking.png, outputs/capture_curve.png.
 
-env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA uvx --with numpy --with matplotlib python scripts/05_fig.py
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA uvx --with numpy --with matplotlib --with pyproj python scripts/05_fig.py
 """
 import csv
 import datetime as dt
@@ -79,7 +79,7 @@ def main():
     tt = ["SAR の点数 (2019 年度と 2024 年度の平均の差が 3 dB 以上の画素の割合)", "写真の見比べの正解",
           "画素の 2019 年度と 2024 年度の差 (dB、VV と VH の大きい方)"]
     use_cjk_font("".join(tt) + "上位 24 枚多数少し変化なし欠け調べる場所" + SOURCE + "0123456789%.")
-    fig, axes = plt.subplots(1, 3, figsize=(18, 6.6))
+    fig, axes = plt.subplots(1, 3, figsize=(18, 7.4))
     xs, ys = list(TX), list(TY)
     sc = np.full((12, 12), np.nan)
     for i, tx in enumerate(xs):
@@ -108,7 +108,7 @@ def main():
                             Patch(color=LABEL_COLORS["0"], label="0 変化なし"),
                             Patch(fc="white", ec="grey", label="欠け (写真が片方の年に無い)"),
                             Patch(fc="none", ec="black", label="SAR の上位 24 枚")],
-                   fontsize=7, loc="lower left", bbox_to_anchor=(0, -0.22), ncol=3)
+                   fontsize=7, loc="upper left", bbox_to_anchor=(0, -0.06), ncol=3)
     for ax, t in zip(axes[:2], tt[:2]):
         ax.set_title(t + "\n丸が調べる場所のタイル", fontsize=9)
         ax.set_xticks(range(12))
@@ -122,8 +122,8 @@ def main():
     axes[2].set_title(tt[2] + "\n範囲はタイル 144 枚の外接の箱 (UTM、北が上)", fontsize=9)
     axes[2].set_xticks([])
     axes[2].set_yticks([])
+    fig.tight_layout(rect=(0, 0.1, 1, 1))
     fig.text(0.01, 0.01, SOURCE, fontsize=6)
-    fig.tight_layout(rect=(0, 0.04, 1, 1))
     fig.savefig(OUT / "tile_ranking.png", dpi=120)
     plt.close(fig)
 

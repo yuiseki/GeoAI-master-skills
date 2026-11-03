@@ -1,0 +1,138 @@
+{
+ "background": {
+  "FY2024_vs_FY2019_vv_tree": {
+   "pixels": 206849,
+   "median_db": -0.067,
+   "sd_db": 1.555,
+   "share_abs_ge_3db": 0.0403
+  },
+  "FY2024_vs_FY2019_vv_grass": {
+   "pixels": 27258,
+   "median_db": -0.138,
+   "sd_db": 1.715,
+   "share_abs_ge_3db": 0.0619
+  },
+  "FY2024_vs_FY2019_vv_crop": {
+   "pixels": 49775,
+   "median_db": -0.217,
+   "sd_db": 1.608,
+   "share_abs_ge_3db": 0.0489
+  },
+  "FY2024_vs_FY2019_vv_built": {
+   "pixels": 125300,
+   "median_db": -0.08,
+   "sd_db": 1.995,
+   "share_abs_ge_3db": 0.088
+  },
+  "FY2024_vs_FY2019_vh_tree": {
+   "pixels": 206849,
+   "median_db": -0.206,
+   "sd_db": 1.158,
+   "share_abs_ge_3db": 0.0213
+  },
+  "FY2024_vs_FY2019_vh_grass": {
+   "pixels": 27258,
+   "median_db": -0.078,
+   "sd_db": 1.363,
+   "share_abs_ge_3db": 0.0335
+  },
+  "FY2024_vs_FY2019_vh_crop": {
+   "pixels": 49775,
+   "median_db": -0.054,
+   "sd_db": 1.271,
+   "share_abs_ge_3db": 0.0295
+  },
+  "FY2024_vs_FY2019_vh_built": {
+   "pixels": 125300,
+   "median_db": -0.056,
+   "sd_db": 1.594,
+   "share_abs_ge_3db": 0.0515
+  },
+  "FY2018_vs_FY2019_vv_tree": {
+   "pixels": 206849,
+   "median_db": -0.31,
+   "sd_db": 0.878,
+   "share_abs_ge_3db": 0.0104
+  },
+  "FY2018_vs_FY2019_vv_grass": {
+   "pixels": 27258,
+   "median_db": -0.396,
+   "sd_db": 1.058,
+   "share_abs_ge_3db": 0.0181
+  },
+  "FY2018_vs_FY2019_vv_crop": {
+   "pixels": 49775,
+   "median_db": -0.48,
+   "sd_db": 1.013,
+   "share_abs_ge_3db": 0.0163
+  },
+  "FY2018_vs_FY2019_vv_built": {
+   "pixels": 125300,
+   "median_db": -0.201,
+   "sd_db": 1.151,
+   "share_abs_ge_3db": 0.0247
+  },
+  "FY2018_vs_FY2019_vh_tree": {
+   "pixels": 206849,
+   "median_db": -0.047,
+   "sd_db": 0.685,
+   "share_abs_ge_3db": 0.0029
+  },
+  "FY2018_vs_FY2019_vh_grass": {
+   "pixels": 27258,
+   "median_db": -0.077,
+   "sd_db": 0.741,
+   "share_abs_ge_3db": 0.0036
+  },
+  "FY2018_vs_FY2019_vh_crop": {
+   "pixels": 49775,
+   "median_db": -0.144,
+   "sd_db": 0.782,
+   "share_abs_ge_3db": 0.0037
+  },
+  "FY2018_vs_FY2019_vh_built": {
+   "pixels": 125300,
+   "median_db": 0.112,
+   "sd_db": 0.894,
+   "share_abs_ge_3db": 0.0098
+  }
+ },
+ "site": {
+  "share_vv_fell_3db": 0.4904,
+  "median_vv_db_change": -2.93,
+  "FY2019_site_vv_db": -8.81,
+  "FY2019_site_vh_db": -15.23,
+  "FY2024_site_vv_db": -10.18,
+  "FY2024_site_vh_db": -18.21,
+  "vv_db_2023-01_to_2023-10": -7.64,
+  "dates_2023-01_to_2023-10": 23,
+  "vv_db_2023-12_to_2024-11": -10.25,
+  "dates_2023-12_to_2024-11": 24
+ },
+ "coregistration": {
+  "FY2018": [
+   -0.138,
+   0.048
+  ],
+  "FY2019": [
+   -0.135,
+   0.048
+  ],
+  "FY2024": [
+   0.092,
+   -0.035
+  ],
+  "built_share_ge_3db_not_shifted": 0.088,
+  "built_share_ge_3db_shifted_back": 0.0732
+ },
+ "capture": {
+  "sar_tiles_for_50pct": 31,
+  "sar_tile_share_for_50pct": 0.258,
+  "sar_tiles_for_80pct": 72,
+  "sar_tile_share_for_80pct": 0.6,
+  "builtup_tiles_for_50pct": 57,
+  "builtup_tile_share_for_50pct": 0.475,
+  "builtup_tiles_for_80pct": 97,
+  "builtup_tile_share_for_80pct": 0.808
+ }
+}

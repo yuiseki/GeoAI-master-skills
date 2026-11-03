@@ -10,9 +10,11 @@ Every file is listed in raw/MANIFEST_sar.json with its source URL (without the S
 Files already there are not fetched again.
 """
 import json
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 import rasterio
+import rasterio.errors
 from rasterio.windows import from_bounds
 
 from common import RAW, UTM, box_lonlat, box_utm, get, sha, stac_search, token, STAC
@@ -21,7 +23,18 @@ ORBIT = 46
 PERIOD = "2014-10-01T00:00:00Z/2026-10-31T23:59:59Z"
 
 
-def cut(href, tok, box, path):
+def cut(href, tok, box, path, tries=4):
+    """cut_once with retries: a read from the blob store sometimes fails once and works on the next try."""
+    for i in range(tries):
+        try:
+            return cut_once(href, tok, box, path)
+        except rasterio.errors.RasterioIOError as e:
+            print("retry", i + 1, path.name, e, flush=True)
+            time.sleep(5 * (i + 1))
+    raise RuntimeError(f"failed after {tries} tries: {path.name}")
+
+
+def cut_once(href, tok, box, path):
     """Write the window of a COG covering box (in the COG's CRS) to path, on the COG's own grid."""
     with rasterio.open(f"{href}?{tok}") as src:
         w = from_bounds(*box, transform=src.transform).round_offsets().round_lengths()

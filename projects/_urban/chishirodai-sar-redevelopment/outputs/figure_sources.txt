@@ -1,0 +1,1 @@
+Contains modified Copernicus Sentinel data 2017-2026 (Planetary Computer sentinel-1-rtc, sentinel-2-l2a)。国土地理院 年度別空中写真 (2019、2024 年度) を見比べた正解、ESA WorldCover 2021、© OpenStreetMap contributors (ODbL) を加工して作成
