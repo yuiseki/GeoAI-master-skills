@@ -12,6 +12,7 @@ Features are standardised (mean 0, sd 1) before clustering. For each method and 
 
 Methods and settings (one or more, comma-separated values):
     kmeans   --k 3,4,5
+    ward     --k 3,4,5                        (hierarchical, Ward linkage; no random start)
     hdbscan  --min-cluster-size 5,10
     dbscan   --eps 0.5 --min-samples 5        (eps in standardised units)
     dpmm     --max-components 10 [--covariance-scale 1,3,10]
@@ -28,7 +29,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from sklearn.cluster import DBSCAN, HDBSCAN, KMeans
+from sklearn.cluster import DBSCAN, HDBSCAN, AgglomerativeClustering, KMeans
 from sklearn.metrics import adjusted_rand_score, silhouette_score
 from sklearn.mixture import BayesianGaussianMixture
 from sklearn.preprocessing import StandardScaler
@@ -42,6 +43,9 @@ def cluster(X, method, params, seed=0):
     Z = StandardScaler().fit_transform(np.asarray(X, float))
     if method == "kmeans":
         return KMeans(n_clusters=params["k"], n_init=10, random_state=seed).fit_predict(Z)
+    if method == "ward":
+        # Hierarchical, Ward linkage (merge the pair that adds least within-cluster variance), cut at k clusters.
+        return AgglomerativeClustering(n_clusters=params["k"], linkage="ward").fit_predict(Z)
     if method == "hdbscan":
         return HDBSCAN(min_cluster_size=params["min_cluster_size"], copy=True).fit_predict(Z)
     if method == "dbscan":
@@ -103,7 +107,7 @@ def spatial_cohesion(labels, lon, lat, k=6, permutations=999, seed=0):
 def settings(a):
     def nums(s, cast):
         return [cast(v) for v in s.split(",")]
-    if a.method == "kmeans":
+    if a.method in ("kmeans", "ward"):
         return [{"k": v} for v in nums(a.k, int)]
     if a.method == "hdbscan":
         return [{"min_cluster_size": v} for v in nums(a.min_cluster_size, int)]
@@ -120,7 +124,7 @@ def main():
     p.add_argument("table")
     p.add_argument("id")
     p.add_argument("features", nargs="+")
-    p.add_argument("--method", choices=["kmeans", "hdbscan", "dbscan", "dpmm"], required=True)
+    p.add_argument("--method", choices=["kmeans", "ward", "hdbscan", "dbscan", "dpmm"], required=True)
     p.add_argument("--k", default="3,4,5,6")
     p.add_argument("--min-cluster-size", default="5,10")
     p.add_argument("--eps", default="0.5")

@@ -17,6 +17,7 @@ def blobs(seed=0, n=90):
 
 @pytest.mark.parametrize("method,params", [
     ("kmeans", {"k": 3}),
+    ("ward", {"k": 3}),  # hierarchical, Ward linkage: the second method of step 5 beside k-means
     ("hdbscan", {"min_cluster_size": 10}),
     ("dbscan", {"eps": 0.5, "min_samples": 5}),  # eps in standardised units
     ("dpmm", {"max_components": 8}),
@@ -92,3 +93,10 @@ def test_dpmm_covariance_scale_changes_how_many_clusters_are_used():
     wide = cluster(X, "dpmm", {"max_components": 15, "covariance_scale": 3.0})
     assert len(np.unique(narrow)) > len(np.unique(wide))
     assert len(np.unique(wide)) <= 4
+
+
+def test_ward_does_not_depend_on_the_seed():
+    # A hierarchy has no random start: two seeds give the same labels, unlike a k-means that can fall into
+    # another local optimum. Comparing k-means with Ward (step 5) is then a comparison of methods, not of seeds.
+    X, _ = blobs(seed=4, n=60)
+    assert np.array_equal(cluster(X, "ward", {"k": 4}, seed=0), cluster(X, "ward", {"k": 4}, seed=9))
