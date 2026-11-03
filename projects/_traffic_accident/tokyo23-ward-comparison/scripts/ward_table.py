@@ -18,13 +18,14 @@ SLUG = {"101": "chiyoda", "102": "chuo", "103": "minato", "104": "shinjuku", "10
 
 
 def rows(profiles, exists):
-    out = ["| 区 | 高い | 低い | 量の順位 | 2025 年 / 2019 年 | 区ごとの報告 |", "|---|---|---|---|---|---|"]
+    out = ["| 区 | 高い | 低い | 量の順位 | 2025 年 / 2019 年 | 自転車の単独を除く | 区ごとの報告 |",
+           "|---|---|---|---|---|---|---|"]
     for r in profiles:
         slug = SLUG[r["code"]]
         link = f"[{slug}](../{slug}-accident-trends-by-role/report.md)" if exists(slug) else "作成中"
         out.append(f"| {r['name']} | {r['high'] or 'なし'} | {r['low'] or 'なし'} | "
                    f"{r['rank_per_1000']}、{r['rank_per_road_km']}、{r['rank_per_km2']} | "
-                   f"{r['trend_2025']} ({r['ratio_2025_2019']}) | {link} |")
+                   f"{r['trend_2025']} ({r['ratio_2025_2019']}) | {r['trend_2025_without_bike_alone']} | {link} |")
     return out
 
 

@@ -155,6 +155,7 @@ def main():
             **{f"share_{k}": round(sum(r[k] for r in ws) / n, 4) for k in
                ("ped", "bike", "old_ped", "young_pb", "strict", "night", "intersection", "bike_single",
                 "business_car_A", "truck_A", "weekend", "expressway", "escooter")},
+            "top15_hotspot_accidents": sum(len(m) for _, m in hot),
             "share_top15_hotspots": round(sum(len(m) for _, m in hot) / n, 4),
             "share_top10pct_towns": round(top_share(town_counts[code], TOWN_TOP), 4),
             "towns": len(town_counts[code]),

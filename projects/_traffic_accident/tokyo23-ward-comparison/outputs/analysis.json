@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "3f6b228a721fdfd58215d1ad352ec5fd0e08707e",
+ "commit": "f74116b438e30fa4db7f226f5d7507ea595f82f8",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
