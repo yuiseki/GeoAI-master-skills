@@ -24,6 +24,8 @@ $E uvx --with rasterio --with numpy --with scipy --with shapely --with pyproj --
 $E uvx --with numpy --with shapely --with pyproj python scripts/03_s2.py
 $E uvx --with numpy --with scipy --with pyproj python -u scripts/04_blocks.py
 $E uvx --with numpy --with matplotlib --with pyproj python scripts/05_fig.py
+$E uvx --with numpy --with scipy --with pyproj python scripts/06_explore.py
+uvx --with pillow --with numpy --with pyproj python scripts/07_site_photos.py
 ```
 
 `env -u` は、作者の環境で anaconda の GDAL の変数が rasterio を壊すのを避けるため。01_fetch_site.py は作者の Overpass (overpass.yuiseki.net、2025-09-14 の版) を読む。公開の OSM のサーバーは使わない。
@@ -31,7 +33,7 @@ $E uvx --with numpy --with matplotlib --with pyproj python scripts/05_fig.py
 ## 出典
 
 - Contains modified Copernicus Sentinel data 2017-2026 (Planetary Computer の sentinel-1-rtc、sentinel-2-l2a、CC BY 4.0)
-- 国土地理院 年度別空中写真 (nendophoto2019、nendophoto2024) を見比べて正解を作成
+- 国土地理院 年度別空中写真 (nendophoto2019、nendophoto2024) を見比べて正解を作成。図 0 は国土地理院 (年度別空中写真 nendophoto2009、2019、2024、電子国土基本図 (オルソ画像) ort、国土画像情報 gazo4) を加工して作成
 - ESA WorldCover 2021 (CC BY 4.0)
 - © OpenStreetMap contributors (ODbL 1.0)。way 1423054131 の輪郭
 - 手法: K. Conradsen, A. A. Nielsen, H. Skriver (2016). Determining the points of change in time series of polarimetric SAR data. IEEE Transactions on Geoscience and Remote Sensing 54(5), 3007-3024

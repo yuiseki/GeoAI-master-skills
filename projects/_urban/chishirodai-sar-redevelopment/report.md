@@ -33,6 +33,16 @@
 | 手法を自分の地域に当てる人 | 画素ごとの逐次の検定は、撮影の多い長い系列では 1 回ずつの比較が弱く、数 dB の段差を半分しか拾わない。街区の平均の系列で見るか、α を緩めるか、年度の平均どうしを比べる方が拾いやすい。5 年離れた平均の差は、変化の無い所でも標準偏差 1〜2 dB ある | 定義と感度分析、変化の無い所でも差が出る |
 | 分析を再現、反証する人 | 正解は SAR の値を読む前に付けてコミットし、計画もその後、SAR と Sentinel-2 の値を読む前に固定した (コミットは記録に書いた) | [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)、[EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md)、[labels/](labels/) |
 
+### 消えた団地 (地理院の写真)
+
+![図 0: 調べた街区の地理院の写真、1987〜1990 年から最新まで](outputs/site_photos.png)
+
+図 0: 千葉市若葉区千城台東 2 丁目の調べた街区です。国土地理院の写真を年代の順に並べ、赤線で OSM の工事区域 (SITE) を重ねました。1987〜1990 年、2009 年度、2019 年度には、扇形の街区に低層の集合住宅の棟が並んでいます。2024 年度と最新の電子国土基本図では、棟が全て消え、平らな灰青色の面になっています。十字形の暗い影が 2 つ写っていて、タワークレーンの影のように見えますが、確かめていません。工事区域の輪郭は、棟の消えた扇形の街区のほぼ全体を覆っています。
+
+この場所の年度別空中写真は 2009、2019、2024 年度の 3 回だけで、写真から言えるのは「2019 年度と 2024 年度の撮影の間に消えた」ことまでです。この幅を SAR で絞ったのが次の図 1 です。
+
+図の出典: 国土地理院 (地理院タイル 年度別空中写真 nendophoto2009、2019、2024、電子国土基本図 (オルソ画像) ort、国土画像情報 gazo4)。赤線は © OpenStreetMap contributors (ODbL) の工事区域 way 1423054131 ([site_photos_source.txt](outputs/site_photos_source.txt))。図は [scripts/07_site_photos.py](scripts/07_site_photos.py) で作った。
+
 ### 解体は 2023 年秋に一度に進んだ
 
 ![図 1: SITE と CTRL の明るさ、日ごとの変化点の割合、Sentinel-2 の反射率](outputs/site_series.png)
@@ -98,6 +108,7 @@ C2 (日付) は全ての設定で保たれました。C1 (半分以上) を満�
 - Sentinel-1 RTC (Planetary Computer sentinel-1-rtc、2026-11-03 取得): 軌道 46 (下り、05:43 JST ごろ)、2017-02-18〜2026-10-24 の 279 日 ([grid_summary.json](outputs/grid_summary.json))。2019 年度 30 日、2024 年度 26 日。衛星は S1A が 265 日、S1D が 11 日、S1C が 2 日、S1B が 1 日。2017-01 以前は VV だけなので使っていない。格子は EPSG:32654、10 m、640 × 643。
 - Sentinel-2 L2A (sentinel-2-l2a、54SVE、雲量 60 % 未満、2026-11-03 取得): 718 item。輪郭の中の 80 % 以上が晴れた日は 436 日、期間 W の中は 289 日 ([s2_break.json](outputs/s2_break.json))。
 - 国土地理院 年度別空中写真 (nendophoto2019、nendophoto2024、ズーム 16): 144 タイル。両端の列 24 枚は片方の年で写真が欠けるので、正解は 120 枚。
+- 国土地理院の写真 (図 0、ズーム 17、3 × 3 タイル): 年度別空中写真 nendophoto2009、2019、2024、電子国土基本図 (オルソ画像) ort、国土画像情報 gazo4 (1987〜1990 年)。2026-11-03 取得。
 - 正解 ([labels/labels.csv](labels/labels.csv)): 2 が 18 枚、1 が 17 枚、0 が 85 枚。付け方は [labels/README.md](labels/README.md)。
 - 工事区域の輪郭 ([labels/site.geojson](labels/site.geojson)): OSM の way 1423054131 (landuse=construction、construction=commercial、版 1、2025-08-18 の編集)。作者の Overpass (2025-09-14 の版) から取得。36,370 m²、363 画素。
 - ESA WorldCover 2021 v200: 対照の市街地と、市街地の割合の順に使った。

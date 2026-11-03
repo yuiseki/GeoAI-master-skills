@@ -4,7 +4,8 @@ python3 scripts/01_fetch_site.py
 
 Reads way 1423054131 from the requester's own Overpass (overpass.yuiseki.net, data frozen at 2025-09-14; the public OSM
 servers are not used) and writes labels/site.geojson with the way's tags, version and edit time. The outline is the
-area mapped as under construction in 2025-08; it is smaller than the whole fan-shaped block whose buildings disappeared.
+area mapped as under construction in 2025-08; drawn over the GSI photos (07_site_photos.py) it covers nearly the whole
+fan-shaped block whose buildings disappeared.
 """
 import json
 import urllib.parse
