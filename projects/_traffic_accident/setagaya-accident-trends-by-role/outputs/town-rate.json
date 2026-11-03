@@ -2,13 +2,14 @@
  "question": "世田谷区のどの町丁で、道路の長さに比べて事故が多いか",
  "inputs": [
   "outputs/towns.csv",
-  "outputs/town-rate-quantile.json"
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
  ],
  "n": 277,
- "notes": "breaks [0.18040364848027562, 0.7615527229064152, 1.0548620946424947, 1.3846482434143303, 1.9667538609478021, 6.40438237649999];",
+ "notes": "breaks [0.1804036484797311, 0.7615527229062811, 1.0548620946365501, 1.3846482434102823, 1.9667538609635453, 6.4043823765111005]; 分位と等間隔で色の変わる町丁 0.787 (classify_map.py の出力)",
  "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
  "font": [
-  "Noto Sans JP"
+  "Noto Sans CJK JP"
  ],
  "map_crs": "EPSG:6677",
  "background": "roads OGC:CRS84, ward and towns EPSG:4612",
@@ -22,10 +23,5 @@
   "野沢四丁目",
   "玉川三丁目"
  ],
- "text_overlaps": [
-  [
-   "二子玉川",
-   "5"
-  ]
- ]
+ "text_overlaps": []
 }

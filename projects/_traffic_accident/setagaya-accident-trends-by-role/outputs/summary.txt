@@ -1,4 +1,6 @@
 deaths accidents 50; dead party {'歩行者': 24, '補充票の人': 5, '二輪車': 11, '自転車': 9, '二輪車/二輪車': 1}; party A {'貨物車': 21, '乗用車 (自家用)': 17, '乗用車 (事業用)': 3, 'その他・不明': 4, '自転車': 3, '二輪車': 2}
+deaths party A x B: 貨物車 x 歩行者 11; 乗用車 (自家用) x 歩行者 8; 貨物車 x 二輪車 5; 貨物車 x 自転車 4; 乗用車 (自家用) x 二輪車 4; 乗用車 (自家用) x 相手なし・物件 3; その他・不明 x 歩行者 3; 自転車 x 相手なし・物件 3; 乗用車 (事業用) x 歩行者 2; 乗用車 (自家用) x 自転車 2; 貨物車 x 貨物車 1; 二輪車 x 二輪車 1; 二輪車 x 相手なし・物件 1; その他・不明 x 自転車 1; 乗用車 (事業用) x 二輪車 1
+deaths on expressways (route 4000-5499) 0
 deaths hour 0-5 12; hour 19-5 18
 dead pedestrians aged 65+ 10 of 24
 全て: n 12291; top hours [(8, 998), (17, 920), (9, 882), (16, 849)]; weekday (Mon-Fri) n 9105; weekday top hours [(8, 846), (9, 701), (17, 698), (16, 636)]
@@ -13,6 +15,8 @@ dead pedestrians aged 65+ 10 of 24
 bike as B with a car or truck as A 2998
 towns: accidents in towns 12198; most accidents [('大原二丁目', '194', '21'), ('瀬田四丁目', '182', '21'), ('玉川三丁目', '170', '25'), ('上馬四丁目', '163', '17'), ('池尻三丁目', '154', '17'), ('用賀二丁目', '149', '21'), ('三軒茶屋二丁目', '146', '35'), ('代田三丁目', '137', '14')]
 setagaya 7 years: accidents 12291; died 52; hurt 13747
-setagaya shares (%): share_ped 17.6; share_bike 46.6; share_escooter 0.4; share_old_ped 4.1; share_young_pb 15.0; share_strict 32.2; share_broad 43.4; share_night 28.0; share_intersection 43.5
+setagaya shares (%): share_ped 17.6; share_bike 46.6; share_escooter 0.4; share_old_ped 4.1; share_young_pb 15.0; share_strict 32.2; share_broad 43.4; share_night 28.0; share_intersection 43.5; share_bike_alone 9.3
 school map: young pedestrians and cyclists {'young_ped_or_bike': 1840, 'weekday_7_8_or_14_17': 712}
 party cells: 乗用車 (自家用) x 自転車 1689; 自転車 x 相手なし・物件 1149; 乗用車 (自家用) x 乗用車 (自家用) 1062; 貨物車 x 自転車 943; 乗用車 (自家用) x 二輪車 941; 乗用車 (自家用) x 歩行者 866; 乗用車 (自家用) x 貨物車 651; 自転車 x 自転車 623; 自転車 x 歩行者 557; 貨物車 x 二輪車 434; 乗用車 (事業用) x 自転車 366; 貨物車 x 乗用車 (自家用) 361
+route classes 7 years: 区道 6713; 主要地方道 (都道) 2752; 国道 1468; 一般都道 755; その他 383; 首都高速 132; 高速自動車国道 88
+top 15 hotspots: top route {'主要地方道 (都道)': 8, '国道 246号': 6, '国道 20号': 1}; road_1 {'環八通り': 6, '環七通り': 3, '玉川通り': 2, '鮫洲大山線': 1, '駒沢公園通り': 1, '自由通り': 1, '用賀中道通り': 1}; with expressway (4000-5499) accidents 4
