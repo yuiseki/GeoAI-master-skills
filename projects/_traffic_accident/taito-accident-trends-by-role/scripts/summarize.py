@@ -68,7 +68,7 @@ def main():
     hot = rows("hotspots.csv")
     lines.append("top 15 hotspots: top route " + str(dict(Counter(h["top_route"] for h in hot).most_common()))
                  + "; road_1 " + str(dict(Counter(h["road_1"] or "(none within 30 m)" for h in hot).most_common()))
-                 + f"; with 首都高速 accidents {sum(int(h['expressway']) > 0 for h in hot)}")
+                 + f"; with expressway (4000-5499) accidents {sum(int(h['expressway']) > 0 for h in hot)}")
     (OUT / "summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
 
