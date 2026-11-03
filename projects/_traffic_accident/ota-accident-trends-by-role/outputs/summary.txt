@@ -1,0 +1,18 @@
+deaths accidents 71; dead party {'歩行者': 31, '自転車': 12, '貨物車': 3, '二輪車': 18, '乗用車 (自家用)': 1, '補充票の人': 6}; party A {'貨物車': 31, '乗用車 (事業用)': 6, '自転車': 3, '二輪車': 6, '乗用車 (自家用)': 17, '歩行者': 1, 'その他・不明': 7}
+deaths hour 0-5 11; hour 19-5 28
+dead pedestrians aged 65+ 23 of 31
+全て: n 10335; top hours [(8, 817), (17, 768), (9, 685), (15, 676)]; weekday (Mon-Fri) n 7760; weekday top hours [(8, 696), (17, 582), (15, 505), (9, 496)]
+若い歩行者・自転車: n 1270; top hours [(8, 148), (16, 124), (17, 122), (15, 119)]; weekday (Mon-Fri) n 959; weekday top hours [(8, 131), (16, 105), (17, 99), (15, 92)]
+高齢の歩行者: n 454; top hours [(12, 37), (18, 37), (10, 36), (16, 35)]; weekday (Mon-Fri) n 353; weekday top hours [(16, 32), (10, 27), (11, 27), (18, 27)]
+自転車: n 5127; top hours [(8, 495), (17, 418), (9, 356), (16, 352)]; weekday (Mon-Fri) n 3868; weekday top hours [(8, 437), (17, 316), (16, 267), (9, 260)]
+乗用車 (自家用): as party A 3674; as party B 1038
+乗用車 (事業用): as party A 867; as party B 210
+貨物車: as party A 2345; as party B 859
+自転車: as party A 2455; as party B 3283
+二輪車: as party A 907; as party B 1439
+bike as B with a car or truck as A 2355
+towns: accidents in towns 10293; most accidents [('大森西二丁目', '218', '24'), ('羽田空港三丁目', '189', '14'), ('多摩川一丁目', '159', '17'), ('山王二丁目', '150', '33'), ('大森西三丁目', '138', '20'), ('田園調布本町', '133', '17'), ('大森西一丁目', '127', '17'), ('蒲田五丁目', '126', '41')]
+ota 7 years: accidents 10335; died 72; hurt 11482
+ota shares (%): share_ped 14.7; share_bike 49.6; share_escooter 0.1; share_old_ped 4.4; share_young_pb 12.3; share_strict 33.0; share_broad 45.6; share_night 28.7; share_intersection 45.3
+school map: young pedestrians and cyclists {'young_ped_or_bike': 1270, 'weekday_7_8_or_14_17': 528}
+party cells: 自転車 x 相手なし・物件 1343; 乗用車 (自家用) x 自転車 1266; 貨物車 x 自転車 803; 乗用車 (自家用) x 二輪車 697; 自転車 x 自転車 611; 乗用車 (自家用) x 乗用車 (自家用) 591; 乗用車 (自家用) x 歩行者 520; 貨物車 x 二輪車 469; 自転車 x 歩行者 428; 乗用車 (自家用) x 貨物車 417; 二輪車 x 相手なし・物件 363; 貨物車 x 貨物車 359

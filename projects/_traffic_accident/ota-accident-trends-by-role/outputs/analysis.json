@@ -1,0 +1,215 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "262cd48325fcf796af34ab479c82bb2d4aebfc7d",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_ward": 10335,
+  "ward_without_point": 0,
+  "coded_and_inside": 10293,
+  "coded_outside": 42,
+  "other_code_inside": 39,
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 1366,
+    "inside": 1366
+   },
+   "2020": {
+    "coded": 1279,
+    "inside": 1275
+   },
+   "2021": {
+    "coded": 1429,
+    "inside": 1433
+   },
+   "2022": {
+    "coded": 1464,
+    "inside": 1460
+   },
+   "2023": {
+    "coded": 1621,
+    "inside": 1623
+   },
+   "2024": {
+    "coded": 1539,
+    "inside": 1537
+   },
+   "2025": {
+    "coded": 1637,
+    "inside": 1638
+   }
+  },
+  "ward_rank_of_23": {
+   "per_1000_residents_per_year": 12,
+   "share_ped": 20,
+   "share_bike": 6,
+   "share_escooter": 15,
+   "share_old_ped": 10,
+   "share_young_pb": 12,
+   "share_strict": 6,
+   "share_broad": 6,
+   "share_night": 16,
+   "share_intersection": 5
+  },
+  "national_routes": {
+   "0357": 126,
+   "0015": 697,
+   "0131": 194,
+   "0001": 456
+  },
+  "ward_points": 10335,
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 12,
+   "50m": 10,
+   "30m_without_expressway": 15
+  },
+  "hotspot_counts": {
+   "20m": [
+    23,
+    21,
+    21,
+    20,
+    20,
+    19,
+    18,
+    18,
+    18,
+    18,
+    18,
+    17,
+    17,
+    17,
+    17
+   ],
+   "30m": [
+    31,
+    28,
+    27,
+    26,
+    26,
+    26,
+    25,
+    23,
+    23,
+    22,
+    21,
+    21,
+    21,
+    21,
+    20
+   ],
+   "50m": [
+    45,
+    38,
+    37,
+    36,
+    35,
+    34,
+    34,
+    33,
+    32,
+    32,
+    32,
+    30,
+    30,
+    30,
+    29
+   ]
+  },
+  "expressway_points": 216,
+  "hotspot_counts_without_expressway": [
+   31,
+   28,
+   27,
+   26,
+   26,
+   26,
+   25,
+   23,
+   23,
+   22,
+   21,
+   21,
+   21,
+   21,
+   20
+  ],
+  "expressway_in_top15": {
+   "accidents": 0,
+   "per_rank": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "town_rows": 221,
+  "towns_merged": [],
+  "points_in_towns": 10293,
+  "points_outside_towns": 42,
+  "towns_without_road": [
+   {
+    "name": "ふるさとの浜辺公園",
+    "accidents": 0
+   }
+  ],
+  "water_units": [
+   {
+    "key_code": "131110610",
+    "accidents": 55
+   }
+  ]
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/ota-accident-trends-by-role/outputs/towns.csv"
+ }
+}
