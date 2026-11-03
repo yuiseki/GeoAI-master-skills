@@ -1,0 +1,20 @@
+deaths accidents 9; dead party {'歩行者': 5, '自転車': 3, '二輪車': 1}; party A {'その他・不明': 1, '貨物車': 3, '乗用車 (自家用)': 3, '自転車': 1, '乗用車 (事業用)': 1}
+deaths hour 0-5 1; hour 19-5 4
+dead pedestrians aged 65+ 1 of 5
+全て: n 2322; top hours [(17, 184), (8, 176), (10, 175), (11, 173)]; weekday (Mon-Fri) n 1775; weekday top hours [(8, 154), (17, 138), (11, 131), (9, 130)]
+若い歩行者・自転車: n 325; top hours [(16, 34), (17, 34), (14, 30), (15, 29)]; weekday (Mon-Fri) n 250; weekday top hours [(16, 29), (17, 29), (8, 23), (15, 21)]
+高齢の歩行者: n 119; top hours [(11, 15), (16, 15), (17, 11), (18, 11)]; weekday (Mon-Fri) n 94; weekday top hours [(11, 14), (10, 9), (16, 9), (18, 9)]
+自転車: n 1434; top hours [(10, 121), (11, 116), (8, 112), (17, 112)]; weekday (Mon-Fri) n 1088; weekday top hours [(8, 98), (11, 91), (9, 87), (10, 86)]
+乗用車 (自家用): as party A 702; as party B 139
+乗用車 (事業用): as party A 188; as party B 29
+貨物車: as party A 436; as party B 149
+自転車: as party A 817; as party B 835
+二輪車: as party A 164; as party B 229
+bike as B with a car or truck as A 544
+towns: accidents in towns 2310; most accidents [('南千住六丁目', '146', '17'), ('南千住八丁目', '106', '16'), ('南千住一丁目', '98', '10'), ('南千住五丁目', '79', '16'), ('西日暮里五丁目', '77', '12'), ('西日暮里二丁目', '75', '20'), ('西日暮里六丁目', '72', '5'), ('南千住三丁目', '70', '8')]
+arakawa 7 years: accidents 2322; died 9; hurt 2509
+arakawa shares (%): share_ped 16.2; share_bike 61.8; share_escooter 0.0; share_old_ped 5.1; share_young_pb 14.0; share_strict 36.8; share_broad 49.8; share_night 26.2; share_intersection 44.5
+school map: young pedestrians and cyclists {'young_ped_or_bike': 325, 'weekday_7_8_or_14_17': 141}
+party cells: 自転車 x 相手なし・物件 455; 乗用車 (自家用) x 自転車 268; 自転車 x 自転車 218; 貨物車 x 自転車 209; 自転車 x 歩行者 123; 乗用車 (自家用) x 歩行者 120; 乗用車 (自家用) x 二輪車 112; 乗用車 (自家用) x 乗用車 (自家用) 90; 乗用車 (自家用) x 貨物車 82; 貨物車 x 二輪車 76; 二輪車 x 自転車 71; 貨物車 x 歩行者 68
+route classes 7 years: 区道 1183; 主要地方道 (都道) 624; 一般都道 273; 国道 187; その他 55
+top 15 hotspots: top route {'国道 4号': 7, '主要地方道 (都道)': 6, '一般都道': 1, '区道': 1}; road_1 {'日光街道': 7, '尾竹橋通り': 2, '道灌山通り': 2, '都電通り': 1, '尾久橋通り': 1, '若宮八幡通り': 1, '明治通り': 1}; with 首都高速 accidents 0

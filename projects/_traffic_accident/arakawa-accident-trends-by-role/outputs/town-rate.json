@@ -1,0 +1,27 @@
+{
+ "question": "荒川区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
+ ],
+ "n": 52,
+ "notes": "breaks [0.3900225626360354, 0.9714209870597144, 1.2513003003690502, 1.4597139100656555, 1.7820477458080288, 3.6508583841022624]; 分位と等間隔で色の変わる町丁 0.596 (classify_map.py の出力)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 52,
+ "units_in_analysis": 52,
+ "highlighted": [
+  "南千住一丁目",
+  "南千住四丁目",
+  "南千住六丁目",
+  "南千住七丁目",
+  "南千住八丁目"
+ ],
+ "text_overlaps": []
+}
