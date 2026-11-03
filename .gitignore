@@ -17,5 +17,6 @@ node_modules/
 !/projects/_traffic_accident/
 !/projects/_traffic_bus/
 !/projects/_transit/
+!/projects/_urban/
 /artifacts/*
 !/artifacts/sample-project/
