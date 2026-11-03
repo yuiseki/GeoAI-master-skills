@@ -13,3 +13,4 @@
 | [bunkyo-accident-trends-by-role](bunkyo-accident-trends-by-role/) | 2019〜2025 年の文京区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [shinjuku-accident-trends-by-role](shinjuku-accident-trends-by-role/) | 2019〜2025 年の新宿区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [shibuya-accident-trends-by-role](shibuya-accident-trends-by-role/) | 2019〜2025 年の渋谷区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
+| [sumida-accident-trends-by-role](sumida-accident-trends-by-role/) | 2019〜2025 年の墨田区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |

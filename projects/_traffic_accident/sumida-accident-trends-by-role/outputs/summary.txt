@@ -1,0 +1,18 @@
+deaths accidents 19; dead party {'自転車': 4, '二輪車': 7, '乗用車 (自家用)': 1, '歩行者': 6, '補充票の人': 1}; party A {'貨物車': 10, '二輪車': 3, '乗用車 (自家用)': 3, 'その他・不明': 1, '乗用車 (事業用)': 2}
+deaths hour 0-5 6; hour 19-5 13
+dead pedestrians aged 65+ 4 of 6
+全て: n 3706; top hours [(8, 302), (17, 256), (16, 247), (11, 245)]; weekday (Mon-Fri) n 2788; weekday top hours [(8, 252), (17, 208), (9, 198), (18, 191)]
+若い歩行者・自転車: n 405; top hours [(8, 40), (16, 40), (15, 39), (17, 31)]; weekday (Mon-Fri) n 314; weekday top hours [(8, 35), (16, 34), (15, 28), (18, 27)]
+高齢の歩行者: n 160; top hours [(11, 16), (17, 16), (18, 15), (10, 13)]; weekday (Mon-Fri) n 119; weekday top hours [(17, 15), (18, 13), (10, 11), (11, 10)]
+自転車: n 1743; top hours [(8, 147), (9, 137), (16, 133), (17, 131)]; weekday (Mon-Fri) n 1299; weekday top hours [(8, 124), (9, 109), (17, 103), (18, 98)]
+乗用車 (自家用): as party A 1353; as party B 371
+乗用車 (事業用): as party A 410; as party B 54
+貨物車: as party A 833; as party B 324
+自転車: as party A 770; as party B 1150
+二輪車: as party A 313; as party B 556
+bike as B with a car or truck as A 885
+towns: accidents in towns 3700; most accidents [('東向島五丁目', '103', '17'), ('江東橋四丁目', '99', '20'), ('東向島二丁目', '97', '14'), ('東向島六丁目', '84', '12'), ('向島一丁目', '81', '5'), ('京島一丁目', '79', '15'), ('八広六丁目', '75', '8'), ('東向島三丁目', '70', '7')]
+sumida 7 years: accidents 3706; died 19; hurt 4086
+sumida shares (%): share_ped 16.2; share_bike 47.0; share_escooter 0.2; share_old_ped 4.3; share_young_pb 10.9; share_strict 18.1; share_broad 31.5; share_night 31.7; share_intersection 47.2
+school map: young pedestrians and cyclists {'young_ped_or_bike': 405, 'weekday_7_8_or_14_17': 156}
+party cells: 乗用車 (自家用) x 自転車 433; 自転車 x 相手なし・物件 422; 貨物車 x 自転車 327; 乗用車 (自家用) x 二輪車 267; 乗用車 (自家用) x 乗用車 (自家用) 210; 乗用車 (自家用) x 歩行者 200; 乗用車 (自家用) x 貨物車 190; 自転車 x 自転車 177; 貨物車 x 二輪車 159; 自転車 x 歩行者 152; 二輪車 x 相手なし・物件 138; 貨物車 x 歩行者 127
