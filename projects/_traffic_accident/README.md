@@ -29,3 +29,4 @@
 | [toshima-accident-trends-by-role](toshima-accident-trends-by-role/) | 2019〜2025 年の豊島区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [itabashi-accident-trends-by-role](itabashi-accident-trends-by-role/) | 2019〜2025 年の板橋区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [suginami-accident-trends-by-role](suginami-accident-trends-by-role/) | 2019〜2025 年の杉並区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
+| [nerima-accident-trends-by-role](nerima-accident-trends-by-role/) | 2019〜2025 年の練馬区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |

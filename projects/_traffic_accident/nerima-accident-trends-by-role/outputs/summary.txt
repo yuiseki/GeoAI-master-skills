@@ -1,0 +1,20 @@
+deaths accidents 49; dead party {'自転車': 20, '歩行者': 14, '二輪車': 10, '補充票の人': 1, '貨物車': 2, '乗用車 (自家用)': 2}; party A {'貨物車': 22, '乗用車 (自家用)': 20, 'その他・不明': 3, '自転車': 1, '乗用車 (事業用)': 1, '二輪車': 2}
+deaths hour 0-5 10; hour 19-5 20
+dead pedestrians aged 65+ 9 of 14
+全て: n 7407; top hours [(8, 618), (17, 582), (16, 526), (18, 502)]; weekday (Mon-Fri) n 5593; weekday top hours [(8, 545), (17, 435), (7, 401), (18, 396)]
+若い歩行者・自転車: n 986; top hours [(16, 123), (8, 115), (17, 98), (15, 87)]; weekday (Mon-Fri) n 759; weekday top hours [(8, 106), (16, 99), (17, 83), (18, 68)]
+高齢の歩行者: n 348; top hours [(10, 39), (17, 36), (11, 34), (8, 26)]; weekday (Mon-Fri) n 263; weekday top hours [(10, 28), (17, 24), (11, 22), (16, 20)]
+自転車: n 3519; top hours [(8, 355), (17, 288), (16, 277), (9, 262)]; weekday (Mon-Fri) n 2709; weekday top hours [(8, 320), (7, 217), (17, 213), (9, 210)]
+乗用車 (自家用): as party A 3609; as party B 985
+乗用車 (事業用): as party A 347; as party B 61
+貨物車: as party A 1654; as party B 656
+自転車: as party A 1253; as party B 2656
+二輪車: as party A 506; as party B 1039
+bike as B with a car or truck as A 2029
+towns: accidents in towns 7335; most accidents [('南田中四丁目', '115', '3'), ('谷原一丁目', '96', '4'), ('高松五丁目', '89', '10'), ('練馬一丁目', '89', '30'), ('北町六丁目', '84', '12'), ('東大泉二丁目', '82', '21'), ('高野台四丁目', '81', '5'), ('大泉町五丁目', '81', '5')]
+nerima 7 years: accidents 7407; died 50; hurt 8360
+nerima shares (%): share_ped 15.8; share_bike 47.5; share_escooter 0.0; share_old_ped 4.7; share_young_pb 13.3; share_strict 30.1; share_broad 44.4; share_night 27.2; share_intersection 46.4; share_bike_alone 7.8
+school map: young pedestrians and cyclists {'young_ped_or_bike': 986, 'weekday_7_8_or_14_17': 446}
+party cells: 乗用車 (自家用) x 自転車 1268; 乗用車 (自家用) x 乗用車 (自家用) 679; 貨物車 x 自転車 646; 乗用車 (自家用) x 二輪車 623; 自転車 x 相手なし・物件 581; 乗用車 (自家用) x 歩行者 547; 乗用車 (自家用) x 貨物車 408; 自転車 x 自転車 390; 貨物車 x 二輪車 295; 貨物車 x 乗用車 (自家用) 249; 二輪車 x 自転車 236; 自転車 x 歩行者 235
+route classes 7 years: 区道 4196; 主要地方道 (都道) 1863; 一般都道 824; その他 322; 国道 202
+top 15 hotspots: top route {'主要地方道 (都道)': 10, '一般都道': 3, 'その他': 1, '区道': 1}; road_1 {'目白通り': 4, '環八通り': 3, '笹目通り': 2, '南田中町旭町線（支線2）（補助第230号線）': 2, '(none within 30 m)': 1, '練馬川口線': 1, '中央通り': 1, '環七通り': 1}; with 首都高速 accidents 0
