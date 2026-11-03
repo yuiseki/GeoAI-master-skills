@@ -1,7 +1,7 @@
 {
  "question": "台東区で人身事故が集まる地点はどこか",
  "inputs": [
-  "artifacts/taito-accident-trends-by-role/points.csv",
+  "artifacts/_traffic_accident/taito-accident-trends-by-role/points.csv",
   "outputs/hotspots.csv"
  ],
  "n": 4517,

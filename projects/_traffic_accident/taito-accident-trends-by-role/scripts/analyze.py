@@ -4,7 +4,7 @@ Run from the repository root after prepare.py:
 uvx --from 'duckdb>=1.5.5' --with numpy python projects/_traffic_accident/taito-accident-trends-by-role/scripts/analyze.py
 
 Reads artifacts/_traffic_accident/taito-accident-trends-by-role/*.parquet and writes the tables to outputs/ and
-the per-accident points (with EPSG:6677 x, y) to artifacts/.../points.parquet.
+the per-accident points (with EPSG:6677 x, y) to artifacts/.../points.csv.
 """
 
 import csv
@@ -21,7 +21,9 @@ PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
 ART = ROOT / "artifacts/_traffic_accident/taito-accident-trends-by-role"
 OUT = PROJECT / "outputs"
+# The ward: the NPA 市区町村コード (3 digits) and the jp-admin code5 (13 + the same 3 digits).
 TAITO = "106"
+WARD = f"13{TAITO}"
 WARD_CODES = [f"{i:03d}" for i in range(101, 124)]
 YEARS = [str(y) for y in range(2019, 2026)]
 FIRST_HALF = {"2019", "2020", "2021"}
@@ -126,9 +128,19 @@ def chi2_ppf(p, dof):
     return (lo + hi) / 2
 
 
+def ward_ranks(wards, code):
+    """Rank (1 = highest) of the ward with this 3-digit code among the rows of wards, for each share_ and per_
+    column. Ties share the better rank. Stops if the code is missing or repeated."""
+    mine = [w for w in wards if w["code"] == code]
+    if len(mine) != 1:
+        raise ValueError(f"ward code {code} appears {len(mine)} times in the ward table")
+    return {k: 1 + sum(w[k] > mine[0][k] for w in wards)
+            for k in mine[0] if k.startswith("share_") or k.startswith("per_")}
+
+
 def write_csv(name, rows):
     path = OUT / name
-    with path.open("w", newline="") as f:
+    with path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
@@ -152,10 +164,10 @@ def load(con):
         cast("発生日時　　時" as integer) as hour, cast("曜日(発生年月日)" as integer) as weekday,
         longitude, latitude
         from '{ART / "tokyo_honhyo.parquet"}' where "市区町村コード" in ({",".join(repr(c) for c in WARD_CODES)})""")
-    con.sql("""create table pts as select *,
+    con.sql(f"""create table pts as select *,
         ST_X(ST_Transform(ST_Point(longitude, latitude), 'OGC:CRS84', 'EPSG:6677')) as x,
         ST_Y(ST_Transform(ST_Point(longitude, latitude), 'OGC:CRS84', 'EPSG:6677')) as y
-        from acc where ward = '106' and longitude is not null""")
+        from acc where ward = '{TAITO}' and longitude is not null""")
     cols = [c[0] for c in con.execute("select * from acc limit 0").description]
     return [dict(zip(cols, r)) for r in con.execute("select * from acc").fetchall()]
 
@@ -185,10 +197,10 @@ def main():
              "taito_without_point": sum(r["longitude"] is None for r in taito)}
 
     # Coded ward vs the point in the ward polygon (the alternative reading of "Taito's accidents").
-    inside = con.execute(f"""with w as (select ST_GeomFromWKB(geometry) g from '{ART / "wards.parquet"}' where code5 = '13106')
-        select count(*) filter (where ward = '106' and ST_Contains(w.g, ST_Point(longitude, latitude))),
-               count(*) filter (where ward = '106' and not ST_Contains(w.g, ST_Point(longitude, latitude))),
-               count(*) filter (where ward <> '106' and ST_Contains(w.g, ST_Point(longitude, latitude)))
+    inside = con.execute(f"""with w as (select ST_GeomFromWKB(geometry) g from '{ART / "wards.parquet"}' where code5 = '{WARD}')
+        select count(*) filter (where ward = '{TAITO}' and ST_Contains(w.g, ST_Point(longitude, latitude))),
+               count(*) filter (where ward = '{TAITO}' and not ST_Contains(w.g, ST_Point(longitude, latitude))),
+               count(*) filter (where ward <> '{TAITO}' and ST_Contains(w.g, ST_Point(longitude, latitude)))
         from acc, w where longitude is not null""").fetchall()[0]
     audit.update(coded_and_inside=inside[0], coded_outside=inside[1], other_code_inside=inside[2])
 
@@ -216,9 +228,8 @@ def main():
                       "per_1000_residents_per_year": round(1000 * len(ws) / 7 / pops[code], 2),
                       **{f"share_{k}": round(sum(r[k] for r in ws) / len(ws), 4) for k in keys}})
     files["wards"] = write_csv("wards.csv", wards)
-    # Taito's rank among the 23 wards (1 = highest share).
-    audit["taito_rank_of_23"] = {k: 1 + sum(w[k] > wards[5][k] for w in wards)
-                                 for k in wards[5] if k.startswith("share_") or k.startswith("per_")}
+    # Taito's rank among the 23 wards (1 = highest share), found by its code (not by its place in the list).
+    audit["taito_rank_of_23"] = ward_ranks(wards, TAITO)
 
     # B3 hour x weekday in Taito.
     hours = []
@@ -257,7 +268,7 @@ def main():
     prow = [dict(zip(pcols, r)) for r in con.execute("select * from pts").fetchall()]
     for p in prow:
         p.update(flags(p))
-    with (ART / "points.csv").open("w", newline="") as f:
+    with (ART / "points.csv").open("w", newline="", encoding="utf-8") as f:
         fields = ["file_year", "weekday", "hour", "longitude", "latitude", "x", "y", *keys, "young_pb"]
         writer = csv.DictWriter(f, fieldnames=list(dict.fromkeys(fields)), extrasaction="ignore")
         writer.writeheader()
@@ -329,9 +340,18 @@ def main():
     audit["hotspot_counts"] = {f"{int(r)}m": [len(m) for _, m in sets[r]] for r in RADII}
 
     # B6 towns: accidents and OSM road length per census small area.
-    con.sql(f"""create table towns as select KEY_CODE, S_NAME, JINKO,
-        ST_Transform(ST_GeomFromWKB(geometry), 'EPSG:4612', 'EPSG:6677') as g,
-        ST_GeomFromWKB(geometry) as g_lonlat from '{ART / 'towns.parquet'}'""")
+    # A census town (KEY_CODE) can be several rows of the boundary file (Shinjuku's 山吹町 is two; Taito has none),
+    # so the rows are merged into one unit per KEY_CODE: the shapes united and the population summed.
+    names_per_code = con.execute(f"""select max(n) from (select count(distinct S_NAME) n
+        from '{ART / 'towns.parquet'}' group by KEY_CODE)""").fetchall()[0][0]
+    if names_per_code != 1:
+        raise RuntimeError(f"a KEY_CODE has {names_per_code} names")
+    con.sql(f"""create table towns as select KEY_CODE, any_value(S_NAME) as S_NAME, sum(JINKO) as JINKO,
+        count(*) as pieces, ST_Transform(ST_Union_Agg(ST_GeomFromWKB(geometry)), 'EPSG:4612', 'EPSG:6677') as g,
+        ST_Union_Agg(ST_GeomFromWKB(geometry)) as g_lonlat from '{ART / 'towns.parquet'}' group by KEY_CODE""")
+    audit.update(town_rows=con.execute(f"select count(*) from '{ART / 'towns.parquet'}'").fetchall()[0][0],
+                 towns_merged=[n for (n,) in con.execute(
+                     "select S_NAME || ' (' || pieces || ')' from towns where pieces > 1 order by S_NAME").fetchall()])
     con.sql(f"""create table road_m as select ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677') as g,
         highway from '{ART / 'roads.parquet'}'""")
     con.sql("""create table town_counts as select t.KEY_CODE, t.S_NAME, t.JINKO,
@@ -348,10 +368,16 @@ def main():
     files["hotspots"] = write_csv("hotspots.csv", hot)
     in_towns = con.execute("select sum(accidents) from town_counts").fetchall()[0][0]
     audit.update(points_in_towns=int(in_towns), points_outside_towns=len(prow) - int(in_towns))
+    # A town with no OSM road inside it has no denominator: its rate is NoData (null), not inf or 0
+    # (Shinjuku's 神楽坂四丁目; Taito has none).
+    audit["towns_without_road"] = [{"name": n, "accidents": int(a)} for n, a in con.execute(
+        "select S_NAME, accidents from town_counts where road_km = 0 order by S_NAME").fetchall()]
     con.sql(f"""copy (select KEY_CODE, S_NAME, JINKO, accidents, ped, road_km, area_km2,
-        accidents / 7 / road_km as per_road_km_year, geometry from town_counts) to '{ART / 'town_counts.parquet'}' (format parquet)""")
+        case when road_km > 0 then accidents / 7 / road_km end as per_road_km_year, geometry from town_counts)
+        to '{ART / 'town_counts.parquet'}' (format parquet)""")
     trows = con.execute("""select KEY_CODE, S_NAME, JINKO, accidents, ped, round(road_km, 3), round(area_km2, 4),
-        round(accidents / 7 / road_km, 3) from town_counts order by accidents / road_km desc""").fetchall()
+        case when road_km > 0 then round(accidents / 7 / road_km, 3) end from town_counts
+        order by case when road_km > 0 then accidents / road_km end desc nulls last, KEY_CODE""").fetchall()
     files["towns"] = write_csv("towns.csv", [dict(zip(["key_code", "name", "population", "accidents", "ped", "road_km",
                                                         "area_km2", "per_road_km_year"], t)) for t in trows])
 
@@ -364,7 +390,7 @@ def main():
                    "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"},
         "settings": {"year": "file year", "ward": "市区町村コード", "strict": sorted(STRICT), "broad": sorted(BROAD),
                      "radius_m": RADIUS, "radii_m": RADII, "school_radius_m": SCHOOL_RADIUS, "crs_metric": "EPSG:6677"},
-        "audit": audit, "files": files}, ensure_ascii=False, indent=1))
+        "audit": audit, "files": files}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(audit, ensure_ascii=False, indent=1))
 
 

@@ -13,7 +13,7 @@ OUT = Path(__file__).resolve().parents[1] / "outputs"
 
 
 def rows(name):
-    with (OUT / name).open() as f:
+    with (OUT / name).open(encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
 
@@ -51,10 +51,10 @@ def main():
                  f"hurt {sum(int(r['hurt']) for r in yearly)}")
     taito = next(r for r in rows("wards.csv") if r["name"] == "台東区")
     lines.append("taito shares (%): " + "; ".join(f"{k} {100 * float(v):.1f}" for k, v in taito.items() if k.startswith("share_")))
-    school_map = json.loads((OUT / "school-map.json").read_text())
+    school_map = json.loads((OUT / "school-map.json").read_text(encoding="utf-8"))
     lines.append(f"school map: young pedestrians and cyclists {school_map['n']}")
     lines.append(f"party cells: " + "; ".join(f"{r['party_A']} x {r['party_B']} {r['accidents']}" for r in parties[:12]))
-    (OUT / "summary.txt").write_text("\n".join(lines) + "\n")
+    (OUT / "summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
 
 

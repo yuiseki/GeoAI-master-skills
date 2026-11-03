@@ -22,6 +22,10 @@
     22
   ],
   "nodata_units": 0,
+  "class_change_share": {
+    "equal": 0.778,
+    "jenks": 0.75
+  },
   "palette": "viridis",
   "boundary": "#404040",
   "labels": null,
@@ -38,7 +42,7 @@
   "text_overlaps": [],
   "inset": null,
   "hidden_by_inset": [],
-  "made": "2026-10-26",
+  "made": "2026-11-03",
   "context": {
     "path": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet",
     "name": "name",
@@ -57,7 +61,7 @@
     ]
   },
   "highlight": {
-    "path": "projects/taito-accident-trends-by-role/tmp/town-highlights.csv",
+    "path": "projects/_traffic_accident/taito-accident-trends-by-role/tmp/town-highlights.csv",
     "groups": {
       "道路あたり上位5": 5
     }

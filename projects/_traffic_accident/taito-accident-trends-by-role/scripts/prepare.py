@@ -26,6 +26,8 @@ ADMIN = f"hf://datasets/yuiseki/jp-admin-2026-09@{ADMIN_REV}/municipalities.parq
 TOWNS = f"https://huggingface.co/datasets/yuiseki/estat-boundary-2020/resolve/{BOUNDARY_REV}/parquet/r2ka13.parquet"
 OSM = f"hf://datasets/yuiseki/osm-tokyo23-src-2026-08@{OSM_REV}/parquet"
 TAITO = "13106"
+CITY = TAITO[2:]
+HONHYO_ROWS = 205541  # EXPERIMENT_TRACKER R001
 TOWN_COUNT = 108
 TOWN_POPULATION = 211444
 
@@ -35,26 +37,30 @@ def main():
     con = duckdb.connect()
     con.sql("install spatial; load spatial; install httpfs; load httpfs")
 
-    con.sql(f"""copy (
-        select regexp_extract(filename, 'parquet/([0-9]{{4}})/', 1) as file_year, * exclude (filename, geometry)
-        from read_parquet('{NPA}', union_by_name = true, filename = true)
-        where "都道府県コード" = '30'
-    ) to '{OUT / "tokyo_honhyo.parquet"}' (format parquet)""")
-    years = con.execute(f"select count(distinct file_year) from '{OUT / 'tokyo_honhyo.parquet'}'").fetchall()[0][0]
-    if years != 7:
-        raise RuntimeError(f"expected 7 file years, got {years}")
+    # The Tokyo honhyo and the 23 wards are the same for every ward project: reuse them when they are there
+    # (copied from another ward's artifacts), but always check them.
+    if not (OUT / "tokyo_honhyo.parquet").exists():
+        con.sql(f"""copy (
+            select regexp_extract(filename, 'parquet/([0-9]{{4}})/', 1) as file_year, * exclude (filename, geometry)
+            from read_parquet('{NPA}', union_by_name = true, filename = true)
+            where "都道府県コード" = '30'
+        ) to '{OUT / "tokyo_honhyo.parquet"}' (format parquet)""")
+    rows, years = con.execute(f"select count(*), count(distinct file_year) from '{OUT / 'tokyo_honhyo.parquet'}'").fetchall()[0]
+    if (rows, years) != (HONHYO_ROWS, 7):
+        raise RuntimeError(f"expected {HONHYO_ROWS} rows in 7 file years, got {rows} in {years}")
 
-    con.sql(f"""copy (
-        select code5, name, population, ST_AsWKB(geometry) as geometry from '{ADMIN}'
-        where code5 between '13101' and '13123'
-    ) to '{OUT / "wards.parquet"}' (format parquet)""")
+    if not (OUT / "wards.parquet").exists():
+        con.sql(f"""copy (
+            select code5, name, population, ST_AsWKB(geometry) as geometry from '{ADMIN}'
+            where code5 between '13101' and '13123'
+        ) to '{OUT / "wards.parquet"}' (format parquet)""")
     wards = con.execute(f"select count(*) from '{OUT / 'wards.parquet'}'").fetchall()[0][0]
     if wards != 23:
         raise RuntimeError(f"expected 23 wards, got {wards}")
 
     con.sql(f"""copy (
         select KEY_CODE, S_NAME, cast(JINKO as integer) as JINKO, geometry from '{TOWNS}'
-        where CITY = '106' and PREF = '13'
+        where CITY = '{CITY}' and PREF = '13'
     ) to '{OUT / "towns.parquet"}' (format parquet)""")
     n, pop = con.execute(f"select count(*), sum(JINKO) from '{OUT / 'towns.parquet'}'").fetchall()[0]
     if (n, pop) != (TOWN_COUNT, TOWN_POPULATION):

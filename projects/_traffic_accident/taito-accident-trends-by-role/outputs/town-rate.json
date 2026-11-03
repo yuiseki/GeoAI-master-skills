@@ -2,7 +2,8 @@
  "question": "台東区のどの町丁で、道路の長さに比べて事故が多いか",
  "inputs": [
   "outputs/towns.csv",
-  "outputs/town-rate-quantile.json"
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
  ],
  "n": 108,
  "notes": "breaks [0.35308859223163275, 1.1917010906543009, 1.8292521105978317, 2.2495401772723156, 2.80371086764374, 8.358840779427425]; 分位と等間隔で色の変わる町丁 0.778 (classify_map.py の出力)",

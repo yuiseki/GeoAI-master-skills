@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from analyze import greedy_hotspots, involves, is_seikatsu, party_group, poisson_interval
+from analyze import greedy_hotspots, involves, is_seikatsu, party_group, poisson_interval, ward_ranks
 
 
 def test_seikatsu_strict_and_broad():
@@ -50,3 +50,16 @@ def test_poisson_interval_known_values():
     # Garwood 95% interval: n=0 -> (0, 3.689), n=10 -> (4.795, 18.390).
     assert poisson_interval(0) == pytest.approx((0, 3.689), abs=1e-3)
     assert poisson_interval(10) == pytest.approx((4.795, 18.390), abs=1e-3)
+
+
+def test_ward_ranks_find_the_ward_by_its_code_not_its_place():
+    # The rank was read from wards[5], the sixth ward in code order. That is Taito (106), but a copy for Bunkyo
+    # (105, the fifth) would have ranked Taito.
+    wards = [{"code": c, "share_bike": v, "per_1000": v, "name": c} for c, v in
+             [("101", 0.3), ("102", 0.1), ("103", 0.5), ("104", 0.2), ("105", 0.4), ("106", 0.25)]]
+    assert ward_ranks(wards, "106") == {"share_bike": 4, "per_1000": 4}
+    assert ward_ranks(wards, "105")["share_bike"] == 2
+    with pytest.raises(ValueError):
+        ward_ranks(wards, "199")
+    with pytest.raises(ValueError):
+        ward_ranks(wards + wards[:1], "101")

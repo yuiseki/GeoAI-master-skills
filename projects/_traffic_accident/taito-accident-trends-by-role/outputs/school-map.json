@@ -1,7 +1,7 @@
 {
  "question": "学校の周りで、若い歩行者と自転車の事故はどこで起きているか",
  "inputs": [
-  "artifacts/taito-accident-trends-by-role/points.csv",
+  "artifacts/_traffic_accident/taito-accident-trends-by-role/points.csv",
   "outputs/schools.csv"
  ],
  "n": {
