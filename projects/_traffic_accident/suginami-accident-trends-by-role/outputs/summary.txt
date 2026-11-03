@@ -16,5 +16,5 @@ suginami 7 years: accidents 6863; died 34; hurt 7784
 suginami shares (%): share_ped 16.3; share_bike 45.7; share_escooter 0.5; share_old_ped 3.9; share_young_pb 12.9; share_strict 34.7; share_broad 47.7; share_night 26.3; share_intersection 39.4; share_bike_alone 9.6
 school map: young pedestrians and cyclists {'young_ped_or_bike': 888, 'weekday_7_8_or_14_17': 368}
 party cells: 乗用車 (自家用) x 自転車 777; 自転車 x 相手なし・物件 658; 乗用車 (自家用) x 乗用車 (自家用) 618; 貨物車 x 自転車 510; 乗用車 (自家用) x 二輪車 489; 乗用車 (自家用) x 貨物車 462; 自転車 x 自転車 444; 乗用車 (自家用) x 歩行者 401; 自転車 x 歩行者 334; 貨物車 x 二輪車 250; 貨物車 x 乗用車 (自家用) 218; 貨物車 x 貨物車 214
-route classes 7 years: 主要地方道 (都道) 2860; 区道 2628; 一般都道 732; 国道 367; その他 168; 首都高速 108
-top 15 hotspots: top route {'主要地方道 (都道)': 12, '国道 20号': 3}; road_1 {'環七通り': 6, '青梅街道': 4, '環八通り': 3, '甲州街道': 1, '東八道路': 1}; with 首都高速 accidents 2
+route classes 7 years: 主要地方道 (都道) 2860; 区道 2628; 一般都道 732; 国道 367; その他 137; 首都高速 108; 高速自動車国道 31
+top 15 hotspots: top route {'主要地方道 (都道)': 12, '国道 20号': 3}; road_1 {'環七通り': 6, '青梅街道': 4, '環八通り': 3, '甲州街道': 1, '東八道路': 1}; with expressway (4000-5499) accidents 2

@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "ab5226a2cb409be098bcf64e5e773d4706815426",
+ "commit": "3f6b228a721fdfd58215d1ad352ec5fd0e08707e",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -117,6 +117,13 @@
    "旧・光が丘第七小学校",
    "旧国立東京学芸大学附属大泉中学校"
   ],
+  "other_route_codes": {
+   "9500": 110,
+   "9900": 78,
+   "9000": 7,
+   "7000": 4,
+   "8000": 1
+  },
   "national_routes": {
    "0254": 186,
    "0017": 16
@@ -125,7 +132,7 @@
   "hotspot_overlap_of_top15_within_30m": {
    "20m": 11,
    "50m": 10,
-   "30m_without_expressway": 15
+   "30m_without_expressway": 14
   },
   "hotspot_counts": {
    "20m": [
@@ -180,9 +187,8 @@
     24
    ]
   },
-  "expressway_points": 0,
+  "expressway_points": 122,
   "hotspot_counts_without_expressway": [
-   37,
    34,
    28,
    27,
@@ -196,12 +202,13 @@
    17,
    17,
    17,
+   16,
    16
   ],
   "expressway_in_top15": {
-   "accidents": 0,
+   "accidents": 37,
    "per_rank": [
-    0,
+    37,
     0,
     0,
     0,

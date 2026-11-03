@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "ab5226a2cb409be098bcf64e5e773d4706815426",
+ "commit": "3f6b228a721fdfd58215d1ad352ec5fd0e08707e",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -114,6 +114,12 @@
    "share_bike_alone": 13
   },
   "closed_schools_left_out": [],
+  "other_route_codes": {
+   "9500": 67,
+   "9900": 60,
+   "9000": 9,
+   "7000": 1
+  },
   "national_routes": {
    "0020": 367
   },
@@ -176,7 +182,7 @@
     31
    ]
   },
-  "expressway_points": 108,
+  "expressway_points": 139,
   "hotspot_counts_without_expressway": [
    47,
    46,

@@ -374,12 +374,16 @@ def main():
     files["deaths"] = write_csv("deaths.csv", sorted(deaths, key=lambda d: d["year"]))
 
     # Road type (route code: 0001-0999 national, 1000-1499 major prefectural, 2000-2999 prefectural,
-    # 3000-3999 municipal, 5000-5499 expressway; 9000- private and other).
+    # 3000-3999 municipal, 4000-4999 national expressway (中央道, 東名, 関越: Suginami, Setagaya, Nerima),
+    # 5000-5499 首都高速; 9000- private and other).
     def route_class(code):
         n = int(code)
         return ("国道" if n < 1000 else "主要地方道 (都道)" if n < 1500 else "一般都道" if 2000 <= n < 3000
-                else "区道" if 3000 <= n < 4000 else "首都高速" if 5000 <= n < 5500 else "その他")
+                else "区道" if 3000 <= n < 4000 else "高速自動車国道" if 4000 <= n < 5000
+                else "首都高速" if 5000 <= n < 5500 else "その他")
     roads = Counter((r["file_year"], route_class(r["route"])) for r in mine)
+    # What その他 holds, by route code (Suginami had to count it outside the outputs).
+    audit["other_route_codes"] = dict(Counter(r["route"] for r in mine if route_class(r["route"]) == "その他").most_common())
     nat = Counter(r["route"] for r in mine if int(r["route"]) < 1000)
     files["route"] = write_csv("route_class.csv", [{"year": y, "route_class": c, "accidents": n}
                                                    for (y, c), n in sorted(roads.items())])
@@ -472,7 +476,7 @@ def main():
                     "top_combo": combos.most_common(1)[0][0], "top_combo_n": combos.most_common(1)[0][1],
                     # 首都高速 accidents in the circle: where they are most, road_1 names the road under the
                     # viaduct (Katsushika's 11th, 15 of 16 on the expressway, named after a surface road).
-                    "expressway": sum(5000 <= int(m["route"]) < 5500 for m in ms),
+                    "expressway": sum(4000 <= int(m["route"]) < 5500 for m in ms),
                     "road_1": near_names[0] if near_names else "",
                     "road_1_m": round(road_1_m, 1) if road_1_m is not None else None,
                     "road_2": near_names[1] if len(near_names) > 1 else "",
@@ -489,15 +493,16 @@ def main():
     # The 30 m hotspots without the 首都高速 accidents (route 5000-5499), beside the main reading: an expressway on
     # a viaduct or in a tunnel shares x, y with the road under or over it (Shibuya, Meguro and Nakano each added
     # this reading; it is part of every run now, and is 0 accidents where no expressway runs).
-    surface = np.flatnonzero([route_class(p["route"]) != "首都高速" for p in prow])
+    # Expressways are 4000-5499 (高速自動車国道 and 首都高速, the routes with a 高速票); Suginami found 4000-4999 left in.
+    surface = np.flatnonzero([not 4000 <= int(p["route"]) < 5500 for p in prow])
     no_expr = [(surface[c], surface[m]) for c, m in greedy_hotspots(xy[surface], RADIUS, TOP)]
     others = np.array([xy[c] for c, _ in no_expr])
     overlap["30m_without_expressway"] = int(sum(np.hypot(*(others - xy[c]).T).min() <= RADIUS for c, _ in sets[RADIUS]))
     audit["expressway_points"] = len(prow) - len(surface)
     audit["hotspot_counts_without_expressway"] = [len(m) for _, m in no_expr]
-    audit["expressway_in_top15"] = {"accidents": int(sum(route_class(prow[i]["route"]) == "首都高速"
+    audit["expressway_in_top15"] = {"accidents": int(sum(4000 <= int(prow[i]["route"]) < 5500
                                                        for _, m in sets[RADIUS] for i in m)),
-                                    "per_rank": [int(sum(route_class(prow[i]["route"]) == "首都高速" for i in m))
+                                    "per_rank": [int(sum(4000 <= int(prow[i]["route"]) < 5500 for i in m))
                                                  for _, m in sets[RADIUS]]}
 
     # B6 towns: accidents and OSM road length per census small area.
@@ -526,9 +531,9 @@ def main():
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))) as accidents,
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))
             and ('61' in (p.type_A, p.type_B))) as ped,
-        -- 首都高速 accidents: a town under a viaduct counts them, and its road length counts the viaduct (Adachi)
+        -- expressway accidents (4000-5499): a town under a viaduct counts them, and its road length counts the viaduct (Adachi)
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))
-            and p.route between '5000' and '5499') as expressway,
+            and p.route between '4000' and '5499') as expressway,
         (select coalesce(sum(ST_Length(ST_Intersection(r.g, t.g))), 0) from road_m r where ST_Intersects(r.g, t.g)) / 1000 as road_km,
         ST_Area(t.g) / 1e6 as area_km2, t.g_lonlat as geometry
         from towns t""")
