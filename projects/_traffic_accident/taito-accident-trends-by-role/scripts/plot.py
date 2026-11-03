@@ -26,15 +26,17 @@ from shapely import wkb  # noqa: E402
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
-ART = ROOT / "artifacts/_traffic_accident/taito-accident-trends-by-role"
+ART = ROOT / "artifacts/_traffic_accident" / PROJECT.name
+ART_REL = f"artifacts/_traffic_accident/{PROJECT.name}"
+SLUG = PROJECT.name.removesuffix("-accident-trends-by-role")
 OUT = PROJECT / "outputs"
 sys.path.insert(0, str(ROOT / ".agents/skills/analysis-visualize/scripts"))
 from cjk_font import use_cjk_font  # noqa: E402
-from context_map import text_overlaps  # noqa: E402
+from context_map import fill_polygons, text_overlaps  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from analyze import WARD  # noqa: E402
-from prepare import TOWN_COUNT  # noqa: E402
+from analyze import WARD, WARD_NAME  # noqa: E402
+from prepare import TOWN_UNITS  # noqa: E402
 
 # Roads are OGC:CRS84 and the ward and towns JGD2000 (EPSG:4612); both are reprojected to EPSG:6677 as if
 # the datums were the same. The difference (about 1 m, per map-context) is under a road line's width here.
@@ -51,6 +53,15 @@ SOURCE = ("出典: 警察庁「交通事故統計情報のオープンデータ�
 LANDMARKS = {"上野公園": "上野公園", "上野": "上野三丁目", "浅草": "浅草二丁目", "谷中": "谷中五丁目", "入谷": "入谷一丁目",
              "三ノ輪": "三ノ輪一丁目", "蔵前": "蔵前二丁目", "浅草橋": "浅草橋三丁目", "千束": "千束三丁目", "根岸": "根岸三丁目"}
 LANDMARK_OFFSETS = {"三ノ輪": (0, -130)}
+# The zoom of the hotspot map: the top-15 hotspots inside this box (EPSG:6677 metres xmin, xmax, ymin, ymax), with
+# 200 m around them, around Ueno and Okachimachi.
+ZOOM_PICK = (-1e9, -4900, -32700, 1e9)
+ZOOM_TITLE = "上野・御徒町"
+# Rank numbers moved from beside their circle (metres east, north): 8 sits under the name 入谷 when written above
+# right, and under 4 to its left; it is written below.
+NUMBER_OFFSETS = {"8": (60, -150)}
+# Names left off the town map, where they sit on a numbered town: 上野 is on the town numbered 2, named in the legend.
+TOWN_MAP_SKIP = ("上野",)
 MAJOR = {"motorway", "trunk", "primary", "secondary", "trunk_link", "primary_link"}
 WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"]
 TEXT = ("0123456789,.%()/-−×・:年月日時件人数率区台東23全自転車歩行者高齢若い生活道路狭広交差点夜電動キックボード特定小型原付"
@@ -59,7 +70,7 @@ TEXT = ("0123456789,.%()/-−×・:年月日時件人数率区台東23全自転�
         "等間隔分割種類過失重い側主若者件区間95%Poissonの範囲順位立場選ぶ半分割合色点円上位1530m500mkmyNEnsitivityxv"
         "数えた本票ファイル計上されたと関わる以内線括弧単路信号小中高大集まり平均昼間別回目下位帯を描く都心側ここ灰色黒白赤青黄緑紫"
         "通り首都高速明治春日言問江戸昭和御徒町駅中央不忍国際入口蔵前橋ひすいアベニュー浅草アメ横上野御徒町中央通り口あけぼの"
-        "比べる位置向きスケールバーOSMの道路のうち幹線を太く7年合計ありWeekday土日平日")
+        "比べる位置向きスケールバーOSMの道路のうち幹線を太く7年合計ありWeekday土日平日値水面")
 
 
 def read_csv(name):
@@ -149,7 +160,7 @@ class Base:
 def fig_trend():
     rows = read_csv("yearly.csv")
     fig, ax = plt.subplots(figsize=(7, 4))
-    for scope, color in (("台東区", "#c0392b"), ("23区", "#555555")):
+    for scope, color in ((WARD_NAME, "#c0392b"), ("23区", "#555555")):
         rs = [r for r in rows if r["scope"] == scope]
         years = [int(r["year"]) for r in rs]
         base = float(rs[0]["accidents"])
@@ -167,16 +178,16 @@ def fig_trend():
     ax.set_xlabel("年 (統計に計上された年)")
     ax.set_ylabel("人身事故件数の指数 (2019年=100)")
     ax.legend(loc="lower right", fontsize=9)
-    ax.set_title("台東区と23区の人身事故件数の推移", fontsize=11)
+    ax.set_title(f"{WARD_NAME}と23区の人身事故件数の推移", fontsize=11)
     ax.text(0, -0.2, "帯: 各年の件数のPoisson 95%区間を指数に換算。" + SOURCE[:40] + "…", transform=ax.transAxes, fontsize=7)
-    save(fig, "trend-index", "台東区の事故件数は23区全体と比べてどう推移したか", ["outputs/yearly.csv"],
+    save(fig, "trend-index", f"{WARD_NAME}の事故件数は23区全体と比べてどう推移したか", ["outputs/yearly.csv"],
          {r["scope"]: sum(int(x["accidents"]) for x in rows if x["scope"] == r["scope"]) for r in rows},
          f"縦軸は{ylim[0]}から{ylim[1]} (指数の比較のため、区間の両端から決めた)。帯は年ごとの件数の記録の揺れの目安で、年をまたぐ差の検定ではない",
          {"ylim": ylim})
 
 
 def fig_categories():
-    rows = [r for r in read_csv("yearly.csv") if r["scope"] == "台東区"]
+    rows = [r for r in read_csv("yearly.csv") if r["scope"] == WARD_NAME]
     years = [int(r["year"]) for r in rows]
     panels = [("bike", "自転車が関わる"), ("ped", "歩行者が関わる"), ("old_ped", "高齢 (65歳以上) の歩行者が関わる"),
               ("young_pb", "若い (0〜24歳) 歩行者・自転車が関わる"), ("strict", "生活道路 (狭い読み / 広い読み)"),
@@ -191,11 +202,11 @@ def fig_categories():
         ax.set_title(title, fontsize=10)
         ax.set_ylabel("件", fontsize=9)
         ax.grid(axis="y", color="#eeeeee")
-    fig.suptitle("台東区の人身事故のうち、当事者や道路の種類ごとの件数 (年)", fontsize=11)
+    fig.suptitle(f"{WARD_NAME}の人身事故のうち、当事者や道路の種類ごとの件数 (年)", fontsize=11)
     fig.text(0.01, -0.01, "当事者AかBのどちらかが当てはまる事故を1件と数える。特定小型原付は2024年からの区分。" + SOURCE[:46] + "…",
              fontsize=7)
     fig.tight_layout()
-    save(fig, "taito-categories", "台東区で、どの種類の事故が年ごとにどう動いたか", ["outputs/yearly.csv"],
+    save(fig, f"{SLUG}-categories", f"{WARD_NAME}で、どの種類の事故が年ごとにどう動いたか", ["outputs/yearly.csv"],
          sum(int(r["accidents"]) for r in rows), "縦軸は全て0から。パネルごとに縦軸の範囲が違う")
 
 
@@ -209,13 +220,13 @@ def fig_ward_strips():
     for ax, (key, label, k) in zip(axes, metrics):
         vals = [(float(r[key]) * k, r["name"]) for r in rows]
         xs = [v for v, _ in vals]
-        ax.scatter([v for v, n in vals if n != "台東区"], [0] * 22, color="#9a9a9a", s=22, zorder=2)
-        taito = next(v for v, n in vals if n == "台東区")
-        ax.scatter([taito], [0], color="#c0392b", s=60, zorder=3)
-        rank = 1 + sum(v > taito for v in xs)
-        ax.text(taito, 0.45, f"台東区 {taito:.1f} ({rank}位/23)", color="#c0392b", fontsize=8, ha="center")
+        ax.scatter([v for v, n in vals if n != WARD_NAME], [0] * 22, color="#9a9a9a", s=22, zorder=2)
+        mine = next(v for v, n in vals if n == WARD_NAME)
+        ax.scatter([mine], [0], color="#c0392b", s=60, zorder=3)
+        rank = 1 + sum(v > mine for v in xs)
+        ax.text(mine, 0.45, f"{WARD_NAME} {mine:.1f} ({rank}位/23)", color="#c0392b", fontsize=8, ha="center")
         for v, n in vals:
-            if v in (max(xs), min(xs)) and n != "台東区":
+            if v in (max(xs), min(xs)) and n != WARD_NAME:
                 ax.text(v, -0.6, n, fontsize=7, ha="center", color="#555555")
         ax.set_yticks([])
         ax.set_ylim(-1, 1)
@@ -224,11 +235,11 @@ def fig_ward_strips():
             ax.spines[side].set_visible(False)
         lo, hi = min(xs), max(xs)
         ax.set_xlim(lo - 0.08 * (hi - lo), hi + 0.08 * (hi - lo))
-    fig.suptitle("23区の中の台東区 (2019〜2025年の7年合計の構成)", fontsize=11)
+    fig.suptitle(f"23区の中の{WARD_NAME} (2019〜2025年の7年合計の構成)", fontsize=11)
     fig.text(0.01, -0.01, "灰色の点がほかの22区。順位は値の大きい順。住民千人あたりは2020年国勢調査の夜間人口で割った参考値で、"
              "昼の人口と交通量を含まない。", fontsize=7)
     fig.tight_layout()
-    save(fig, "ward-strips", "台東区の事故の構成は、23区の中でどこにあるか", ["outputs/wards.csv"],
+    save(fig, "ward-strips", f"{WARD_NAME}の事故の構成は、23区の中でどこにあるか", ["outputs/wards.csv"],
          sum(int(r["accidents"]) for r in rows), "各行で横軸の範囲は違う。0から始まらない (割合の位置を比べる図)")
 
 
@@ -250,10 +261,10 @@ def fig_hours():
         cb = fig.colorbar(im, ax=ax, shrink=0.85)
         cb.set_label("件 (7年合計)", fontsize=8)
         ns[g] = int(m.sum())
-    fig.suptitle("台東区の人身事故の曜日と時刻 (2019〜2025年)", fontsize=11)
+    fig.suptitle(f"{WARD_NAME}の人身事故の曜日と時刻 (2019〜2025年)", fontsize=11)
     fig.text(0.01, -0.03, "パネルごとに色の範囲が違う。時刻は発生した時 (0時台〜23時台)。" + SOURCE[:46] + "…", fontsize=7)
     fig.tight_layout()
-    save(fig, "hour-weekday", "台東区の事故は何曜日の何時に多いか。若い歩行者と自転車では違うか",
+    save(fig, "hour-weekday", f"{WARD_NAME}の事故は何曜日の何時に多いか。若い歩行者と自転車では違うか",
          ["outputs/hour_weekday.csv"], ns, "色の範囲はパネルごと")
 
 
@@ -272,7 +283,7 @@ def fig_hour_profile():
     ax.set_xlabel("発生した時刻")
     ax.legend(fontsize=9)
     ax.grid(axis="y", color="#eeeeee")
-    ax.set_title("台東区の人身事故の時刻 (2019〜2025年、全ての曜日)", fontsize=11)
+    ax.set_title(f"{WARD_NAME}の人身事故の時刻 (2019〜2025年、全ての曜日)", fontsize=11)
     save(fig, "hour-profile", "一日のどの時間に、どんな人が関わる事故が多いか", ["outputs/hour_weekday.csv"], None,
          "高齢の歩行者は件数が少なく、同じ縦軸では低く見える")
 
@@ -300,10 +311,10 @@ def fig_school_map(base):
               bbox_to_anchor=(1.0, 1.0), fontsize=8)
     # A place name must not hide a school square either (map-context 11).
     overlaps = text_overlaps(fig, texts, [ax.get_legend()], marks=squares)
-    ax.set_title("若い (0〜24歳) 歩行者・自転車が関わる人身事故と学校 (台東区、2019〜2025年)", fontsize=10)
+    ax.set_title(f"若い (0〜24歳) 歩行者・自転車が関わる人身事故と学校 ({WARD_NAME}、2019〜2025年)", fontsize=10)
     fig.text(0.01, 0.01, SOURCE, fontsize=6, wrap=True)
     save(fig, "school-map", "学校の周りで、若い歩行者と自転車の事故はどこで起きているか",
-         ["artifacts/_traffic_accident/taito-accident-trends-by-role/points.csv", "outputs/schools.csv"],
+         [f"{ART_REL}/points.csv", "outputs/schools.csv"],
          {"young_ped_or_bike": len(pts), "weekday_7_8_or_14_17": len(weekday_peak)},
          "0〜24歳は年齢層の最小の区分で、小学生だけを示すものではない。円は直線距離",
          {**CRS_NOTE, "schools_drawn": len(schools), "text_overlaps": overlaps})
@@ -315,8 +326,8 @@ def fig_hotspots(base):
     fig, axes = plt.subplots(1, 2, figsize=(14, 7.2), gridspec_kw={"width_ratios": [1, 1]})
     xs = [float(h["x"]) for h in hot[:15]]
     ys = [float(h["y"]) for h in hot[:15]]
-    # The zoom covers the hotspots around Ueno and Okachimachi only.
-    uz = [(x, y) for x, y in zip(xs, ys) if x < -4900 and y > -32700]
+    # The zoom covers the hotspots in ZOOM_PICK only.
+    uz = [(x, y) for x, y in zip(xs, ys) if ZOOM_PICK[0] < x < ZOOM_PICK[1] and ZOOM_PICK[2] < y < ZOOM_PICK[3]]
     zoom = (min(x for x, _ in uz) - 200, max(x for x, _ in uz) + 200,
             min(y for _, y in uz) - 200, max(y for _, y in uz) + 200)
     texts = {0: [], 1: []}
@@ -340,8 +351,7 @@ def fig_hotspots(base):
                 if i == 0:
                     circles.append((f"circle {h['rank']}", circle))
             if (i == 1 and inside) or (i == 0 and not inside):
-                # Rank 8 sits under the name 入谷 when written above right, and under 4 to its left; write it below.
-                dx, dy = (45, 25) if i else ((60, -150) if h["rank"] == "8" else (70, 50))
+                dx, dy = (45, 25) if i else NUMBER_OFFSETS.get(h["rank"], (70, 50))
                 texts[i].append(ax.text(x + dx, y + dy, h["rank"],
                                         fontsize=8 if i == 0 else 10, color="#7b241c", weight="bold", zorder=6,
                                         bbox=NUMBER_BOX))
@@ -350,15 +360,15 @@ def fig_hotspots(base):
         if i == 0:
             ax.add_patch(Rectangle((zoom[0], zoom[2]), zoom[1] - zoom[0], zoom[3] - zoom[2], fill=False, ec="#2c7fb8",
                                    lw=1.2, ls="--", zorder=6))
-    axes[0].set_title(f"台東区の人身事故 {len(pts):,}件 (灰色の点) と、事故の多い地点の上位15 (赤い円、半径30 m)", fontsize=10)
-    axes[1].set_title("上野・御徒町の拡大 (左の青い枠。枠の中の番号はこちらに書いた)", fontsize=10)
+    axes[0].set_title(f"{WARD_NAME}の人身事故 {len(pts):,}件 (灰色の点) と、事故の多い地点の上位15 (赤い円、半径30 m)", fontsize=10)
+    axes[1].set_title(f"{ZOOM_TITLE}の拡大 (左の青い枠。枠の中の番号はこちらに書いた)", fontsize=10)
     fig.text(0.01, 0.01, "地点は、半径30 mの円の中の7年の事故数が多い順に、重ならないように選んだ。番号は順位。" + SOURCE,
              fontsize=7, wrap=True)
     # Numbers sit beside their own circle; the place names must not hide any circle (map-context 11).
     overlaps = (text_overlaps(fig, texts[0]) + text_overlaps(fig, texts[1])
                 + [o for o in text_overlaps(fig, names, marks=circles) if o[1].startswith("circle")])
-    save(fig, "hotspots-map", "台東区で人身事故が集まる地点はどこか",
-         ["artifacts/_traffic_accident/taito-accident-trends-by-role/points.csv", "outputs/hotspots.csv"], len(pts),
+    save(fig, "hotspots-map", f"{WARD_NAME}で人身事故が集まる地点はどこか",
+         [f"{ART_REL}/points.csv", "outputs/hotspots.csv"], len(pts),
          "位置の精度は不明。円の濃さは件数に比例",
          {**CRS_NOTE, "hotspots_drawn": len(hot), "zoomed_in_inset": zoomed, "text_overlaps": overlaps})
 
@@ -407,16 +417,18 @@ def fig_party_matrix():
     ax.set_xlabel("当事者B (過失の軽い側)")
     ax.set_ylabel("当事者A (過失の重い側)")
     fig.colorbar(im, ax=ax, shrink=0.8).set_label("件 (7年合計)")
-    ax.set_title(f"台東区の人身事故の当事者の組み合わせ (2019〜2025年、n={m.sum():,})", fontsize=11)
+    ax.set_title(f"{WARD_NAME}の人身事故の当事者の組み合わせ (2019〜2025年、n={m.sum():,})", fontsize=11)
     fig.text(0.01, -0.1, "乗用車の事業用はタクシー・ハイヤー・バス等 (用途別が事業用)。当事者Aは被害者かどうかの区分ではない。", fontsize=7)
-    save(fig, "party-matrix", "台東区の事故は、誰と誰の間で起きているか", ["outputs/party_matrix.csv"], int(m.sum()))
+    save(fig, "party-matrix", f"{WARD_NAME}の事故は、誰と誰の間で起きているか", ["outputs/party_matrix.csv"], int(m.sum()))
 
 
 def fig_town_rate(base):
     rows = {r["key_code"]: r for r in read_csv("towns.csv")}
     meta = json.loads((OUT / "town-rate-quantile.json").read_text(encoding="utf-8"))
     changes = meta["class_change_share"]
-    outside = json.loads((OUT / "analysis.json").read_text(encoding="utf-8"))["audit"]["points_outside_towns"]
+    audit = json.loads((OUT / "analysis.json").read_text(encoding="utf-8"))["audit"]
+    outside = audit["points_outside_towns"]
+    water = {w["key_code"] for w in audit["water_units"]}
     per_class = sum(meta["units_per_class"]) / len(meta["units_per_class"])
     breaks = [float(b) for b in meta["breaks"]]
     con = duckdb.connect()
@@ -427,9 +439,11 @@ def fig_town_rate(base):
         from '{ART / 'towns.parquet'}' group by KEY_CODE order by KEY_CODE""").fetchall()
     cmap = ListedColormap(plt.get_cmap("YlOrRd")(np.linspace(0.12, 0.95, len(breaks) - 1)))
     norm = BoundaryNorm(breaks, cmap.N)
-    if len(geoms) != len(rows) or len(rows) != TOWN_COUNT:
-        raise RuntimeError(f"drew {len(geoms)} towns, the analysis has {len(rows)}")
-    # A town without roads has no rate (empty in towns.csv): drawn hatched as NoData, never in the top five.
+    # Units, not rows: a town or water tract can be several rows, merged by KEY_CODE (prepare.TOWN_UNITS).
+    if len(geoms) != len(rows) or len(rows) != TOWN_UNITS:
+        raise RuntimeError(f"drew {len(geoms)} towns, the analysis has {len(rows)}, prepare counted {TOWN_UNITS}")
+    # A town without roads, or a water tract, has no rate (empty in towns.csv): drawn hatched as NoData, never in
+    # the top five.
     top = sorted((r for r in rows.values() if r["per_road_km_year"]), key=lambda r: -float(r["per_road_km_year"]))[:5]
     fig, ax = plt.subplots(figsize=(8.5, 8))
     shapes = {}
@@ -437,14 +451,12 @@ def fig_town_rate(base):
         geom = wkb.loads(g)
         shapes[code] = geom
         v = rows[code]["per_road_km_year"]
-        for poly in getattr(geom, "geoms", [geom]):
-            x, y = poly.exterior.xy
-            if v:
-                ax.fill(x, y, color=cmap(norm(float(v))), ec="#555555", lw=0.4, zorder=0)
-            else:
-                ax.fill(x, y, fc="#eeeeee", ec="#555555", hatch="///", lw=0.4, zorder=0)
-    # 上野 is the town numbered 2; its name is in the legend instead.
-    texts = base.draw(ax, road_alpha=0.5, skip=("上野",))
+        # With holes: Chuo's water tract rings 月島, 勝どき and 佃 (map-context 2).
+        if v:
+            fill_polygons(ax, geom, fc=cmap(norm(float(v))), ec="#555555", lw=0.4, zorder=0)
+        else:
+            fill_polygons(ax, geom, fc="#eeeeee", ec="#555555", hatch="///", lw=0.4, zorder=0)
+    texts = base.draw(ax, road_alpha=0.5, skip=TOWN_MAP_SKIP)
     # The top five towns: outlined, numbered on white, named in the legend (map-context 7 and 12).
     for rank, r in enumerate(top, 1):
         geom = shapes[r["key_code"]]
@@ -456,21 +468,24 @@ def fig_town_rate(base):
                              va="center", zorder=8, bbox=NUMBER_BOX))
     handles = [Patch(fc=cmap(i), ec="#555555", label=f"{breaks[i]:.2f}〜{breaks[i + 1]:.2f} ({meta['units_per_class'][i]})")
                for i in range(len(breaks) - 1)]
-    nodata = sum(1 for r in rows.values() if not r["per_road_km_year"])
+    roadless = sum(1 for k, r in rows.items() if not r["per_road_km_year"] and k not in water)
+    nodata = [label for label, n in (("水面", len(water)), ("道路なし", roadless)) if n]
     if nodata:
-        handles += [Patch(fc="#eeeeee", ec="#555555", hatch="///", label=f"道路なし ({nodata})")]
+        handles += [Patch(fc="#eeeeee", ec="#555555", hatch="///",
+                          label="値なし: " + "、".join(nodata) + f" ({len(water) + roadless})")]
     handles += [Patch(fc="none", ec="#5b2c83", lw=1.8, label="道路あたりの上位5")]
     handles += [Patch(fc="none", ec="none", label=f"{i}. {r['name']} {float(r['per_road_km_year']):.2f}")
                 for i, r in enumerate(top, 1)]
     leg = ax.legend(handles=handles, title="件/道路 km/年 (町丁の数)", loc="upper left", bbox_to_anchor=(1.0, 1.0),
                     fontsize=8, title_fontsize=8)
     overlaps = text_overlaps(fig, texts, [leg])
-    ax.set_title("台東区のどの町丁で、道路の長さに比べて人身事故が多いか (2019〜2025年)", fontsize=11)
+    ax.set_title(f"{WARD_NAME}のどの町丁で、道路の長さに比べて人身事故が多いか (2019〜2025年)", fontsize=11)
     k = len(breaks) - 1
     fig.text(0.01, 0.01, f"分位{k}階級 (各階級に約{per_class:.0f}町丁)。等間隔{k}階級にすると{100 * changes['equal']:.0f}%の"
-             f"町丁の色が変わる。道路はOSMの車道の延長で、交通量ではない。町丁の外の{outside}件は入らない。" + SOURCE,
+             f"町丁の色が変わる。道路はOSMの車道の延長で、交通量ではない。町丁の外の{outside}件は入らない。"
+             + (f"水面の{sum(w['accidents'] for w in audit['water_units'])}件は値なし。" if water else "") + SOURCE,
              fontsize=6.5, wrap=True)
-    save(fig, "town-rate", "台東区のどの町丁で、道路の長さに比べて事故が多いか",
+    save(fig, "town-rate", f"{WARD_NAME}のどの町丁で、道路の長さに比べて事故が多いか",
          ["outputs/towns.csv", "outputs/town-rate-quantile.json", "outputs/analysis.json"], len(rows),
          f"breaks {breaks}; 分位と等間隔で色の変わる町丁 {changes['equal']} (classify_map.py の出力)",
          {**CRS_NOTE, "units_drawn": len(geoms), "units_in_analysis": len(rows),

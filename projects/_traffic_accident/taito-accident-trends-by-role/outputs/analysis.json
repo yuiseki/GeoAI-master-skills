@@ -1,6 +1,6 @@
 {
  "run_date": "2026-11-03",
- "commit": "a8f7e2b20f8e055398af9085f50bc51f58b85e47",
+ "commit": "cc67357e9f9a872effda4d2edec0cedfb6e31f63",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -34,12 +34,42 @@
  },
  "audit": {
   "rows_23_wards": 144716,
-  "rows_taito": 4517,
-  "taito_without_point": 0,
+  "rows_ward": 4517,
+  "ward_without_point": 0,
   "coded_and_inside": 4464,
   "coded_outside": 53,
   "other_code_inside": 12,
-  "taito_rank_of_23": {
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 715,
+    "inside": 707
+   },
+   "2020": {
+    "coded": 509,
+    "inside": 507
+   },
+   "2021": {
+    "coded": 582,
+    "inside": 576
+   },
+   "2022": {
+    "coded": 639,
+    "inside": 633
+   },
+   "2023": {
+    "coded": 695,
+    "inside": 686
+   },
+   "2024": {
+    "coded": 710,
+    "inside": 705
+   },
+   "2025": {
+    "coded": 667,
+    "inside": 662
+   }
+  },
+  "ward_rank_of_23": {
    "per_1000_residents_per_year": 4,
    "share_ped": 8,
    "share_bike": 12,
@@ -55,7 +85,7 @@
    "0004": 626,
    "0006": 211
   },
-  "taito_points": 4517,
+  "ward_points": 4517,
   "hotspot_overlap_of_top15_within_30m": {
    "20m": 12,
    "50m": 9
@@ -117,7 +147,8 @@
   "towns_merged": [],
   "points_in_towns": 4464,
   "points_outside_towns": 53,
-  "towns_without_road": []
+  "towns_without_road": [],
+  "water_units": []
  },
  "files": {
   "yearly": "projects/_traffic_accident/taito-accident-trends-by-role/outputs/yearly.csv",

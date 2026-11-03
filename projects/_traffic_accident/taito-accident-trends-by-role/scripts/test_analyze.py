@@ -1,8 +1,9 @@
-# uvx --from 'duckdb>=1.5.5' --with numpy --with pytest pytest projects/_traffic_accident/taito-accident-trends-by-role/scripts/test_analyze.py
+# uvx --from pytest --with 'duckdb>=1.5.5' --with numpy pytest -p no:cacheprovider projects/_traffic_accident/taito-accident-trends-by-role/scripts/test_analyze.py
 import numpy as np
 import pytest
 
-from analyze import greedy_hotspots, involves, is_seikatsu, party_group, poisson_interval, ward_ranks
+from analyze import (crossing_road, git_head, greedy_hotspots, involves, is_seikatsu, line_angle, party_group,
+                     poisson_interval, unit_name, ward_ranks)
 
 
 def test_seikatsu_strict_and_broad():
@@ -63,3 +64,42 @@ def test_ward_ranks_find_the_ward_by_its_code_not_its_place():
         ward_ranks(wards, "199")
     with pytest.raises(ValueError):
         ward_ranks(wards + wards[:1], "101")
+
+
+def test_git_head_reads_loose_and_packed_refs(tmp_path):
+    # The commit is read from .git without running git: a loose ref first, then packed-refs, None if neither.
+    git = tmp_path / ".git"
+    (git / "refs/heads").mkdir(parents=True)
+    (git / "HEAD").write_text("ref: refs/heads/main\n", encoding="utf-8")
+    assert git_head(tmp_path) is None
+    (git / "packed-refs").write_text("# pack-refs\n" + "b" * 40 + " refs/heads/main\n", encoding="utf-8")
+    assert git_head(tmp_path) == "b" * 40
+    (git / "refs/heads/main").write_text("a" * 40 + "\n", encoding="utf-8")
+    assert git_head(tmp_path) == "a" * 40
+
+
+def test_line_angle_ignores_the_direction_of_travel():
+    assert line_angle((1, 0), (0, 1)) == pytest.approx(90)
+    assert line_angle((1, 0), (-1, 0)) == pytest.approx(0)
+    assert line_angle((1, 1), (1, 0)) == pytest.approx(45)
+    assert line_angle((0, 0), (1, 0)) is None
+
+
+def test_the_second_road_must_cross_the_first():
+    # Shinagawa: OSM names one road 環状六号線 and 山手通り; the nearest two names were that one road, while 中原街道
+    # crossed it 3.7 m from the centre. A name running along the first road is skipped; with none crossing, one road.
+    near = [("環状六号線", 0.5, (0, 1)), ("山手通り", 1.2, (0.05, 1)), ("中原街道", 3.7, (1, 0.2))]
+    assert crossing_road(near) == ("中原街道", 3.7)
+    assert crossing_road(near[:2]) == (None, None)
+    # A name with no direction near the centre (a piece shorter than a point) cannot be shown to cross.
+    assert crossing_road([("昭和通り", 0.0, (1, 0)), ("脇道", 5.0, None)]) == (None, None)
+    assert crossing_road([("昭和通り", 0.0, None), ("春日通り", 5.0, (1, 0))]) == ("春日通り", 5.0)
+
+
+def test_unit_name_names_water_and_nameless_units():
+    # Koto's water tract has no S_NAME, Minato's is '‐', Chuo's is 水面調査区: all are HCODE 8154.
+    assert unit_name("131061230", "上野三丁目", "8101") == "上野三丁目"
+    assert unit_name("131080460", None, "8154") == "水面 (131080460)"
+    assert unit_name("131030310", "‐", "8154") == "水面 (131030310)"
+    assert unit_name("131020390", "水面調査区", "8154") == "水面 (131020390)"
+    assert unit_name("131089990", None, "8101") == "名前なし (131089990)"

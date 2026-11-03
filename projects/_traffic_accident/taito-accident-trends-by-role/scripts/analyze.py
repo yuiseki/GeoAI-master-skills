@@ -9,7 +9,7 @@ the per-accident points (with EPSG:6677 x, y) to artifacts/.../points.csv.
 
 import csv
 import json
-import subprocess
+import math
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -19,11 +19,12 @@ import numpy as np
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
-ART = ROOT / "artifacts/_traffic_accident/taito-accident-trends-by-role"
+ART = ROOT / "artifacts/_traffic_accident" / PROJECT.name
 OUT = PROJECT / "outputs"
 # The ward: the NPA 市区町村コード (3 digits) and the jp-admin code5 (13 + the same 3 digits).
-TAITO = "106"
-WARD = f"13{TAITO}"
+CODE = "106"
+WARD = f"13{CODE}"
+WARD_NAME = "台東区"  # as in wards.csv, and the scope of yearly.csv
 WARD_CODES = [f"{i:03d}" for i in range(101, 124)]
 YEARS = [str(y) for y in range(2019, 2026)]
 FIRST_HALF = {"2019", "2020", "2021"}
@@ -31,6 +32,12 @@ RADIUS = 30.0
 RADII = (20.0, 30.0, 50.0)
 TOP = 15
 SCHOOL_RADIUS = 500.0
+# A hotspot is named by the nearest road and the nearest other road that crosses it: at least this angle between
+# their directions within ROAD_STEP metres either side of the point nearest the centre (map-context 13).
+MIN_CROSSING_ANGLE = 30.0
+ROAD_STEP = 20.0
+ROAD_CANDIDATES = 6
+WATER = "8154"  # HCODE of a census water tract (水面調査区); 8101 is a town (町丁・字等)
 
 STRICT = {"01", "02", "11"}
 BROAD = STRICT | {"14", "17"}
@@ -138,6 +145,65 @@ def ward_ranks(wards, code):
             for k in mine[0] if k.startswith("share_") or k.startswith("per_")}
 
 
+def git_head(root):
+    """The commit of the working tree, read from the files in .git without running git (a subagent may not run
+    git). Follows a worktree's .git file and packed-refs. Returns None if it cannot be read."""
+    try:
+        git = root / ".git"
+        if git.is_file():
+            git = (root / git.read_text(encoding="utf-8").split(":", 1)[1].strip()).resolve()
+        head = (git / "HEAD").read_text(encoding="utf-8").strip()
+        if not head.startswith("ref: "):
+            return head
+        ref = head[5:]
+        common = git / "commondir"
+        base = (git / common.read_text(encoding="utf-8").strip()).resolve() if common.exists() else git
+        for d in (git, base):
+            if (d / ref).exists():
+                return (d / ref).read_text(encoding="utf-8").strip()
+        for d in (git, base):
+            packed = d / "packed-refs"
+            if packed.exists():
+                for line in packed.read_text(encoding="utf-8").splitlines():
+                    if line.endswith(" " + ref):
+                        return line.split()[0]
+    except OSError:
+        return None
+    return None
+
+
+def line_angle(u, v):
+    """Angle in degrees (0-90) between two undirected lines given as direction vectors; None for a zero vector."""
+    nu, nv = math.hypot(*u), math.hypot(*v)
+    if nu == 0 or nv == 0:
+        return None
+    return math.degrees(math.acos(min(1.0, abs(u[0] * v[0] + u[1] * v[1]) / (nu * nv))))
+
+
+def crossing_road(near):
+    """The second name of a hotspot: from (name, distance, direction) sorted by distance, the nearest name after the
+    first whose direction crosses the first's by MIN_CROSSING_ANGLE or more. OSM can give one road two names
+    (Shinagawa's 環状六号線 and 山手通り), which are not an intersection. (None, None) if no name crosses."""
+    if len(near) < 2:
+        return None, None
+    first = near[0][2]
+    for name, dist, direction in near[1:]:
+        if direction is None:
+            continue
+        angle = None if first is None else line_angle(first, direction)
+        if first is None or (angle is not None and angle >= MIN_CROSSING_ANGLE):
+            return name, dist
+    return None, None
+
+
+def unit_name(key_code, s_name, hcode):
+    """The name of a census unit for the tables. Water tracts (HCODE 8154) are named 水面 whatever their S_NAME
+    (Chuo 水面調査区, Minato '‐', Koto and Shinagawa empty); a town with no name keeps its code."""
+    if hcode == WATER:
+        return f"水面 ({key_code})"
+    return s_name if s_name else f"名前なし ({key_code})"
+
+
 def write_csv(name, rows):
     path = OUT / name
     with path.open("w", newline="", encoding="utf-8") as f:
@@ -167,7 +233,7 @@ def load(con):
     con.sql(f"""create table pts as select *,
         ST_X(ST_Transform(ST_Point(longitude, latitude), 'OGC:CRS84', 'EPSG:6677')) as x,
         ST_Y(ST_Transform(ST_Point(longitude, latitude), 'OGC:CRS84', 'EPSG:6677')) as y
-        from acc where ward = '{TAITO}' and longitude is not null""")
+        from acc where ward = '{CODE}' and longitude is not null""")
     cols = [c[0] for c in con.execute("select * from acc limit 0").description]
     return [dict(zip(cols, r)) for r in con.execute("select * from acc").fetchall()]
 
@@ -192,22 +258,29 @@ def main():
     rows = load(con)
     for row in rows:
         row.update(flags(row))
-    taito = [r for r in rows if r["ward"] == TAITO]
-    audit = {"rows_23_wards": len(rows), "rows_taito": len(taito),
-             "taito_without_point": sum(r["longitude"] is None for r in taito)}
+    mine = [r for r in rows if r["ward"] == CODE]
+    audit = {"rows_23_wards": len(rows), "rows_ward": len(mine),
+             "ward_without_point": sum(r["longitude"] is None for r in mine)}
 
-    # Coded ward vs the point in the ward polygon (the alternative reading of "Taito's accidents").
+    # Coded ward vs the point in the ward polygon (the alternative reading of "the ward's accidents").
     inside = con.execute(f"""with w as (select ST_GeomFromWKB(geometry) g from '{ART / "wards.parquet"}' where code5 = '{WARD}')
-        select count(*) filter (where ward = '{TAITO}' and ST_Contains(w.g, ST_Point(longitude, latitude))),
-               count(*) filter (where ward = '{TAITO}' and not ST_Contains(w.g, ST_Point(longitude, latitude))),
-               count(*) filter (where ward <> '{TAITO}' and ST_Contains(w.g, ST_Point(longitude, latitude)))
+        select count(*) filter (where ward = '{CODE}' and ST_Contains(w.g, ST_Point(longitude, latitude))),
+               count(*) filter (where ward = '{CODE}' and not ST_Contains(w.g, ST_Point(longitude, latitude))),
+               count(*) filter (where ward <> '{CODE}' and ST_Contains(w.g, ST_Point(longitude, latitude)))
         from acc, w where longitude is not null""").fetchall()[0]
     audit.update(coded_and_inside=inside[0], coded_outside=inside[1], other_code_inside=inside[2])
+    # The same by year, so that a change between years can be told from a change in how accidents are coded to a
+    # ward (Shibuya, Sumida, Koto and Shinagawa each added this after seeing a jump; it is part of the run now).
+    audit["by_year_coded_vs_inside"] = {y: {"coded": c, "inside": n} for y, c, n in con.execute(f"""
+        with w as (select ST_GeomFromWKB(geometry) g from '{ART / "wards.parquet"}' where code5 = '{WARD}')
+        select file_year, count(*) filter (where ward = '{CODE}'),
+               count(*) filter (where longitude is not null and ST_Contains(w.g, ST_Point(longitude, latitude)))
+        from acc, w group by file_year order by file_year""").fetchall()}
 
-    # B1 yearly counts, Taito and the 23 wards.
+    # B1 yearly counts, the ward and the 23 wards.
     keys = ["ped", "bike", "escooter", "old_ped", "young_pb", "strict", "broad", "night", "intersection"]
     yearly = []
-    for scope, subset in (("台東区", taito), ("23区", rows)):
+    for scope, subset in ((WARD_NAME, mine), ("23区", rows)):
         base = sum(r["file_year"] == "2019" for r in subset)
         for y in YEARS:
             ys = [r for r in subset if r["file_year"] == y]
@@ -228,27 +301,27 @@ def main():
                       "per_1000_residents_per_year": round(1000 * len(ws) / 7 / pops[code], 2),
                       **{f"share_{k}": round(sum(r[k] for r in ws) / len(ws), 4) for k in keys}})
     files["wards"] = write_csv("wards.csv", wards)
-    # Taito's rank among the 23 wards (1 = highest share), found by its code (not by its place in the list).
-    audit["taito_rank_of_23"] = ward_ranks(wards, TAITO)
+    # The ward's rank among the 23 wards (1 = highest share), found by its code (not by its place in the list).
+    audit["ward_rank_of_23"] = ward_ranks(wards, CODE)
 
-    # B3 hour x weekday in Taito.
+    # B3 hour x weekday in the ward.
     hours = []
     for group, test in (("全て", lambda r: True), ("若い歩行者・自転車", lambda r: r["young_pb"]),
                         ("高齢の歩行者", lambda r: r["old_ped"]), ("自転車", lambda r: r["bike"])):
-        c = Counter((r["weekday"], r["hour"]) for r in taito if test(r))
+        c = Counter((r["weekday"], r["hour"]) for r in mine if test(r))
         hours += [{"group": group, "weekday": wd, "hour": h, "accidents": c[(wd, h)]}
                   for wd in range(1, 8) for h in range(24)]
     files["hours"] = write_csv("hour_weekday.csv", hours)
 
     # Party A x party B matrix and the deaths.
-    matrix = Counter((party_group(r["type_A"], r["use_A"]), party_group(r["type_B"], r["use_B"])) for r in taito)
+    matrix = Counter((party_group(r["type_A"], r["use_A"]), party_group(r["type_B"], r["use_B"])) for r in mine)
     files["parties"] = write_csv("party_matrix.csv", [{"party_A": a, "party_B": b, "accidents": n}
                                                        for (a, b), n in sorted(matrix.items(), key=lambda kv: -kv[1])])
     deaths = [{"year": r["file_year"], "type_A": party_group(r["type_A"], r["use_A"]), "age_A": r["age_A"],
                "type_B": party_group(r["type_B"], r["use_B"]), "age_B": r["age_B"], "hour": r["hour"],
                "kind": r["kind"], "died": r["died"],
                "dead_party": "/".join(party_group(r[f"type_{s}"], r[f"use_{s}"]) for s in "AB" if r[f"injury_{s}"] == "1")
-               or "補充票の人"} for r in taito if r["died"] > 0]
+               or "補充票の人"} for r in mine if r["died"] > 0]
     files["deaths"] = write_csv("deaths.csv", sorted(deaths, key=lambda d: d["year"]))
 
     # Road type (route code: 0001-0999 national, 1000-1499 major prefectural, 2000-2999 prefectural,
@@ -257,8 +330,8 @@ def main():
         n = int(code)
         return ("国道" if n < 1000 else "主要地方道 (都道)" if n < 1500 else "一般都道" if 2000 <= n < 3000
                 else "区道" if 3000 <= n < 4000 else "首都高速" if 5000 <= n < 5500 else "その他")
-    roads = Counter((r["file_year"], route_class(r["route"])) for r in taito)
-    nat = Counter(r["route"] for r in taito if int(r["route"]) < 1000)
+    roads = Counter((r["file_year"], route_class(r["route"])) for r in mine)
+    nat = Counter(r["route"] for r in mine if int(r["route"]) < 1000)
     files["route"] = write_csv("route_class.csv", [{"year": y, "route_class": c, "accidents": n}
                                                    for (y, c), n in sorted(roads.items())])
     audit["national_routes"] = dict(nat)
@@ -274,7 +347,7 @@ def main():
         writer.writeheader()
         writer.writerows(prow)
     xy = np.array([[p["x"], p["y"]] for p in prow])
-    audit["taito_points"] = len(prow)
+    audit["ward_points"] = len(prow)
 
     # B4 schools: young pedestrians and cyclists within 500 m (straight line).
     schools = con.execute(f"""select name,
@@ -308,10 +381,23 @@ def main():
     for rank, (centre, members) in enumerate(sets[RADIUS], 1):
         ms = [prow[i] for i in members]
         cx, cy = xy[centre]
-        near_names = [n for (n,) in con.execute(f"""select name from rn
-            group by name order by min(ST_Distance(ST_GeomFromWKB(g), ST_Point({cx}, {cy}))) limit 2""").fetchall()]
-        dist = con.execute(f"""select min(ST_Distance(ST_GeomFromWKB(g), ST_Point({cx}, {cy}))) from rn
-            where name = ?""", [near_names[1]]).fetchall()[0][0] if len(near_names) > 1 else None
+        near = []
+        for name, d in con.execute(f"""select name, min(ST_Distance(ST_GeomFromWKB(g), ST_Point({cx}, {cy}))) d from rn
+                group by name order by d, name limit {ROAD_CANDIDATES}""").fetchall():
+            # The direction of the named road where it passes nearest the centre: its nearest piece, ROAD_STEP m
+            # either side of the point nearest the centre.
+            ends = con.execute(f"""with pieces as (select unnest(ST_Dump(ST_GeomFromWKB(g))).geom as p from rn where name = ?),
+                near as (select p from pieces where ST_GeometryType(p) = 'LINESTRING' and ST_Length(p) > 0
+                         order by ST_Distance(p, ST_Point({cx}, {cy})) limit 1),
+                loc as (select p, ST_LineLocatePoint(p, ST_Point({cx}, {cy})) f, ST_Length(p) len from near)
+                select ST_X(a), ST_Y(a), ST_X(b), ST_Y(b) from (select
+                    ST_LineInterpolatePoint(p, greatest(0, f - {ROAD_STEP} / len)) a,
+                    ST_LineInterpolatePoint(p, least(1, f + {ROAD_STEP} / len)) b from loc)""", [name]).fetchall()
+            near.append((name, d, (ends[0][2] - ends[0][0], ends[0][3] - ends[0][1]) if ends else None))
+        near_names = [near[0][0]] if near else []
+        second, dist = crossing_road(near)
+        if second is not None:
+            near_names.append(second)
         routes = Counter(route_class(m["route"]) + (f" {int(m['route'])}号" if int(m["route"]) < 1000 else "") for m in ms)
         combos = Counter(f"{party_group(m['type_A'], m['use_A'])} × {party_group(m['type_B'], m['use_B'])}" for m in ms)
         hot.append({"rank": rank, "lon": round(prow[centre]["longitude"], 6), "lat": round(prow[centre]["latitude"], 6),
@@ -342,19 +428,24 @@ def main():
     # B6 towns: accidents and OSM road length per census small area.
     # A census town (KEY_CODE) can be several rows of the boundary file (Shinjuku's 山吹町 is two; Taito has none),
     # so the rows are merged into one unit per KEY_CODE: the shapes united and the population summed.
-    names_per_code = con.execute(f"""select max(n) from (select count(distinct S_NAME) n
+    # An empty S_NAME counts as a name here, so a code with one named and one empty row stops too.
+    names_per_code = con.execute(f"""select max(n) from (select count(distinct coalesce(S_NAME, '')) n
         from '{ART / 'towns.parquet'}' group by KEY_CODE)""").fetchall()[0][0]
-    if names_per_code != 1:
-        raise RuntimeError(f"a KEY_CODE has {names_per_code} names")
-    con.sql(f"""create table towns as select KEY_CODE, any_value(S_NAME) as S_NAME, sum(JINKO) as JINKO,
-        count(*) as pieces, ST_Transform(ST_Union_Agg(ST_GeomFromWKB(geometry)), 'EPSG:4612', 'EPSG:6677') as g,
+    kinds_per_code = con.execute(f"""select max(n) from (select count(distinct HCODE) n
+        from '{ART / 'towns.parquet'}' group by KEY_CODE)""").fetchall()[0][0]
+    if names_per_code != 1 or kinds_per_code != 1:
+        raise RuntimeError(f"a KEY_CODE has {names_per_code} names or {kinds_per_code} HCODE")
+    # Water tracts (HCODE 8154) and towns without a name are named by unit_name (Koto has both; Taito has neither).
+    con.create_function("unit_name", unit_name, ["VARCHAR", "VARCHAR", "VARCHAR"], "VARCHAR")
+    con.sql(f"""create table towns as select KEY_CODE, unit_name(KEY_CODE, any_value(S_NAME), any_value(HCODE)) as S_NAME,
+        any_value(HCODE) as HCODE, sum(JINKO) as JINKO, count(*) as pieces, ST_Transform(ST_Union_Agg(ST_GeomFromWKB(geometry)), 'EPSG:4612', 'EPSG:6677') as g,
         ST_Union_Agg(ST_GeomFromWKB(geometry)) as g_lonlat from '{ART / 'towns.parquet'}' group by KEY_CODE""")
     audit.update(town_rows=con.execute(f"select count(*) from '{ART / 'towns.parquet'}'").fetchall()[0][0],
                  towns_merged=[n for (n,) in con.execute(
                      "select S_NAME || ' (' || pieces || ')' from towns where pieces > 1 order by S_NAME").fetchall()])
     con.sql(f"""create table road_m as select ST_Transform(ST_GeomFromWKB(geometry), 'OGC:CRS84', 'EPSG:6677') as g,
         highway from '{ART / 'roads.parquet'}'""")
-    con.sql("""create table town_counts as select t.KEY_CODE, t.S_NAME, t.JINKO,
+    con.sql("""create table town_counts as select t.KEY_CODE, t.S_NAME, t.HCODE, t.JINKO,
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))) as accidents,
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))
             and ('61' in (p.type_A, p.type_B))) as ped,
@@ -369,19 +460,23 @@ def main():
     in_towns = con.execute("select sum(accidents) from town_counts").fetchall()[0][0]
     audit.update(points_in_towns=int(in_towns), points_outside_towns=len(prow) - int(in_towns))
     # A town with no OSM road inside it has no denominator: its rate is NoData (null), not inf or 0
-    # (Shinjuku's 神楽坂四丁目; Taito has none).
+    # (Shinjuku's 神楽坂四丁目; Taito has none). A water tract is not a town: NoData too, its accidents counted
+    # (Koto's 85 on bridges and wharves).
     audit["towns_without_road"] = [{"name": n, "accidents": int(a)} for n, a in con.execute(
-        "select S_NAME, accidents from town_counts where road_km = 0 order by S_NAME").fetchall()]
+        f"select S_NAME, accidents from town_counts where road_km = 0 and HCODE <> '{WATER}' order by S_NAME").fetchall()]
+    audit["water_units"] = [{"key_code": k, "accidents": int(a)} for k, a in con.execute(
+        f"select KEY_CODE, accidents from town_counts where HCODE = '{WATER}' order by KEY_CODE").fetchall()]
+    rate = f"case when road_km > 0 and HCODE <> '{WATER}' then {{}} end"
     con.sql(f"""copy (select KEY_CODE, S_NAME, JINKO, accidents, ped, road_km, area_km2,
-        case when road_km > 0 then accidents / 7 / road_km end as per_road_km_year, geometry from town_counts)
+        {rate.format('accidents / 7 / road_km')} as per_road_km_year, geometry from town_counts)
         to '{ART / 'town_counts.parquet'}' (format parquet)""")
-    trows = con.execute("""select KEY_CODE, S_NAME, JINKO, accidents, ped, round(road_km, 3), round(area_km2, 4),
-        case when road_km > 0 then round(accidents / 7 / road_km, 3) end from town_counts
-        order by case when road_km > 0 then accidents / road_km end desc nulls last, KEY_CODE""").fetchall()
+    trows = con.execute(f"""select KEY_CODE, S_NAME, JINKO, accidents, ped, round(road_km, 3), round(area_km2, 4),
+        {rate.format('round(accidents / 7 / road_km, 3)')} from town_counts
+        order by {rate.format('accidents / road_km')} desc nulls last, KEY_CODE""").fetchall()
     files["towns"] = write_csv("towns.csv", [dict(zip(["key_code", "name", "population", "accidents", "ped", "road_km",
                                                         "area_km2", "per_road_km_year"], t)) for t in trows])
 
-    commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    commit = git_head(ROOT)
     (OUT / "analysis.json").write_text(json.dumps({
         "run_date": str(date.today()), "commit": commit, "duckdb": duckdb.__version__,
         "inputs": {"npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",

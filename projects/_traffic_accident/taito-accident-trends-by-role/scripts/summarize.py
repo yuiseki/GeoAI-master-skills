@@ -9,7 +9,9 @@ import json
 from collections import Counter
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parents[1] / "outputs"
+PROJECT = Path(__file__).resolve().parents[1]
+OUT = PROJECT / "outputs"
+SLUG = PROJECT.name.removesuffix("-accident-trends-by-role")
 
 
 def rows(name):
@@ -18,6 +20,9 @@ def rows(name):
 
 
 def main():
+    # The ward's name is the scope of yearly.csv that is not the 23 wards (analyze.WARD_NAME; this script runs
+    # without duckdb, so it does not import analyze).
+    ward_name = next(r["scope"] for r in rows("yearly.csv") if r["scope"] != "23区")
     lines = []
     deaths = rows("deaths.csv")
     lines.append(f"deaths accidents {len(deaths)}; dead party {dict(Counter(r['dead_party'] for r in deaths))}; "
@@ -46,11 +51,11 @@ def main():
     towns = rows("towns.csv")
     lines.append(f"towns: accidents in towns {sum(int(r['accidents']) for r in towns)}; most accidents "
                  f"{[(r['name'], r['accidents'], r['ped']) for r in sorted(towns, key=lambda r: -int(r['accidents']))[:8]]}")
-    yearly = [r for r in rows("yearly.csv") if r["scope"] == "台東区"]
-    lines.append(f"taito 7 years: accidents {sum(int(r['accidents']) for r in yearly)}; died {sum(int(r['died']) for r in yearly)}; "
+    yearly = [r for r in rows("yearly.csv") if r["scope"] == ward_name]
+    lines.append(f"{SLUG} 7 years: accidents {sum(int(r['accidents']) for r in yearly)}; died {sum(int(r['died']) for r in yearly)}; "
                  f"hurt {sum(int(r['hurt']) for r in yearly)}")
-    taito = next(r for r in rows("wards.csv") if r["name"] == "台東区")
-    lines.append("taito shares (%): " + "; ".join(f"{k} {100 * float(v):.1f}" for k, v in taito.items() if k.startswith("share_")))
+    mine = next(r for r in rows("wards.csv") if r["name"] == ward_name)
+    lines.append(f"{SLUG} shares (%): " + "; ".join(f"{k} {100 * float(v):.1f}" for k, v in mine.items() if k.startswith("share_")))
     school_map = json.loads((OUT / "school-map.json").read_text(encoding="utf-8"))
     lines.append(f"school map: young pedestrians and cyclists {school_map['n']}")
     lines.append(f"party cells: " + "; ".join(f"{r['party_A']} x {r['party_B']} {r['accidents']}" for r in parties[:12]))
