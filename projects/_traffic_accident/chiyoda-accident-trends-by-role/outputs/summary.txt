@@ -13,6 +13,8 @@ dead pedestrians aged 65+ 7 of 11
 bike as B with a car or truck as A 622
 towns: accidents in towns 4197; most accidents [('大手町一丁目', '213', '16'), ('丸の内一丁目', '128', '30'), ('永田町一丁目', '125', '5'), ('皇居外苑', '120', '12'), ('霞が関二丁目', '114', '5'), ('神田神保町一丁目', '109', '21'), ('霞が関三丁目', '106', '9'), ('北の丸公園', '105', '6')]
 chiyoda 7 years: accidents 4232; died 24; hurt 4853
-chiyoda shares (%): share_ped 19.6; share_bike 27.3; share_escooter 0.4; share_old_ped 3.4; share_young_pb 5.7; share_strict 9.3; share_broad 17.3; share_night 36.1; share_intersection 40.2
+chiyoda shares (%): share_ped 19.6; share_bike 27.3; share_escooter 0.4; share_old_ped 3.4; share_young_pb 5.7; share_strict 9.3; share_broad 17.3; share_night 36.1; share_intersection 40.2; share_bike_alone 6.6
 school map: young pedestrians and cyclists {'young_ped_or_bike': 242, 'weekday_7_8_or_14_17': 67}
 party cells: 乗用車 (自家用) x 乗用車 (自家用) 388; 自転車 x 相手なし・物件 280; 乗用車 (自家用) x 二輪車 250; 乗用車 (自家用) x 歩行者 248; 乗用車 (自家用) x 自転車 248; 乗用車 (自家用) x 貨物車 236; 乗用車 (事業用) x 自転車 214; 乗用車 (事業用) x 歩行者 214; 乗用車 (事業用) x 二輪車 207; 貨物車 x 自転車 160; 乗用車 (自家用) x 乗用車 (事業用) 157; 乗用車 (事業用) x 乗用車 (自家用) 153
+route classes 7 years: 主要地方道 (都道) 1478; 区道 1150; 一般都道 872; 国道 350; 首都高速 250; その他 131; 高速自動車国道 1
+top 15 hotspots: top route {'主要地方道 (都道)': 10, '一般都道': 5}; road_1 {'靖国通り': 6, '内堀通り': 2, '国会通り': 2, '白山通り': 1, '晴海通り': 1, '日比谷通り': 1, '六本木通り': 1, '中央通り': 1}; with expressway (4000-5499) accidents 1

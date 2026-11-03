@@ -1,149 +1,117 @@
-"""Fetch inputs for Chiyoda accident analysis into artifacts/_traffic_accident/chiyoda-accident-trends-by-role/.
+"""Fetch the pinned inputs for the Chiyoda accident reports into artifacts/_traffic_accident/chiyoda-accident-trends-by-role/.
 
-Run from repository root:
+Run from the repository root:
 uvx --from 'duckdb>=1.5.5' python projects/_traffic_accident/chiyoda-accident-trends-by-role/scripts/prepare.py
+
+Writes (all EPSG:4326-style lon/lat unless noted):
+  tokyo_honhyo.parquet   NPA honhyo rows of Tokyo (police pref 30), 7 file years, with file_year
+  wards.parquet          Tokyo 23 wards: code5, name, population 2020, geometry (EPSG:4612 lon/lat)
+  towns.parquet          Chiyoda's 116 census small-area rows (115 KEY_CODE): KEY_CODE, S_NAME, HCODE, JINKO, geometry (JGD2000 lon/lat)
+  schools.parquet        OSM amenity=school named 小学校/中学校 inside Chiyoda, one point per name, closed (旧…) left out
+  roads.parquet          OSM highway lines inside Chiyoda's bbox (for the base map), EPSG:4326 lon/lat
 """
 
 from pathlib import Path
-import tempfile
-import time
-import urllib.request
+
 import duckdb
 
 ROOT = Path(__file__).resolve().parents[4]
-OUT = ROOT / "artifacts/_traffic_accident/chiyoda-accident-trends-by-role"
+OUT = ROOT / "artifacts/_traffic_accident" / Path(__file__).resolve().parents[1].name
 NPA_REV = "389500aae5cec45f1311163f70db6a5f05867838"
 ADMIN_REV = "e6c87b1d7095c17422147962185071a986e13135"
 BOUNDARY_REV = "823195c40e1055e2c1b3c0a635369f8c82b6c3fb"
 OSM_REV = "38f7a5f961b6e33343d82a11152e768c37d22664"
-
-YEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025]
-CHIYODA = "13101"
-TOWN_COUNT = 115
+NPA = f"hf://datasets/yuiseki/npa-traffic-accidents@{NPA_REV}/parquet/*/honhyo.parquet"
+ADMIN = f"hf://datasets/yuiseki/jp-admin-2026-09@{ADMIN_REV}/municipalities.parquet"
+TOWNS = f"https://huggingface.co/datasets/yuiseki/estat-boundary-2020/resolve/{BOUNDARY_REV}/parquet/r2ka13.parquet"
+OSM = f"hf://datasets/yuiseki/osm-tokyo23-src-2026-08@{OSM_REV}/parquet"
+WARD = "13101"
+CITY = WARD[2:]
+HONHYO_ROWS = 205541  # EXPERIMENT_TRACKER R001
+# Rows of the boundary file and units after merging rows by KEY_CODE: they differ where a town or water tract is
+# several polygons (Chuo 101 rows and 99 units, Koto 173 and 157; Taito 108 and 108; Chiyoda 116 and 115, 神田紺屋町 two rows). Counted on the first run.
+TOWN_COUNT = 116
+TOWN_UNITS = 115
 TOWN_POPULATION = 66680
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
-}
-
-
-def download_file(url: str, dest: Path, max_retries: int = 10, chunk_size: int = 1024 * 1024):
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    if dest.exists() and dest.stat().st_size > 0:
-        return
-    for attempt in range(max_retries):
-        try:
-            req = urllib.request.Request(url, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                with open(dest, "wb") as f:
-                    while True:
-                        chunk = resp.read(chunk_size)
-                        if not chunk:
-                            break
-                        f.write(chunk)
-            print(f"Downloaded {dest.name} ({dest.stat().st_size} bytes)")
-            return
-        except Exception as e:
-            if dest.exists():
-                dest.unlink(missing_ok=True)
-            if attempt == max_retries - 1:
-                raise RuntimeError(f"Failed to download {url}: {e}")
-            time.sleep(2)
+# A name starting with 旧 is a closed school kept on the map (Sumida's 旧墨田区立 鐘淵中学校; 17 such names in the
+# 23 wards, none in Chiyoda).
+SCHOOL = "amenity = 'school' and (name like '%小学校' or name like '%中学校') and name not like '旧%'"
+CLOSED = "amenity = 'school' and (name like '%小学校' or name like '%中学校') and name like '旧%'"
 
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    cache_dir = OUT / "_cache"
-    cache_dir.mkdir(parents=True, exist_ok=True)
-
     con = duckdb.connect()
-    con.sql("install spatial; load spatial;")
+    con.sql("install spatial; load spatial; install httpfs; load httpfs")
 
-    # 1. Download and filter Tokyo honhyo for 7 years
-    tokyo_year_files = []
-    for y in YEARS:
-        url = f"https://huggingface.co/datasets/yuiseki/npa-traffic-accidents/resolve/{NPA_REV}/parquet/{y}/honhyo.parquet"
-        raw_path = cache_dir / f"honhyo_{y}.parquet"
-        download_file(url, raw_path)
-        
-        tokyo_y_path = cache_dir / f"tokyo_{y}.parquet"
-        if not tokyo_y_path.exists():
-            con.sql(f"""copy (
-                select '{y}' as file_year, * exclude (geometry)
-                from read_parquet('{raw_path.as_posix()}')
-                where "都道府県コード" = '30'
-            ) to '{tokyo_y_path.as_posix()}' (format parquet)""")
-        tokyo_year_files.append(f"'{tokyo_y_path.as_posix()}'")
+    # The Tokyo honhyo and the 23 wards are the same for every ward project: reuse them when they are there
+    # (copied from another ward's artifacts), but always check them.
+    if not (OUT / "tokyo_honhyo.parquet").exists():
+        con.sql(f"""copy (
+            select regexp_extract(filename, 'parquet/([0-9]{{4}})/', 1) as file_year, * exclude (filename, geometry)
+            from read_parquet('{NPA}', union_by_name = true, filename = true)
+            where "都道府県コード" = '30'
+        ) to '{OUT / "tokyo_honhyo.parquet"}' (format parquet)""")
+    rows, years = con.execute(f"select count(*), count(distinct file_year) from '{OUT / 'tokyo_honhyo.parquet'}'").fetchall()[0]
+    if (rows, years) != (HONHYO_ROWS, 7):
+        raise RuntimeError(f"expected {HONHYO_ROWS} rows in 7 file years, got {rows} in {years}")
 
-    con.sql(f"""copy (
-        select * from read_parquet([{", ".join(tokyo_year_files)}], union_by_name = true)
-    ) to '{(OUT / "tokyo_honhyo.parquet").as_posix()}' (format parquet)""")
-    years = con.execute(f"select count(distinct file_year) from '{(OUT / 'tokyo_honhyo.parquet').as_posix()}'").fetchall()[0][0]
-    if years != 7:
-        raise RuntimeError(f"expected 7 file years, got {years}")
-
-    # 2. Municipalities (wards)
-    admin_url = f"https://huggingface.co/datasets/yuiseki/jp-admin-2026-09/resolve/{ADMIN_REV}/municipalities.parquet"
-    admin_path = cache_dir / "municipalities.parquet"
-    download_file(admin_url, admin_path)
-
-    con.sql(f"""copy (
-        select code5, name, population, ST_AsWKB(geometry) as geometry from '{admin_path.as_posix()}'
-        where code5 between '13101' and '13123'
-    ) to '{(OUT / "wards.parquet").as_posix()}' (format parquet)""")
-    wards = con.execute(f"select count(*) from '{(OUT / 'wards.parquet').as_posix()}'").fetchall()[0][0]
+    if not (OUT / "wards.parquet").exists():
+        con.sql(f"""copy (
+            select code5, name, population, ST_AsWKB(geometry) as geometry from '{ADMIN}'
+            where code5 between '13101' and '13123'
+        ) to '{OUT / "wards.parquet"}' (format parquet)""")
+    wards = con.execute(f"select count(*) from '{OUT / 'wards.parquet'}'").fetchall()[0][0]
     if wards != 23:
         raise RuntimeError(f"expected 23 wards, got {wards}")
 
-    # 3. Towns (census small areas)
-    towns_url = f"https://huggingface.co/datasets/yuiseki/estat-boundary-2020/resolve/{BOUNDARY_REV}/parquet/r2ka13.parquet"
-    towns_path = cache_dir / "r2ka13.parquet"
-    download_file(towns_url, towns_path)
-
     con.sql(f"""copy (
-        select KEY_CODE, S_NAME, sum(cast(JINKO as integer)) as JINKO,
-               ST_AsWKB(ST_Union_Agg(ST_GeomFromWKB(geometry))) as geometry
-        from '{towns_path.as_posix()}'
-        where CITY = '101' and PREF = '13'
-        group by KEY_CODE, S_NAME
-    ) to '{(OUT / "towns.parquet").as_posix()}' (format parquet)""")
-    n, pop = con.execute(f"select count(*), sum(JINKO) from '{(OUT / 'towns.parquet').as_posix()}'").fetchall()[0]
-    if (n, pop) != (TOWN_COUNT, TOWN_POPULATION):
-        raise RuntimeError(f"expected {TOWN_COUNT} towns and {TOWN_POPULATION} people, got {n} and {pop}")
+        select KEY_CODE, S_NAME, HCODE, cast(JINKO as integer) as JINKO, geometry from '{TOWNS}'
+        where CITY = '{CITY}' and PREF = '13' order by KEY_CODE, S_NAME
+    ) to '{OUT / "towns.parquet"}' (format parquet)""")
+    n, units, pop = con.execute(
+        f"select count(*), count(distinct KEY_CODE), sum(JINKO) from '{OUT / 'towns.parquet'}'").fetchall()[0]
+    if (n, units, pop) != (TOWN_COUNT, TOWN_UNITS, TOWN_POPULATION):
+        raise RuntimeError(f"expected {TOWN_COUNT} rows, {TOWN_UNITS} units and {TOWN_POPULATION} people, "
+                           f"got {n}, {units} and {pop}")
 
-    # 4. OSM Schools & Roads
-    con.sql(f"""create temp table chiyoda as
-        select ST_GeomFromWKB(geometry) as g from '{(OUT / "wards.parquet").as_posix()}' where code5 = '{CHIYODA}'""")
-    xmin, ymin, xmax, ymax = con.execute("select ST_XMin(g), ST_YMin(g), ST_XMax(g), ST_YMax(g) from chiyoda").fetchall()[0]
-
-    for part in ["polygon", "point", "line"]:
-        osm_url = f"https://huggingface.co/datasets/yuiseki/osm-tokyo23-src-2026-08/resolve/{OSM_REV}/parquet/planet_osm_{part}.parquet"
-        download_file(osm_url, cache_dir / f"planet_osm_{part}.parquet")
-
+    con.sql(f"""create temp table ward_shape as
+        select ST_GeomFromWKB(geometry) as g from '{OUT / "wards.parquet"}' where code5 = '{WARD}'""")
+    # OSM is EPSG:3857; reproject to lon/lat (always_xy) before testing against the ward polygon.
+    xmin, ymin, xmax, ymax = con.execute("select ST_XMin(g), ST_YMin(g), ST_XMax(g), ST_YMax(g) from ward_shape").fetchall()[0]
     con.sql(f"""create temp table school_shapes as
         select name, ST_Transform(ST_Centroid(way), 'EPSG:3857', 'EPSG:4326', always_xy := true) as p
-        from '{(cache_dir / "planet_osm_polygon.parquet").as_posix()}' where amenity = 'school' and (name like '%小学校' or name like '%中学校')
+        from '{OSM}/planet_osm_polygon.parquet' where {SCHOOL}
         union all
         select name, ST_Transform(way, 'EPSG:3857', 'EPSG:4326', always_xy := true)
-        from '{(cache_dir / "planet_osm_point.parquet").as_posix()}' where amenity = 'school' and (name like '%小学校' or name like '%中学校')""")
-
+        from '{OSM}/planet_osm_point.parquet' where {SCHOOL}""")
+    # One point per name: a school can be several polygons, or a polygon and a node.
     con.sql(f"""copy (
         select name, avg(ST_X(p)) as lon, avg(ST_Y(p)) as lat, count(*) as shapes
-        from school_shapes, chiyoda where ST_Contains(chiyoda.g, p) group by name order by name
-    ) to '{(OUT / "schools.parquet").as_posix()}' (format parquet)""")
+        from school_shapes, ward_shape where ST_Contains(ward_shape.g, p) group by name order by name
+    ) to '{OUT / "schools.parquet"}' (format parquet)""")
+    # The closed schools left out, by name, so that the reports can say how many (Kita could not).
+    con.sql(f"""copy (select distinct name from (
+        select name, ST_Transform(ST_Centroid(way), 'EPSG:3857', 'EPSG:4326', always_xy := true) as p
+        from '{OSM}/planet_osm_polygon.parquet' where {CLOSED}
+        union all
+        select name, ST_Transform(way, 'EPSG:3857', 'EPSG:4326', always_xy := true)
+        from '{OSM}/planet_osm_point.parquet' where {CLOSED}), ward_shape where ST_Contains(ward_shape.g, p) order by name
+    ) to '{OUT / "schools_closed.csv"}' (header, delimiter ',')""")
 
     con.sql(f"""copy (
         select osm_id, highway, name,
                ST_AsWKB(ST_Transform(way, 'EPSG:3857', 'EPSG:4326', always_xy := true)) as geometry
-        from '{(cache_dir / "planet_osm_line.parquet").as_posix()}'
+        from '{OSM}/planet_osm_line.parquet'
         where highway in ('motorway','trunk','primary','secondary','tertiary','unclassified','residential',
                           'living_street','motorway_link','trunk_link','primary_link','secondary_link','tertiary_link')
           and ST_Intersects(ST_Transform(way, 'EPSG:3857', 'EPSG:4326', always_xy := true),
                             ST_MakeEnvelope({xmin - 0.003}, {ymin - 0.003}, {xmax + 0.003}, {ymax + 0.003}))
-    ) to '{(OUT / "roads.parquet").as_posix()}' (format parquet)""")
+        order by osm_id, highway, name
+    ) to '{OUT / "roads.parquet"}' (format parquet)""")  # a fixed order: the maps draw roads in it
 
     for name in ["tokyo_honhyo", "wards", "towns", "schools", "roads"]:
-        print(name, con.execute(f"select count(*) from '{(OUT / name).as_posix()}.parquet'").fetchall()[0][0])
+        print(name, con.execute(f"select count(*) from '{OUT / name}.parquet'").fetchall()[0][0])
 
 
 if __name__ == "__main__":

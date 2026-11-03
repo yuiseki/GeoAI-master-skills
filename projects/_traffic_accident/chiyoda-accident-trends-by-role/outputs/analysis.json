@@ -1,6 +1,6 @@
 {
- "run_date": "2026-10-31",
- "commit": "1da32926f4136323159ceddb55e2e3008b8735a8",
+ "run_date": "2026-11-03",
+ "commit": "6fa51e81277a056f97d21ec5700dcf7b40d18d6b",
  "duckdb": "2.0.0",
  "inputs": {
   "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
@@ -11,6 +11,7 @@
  "settings": {
   "year": "file year",
   "ward": "市区町村コード",
+  "min_road_km": 0.5,
   "strict": [
    "01",
    "02",
@@ -34,12 +35,72 @@
  },
  "audit": {
   "rows_23_wards": 144716,
-  "rows_chiyoda": 4232,
-  "chiyoda_without_point": 0,
+  "rows_ward": 4232,
+  "ward_without_point": 0,
   "coded_and_inside": 4197,
   "coded_outside": 35,
   "other_code_inside": 30,
-  "chiyoda_rank_of_23": {
+  "by_year_coded_vs_inside": {
+   "2019": {
+    "coded": 659,
+    "inside": 651
+   },
+   "2020": {
+    "coded": 499,
+    "inside": 500
+   },
+   "2021": {
+    "coded": 573,
+    "inside": 573
+   },
+   "2022": {
+    "coded": 645,
+    "inside": 644
+   },
+   "2023": {
+    "coded": 655,
+    "inside": 655
+   },
+   "2024": {
+    "coded": 607,
+    "inside": 607
+   },
+   "2025": {
+    "coded": 594,
+    "inside": 597
+   }
+  },
+  "bike_alone_by_year": {
+   "2019": {
+    "ward": 6,
+    "23_wards": 1035
+   },
+   "2020": {
+    "ward": 18,
+    "23_wards": 1083
+   },
+   "2021": {
+    "ward": 40,
+    "23_wards": 1626
+   },
+   "2022": {
+    "ward": 67,
+    "23_wards": 2817
+   },
+   "2023": {
+    "ward": 46,
+    "23_wards": 3187
+   },
+   "2024": {
+    "ward": 61,
+    "23_wards": 3140
+   },
+   "2025": {
+    "ward": 42,
+    "23_wards": 3039
+   }
+  },
+  "ward_rank_of_23": {
    "per_1000_residents_per_year": 1,
    "share_ped": 7,
    "share_bike": 23,
@@ -49,7 +110,14 @@
    "share_strict": 23,
    "share_broad": 23,
    "share_night": 4,
-   "share_intersection": 14
+   "share_intersection": 14,
+   "share_bike_alone": 20
+  },
+  "closed_schools_left_out": [],
+  "other_route_codes": {
+   "9500": 77,
+   "9900": 43,
+   "9000": 11
   },
   "national_routes": {
    "0001": 24,
@@ -58,10 +126,11 @@
    "0004": 138,
    "0017": 11
   },
-  "chiyoda_points": 4232,
+  "ward_points": 4232,
   "hotspot_overlap_of_top15_within_30m": {
    "20m": 12,
-   "50m": 10
+   "50m": 10,
+   "30m_without_expressway": 14
   },
   "hotspot_counts": {
    "20m": [
@@ -116,18 +185,133 @@
     31
    ]
   },
+  "expressway_points": 251,
+  "hotspot_counts_without_expressway": [
+   32,
+   32,
+   31,
+   28,
+   28,
+   26,
+   24,
+   24,
+   23,
+   23,
+   23,
+   22,
+   22,
+   21,
+   20
+  ],
+  "expressway_in_top15": {
+   "accidents": 3,
+   "per_rank": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3,
+    0
+   ]
+  },
+  "town_rows": 116,
+  "towns_merged": [
+   "神田紺屋町 (2)"
+  ],
   "points_in_towns": 4197,
-  "points_outside_towns": 35
+  "points_outside_towns": 35,
+  "towns_without_road": [
+   {
+    "name": "千代田",
+    "accidents": 1
+   }
+  ],
+  "water_units": [],
+  "small_road_units": [
+   {
+    "key_code": "131010420",
+    "name": "神田西福田町",
+    "accidents": 8,
+    "road_km": 0.132,
+    "per_road_km_year": 8.628
+   },
+   {
+    "key_code": "131010400",
+    "name": "神田美倉町",
+    "accidents": 12,
+    "road_km": 0.402,
+    "per_road_km_year": 4.26
+   },
+   {
+    "key_code": "131010540",
+    "name": "神田相生町",
+    "accidents": 3,
+    "road_km": 0.113,
+    "per_road_km_year": 3.782
+   },
+   {
+    "key_code": "131010390",
+    "name": "神田富山町",
+    "accidents": 10,
+    "road_km": 0.475,
+    "per_road_km_year": 3.008
+   },
+   {
+    "key_code": "131010440",
+    "name": "神田東紺屋町",
+    "accidents": 3,
+    "road_km": 0.176,
+    "per_road_km_year": 2.433
+   },
+   {
+    "key_code": "131010510",
+    "name": "神田花岡町",
+    "accidents": 5,
+    "road_km": 0.484,
+    "per_road_km_year": 1.477
+   },
+   {
+    "key_code": "131010380",
+    "name": "神田北乗物町",
+    "accidents": 1,
+    "road_km": 0.258,
+    "per_road_km_year": 0.555
+   },
+   {
+    "key_code": "131010520",
+    "name": "神田佐久間河岸",
+    "accidents": 1,
+    "road_km": 0.289,
+    "per_road_km_year": 0.494
+   }
+  ],
+  "town_top5": [
+   "13101027001",
+   "13101048001",
+   "13101003001",
+   "131010120",
+   "131010500"
+  ]
  },
  "files": {
-  "yearly": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\yearly.csv",
-  "wards": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\wards.csv",
-  "hours": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\hour_weekday.csv",
-  "parties": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\party_matrix.csv",
-  "deaths": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\deaths.csv",
-  "route": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\route_class.csv",
-  "schools": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\schools.csv",
-  "hotspots": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\hotspots.csv",
-  "towns": "projects\\_traffic_accident\\chiyoda-accident-trends-by-role\\outputs\\towns.csv"
+  "yearly": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/party_matrix.csv",
+  "parties_by_year": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/party_by_year.csv",
+  "deaths": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/chiyoda-accident-trends-by-role/outputs/towns.csv"
  }
 }
