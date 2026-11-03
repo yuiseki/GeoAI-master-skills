@@ -501,6 +501,9 @@ def main():
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))) as accidents,
         (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))
             and ('61' in (p.type_A, p.type_B))) as ped,
+        -- 首都高速 accidents: a town under a viaduct counts them, and its road length counts the viaduct (Adachi)
+        (select count(*) from pts p where ST_Contains(t.g, ST_Point(p.x, p.y))
+            and p.route between '5000' and '5499') as expressway,
         (select coalesce(sum(ST_Length(ST_Intersection(r.g, t.g))), 0) from road_m r where ST_Intersects(r.g, t.g)) / 1000 as road_km,
         ST_Area(t.g) / 1e6 as area_km2, t.g_lonlat as geometry
         from towns t""")
@@ -523,10 +526,11 @@ def main():
         {rate.format('accidents / 7 / road_km')} as per_road_km_year, geometry from town_counts)
         to '{ART / 'town_counts.parquet'}' (format parquet)""")
     trows = con.execute(f"""select KEY_CODE, S_NAME, JINKO, accidents, ped, round(road_km, 3), round(area_km2, 4),
-        {rate.format('round(accidents / 7 / road_km, 3)')} from town_counts
+        {rate.format('round(accidents / 7 / road_km, 3)')}, expressway from town_counts
         order by {rate.format('accidents / road_km')} desc nulls last, KEY_CODE""").fetchall()
     files["towns"] = write_csv("towns.csv", [dict(zip(["key_code", "name", "population", "accidents", "ped", "road_km",
-                                                        "area_km2", "per_road_km_year"], t)) for t in trows])
+                                                        "area_km2", "per_road_km_year", "expressway"], t))
+                                               for t in trows])
     # The top five towns by rate, for classify_map.py --highlight (README) and plot.py; trows is sorted by rate,
     # NoData last. Towns with less than MIN_ROAD_KM of road are left out of the ranking, and listed.
     audit["small_road_units"] = [{"key_code": t[0], "name": t[1], "accidents": t[3], "road_km": t[5],
