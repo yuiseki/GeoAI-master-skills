@@ -51,6 +51,7 @@
 | 値が近い場所で似ているか、どこに集まっているか知りたい | spatial-autocorrelation |
 | 国や地点を似たものどうしに分けたい | clustering-analysis、dimensionality-reduction |
 | おかしな値、突出した場所を見つけたい | anomaly-detection |
+| 大雨や浸水の前と後の SAR (Sentinel-1) を比べ、どこが変わったかを記録と突き合わせたい | sar-change-detection |
 | 点 (施設、事件) が集まっているか知りたい | point-pattern-analysis |
 | 点のパターンが、どんな過程 (説明変数で変わる強度、観測していない環境、引き合い) から生まれたかをモデル化したい | spatial-process-modeling |
 | 歩いて何分か、道のりで測りたい | spatial-network-analysis |
@@ -84,6 +85,7 @@
 | 共通の準備 | 空間の関係を決める | 誰を誰の近傍とし、どう重みを付けるか。その選び方で結論が変わるか | spatial-weights-design |
 | 問いに応じた分析 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatiotemporal-modeling、spatial-interpolation、grid-risk-mapping、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation |
 | 問いに応じた分析 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか。点はどんな過程から生まれたか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis、spatial-process-modeling |
+| 問いに応じた分析 | 画像の変化を測る | 出来事の前と後で、SAR の後方散乱はどこでどちら向きに変わったか。その変化は記録と合うか | sar-change-detection |
 | 問いに応じた分析 | ネットワークと最適化 | 実際に歩いて何分か。道の無い面を進むと何分か。施設の容量は需要に足りるか。施設をどこに置くか | spatial-network-analysis、land-cover-cost、raster-cost-distance、spatial-accessibility-analysis、spatial-optimization |
 | 問いに応じた分析 | 因果の効果を推定する | 識別できると判定した効果は、どれだけか、どれだけ確かか。重なりと重みとバランスは足りているか | causal-estimation (調整の集合で識別する型だけ。因果を問う の後に来る) |
 | 結論を疑う、残す | 頑健性と報告 | 結論は、単位、分け方、標本、設定を変えても保たれるか。図や地図にどう描くか。どう成果物に残すか。依頼がある場合に論文化するか | robustness-analysis、analysis-visualize、analysis-reporting、research-paper-writing (論文執筆のみ) |
@@ -109,7 +111,7 @@
 - 道のりの距離、cost raster の上の最小累積コスト (歩く時間の Tobler の式を含む)、需要に対する施設のアクセス (2SFCA、3SFCA、M2SFCA)、施設の配置の最適化 (p-median、被覆) と、容量のある割当と輸送 (LP と双対)。
 
 扱わないもの (意図して外している):
-- 衛星画像や空中写真そのものの解析。画像の分類、セグメンテーション、物体検出、画像の基盤モデル、変化検出など。
+- 衛星画像や空中写真そのものの解析のうち、画像の分類、セグメンテーション、物体検出、画像の基盤モデル。SAR の出来事の前後の比べ (sar-change-detection) は扱う。
 - 大きなジョブを壊さずに流す技術 (分割、再開、配布)。外のスキル集が詳しい ([docs/related-work.md](docs/related-work.md))。
 
 まだ無いもの (いずれ足す候補):
