@@ -386,6 +386,8 @@ def main():
     roads = Counter((r["file_year"], route_class(r["route"])) for r in mine)
     # What その他 holds, by route code (Suginami had to count it outside the outputs).
     audit["other_route_codes"] = dict(Counter(r["route"] for r in mine if route_class(r["route"]) == "その他").most_common())
+    # And the expressway routes one by one (Chiyoda counted its single 4107 outside the outputs).
+    audit["expressway_route_codes"] = dict(Counter(r["route"] for r in mine if 4000 <= int(r["route"]) < 5500).most_common())
     nat = Counter(r["route"] for r in mine if int(r["route"]) < 1000)
     files["route"] = write_csv("route_class.csv", [{"year": y, "route_class": c, "accidents": n}
                                                    for (y, c), n in sorted(roads.items())])

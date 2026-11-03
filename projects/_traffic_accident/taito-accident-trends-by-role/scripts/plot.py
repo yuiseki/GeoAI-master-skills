@@ -336,6 +336,20 @@ def fig_school_map(base):
          {**CRS_NOTE, "schools_drawn": len(schools), "text_overlaps": overlaps})
 
 
+def widen(box, most=1.6):
+    """The zoom box widened about its centre until neither side is more than `most` times the other: Chiyoda's
+    zoom along 靖国通り was 2.2 km by 0.7 km and drew small, with the north arrow on the frame."""
+    x0, x1, y0, y1 = box
+    w, h = x1 - x0, y1 - y0
+    if w > most * h:
+        pad = (w / most - h) / 2
+        y0, y1 = y0 - pad, y1 + pad
+    elif h > most * w:
+        pad = (h / most - w) / 2
+        x0, x1 = x0 - pad, x1 + pad
+    return x0, x1, y0, y1
+
+
 def fig_hotspots(base):
     hot = read_csv("hotspots.csv")
     pts = base.point_rows()
@@ -344,8 +358,8 @@ def fig_hotspots(base):
     ys = [float(h["y"]) for h in hot[:15]]
     # The zoom covers the hotspots in ZOOM_PICK only.
     uz = [(x, y) for x, y in zip(xs, ys) if ZOOM_PICK[0] < x < ZOOM_PICK[1] and ZOOM_PICK[2] < y < ZOOM_PICK[3]]
-    zoom = (min(x for x, _ in uz) - 200, max(x for x, _ in uz) + 200,
-            min(y for _, y in uz) - 200, max(y for _, y in uz) + 200)
+    zoom = widen((min(x for x, _ in uz) - 200, max(x for x, _ in uz) + 200,
+                  min(y for _, y in uz) - 200, max(y for _, y in uz) + 200))
     texts = {0: [], 1: []}
     names, circles = [], {0: [], 1: []}
     numbers = {0: [], 1: []}

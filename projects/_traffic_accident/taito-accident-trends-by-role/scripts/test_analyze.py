@@ -1,4 +1,4 @@
-# uvx --from pytest --with 'duckdb>=1.5.5' --with numpy pytest -p no:cacheprovider projects/_traffic_accident/taito-accident-trends-by-role/scripts/test_analyze.py
+# env -u PYTHONPATH PYTHONDONTWRITEBYTECODE=1 uvx --from pytest --with 'duckdb>=1.5.5' --with numpy --with shapely --with matplotlib pytest -p no:cacheprovider projects/_traffic_accident/taito-accident-trends-by-role/scripts/test_analyze.py
 import numpy as np
 import pytest
 
@@ -145,3 +145,16 @@ def test_unit_names_tell_apart_units_of_one_name():
     # Ota's 令和島 is two KEY_CODE; towns.csv showed two rows named 令和島.
     got = unit_names([("131110811", "令和島"), ("131110812", "令和島"), ("131110010", "大森本町一丁目")])
     assert got == {"131110811": "令和島 (131110811)", "131110812": "令和島 (131110812)", "131110010": "大森本町一丁目"}
+
+
+def test_widen_keeps_the_zoom_within_a_side_ratio():
+    import sys
+    from pathlib import Path
+    sys.dont_write_bytecode = True
+    sys.path.insert(0, str(Path(__file__).resolve().parents[4] / ".agents/skills/analysis-visualize/scripts"))
+    from plot import widen
+    x0, x1, y0, y1 = widen((0, 2200, 0, 700))
+    assert (x0, x1) == (0, 2200) and (y1 - y0) == pytest.approx(2200 / 1.6) and (y0 + y1) / 2 == pytest.approx(350)
+    assert widen((0, 1000, 0, 900)) == (0, 1000, 0, 900)
+    x0, x1, y0, y1 = widen((0, 300, 0, 1000))
+    assert (x1 - x0) == pytest.approx(1000 / 1.6)

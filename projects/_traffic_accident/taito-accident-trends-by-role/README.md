@@ -24,4 +24,4 @@ python3 projects/_traffic_accident/taito-accident-trends-by-role/scripts/summari
 
 `tmp/town-highlights.csv` は `outputs/towns.csv` の `per_road_km_year` の上位 5 町丁 (列 id、group、rank) で、analyze.py が書く。classify_map.py は階級と区切りの比べを決める役で、報告に貼る町丁の地図は、その区切りで `plot.py` が地名と道路を重ねて描く (`town-rate.png`)。
 
-テストは `env -u PYTHONPATH PYTHONDONTWRITEBYTECODE=1 uvx --from pytest --with 'duckdb>=1.5.5' --with numpy pytest -p no:cacheprovider projects/_traffic_accident/taito-accident-trends-by-role/scripts/test_analyze.py`。
+テストは `env -u PYTHONPATH PYTHONDONTWRITEBYTECODE=1 uvx --from pytest --with 'duckdb>=1.5.5' --with numpy --with shapely --with matplotlib pytest -p no:cacheprovider projects/_traffic_accident/taito-accident-trends-by-role/scripts/test_analyze.py`。
