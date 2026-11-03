@@ -8,7 +8,8 @@ Writes outputs/quality.json:
 - enl_ratio: the L that matches the median block variance of ln(X/Y) for two consecutive dates over the same blocks
   (var = 2 trigamma(L) for independent gamma speckle; texture that does not change between the dates cancels, a real
   change between them makes L smaller)
-- speckle_corr: correlation of ln(X/Y) between horizontal and vertical neighbours (speckle correlation between pixels)
+- corr_h, corr_v: correlation of ln(X/Y) between horizontal and vertical neighbours inside the blocks, after removing each
+  block's mean (speckle correlation between pixels; a real change shared by the block is removed)
 - coreg: per date, the shift (rows, cols) of the VV dB image against the orbit's temporal median, by phase correlation
   (upsampled 20 times) over the whole box
 """
@@ -72,7 +73,8 @@ def main():
                     m = np.zeros(lr.shape, bool)
                     m[:r, :c] = np.repeat(np.repeat(blocks, WIN, 0), WIN, 1)
                     x = np.where(m & np.isfinite(lr), lr, np.nan)
-                    x = x - np.nanmean(x)
+                    bm = np.nanmean(x[:r, :c].reshape(blocks.shape[0], WIN, blocks.shape[1], WIN), axis=(1, 3))
+                    x[:r, :c] -= np.repeat(np.repeat(bm, WIN, 0), WIN, 1)  # remove each block's own change
                     def corr(a, b_):
                         ok = np.isfinite(a) & np.isfinite(b_)
                         return float(np.corrcoef(a[ok], b_[ok])[0, 1])
