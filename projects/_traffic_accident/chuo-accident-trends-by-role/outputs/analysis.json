@@ -1,0 +1,183 @@
+{
+ "run_date": "2026-11-03",
+ "commit": "46f3f2bb9f73d0b106b8371460fb57980390bdd3",
+ "duckdb": "2.0.0",
+ "inputs": {
+  "npa": "yuiseki/npa-traffic-accidents@389500aae5cec45f1311163f70db6a5f05867838",
+  "admin": "yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135",
+  "towns": "yuiseki/estat-boundary-2020@823195c40e1055e2c1b3c0a635369f8c82b6c3fb",
+  "osm": "yuiseki/osm-tokyo23-src-2026-08@38f7a5f961b6e33343d82a11152e768c37d22664"
+ },
+ "settings": {
+  "year": "file year",
+  "ward": "市区町村コード",
+  "strict": [
+   "01",
+   "02",
+   "11"
+  ],
+  "broad": [
+   "01",
+   "02",
+   "11",
+   "14",
+   "17"
+  ],
+  "radius_m": 30.0,
+  "radii_m": [
+   20.0,
+   30.0,
+   50.0
+  ],
+  "school_radius_m": 500.0,
+  "crs_metric": "EPSG:6677"
+ },
+ "audit": {
+  "rows_23_wards": 144716,
+  "rows_chuo": 5260,
+  "chuo_without_point": 1,
+  "coded_and_inside": 5239,
+  "coded_outside": 20,
+  "other_code_inside": 21,
+  "chuo_rank_of_23": {
+   "per_1000_residents_per_year": 2,
+   "share_ped": 3,
+   "share_bike": 20,
+   "share_escooter": 13,
+   "share_old_ped": 20,
+   "share_young_pb": 22,
+   "share_strict": 22,
+   "share_broad": 22,
+   "share_night": 5,
+   "share_intersection": 12
+  },
+  "national_routes": {
+   "0015": 107,
+   "0001": 6,
+   "0004": 20,
+   "0006": 49,
+   "0014": 56,
+   "0017": 9
+  },
+  "chuo_points": 5259,
+  "expressway_points": 295,
+  "hotspot_counts_without_expressway": [
+   40,
+   39,
+   37,
+   36,
+   32,
+   32,
+   29,
+   29,
+   28,
+   26,
+   24,
+   24,
+   24,
+   22,
+   22
+  ],
+  "expressway_in_top15": {
+   "accidents": 1,
+   "per_rank": [
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "hotspot_overlap_of_top15_within_30m": {
+   "20m": 12,
+   "50m": 12,
+   "30m_without_expressway": 15
+  },
+  "hotspot_counts": {
+   "20m": [
+    27,
+    27,
+    22,
+    22,
+    21,
+    20,
+    20,
+    19,
+    19,
+    18,
+    17,
+    17,
+    16,
+    16,
+    16
+   ],
+   "30m": [
+    40,
+    39,
+    37,
+    36,
+    33,
+    32,
+    29,
+    29,
+    28,
+    26,
+    24,
+    24,
+    24,
+    22,
+    22
+   ],
+   "50m": [
+    68,
+    51,
+    47,
+    47,
+    44,
+    42,
+    42,
+    40,
+    39,
+    38,
+    33,
+    33,
+    33,
+    32,
+    30
+   ]
+  },
+  "town_rows": 101,
+  "towns_merged": [
+   "浜離宮庭園 (3)"
+  ],
+  "points_in_towns": 5239,
+  "points_outside_towns": 20,
+  "towns_without_road": [
+   {
+    "name": "浜離宮庭園",
+    "accidents": 0
+   }
+  ]
+ },
+ "files": {
+  "yearly": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/yearly.csv",
+  "wards": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/wards.csv",
+  "hours": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/hour_weekday.csv",
+  "parties": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/party_matrix.csv",
+  "deaths": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/deaths.csv",
+  "route": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/route_class.csv",
+  "schools": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/schools.csv",
+  "hotspots": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/hotspots.csv",
+  "towns": "projects/_traffic_accident/chuo-accident-trends-by-role/outputs/towns.csv"
+ }
+}

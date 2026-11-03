@@ -1,0 +1,69 @@
+{
+  "value": "per_road_km_year",
+  "kind": "rate",
+  "unit": "件/道路 km/年",
+  "crs": "EPSG:4612",
+  "source": "警察庁 交通事故統計オープンデータ (npa-traffic-accidents@389500a)、国勢調査2020小地域 (estat-boundary-2020@823195c)、OSM 2026-08-31 (osm-tokyo23-src@38f7a5f)",
+  "method": "quantile",
+  "classes": 5,
+  "breaks": [
+    0.4107318203257231,
+    1.671595055509065,
+    2.3531262700550966,
+    2.996209796060362,
+    3.8946747603279475,
+    14.481003801145068
+  ],
+  "units_per_class": [
+    20,
+    19,
+    20,
+    19,
+    20
+  ],
+  "nodata_units": 1,
+  "class_change_share": {
+    "equal": 0.786,
+    "jenks": 0.439
+  },
+  "palette": "viridis",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [],
+  "inset_at": "lower right",
+  "title": "中央区の町丁ごとの人身事故 (道路 km あたり/年)",
+  "aspect": 1.230930486782053,
+  "legend": "outside",
+  "text_overlaps": [],
+  "inset": null,
+  "hidden_by_inset": [],
+  "made": "2026-11-03",
+  "context": {
+    "path": "hf://datasets/yuiseki/jp-admin-2026-09@e6c87b1d7095c17422147962185071a986e13135/municipalities.parquet",
+    "name": "name",
+    "where": "code5 between '13101' and '13123'",
+    "source": "jp-admin-2026-09@e6c87b1",
+    "crs": "EPSG:4612",
+    "crs_difference": null,
+    "areas": 7,
+    "labelled": [
+      "千代田区",
+      "中央区",
+      "港区",
+      "台東区",
+      "墨田区",
+      "江東区"
+    ]
+  },
+  "highlight": {
+    "path": "projects/_traffic_accident/chuo-accident-trends-by-role/tmp/town-highlights.csv",
+    "groups": {
+      "道路あたり上位5": 5
+    }
+  }
+}

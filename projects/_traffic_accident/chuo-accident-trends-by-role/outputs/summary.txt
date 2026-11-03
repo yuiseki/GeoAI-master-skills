@@ -1,0 +1,18 @@
+deaths accidents 15; dead party {'貨物車': 1, '二輪車': 8, '乗用車 (自家用)': 2, 'その他・不明': 1, '歩行者': 3}; party A {'貨物車': 6, '二輪車': 3, '乗用車 (自家用)': 5, 'その他・不明': 1}; party B {'相手なし・物件': 7, '二輪車': 5, '歩行者': 3}
+deaths hour 0-5 6; hour 19-5 9
+dead pedestrians aged 65+ 1 of 3
+全て: n 5260; top hours [(10, 351), (18, 344), (9, 341), (17, 340)]; weekday (Mon-Fri) n 4113; weekday top hours [(9, 300), (10, 277), (8, 273), (18, 270)]
+若い歩行者・自転車: n 378; top hours [(16, 44), (15, 37), (17, 35), (18, 33)]; weekday (Mon-Fri) n 287; weekday top hours [(16, 34), (17, 30), (18, 30), (15, 28)]
+高齢の歩行者: n 187; top hours [(15, 19), (10, 17), (11, 16), (16, 16)]; weekday (Mon-Fri) n 153; weekday top hours [(15, 15), (10, 14), (11, 14), (16, 14)]
+自転車: n 1893; top hours [(10, 148), (9, 141), (8, 139), (16, 132)]; weekday (Mon-Fri) n 1508; weekday top hours [(8, 127), (9, 121), (10, 112), (18, 111)]
+乗用車 (自家用): as party A 1708; as party B 662
+乗用車 (事業用): as party A 1405; as party B 348
+貨物車: as party A 1011; as party B 581
+自転車: as party A 801; as party B 1239
+二輪車: as party A 267; as party B 625
+bike as B with a car or truck as A 1050
+towns: accidents in towns 5239; most accidents [('勝どき一丁目', '161', '42'), ('銀座八丁目', '150', '43'), ('銀座一丁目', '140', '28'), ('銀座五丁目', '129', '25'), ('新川一丁目', '129', '25'), ('日本橋一丁目', '118', '16'), ('銀座四丁目', '110', '27'), ('日本橋二丁目', '102', '15')]
+chuo 7 years: accidents 5260; died 15; hurt 5998
+chuo shares (%): share_ped 20.5; share_bike 36.0; share_escooter 0.3; share_old_ped 3.6; share_young_pb 7.2; share_strict 12.7; share_broad 22.7; share_night 33.8; share_intersection 41.9
+school map: young pedestrians and cyclists {'young_ped_or_bike': 378, 'weekday_7_8_or_14_17': 129}
+party cells: 乗用車 (事業用) x 自転車 405; 自転車 x 相手なし・物件 387; 乗用車 (自家用) x 自転車 379; 乗用車 (自家用) x 乗用車 (自家用) 348; 乗用車 (自家用) x 貨物車 295; 乗用車 (事業用) x 歩行者 280; 貨物車 x 自転車 266; 乗用車 (自家用) x 歩行者 256; 自転車 x 歩行者 240; 乗用車 (自家用) x 二輪車 233; 乗用車 (事業用) x 二輪車 221; 貨物車 x 歩行者 207

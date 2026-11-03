@@ -1,0 +1,27 @@
+{
+ "question": "中央区のどの町丁で、道路の長さに比べて事故が多いか",
+ "inputs": [
+  "outputs/towns.csv",
+  "outputs/town-rate-quantile.json",
+  "outputs/analysis.json"
+ ],
+ "n": 99,
+ "notes": "breaks [0.4107318203257231, 1.671595055509065, 2.3531262700550966, 2.996209796060362, 3.8946747603279475, 14.481003801145068]; 分位と等間隔で色の変わる町丁 0.786 (classify_map.py の出力)",
+ "source": "出典: 警察庁「交通事故統計情報のオープンデータ」2019-2025年 (yuiseki/npa-traffic-accidents@389500a) を加工。背景: OpenStreetMap 2026-08-31 (osm-tokyo23-src@38f7a5f)、国勢調査2020小地域 (estat-boundary-2020@823195c)",
+ "font": [
+  "Noto Sans CJK JP"
+ ],
+ "map_crs": "EPSG:6677",
+ "background": "roads OGC:CRS84, ward and towns EPSG:4612",
+ "accepted_difference": "JGD2000 と WGS84 の差 (約 1 m) は道路の線の幅より小さい",
+ "units_drawn": 99,
+ "units_in_analysis": 99,
+ "highlighted": [
+  "勝どき一丁目",
+  "銀座四丁目",
+  "日本橋本石町一丁目",
+  "日本橋室町一丁目",
+  "日本橋室町二丁目"
+ ],
+ "text_overlaps": []
+}
