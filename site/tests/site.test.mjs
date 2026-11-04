@@ -364,3 +364,10 @@ test('熊の記事の B_env は、コードでなく数式の記号として書�
   const prose = markdown.split('\n').filter((line) => !/^\s*[A-G]\[|-->|^<img/.test(line)).join('\n');
   assert.doesNotMatch(prose.replace(/\$[^$\n]*\$/g, ''), /B_env/);
 });
+
+test('千城台の記事は、写真と同じ範囲と縮尺の SAR の図を載せる', async () => {
+  const markdown = await read('src/content/reports/chishirodai-sar-redevelopment.md');
+  assert.match(markdown, /<img src="\/images\/chishirodai-site-sar\.png"[^>]*width="1743" height="1212"/);
+  assert.match(markdown, /### 同じ範囲のSAR/);
+  assert.ok(await stat(path.join(root, 'public/images/chishirodai-site-sar.png')).then(() => true, () => false));
+});
