@@ -26,6 +26,7 @@ $E uvx --with numpy --with scipy --with pyproj python -u scripts/04_blocks.py
 $E uvx --with numpy --with matplotlib --with pyproj python scripts/05_fig.py
 $E uvx --with numpy --with scipy --with pyproj python scripts/06_explore.py
 uvx --with pillow --with numpy --with pyproj python scripts/07_site_photos.py
+$E uvx --with numpy --with rasterio --with pillow --with pyproj python scripts/08_site_sar.py
 ```
 
 `env -u` は、作者の環境で anaconda の GDAL の変数が rasterio を壊すのを避けるため。01_fetch_site.py は作者の Overpass (overpass.yuiseki.net、2025-09-14 の版) を読む。公開の OSM のサーバーは使わない。

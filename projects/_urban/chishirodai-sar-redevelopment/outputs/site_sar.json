@@ -1,0 +1,83 @@
+{
+ "question": "地理院の写真 (図 0) と同じ範囲と縮尺で、調べた街区の SAR の明るさは期間ごとにどう変わったか",
+ "inputs": [
+  "artifacts/_urban/chishirodai-sar-redevelopment/stack.npy",
+  "aux.npz",
+  "labels/site.geojson"
+ ],
+ "polarisation": "VV",
+ "orbit": 46,
+ "mean": "linear power, then dB",
+ "resampling": "nearest, UTM 54N 10 m to EPSG:3857",
+ "window": {
+  "zoom": 17,
+  "tiles_x": [
+   116578,
+   116580
+  ],
+  "tiles_y": [
+   51640,
+   51642
+  ],
+  "pixels": 768
+ },
+ "grey_db": [
+  -13.54,
+  1.0
+ ],
+ "grey_rule": "2nd and 98th percentiles of the window, pooled over periods",
+ "periods": [
+  {
+   "label": "2017 年度",
+   "fiscal_year": 2017,
+   "from": "2017-04-01",
+   "to": "2018-03-31",
+   "dates": 29,
+   "first": "2017-04-07",
+   "last": "2018-03-21"
+  },
+  {
+   "label": "2019 年度",
+   "fiscal_year": 2019,
+   "from": "2019-04-01",
+   "to": "2020-03-31",
+   "dates": 30,
+   "first": "2019-04-09",
+   "last": "2020-03-22"
+  },
+  {
+   "label": "2022 年度 (解体の前)",
+   "fiscal_year": 2022,
+   "from": "2022-04-01",
+   "to": "2023-03-31",
+   "dates": 29,
+   "first": "2022-04-05",
+   "last": "2023-03-19"
+  },
+  {
+   "label": "2024 年度",
+   "fiscal_year": 2024,
+   "from": "2024-04-01",
+   "to": "2025-03-31",
+   "dates": 26,
+   "first": "2024-04-06",
+   "last": "2025-03-20"
+  },
+  {
+   "label": "最新の 1 年",
+   "fiscal_year": null,
+   "from": "2025-10-25",
+   "to": "2026-10-24",
+   "dates": 32,
+   "first": "2025-11-03",
+   "last": "2026-10-24"
+  }
+ ],
+ "site_mean_db": {
+  "2017 年度": -8.66,
+  "2019 年度": -8.74,
+  "2022 年度 (解体の前)": -8.61,
+  "2024 年度": -10.14,
+  "最新の 1 年": -10.36
+ }
+}
