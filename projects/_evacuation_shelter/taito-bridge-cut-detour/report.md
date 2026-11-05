@@ -24,6 +24,10 @@
 
 地図の色は出発点ごとの最大の伸び (Δ)。伸びる点は 2 か所に集まる。北西の谷中 7 丁目と日暮里の付近では線路の東側へ渡る跨線橋が効く。西の上野公園の付近では、上野動物園の中のいそっぷ橋、不忍池の天龍橋、上野駅のデッキ (パンダ橋) が効く。後者の点の多くは、公園、動物園、霊園の中にある。伸びた 144 点のうち 94 点は、霊園 34、公園 25、動物園 22、線路の敷地 13 の中だった ([origin_context.json](outputs/main/origin_context.json))。
 
+![台東区の最短経路の重なりと、外すと道のりが伸びる橋](outputs/main/network_tree_light.png)
+
+同じ主の結果を、道ごとに「経路が通る出発点の数」で描いた図。経路に乗る道は 17,736 本のうち 5,308 本で、1 本の道を通る出発点は最大 267 ([tree_edges_summary.json](outputs/main/tree_edges_summary.json))。黒い縁の線が、外すと道のりが伸びる橋に属する道 (89 本)。区の北西で、経路が少数の跨線橋に絞られているのが見える。黒い背景の版は [network_tree_dark.png](outputs/main/network_tree_dark.png)。
+
 ### 主張の判定
 
 主張は流す前に計画 ([EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)) に書いた。主の読み方の計算 (B2) は、結果を見た後に出発点の寄せ方を 2 回直したので ([EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md) の D1、D2)、全て探索として扱う。

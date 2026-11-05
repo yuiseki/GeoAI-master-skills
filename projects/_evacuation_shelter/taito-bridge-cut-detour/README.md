@@ -29,6 +29,9 @@ DEPS="--from duckdb>=1.5.5 --with numpy --with scipy --with shapely --with pypro
 $CAP uvx --from pytest --with duckdb --with numpy --with scipy --with shapely --with pyproj --with pyarrow --with pandas \
   pytest -q scripts/test_cutdetour.py
 
+# 避難場所の登録数 (23 区)
+uvx --from 'duckdb>=1.5.5' python scripts/00_site_registration.py
+
 # 入力の切り出し (緩衝帯 5 km が主。3 km と 8 km は頑健性)
 for b in 5000 3000 8000; do $CAP uvx --from 'duckdb>=1.5.5' --with pyarrow python scripts/01_fetch.py --buffer-m $b; done
 
@@ -43,6 +46,10 @@ $CAP uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pandas --with
 $CAP uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pandas --with pyarrow --with matplotlib --with pyproj \
   python scripts/04_map.py
 
+# 最短経路の木の道ごとの通過数と、ネットワークの図 (analysis-visualize の network_map.py)
+$CAP uvx $DEPS python scripts/06_tree_edges.py
+$CAP sh scripts/07_network_map.sh
+
 # 報告の検査
 python3 ../../../.agents/skills/analysis-reporting/scripts/check_project.py .
 ```
@@ -53,10 +60,13 @@ python3 ../../../.agents/skills/analysis-reporting/scripts/check_project.py .
 |---|---|
 | `scripts/cutdetour.py` | 線から歩行のグラフを作る、橋をまとめる、多始点の最短経路、構造物を 1 つずつ外した距離 |
 | `scripts/test_cutdetour.py` | 合成のテスト。平行な線をまとめないと迂回が消えること、橋の上の節点に寄せた点が偽の「到達不能」になることなど |
+| `scripts/00_site_registration.py` | 東京 23 区の、指定緊急避難場所の登録数を災害の種類ごとに数える |
 | `scripts/01_fetch.py` | 台東区と緩衝帯の入力を凍結データから切り出し、行数を数える |
 | `scripts/02_run.py` | 変種ごとに計算し、`outputs/<variant>/` に summary.json、cells.csv、structures.csv を書く |
 | `scripts/03_compare.py` | 変種と主の比較 (上位 5 の重なり、順位相関)、川と線路の別の集計、主張の判定 |
 | `scripts/04_map.py` | 主の結果の地図 (PNG) |
+| `scripts/06_tree_edges.py` | 主の最短経路の木で、道ごとに経路が通る出発点を数える |
+| `scripts/07_network_map.sh` | 上の表を、辺の色と太さで描く (黒と白の背景) |
 | `scripts/05_origin_context.py` | 出発点が公園、霊園、動物園、線路の敷地にあるか、建物の近くか (探索) |
 
 出典: 国土地理院ウェブサイト (指定緊急避難場所データ)、© OpenStreetMap contributors (ODbL 1.0)、「令和2年国勢調査」(総務省統計局)。いずれも加工して作成。

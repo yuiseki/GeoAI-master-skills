@@ -1,0 +1,69 @@
+{
+ "question": "台東区の出発点から洪水の避難場所への最短経路は、どの道に集まり、外すと伸びる橋はどこか",
+ "source": "OSM 2026-08-31 (ODbL)、国土地理院 指定緊急避難場所 2026-10-06 取得。加工して作成",
+ "edges_file": "../../../artifacts/_evacuation_shelter/taito-bridge-cut-detour/main/tree_edges.parquet",
+ "crs": "EPSG:6677",
+ "value": "n_origins",
+ "value_label": "経路が通る出発点の数",
+ "unit": "点",
+ "bins": [
+  1.0,
+  5.0,
+  20.0,
+  80.0,
+  300.0
+ ],
+ "class_labels": [
+  "0 より大きく 1 以下",
+  "1 より大きく 5 以下",
+  "5 より大きく 20 以下",
+  "20 より大きく 80 以下",
+  "80 より大きく 300 以下"
+ ],
+ "counts": {
+  "zero": 12428,
+  "nodata": 0,
+  "classes": [
+   2097,
+   1850,
+   990,
+   328,
+   43
+  ]
+ },
+ "edges": 17736,
+ "palette": "YlOrRd",
+ "theme": "light",
+ "widths": [
+  0.5,
+  1.25,
+  2.0,
+  2.75,
+  3.5
+ ],
+ "highlighted": 89,
+ "labels": [
+  "天龍橋",
+  "パンダ橋",
+  "エレベーター;2階",
+  "言問通り",
+  "芋坂跨線橋",
+  "もみじばし",
+  "いそっぷ橋"
+ ],
+ "points": [
+  {
+   "label": "避難場所 (洪水)",
+   "path": "../../../artifacts/_evacuation_shelter/taito-bridge-cut-detour/main/sites_xy.csv",
+   "n": 33
+  }
+ ],
+ "view": [
+  -7470.929419839849,
+  -35096.85609414712,
+  -764.2306623811405,
+  -28720.804511213988
+ ],
+ "text_overlaps": [],
+ "font": "Noto Sans CJK JP"
+}
