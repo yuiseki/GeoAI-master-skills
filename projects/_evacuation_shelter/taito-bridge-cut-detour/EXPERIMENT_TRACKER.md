@@ -15,7 +15,7 @@
 | R007 | B3 | - | exploratory | all_rail、all_river (同じ種類の橋を同時に外す) | 4 版 | done | outputs/all_rail/、outputs/all_river/ | D4 | 計画の B3 の「同時に外した場面」。主張の根拠にしない |
 | R008 | B6 | - | exploratory | 出発点が公園、霊園、動物園、線路の敷地にあるか、建物の近くか | 4 版 | done | outputs/main/origin_context.json、outputs/main/cells_near_buildings.csv | D5 | 伸びた 144 点のうち 94 点が人の住まない場所。533946712 の中央値は建物の近くの点だけでは 0 |
 | R009 | B4 | - | unit | 500 m と 1 km のメッシュ | 4 版 | done | outputs/unit_500m_vs_1km.csv | D5 | 1 km では中央値が 0 より大きいメッシュは 0 |
-| R010 | B5 | - | exploratory | allways (歩ける道を 1 本ずつ外す) | 4 版 | running | outputs/allways/ | - | |
+| R010 | B5 | - | exploratory | allways (歩ける道を 1 本ずつ外す) | 4 版 | failed | outputs/allways/summary.json | - | 経路に乗る 5,308 本を外し、届かなくなる点が 49.31%。出発点が乗る道 (袋小路など) を外すと点が孤立するためで、ボトルネックでなく「玄関先の 1 本」を測っている。設計の失敗。直すなら、出発点の節点に接する道を外す対象から除くか、出発点を複数の節点に寄せる |
 
 ## deviation
 

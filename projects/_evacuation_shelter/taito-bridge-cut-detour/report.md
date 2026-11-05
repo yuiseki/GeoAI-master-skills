@@ -50,6 +50,8 @@ C1 の注意: 主の指標 (メッシュの伸びの中央値) が 0 より大�
 
 単一の切断ではない参考 (探索): 線路を渡る橋 88 個を同時に外すと、伸びる点は 2.1%、最大の伸びは 544.8 m (533946712) ([all_rail/summary.json](outputs/all_rail/summary.json)、[all_rail/cells.csv](outputs/all_rail/cells.csv))。川や水面を渡る橋 600 個を同時に外しても、伸びる点は 0.23% ([all_river/summary.json](outputs/all_river/summary.json))。
 
+橋に限らない「ボトルネック区間」は答えられていない。歩ける道を 1 本ずつ外す版は、届かなくなる点が 49.31% と出たが ([allways/summary.json](outputs/allways/summary.json))、これは出発点が乗る袋小路などを外して点が孤立したもので、ボトルネックを測れていない。設計の失敗として記録した ([EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md) の R010)。
+
 ## データ
 
 | データセット | 版 | 範囲と件数 |
