@@ -1,0 +1,24 @@
+{
+ "tokyo_rows": 205541,
+ "ward_rows": 144716,
+ "ward_no_position": 2,
+ "ward_year_outside": 590,
+ "ward_outside_m": 94,
+ "ward_outside_far_1000m": 1,
+ "far_points": [
+  {
+   "file_year": "2019",
+   "station": "438",
+   "no": "0082",
+   "lat": 35.00346527777778,
+   "lon": 134.49702194444444,
+   "died": 0,
+   "dist_m": 467845.0
+  }
+ ],
+ "kept": 144123,
+ "kept_fatal": 688,
+ "kind_fatal_mismatch": 1,
+ "dup_keys": 0,
+ "npa_revision": "389500aae5cec45f1311163f70db6a5f05867838"
+}

@@ -1,0 +1,90 @@
+{
+ "accidents": 144123,
+ "fatal": 688,
+ "B2": {
+  "meshes": 2454,
+  "min_n_stratum": 210,
+  "strata": 72,
+  "q_lt_005": 0,
+  "q_lt_010": 0,
+  "P_needed_first": 2.0374898125509373e-05,
+  "k_needed_median": 5.0,
+  "meshes_k_needed_le_n": 2394,
+  "meshes_one_short": 7,
+  "meshes_P_zero": 0,
+  "meshes_with_fatal": 565,
+  "min_P": 0.0010862259711736698,
+  "min_q": 1.0,
+  "E_total": 658.33
+ },
+ "B4": {
+  "top10": {
+   "common": 0,
+   "jaccard": 0.0,
+   "random_expectation": 0.041
+  },
+  "top20": {
+   "common": 0,
+   "jaccard": 0.0,
+   "random_expectation": 0.163
+  },
+  "top50": {
+   "common": 1,
+   "jaccard": 0.0101,
+   "random_expectation": 1.019
+  },
+  "spearman_n_vs_minus_log10_P": 0.2479
+ },
+ "B3": {
+  "T_obs": 3364.83,
+  "null_mean": 2445.44,
+  "null_p95": 2824.96,
+  "n_perm": 999,
+  "seed": 49,
+  "p_perm": 0.006
+ },
+ "B5": {
+  "early_accidents": 79290,
+  "early_fatal": 393,
+  "late_accidents": 64833,
+  "late_fatal": 295,
+  "early_q_lt_005": 0,
+  "anomaly_top20": {
+   "late_n": 452,
+   "late_O": 1,
+   "late_E": 1.861,
+   "late_O_over_E": 0.537,
+   "late_P": 0.8472314633625703,
+   "early_O": 41,
+   "early_E": 2.826
+  },
+  "count_top20": {
+   "late_n": 2130,
+   "late_O": 8,
+   "late_E": 13.138,
+   "late_O_over_E": 0.609,
+   "late_P": 0.951274538425682,
+   "early_O": 11,
+   "early_E": 16.915
+  },
+  "anomaly_top50": {
+   "late_n": 1285,
+   "late_O": 5,
+   "late_E": 6.005,
+   "late_O_over_E": 0.833,
+   "late_P": 0.7180389083634846,
+   "early_O": 86,
+   "early_E": 7.768
+  },
+  "count_top50": {
+   "late_n": 4832,
+   "late_O": 23,
+   "late_E": 28.28,
+   "late_O_over_E": 0.813,
+   "late_P": 0.8655014978603408,
+   "early_O": 20,
+   "early_E": 36.557
+  }
+ },
+ "seconds": 180.0
+}

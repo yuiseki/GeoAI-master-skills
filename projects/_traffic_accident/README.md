@@ -7,6 +7,7 @@
 | [taito-accident-trends-by-role](taito-accident-trends-by-role/) | 2019〜2025 年の台東区の事故は、いつ、どこで、誰が関わって起きているか (住民、区、学校と PTA ごとの報告) |
 | [tokyo23-accident-rate-2025](tokyo23-accident-rate-2025/) | 2025 年の東京 23 区で、夜間人口に比べて事故の多い 1 km メッシュはどこか |
 | [tokyo23-road-adjusted-accidents](tokyo23-road-adjusted-accidents/) | 道路延長と夜間人口から期待される件数より事故の多い 1 km メッシュはどこか |
+| [tokyo23-fatal-share-road-anomaly](tokyo23-fatal-share-road-anomaly/) | 2019〜2025 年、道路形状・車道幅員・中央分離帯が同じ事故から期待されるより死亡事故の多い 500 m メッシュはどこか、総件数の多いメッシュとどれだけ違うか |
 | [tokyo23-ward-comparison](tokyo23-ward-comparison/) | 2019〜2025 年の東京 23 区の事故を、区ごとに同じ式で数え直して比べる (量、推移、構成、型、区ごとの特徴) |
 | [chiyoda-accident-trends-by-role](chiyoda-accident-trends-by-role/) | 2019〜2025 年の千代田区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |
 | [setagaya-accident-trends-by-role](setagaya-accident-trends-by-role/) | 2019〜2025 年の世田谷区の事故は、いつ、どこで、誰が関わって起きているか (区、学校・PTA、道路安全診断、住民ごとの報告) |

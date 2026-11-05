@@ -1,0 +1,38 @@
+{
+ "T_plus_motorway": {
+  "T_obs": 3301.56,
+  "null_p95": 2843.43,
+  "p_perm": 0.008,
+  "strata": 78
+ },
+ "T_plus_vulnerable": {
+  "T_obs": 3496.51,
+  "null_p95": 2878.61,
+  "p_perm": 0.004,
+  "strata": 119
+ },
+ "m1000_persistence": {
+  "anomaly_top20": {
+   "units": "53393553 53395415 53394575 53393541 53395554 53395664 53394597 53394596 53394408 53392567 53392598 53393660 53392569 53394690 53395537 53395605 53395610 53393677 53394638 53395657",
+   "early_O": 72,
+   "early_E": 12.969,
+   "late_O": 11,
+   "late_E": 8.515,
+   "late_P": 0.23700973838533307
+  },
+  "hit": {
+   "units": "53393553",
+   "early_O": 6,
+   "early_E": 0.745,
+   "late_O": 2,
+   "late_E": 0.375,
+   "late_P": 0.054358660869599625
+  }
+ },
+ "census_1km": {
+  "meshes": 664,
+  "meshes_without_census_row": 50,
+  "spearman_pop_n": 0.6124,
+  "spearman_pop_minus_log10_P": 0.1397
+ }
+}

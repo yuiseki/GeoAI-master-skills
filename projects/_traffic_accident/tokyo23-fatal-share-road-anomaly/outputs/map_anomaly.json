@@ -1,0 +1,96 @@
+{
+  "value": "minus_log10_P",
+  "kind": "level",
+  "unit": "-log10 P (Poisson 二項分布の上側確率)",
+  "crs": "経緯度 (OGC:CRS84)",
+  "source": "警察庁 交通事故統計オープンデータ 389500a (2019〜2025 年、加工して作成)",
+  "method": "fixed",
+  "classes": 5,
+  "breaks": [
+    -0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.964079817633823
+  ],
+  "units_per_class": [
+    2074,
+    251,
+    83,
+    34,
+    12
+  ],
+  "nodata_units": 0,
+  "class_change_share": {
+    "quantile": 0.225,
+    "equal": 0.053
+  },
+  "palette": "YlOrRd",
+  "boundary": "#404040",
+  "labels": null,
+  "labelled_units": 0,
+  "zero_area_rings_left_out": 0,
+  "font": "Noto Sans CJK JP",
+  "unit_edges": true,
+  "covered_by_inset": [],
+  "zoomed_in_inset": [],
+  "inset_at": "lower right",
+  "title": "道路環境をそろえた死亡事故の外れ (500 m メッシュ) と、総件数の上位",
+  "aspect": 1.0,
+  "legend": "outside",
+  "text_overlaps": [
+    [
+      "中央区",
+      "8"
+    ],
+    [
+      "2",
+      "6"
+    ]
+  ],
+  "inset": null,
+  "hidden_by_inset": [],
+  "made": "2026-11-06",
+  "context": {
+    "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-road-anomaly/artifacts/_traffic_accident/tokyo23-fatal-share-road-anomaly/wards.parquet",
+    "name": "name",
+    "where": null,
+    "source": "jp-admin-2026-09 e6c87b1",
+    "crs": "EPSG:4612",
+    "crs_difference": "JGD2000 と CRS84 の差は 1 m 未満で、500 m メッシュの図では見えない",
+    "areas": 23,
+    "labelled": [
+      "千代田区",
+      "中央区",
+      "港区",
+      "新宿区",
+      "文京区",
+      "台東区",
+      "墨田区",
+      "江東区",
+      "品川区",
+      "目黒区",
+      "大田区",
+      "世田谷区",
+      "渋谷区",
+      "中野区",
+      "杉並区",
+      "豊島区",
+      "北区",
+      "荒川区",
+      "板橋区",
+      "練馬区",
+      "足立区",
+      "葛飾区",
+      "江戸川区"
+    ]
+  },
+  "highlight": {
+    "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-road-anomaly/artifacts/_traffic_accident/tokyo23-fatal-share-road-anomaly/highlight.csv",
+    "groups": {
+      "層別の外れ 上位10": 10,
+      "総件数 上位10": 10
+    }
+  }
+}

@@ -1,0 +1,8 @@
+meshes 2452 (of 2454; meshes with V = 0 left out)
+units: 2452, value: z
+global Moran's I, 8 nearest neighbours: I 0.040 (E[I] -0.0004), pseudo p 0.0010
+correlogram (distance band, km: I, pseudo p, units with a neighbour in the band):
+        0 - 0.75    I +0.043  p 0.0010  with neighbours 2452
+     0.75 - 1.5     I +0.011  p 0.0530  with neighbours 2452
+      1.5 - 3       I +0.019  p 0.0010  with neighbours 2452
+        3 - 6       I +0.003  p 0.0660  with neighbours 2452
