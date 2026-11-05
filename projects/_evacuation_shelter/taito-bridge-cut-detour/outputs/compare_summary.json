@@ -1,0 +1,29 @@
+{
+ "top_n": 5,
+ "main_top5": [
+  "533946712",
+  "533946534",
+  "533946614",
+  "533946512",
+  "533946621"
+ ],
+ "main_cells_median_gt0": 1,
+ "C1": {
+  "rule": "top-5 overlap >= 3 in all of cluster5, cluster20, sites_taito, corridor, buffer3000, buffer8000",
+  "verdict": "support",
+  "overlaps": {
+   "cluster5": 4,
+   "cluster20": 5,
+   "sites_taito": 4,
+   "corridor": 5,
+   "buffer3000": 5,
+   "buffer8000": 5
+  }
+ },
+ "C2": {
+  "rule": "rail inc_sum > river inc_sum by more than 10%",
+  "rail_inc_sum_m": 7598.8,
+  "river_inc_sum_m": 453.9,
+  "verdict": "support"
+ }
+}

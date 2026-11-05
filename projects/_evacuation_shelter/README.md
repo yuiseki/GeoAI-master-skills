@@ -6,3 +6,4 @@
 |---|---|
 | [taito-shelter-planning](taito-shelter-planning/) | 台東区で、住民への近さ、収容力、洪水のリスクを同時に考えた拠点の配置 |
 | [tokyo23-daytime-evac-stress](tokyo23-daytime-evac-stress/) | 東京 23 区で、平日の昼間人口を考えると、避難施設 1 件あたりの潜在的な需要はどこで夜間より大きくなるか |
+| [taito-bridge-cut-detour](taito-bridge-cut-detour/) | 台東区で、橋 1 つが通れなくなると洪水の避難場所までの道のりが大きく伸びる地区はどこか (課題 hard-48 を台東区で) |

@@ -1,0 +1,2 @@
+struct,name,kinds,n_lines,length_m,lon,lat,n_origins_worst,n_unreachable,inc_sum_m,inc_max_m,n_inc_ge500
+0,JR四ツ谷駅,rail (all at once),472,28978.9,139.768769,35.724698,82,0,13155.4,544.7941681756529,3

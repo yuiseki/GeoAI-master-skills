@@ -1,0 +1,2 @@
+struct,name,kinds,n_lines,length_m,lon,lat,n_origins_worst,n_unreachable,inc_sum_m,inc_max_m,n_inc_ge500
+0,三ツ目通り,river (all at once),1264,86777.9,139.80209,35.705106,9,0,499.3,209.29670827664074,0

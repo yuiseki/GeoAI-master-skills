@@ -1,0 +1,151 @@
+{
+ "buffer_m": 5000,
+ "bbox_3857": [
+  15552104.574310519,
+  4252549.580635701,
+  15569698.613670109,
+  4269938.202703309
+ ],
+ "taito_area_km2": 10.085728399860733,
+ "lines_bbox": 117389,
+ "lines_in_buffer": 98221,
+ "lines_highway": 94167,
+ "lines_highway_bridge": 3098,
+ "lines_highway_tunnel": 3852,
+ "lines_railway": 3692,
+ "lines_waterway": 385,
+ "water_polygons": 380,
+ "sites_in_buffer": 233,
+ "sites_earthquake": 136,
+ "sites_flood": 160,
+ "sites_large_fire": 25,
+ "sites_in_taito_code": 17,
+ "sites_in_taito_polygon": 17,
+ "mesh1km_rows": 233,
+ "mesh1km_pop": 4015623,
+ "mesh1km_multi_pref": 0,
+ "highway_values": [
+  [
+   "footway",
+   43890
+  ],
+  [
+   "service",
+   19000
+  ],
+  [
+   "residential",
+   9465
+  ],
+  [
+   "steps",
+   5207
+  ],
+  [
+   "unclassified",
+   5132
+  ],
+  [
+   "tertiary",
+   2920
+  ],
+  [
+   "path",
+   2844
+  ],
+  [
+   "secondary",
+   1463
+  ],
+  [
+   "primary",
+   1381
+  ],
+  [
+   "pedestrian",
+   742
+  ],
+  [
+   "trunk",
+   674
+  ],
+  [
+   "motorway_link",
+   339
+  ],
+  [
+   "motorway",
+   246
+  ],
+  [
+   "cycleway",
+   226
+  ],
+  [
+   "primary_link",
+   187
+  ],
+  [
+   "secondary_link",
+   143
+  ],
+  [
+   "trunk_link",
+   109
+  ],
+  [
+   "corridor",
+   70
+  ],
+  [
+   "tertiary_link",
+   52
+  ],
+  [
+   "construction",
+   40
+  ],
+  [
+   "proposed",
+   14
+  ],
+  [
+   "elevator",
+   11
+  ],
+  [
+   "busway",
+   8
+  ],
+  [
+   "track",
+   2
+  ],
+  [
+   "rest_area",
+   1
+  ],
+  [
+   "living_street",
+   1
+  ]
+ ],
+ "bridge_values": [
+  [
+   "yes",
+   3016
+  ],
+  [
+   "viaduct",
+   80
+  ],
+  [
+   "no",
+   12
+  ],
+  [
+   "boardwalk",
+   2
+  ]
+ ]
+}

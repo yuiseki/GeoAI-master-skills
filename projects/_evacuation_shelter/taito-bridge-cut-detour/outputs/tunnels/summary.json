@@ -1,0 +1,52 @@
+{
+ "variant": "tunnels",
+ "config": {
+  "cluster_m": 10.0,
+  "sites": "all",
+  "corridor": false,
+  "buffer_m": 5000,
+  "tunnels": true,
+  "hazard": "flood"
+ },
+ "graph": {
+  "walk_lines": 91664,
+  "nodes": 308614,
+  "edges": 381107,
+  "length_km": 7195.8,
+  "components": 503,
+  "main_share": 0.9903
+ },
+ "structures": {
+  "lines": 7084,
+  "groups": 1579,
+  "groups_on_paths": 37,
+  "groups_lengthening": 32
+ },
+ "sites": {
+  "n": 160,
+  "n_snapped_nodes": 160,
+  "snap_median_m": 27.1,
+  "snap_max_m": 87.3,
+  "n_snap_over_100m": 0
+ },
+ "origins": {
+  "grid_m": 50.0,
+  "n": 4033,
+  "used": 3900,
+  "dropped_in_water": 133,
+  "dropped_snap_over_100m": 0,
+  "ground_min_component_m": 1000.0,
+  "snap_median_m": 13.4,
+  "snap_max_m": 84.4,
+  "cells": 57,
+  "d0_inf": 0
+ },
+ "results": {
+  "d0_median_m": 427.9,
+  "share_lengthened": 0.0585,
+  "share_unreachable": 0.0,
+  "share_inc_ge500": 0.0,
+  "inc_median_m": 0.0,
+  "inc_p90_m": 0.0
+ }
+}
