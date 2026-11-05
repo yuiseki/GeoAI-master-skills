@@ -183,6 +183,7 @@
     - [x] `references/usfs-biomass-2008.md`: 公表された ZIP 容量と別製品 BIGMAP の違いを記録
     - [x] `references/usfs-bigmap-2018.md`: 無償の30m総量・樹種別地図。容量と再配布条件は未確認
     - [x] `references/canada-scanfi-v2.md`: 公式配布一覧の 2020 年 AGB 容量と再配布条件を確認
+    - [x] `references/jaxa-earth/README.md`: JAXA Earth API の STAC と COG。登録不要、root の 112 件と AI 向けカタログの 119 件の差、COG に CRS が無いこと、利用条件
     - [x] `references/services/README.md`: 自前のサービスの目録
       - [x] `references/services/overpass.md`、`nominatim.md`、`valhalla.md`、`taginfo.md`
   - [x] `data-variable-semantics`: 分析に使う変数が、問いの言葉と同じものを指しているかを一次資料の定義と実データで照合する

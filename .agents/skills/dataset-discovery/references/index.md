@@ -15,6 +15,7 @@
 | [worldpop/](worldpop/README.md) | 目録。人口の格子 (100 m、1 km)、年齢・性別、都市化度 | 全世界、国ごと | 2015〜2030 |
 | [ghsl/](ghsl/README.md) | 目録。JRC の居住人口と建物面積の推計格子。30 秒角の日本周辺タイルを実読 | 全世界をタイルに分割 | R2023A、1975〜2030。2025・2030 は投影 |
 | [microsoft-building-footprints](microsoft-building-footprints.md) | 東京東部・関東2タイルの GeoParquet と原典 GeoJSONL gzip を公開 (5,781,554件) | 東京東部・関東 | 2026-08-13 の索引スナップショット |
+| [jaxa-earth/](jaxa-earth/README.md) | 目録。JAXA Earth API。STAC の root `https://data.earth.jaxa.jp/stac/cog/v1/catalog.json` から 112 件、AI 向けカタログで 119 件の COG (GSMaP 降水、GCOM-C/W の地表面温度・海面水温・土壌水分、AW3D30、日本の土地被覆、Today's Earth - Japan の浸水深など)。登録も API キーも不要、COG に CRS が無い | 全球と日本 | コレクションごと、2000 年からの時系列あり。2026-11-05 確認 |
 | [planetary-computer/](planetary-computer/README.md) | 目録。衛星画像、標高、土地被覆のラスタ (COG、匿名の SAS 署名が要る) | 全世界 | コレクションごと |
 | [planetary-computer-landsat-c2-l2](planetary-computer/landsat-c2-l2.md) | USGS Landsat Collection 2 Level-2 の地表面反射率と QA の 30 m COG (public domain) | 全世界 | 1982〜、撮影ごと |
 | [planetary-computer-sentinel-1](planetary-computer/sentinel-1.md) | Sentinel-1 の GRD (レーダーの座標の強度と注記) と RTC (UTM 10 m の γ0)。千葉で RTC が地図に対し 2 画素ほどずれていた | 全世界 | 撮影ごと、2026-10-31 確認 |
