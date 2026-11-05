@@ -1,0 +1,78 @@
+{
+ "sites": 24,
+ "sites_with_catchment": 24,
+ "sites_in_taito": 17,
+ "R_main_m": 100.0,
+ "L_m": 200.0,
+ "merge_m": 20.0,
+ "disk_m": 10.0,
+ "site_access_m": 50.0,
+ "destination_access_m": 50.0,
+ "origins": 3900,
+ "r50": {
+  "k_counts": {
+   "1": 1,
+   "2": 3,
+   "3": 6,
+   "4": 6,
+   "5": 4,
+   "6": 4
+  },
+  "k1": 1,
+  "closes": 0,
+  "k1_and_closes": 0,
+  "k1_not_closes": 1,
+  "closes_k_ge2": 0,
+  "k1_catchment": 186,
+  "spearman_k_flagged_share": -0.466,
+  "spearman_sites": 22,
+  "flagged_share_median_k1": 0.4086,
+  "flagged_share_median_k_ge2": 0.1587
+ },
+ "r100": {
+  "k_counts": {
+   "2": 2,
+   "3": 3,
+   "4": 6,
+   "5": 5,
+   "6": 3,
+   "7": 1,
+   "8": 3,
+   "9": 1
+  },
+  "k1": 0,
+  "closes": 0,
+  "k1_and_closes": 0,
+  "k1_not_closes": 0,
+  "closes_k_ge2": 0,
+  "k1_catchment": 0,
+  "spearman_k_flagged_share": -0.499,
+  "spearman_sites": 22,
+  "flagged_share_median_k1": null,
+  "flagged_share_median_k_ge2": 0.1785
+ },
+ "r200": {
+  "k_counts": {
+   "2": 2,
+   "3": 4,
+   "4": 5,
+   "5": 5,
+   "6": 3,
+   "7": 1,
+   "8": 2,
+   "9": 1,
+   "10": 1
+  },
+  "k1": 0,
+  "closes": 0,
+  "k1_and_closes": 0,
+  "k1_not_closes": 0,
+  "closes_k_ge2": 0,
+  "k1_catchment": 0,
+  "spearman_k_flagged_share": -0.499,
+  "spearman_sites": 22,
+  "flagged_share_median_k1": null,
+  "flagged_share_median_k_ge2": 0.1785
+ },
+ "seconds": 18.3
+}

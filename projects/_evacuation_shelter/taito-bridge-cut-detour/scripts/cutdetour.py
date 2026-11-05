@@ -297,3 +297,106 @@ class SpotCutter:
         mm = self.m.copy()
         mm.data = data
         return dijkstra(mm, directed=False, indices=self.src, min_only=True)
+
+
+BIG = 1_000_000
+
+
+def _zone(g, S, R, L):
+    """Distances from S and the edges of the approach zone: inner (an end closer than R), shell (both ends at R or
+    more, but not both at R + L or more). Returns d, edge index array, inner mask (over that array), far mask (nodes)."""
+    d = multi_source(g, S, limit=R + L + 1.0)
+    du, dv = d[g.u], d[g.v]
+    near = np.minimum(du, dv)
+    keep = near < R + L
+    idx = np.flatnonzero(keep)
+    inner = near[keep] < R
+    far = d >= R + L  # includes unreached (inf)
+    return d, idx, inner, far
+
+
+def approaches(g, S, R=100.0, L=200.0, merge_m=20.0):
+    """Approaches to a site entered from the node set S.
+
+    k_e: the most edge-disjoint walks from S to the outside (nodes R + L or more from S); only edges with an end
+    closer than R to S can be cut (capacity 1), farther edges are free (capacity BIG). The minimum cut is taken on
+    its outer side (the edges nearest the outside), so that two streets meeting at an access node are not read as one
+    place. k: the cut edges grouped by merge_m (single linkage); a street drawn as a carriageway and sidewalks is one
+    approach. The edge-minimal cut need not have the fewest groups, so k is an upper estimate.
+    Returns dict(k_e, k, cut=[edge index], groups=[label per cut edge]).
+    """
+    from scipy.sparse.csgraph import maximum_flow
+    S = np.unique(np.asarray(S, dtype=np.int64))
+    d, idx, inner, far = _zone(g, S, R, L)
+    u, v = g.u[idx], g.v[idx]
+    cap = np.where(inner, 1, BIG).astype(np.int64)
+    # parallel copies of a node pair add up (separate ways); self loops are already gone
+    nodes = np.unique(np.r_[u, v, S])
+    loc = {int(x): i for i, x in enumerate(nodes)}
+    lu = np.array([loc[int(x)] for x in u], dtype=np.int64)
+    lv = np.array([loc[int(x)] for x in v], dtype=np.int64)
+    n = len(nodes)
+    s, t = n, n + 1
+    fnodes = np.array([loc[int(x)] for x in nodes if far[x]], dtype=np.int64)
+    snodes = np.array([loc[int(x)] for x in S], dtype=np.int64)
+    if len(fnodes) == 0:
+        return dict(k_e=0, k=0, cut=[], groups=[])
+    rows = np.r_[lu, lv, np.full(len(snodes), s), fnodes]
+    cols = np.r_[lv, lu, snodes, np.full(len(fnodes), t)]
+    caps = np.r_[cap, cap, np.full(len(snodes), BIG), np.full(len(fnodes), BIG)]
+    m = csr_matrix((caps.astype(np.int32), (rows, cols)), shape=(n + 2, n + 2))
+    m.sum_duplicates()
+    res = maximum_flow(m, s, t)
+    k_e = int(res.flow_value)
+    # nodes that still reach t in the residual graph: walk backwards from t over edges with residual > 0
+    flow = res.flow.tocsr()
+    resid = (m - flow).tocoo()
+    pos = resid.data > 0
+    back = csr_matrix((np.ones(pos.sum()), (resid.col[pos], resid.row[pos])), shape=(n + 2, n + 2))
+    from scipy.sparse.csgraph import breadth_first_order
+    reach_t = np.zeros(n + 2, bool)
+    reach_t[breadth_first_order(back, t, directed=True, return_predecessors=False)] = True
+    cut_mask = inner & (reach_t[lu] != reach_t[lv])
+    cut = idx[cut_mask]
+    if len(cut) == 0:
+        return dict(k_e=k_e, k=0, cut=[], groups=[])
+    segs = shapely.linestrings(np.stack([g.xy[g.u[cut]], g.xy[g.v[cut]]], axis=1))
+    a, b = shapely.STRtree(segs).query(segs, predicate="dwithin", distance=merge_m)
+    _, lab = connected_components(csr_matrix((np.ones(len(a)), (a, b)), shape=(len(cut), len(cut))), directed=False)
+    return dict(k_e=k_e, k=int(lab.max() + 1), cut=list(map(int, cut)), groups=list(map(int, lab)))
+
+
+def single_gate(g, S, R=100.0, L=200.0, r=10.0, return_spots=False):
+    """Whether one disk of radius r, centred on a node closer than R to S or on the midpoint of an edge with such an
+    end, cuts S off from the outside (R + L or more). Disks holding every node of S shut the site itself and are
+    skipped (counted). Returns (closes, n_skipped[, closing centres])."""
+    S = np.unique(np.asarray(S, dtype=np.int64))
+    d, idx, inner, far = _zone(g, S, R, L)
+    u, v = g.u[idx], g.v[idx]
+    nodes = np.unique(np.r_[u, v, S])
+    loc = np.full(g.n, -1)
+    loc[nodes] = np.arange(len(nodes))
+    lu, lv = loc[u], loc[v]
+    fl = loc[nodes[far[nodes]]]
+    sl = loc[S]
+    cand = np.vstack([g.xy[nodes[d[nodes] < R]], (g.xy[u[inner]] + g.xy[v[inner]]) / 2])
+    segs = shapely.linestrings(np.stack([g.xy[u], g.xy[v]], axis=1))
+    tree = shapely.STRtree(segs)
+    hits = tree.query(shapely.points(cand), predicate="dwithin", distance=r)
+    by_c = np.split(hits[1], np.searchsorted(hits[0], np.arange(1, len(cand))))
+    n = len(nodes)
+    skipped, closing = 0, []
+    for c, removed in zip(cand, by_c):
+        if (np.hypot(*(g.xy[S] - c).T) <= r).all():
+            skipped += 1
+            continue
+        keep = np.ones(len(u), bool)
+        keep[removed] = False
+        adj = csr_matrix((np.ones(keep.sum()), (lu[keep], lv[keep])), shape=(n, n))
+        _, lab = connected_components(adj, directed=False)
+        if not np.isin(lab[sl], lab[fl]).any():
+            closing.append(c)
+            if not return_spots:
+                break
+    closes = len(closing) > 0
+    return (closes, skipped, np.array(closing)) if return_spots else (closes, skipped)

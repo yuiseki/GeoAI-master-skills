@@ -1,0 +1,63 @@
+{
+ "sites": 24,
+ "sites_with_catchment": 24,
+ "sites_in_taito": 17,
+ "R_main_m": 100.0,
+ "L_m": 200.0,
+ "merge_m": 20.0,
+ "disk_m": 10.0,
+ "site_access_m": 0.0,
+ "destination_access_m": 50.0,
+ "origins": 3900,
+ "r50": {
+  "k_counts": {
+   "1": 13,
+   "2": 11
+  },
+  "k1": 13,
+  "closes": 3,
+  "k1_and_closes": 3,
+  "k1_not_closes": 10,
+  "closes_k_ge2": 0,
+  "k1_catchment": 2103,
+  "spearman_k_flagged_share": 0.165,
+  "spearman_sites": 22,
+  "flagged_share_median_k1": 0.1587,
+  "flagged_share_median_k_ge2": 0.2097
+ },
+ "r100": {
+  "k_counts": {
+   "1": 11,
+   "2": 12,
+   "3": 1
+  },
+  "k1": 11,
+  "closes": 3,
+  "k1_and_closes": 3,
+  "k1_not_closes": 8,
+  "closes_k_ge2": 0,
+  "k1_catchment": 1962,
+  "spearman_k_flagged_share": 0.26,
+  "spearman_sites": 22,
+  "flagged_share_median_k1": 0.1515,
+  "flagged_share_median_k_ge2": 0.2131
+ },
+ "r200": {
+  "k_counts": {
+   "1": 11,
+   "2": 12,
+   "3": 1
+  },
+  "k1": 11,
+  "closes": 3,
+  "k1_and_closes": 3,
+  "k1_not_closes": 8,
+  "closes_k_ge2": 0,
+  "k1_catchment": 1962,
+  "spearman_k_flagged_share": 0.26,
+  "spearman_sites": 22,
+  "flagged_share_median_k1": 0.1515,
+  "flagged_share_median_k_ge2": 0.2131
+ },
+ "seconds": 15.7
+}

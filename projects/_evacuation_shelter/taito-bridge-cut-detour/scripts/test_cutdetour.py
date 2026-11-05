@@ -184,3 +184,80 @@ def test_spot_removes_parallel_sidewalk_too():
     d_line = cutter.distances({p for p in cutter.removed_pairs((75, 0), 1)})   # only the carriageway
     d_spot = cutter.distances(cutter.removed_pairs((75, 0), 10))               # carriageway and sidewalk
     assert d_line[east[0]] < 220 and np.isclose(d_spot[east[0]], 400)
+
+
+# B8: approaches to a site
+
+
+def node_at(g, xy):
+    n, d = snap(g, [xy], main_only=False)
+    assert d[0] < 1e-6, xy
+    return int(n[0])
+
+
+def test_site_at_the_end_of_a_dead_end_street_has_one_approach():
+    from cutdetour import approaches, single_gate
+    g = build_graph(pocket_world())
+    S = [node_at(g, (150, -300))]
+    a = approaches(g, S, R=100, L=200, merge_m=20)
+    assert a["k_e"] == 1 and a["k"] == 1
+    closes, n_skip = single_gate(g, S, R=100, L=200, r=10)
+    assert closes and n_skip == 1  # the disk on the site node itself is skipped
+
+
+def test_site_on_a_through_street_has_two_approaches_cut_near_the_ring():
+    from cutdetour import approaches, single_gate
+    g = build_graph(pocket_world())
+    S = [node_at(g, (75, 0))]
+    # with L = 200 the only node 300 m out is the pocket's end; L = 100 puts the parallel street's far corner outside
+    a = approaches(g, S, R=100, L=100, merge_m=20)
+    # the two edges at the site node touch each other; the cut is taken on the outer side so they stay apart
+    assert a["k_e"] == 2 and a["k"] == 2
+    closes, _ = single_gate(g, S, R=100, L=100, r=10)
+    assert not closes
+
+
+def test_dead_end_drawn_as_two_parallel_lines_is_one_approach():
+    from cutdetour import approaches, single_gate
+    lines = pocket_world() + [LineString([(154, -10), (154, -150), (154, -290)]),
+                              LineString([(150, 0), (154, -10)]), LineString([(154, -290), (150, -300)])]
+    g = build_graph(lines)
+    S = [node_at(g, (150, -300))]
+    a = approaches(g, S, R=100, L=200, merge_m=20)
+    assert a["k_e"] == 2 and a["k"] == 1
+    closes, _ = single_gate(g, S, R=100, L=200, r=10)
+    assert closes
+
+
+def test_internal_bottleneck_counts_one():
+    """A 30 m stem from the site to a junction, then three streets out."""
+    from cutdetour import approaches, single_gate
+    lines = [LineString([(0, 0), (30, 0)]),
+             LineString([(30, 0), (200, 0), (500, 0)]),
+             LineString([(30, 0), (30, 200), (30, 500)]),
+             LineString([(30, 0), (30, -200), (30, -500)])]
+    g = build_graph(lines)
+    S = [node_at(g, (0, 0))]
+    a = approaches(g, S, R=100, L=200, merge_m=20)
+    assert a["k_e"] == 1 and a["k"] == 1
+    closes, _ = single_gate(g, S, R=100, L=200, r=10)
+    assert closes
+
+
+def test_access_nodes_on_two_streets_give_two_approaches():
+    from cutdetour import approaches, single_gate
+    lines = [LineString([(0, 0), (0, 300), (0, 600)]), LineString([(40, 0), (40, -300), (40, -600)])]
+    g = build_graph(lines)
+    S = [node_at(g, (0, 0)), node_at(g, (40, 0))]
+    a = approaches(g, S, R=100, L=200, merge_m=20)
+    assert a["k_e"] == 2 and a["k"] == 2
+    closes, _ = single_gate(g, S, R=100, L=200, r=10)
+    assert not closes
+
+
+def test_blockage_over_every_access_node_is_skipped():
+    from cutdetour import single_gate
+    g = build_graph([LineString([(0, 0), (5, 0), (300, 0), (600, 0)])])
+    S = [node_at(g, (0, 0)), node_at(g, (5, 0))]
+    closes, n_skip = single_gate(g, S, R=100, L=200, r=10)
+    assert n_skip > 0 and closes  # a disk on the long edge still closes the one street

@@ -59,6 +59,9 @@ $CAP uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pandas --with
   --variant spot_r10_a50_o50 --key spot
 uvx --from 'duckdb>=1.5.5' --with numpy --with pandas --with pyarrow --with shapely --with scipy python scripts/09_spot_compare.py
 $CAP sh scripts/10_spot_map.sh
+# 避難場所ごとの進入路の数 (B8、探索)。1 本 20 秒ほど
+for A in 50 0 30; do $CAP uvx $DEPS python -u scripts/11_site_approaches.py --site-access-m $A; done
+$CAP sh scripts/12_site_map.sh
 
 # 報告の検査
 python3 ../../../.agents/skills/analysis-reporting/scripts/check_project.py .
@@ -80,6 +83,8 @@ python3 ../../../.agents/skills/analysis-reporting/scripts/check_project.py .
 | `scripts/08_spot_cut.py` | 最短経路の木の区間ごとに、中点の半径 r に掛かる道を外して測り直す (陥没、管の破裂などの 1 か所の封鎖) |
 | `scripts/09_spot_compare.py` | 封鎖の変種の比較と、地図の辺の表 |
 | `scripts/10_spot_map.sh` | 封鎖の結果の地図 |
+| `scripts/11_site_approaches.py` | 避難場所ごとの進入路の数 (最大流の最小カットを 20 m でまとめた数) と、半径 10 m の円 1 つで閉じるか |
+| `scripts/12_site_map.sh` | 進入路の数で色分けした避難場所の地図 |
 | `scripts/05_origin_context.py` | 出発点が公園、霊園、動物園、線路の敷地にあるか、建物の近くか (探索) |
 
 出典: 国土地理院ウェブサイト (指定緊急避難場所データ)、© OpenStreetMap contributors (ODbL 1.0)、「令和2年国勢調査」(総務省統計局)。いずれも加工して作成。
