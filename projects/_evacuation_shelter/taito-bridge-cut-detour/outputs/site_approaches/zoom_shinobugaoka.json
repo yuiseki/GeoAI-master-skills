@@ -1,0 +1,91 @@
+{
+ "question": "忍岡小学校の進入路の数は、門の位置の仮定 (入口の広さ) でどう変わるか",
+ "source": "OSM 2026-08-31 (ODbL)、国土地理院 指定緊急避難場所 2026-10-06 取得。加工して作成",
+ "edges_file": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-shelter-route/artifacts/_evacuation_shelter/taito-bridge-cut-detour/spot_r10_a50_o50/spot_edges.parquet",
+ "crs": "EPSG:6677",
+ "value": "n_flagged",
+ "value_label": "そこを塞ぐと 1.5 倍以上か届かない出発点 (B7)",
+ "unit": "点",
+ "bins": [
+  1.0,
+  5.0,
+  20.0,
+  50.0,
+  130.0
+ ],
+ "class_labels": [
+  "0 より大きく 1 以下",
+  "1 より大きく 5 以下",
+  "5 より大きく 20 以下",
+  "20 より大きく 50 以下",
+  "50 より大きく 130 以下"
+ ],
+ "counts": {
+  "zero": 16945,
+  "nodata": 0,
+  "classes": [
+   365,
+   284,
+   102,
+   26,
+   14
+  ]
+ },
+ "edges": 17736,
+ "palette": "YlOrRd",
+ "theme": "light",
+ "widths": [
+  1.0,
+  2.25,
+  3.5,
+  4.75,
+  6.0
+ ],
+ "highlighted": 0,
+ "labels": [],
+ "points": [
+  {
+   "label": "入口 50 m の節点 (6)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-shelter-route/artifacts/_evacuation_shelter/taito-bridge-cut-detour/site_approaches/zoom_shinobugaoka_access_50.csv",
+   "n": 6
+  },
+  {
+   "label": "入口 30 m の節点 (2)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-shelter-route/artifacts/_evacuation_shelter/taito-bridge-cut-detour/site_approaches/zoom_shinobugaoka_access_30.csv",
+   "n": 2
+  },
+  {
+   "label": "進入路 (入口 50 m) (2)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-shelter-route/artifacts/_evacuation_shelter/taito-bridge-cut-detour/site_approaches/zoom_shinobugaoka_gate_50.csv",
+   "n": 2
+  },
+  {
+   "label": "進入路 (入口 30 m) (2)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-shelter-route/artifacts/_evacuation_shelter/taito-bridge-cut-detour/site_approaches/zoom_shinobugaoka_gate_30.csv",
+   "n": 2
+  },
+  {
+   "label": "進入路 (入口 0 m) (1)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-shelter-route/artifacts/_evacuation_shelter/taito-bridge-cut-detour/site_approaches/zoom_shinobugaoka_gate_0.csv",
+   "n": 1
+  },
+  {
+   "label": "1 つで閉じる封鎖の中心 (入口 0 m) (6)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-shelter-route/artifacts/_evacuation_shelter/taito-bridge-cut-detour/site_approaches/zoom_shinobugaoka_disk_0.csv",
+   "n": 6
+  },
+  {
+   "label": "避難場所の地点 (1)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-shelter-route/artifacts/_evacuation_shelter/taito-bridge-cut-detour/site_approaches/zoom_shinobugaoka_site_0.csv",
+   "n": 1
+  }
+ ],
+ "view": [
+  -6255.760151606361,
+  -31965.1776942312,
+  -5795.760151606361,
+  -31505.1776942312
+ ],
+ "text_overlaps": [],
+ "font": "Noto Sans CJK JP"
+}

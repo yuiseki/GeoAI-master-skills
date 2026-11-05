@@ -62,6 +62,7 @@ $CAP sh scripts/10_spot_map.sh
 # 避難場所ごとの進入路の数 (B8、探索)。1 本 20 秒ほど
 for A in 50 0 30; do $CAP uvx $DEPS python -u scripts/11_site_approaches.py --site-access-m $A; done
 $CAP sh scripts/12_site_map.sh
+$CAP uvx $DEPS --with matplotlib python -u scripts/13_site_zoom.py
 
 # 報告の検査
 python3 ../../../.agents/skills/analysis-reporting/scripts/check_project.py .
@@ -85,6 +86,7 @@ python3 ../../../.agents/skills/analysis-reporting/scripts/check_project.py .
 | `scripts/10_spot_map.sh` | 封鎖の結果の地図 |
 | `scripts/11_site_approaches.py` | 避難場所ごとの進入路の数 (最大流の最小カットを 20 m でまとめた数) と、半径 10 m の円 1 つで閉じるか |
 | `scripts/12_site_map.sh` | 進入路の数で色分けした避難場所の地図 |
+| `scripts/13_site_zoom.py` | 忍岡小学校と東浅草小学校の拡大図 (入口 0、30、50 m の進入路と、1 つで閉じる封鎖) |
 | `scripts/05_origin_context.py` | 出発点が公園、霊園、動物園、線路の敷地にあるか、建物の近くか (探索) |
 
 出典: 国土地理院ウェブサイト (指定緊急避難場所データ)、© OpenStreetMap contributors (ODbL 1.0)、「令和2年国勢調査」(総務省統計局)。いずれも加工して作成。
