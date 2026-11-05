@@ -132,3 +132,55 @@ def test_small_ground_pocket_is_not_a_snap_target():
     n_big, _ = snap(g, near_pocket, allowed=ground_nodes(g, np.flatnonzero(isb), min_component_m=1000))
     assert np.allclose(g.xy[n_any[0]], (430, 130))
     assert g.xy[n_big[0]][1] == 100  # snapped to the north bank road instead
+
+
+def pocket_world():
+    """A 200 m street with a shelter at its west end, a parallel street 100 m north joined at both ends,
+    and a 300 m dead-end street (a pocket) leaving the main street at x=150 southwards."""
+    lines = [LineString([(x, 0) for x in range(0, 201, 25)]),            # main street
+             LineString([(0, 0), (0, 100)]), LineString([(200, 0), (200, 100)]),
+             LineString([(0, 100), (200, 100)]),                         # parallel street
+             LineString([(150, 0), (150, -150), (150, -300)])]           # pocket street
+    # short stubs make the four corners junctions (without them the block's outline is one loop section)
+    lines += [LineString([(0, 0), (-20, 0)]), LineString([(200, 0), (220, 0)]),
+              LineString([(0, 100), (-20, 100)]), LineString([(200, 100), (220, 100)])]
+    return lines
+
+
+def test_sections_split_at_junctions():
+    from cutdetour import sections
+    g = build_graph(pocket_world())
+    pairs = {(min(a, b), max(a, b)) for a, b in zip(g.u, g.v)}
+    secs = sections(g, pairs)
+    mids = sorted(tuple(np.round(m)) for _, m in secs)
+    # junctions: the four corners, (150, 0), the pocket's end and the stubs' ends
+    assert (75.0, 0.0) in mids and (175.0, 0.0) in mids and (0.0, 50.0) in mids and (150.0, -150.0) in mids and (100.0, 100.0) in mids
+    assert len(secs) == 10  # main street 2, verticals 2, parallel 1, pocket 1, stubs 4
+
+
+def test_spot_on_pocket_street_cuts_the_pocket_off_and_main_street_only_detours():
+    from cutdetour import SpotCutter
+    g = build_graph(pocket_world())
+    src, _ = snap(g, [(0, 0)])
+    cutter = SpotCutter(g, src)
+    deep, _ = snap(g, [(150, -300)])
+    east, _ = snap(g, [(200, 0)])
+    d0 = cutter.distances(set())
+    assert np.isclose(d0[deep[0]], 450) and np.isclose(d0[east[0]], 200)
+    d = cutter.distances(cutter.removed_pairs((150, -75), 10))
+    assert np.isinf(d[deep[0]])                      # the pocket has one way out
+    d = cutter.distances(cutter.removed_pairs((75, 0), 10))
+    assert np.isclose(d[east[0]], 400)               # round by the parallel street: 100 + 200 + 100
+
+
+def test_spot_removes_parallel_sidewalk_too():
+    from cutdetour import SpotCutter
+    lines = pocket_world() + [LineString([(25, 4), (125, 4)]), LineString([(25, 0), (25, 4)]),
+                              LineString([(125, 0), (125, 4)])]  # a sidewalk 4 m off the main street
+    g = build_graph(lines)
+    src, _ = snap(g, [(0, 0)])
+    cutter = SpotCutter(g, src)
+    east, _ = snap(g, [(200, 0)])
+    d_line = cutter.distances({p for p in cutter.removed_pairs((75, 0), 1)})   # only the carriageway
+    d_spot = cutter.distances(cutter.removed_pairs((75, 0), 10))               # carriageway and sidewalk
+    assert d_line[east[0]] < 220 and np.isclose(d_spot[east[0]], 400)

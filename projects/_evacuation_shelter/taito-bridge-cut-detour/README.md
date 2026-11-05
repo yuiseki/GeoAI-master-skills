@@ -50,6 +50,16 @@ $CAP uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pandas --with
 $CAP uvx $DEPS python scripts/06_tree_edges.py
 $CAP sh scripts/07_network_map.sh
 
+# 橋に限らない 1 か所の封鎖 (B7、探索)。1 本 6〜23 分。CPU を 1 つしか使わないので並べて流せる
+for rao in "10 50 50" "10 50 0" "10 50 30" "10 50 100" "10 0 50" "10 0 0" "10 30 0" "10 100 0" "5 50 50" "5 50 0" "20 50 50" "20 50 0"; do
+  set -- $rao
+  $CAP uvx $DEPS python -u scripts/08_spot_cut.py --radius $1 --site-access-m $2 --origin-access-m $3
+done
+$CAP uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pandas --with pyarrow python scripts/05_origin_context.py \
+  --variant spot_r10_a50_o50 --key spot
+uvx --from 'duckdb>=1.5.5' --with numpy --with pandas --with pyarrow --with shapely --with scipy python scripts/09_spot_compare.py
+$CAP sh scripts/10_spot_map.sh
+
 # 報告の検査
 python3 ../../../.agents/skills/analysis-reporting/scripts/check_project.py .
 ```
@@ -67,6 +77,9 @@ python3 ../../../.agents/skills/analysis-reporting/scripts/check_project.py .
 | `scripts/04_map.py` | 主の結果の地図 (PNG) |
 | `scripts/06_tree_edges.py` | 主の最短経路の木で、道ごとに経路が通る出発点を数える |
 | `scripts/07_network_map.sh` | 上の表を、辺の色と太さで描く (黒と白の背景) |
+| `scripts/08_spot_cut.py` | 最短経路の木の区間ごとに、中点の半径 r に掛かる道を外して測り直す (陥没、管の破裂などの 1 か所の封鎖) |
+| `scripts/09_spot_compare.py` | 封鎖の変種の比較と、地図の辺の表 |
+| `scripts/10_spot_map.sh` | 封鎖の結果の地図 |
 | `scripts/05_origin_context.py` | 出発点が公園、霊園、動物園、線路の敷地にあるか、建物の近くか (探索) |
 
 出典: 国土地理院ウェブサイト (指定緊急避難場所データ)、© OpenStreetMap contributors (ODbL 1.0)、「令和2年国勢調査」(総務省統計局)。いずれも加工して作成。

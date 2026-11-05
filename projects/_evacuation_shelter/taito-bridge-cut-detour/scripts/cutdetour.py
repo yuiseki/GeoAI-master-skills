@@ -194,3 +194,106 @@ def worst_cut(d0, cuts):
     who = np.where(dstar > d0 + 1e-6, gids[j], -1)
     dstar = np.maximum(dstar, d0)
     return dstar, who
+
+
+# ---- spot blockages (a burst pipe, a cave-in, debris): every edge within r of a point is removed ----
+
+def forest_edges(pred, origins):
+    """Undirected node pairs on the shortest-path forest from the origins back to their sources."""
+    fe = set()
+    for x in np.unique(origins):
+        x = int(x)
+        while pred[x] >= 0:
+            p = int(pred[x])
+            e = (min(p, x), max(p, x))
+            if e in fe:
+                break
+            fe.add(e)
+            x = p
+    return fe
+
+
+def sections(g, pairs):
+    """Split the given edges (node pairs) at junctions (nodes of degree != 2 in the whole graph).
+
+    Returns a list of (nodes along the section, midpoint xy). For an origin off the section, blocking it
+    anywhere short of its junctions removes the same connection, so its midpoint stands for the whole section.
+    For an origin on the section itself, where the block falls decides which way it must leave; only the
+    midpoint is tried. A loop with no junction (a block outline whose corners all have degree 2) is one section.
+    """
+    m = _matrix(g)
+    deg = np.diff(m.indptr)
+    adj = {}
+    for a, b in pairs:
+        adj.setdefault(a, []).append(b)
+        adj.setdefault(b, []).append(a)
+    seen = set()
+    out = []
+
+    def walk(start, nxt):
+        path = [start, nxt]
+        while deg[path[-1]] == 2 and path[-1] != start:
+            cand = [y for y in adj.get(path[-1], []) if y != path[-2]]
+            if not cand:
+                break
+            path.append(cand[0])
+        return path
+
+    starts = [n for n in adj if deg[n] != 2] or list(adj)[:1]
+    for s in starts:
+        for nb in adj[s]:
+            if (min(s, nb), max(s, nb)) in seen:
+                continue
+            path = walk(s, nb)
+            for a, b in zip(path, path[1:]):
+                seen.add((min(a, b), max(a, b)))
+            out.append((path, _midpoint(g.xy[path])))
+    # loops made only of degree-2 nodes have no junction to start from
+    for a, b in pairs:
+        if (a, b) not in seen:
+            path = walk(a, b)
+            for x, y in zip(path, path[1:]):
+                seen.add((min(x, y), max(x, y)))
+            out.append((path, _midpoint(g.xy[path])))
+    return out
+
+
+def _midpoint(xy):
+    seg = np.hypot(*np.diff(xy, axis=0).T)
+    if seg.sum() == 0:
+        return xy[0]
+    half = seg.sum() / 2
+    k = int(np.searchsorted(np.cumsum(seg), half))
+    before = np.cumsum(seg)[k] - seg[k]
+    t = (half - before) / seg[k] if seg[k] else 0
+    return xy[k] + t * (xy[k + 1] - xy[k])
+
+
+class SpotCutter:
+    """Multi-source distances with every edge within r of a point removed, reusing one CSR matrix."""
+
+    def __init__(self, g, sources):
+        import shapely
+        self.g = g
+        self.m = _matrix(g)
+        self.src = np.unique(sources)
+        # position of each undirected node pair in the CSR data (both directions)
+        self.pos = {}
+        rows = np.repeat(np.arange(g.n), np.diff(self.m.indptr))
+        for k, (i, j) in enumerate(zip(rows, self.m.indices)):
+            self.pos.setdefault((min(i, j), max(i, j)), []).append(k)
+        self.segs = shapely.linestrings(np.stack([g.xy[g.u], g.xy[g.v]], axis=1))
+        self.tree = shapely.STRtree(self.segs)
+
+    def removed_pairs(self, xy, r):
+        import shapely
+        hit = self.tree.query(shapely.points(xy), predicate="dwithin", distance=r)
+        return {(min(int(self.g.u[k]), int(self.g.v[k])), max(int(self.g.u[k]), int(self.g.v[k]))) for k in hit}
+
+    def distances(self, pairs):
+        data = self.m.data.copy()
+        for p in pairs:
+            data[self.pos[p]] = np.inf
+        mm = self.m.copy()
+        mm.data = data
+        return dijkstra(mm, directed=False, indices=self.src, min_only=True)

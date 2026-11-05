@@ -1,0 +1,38 @@
+{
+ "main": "spot_r10_a50_o50",
+ "variants": 12,
+ "flagged_origins": 811,
+ "flagged_worst_spot_to_nearest_site": {
+  "within_100m": 0.6424,
+  "within_200m": 0.8792,
+  "within_300m": 0.9322
+ },
+ "flagged_worst_spot_to_nearest_site_median_m": 74.4,
+ "spots_flagging": 253,
+ "ways_with_flag": 791,
+ "n_flagged_max": 120,
+ "top_spots": {
+  "16271": 66,
+  "1013": 65,
+  "1012": 47,
+  "5187": 25,
+  "233": 23,
+  "10855": 21,
+  "8264": 20,
+  "674": 18
+ },
+ "top5_overlap": {
+  "spot_r10_a0_o0": 4,
+  "spot_r10_a0_o50": 3,
+  "spot_r10_a100_o0": 2,
+  "spot_r10_a30_o0": 4,
+  "spot_r10_a50_o0": 4,
+  "spot_r10_a50_o100": 4,
+  "spot_r10_a50_o30": 4,
+  "spot_r10_a50_o50": 5,
+  "spot_r20_a50_o0": 4,
+  "spot_r20_a50_o50": 5,
+  "spot_r5_a50_o0": 4,
+  "spot_r5_a50_o50": 4
+ }
+}

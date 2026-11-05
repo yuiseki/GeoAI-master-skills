@@ -1,0 +1,31 @@
+{
+ "buildings": 68612,
+ "polygons": {
+  "zoo": 4,
+  "cemetery": 221,
+  "railway": 6,
+  "park": 164
+ },
+ "origins": 3900,
+ "near_building": 3690,
+ "nonres_counts": {
+  "": 3405,
+  "park": 281,
+  "cemetery": 125,
+  "zoo": 60,
+  "railway": 29
+ },
+ "lengthened": 3773,
+ "lengthened_by_nonres": {
+  "": 3288,
+  "park": 276,
+  "cemetery": 120,
+  "zoo": 60,
+  "railway": 29
+ },
+ "lengthened_in_nonres_total": 485,
+ "lengthened_near_building_and_res": 3248,
+ "kept": 3365,
+ "cells_near_buildings_median_gt0": 56,
+ "max_inc_kept_m": Infinity
+}

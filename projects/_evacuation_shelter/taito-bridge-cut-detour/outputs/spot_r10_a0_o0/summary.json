@@ -1,0 +1,28 @@
+{
+ "radius_m": 10.0,
+ "buffer_m": 3000,
+ "site_access_m": 0.0,
+ "site_access_nodes": 117,
+ "graph": {
+  "nodes": 178648,
+  "edges": 222191
+ },
+ "forest_edges": 16327,
+ "sections": 10751,
+ "spots_effective": 10145,
+ "bottlenecks": 3745,
+ "bottlenecks_wide": 763,
+ "origins": 3900,
+ "origin_spot_pairs_excluded": 3088,
+ "spots_skipped_site_doorstep": 16,
+ "share_lengthened": 0.9936,
+ "share_unreachable": 0.1077,
+ "share_ratio_ge15_or_unreachable": 0.2995,
+ "share_inc_ge200": 0.2403,
+ "inc_median_m": 81.5,
+ "inc_p90_m": 265.8,
+ "inc_max_finite_m": 1434.7,
+ "cells_any_flag": 50,
+ "cells": 56,
+ "seconds": 346.7
+}

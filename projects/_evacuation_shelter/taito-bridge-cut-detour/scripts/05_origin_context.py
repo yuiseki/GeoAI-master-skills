@@ -1,7 +1,8 @@
 """Exploratory (B6): which origins sit where nobody lives, and the cell table restricted to origins near buildings.
 
 systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% -- \
-  uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pandas --with pyarrow python scripts/05_origin_context.py
+  uvx --from 'duckdb>=1.5.5' --with numpy --with shapely --with pandas --with pyarrow python scripts/05_origin_context.py \
+  [--variant spot_r10 --key spot]
 
 The 50 m grid weights origins by area, so parks, cemeteries, the zoo and rail yards count as much as housing.
 This flags every origin of the main run that lies in a leisure=park, landuse=cemetery, tourism=zoo or
@@ -20,12 +21,18 @@ import shapely
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 ART = ROOT / "artifacts/_evacuation_shelter/taito-bridge-cut-detour"
-OUT = HERE.parent / "outputs" / "main"
+OUTS = HERE.parent / "outputs"
 OSM = "hf://datasets/yuiseki/osm-japan-src-2026-08@9a9b4a77e89e28a66bf15781644a16b63501f622/parquet/planet_osm_polygon.parquet"
 NEAR_M = 25.0
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--variant", default="main")
+    ap.add_argument("--key", default="struct", help="the column naming the cut that gives the worst increment")
+    a = ap.parse_args()
+    OUT = OUTS / a.variant
     c = duckdb.connect()
     c.execute("install spatial; load spatial; install httpfs; load httpfs; set threads=4")
     raw = ART / "raw_b5000"
@@ -42,7 +49,7 @@ def main():
     kind = np.select([rows.tourism.eq("zoo"), rows.landuse.eq("cemetery"), rows.landuse.eq("railway"),
                       rows.leisure.eq("park")], ["zoo", "cemetery", "railway", "park"], "")
 
-    o = pd.read_parquet(ART / "main" / "origins.parquet")
+    o = pd.read_parquet(ART / a.variant / "origins.parquet")
     o = o[o.used].copy()
     pts = shapely.points(o[["x", "y"]].values)
     btree = shapely.STRtree(geoms[is_bld])
@@ -58,7 +65,7 @@ def main():
         sel[hit] = True
         o.loc[sel & (o.nonres == ""), "nonres"] = k
 
-    lengthened = o.struct >= 0
+    lengthened = o[a.key] >= 0
     summary = dict(
         buildings=int(is_bld.sum()), polygons={k: int((kind == k).sum()) for k in ["zoo", "cemetery", "railway", "park"]},
         origins=len(o), near_building=int(near_b.sum()),
@@ -73,9 +80,12 @@ def main():
     k["inc"] = k.dstar - k.d0
     gb = k.groupby("cell")
     cel = pd.DataFrame({"n_points": gb.size(), "d0_median_m": gb.d0.median(), "inc_median_m": gb.inc.median(),
-                        "inc_max_m": gb.inc.max(), "share_lengthened": gb.struct.apply(lambda s: float((s >= 0).mean())),
+                        "inc_max_m": gb.inc.max(), "share_lengthened": gb[a.key].apply(lambda s: float((s >= 0).mean())),
+                        "share_unreachable": gb.inc.apply(lambda s: float(np.isinf(s).mean())),
+                        "share_ratio_ge15_or_unreachable": gb.apply(
+                            lambda t: float(((t.ratio >= 1.5) | np.isinf(t.inc)).mean()), include_groups=False),
                         "share_inc_ge100": gb.inc.apply(lambda s: float((s >= 100).mean()))}).reset_index()
-    cel = cel.sort_values(["inc_median_m", "inc_max_m"], ascending=False)
+    cel = cel.sort_values(["share_ratio_ge15_or_unreachable", "inc_max_m"], ascending=False)
     cel.to_csv(OUT / "cells_near_buildings.csv", index=False, encoding="utf-8")
     summary["cells_near_buildings_median_gt0"] = int((cel.inc_median_m > 0).sum())
     summary["max_inc_kept_m"] = round(float(k.inc.max()), 1)

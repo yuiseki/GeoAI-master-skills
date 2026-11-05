@@ -1,0 +1,70 @@
+{
+ "question": "台東区で、道のどこか 1 か所 (半径 10 m) が塞がると、洪水の避難場所までの道のりが 1.5 倍以上になるか届かなくなる出発点は、どこを塞いだときに多いか",
+ "source": "OSM 2026-08-31 (ODbL)、国土地理院 指定緊急避難場所 2026-10-06 取得。加工して作成",
+ "edges_file": "../../../artifacts/_evacuation_shelter/taito-bridge-cut-detour/spot_r10_a50_o50/spot_edges.parquet",
+ "crs": "EPSG:6677",
+ "value": "n_flagged",
+ "value_label": "そこを塞ぐと 1.5 倍以上か届かない出発点",
+ "unit": "点",
+ "bins": [
+  1.0,
+  5.0,
+  20.0,
+  50.0,
+  130.0
+ ],
+ "class_labels": [
+  "0 より大きく 1 以下",
+  "1 より大きく 5 以下",
+  "5 より大きく 20 以下",
+  "20 より大きく 50 以下",
+  "50 より大きく 130 以下"
+ ],
+ "counts": {
+  "zero": 16945,
+  "nodata": 0,
+  "classes": [
+   365,
+   284,
+   102,
+   26,
+   14
+  ]
+ },
+ "edges": 17736,
+ "palette": "magma",
+ "theme": "dark",
+ "widths": [
+  0.5,
+  1.25,
+  2.0,
+  2.75,
+  3.5
+ ],
+ "highlighted": 8,
+ "labels": [
+  "(名前なし) 21",
+  "(名前なし) 66",
+  "昭和通り 20",
+  "(名前なし) 18",
+  "(名前なし) 65",
+  "(名前なし) 47",
+  "三崎坂 23",
+  "忍小通り 25"
+ ],
+ "points": [
+  {
+   "label": "避難場所 (洪水)",
+   "path": "../../../artifacts/_evacuation_shelter/taito-bridge-cut-detour/main/sites_xy.csv",
+   "n": 33
+  }
+ ],
+ "view": [
+  -7470.929419839849,
+  -35096.85609414712,
+  -764.2306623811405,
+  -28720.804511213988
+ ],
+ "text_overlaps": [],
+ "font": "Noto Sans CJK JP"
+}
