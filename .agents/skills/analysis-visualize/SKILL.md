@@ -16,6 +16,7 @@ description: 分析済みの値を、誤解を生まない図や地図にする�
 | [result-figures](references/result-figures.md) | パレート前線と運行・勤務の時刻割当。`scripts/result_figures.py` の入力、解の欠落と区間重複の検査 |
 | [thematic-mapping](references/thematic-mapping.md) | 連続値、件数、率、残差、クラスの塗り分け図。`scripts/classify_map.py` の階級、色、NoData、来歴の検査 |
 | [map-context](references/map-context.md) | 地図で場所を読ませる原則。背景の境界と地名、単位の形、縦横の比、凡例、強調と拡大図、数の照合、文字の重なり。`scripts/context_map.py` と `classify_map.py` の引数 |
+| [network-map](references/network-map.md) | 値が辺に付いた結果 (最短経路の木、流れ、効く橋) を、辺の色と太さで描く。`scripts/network_map.py` の入力、階級、0 と値なし、背景に対する色の向き、ラベルの置き方 |
 
 ## 図の型を、問いから決める
 
@@ -28,6 +29,7 @@ description: 分析済みの値を、誤解を生まない図や地図にする�
 | モデルは、どこで外れているか | 予測値と残差の散布図、残差の分布、残差の地図 | 残差の 0 の線を描く。地図なら 0 を中心とした色を使う ([thematic-mapping](references/thematic-mapping.md)) |
 | 群や軸は地図上のどこに現れるか | 類型の地図、0 を中心にした得点の地図 | 単位ごとの分析済みラベルまたは得点と形を読む。類型には名前と件数を、得点には両端の意味を付ける ([spatial-results](references/spatial-results.md)) |
 | 値の大小や基準からの差はどこにあるか | 階級付き塗り分け図 | 値の種類、色、区切り、NoData、比較する地図の共通尺度を決める ([thematic-mapping](references/thematic-mapping.md)) |
+| 道や経路のどこに量が集まるか、どの辺が効くか | 辺の色と太さを値で変えたネットワークの図 | 背景の地図を敷かず、辺を主役にする。区切りを明示し、0 と値なしを描き分ける。背景に対して高い値ほど目立つ色の向きにする ([network-map](references/network-map.md)) |
 | 2 つの目的はどの解で両立するか | 全パレート解の散布図と、別手法が返した点の輪郭 | 離散解の間を実行可能な解として読ませない。省いた解の有無と手法別点数を示す ([result-figures](references/result-figures.md)) |
 | 便や作業を資源へどう割り当てたか | 群ごとの時間帯図 | 時間の原点と区間の意味を示し、同一資源の重なりを検査する ([result-figures](references/result-figures.md)) |
 
