@@ -17,6 +17,7 @@ $L $W scripts/04_map.py       # 地図 (outputs/map_anomaly.png)
 $L $W scripts/05_moran.py     # 残差の Moran's I (outputs/moran.txt)
 $L $W scripts/06_links.py     # 探索 B7: 単位を OSM の道路リンクに
 $L $W scripts/07_zoom.py      # 探索 B8: 目黒区 53393553 の拡大図
+$L $W scripts/08_shrink.py    # 探索 B9: 層の割合を親の層へ寄せた版 (06 の後に流す)
 ```
 
 テスト:
@@ -28,7 +29,7 @@ uvx --with numpy --with scipy --with shapely --with pytest pytest -q test_fatals
 
 | スクリプト | 中身 |
 |---|---|
-| `fatalshare.py` | Poisson 二項分布の上側確率、メッシュのコード、層のまとめ、自分を除いた割合、BH、ばらつきの統計量、層の中の並べ替え、道路リンクの組み立てと割り当て |
+| `fatalshare.py` | Poisson 二項分布の上側確率、メッシュのコード、層のまとめ、自分を除いた割合、BH、ばらつきの統計量、層の中の並べ替え、道路リンクの組み立てと割り当て、親の層へ寄せた割合 |
 | `01_extract.py` | 本票 7 ファイルから 23 区の事故を取り出し、行を数える |
 | `02_anomaly.py` | 計画の B2〜B6 |
 | `03_explore.py` | 結果を見た後の探索 (記録の D2) |
@@ -36,3 +37,4 @@ uvx --with numpy --with scipy --with shapely --with pytest pytest -q test_fatals
 | `05_moran.py` | spatial-autocorrelation の spatial_autocorrelation.py で残差の Moran's I |
 | `06_links.py` | 探索 B7: 道路リンクを単位にした版 |
 | `07_zoom.py` | 探索 B8: network_map.py で目黒区 53393553 の拡大図 |
+| `08_shrink.py` | 探索 B9: 層の割合を親の層へ寄せた版 (m = 210) を 4 つの単位で |

@@ -166,3 +166,35 @@ def assign_nearest(links, xy, max_m):
     out = np.full(len(pts), -1, dtype=int)
     out[pi] = li
     return out
+
+
+def leave_unit_out_p_shrunk(stratum, unit, fatal, m):
+    """Leave-unit-out stratum share pulled toward its parent's: p_s = (F_s + m p_parent) / (N_s + m), each level
+    over the rows of other units, recursively up to '*' (not pulled). With m = 0 and rows left, the plain share."""
+    stratum, unit, fatal = np.asarray(stratum), np.asarray(unit), np.asarray(fatal, float)
+    tot_n, tot_f, su_n, su_f = Counter(), Counter(), Counter(), Counter()
+    for s, u, f in zip(stratum, unit, fatal):
+        lab = s
+        while True:
+            tot_n[lab] += 1
+            tot_f[lab] += f
+            su_n[(lab, u)] += 1
+            su_f[(lab, u)] += f
+            if lab == "*":
+                break
+            lab = parent_of(lab)
+    cache = {}
+
+    def rate(lab, u):
+        key = (lab, u)
+        if key not in cache:
+            n = tot_n[lab] - su_n[key]
+            f = tot_f[lab] - su_f[key]
+            if lab == "*":
+                cache[key] = f / n if n > 0 else np.nan
+            else:
+                pp = rate(parent_of(lab), u)
+                cache[key] = (f + m * pp) / (n + m) if n + m > 0 else pp
+        return cache[key]
+
+    return np.array([rate(s, u) for s, u in zip(stratum, unit)])

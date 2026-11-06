@@ -8,7 +8,7 @@ Links: the car roads of artifacts/.../osm_car_roads_23.parquet (03_explore.py), 
 and merged at degree-2 points (fatalshare.build_links). Each accident goes to the nearest link within 30 m.
 Strata, leave-unit-out shares, P and BH as in 02_anomaly.py, on the accidents that got a link.
 Writes artifacts/.../links.parquet (every link, its counts and geometry, EPSG:6677), outputs/links_top20.csv,
-outputs/links_summary.json.
+outputs/links_summary.json, and artifacts/.../accident_links.parquet (the link of each accident, -1 for none).
 """
 import importlib
 import json
@@ -43,6 +43,7 @@ def main():
     d["link"] = fs.assign_nearest(links, np.c_[x, y], MAX_M)
     unassigned = int((d.link < 0).sum())
     unassigned_fatal = int(((d.link < 0) & (d.fatal == 1)).sum())
+    d[["file_year", "station", "no", "link"]].to_parquet(an.ART / "accident_links.parquet")
     dl = d[d.link >= 0].reset_index(drop=True)
     m, lab, min_n = an.score(dl, "link")
     tv = an.turnover(m)

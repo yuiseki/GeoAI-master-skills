@@ -17,6 +17,8 @@
 | R009 | B1 | - | sanity | build_links と assign_nearest のテスト 2 件 | なし | done | scripts/test_fatalshare.py | - | 15 件通過 |
 | R010 | B7 | - | exploratory | 道路リンク | 4 版 | done | outputs/links_summary.json、links_top20.csv | - | 道 1,058,404 本からリンク 1,787,694。30 m 以内に入らない事故 1,751 (死亡事故 8)。q < 0.05 は 4 で全て P = 0 の縮退、除けば 0。総件数との上位 20 の共通 0、主の上位 10 のメッシュに入る上位 10 のリンク 0 |
 | R011 | B8 | - | exploratory | 目黒区 53393553 の拡大図 | 4 版 | done | outputs/zoom_meguro.png、zoom_meguro_fatal.csv | - | 死亡事故 8 件は 8 本の別のリンク。環七通り 4、駒沢通り 2、柿の木坂通り 1、名前なし 1。歩行者か自転車が当事者 6 |
+| R012 | B1 | - | sanity | 寄せた割合のテスト 1 件 | なし | done | scripts/test_fatalshare.py | - | 16 件通過。m = 0 で寄せない版と一致、割合が 0 にならない |
+| R013 | B9 | - | exploratory | 親の層へ寄せる (m = 210)、500 m、1 km、250 m、リンク | 4 版 | done | outputs/shrink.csv | - | P = 0 は全ての単位で 0。q < 0.05 は 500 m 0、1 km 1 (53393553、q 0.008)、250 m 0、リンク 0。寄せない版との上位 10 の共通 9〜10 |
 
 ## deviation
 

@@ -136,3 +136,17 @@ def test_assign_nearest_link_with_max_distance():
     links = [shapely.LineString([(0, 0), (10, 0)]), shapely.LineString([(0, 100), (10, 100)])]
     idx = fs.assign_nearest(links, np.array([[5, 2], [5, 97], [5, 50]]), max_m=30)
     assert idx.tolist() == [0, 1, -1]
+
+
+def test_shrunk_rates_never_zero_and_pull_toward_parent():
+    stratum = np.array(["A|x"] * 4 + ["A|y"] * 4)
+    unit = np.array(["u1", "u2", "u2", "u2", "u3", "u3", "u4", "u4"])
+    fatal = np.array([1, 0, 0, 0, 1, 0, 0, 1])
+    p = fs.leave_unit_out_p_shrunk(stratum, unit, fatal, m=2)
+    # u1 in A|x: others 0/3; parent A without u1: 2/7; top '*' same rows as A -> A shrinks to itself
+    pa = (2 + 2 * (2 / 7)) / (7 + 2)
+    assert p[0] == pytest.approx((0 + 2 * pa) / (3 + 2))
+    assert (p > 0).all()
+    # m = 0 gives the plain leave-unit-out share where the stratum has other rows
+    p0 = fs.leave_unit_out_p_shrunk(stratum, unit, fatal, m=0)
+    assert p0.tolist() == pytest.approx(fs.leave_unit_out_p(stratum, unit, fatal, {}).tolist())

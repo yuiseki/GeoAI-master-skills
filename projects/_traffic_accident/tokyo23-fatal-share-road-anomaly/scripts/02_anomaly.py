@@ -57,10 +57,11 @@ def strata(d, extra=()):
     return np.array(fs.merge_strata(keys, min_n)), min_n
 
 
-def score(d, unit_col, extra=()):
+def score(d, unit_col, extra=(), p_fn=None):
+    """p_fn(stratum, unit, fatal) -> death probability per row; the plain leave-unit-out share by default."""
     lab, min_n = strata(d, extra)
     unit = d[unit_col].values
-    p = fs.leave_unit_out_p(lab, unit, d.fatal.values, {})
+    p = (p_fn or (lambda s, u, f: fs.leave_unit_out_p(s, u, f, {})))(lab, unit, d.fatal.values)
     g = pd.DataFrame({"unit": unit, "fatal": d.fatal.values, "p": p, "city": d.city.values})
     rows = []
     n_units = g.unit.nunique()
