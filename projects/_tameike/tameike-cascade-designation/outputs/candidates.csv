@@ -1,0 +1,105 @@
+box,start_node,start_names,source_rows,municipality,address,start_m3,start_h_m,overflowed,overflowed_names,overflowed_designated,people_single,people_chain,stop
+awaji,2531,淡-4398,69946,淡路市,育波,12200,7.0,3,掛合池 > 神池 > 赤井池,no > no > no,211.8,480.9,flow leaves the area or reaches no pond
+awaji,2296,(非)空の裏池,69603,淡路市,生穂,1960,8.0,4,ヘイザ池 > 淡-2340 > 矢後上池 > 矢後池（矢後下池）,no > no > yes > yes,210.6,415.4,flow leaves the area or reaches no pond
+awaji,2297,長池,69604,淡路市,生穂,1800,5.0,4,ヘイザ池 > 淡-2340 > 矢後上池 > 矢後池（矢後下池）,no > no > yes > yes,223.0,414.3,flow leaves the area or reaches no pond
+awaji,742,六十田池,67680,淡路市,池ノ内,5000,5.6,2,由谷上池 > 由谷池,yes > yes,89.4,390.5,flow leaves the area or reaches no pond
+awaji,745,古地池,67683,淡路市,王子,3000,4.0,2,成就田池 > 総田池,no > no,246.8,319.6,flow leaves the area or reaches no pond
+awaji,837,大日池,67780,淡路市,生穂,6000,6.6,2,八畑川池|八畑川池 > 淡-2295,yes > no,116.3,276.5,flow leaves the area or reaches no pond
+awaji,2301,淡-2451,69608,淡路市,生穂,1200,6.0,2,淡-2438 > 菅ノ谷池,no > yes,195.7,258.4,flow leaves the area or reaches no pond
+awaji,970,砂土谷上池,67992,淡路市,尾崎,2000,6.0,2,砂土谷池 > タンノ池上|タンノ池下,yes > no,247.4,247.4,flow leaves the area or reaches no pond
+awaji,3114,水池上池,70834,淡路市,尾崎,1910,4.0,2,中池 > 淡-3672,yes > no,233.1,233.1,next pond has no water surface
+awaji,963,山ノ神池,67984,淡路市,斗ノ内,2000,6.2,2,中ノ池 > コンガ池,no > yes,140.9,178.0,flow leaves the area or reaches no pond
+awaji,2495,三財池,69906,淡路市,黒谷,1980,5.0,3,本坊池|石屋池 > 九エ門池 > 淡-4334,no > no > no,118.7,175.1,next pond has no water surface
+awaji,881,本坊池|石屋池,67829|69907,淡路市,黒谷|黒谷,5430,4.2,2,九エ門池 > 淡-4334,no > no,133.9,170.9,next pond has no water surface
+awaji,3774,淡-1582,71527,淡路市,中村,4960,2.0,2,高畑池 > 石谷池,no > no,83.8,125.2,flow leaves the area or reaches no pond
+awaji,2925,上の池,70635,淡路市,斗ノ内,3600,6.0,4,じょうきっつぁん池 > 淡-4350 > 大門池 > 昌ヶ瀬の池,no > no > no > no,58.6,111.6,next pond holds
+awaji,2480,ヒノキガワキ池|淡-4243,69889|69892,淡路市,黒谷|黒谷,1340,6.0,3,淡-4259 > 矢坪池|淡-4278 > 淡-4315,no > no > no,58.3,108.4,next pond beyond the distance
+awaji,3004,アセンボ池,70718,淡路市,尾崎,1331,2.0,2,淡-3294 > 河内下池,no > no,101.7,108.4,flow leaves the area or reaches no pond
+awaji,2929,淡-4368,70639,淡路市,斗ノ内,2390,5.0,3,淡-4391 > 蓑淵池 > 淡-4547,no > no > no,105.6,107.7,flow leaves the area or reaches no pond
+awaji,2487,淡-4251,69897,淡路市,黒谷,1830,7.0,2,淡-4307 > 淡-4315,no > no,55.1,107.6,next pond beyond the distance
+awaji,2928,淡-4350,70638,淡路市,斗ノ内,6440,6.0,2,大門池 > 昌ヶ瀬の池,no > no,73.0,107.5,next pond holds
+awaji,2486,淡-4250|淡-4256,69896|69900,淡路市,黒谷|黒谷,1536,6.0,2,矢坪池|淡-4278 > 淡-4315,no > no,60.9,107.2,next pond beyond the distance
+awaji,2490,淡-4259,69901,淡路市,黒谷,2070,6.0,2,矢坪池|淡-4278 > 淡-4315,no > no,61.2,107.1,next pond beyond the distance
+awaji,2923,米山上池,70633,淡路市,斗ノ内,2230,6.0,4,米山小池|米山下池 > はす池 > 淡-4307 > 淡-4315,no > no > no > no,52.9,106.1,next pond beyond the distance
+awaji,2497,米山小池|米山下池,69910|69912,淡路市,黒谷|黒谷,1150,5.0,3,はす池 > 淡-4307 > 淡-4315,no > no > no,55.0,106.0,next pond beyond the distance
+awaji,2042,淡-2697,69339,淡路市,佐野神之内,4440,6.0,5,蛇の池下池 > 新池 > 姥懐池 > 滝ノ頭池 > 八幡田池,no > yes > no > yes > yes,105.4,105.4,flow leaves the area or reaches no pond
+awaji,1265,小原池,68474,淡路市,新村,2100,4.0,3,西小原池 > 淡-2901 > 東小原下池,yes > no > no,74.8,95.3,flow leaves the area or reaches no pond
+awaji,3157,小池,70883,淡路市,新村,6000,8.0,2,平間池 > 下わんど池,yes > no,81.1,90.6,flow leaves the area or reaches no pond
+awaji,882,柳ケ谷池,67830,淡路市,黒谷,1000,5.6,5,淡-4092 > 大池 > 空池 > 砂池 > 数河山池,no > no > no > no > no,52.7,89.5,flow leaves the area or reaches no pond
+awaji,4015,淡-1369,71779,淡路市,高山,1140,5.0,4,淡-1351 > 田畑池 > 淡-1303 > 小川池,no > no > no > no,61.3,87.7,flow leaves the area or reaches no pond
+awaji,4013,淡-1351,71777,淡路市,高山,1300,3.0,3,田畑池 > 淡-1303 > 小川池,no > no > no,63.6,87.5,flow leaves the area or reaches no pond
+awaji,4008,淡-1305,71772,淡路市,高山,2580,6.0,2,淡-1303 > 小川池,no > no,67.5,86.9,flow leaves the area or reaches no pond
+awaji,874,空池,67822,淡路市,黒谷,3800,6.3,2,砂池 > 数河山池,no > no,72.2,86.5,flow leaves the area or reaches no pond
+awaji,4010,淡-1328,71774,淡路市,高山,3210,7.0,2,淡-1303 > 小川池,no > no,71.5,82.7,flow leaves the area or reaches no pond
+awaji,3853,淡-2096,71613,淡路市,江井,1360,5.0,2,佃池 > 松本池,no > no,80.5,80.5,flow leaves the area or reaches no pond
+awaji,992,柚原池,68014,淡路市,尾崎,6000,3.0,2,園出池1 > 園出池2,no > no,77.8,77.8,flow leaves the area or reaches no pond
+awaji,2015,淡-2790,69298,淡路市,佐野,6650,1.0,2,淡-2795 > 露ノ奥池上池,no > yes,35.4,74.6,next pond has no water surface
+awaji,64,カゴ池,54765,洲本市,五色町鮎原葛尾,17000,10.0,5,上池 > 皿池 > 新池（鴨郡） > 寄合池 > 溝下池,yes > no > yes > yes > yes,26.4,71.3,flow leaves the area or reaches no pond
+awaji,877,小原池,67825,淡路市,黒谷,60000,14.8,2,新池 > 下川池,yes > no,32.1,69.7,flow leaves the area or reaches no pond
+awaji,3955,新池（たき池田主）,71719,淡路市,柳沢,11450,10.0,2,中池（たき池田主） > 川池,no > yes,56.1,69.2,flow leaves the area or reaches no pond
+awaji,3069,シダ池,70784,淡路市,尾崎,3570,4.0,2,古池（古下池） > 桃谷池,no > no,68.7,68.7,flow leaves the area or reaches no pond
+awaji,3383,山田池,71121,淡路市,北山,7820,7.0,2,中池（共同池） > 大池,no > yes,68.7,68.7,flow leaves the area or reaches no pond
+awaji,677,深山上池,67615,淡路市,大町上,23000,7.5,3,深山下池 > 道堂上池 > 道堂下池,no > no > yes,42.9,68.6,flow leaves the area or reaches no pond
+awaji,993,塚原池,68015,淡路市,尾崎井手ノ尻,11000,7.0,2,淡-3522 > よさ池,no > no,66.8,66.8,flow leaves the area or reaches no pond
+awaji,2176,淡-3427,69476,淡路市,長沢,209000,2.0,3,上池 > 角谷大池 > 細子池,yes > yes > yes,36.3,64.5,next pond beyond the distance
+awaji,4124,新池,71894,淡路市,入野,3500,4.5,2,清水上池 > 清水下池,no > no,43.9,64.4,flow leaves the area or reaches no pond
+awaji,901,笠松大池,67849,淡路市,生田畑,7000,8.1,2,美の谷池 > 中ノ内池,no > yes,51.6,63.6,next pond has no water surface
+awaji,29,楠原池,54661,洲本市,五色町都志米山317,6000,4.5,2,投石池 > 大久保池,no > no,63.5,63.5,flow leaves the area or reaches no pond
+awaji,2183,焼田池,69485,淡路市,長沢,5000,7.3,3,上池 > 角谷大池 > 細子池,yes > yes > yes,34.6,62.2,next pond beyond the distance
+awaji,1207,奥の谷池,68235,淡路市,草香,1000,2.5,2,中池 > 砂池,no > yes,61.7,61.7,flow leaves the area or reaches no pond
+awaji,2717,行者２池|行者１池,70143|70144,淡路市,生田田尻|生田田尻,1370,5.0,3,色目池 > 淡-3624 > 色目大池,yes > no > yes,59.4,59.6,flow leaves the area or reaches no pond
+awaji,2178,淡-3435|淡-3438,69479|69481,淡路市,長沢|長沢,1310,4.0,2,淡-3426 > うるし谷池,no > yes,51.3,56.4,next pond has no water surface
+awaji,313,堀池,56441,洲本市,五色町鮎原葛尾781,1404,4.0,2,大平池 > 才ノ神池,no > no,39.0,52.9,flow leaves the area or reaches no pond
+awaji,2667,砂池,70088,淡路市,生田畑,7000,1.0,3,大池 > ばべ山池 > 淡-3888,no > no > no,46.9,52.1,next pond has no water surface
+awaji,2669,大池,70091,淡路市,生田畑,1750,7.0,2,ばべ山池 > 淡-3888,no > no,48.5,52.1,next pond has no water surface
+awaji,379,洲-3483,56651,洲本市,五色町鮎原中邑878,2720,6.0,2,名畑谷池 > 平田池下池(名畑谷ポンプ）,no > no,24.7,52.0,next pond beyond the distance
+awaji,651,奥池下池,67589,淡路市,木曽上,9000,4.8,2,ババ池 > 谷池,no > no,47.0,51.3,next pond holds
+awaji,2466,淡-4204,69875,淡路市,黒谷,2350,9.0,2,淡-4206 > 淡-4211,no > no,30.6,44.1,next pond has no water surface
+awaji,2200,淡-3502,69502,淡路市,長沢,1277,5.0,4,淡-3494 > 池内池 > 自分池 > 淡-3405,no > yes > no > no,37.1,44.0,next pond holds
+awaji,2071,中池,69369,淡路市,長沢,4800,7.0,2,狸穴下池 > 投石池,no > no,28.6,41.1,flow leaves the area or reaches no pond
+awaji,3902,淡-1092,71664,淡路市,江井東,1500,6.0,2,薬師池 > ちよも池,no > no,34.6,40.5,next pond has no water surface
+awaji,2049,淡-2904,69347,淡路市,生穂,6000,2.0,2,淡-2932 > 桃花池,no > yes,31.4,37.8,flow leaves the area or reaches no pond
+awaji,905,池ノ谷上池,67853,淡路市,生田田尻,5000,10.0,2,池ノ谷池 > 寺の前,no > no,30.0,32.3,flow leaves the area or reaches no pond
+awaji,499,三郎池,56922,洲本市,五色町鮎原下,2439,4.0,4,菱池 > 徳新池 > 樫谷池 > 谷池,no > no > no > no,29.5,29.5,flow leaves the area or reaches no pond
+awaji,2083,近藤上池,69382,淡路市,長沢字近藤1430,2700,11.0,2,近藤上池 > 近藤下池,no > no,27.6,29.0,flow leaves the area or reaches no pond
+awaji,88,菱池,54820,洲本市,五色町鮎原下267,3000,3.8,3,徳新池 > 樫谷池 > 谷池,no > no > no,26.9,26.9,flow leaves the area or reaches no pond
+awaji,72,円畑池|（非）洲-3186,54780|56871,洲本市,五色町鮎原下209|五色町鮎原下,4000,4.3,2,樫谷池 > 谷池,no > no,23.6,23.6,flow leaves the area or reaches no pond
+awaji,73,徳新池,54781,洲本市,五色町鮎原下314,4000,4.5,2,樫谷池 > 谷池,no > no,23.6,23.6,flow leaves the area or reaches no pond
+awaji,4,石ヶ谷池,54625,洲本市,安乎町山田原496,3000,8.0,2,仲池 > 長池,yes > no,20.6,23.5,next pond holds
+awaji,635,不動下池,67572,淡路市,下司,3000,4.8,2,新池 > 丸池,no > no,20.4,20.4,flow leaves the area or reaches no pond
+awaji,4118,一町田池,71888,淡路市,入野,2200,3.0,3,初毛池 > 初毛下池 > 谷池,no > no > no,10.5,13.2,next pond beyond the distance
+awaji,4110,初毛池,71880,淡路市,入野,3280,5.0,2,初毛下池 > 谷池,no > no,10.5,13.2,next pond beyond the distance
+fukuyama,538,奥上池,104769,福山市,本郷町字立神東4102,12600,8.2,2,奥下池 > 古屋池,yes > yes,221.6,465.3,flow leaves the area or reaches no pond
+fukuyama,703,加屋平池,104958,福山市,神村町字東谷4282,3000,4.8,2,下池 > 新池,yes > yes,182.7,351.1,flow leaves the area or reaches no pond
+fukuyama,524,上池,104755,福山市,東村町字堂満2767,1800,8.1,2,新池 > 堂満池,no > yes,256.1,309.7,flow leaves the area or reaches no pond
+fukuyama,742,松原池,105000,福山市,金江町大字藁江字奥久保1777,1500,4.8,2,田口池 > 新池,no > yes,41.7,214.6,flow leaves the area or reaches no pond
+fukuyama,780,カクロ池,105059,福山市,神村町字奥田東平733（山）,1000,5.0,4,カケンザコ上池 > そう池上 > そう池下 > 先出石池,no > no > no > no,52.2,69.8,next pond holds
+fukuyama,44,奥池,103121,尾道市,原田町小原夜打畑1074番地,1800,4.1,3,夜打畑中池 > 夜打畑下池 > 青谷新池,no > no > yes,23.7,44.0,flow leaves the area or reaches no pond
+fukuyama,576,照池|元池,104819|104820,福山市,神村町字西山10507地先|神村町字奥田西平10506,1220,4.5,3,勘松上池|勘松中池 > 奥田上池 > 奥田下池,no > no > no,24.1,34.0,flow leaves the area or reaches no pond
+fukuyama,581,長池,104825,福山市,神村町字大野ケ原10354,2300,6.4,3,勘松上池|勘松中池 > 奥田上池 > 奥田下池,no > no > no,23.4,34.0,flow leaves the area or reaches no pond
+fukuyama,578,勘松上池|勘松中池,104822|105086,福山市,神村町字奥田西平10504|神村町字奥田西平10502,1060,2.9,2,奥田上池 > 奥田下池,no > no,24.9,34.0,flow leaves the area or reaches no pond
+fukuyama,1211,源迫上池,105849,福山市,沼隈町大字上山南字源迫１７８６,1700,5.6,2,源迫中池 > 源迫下池,no > yes,18.0,22.3,next pond beyond the distance
+kagawa,313,休場池,132459,丸亀市,綾歌町栗熊東3236,10800,6.8,2,市ノ谷池 > 水門池,yes > no,104.6,361.8,flow leaves the area or reaches no pond
+kagawa,236,そこなし池,132356,丸亀市,綾歌町栗熊西2100,4000,2.4,2,天神上池 > 天神下池,yes > yes,269.9,308.1,flow leaves the area or reaches no pond
+kagawa,84,東池,132132,丸亀市,綾歌町岡田上2339,6000,4.8,2,ごみ池 > 椎池,no > no,206.5,218.4,next pond holds
+kagawa,39,西池,132080,丸亀市,綾歌町栗熊西2135,3700,3.7,2,鍵池 > 小池,yes > no,185.1,187.6,next pond beyond the distance
+kagawa,1028,新池,140193,綾歌郡綾川町,綾川町羽床下字大谷1545,1700,4.3,2,馬不行池 > 西谷前池|ちえの上池,yes > no,59.6,178.2,next pond has no water surface
+kagawa,113,杉生池,132178,丸亀市,綾歌町富熊3282,3500,5.0,2,上池 > 下池,yes > no,95.5,157.0,flow leaves the area or reaches no pond
+kagawa,846,足目下池,139515,綾歌郡綾川町,綾川町小野字横山603,4800,3.8,2,西山池 > 錐根池|皿池,yes > yes,123.4,123.4,flow leaves the area or reaches no pond
+kagawa,944,城山上池,139906,綾歌郡綾川町,綾川町羽床上1698,1400,4.2,2,城山中池 > 城方池,no > yes,84.5,109.5,flow leaves the area or reaches no pond
+kagawa,485,まり山池,136000,三豊市,高瀬町上麻藤十郎乙583-140,2200,6.2,3,岩下池 > 上池|中池|下池 > 琴浦新池|近藤池,no > no > no,38.4,50.4,flow leaves the area or reaches no pond
+kagawa,597,奥池,136740,三豊市,高瀬町上麻藤十郎乙583-148,2100,5.5,3,岩下池 > 上池|中池|下池 > 琴浦新池|近藤池,no > no > no,41.2,50.4,flow leaves the area or reaches no pond
+kagawa,644,中無田下池,137016,三豊市,高瀬町上麻藤十郎乙583-57,2800,4.7,3,岩下池 > 上池|中池|下池 > 琴浦新池|近藤池,no > no > no,37.8,50.4,flow leaves the area or reaches no pond
+kagawa,598,岩下池,136741,三豊市,高瀬町上麻藤十郎乙583-149,2400,4.0,2,上池|中池|下池 > 琴浦新池|近藤池,no > no,42.7,50.4,flow leaves the area or reaches no pond
+kagawa,454,奥の新池,135690,三豊市,財田町財田上字高租谷5390,2800,8.5,2,新池（昼丹波） > 太郎池,yes > yes,29.7,38.1,flow leaves the area or reaches no pond
+kagawa,1470,丸池,141220,仲多度郡まんのう町,まんのう町大口613,1000,4.5,2,堂谷ダム > 濁下池,yes > no,13.9,24.2,flow leaves the area or reaches no pond
+kagawa,483,西ノ池上池,135998,三豊市,高瀬町上麻上池2681-1,2000,3.9,2,西ノ上池|西ノ池 > ふるつく池,no > no,19.8,20.1,flow leaves the area or reaches no pond
+kagawa,639,上池,137010,三豊市,高瀬町上麻梟谷698-198,1300,5.6,2,下池 > 一本松池,no > no,16.1,16.1,flow leaves the area or reaches no pond
+kagawa,765,権畑池,137774,三豊市,高瀬町上麻大麻山乙1052-693,1400,5.2,3,峠池 > 中池 > 吉池,no > no > no,11.7,11.7,flow leaves the area or reaches no pond
+kagawa,515,峠池,136264,三豊市,高瀬町上麻石舟2817-1,1300,4.0,2,中池 > 吉池,no > no,11.7,11.7,flow leaves the area or reaches no pond
+kagawa,346,ジブト上池,132605,坂出市,坂出市府中町字横山2587,3500,5.3,4,ジブト池 > ハリノキ池 > 中池 > 新池,no > no > no > yes,9.5,9.5,flow leaves the area or reaches no pond
+kagawa,342,ジブト池,132543,坂出市,坂出市府中町字横山2585,6100,4.2,3,ハリノキ池 > 中池 > 新池,no > no > yes,9.4,9.4,flow leaves the area or reaches no pond
+kagawa,347,ハリノキ池,132606,坂出市,坂出市府中町字横山2576,8500,8.5,2,中池 > 新池,no > yes,8.1,8.1,flow leaves the area or reaches no pond
+kagawa,866,ネレギ池,139571,綾歌郡綾川町,綾川町西分2901,2400,4.3,2,ジンジ池 > 佐戸池,no > no,5.0,7.8,flow leaves the area or reaches no pond
+kagawa,916,オツルジ池,139860,綾歌郡綾川町,綾川町羽床上2272,2400,4.3,2,ジンジ池 > 佐戸池,no > no,5.4,7.8,flow leaves the area or reaches no pond
+kagawa,340,岩奥西池,132509,坂出市,坂出市府中町字脇谷2466-2,2200,6.2,2,岩奥上池 > 岩奥中池,no > no,6.5,6.5,flow leaves the area or reaches no pond

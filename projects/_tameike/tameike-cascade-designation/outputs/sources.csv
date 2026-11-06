@@ -1,0 +1,10 @@
+box,municipality,url,file,bytes,sha256,fetched
+kagawa,丸亀市,https://www.pref.kagawa.lg.jp/documents/29845/02_boju_marugame08.pdf,02_boju_marugame08.pdf,144844,c3499d361503affd53acb71671a25e271734b5afd4ce6320db7b206d7db53892,2026-11-07
+kagawa,坂出市,https://www.pref.kagawa.lg.jp/documents/29845/03_boju_sakaide08.pdf,03_boju_sakaide08.pdf,137961,b7cdb7351a62b3b5d73536b6a0ca73b471d3dd04c3cde5bfa93a7f5bbe3e5c93,2026-11-07
+kagawa,善通寺市,https://www.pref.kagawa.lg.jp/documents/29845/04_boju_zentuji08.pdf,04_boju_zentuji08.pdf,116676,94c004df10175436964f1aa7ce0f55921f00c52da3892e12d6f23db5a39cc5e0,2026-11-07
+kagawa,三豊市,https://www.pref.kagawa.lg.jp/documents/29845/08_boju_mitoyo08.pdf,08_boju_mitoyo08.pdf,214062,e725ff891262936b44e78a696a97111c10d12188458dedf1a3772eb15b06f399,2026-11-07
+kagawa,綾川町,https://www.pref.kagawa.lg.jp/documents/29845/14_boju_ayagawa08.pdf,14_boju_ayagawa08.pdf,162528,489596354fd68d6b8bb9f0a129b12a3d390c509b91b309a65cb1417fd22a3d75,2026-11-07
+kagawa,琴平町,https://www.pref.kagawa.lg.jp/documents/29845/15_boju_kotohira08.pdf,15_boju_kotohira08.pdf,100008,913696ba31edc835e4877a010eab3687d4d9bda5820ee6fed09a1145d0e4bda4,2026-11-07
+kagawa,まんのう町,https://www.pref.kagawa.lg.jp/documents/29845/17_boju_mannou08.pdf,17_boju_mannou08.pdf,162558,d07d30cec56ce2c9f33e726ff9f145377e0eb96e50d32511e85eda299dab0de7,2026-11-07
+fukuyama,,https://www.pref.hiroshima.lg.jp/uploaded/attachment/674285.pdf,674285.pdf,1234503,277b63abfed8f1277e15e6f86bee04c9646614124b969605f2e11c5720a5a560,2026-11-07
+awaji,,https://web.pref.hyogo.lg.jp/nk11/documents/siteiichiran117.xlsx,siteiichiran117.xlsx,564349,a049cfd2e048d965b8da4843e6cf1b573090d1c4ba0ae6b06001b07aa6b4179d,2026-11-07

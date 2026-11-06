@@ -1,0 +1,4 @@
+box,candidates,single_people_lt_1,single_people_median,chain_people_median,chain_people_ge_2x_single,start_m3_median,start_m3_ge_5000,no_overflowed_pond_designated
+kagawa,24,0,33.8,44.2,2,2400,4,12
+fukuyama,10,0,33.3,56.9,2,1750,1,4
+awaji,70,0,58.5,72.9,8,3000,22,44
