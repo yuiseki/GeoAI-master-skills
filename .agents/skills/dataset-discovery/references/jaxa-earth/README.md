@@ -5,7 +5,7 @@ description: JAXA Earth API の目録。JAXA と関連機関の地球観測デ�
 url: https://data.earth.jaxa.jp/stac/cog/v1/catalog.json
 access: 静的な STAC の JSON を root から辿り、COG を HTTP の Range で読む。登録、API キー、回数制限なし (2026-11-05 時点のサイトの記載)。Python と JavaScript のクライアントもある
 license: STAC の license 欄は全コレクション proprietary。条件は各コレクションの rel=license のリンク先。root の 112 件のうち 103 件は JAXA の研究データ等の利用条件 (出所表示で改変と第三者配布可、商用は事前に JAXA へ連絡)。NASA LP DAAC の 8 件と ESA CCI の 1 件は元の配布元の条件
-crs: GeoTIFF 自体には CRS が入っていない。STAC の proj:epsg を使う。110 件が EPSG:4326、南極の海氷が EPSG:3031、北極が EPSG:3995
+crs: STAC の proj:epsg が正。110 件が EPSG:4326、南極の海氷が EPSG:3031、北極が EPSG:3995。GeoTIFF 自体に CRS が入っているかはコレクションで違う (GSMaP の月別は無し、AW3D30 v4.1 は有り)
 spatial_coverage: 全球が中心。日本だけのコレクション (高解像度土地利用土地被覆図、GCOM-C の 250 m 地表面温度、Today's Earth - Japan の河川と氾濫原) もある
 temporal_coverage: コレクションごと。2000 年からの GSMaP 降水、2012 年からの AMSR2、2018 年からの GCOM-C など。更新が続くものと、平年値 (normal) のものがある
 as_of:
@@ -61,7 +61,7 @@ https://s3.ap-northeast-1.wasabisys.com/je-pds/cog/v1/JAXA.EORC_GSMaP_standard.G
 
 ## つまずきやすい点
 
-- GeoTIFF に CRS が入っていない。rasterio で開くと `crs` が `None` になる。STAC の item の `proj:epsg` (またはコレクションの `je:epsg`) を自分で付ける。付けずに他のラスタと重ねると、黙ってずれるか、失敗する。
+- GeoTIFF に CRS が入っていないコレクションがある。月別 GSMaP の COG は、rasterio で開くと `crs` が `None` になる。AW3D30 v4.1 の COG には EPSG:4326 が入っていた (2026-11-06)。どちらでも、STAC の item の `proj:epsg` (またはコレクションの `je:epsg`) を正として付ける。付けずに他のラスタと重ねると、黙ってずれるか、失敗する。
 - レベル 0 の COG のオーバービューは、`OVV_RESAMPLING=MODE` (最頻値) で作られている。降水や温度のような連続量の粗いオーバービューは平均ではない。量を集計するときは、最も細かいレベルの画素から自分で集計する。
 - タイルは緯度 ±90 度まで切られていても、データの範囲はコレクションの bbox まで。GSMaP は南北 60 度までで、その外は nodata。
 - コレクションの `id` は、112 件のうち 62 件で文字列 `collection` になっている。コレクションの識別には、root の子の URL のディレクトリ名 (= AI 向けデータカタログの id) を使う。
