@@ -197,11 +197,14 @@ def run_box(key, rain):
                 single = chain_exposure(s, [])
                 ppl = chain_exposure(s, failed) if failed else single
                 names = lambda n: "|".join(str(m["name"]) for m in info[n]["members"])
+                rows_of = lambda n: "|".join(str(m["source_row"]) for m in info[n]["members"])
                 chain_rows.append(dict(box=key, start=s, start_names=names(s), start_m3=round(pond_tab[s]["v"]),
                                        start_h_m=pond_tab[s]["h"], overflowed=len(failed),
                                        overflowed_names=" > ".join(names(n) for n in failed),
                                        overflowed_m3=" > ".join(str(round(pond_tab[n]["v"] or 0)) for n in failed),
                                        stop=why, people_single=round(single, 1), people_chain=round(ppl, 1),
+                                       start_source_rows=rows_of(s),
+                                       overflowed_source_rows=" > ".join(rows_of(n) for n in failed),
                                        _failed=failed))
         summary.append(dict(box=key, variant=name, r_mm_h=params["r"], nodes=len(pond_tab), nodes_without_cells=len(no_cells),
                             starts=len(starts_), chains_1plus=n1,
@@ -211,7 +214,8 @@ def run_box(key, rain):
     pond_rows = [dict(node=n, names="|".join(str(m["name"]) for m in info[n]["members"]),
                       storage_m3=round(p["v"] or 0), dam_height_m=p["h"] or "", surface_m2=p["s"] or "",
                       catchment_km2=round(p["a"], 4), down_node=down.get(n) or "",
-                      to_down_m=round(p["dist"]) if p["dist"] is not None else "")
+                      to_down_m=round(p["dist"]) if p["dist"] is not None else "",
+                      source_rows="|".join(str(m["source_row"]) for m in info[n]["members"]))
                  for n, p in sorted(pond_tab.items())]
     write(OUT / f"{key}_ponds.csv", pond_rows)
     write(OUT / f"{key}_chains.csv", [{k: v for k, v in r.items() if k != "_failed"}

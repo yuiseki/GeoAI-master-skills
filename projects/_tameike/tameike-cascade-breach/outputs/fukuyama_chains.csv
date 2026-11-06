@@ -1,481 +1,481 @@
-box,start,start_names,start_m3,start_h_m,overflowed,overflowed_names,overflowed_m3,stop,people_single,people_chain
-fukuyama,780,カクロ池,1000,5.0,4,カケンザコ上池 > そう池上 > そう池下 > 先出石池,600 > 180 > 270 > 480,next pond holds,52.2,69.8
-fukuyama,754,寺屋敷池,50000,15.0,3,岡本池 > 梅木蛸池 > 楠木池,24000 > 34000 > 37000,flow leaves the area or reaches no pond,20.2,268.1
-fukuyama,700,アセンバラ池,17500,8.2,3,どうがく池（ローカコ池）|玉池 > 中池 > ケンノウ池,27100 > 999 > 1300,flow leaves the area or reaches no pond,120.2,215.8
-fukuyama,552,梅の木上池,8000,4.7,3,梅の木下池|梅の木中池 > 白土池 > 白土下池,5800 > 3600 > 5000,next pond beyond the distance,59.9,175.4
-fukuyama,715,上屋戸池,3800,8.0,3,中屋戸池 > 屋戸池 > 新屋戸池,2700 > 2100 > 12400,next pond beyond the distance,107.1,138.7
-fukuyama,44,奥池,1800,4.1,3,夜打畑中池 > 夜打畑下池 > 青谷新池,980 > 3120 > 980,flow leaves the area or reaches no pond,23.7,44.0
-fukuyama,576,照池|元池,1220,4.5,3,勘松上池|勘松中池 > 奥田上池 > 奥田下池,1060 > 999 > 620,flow leaves the area or reaches no pond,24.1,34.0
-fukuyama,581,長池,2300,6.4,3,勘松上池|勘松中池 > 奥田上池 > 奥田下池,1060 > 999 > 620,flow leaves the area or reaches no pond,23.4,34.0
-fukuyama,415,広瀬池,12200,6.1,2,よし池 > 新池,10800 > 14300,next pond holds,323.2,551.9
-fukuyama,295,大幡池,2600,6.95,2,近江谷中池 > おひな池|近江谷新池,6300 > 3090,flow leaves the area or reaches no pond,419.0,492.8
-fukuyama,538,奥上池,12600,8.2,2,奥下池 > 古屋池,15100 > 14000,flow leaves the area or reaches no pond,221.6,465.3
-fukuyama,399,上池,10000,7.7,2,中池 > 王子原池,18700 > 9800,flow leaves the area or reaches no pond,152.0,358.4
-fukuyama,516,とびの子池,6700,7.1,2,こも池|丸山池 > 持田池,12700 > 16500,flow leaves the area or reaches no pond,251.2,358.2
-fukuyama,447,長久保池,1500,3.2,2,下池 > 新池,4100 > 8500,flow leaves the area or reaches no pond,220.2,351.1
-fukuyama,703,加屋平池,3000,4.8,2,下池 > 新池,4100 > 8500,flow leaves the area or reaches no pond,182.7,351.1
-fukuyama,524,上池,1800,8.1,2,新池 > 堂満池,620 > 2100,flow leaves the area or reaches no pond,256.1,309.7
-fukuyama,1087,瓦山上池,6800,6.4,2,瓦山下池 > 堀田池,1600 > 210,flow leaves the area or reaches no pond,244.8,294.8
-fukuyama,706,大池,21600,11.0,2,新池 > 河原池,3600 > 6400,flow leaves the area or reaches no pond,173.7,271.1
-fukuyama,753,岡本池,24000,11.8,2,梅木蛸池 > 楠木池,34000 > 37000,flow leaves the area or reaches no pond,196.2,267.4
-fukuyama,616,大谷池,338000,15.0,2,後池 > 浜池,1100 > 59000,flow leaves the area or reaches no pond,91.3,255.4
-fukuyama,699,どうがく池（ローカコ池）|玉池,27100,12.4,2,中池 > ケンノウ池,999 > 1300,flow leaves the area or reaches no pond,157.5,215.8
-fukuyama,742,松原池,1500,4.8,2,田口池 > 新池,1800 > 2300,flow leaves the area or reaches no pond,41.7,214.6
-fukuyama,547,白土西池,8400,7.0,2,長草田上池 > 白土下池,4300 > 5000,next pond beyond the distance,89.4,175.3
-fukuyama,551,梅の木下池|梅の木中池,5800,3.9,2,白土池 > 白土下池,3600 > 5000,next pond beyond the distance,77.4,175.0
-fukuyama,518,吹抜上池,1700,9.5,2,吹抜下池 > 遠部池,7200 > 4830,flow leaves the area or reaches no pond,51.0,155.0
-fukuyama,714,中屋戸池,2700,5.1,2,屋戸池 > 新屋戸池,2100 > 12400,next pond beyond the distance,116.5,138.7
-fukuyama,302,柳ケ谷奥池（上）,8600,6.3,2,柳ヶ谷中池 > 柳ケ谷下池,5140 > 23000,next pond beyond the distance,105.9,126.6
-fukuyama,218,荒川上池,2400,9.4,2,おくび池 > 徳永池,3700 > 2000,next pond beyond the distance,78.0,81.9
-fukuyama,11,新池,1430,7.1,2,中池 > 下池,1820 > 113,flow leaves the area or reaches no pond,34.5,36.3
-fukuyama,578,勘松上池|勘松中池,1060,2.9,2,奥田上池 > 奥田下池,999 > 620,flow leaves the area or reaches no pond,24.9,34.0
-fukuyama,650,七ツ池４号,1800,5.8,2,七ツ池６号 > 七ツ池７号,900 > 450,flow leaves the area or reaches no pond,27.1,33.2
-fukuyama,1211,源迫上池,1700,5.6,2,源迫中池 > 源迫下池,2200 > 6600,next pond beyond the distance,18.0,22.3
-fukuyama,746,砂池,2700,10.9,2,中池 > 新池,3800 > 3500,next pond beyond the distance,1.4,2.0
-fukuyama,84,有江上池,112900,16.1,1,有江下池,19310,flow leaves the area or reaches no pond,1093.6,1772.4
-fukuyama,88,坊士古池,33900,6.0,1,新池,23000,flow leaves the area or reaches no pond,1245.7,1414.7
-fukuyama,455,菅池,2000,3.2,1,桝田池,999,flow leaves the area or reaches no pond,482.4,563.3
-fukuyama,412,よし池,10800,5.6,1,新池,14300,next pond holds,472.8,532.3
-fukuyama,261,太田上池,2100,3.2,1,太田下池,720,flow leaves the area or reaches no pond,489.2,506.6
-fukuyama,294,近江谷中池,6300,9.3,1,おひな池|近江谷新池,3090,flow leaves the area or reaches no pond,453.1,492.7
-fukuyama,454,四ツ池,2900,4.2,1,新池,6100,flow leaves the area or reaches no pond,434.8,475.8
-fukuyama,537,奥下池,15100,9.5,1,古屋池,14000,flow leaves the area or reaches no pond,250.3,465.3
-fukuyama,534,尾越池,3000,5.8,1,くわ池,999,flow leaves the area or reaches no pond,428.4,446.1
-fukuyama,685,山中上池,25000,9.8,1,山中池,53100,flow leaves the area or reaches no pond,328.3,438.2
-fukuyama,529,江木奥池,17200,9.0,1,江木池,22150,flow leaves the area or reaches no pond,353.4,405.1
-fukuyama,669,草刈池,15500,8.2,1,草刈下池,2300,flow leaves the area or reaches no pond,327.5,393.5
-fukuyama,266,高羅上池,1240,5.4,1,高羅池,2900,flow leaves the area or reaches no pond,351.6,366.6
-fukuyama,417,中池（願成寺）,21900,10.9,1,古池（願成寺）,19000,flow leaves the area or reaches no pond,176.3,363.8
-fukuyama,78,永迫中池,3720,5.9,1,永迫下池,4650,flow leaves the area or reaches no pond,241.7,360.9
-fukuyama,280,道上中池,15600,8.1,1,道上下池,11000,flow leaves the area or reaches no pond,329.6,360.7
-fukuyama,521,大畑池,17470,9.3,1,持田池,16500,flow leaves the area or reaches no pond,283.1,358.9
-fukuyama,398,中池,18700,6.9,1,王子原池,9800,flow leaves the area or reaches no pond,203.5,358.3
-fukuyama,515,こも池|丸山池,12700,5.5,1,持田池,16500,flow leaves the area or reaches no pond,277.0,354.6
-fukuyama,448,平池,2660,3.8,1,新池,8500,flow leaves the area or reaches no pond,274.0,351.2
-fukuyama,446,下池,4100,6.1,1,新池,8500,flow leaves the area or reaches no pond,262.2,351.1
-fukuyama,372,別所新池,11000,8.5,1,段原池,4700,flow leaves the area or reaches no pond,85.1,320.6
-fukuyama,555,清水上池|長草田西池（重複削除）,9099,6.3,1,清水池,18700,flow leaves the area or reaches no pond,256.9,314.2
-fukuyama,1116,宗池,3000,5.4,1,五座池,1500,next pond holds,291.7,298.9
-fukuyama,1088,瓦山下池,1600,3.8,1,堀田池,210,flow leaves the area or reaches no pond,269.9,294.8
-fukuyama,1090,同道池,6100,5.5,1,堀田池,210,flow leaves the area or reaches no pond,282.1,294.8
-fukuyama,707,新池,3600,11.0,1,河原池,6400,flow leaves the area or reaches no pond,190.5,271.1
-fukuyama,752,梅木蛸池,34000,11.3,1,楠木池,37000,flow leaves the area or reaches no pond,227.8,266.6
-fukuyama,158,新池,2300,2.0,1,大谷池,1300,flow leaves the area or reaches no pond,262.2,262.2
-fukuyama,401,丸池,2980,3.9,1,新池,1900,flow leaves the area or reaches no pond,261.7,261.7
-fukuyama,1129,古屋ケ谷池,14400,9.2,1,古屋ケ谷古池,3300,flow leaves the area or reaches no pond,167.1,242.4
-fukuyama,723,崎池,12800,9.7,1,そう池,8200,next pond has no water surface,148.4,241.3
-fukuyama,1098,山方新池,16400,9.7,1,殿の奥池,42500,flow leaves the area or reaches no pond,87.8,218.7
-fukuyama,813,田口池,1800,6.7,1,新池,2300,flow leaves the area or reaches no pond,96.4,204.1
-fukuyama,766,ひばり池,12100,8.7,1,新池,2300,flow leaves the area or reaches no pond,161.6,204.0
-fukuyama,881,俄池,10000,8.0,1,今岡新池,8000,flow leaves the area or reaches no pond,95.1,198.6
-fukuyama,548,長草田上池,4300,4.8,1,白土下池,5000,next pond beyond the distance,139.9,171.1
-fukuyama,777,奥の惣池,4500,5.5,1,前岡池,250,flow leaves the area or reaches no pond,102.1,167.7
-fukuyama,177,種池,9100,6.4,1,蓮池,2100,next pond beyond the distance,149.2,157.2
-fukuyama,517,吹抜下池,7200,4.5,1,遠部池,4830,flow leaves the area or reaches no pond,66.7,154.1
-fukuyama,785,新池,3500,3.9,1,下の惣池,4100,flow leaves the area or reaches no pond,99.0,130.9
-fukuyama,303,柳ヶ谷中池,5140,8.2,1,柳ケ谷下池,23000,next pond beyond the distance,119.5,126.5
-fukuyama,870,中原池,24000,9.1,1,中原新池,12800,flow leaves the area or reaches no pond,77.8,107.6
-fukuyama,996,恵木迫上池,16300,7.3,1,恵木迫下池,2400,flow leaves the area or reaches no pond,91.5,97.5
-fukuyama,310,上西ケ谷池,2200,4.4,1,下西ケ谷池,3280,next pond beyond the distance,89.3,89.4
-fukuyama,306,上平田池,15000,9.1,1,平田池,12640,next pond beyond the distance,85.7,87.7
-fukuyama,783,カケンザコ池|中池,1020,11.4,1,吉井池　（個人池）,110,next pond holds,77.2,84.7
-fukuyama,183,上池|拾石谷池,12000,9.0,1,深田池,2300,next pond beyond the distance,73.7,82.5
-fukuyama,220,おくび池,3700,5.1,1,徳永池,2000,next pond beyond the distance,80.5,81.6
-fukuyama,229,延谷上池,15400,11.9,1,延谷下池,3200,next pond beyond the distance,56.1,60.2
-fukuyama,27,堂源池,1580,5.3,1,切池,1370,flow leaves the area or reaches no pond,33.8,50.8
-fukuyama,1258,奥田池,4340,4.9,1,用土新池,2880,flow leaves the area or reaches no pond,50.2,50.2
-fukuyama,26,池平池,1067,5.5,1,切池,1370,flow leaves the area or reaches no pond,35.6,49.9
-fukuyama,388,小池,9800,10.3,1,新池,6500,next pond beyond the distance,44.6,47.7
-fukuyama,240,大池,7700,8.0,1,新池,6500,next pond beyond the distance,45.1,47.6
-fukuyama,9,二反田池,4200,5.2,1,宗光池,3680,flow leaves the area or reaches no pond,43.3,46.9
-fukuyama,42,夜打畑下池,3120,4.4,1,青谷新池,980,flow leaves the area or reaches no pond,27.3,44.0
-fukuyama,6,中池,1220,6.0,1,下池,1410,flow leaves the area or reaches no pond,42.1,43.9
-fukuyama,600,金毘羅池,1600,6.2,1,ヤザコ池,2500,next pond has no water surface,39.8,43.7
-fukuyama,928,新池,8180,12.7,1,中池,400,next pond beyond the distance,36.5,42.7
-fukuyama,169,城ケ迫池,8700,6.8,1,大富池,3900,next pond holds,35.5,41.1
-fukuyama,12,中池,1820,6.6,1,下池,113,flow leaves the area or reaches no pond,35.3,36.2
-fukuyama,165,中池,4400,5.5,1,新池,1600,flow leaves the area or reaches no pond,35.9,35.9
-fukuyama,212,一本松池（新池）,2900,5.2,1,古池,800,next pond beyond the distance,35.0,35.1
-fukuyama,698,五区上池,1400,3.4,1,五区下池,2300,next pond has no water surface,31.6,34.0
-fukuyama,48,上峠上池,2280,7.5,1,峠池,2520,flow leaves the area or reaches no pond,15.1,19.4
-fukuyama,112,しぶら新池,6500,12.2,1,しぶら池,1610,flow leaves the area or reaches no pond,5.8,8.9
-fukuyama,745,中池,3800,11.9,1,新池,3500,next pond beyond the distance,1.5,2.0
-fukuyama,82,追迫池,11520,7.6,0,,,flow leaves the area or reaches no pond,2189.4,2189.4
-fukuyama,85,有江下池,19310,7.9,0,,,flow leaves the area or reaches no pond,1757.2,1757.2
-fukuyama,72,明現池,10110,7.0,0,,,flow leaves the area or reaches no pond,1756.7,1756.7
-fukuyama,87,新池,23000,6.5,0,,,flow leaves the area or reaches no pond,1382.5,1382.5
-fukuyama,674,羽祢尾池,61900,8.0,0,,,flow leaves the area or reaches no pond,1351.9,1351.9
-fukuyama,854,大塚池,17000,6.6,0,,,flow leaves the area or reaches no pond,1303.7,1303.7
-fukuyama,670,奥池,2300,4.9,0,,,flow leaves the area or reaches no pond,1295.0,1295.0
-fukuyama,852,才谷池,3200,4.0,0,,,flow leaves the area or reaches no pond,1277.6,1277.6
-fukuyama,74,大将軍中池,1320,6.8,0,,,flow leaves the area or reaches no pond,1160.1,1160.1
-fukuyama,101,水上手池,1890,4.7,0,,,flow leaves the area or reaches no pond,1132.4,1132.4
-fukuyama,86,瘡神池,65000,16.8,0,,,flow leaves the area or reaches no pond,1120.5,1120.5
-fukuyama,1219,青面寺池（青目寺池）,5600,5.7,0,,,flow leaves the area or reaches no pond,1011.4,1011.4
-fukuyama,504,にごり池,2000,2.6,0,,,flow leaves the area or reaches no pond,841.4,841.4
-fukuyama,1218,平池,8000,1.8,0,,,flow leaves the area or reaches no pond,839.7,839.7
-fukuyama,458,本庄奥池,1300,2.0,0,,,flow leaves the area or reaches no pond,834.3,834.3
-fukuyama,1217,戸手新池,2000,1.5,0,,,flow leaves the area or reaches no pond,826.7,826.7
-fukuyama,76,深田池,8840,5.6,0,,,flow leaves the area or reaches no pond,795.4,795.4
-fukuyama,847,小豆田池,40000,4.8,0,,,flow leaves the area or reaches no pond,773.3,773.3
-fukuyama,672,スリコバチ池,3800,2.5,0,,,next pond holds,759.5,759.5
-fukuyama,343,大池,5700,10.8,0,,,flow leaves the area or reaches no pond,751.0,751.0
-fukuyama,349,五郎迫池,5100,6.2,0,,,flow leaves the area or reaches no pond,745.9,745.9
-fukuyama,850,ススハキ池|須先池,1870,3.0,0,,,flow leaves the area or reaches no pond,733.0,733.0
-fukuyama,505,葉粉池,3900,4.6,0,,,flow leaves the area or reaches no pond,727.5,727.5
-fukuyama,1213,正藤池（十九池）,6240,3.6,0,,,flow leaves the area or reaches no pond,716.4,716.4
-fukuyama,403,昆治屋池,7250,3.0,0,,,flow leaves the area or reaches no pond,676.0,676.0
-fukuyama,57,北杉下池,10780,4.3,0,,,flow leaves the area or reaches no pond,647.0,647.0
-fukuyama,135,南光池,4800,8.3,0,,,flow leaves the area or reaches no pond,646.4,646.4
-fukuyama,141,清水池,17000,5.3,0,,,flow leaves the area or reaches no pond,644.4,644.4
-fukuyama,389,赤才池,1100,3.8,0,,,flow leaves the area or reaches no pond,644.1,644.1
-fukuyama,392,名光池,1800,4.0,0,,,flow leaves the area or reaches no pond,626.3,626.3
-fukuyama,333,個人池|枠田池,119850,11.7,0,,,flow leaves the area or reaches no pond,624.8,624.8
-fukuyama,134,谷奥池,1800,5.3,0,,,next pond holds,610.6,610.6
-fukuyama,355,下池（新珠池）,3800,5.0,0,,,next pond has no water surface,609.2,609.2
-fukuyama,694,シニ池,22800,13.3,0,,,flow leaves the area or reaches no pond,605.5,605.5
-fukuyama,133,開地池,12600,5.4,0,,,flow leaves the area or reaches no pond,604.8,604.8
-fukuyama,391,中前池,1300,5.2,0,,,flow leaves the area or reaches no pond,600.5,600.5
-fukuyama,142,杢原池（中池）,10400,5.7,0,,,flow leaves the area or reaches no pond,590.4,590.4
-fukuyama,375,谷奥池,1700,4.6,0,,,flow leaves the area or reaches no pond,588.5,588.5
-fukuyama,376,偏義池,3200,2.9,0,,,flow leaves the area or reaches no pond,585.3,585.3
-fukuyama,1212,雨宮池,3900,3.5,0,,,flow leaves the area or reaches no pond,581.3,581.3
-fukuyama,407,大池（加屋地区）地元名：清水池,13500,10.0,0,,,flow leaves the area or reaches no pond,577.9,577.9
-fukuyama,1172,ハス池,5000,9.0,0,,,next pond has no water surface,573.0,573.0
-fukuyama,410,沢田池,72800,7.6,0,,,flow leaves the area or reaches no pond,571.2,571.2
-fukuyama,409,北ケ坂池,10000,8.3,0,,,flow leaves the area or reaches no pond,570.6,570.6
-fukuyama,1252,御池,2970,4.2,0,,,flow leaves the area or reaches no pond,566.2,566.2
-fukuyama,560,天神池,2300,4.8,0,,,flow leaves the area or reaches no pond,561.9,561.9
-fukuyama,402,宮近池,2300,3.3,0,,,flow leaves the area or reaches no pond,557.1,557.1
-fukuyama,452,出入合池,9000,5.6,0,,,flow leaves the area or reaches no pond,551.0,551.0
-fukuyama,136,桜池,2500,3.6,0,,,next pond holds,548.2,548.2
-fukuyama,263,宮の池,5100,4.0,0,,,flow leaves the area or reaches no pond,545.3,545.3
-fukuyama,559,塚迫池,12600,5.0,0,,,flow leaves the area or reaches no pond,543.9,543.9
-fukuyama,411,新池,14300,7.9,0,,,next pond holds,526.5,526.5
-fukuyama,1215,十四池,27500,8.2,0,,,flow leaves the area or reaches no pond,514.9,514.9
-fukuyama,508,久保池,1500,1.7,0,,,flow leaves the area or reaches no pond,514.7,514.7
-fukuyama,543,昌源寺池,9000,7.0,0,,,flow leaves the area or reaches no pond,512.9,512.9
-fukuyama,561,須方池,10700,3.1,0,,,flow leaves the area or reaches no pond,509.8,509.8
-fukuyama,394,矢迫下池,2600,5.0,0,,,flow leaves the area or reaches no pond,499.3,499.3
-fukuyama,1238,長畠池,7100,7.5,0,,,flow leaves the area or reaches no pond,497.5,497.5
-fukuyama,1249,大門池,13880,8.0,0,,,flow leaves the area or reaches no pond,494.0,494.0
-fukuyama,262,坊坂池,2400,4.5,0,,,flow leaves the area or reaches no pond,492.9,492.9
-fukuyama,531,二ツ池,19000,5.4,0,,,flow leaves the area or reaches no pond,492.8,492.8
-fukuyama,293,おひな池|近江谷新池,3090,4.7,0,,,flow leaves the area or reaches no pond,490.9,490.9
-fukuyama,510,末広池,25000,6.0,0,,,flow leaves the area or reaches no pond,486.3,486.3
-fukuyama,1230,皇太子池,1310,4.0,0,,,flow leaves the area or reaches no pond,484.0,484.0
-fukuyama,393,粟ケ迫池,2300,4.2,0,,,flow leaves the area or reaches no pond,478.4,478.4
-fukuyama,267,蓮花寺池,12800,7.5,0,,,flow leaves the area or reaches no pond,475.9,475.9
-fukuyama,453,新池,6100,6.8,0,,,flow leaves the area or reaches no pond,475.6,475.6
-fukuyama,541,かがつ池,3400,8.8,0,,,next pond has no water surface,475.3,475.3
-fukuyama,535,古屋池,14000,6.9,0,,,flow leaves the area or reaches no pond,464.9,464.9
-fukuyama,140,山根池,1400,3.0,0,,,flow leaves the area or reaches no pond,458.0,458.0
-fukuyama,687,宮本池,1700,5.7,0,,,flow leaves the area or reaches no pond,456.4,456.4
-fukuyama,1074,山之上池,5100,4.4,0,,,flow leaves the area or reaches no pond,443.6,443.6
-fukuyama,536,古屋上池,4800,5.3,0,,,next pond holds,438.3,438.3
-fukuyama,686,山中池,53100,10.6,0,,,flow leaves the area or reaches no pond,437.5,437.5
-fukuyama,509,善光池,1700,2.2,0,,,next pond holds,432.5,432.5
-fukuyama,533,平山池,1600,3.4,0,,,flow leaves the area or reaches no pond,431.9,431.9
-fukuyama,507,奥戸田池,8000,5.9,0,,,flow leaves the area or reaches no pond,428.1,428.1
-fukuyama,1221,後谷池,14470,9.3,0,,,flow leaves the area or reaches no pond,427.0,427.0
-fukuyama,369,動音寺池,11500,7.3,0,,,flow leaves the area or reaches no pond,426.1,426.1
-fukuyama,1075,上迫池,5100,4.5,0,,,flow leaves the area or reaches no pond,424.7,424.7
-fukuyama,1124,富谷池,100000,7.2,0,,,flow leaves the area or reaches no pond,424.1,424.1
-fukuyama,353,今屋池,14100,6.8,0,,,flow leaves the area or reaches no pond,422.8,422.8
-fukuyama,839,小山田切池,12500,7.4,0,,,flow leaves the area or reaches no pond,418.6,418.6
-fukuyama,1103,宝田池,3060,6.1,0,,,flow leaves the area or reaches no pond,417.2,417.2
-fukuyama,143,俄池,10400,5.9,0,,,flow leaves the area or reaches no pond,417.1,417.1
-fukuyama,690,にごり池,3800,6.0,0,,,flow leaves the area or reaches no pond,415.3,415.3
-fukuyama,1181,中池,2400,5.4,0,,,next pond holds,413.9,413.9
-fukuyama,1226,上池|蛇池（中柴池）,38760,8.4,0,,,flow leaves the area or reaches no pond,411.5,411.5
-fukuyama,528,江木池,22150,10.0,0,,,flow leaves the area or reaches no pond,405.1,405.1
-fukuyama,566,内田池,1800,5.3,0,,,next pond holds,403.3,403.3
-fukuyama,1125,湯上池,3000,2.6,0,,,flow leaves the area or reaches no pond,400.7,400.7
-fukuyama,558,塚迫上池,1800,4.0,0,,,next pond holds,399.4,399.4
-fukuyama,1067,岩神池,3200,3.2,0,,,flow leaves the area or reaches no pond,396.7,396.7
-fukuyama,667,草刈下池,2300,6.7,0,,,flow leaves the area or reaches no pond,393.3,393.3
-fukuyama,148,下池（下）,3600,6.2,0,,,flow leaves the area or reaches no pond,377.6,377.6
-fukuyama,1102,峠池,7400,4.7,0,,,flow leaves the area or reaches no pond,374.0,374.0
-fukuyama,374,瀬戸池,214000,8.7,0,,,flow leaves the area or reaches no pond,373.0,373.0
-fukuyama,689,フジサコ池,6600,7.9,0,,,flow leaves the area or reaches no pond,368.8,368.8
-fukuyama,265,高羅池,2900,6.0,0,,,flow leaves the area or reaches no pond,366.5,366.5
-fukuyama,1137,宮窪池,1200,4.0,0,,,flow leaves the area or reaches no pond,366.5,366.5
-fukuyama,1097,梶屋池,8300,4.1,0,,,flow leaves the area or reaches no pond,366.3,366.3
-fukuyama,147,花影池,2100,5.2,0,,,flow leaves the area or reaches no pond,366.0,366.0
-fukuyama,416,古池（願成寺）,19000,11.5,0,,,flow leaves the area or reaches no pond,363.8,363.8
-fukuyama,1180,じゅんさい池,1500,5.0,0,,,next pond holds,363.2,363.2
-fukuyama,567,墓原池,1000,5.0,0,,,next pond holds,361.9,361.9
-fukuyama,1106,小池,1900,5.0,0,,,flow leaves the area or reaches no pond,360.9,360.9
-fukuyama,279,道上下池,11000,8.2,0,,,flow leaves the area or reaches no pond,356.6,356.6
-fukuyama,456,小原下池,2500,6.1,0,,,next pond beyond the distance,355.9,355.9
-fukuyama,77,永迫下池,4650,7.4,0,,,flow leaves the area or reaches no pond,353.9,353.9
-fukuyama,150,岩井下池,2400,3.7,0,,,next pond has no water surface,352.9,352.9
-fukuyama,271,二瀬川池,8900,6.1,0,,,flow leaves the area or reaches no pond,352.1,352.1
-fukuyama,270,松尾池,2140,5.1,0,,,next pond holds,351.1,351.1
-fukuyama,445,新池,8500,6.4,0,,,flow leaves the area or reaches no pond,351.0,351.0
-fukuyama,525,実正池,7840,8.0,0,,,flow leaves the area or reaches no pond,350.6,350.6
-fukuyama,397,王子原池,9800,7.9,0,,,flow leaves the area or reaches no pond,349.0,349.0
-fukuyama,1141,井上池,2400,4.6,0,,,flow leaves the area or reaches no pond,341.1,341.1
-fukuyama,859,石田池,22000,6.5,0,,,flow leaves the area or reaches no pond,340.8,340.8
-fukuyama,1020,森脇池,4300,4.5,0,,,flow leaves the area or reaches no pond,337.4,337.4
-fukuyama,860,大草田池,1400,3.5,0,,,flow leaves the area or reaches no pond,332.5,332.5
-fukuyama,526,僧都池,3500,7.3,0,,,flow leaves the area or reaches no pond,330.5,330.5
-fukuyama,514,持田池,16500,3.2,0,,,flow leaves the area or reaches no pond,330.2,330.2
-fukuyama,557,長草田池,42900,7.5,0,,,flow leaves the area or reaches no pond,328.9,328.9
-fukuyama,866,奈良鞘新池,1330,3.9,0,,,flow leaves the area or reaches no pond,324.2,324.2
-fukuyama,861,カ治迫池,1400,3.8,0,,,flow leaves the area or reaches no pond,321.0,321.0
-fukuyama,1233,登呂茂新池|登呂茂大池,48140,10.7,0,,,flow leaves the area or reaches no pond,321.0,321.0
-fukuyama,371,段原池,4700,5.0,0,,,flow leaves the area or reaches no pond,320.6,320.6
-fukuyama,341,虎大池,4500,4.3,0,,,flow leaves the area or reaches no pond,320.4,320.4
-fukuyama,1055,日和池,10700,4.1,0,,,flow leaves the area or reaches no pond,320.0,320.0
-fukuyama,867,奈良鞘池,1000,3.6,0,,,next pond holds,317.4,317.4
-fukuyama,829,天津池,2400,5.4,0,,,flow leaves the area or reaches no pond,315.4,315.4
-fukuyama,863,勝負迫池,2700,5.2,0,,,next pond holds,315.4,315.4
-fukuyama,522,堂満池,2100,6.1,0,,,flow leaves the area or reaches no pond,309.6,309.6
-fukuyama,1083,山の田池,7000,8.0,0,,,flow leaves the area or reaches no pond,309.0,309.0
-fukuyama,864,平池,10000,6.6,0,,,next pond holds,308.8,308.8
-fukuyama,556,清水池,18700,5.3,0,,,flow leaves the area or reaches no pond,308.7,308.7
-fukuyama,278,大谷池,14400,9.1,0,,,flow leaves the area or reaches no pond,306.6,306.6
-fukuyama,1133,魚之面池,7800,4.7,0,,,flow leaves the area or reaches no pond,306.1,306.1
-fukuyama,1100,松山池,2400,3.2,0,,,flow leaves the area or reaches no pond,301.6,301.6
-fukuyama,1113,七ツ池|寺池下池,8800,7.5,0,,,flow leaves the area or reaches no pond,301.0,301.0
-fukuyama,513,三蔵池,37000,7.0,0,,,flow leaves the area or reaches no pond,300.4,300.4
-fukuyama,858,堂の奥池,2500,3.2,0,,,flow leaves the area or reaches no pond,300.1,300.1
-fukuyama,1114,寺池上池,5200,3.8,0,,,next pond holds,296.8,296.8
-fukuyama,1115,五座池,1500,2.6,0,,,next pond holds,296.6,296.6
-fukuyama,530,新池,1100,5.5,0,,,next pond holds,294.0,294.0
-fukuyama,1142,是来下池,18500,10.1,0,,,flow leaves the area or reaches no pond,289.4,289.4
-fukuyama,545,松永溜池,382000,23.0,0,,,flow leaves the area or reaches no pond,288.9,288.9
-fukuyama,1107,大池（芦田大池）,9800,5.1,0,,,flow leaves the area or reaches no pond,285.7,285.7
-fukuyama,386,個人池43|王子原北池,1410,3.9,0,,,next pond holds,280.0,280.0
-fukuyama,883,小池,1400,3.5,0,,,flow leaves the area or reaches no pond,279.2,279.2
-fukuyama,740,中津池,1100,3.8,0,,,flow leaves the area or reaches no pond,278.0,278.0
-fukuyama,675,生田池,8400,7.0,0,,,flow leaves the area or reaches no pond,276.5,276.5
-fukuyama,1138,観音堂池,8000,5.7,0,,,flow leaves the area or reaches no pond,274.5,274.5
-fukuyama,1058,矢部池,1200,3.7,0,,,flow leaves the area or reaches no pond,271.9,271.9
-fukuyama,708,河原池,6400,12.0,0,,,flow leaves the area or reaches no pond,270.0,270.0
-fukuyama,737,後浜池,16500,5.3,0,,,flow leaves the area or reaches no pond,269.0,269.0
-fukuyama,413,金山下池,2300,3.9,0,,,next pond holds,266.9,266.9
-fukuyama,1101,与助池,2100,3.5,0,,,next pond holds,266.9,266.9
-fukuyama,1132,岡田池,1400,4.1,0,,,next pond holds,265.9,265.9
-fukuyama,751,楠木池,37000,7.5,0,,,flow leaves the area or reaches no pond,265.1,265.1
-fukuyama,159,浅池,1500,2.5,0,,,next pond holds,262.7,262.7
-fukuyama,281,道上小池,3600,5.4,0,,,next pond holds,262.6,262.6
-fukuyama,400,新池,1900,6.4,0,,,flow leaves the area or reaches no pond,261.7,261.7
-fukuyama,156,堂ノ奥池,5700,6.7,0,,,flow leaves the area or reaches no pond,261.1,261.1
-fukuyama,157,大谷池,1300,5.2,0,,,flow leaves the area or reaches no pond,260.3,260.3
-fukuyama,775,庄田上池|庄田下池,1140,4.0,0,,,flow leaves the area or reaches no pond,258.5,258.5
-fukuyama,1237,名字新池,1130,5.9,0,,,flow leaves the area or reaches no pond,256.9,256.9
-fukuyama,1126,桝池,12400,4.8,0,,,flow leaves the area or reaches no pond,256.5,256.5
-fukuyama,1143,是来上池,7100,7.2,0,,,next pond holds,255.9,255.9
-fukuyama,163,半坂池,1200,2.8,0,,,next pond holds,252.8,252.8
-fukuyama,1009,迫の奥池,2400,3.7,0,,,flow leaves the area or reaches no pond,246.5,246.5
-fukuyama,828,宇佐下池,3200,6.2,0,,,flow leaves the area or reaches no pond,244.6,244.6
-fukuyama,692,そう池,8200,8.4,0,,,next pond has no water surface,241.3,241.3
-fukuyama,60,日照池,6430,7.3,0,,,flow leaves the area or reaches no pond,240.2,240.2
-fukuyama,622,浜池,59000,6.2,0,,,flow leaves the area or reaches no pond,240.2,240.2
-fukuyama,1128,古屋ケ谷古池,3300,3.2,0,,,flow leaves the area or reaches no pond,239.2,239.2
-fukuyama,846,稔松２号池|稔松池,6600,3.8,0,,,next pond beyond the distance,236.7,236.7
-fukuyama,58,割石池,9120,4.1,0,,,flow leaves the area or reaches no pond,236.1,236.1
-fukuyama,693,番田池,11250,20.4,0,,,flow leaves the area or reaches no pond,229.2,229.2
-fukuyama,1008,大迫池,2300,3.3,0,,,flow leaves the area or reaches no pond,229.1,229.1
-fukuyama,827,宇佐上池,2400,7.2,0,,,flow leaves the area or reaches no pond,229.0,229.0
-fukuyama,876,池の迫池,2200,3.2,0,,,flow leaves the area or reaches no pond,228.4,228.4
-fukuyama,733,石井池,31000,9.65,0,,,flow leaves the area or reaches no pond,226.9,226.9
-fukuyama,1256,大久保池,1080,3.5,0,,,flow leaves the area or reaches no pond,224.6,224.6
-fukuyama,882,末谷池,26500,9.5,0,,,flow leaves the area or reaches no pond,223.7,223.7
-fukuyama,874,大橋新池,21000,5.8,0,,,flow leaves the area or reaches no pond,223.1,223.1
-fukuyama,732,石井上池,13000,6.0,0,,,next pond holds,220.3,220.3
-fukuyama,408,新池（津之郷新池）,5900,5.3,0,,,next pond holds,217.2,217.2
-fukuyama,1099,殿の奥池,42500,8.3,0,,,flow leaves the area or reaches no pond,215.9,215.9
-fukuyama,702,ケンノウ池,1300,8.5,0,,,flow leaves the area or reaches no pond,215.8,215.8
-fukuyama,873,出尾池,36000,5.5,0,,,flow leaves the area or reaches no pond,215.4,215.4
-fukuyama,406,長池,12000,5.7,0,,,next pond holds,211.4,211.4
-fukuyama,691,上そう池（小池）,1000,3.5,0,,,next pond holds,211.0,211.0
-fukuyama,877,池の迫奥池,1000,3.7,0,,,next pond holds,208.6,208.6
-fukuyama,767,新池,2300,5.0,0,,,flow leaves the area or reaches no pond,204.0,204.0
-fukuyama,1168,幸田新池,2300,4.0,0,,,flow leaves the area or reaches no pond,203.8,203.8
-fukuyama,879,今岡新池,8000,5.3,0,,,flow leaves the area or reaches no pond,195.0,195.0
-fukuyama,878,生池,2800,2.6,0,,,next pond holds,190.9,190.9
-fukuyama,65,菅池,1570,3.8,0,,,flow leaves the area or reaches no pond,190.4,190.4
-fukuyama,1236,笹池,10840,12.6,0,,,flow leaves the area or reaches no pond,186.6,186.6
-fukuyama,725,野田奥池,1200,4.3,0,,,flow leaves the area or reaches no pond,183.7,183.7
-fukuyama,735,油舟池,3300,11.8,0,,,flow leaves the area or reaches no pond,180.2,180.2
-fukuyama,738,本谷池,100000,11.5,0,,,flow leaves the area or reaches no pond,177.1,177.1
-fukuyama,741,石堂池,1100,4.4,0,,,flow leaves the area or reaches no pond,174.2,174.2
-fukuyama,1127,西奥池,3200,5.5,0,,,next pond holds,173.6,173.6
-fukuyama,198,達中池,10700,5.2,0,,,next pond has no water surface,171.7,171.7
-fukuyama,1225,水晶窪池,1850,4.5,0,,,flow leaves the area or reaches no pond,171.4,171.4
-fukuyama,64,新池,1340,4.0,0,,,flow leaves the area or reaches no pond,169.7,169.7
-fukuyama,549,白土下池,5000,3.9,0,,,next pond beyond the distance,166.5,166.5
-fukuyama,62,治郎丸下池,1430,2.9,0,,,flow leaves the area or reaches no pond,163.2,163.2
-fukuyama,326,下細ケ谷池,5000,6.4,0,,,next pond holds,162.9,162.9
-fukuyama,327,梶ケ谷池２号,3900,6.3,0,,,next pond holds,159.0,159.0
-fukuyama,736,畑池,2300,4.3,0,,,next pond holds,155.9,155.9
-fukuyama,789,塚の池,1900,4.5,0,,,flow leaves the area or reaches no pond,155.9,155.9
-fukuyama,178,蓮池,2100,2.8,0,,,next pond beyond the distance,149.8,149.8
-fukuyama,734,北迫池,3600,5.4,0,,,flow leaves the area or reaches no pond,144.2,144.2
-fukuyama,875,篠原池,5300,3.0,0,,,next pond holds,142.6,142.6
-fukuyama,869,塚堂池,1100,3.3,0,,,flow leaves the area or reaches no pond,142.2,142.2
-fukuyama,59,遠部池,4830,6.1,0,,,flow leaves the area or reaches no pond,142.1,142.1
-fukuyama,726,山の田池,18700,6.4,0,,,flow leaves the area or reaches no pond,139.3,139.3
-fukuyama,705,フナ池|カルマタ池,5200,4.5,0,,,next pond holds,139.0,139.0
-fukuyama,731,新屋戸池,12400,10.0,0,,,next pond beyond the distance,137.6,137.6
-fukuyama,721,カノコ池,10400,8.0,0,,,flow leaves the area or reaches no pond,136.5,136.5
-fukuyama,180,深田西池,2300,2.5,0,,,next pond beyond the distance,133.5,133.5
-fukuyama,544,二六池,38500,8.0,0,,,next pond holds,133.1,133.1
-fukuyama,189,中の谷池,1500,4.0,0,,,next pond beyond the distance,129.6,129.6
-fukuyama,190,保々路谷池,2600,4.7,0,,,next pond beyond the distance,129.3,129.3
-fukuyama,788,下の惣池,4100,4.5,0,,,flow leaves the area or reaches no pond,128.8,128.8
-fukuyama,188,光林寺池,433000,19.9,0,,,next pond beyond the distance,127.2,127.2
-fukuyama,182,猫池|深田東池,3260,3.8,0,,,next pond beyond the distance,126.9,126.9
-fukuyama,305,柳ケ谷下池,23000,5.0,0,,,next pond beyond the distance,125.9,125.9
-fukuyama,814,四正面池,1100,5.5,0,,,flow leaves the area or reaches no pond,124.9,124.9
-fukuyama,304,段頭池,5900,7.1,0,,,next pond beyond the distance,123.8,123.8
-fukuyama,619,若宮原中池,1200,3.9,0,,,next pond holds,123.6,123.6
-fukuyama,994,水行池,7700,5.5,0,,,flow leaves the area or reaches no pond,123.1,123.1
-fukuyama,713,屋戸池,2100,6.3,0,,,next pond holds,119.6,119.6
-fukuyama,67,志村大池,3290,5.1,0,,,flow leaves the area or reaches no pond,119.4,119.4
-fukuyama,617,後池,1100,3.9,0,,,next pond holds,118.6,118.6
-fukuyama,185,七ツ池,24800,5.2,0,,,next pond beyond the distance,118.4,118.4
-fukuyama,1131,桐池,2300,4.7,0,,,next pond holds,116.7,116.7
-fukuyama,1224,原の池,20000,8.0,0,,,flow leaves the area or reaches no pond,114.6,114.6
-fukuyama,210,小林池,3900,4.5,0,,,next pond beyond the distance,114.5,114.5
-fukuyama,194,中池|上池,10700,3.9,0,,,next pond holds,114.3,114.3
-fukuyama,61,源入池,6110,7.0,0,,,flow leaves the area or reaches no pond,114.2,114.2
-fukuyama,204,打越池,3600,4.6,0,,,next pond beyond the distance,113.1,113.1
-fukuyama,322,下内畑池,4900,5.0,0,,,next pond beyond the distance,111.2,111.2
-fukuyama,186,松葉迫池|柳井下池,1870,3.4,0,,,next pond beyond the distance,109.9,109.9
-fukuyama,880,権化池,4100,4.7,0,,,next pond holds,109.0,109.0
-fukuyama,871,中原新池,12800,7.7,0,,,flow leaves the area or reaches no pond,107.0,107.0
-fukuyama,951,福岡池,18800,9.4,0,,,flow leaves the area or reaches no pond,105.7,105.7
-fukuyama,193,三ツ池,3400,5.4,0,,,next pond beyond the distance,103.5,103.5
-fukuyama,550,白土池,3600,3.9,0,,,next pond holds,103.2,103.2
-fukuyama,55,向窪池,1370,5.1,0,,,next pond has no water surface,102.0,102.0
-fukuyama,70,ドブス池,1650,3.7,0,,,flow leaves the area or reaches no pond,101.0,101.0
-fukuyama,720,新池（岡ノ端）,16200,2.5,0,,,flow leaves the area or reaches no pond,99.9,99.9
-fukuyama,995,恵木迫下池,2400,4.3,0,,,flow leaves the area or reaches no pond,97.3,97.3
-fukuyama,1220,塩首池（汐首池）,4610,5.6,0,,,flow leaves the area or reaches no pond,95.1,95.1
-fukuyama,771,芦駒池,4100,4.8,0,,,flow leaves the area or reaches no pond,92.4,92.4
-fukuyama,997,束田池,1700,6.0,0,,,flow leaves the area or reaches no pond,89.6,89.6
-fukuyama,739,永道大池,9000,7.0,0,,,next pond holds,88.6,88.6
-fukuyama,309,平田池,12640,9.8,0,,,next pond beyond the distance,87.4,87.4
-fukuyama,614,和田池,5500,3.1,0,,,flow leaves the area or reaches no pond,86.7,86.7
-fukuyama,311,下西ケ谷池,3280,5.7,0,,,next pond beyond the distance,86.3,86.3
-fukuyama,405,身倒池,6900,4.95,0,,,next pond beyond the distance,86.0,86.0
-fukuyama,1185,鷹ノ巣池,5700,7.05,0,,,flow leaves the area or reaches no pond,83.3,83.3
-fukuyama,184,深田池,2300,6.0,0,,,next pond beyond the distance,82.4,82.4
-fukuyama,221,徳永池,2000,4.1,0,,,next pond beyond the distance,79.4,79.4
-fukuyama,658,水尾下池,300000,3.0,0,,,flow leaves the area or reaches no pond,77.3,77.3
-fukuyama,196,比々宇谷大池,5700,5.9,0,,,next pond holds,77.2,77.2
-fukuyama,323,明鹿池,2500,4.0,0,,,next pond has no water surface,74.4,74.4
-fukuyama,750,坊寺上池,1500,8.4,0,,,next pond holds,73.0,73.0
-fukuyama,954,すり鉢池,1300,3.7,0,,,next pond holds,71.7,71.7
-fukuyama,1260,湯之口池,6210,6.4,0,,,flow leaves the area or reaches no pond,68.7,68.7
-fukuyama,2,新池,5400,24.9,0,,,flow leaves the area or reaches no pond,66.7,66.7
-fukuyama,539,盗人池（吉田池）,7700,7.2,0,,,flow leaves the area or reaches no pond,63.9,63.9
-fukuyama,1,盤若池（花池）,12333,6.0,0,,,flow leaves the area or reaches no pond,63.5,63.5
-fukuyama,29,元広池,1480,6.7,0,,,flow leaves the area or reaches no pond,60.7,60.7
-fukuyama,230,延谷下池,3200,10.0,0,,,next pond beyond the distance,60.2,60.2
-fukuyama,965,大谷池,91000,14.5,0,,,flow leaves the area or reaches no pond,58.7,58.7
-fukuyama,892,田の迫上池|田の迫下池,2160,6.6,0,,,flow leaves the area or reaches no pond,56.2,56.2
-fukuyama,888,釜の口池,7260,8.4,0,,,flow leaves the area or reaches no pond,55.0,55.0
-fukuyama,816,三谷池,1000,1.1,0,,,next pond holds,53.6,53.6
-fukuyama,234,上池,4300,4.7,0,,,next pond beyond the distance,53.4,53.4
-fukuyama,174,矢迫池,2400,6.0,0,,,flow leaves the area or reaches no pond,51.9,51.9
-fukuyama,887,猪谷池,5500,7.5,0,,,flow leaves the area or reaches no pond,51.2,51.2
-fukuyama,970,岡田池,1400,5.5,0,,,flow leaves the area or reaches no pond,50.7,50.7
-fukuyama,1259,用土新池,2880,4.4,0,,,flow leaves the area or reaches no pond,48.2,48.2
-fukuyama,241,新池,6500,6.7,0,,,next pond beyond the distance,47.6,47.6
-fukuyama,772,黒谷池,9600,13.0,0,,,flow leaves the area or reaches no pond,47.3,47.3
-fukuyama,940,梶ケ迫奥下池,2040,6.3,0,,,next pond has no water surface,46.9,46.9
-fukuyama,8,宗光池,3680,8.3,0,,,flow leaves the area or reaches no pond,46.8,46.8
-fukuyama,939,湯口池,2600,6.2,0,,,next pond beyond the distance,44.9,44.9
-fukuyama,599,ヤザコ池,2500,2.9,0,,,next pond has no water surface,42.9,42.9
-fukuyama,5,下池,1410,5.5,0,,,flow leaves the area or reaches no pond,42.8,42.8
-fukuyama,16,奥迫池,1490,5.9,0,,,flow leaves the area or reaches no pond,42.6,42.6
-fukuyama,1232,矢無掛下池,16590,11.8,0,,,next pond beyond the distance,42.1,42.1
-fukuyama,613,神原池,3110,5.2,0,,,flow leaves the area or reaches no pond,42.0,42.0
-fukuyama,907,尾白池,3300,6.3,0,,,next pond has no water surface,41.4,41.4
-fukuyama,41,大豆池,14000,9.9,0,,,flow leaves the area or reaches no pond,41.1,41.1
-fukuyama,19,切池,1370,5.0,0,,,flow leaves the area or reaches no pond,41.0,41.0
-fukuyama,171,大富池,3900,10.0,0,,,next pond holds,40.7,40.7
-fukuyama,18,雲戸池,9950,9.2,0,,,flow leaves the area or reaches no pond,40.5,40.5
-fukuyama,215,鴨尾池,5500,8.4,0,,,next pond beyond the distance,40.5,40.5
-fukuyama,197,茂浦池,35000,19.2,0,,,next pond beyond the distance,40.3,40.3
-fukuyama,228,掛池,3600,6.5,0,,,next pond holds,40.3,40.3
-fukuyama,894,大谷池,7500,7.6,0,,,next pond has no water surface,40.0,40.0
-fukuyama,919,仕方池|仕方池,1140,4.5,0,,,flow leaves the area or reaches no pond,39.8,39.8
-fukuyama,245,日入ケ谷池,3400,6.6,0,,,next pond holds,39.4,39.4
-fukuyama,173,御池,1900,1.8,0,,,flow leaves the area or reaches no pond,38.9,38.9
-fukuyama,821,永堂上池,1500,4.3,0,,,next pond holds,38.6,38.6
-fukuyama,604,中池,3100,6.8,0,,,next pond has no water surface,37.8,37.8
-fukuyama,35,大段池,1233,8.0,0,,,flow leaves the area or reaches no pond,36.7,36.7
-fukuyama,50,別迫池,2630,7.2,0,,,flow leaves the area or reaches no pond,36.7,36.7
-fukuyama,1190,穴ノ奥池,4570,4.7,0,,,next pond has no water surface,36.3,36.3
-fukuyama,49,谷池,5867,8.6,0,,,flow leaves the area or reaches no pond,36.2,36.2
-fukuyama,34,石原池,1100,6.0,0,,,flow leaves the area or reaches no pond,35.2,35.2
-fukuyama,1187,地蔵堂池,1600,4.2,0,,,flow leaves the area or reaches no pond,34.4,34.4
-fukuyama,52,山神池,1380,6.0,0,,,flow leaves the area or reaches no pond,34.1,34.1
-fukuyama,696,五区下池,2300,3.3,0,,,next pond has no water surface,34.0,34.0
-fukuyama,213,黒木平池,2400,4.1,0,,,next pond beyond the distance,33.5,33.5
-fukuyama,969,長池,6070,5.5,0,,,flow leaves the area or reaches no pond,33.4,33.4
-fukuyama,1202,茅場池,3000,5.6,0,,,next pond holds,32.9,32.9
-fukuyama,1231,矢無掛上池,9360,8.7,0,,,next pond beyond the distance,32.2,32.2
-fukuyama,36,田口池,1727,6.0,0,,,flow leaves the area or reaches no pond,32.1,32.1
-fukuyama,605,ぶんき池,22000,6.2,0,,,next pond holds,32.1,32.1
-fukuyama,170,新池,7800,7.6,0,,,next pond has no water surface,32.0,32.0
-fukuyama,1045,同道池,42500,10.1,0,,,flow leaves the area or reaches no pond,31.5,31.5
-fukuyama,1044,大坊池,5100,6.5,0,,,flow leaves the area or reaches no pond,30.8,30.8
-fukuyama,164,新池,1600,5.0,0,,,flow leaves the area or reaches no pond,30.7,30.7
-fukuyama,167,大畑池,3200,6.6,0,,,next pond has no water surface,30.3,30.3
-fukuyama,1191,稲木池,2300,4.8,0,,,flow leaves the area or reaches no pond,29.5,29.5
-fukuyama,592,丸山上池|丸山下池,1520,4.5,0,,,next pond holds,28.9,28.9
-fukuyama,632,ハス池,3600,4.2,0,,,flow leaves the area or reaches no pond,28.9,28.9
-fukuyama,22,追附谷池,1280,6.9,0,,,flow leaves the area or reaches no pond,27.7,27.7
-fukuyama,1183,北迫小池,1500,4.0,0,,,next pond beyond the distance,26.3,26.3
-fukuyama,1199,美濃谷中池,1400,4.1,0,,,next pond holds,25.4,25.4
-fukuyama,1203,名郷池,5500,3.7,0,,,next pond beyond the distance,25.2,25.2
-fukuyama,627,五反田池,2400,4.2,0,,,next pond holds,24.5,24.5
-fukuyama,1197,菅田大池,171500,15.0,0,,,flow leaves the area or reaches no pond,23.8,23.8
-fukuyama,46,下峠池,1010,6.8,0,,,flow leaves the area or reaches no pond,22.8,22.8
-fukuyama,1209,源迫下池,6600,8.0,0,,,next pond beyond the distance,22.3,22.3
-fukuyama,519,大濁池,5500,9.5,0,,,next pond beyond the distance,21.9,21.9
-fukuyama,131,喜三郎池,2600,4.7,0,,,flow leaves the area or reaches no pond,21.7,21.7
-fukuyama,626,国本池,2100,4.4,0,,,next pond has no water surface,21.1,21.1
-fukuyama,896,畑奥大池,8870,8.1,0,,,next pond has no water surface,20.7,20.7
-fukuyama,127,八反田池,1600,3.6,0,,,next pond beyond the distance,20.2,20.2
-fukuyama,1167,昭十九池,5800,6.8,0,,,next pond beyond the distance,19.7,19.7
-fukuyama,628,新池,2000,2.1,0,,,next pond holds,19.4,19.4
-fukuyama,90,峠池,2520,7.0,0,,,flow leaves the area or reaches no pond,19.3,19.3
-fukuyama,913,龍王池,1500,5.2,0,,,next pond beyond the distance,19.3,19.3
-fukuyama,1210,源迫中池,2200,6.3,0,,,next pond holds,19.0,19.0
-fukuyama,418,新池（願成寺）,18300,8.8,0,,,next pond holds,18.9,18.9
-fukuyama,424,エネキダオ１号池,1600,3.2,0,,,next pond holds,18.6,18.6
-fukuyama,423,鍋峠池,3200,8.0,0,,,next pond beyond the distance,18.5,18.5
-fukuyama,1196,馬乗新池,1800,3.8,0,,,flow leaves the area or reaches no pond,17.9,17.9
-fukuyama,1037,新池（久田谷）,40500,12.7,0,,,flow leaves the area or reaches no pond,17.8,17.8
-fukuyama,1192,中畝池,1600,4.8,0,,,flow leaves the area or reaches no pond,17.7,17.7
-fukuyama,520,大石上池,2100,7.0,0,,,next pond holds,17.6,17.6
-fukuyama,967,立石池,8100,7.0,0,,,next pond holds,15.3,15.3
-fukuyama,441,鈴池,386000,19.0,0,,,flow leaves the area or reaches no pond,14.4,14.4
-fukuyama,442,にがき原池,2300,4.3,0,,,flow leaves the area or reaches no pond,14.4,14.4
-fukuyama,540,新池,48000,14.3,0,,,flow leaves the area or reaches no pond,14.0,14.0
-fukuyama,773,才戸池,1500,3.6,0,,,flow leaves the area or reaches no pond,12.9,12.9
-fukuyama,435,藁峠１号池,1300,4.3,0,,,next pond holds,11.1,11.1
-fukuyama,437,長者ヶ原中池,3460,4.6,0,,,next pond holds,10.5,10.5
-fukuyama,820,延迫池,1600,3.5,0,,,next pond has no water surface,9.7,9.7
-fukuyama,111,しぶら池,1610,6.1,0,,,flow leaves the area or reaches no pond,8.9,8.9
-fukuyama,1146,下宮下池,2500,4.0,0,,,next pond holds,8.8,8.8
-fukuyama,120,西の池,1213,4.2,0,,,flow leaves the area or reaches no pond,8.2,8.2
-fukuyama,30,洲焼池,5670,6.8,0,,,flow leaves the area or reaches no pond,7.1,7.1
-fukuyama,121,イヤガ谷池,1740,8.8,0,,,flow leaves the area or reaches no pond,6.3,6.3
-fukuyama,966,青笹池,9000,10.0,0,,,next pond beyond the distance,5.7,5.7
-fukuyama,1189,広角池,8800,6.5,0,,,flow leaves the area or reaches no pond,4.5,4.5
-fukuyama,744,新池,3500,9.6,0,,,next pond beyond the distance,2.0,2.0
-fukuyama,54,土金坊池,1550,5.7,0,,,flow leaves the area or reaches no pond,1.9,1.9
-fukuyama,743,夫婦岩池,3500,8.9,0,,,next pond beyond the distance,1.5,1.5
-fukuyama,1176,永谷池,1210,3.7,0,,,flow leaves the area or reaches no pond,0.7,0.7
-fukuyama,166,奥池,2300,7.3,0,,,flow leaves the area or reaches no pond,0.0,0.0
-fukuyama,809,小田池,20000,15.0,0,,,next pond beyond the distance,0.0,0.0
-fukuyama,837,服部大池,650000,15.0,0,,,flow leaves the area or reaches no pond,0.0,0.0
+box,start,start_names,start_m3,start_h_m,overflowed,overflowed_names,overflowed_m3,stop,people_single,people_chain,start_source_rows,overflowed_source_rows
+fukuyama,780,カクロ池,1000,5.0,4,カケンザコ上池 > そう池上 > そう池下 > 先出石池,600 > 180 > 270 > 480,next pond holds,52.2,69.8,105059,105170 > 105060 > 105061 > 105058
+fukuyama,754,寺屋敷池,50000,15.0,3,岡本池 > 梅木蛸池 > 楠木池,24000 > 34000 > 37000,flow leaves the area or reaches no pond,20.2,268.1,105013,105012 > 105011 > 105010
+fukuyama,700,アセンバラ池,17500,8.2,3,どうがく池（ローカコ池）|玉池 > 中池 > ケンノウ池,27100 > 999 > 1300,flow leaves the area or reaches no pond,120.2,215.8,104954,104953|104955 > 104956 > 104957
+fukuyama,552,梅の木上池,8000,4.7,3,梅の木下池|梅の木中池 > 白土池 > 白土下池,5800 > 3600 > 5000,next pond beyond the distance,59.9,175.4,104784,104782|104783 > 104781 > 104780
+fukuyama,715,上屋戸池,3800,8.0,3,中屋戸池 > 屋戸池 > 新屋戸池,2700 > 2100 > 12400,next pond beyond the distance,107.1,138.7,104971,104970 > 104969 > 104989
+fukuyama,44,奥池,1800,4.1,3,夜打畑中池 > 夜打畑下池 > 青谷新池,980 > 3120 > 980,flow leaves the area or reaches no pond,23.7,44.0,103121,103120 > 103119 > 103523
+fukuyama,576,照池|元池,1220,4.5,3,勘松上池|勘松中池 > 奥田上池 > 奥田下池,1060 > 999 > 620,flow leaves the area or reaches no pond,24.1,34.0,104819|104820,104822|105086 > 104829 > 104828
+fukuyama,581,長池,2300,6.4,3,勘松上池|勘松中池 > 奥田上池 > 奥田下池,1060 > 999 > 620,flow leaves the area or reaches no pond,23.4,34.0,104825,104822|105086 > 104829 > 104828
+fukuyama,415,広瀬池,12200,6.1,2,よし池 > 新池,10800 > 14300,next pond holds,323.2,551.9,104589,104586 > 104585
+fukuyama,295,大幡池,2600,6.95,2,近江谷中池 > おひな池|近江谷新池,6300 > 3090,flow leaves the area or reaches no pond,419.0,492.8,104468,104467 > 104465|104466
+fukuyama,538,奥上池,12600,8.2,2,奥下池 > 古屋池,15100 > 14000,flow leaves the area or reaches no pond,221.6,465.3,104769,104768 > 104766
+fukuyama,399,上池,10000,7.7,2,中池 > 王子原池,18700 > 9800,flow leaves the area or reaches no pond,152.0,358.4,104573,104572 > 104571
+fukuyama,516,とびの子池,6700,7.1,2,こも池|丸山池 > 持田池,12700 > 16500,flow leaves the area or reaches no pond,251.2,358.2,104745,104744|104746 > 104743
+fukuyama,447,長久保池,1500,3.2,2,下池 > 新池,4100 > 8500,flow leaves the area or reaches no pond,220.2,351.1,104621,104620 > 104619
+fukuyama,703,加屋平池,3000,4.8,2,下池 > 新池,4100 > 8500,flow leaves the area or reaches no pond,182.7,351.1,104958,104620 > 104619
+fukuyama,524,上池,1800,8.1,2,新池 > 堂満池,620 > 2100,flow leaves the area or reaches no pond,256.1,309.7,104755,104754 > 104753
+fukuyama,1087,瓦山上池,6800,6.4,2,瓦山下池 > 堀田池,1600 > 210,flow leaves the area or reaches no pond,244.8,294.8,105520,105521 > 105525
+fukuyama,706,大池,21600,11.0,2,新池 > 河原池,3600 > 6400,flow leaves the area or reaches no pond,173.7,271.1,104962,104963 > 104964
+fukuyama,753,岡本池,24000,11.8,2,梅木蛸池 > 楠木池,34000 > 37000,flow leaves the area or reaches no pond,196.2,267.4,105012,105011 > 105010
+fukuyama,616,大谷池,338000,15.0,2,後池 > 浜池,1100 > 59000,flow leaves the area or reaches no pond,91.3,255.4,104864,104865 > 104873
+fukuyama,699,どうがく池（ローカコ池）|玉池,27100,12.4,2,中池 > ケンノウ池,999 > 1300,flow leaves the area or reaches no pond,157.5,215.8,104953|104955,104956 > 104957
+fukuyama,742,松原池,1500,4.8,2,田口池 > 新池,1800 > 2300,flow leaves the area or reaches no pond,41.7,214.6,105000,105112 > 105027
+fukuyama,547,白土西池,8400,7.0,2,長草田上池 > 白土下池,4300 > 5000,next pond beyond the distance,89.4,175.3,104778,104779 > 104780
+fukuyama,551,梅の木下池|梅の木中池,5800,3.9,2,白土池 > 白土下池,3600 > 5000,next pond beyond the distance,77.4,175.0,104782|104783,104781 > 104780
+fukuyama,518,吹抜上池,1700,9.5,2,吹抜下池 > 遠部池,7200 > 4830,flow leaves the area or reaches no pond,51.0,155.0,104749,104748 > 103206
+fukuyama,714,中屋戸池,2700,5.1,2,屋戸池 > 新屋戸池,2100 > 12400,next pond beyond the distance,116.5,138.7,104970,104969 > 104989
+fukuyama,302,柳ケ谷奥池（上）,8600,6.3,2,柳ヶ谷中池 > 柳ケ谷下池,5140 > 23000,next pond beyond the distance,105.9,126.6,104475,104476 > 104478
+fukuyama,218,荒川上池,2400,9.4,2,おくび池 > 徳永池,3700 > 2000,next pond beyond the distance,78.0,81.9,104390,104392 > 104393
+fukuyama,11,新池,1430,7.1,2,中池 > 下池,1820 > 113,flow leaves the area or reaches no pond,34.5,36.3,103071,103072 > 103073
+fukuyama,578,勘松上池|勘松中池,1060,2.9,2,奥田上池 > 奥田下池,999 > 620,flow leaves the area or reaches no pond,24.9,34.0,104822|105086,104829 > 104828
+fukuyama,650,七ツ池４号,1800,5.8,2,七ツ池６号 > 七ツ池７号,900 > 450,flow leaves the area or reaches no pond,27.1,33.2,104903,104901 > 104900
+fukuyama,1211,源迫上池,1700,5.6,2,源迫中池 > 源迫下池,2200 > 6600,next pond beyond the distance,18.0,22.3,105849,105848 > 105847
+fukuyama,746,砂池,2700,10.9,2,中池 > 新池,3800 > 3500,next pond beyond the distance,1.4,2.0,105004,105003 > 105002
+fukuyama,84,有江上池,112900,16.1,1,有江下池,19310,flow leaves the area or reaches no pond,1093.6,1772.4,103273,103274
+fukuyama,88,坊士古池,33900,6.0,1,新池,23000,flow leaves the area or reaches no pond,1245.7,1414.7,103277,103276
+fukuyama,455,菅池,2000,3.2,1,桝田池,999,flow leaves the area or reaches no pond,482.4,563.3,104629,104932
+fukuyama,412,よし池,10800,5.6,1,新池,14300,next pond holds,472.8,532.3,104586,104585
+fukuyama,261,太田上池,2100,3.2,1,太田下池,720,flow leaves the area or reaches no pond,489.2,506.6,104433,104432
+fukuyama,294,近江谷中池,6300,9.3,1,おひな池|近江谷新池,3090,flow leaves the area or reaches no pond,453.1,492.7,104467,104465|104466
+fukuyama,454,四ツ池,2900,4.2,1,新池,6100,flow leaves the area or reaches no pond,434.8,475.8,104628,104627
+fukuyama,537,奥下池,15100,9.5,1,古屋池,14000,flow leaves the area or reaches no pond,250.3,465.3,104768,104766
+fukuyama,534,尾越池,3000,5.8,1,くわ池,999,flow leaves the area or reaches no pond,428.4,446.1,104765,104763
+fukuyama,685,山中上池,25000,9.8,1,山中池,53100,flow leaves the area or reaches no pond,328.3,438.2,104938,104939
+fukuyama,529,江木奥池,17200,9.0,1,江木池,22150,flow leaves the area or reaches no pond,353.4,405.1,104760,104759
+fukuyama,669,草刈池,15500,8.2,1,草刈下池,2300,flow leaves the area or reaches no pond,327.5,393.5,104922,104920
+fukuyama,266,高羅上池,1240,5.4,1,高羅池,2900,flow leaves the area or reaches no pond,351.6,366.6,104438,104437
+fukuyama,417,中池（願成寺）,21900,10.9,1,古池（願成寺）,19000,flow leaves the area or reaches no pond,176.3,363.8,104591,104590
+fukuyama,78,永迫中池,3720,5.9,1,永迫下池,4650,flow leaves the area or reaches no pond,241.7,360.9,103267,103266
+fukuyama,280,道上中池,15600,8.1,1,道上下池,11000,flow leaves the area or reaches no pond,329.6,360.7,104452,104451
+fukuyama,521,大畑池,17470,9.3,1,持田池,16500,flow leaves the area or reaches no pond,283.1,358.9,104752,104743
+fukuyama,398,中池,18700,6.9,1,王子原池,9800,flow leaves the area or reaches no pond,203.5,358.3,104572,104571
+fukuyama,515,こも池|丸山池,12700,5.5,1,持田池,16500,flow leaves the area or reaches no pond,277.0,354.6,104744|104746,104743
+fukuyama,448,平池,2660,3.8,1,新池,8500,flow leaves the area or reaches no pond,274.0,351.2,104622,104619
+fukuyama,446,下池,4100,6.1,1,新池,8500,flow leaves the area or reaches no pond,262.2,351.1,104620,104619
+fukuyama,372,別所新池,11000,8.5,1,段原池,4700,flow leaves the area or reaches no pond,85.1,320.6,104546,104545
+fukuyama,555,清水上池|長草田西池（重複削除）,9099,6.3,1,清水池,18700,flow leaves the area or reaches no pond,256.9,314.2,104787|104810,104788
+fukuyama,1116,宗池,3000,5.4,1,五座池,1500,next pond holds,291.7,298.9,105551,105550
+fukuyama,1088,瓦山下池,1600,3.8,1,堀田池,210,flow leaves the area or reaches no pond,269.9,294.8,105521,105525
+fukuyama,1090,同道池,6100,5.5,1,堀田池,210,flow leaves the area or reaches no pond,282.1,294.8,105524,105525
+fukuyama,707,新池,3600,11.0,1,河原池,6400,flow leaves the area or reaches no pond,190.5,271.1,104963,104964
+fukuyama,752,梅木蛸池,34000,11.3,1,楠木池,37000,flow leaves the area or reaches no pond,227.8,266.6,105011,105010
+fukuyama,158,新池,2300,2.0,1,大谷池,1300,flow leaves the area or reaches no pond,262.2,262.2,104254,104253
+fukuyama,401,丸池,2980,3.9,1,新池,1900,flow leaves the area or reaches no pond,261.7,261.7,104575,104574
+fukuyama,1129,古屋ケ谷池,14400,9.2,1,古屋ケ谷古池,3300,flow leaves the area or reaches no pond,167.1,242.4,105568,105567
+fukuyama,723,崎池,12800,9.7,1,そう池,8200,next pond has no water surface,148.4,241.3,104981,104946
+fukuyama,1098,山方新池,16400,9.7,1,殿の奥池,42500,flow leaves the area or reaches no pond,87.8,218.7,105532,105533
+fukuyama,813,田口池,1800,6.7,1,新池,2300,flow leaves the area or reaches no pond,96.4,204.1,105112,105027
+fukuyama,766,ひばり池,12100,8.7,1,新池,2300,flow leaves the area or reaches no pond,161.6,204.0,105026,105027
+fukuyama,881,俄池,10000,8.0,1,今岡新池,8000,flow leaves the area or reaches no pond,95.1,198.6,105301,105299
+fukuyama,548,長草田上池,4300,4.8,1,白土下池,5000,next pond beyond the distance,139.9,171.1,104779,104780
+fukuyama,777,奥の惣池,4500,5.5,1,前岡池,250,flow leaves the area or reaches no pond,102.1,167.7,105056,105055
+fukuyama,177,種池,9100,6.4,1,蓮池,2100,next pond beyond the distance,149.2,157.2,104325,104326
+fukuyama,517,吹抜下池,7200,4.5,1,遠部池,4830,flow leaves the area or reaches no pond,66.7,154.1,104748,103206
+fukuyama,785,新池,3500,3.9,1,下の惣池,4100,flow leaves the area or reaches no pond,99.0,130.9,105065,105069
+fukuyama,303,柳ヶ谷中池,5140,8.2,1,柳ケ谷下池,23000,next pond beyond the distance,119.5,126.5,104476,104478
+fukuyama,870,中原池,24000,9.1,1,中原新池,12800,flow leaves the area or reaches no pond,77.8,107.6,105290,105291
+fukuyama,996,恵木迫上池,16300,7.3,1,恵木迫下池,2400,flow leaves the area or reaches no pond,91.5,97.5,105425,105424
+fukuyama,310,上西ケ谷池,2200,4.4,1,下西ケ谷池,3280,next pond beyond the distance,89.3,89.4,104483,104484
+fukuyama,306,上平田池,15000,9.1,1,平田池,12640,next pond beyond the distance,85.7,87.7,104479,104482
+fukuyama,783,カケンザコ池|中池,1020,11.4,1,吉井池　（個人池）,110,next pond holds,77.2,84.7,105062|105063,105064
+fukuyama,183,上池|拾石谷池,12000,9.0,1,深田池,2300,next pond beyond the distance,73.7,82.5,104332|104333,104334
+fukuyama,220,おくび池,3700,5.1,1,徳永池,2000,next pond beyond the distance,80.5,81.6,104392,104393
+fukuyama,229,延谷上池,15400,11.9,1,延谷下池,3200,next pond beyond the distance,56.1,60.2,104401,104402
+fukuyama,27,堂源池,1580,5.3,1,切池,1370,flow leaves the area or reaches no pond,33.8,50.8,103095,103080
+fukuyama,1258,奥田池,4340,4.9,1,用土新池,2880,flow leaves the area or reaches no pond,50.2,50.2,106275,106276
+fukuyama,26,池平池,1067,5.5,1,切池,1370,flow leaves the area or reaches no pond,35.6,49.9,103094,103080
+fukuyama,388,小池,9800,10.3,1,新池,6500,next pond beyond the distance,44.6,47.7,104562,104413
+fukuyama,240,大池,7700,8.0,1,新池,6500,next pond beyond the distance,45.1,47.6,104412,104413
+fukuyama,9,二反田池,4200,5.2,1,宗光池,3680,flow leaves the area or reaches no pond,43.3,46.9,103069,103068
+fukuyama,42,夜打畑下池,3120,4.4,1,青谷新池,980,flow leaves the area or reaches no pond,27.3,44.0,103119,103523
+fukuyama,6,中池,1220,6.0,1,下池,1410,flow leaves the area or reaches no pond,42.1,43.9,103066,103065
+fukuyama,600,金毘羅池,1600,6.2,1,ヤザコ池,2500,next pond has no water surface,39.8,43.7,104846,104845
+fukuyama,928,新池,8180,12.7,1,中池,400,next pond beyond the distance,36.5,42.7,105351,105352
+fukuyama,169,城ケ迫池,8700,6.8,1,大富池,3900,next pond holds,35.5,41.1,104317,104319
+fukuyama,12,中池,1820,6.6,1,下池,113,flow leaves the area or reaches no pond,35.3,36.2,103072,103073
+fukuyama,165,中池,4400,5.5,1,新池,1600,flow leaves the area or reaches no pond,35.9,35.9,104261,104260
+fukuyama,212,一本松池（新池）,2900,5.2,1,古池,800,next pond beyond the distance,35.0,35.1,104384,104386
+fukuyama,698,五区上池,1400,3.4,1,五区下池,2300,next pond has no water surface,31.6,34.0,104952,104950
+fukuyama,48,上峠上池,2280,7.5,1,峠池,2520,flow leaves the area or reaches no pond,15.1,19.4,103125,103334
+fukuyama,112,しぶら新池,6500,12.2,1,しぶら池,1610,flow leaves the area or reaches no pond,5.8,8.9,103665,103664
+fukuyama,745,中池,3800,11.9,1,新池,3500,next pond beyond the distance,1.5,2.0,105003,105002
+fukuyama,82,追迫池,11520,7.6,0,,,flow leaves the area or reaches no pond,2189.4,2189.4,103271,
+fukuyama,85,有江下池,19310,7.9,0,,,flow leaves the area or reaches no pond,1757.2,1757.2,103274,
+fukuyama,72,明現池,10110,7.0,0,,,flow leaves the area or reaches no pond,1756.7,1756.7,103260,
+fukuyama,87,新池,23000,6.5,0,,,flow leaves the area or reaches no pond,1382.5,1382.5,103276,
+fukuyama,674,羽祢尾池,61900,8.0,0,,,flow leaves the area or reaches no pond,1351.9,1351.9,104927,
+fukuyama,854,大塚池,17000,6.6,0,,,flow leaves the area or reaches no pond,1303.7,1303.7,105274,
+fukuyama,670,奥池,2300,4.9,0,,,flow leaves the area or reaches no pond,1295.0,1295.0,104923,
+fukuyama,852,才谷池,3200,4.0,0,,,flow leaves the area or reaches no pond,1277.6,1277.6,105272,
+fukuyama,74,大将軍中池,1320,6.8,0,,,flow leaves the area or reaches no pond,1160.1,1160.1,103263,
+fukuyama,101,水上手池,1890,4.7,0,,,flow leaves the area or reaches no pond,1132.4,1132.4,103499,
+fukuyama,86,瘡神池,65000,16.8,0,,,flow leaves the area or reaches no pond,1120.5,1120.5,103275,
+fukuyama,1219,青面寺池（青目寺池）,5600,5.7,0,,,flow leaves the area or reaches no pond,1011.4,1011.4,106193,
+fukuyama,504,にごり池,2000,2.6,0,,,flow leaves the area or reaches no pond,841.4,841.4,104731,
+fukuyama,1218,平池,8000,1.8,0,,,flow leaves the area or reaches no pond,839.7,839.7,106192,
+fukuyama,458,本庄奥池,1300,2.0,0,,,flow leaves the area or reaches no pond,834.3,834.3,104635,
+fukuyama,1217,戸手新池,2000,1.5,0,,,flow leaves the area or reaches no pond,826.7,826.7,106191,
+fukuyama,76,深田池,8840,5.6,0,,,flow leaves the area or reaches no pond,795.4,795.4,103265,
+fukuyama,847,小豆田池,40000,4.8,0,,,flow leaves the area or reaches no pond,773.3,773.3,105266,
+fukuyama,672,スリコバチ池,3800,2.5,0,,,next pond holds,759.5,759.5,104925,
+fukuyama,343,大池,5700,10.8,0,,,flow leaves the area or reaches no pond,751.0,751.0,104517,
+fukuyama,349,五郎迫池,5100,6.2,0,,,flow leaves the area or reaches no pond,745.9,745.9,104523,
+fukuyama,850,ススハキ池|須先池,1870,3.0,0,,,flow leaves the area or reaches no pond,733.0,733.0,105269|105270,
+fukuyama,505,葉粉池,3900,4.6,0,,,flow leaves the area or reaches no pond,727.5,727.5,104732,
+fukuyama,1213,正藤池（十九池）,6240,3.6,0,,,flow leaves the area or reaches no pond,716.4,716.4,105952,
+fukuyama,403,昆治屋池,7250,3.0,0,,,flow leaves the area or reaches no pond,676.0,676.0,104577,
+fukuyama,57,北杉下池,10780,4.3,0,,,flow leaves the area or reaches no pond,647.0,647.0,103204,
+fukuyama,135,南光池,4800,8.3,0,,,flow leaves the area or reaches no pond,646.4,646.4,104230,
+fukuyama,141,清水池,17000,5.3,0,,,flow leaves the area or reaches no pond,644.4,644.4,104236,
+fukuyama,389,赤才池,1100,3.8,0,,,flow leaves the area or reaches no pond,644.1,644.1,104563,
+fukuyama,392,名光池,1800,4.0,0,,,flow leaves the area or reaches no pond,626.3,626.3,104566,
+fukuyama,333,個人池|枠田池,119850,11.7,0,,,flow leaves the area or reaches no pond,624.8,624.8,104506|104507,
+fukuyama,134,谷奥池,1800,5.3,0,,,next pond holds,610.6,610.6,104229,
+fukuyama,355,下池（新珠池）,3800,5.0,0,,,next pond has no water surface,609.2,609.2,104529,
+fukuyama,694,シニ池,22800,13.3,0,,,flow leaves the area or reaches no pond,605.5,605.5,104948,
+fukuyama,133,開地池,12600,5.4,0,,,flow leaves the area or reaches no pond,604.8,604.8,104228,
+fukuyama,391,中前池,1300,5.2,0,,,flow leaves the area or reaches no pond,600.5,600.5,104565,
+fukuyama,142,杢原池（中池）,10400,5.7,0,,,flow leaves the area or reaches no pond,590.4,590.4,104237,
+fukuyama,375,谷奥池,1700,4.6,0,,,flow leaves the area or reaches no pond,588.5,588.5,104549,
+fukuyama,376,偏義池,3200,2.9,0,,,flow leaves the area or reaches no pond,585.3,585.3,104550,
+fukuyama,1212,雨宮池,3900,3.5,0,,,flow leaves the area or reaches no pond,581.3,581.3,105951,
+fukuyama,407,大池（加屋地区）地元名：清水池,13500,10.0,0,,,flow leaves the area or reaches no pond,577.9,577.9,104581,
+fukuyama,1172,ハス池,5000,9.0,0,,,next pond has no water surface,573.0,573.0,105706,
+fukuyama,410,沢田池,72800,7.6,0,,,flow leaves the area or reaches no pond,571.2,571.2,104584,
+fukuyama,409,北ケ坂池,10000,8.3,0,,,flow leaves the area or reaches no pond,570.6,570.6,104583,
+fukuyama,1252,御池,2970,4.2,0,,,flow leaves the area or reaches no pond,566.2,566.2,106267,
+fukuyama,560,天神池,2300,4.8,0,,,flow leaves the area or reaches no pond,561.9,561.9,104792,
+fukuyama,402,宮近池,2300,3.3,0,,,flow leaves the area or reaches no pond,557.1,557.1,104576,
+fukuyama,452,出入合池,9000,5.6,0,,,flow leaves the area or reaches no pond,551.0,551.0,104626,
+fukuyama,136,桜池,2500,3.6,0,,,next pond holds,548.2,548.2,104231,
+fukuyama,263,宮の池,5100,4.0,0,,,flow leaves the area or reaches no pond,545.3,545.3,104435,
+fukuyama,559,塚迫池,12600,5.0,0,,,flow leaves the area or reaches no pond,543.9,543.9,104791,
+fukuyama,411,新池,14300,7.9,0,,,next pond holds,526.5,526.5,104585,
+fukuyama,1215,十四池,27500,8.2,0,,,flow leaves the area or reaches no pond,514.9,514.9,106189,
+fukuyama,508,久保池,1500,1.7,0,,,flow leaves the area or reaches no pond,514.7,514.7,104735,
+fukuyama,543,昌源寺池,9000,7.0,0,,,flow leaves the area or reaches no pond,512.9,512.9,104774,
+fukuyama,561,須方池,10700,3.1,0,,,flow leaves the area or reaches no pond,509.8,509.8,104793,
+fukuyama,394,矢迫下池,2600,5.0,0,,,flow leaves the area or reaches no pond,499.3,499.3,104568,
+fukuyama,1238,長畠池,7100,7.5,0,,,flow leaves the area or reaches no pond,497.5,497.5,106252,
+fukuyama,1249,大門池,13880,8.0,0,,,flow leaves the area or reaches no pond,494.0,494.0,106264,
+fukuyama,262,坊坂池,2400,4.5,0,,,flow leaves the area or reaches no pond,492.9,492.9,104434,
+fukuyama,531,二ツ池,19000,5.4,0,,,flow leaves the area or reaches no pond,492.8,492.8,104762,
+fukuyama,293,おひな池|近江谷新池,3090,4.7,0,,,flow leaves the area or reaches no pond,490.9,490.9,104465|104466,
+fukuyama,510,末広池,25000,6.0,0,,,flow leaves the area or reaches no pond,486.3,486.3,104737,
+fukuyama,1230,皇太子池,1310,4.0,0,,,flow leaves the area or reaches no pond,484.0,484.0,106243,
+fukuyama,393,粟ケ迫池,2300,4.2,0,,,flow leaves the area or reaches no pond,478.4,478.4,104567,
+fukuyama,267,蓮花寺池,12800,7.5,0,,,flow leaves the area or reaches no pond,475.9,475.9,104439,
+fukuyama,453,新池,6100,6.8,0,,,flow leaves the area or reaches no pond,475.6,475.6,104627,
+fukuyama,541,かがつ池,3400,8.8,0,,,next pond has no water surface,475.3,475.3,104772,
+fukuyama,535,古屋池,14000,6.9,0,,,flow leaves the area or reaches no pond,464.9,464.9,104766,
+fukuyama,140,山根池,1400,3.0,0,,,flow leaves the area or reaches no pond,458.0,458.0,104235,
+fukuyama,687,宮本池,1700,5.7,0,,,flow leaves the area or reaches no pond,456.4,456.4,104941,
+fukuyama,1074,山之上池,5100,4.4,0,,,flow leaves the area or reaches no pond,443.6,443.6,105507,
+fukuyama,536,古屋上池,4800,5.3,0,,,next pond holds,438.3,438.3,104767,
+fukuyama,686,山中池,53100,10.6,0,,,flow leaves the area or reaches no pond,437.5,437.5,104939,
+fukuyama,509,善光池,1700,2.2,0,,,next pond holds,432.5,432.5,104736,
+fukuyama,533,平山池,1600,3.4,0,,,flow leaves the area or reaches no pond,431.9,431.9,104764,
+fukuyama,507,奥戸田池,8000,5.9,0,,,flow leaves the area or reaches no pond,428.1,428.1,104734,
+fukuyama,1221,後谷池,14470,9.3,0,,,flow leaves the area or reaches no pond,427.0,427.0,106195,
+fukuyama,369,動音寺池,11500,7.3,0,,,flow leaves the area or reaches no pond,426.1,426.1,104543,
+fukuyama,1075,上迫池,5100,4.5,0,,,flow leaves the area or reaches no pond,424.7,424.7,105508,
+fukuyama,1124,富谷池,100000,7.2,0,,,flow leaves the area or reaches no pond,424.1,424.1,105560,
+fukuyama,353,今屋池,14100,6.8,0,,,flow leaves the area or reaches no pond,422.8,422.8,104527,
+fukuyama,839,小山田切池,12500,7.4,0,,,flow leaves the area or reaches no pond,418.6,418.6,105242,
+fukuyama,1103,宝田池,3060,6.1,0,,,flow leaves the area or reaches no pond,417.2,417.2,105537,
+fukuyama,143,俄池,10400,5.9,0,,,flow leaves the area or reaches no pond,417.1,417.1,104238,
+fukuyama,690,にごり池,3800,6.0,0,,,flow leaves the area or reaches no pond,415.3,415.3,104944,
+fukuyama,1181,中池,2400,5.4,0,,,next pond holds,413.9,413.9,105723,
+fukuyama,1226,上池|蛇池（中柴池）,38760,8.4,0,,,flow leaves the area or reaches no pond,411.5,411.5,106237|106238,
+fukuyama,528,江木池,22150,10.0,0,,,flow leaves the area or reaches no pond,405.1,405.1,104759,
+fukuyama,566,内田池,1800,5.3,0,,,next pond holds,403.3,403.3,104801,
+fukuyama,1125,湯上池,3000,2.6,0,,,flow leaves the area or reaches no pond,400.7,400.7,105561,
+fukuyama,558,塚迫上池,1800,4.0,0,,,next pond holds,399.4,399.4,104790,
+fukuyama,1067,岩神池,3200,3.2,0,,,flow leaves the area or reaches no pond,396.7,396.7,105499,
+fukuyama,667,草刈下池,2300,6.7,0,,,flow leaves the area or reaches no pond,393.3,393.3,104920,
+fukuyama,148,下池（下）,3600,6.2,0,,,flow leaves the area or reaches no pond,377.6,377.6,104243,
+fukuyama,1102,峠池,7400,4.7,0,,,flow leaves the area or reaches no pond,374.0,374.0,105536,
+fukuyama,374,瀬戸池,214000,8.7,0,,,flow leaves the area or reaches no pond,373.0,373.0,104548,
+fukuyama,689,フジサコ池,6600,7.9,0,,,flow leaves the area or reaches no pond,368.8,368.8,104943,
+fukuyama,265,高羅池,2900,6.0,0,,,flow leaves the area or reaches no pond,366.5,366.5,104437,
+fukuyama,1137,宮窪池,1200,4.0,0,,,flow leaves the area or reaches no pond,366.5,366.5,105576,
+fukuyama,1097,梶屋池,8300,4.1,0,,,flow leaves the area or reaches no pond,366.3,366.3,105531,
+fukuyama,147,花影池,2100,5.2,0,,,flow leaves the area or reaches no pond,366.0,366.0,104242,
+fukuyama,416,古池（願成寺）,19000,11.5,0,,,flow leaves the area or reaches no pond,363.8,363.8,104590,
+fukuyama,1180,じゅんさい池,1500,5.0,0,,,next pond holds,363.2,363.2,105722,
+fukuyama,567,墓原池,1000,5.0,0,,,next pond holds,361.9,361.9,104802,
+fukuyama,1106,小池,1900,5.0,0,,,flow leaves the area or reaches no pond,360.9,360.9,105540,
+fukuyama,279,道上下池,11000,8.2,0,,,flow leaves the area or reaches no pond,356.6,356.6,104451,
+fukuyama,456,小原下池,2500,6.1,0,,,next pond beyond the distance,355.9,355.9,104630,
+fukuyama,77,永迫下池,4650,7.4,0,,,flow leaves the area or reaches no pond,353.9,353.9,103266,
+fukuyama,150,岩井下池,2400,3.7,0,,,next pond has no water surface,352.9,352.9,104245,
+fukuyama,271,二瀬川池,8900,6.1,0,,,flow leaves the area or reaches no pond,352.1,352.1,104443,
+fukuyama,270,松尾池,2140,5.1,0,,,next pond holds,351.1,351.1,104442,
+fukuyama,445,新池,8500,6.4,0,,,flow leaves the area or reaches no pond,351.0,351.0,104619,
+fukuyama,525,実正池,7840,8.0,0,,,flow leaves the area or reaches no pond,350.6,350.6,104756,
+fukuyama,397,王子原池,9800,7.9,0,,,flow leaves the area or reaches no pond,349.0,349.0,104571,
+fukuyama,1141,井上池,2400,4.6,0,,,flow leaves the area or reaches no pond,341.1,341.1,105584,
+fukuyama,859,石田池,22000,6.5,0,,,flow leaves the area or reaches no pond,340.8,340.8,105279,
+fukuyama,1020,森脇池,4300,4.5,0,,,flow leaves the area or reaches no pond,337.4,337.4,105450,
+fukuyama,860,大草田池,1400,3.5,0,,,flow leaves the area or reaches no pond,332.5,332.5,105280,
+fukuyama,526,僧都池,3500,7.3,0,,,flow leaves the area or reaches no pond,330.5,330.5,104757,
+fukuyama,514,持田池,16500,3.2,0,,,flow leaves the area or reaches no pond,330.2,330.2,104743,
+fukuyama,557,長草田池,42900,7.5,0,,,flow leaves the area or reaches no pond,328.9,328.9,104789,
+fukuyama,866,奈良鞘新池,1330,3.9,0,,,flow leaves the area or reaches no pond,324.2,324.2,105286,
+fukuyama,861,カ治迫池,1400,3.8,0,,,flow leaves the area or reaches no pond,321.0,321.0,105281,
+fukuyama,1233,登呂茂新池|登呂茂大池,48140,10.7,0,,,flow leaves the area or reaches no pond,321.0,321.0,106246|106247,
+fukuyama,371,段原池,4700,5.0,0,,,flow leaves the area or reaches no pond,320.6,320.6,104545,
+fukuyama,341,虎大池,4500,4.3,0,,,flow leaves the area or reaches no pond,320.4,320.4,104515,
+fukuyama,1055,日和池,10700,4.1,0,,,flow leaves the area or reaches no pond,320.0,320.0,105486,
+fukuyama,867,奈良鞘池,1000,3.6,0,,,next pond holds,317.4,317.4,105287,
+fukuyama,829,天津池,2400,5.4,0,,,flow leaves the area or reaches no pond,315.4,315.4,105130,
+fukuyama,863,勝負迫池,2700,5.2,0,,,next pond holds,315.4,315.4,105283,
+fukuyama,522,堂満池,2100,6.1,0,,,flow leaves the area or reaches no pond,309.6,309.6,104753,
+fukuyama,1083,山の田池,7000,8.0,0,,,flow leaves the area or reaches no pond,309.0,309.0,105516,
+fukuyama,864,平池,10000,6.6,0,,,next pond holds,308.8,308.8,105284,
+fukuyama,556,清水池,18700,5.3,0,,,flow leaves the area or reaches no pond,308.7,308.7,104788,
+fukuyama,278,大谷池,14400,9.1,0,,,flow leaves the area or reaches no pond,306.6,306.6,104450,
+fukuyama,1133,魚之面池,7800,4.7,0,,,flow leaves the area or reaches no pond,306.1,306.1,105572,
+fukuyama,1100,松山池,2400,3.2,0,,,flow leaves the area or reaches no pond,301.6,301.6,105534,
+fukuyama,1113,七ツ池|寺池下池,8800,7.5,0,,,flow leaves the area or reaches no pond,301.0,301.0,105547|105548,
+fukuyama,513,三蔵池,37000,7.0,0,,,flow leaves the area or reaches no pond,300.4,300.4,104742,
+fukuyama,858,堂の奥池,2500,3.2,0,,,flow leaves the area or reaches no pond,300.1,300.1,105278,
+fukuyama,1114,寺池上池,5200,3.8,0,,,next pond holds,296.8,296.8,105549,
+fukuyama,1115,五座池,1500,2.6,0,,,next pond holds,296.6,296.6,105550,
+fukuyama,530,新池,1100,5.5,0,,,next pond holds,294.0,294.0,104761,
+fukuyama,1142,是来下池,18500,10.1,0,,,flow leaves the area or reaches no pond,289.4,289.4,105585,
+fukuyama,545,松永溜池,382000,23.0,0,,,flow leaves the area or reaches no pond,288.9,288.9,104776,
+fukuyama,1107,大池（芦田大池）,9800,5.1,0,,,flow leaves the area or reaches no pond,285.7,285.7,105541,
+fukuyama,386,個人池43|王子原北池,1410,3.9,0,,,next pond holds,280.0,280.0,104560|105712,
+fukuyama,883,小池,1400,3.5,0,,,flow leaves the area or reaches no pond,279.2,279.2,105303,
+fukuyama,740,中津池,1100,3.8,0,,,flow leaves the area or reaches no pond,278.0,278.0,104998,
+fukuyama,675,生田池,8400,7.0,0,,,flow leaves the area or reaches no pond,276.5,276.5,104928,
+fukuyama,1138,観音堂池,8000,5.7,0,,,flow leaves the area or reaches no pond,274.5,274.5,105577,
+fukuyama,1058,矢部池,1200,3.7,0,,,flow leaves the area or reaches no pond,271.9,271.9,105489,
+fukuyama,708,河原池,6400,12.0,0,,,flow leaves the area or reaches no pond,270.0,270.0,104964,
+fukuyama,737,後浜池,16500,5.3,0,,,flow leaves the area or reaches no pond,269.0,269.0,104995,
+fukuyama,413,金山下池,2300,3.9,0,,,next pond holds,266.9,266.9,104587,
+fukuyama,1101,与助池,2100,3.5,0,,,next pond holds,266.9,266.9,105535,
+fukuyama,1132,岡田池,1400,4.1,0,,,next pond holds,265.9,265.9,105571,
+fukuyama,751,楠木池,37000,7.5,0,,,flow leaves the area or reaches no pond,265.1,265.1,105010,
+fukuyama,159,浅池,1500,2.5,0,,,next pond holds,262.7,262.7,104255,
+fukuyama,281,道上小池,3600,5.4,0,,,next pond holds,262.6,262.6,104453,
+fukuyama,400,新池,1900,6.4,0,,,flow leaves the area or reaches no pond,261.7,261.7,104574,
+fukuyama,156,堂ノ奥池,5700,6.7,0,,,flow leaves the area or reaches no pond,261.1,261.1,104252,
+fukuyama,157,大谷池,1300,5.2,0,,,flow leaves the area or reaches no pond,260.3,260.3,104253,
+fukuyama,775,庄田上池|庄田下池,1140,4.0,0,,,flow leaves the area or reaches no pond,258.5,258.5,105053|105054,
+fukuyama,1237,名字新池,1130,5.9,0,,,flow leaves the area or reaches no pond,256.9,256.9,106251,
+fukuyama,1126,桝池,12400,4.8,0,,,flow leaves the area or reaches no pond,256.5,256.5,105565,
+fukuyama,1143,是来上池,7100,7.2,0,,,next pond holds,255.9,255.9,105586,
+fukuyama,163,半坂池,1200,2.8,0,,,next pond holds,252.8,252.8,104259,
+fukuyama,1009,迫の奥池,2400,3.7,0,,,flow leaves the area or reaches no pond,246.5,246.5,105438,
+fukuyama,828,宇佐下池,3200,6.2,0,,,flow leaves the area or reaches no pond,244.6,244.6,105129,
+fukuyama,692,そう池,8200,8.4,0,,,next pond has no water surface,241.3,241.3,104946,
+fukuyama,60,日照池,6430,7.3,0,,,flow leaves the area or reaches no pond,240.2,240.2,103207,
+fukuyama,622,浜池,59000,6.2,0,,,flow leaves the area or reaches no pond,240.2,240.2,104873,
+fukuyama,1128,古屋ケ谷古池,3300,3.2,0,,,flow leaves the area or reaches no pond,239.2,239.2,105567,
+fukuyama,846,稔松２号池|稔松池,6600,3.8,0,,,next pond beyond the distance,236.7,236.7,105249|105250,
+fukuyama,58,割石池,9120,4.1,0,,,flow leaves the area or reaches no pond,236.1,236.1,103205,
+fukuyama,693,番田池,11250,20.4,0,,,flow leaves the area or reaches no pond,229.2,229.2,104947,
+fukuyama,1008,大迫池,2300,3.3,0,,,flow leaves the area or reaches no pond,229.1,229.1,105437,
+fukuyama,827,宇佐上池,2400,7.2,0,,,flow leaves the area or reaches no pond,229.0,229.0,105128,
+fukuyama,876,池の迫池,2200,3.2,0,,,flow leaves the area or reaches no pond,228.4,228.4,105296,
+fukuyama,733,石井池,31000,9.65,0,,,flow leaves the area or reaches no pond,226.9,226.9,104991,
+fukuyama,1256,大久保池,1080,3.5,0,,,flow leaves the area or reaches no pond,224.6,224.6,106273,
+fukuyama,882,末谷池,26500,9.5,0,,,flow leaves the area or reaches no pond,223.7,223.7,105302,
+fukuyama,874,大橋新池,21000,5.8,0,,,flow leaves the area or reaches no pond,223.1,223.1,105294,
+fukuyama,732,石井上池,13000,6.0,0,,,next pond holds,220.3,220.3,104990,
+fukuyama,408,新池（津之郷新池）,5900,5.3,0,,,next pond holds,217.2,217.2,104582,
+fukuyama,1099,殿の奥池,42500,8.3,0,,,flow leaves the area or reaches no pond,215.9,215.9,105533,
+fukuyama,702,ケンノウ池,1300,8.5,0,,,flow leaves the area or reaches no pond,215.8,215.8,104957,
+fukuyama,873,出尾池,36000,5.5,0,,,flow leaves the area or reaches no pond,215.4,215.4,105293,
+fukuyama,406,長池,12000,5.7,0,,,next pond holds,211.4,211.4,104580,
+fukuyama,691,上そう池（小池）,1000,3.5,0,,,next pond holds,211.0,211.0,104945,
+fukuyama,877,池の迫奥池,1000,3.7,0,,,next pond holds,208.6,208.6,105297,
+fukuyama,767,新池,2300,5.0,0,,,flow leaves the area or reaches no pond,204.0,204.0,105027,
+fukuyama,1168,幸田新池,2300,4.0,0,,,flow leaves the area or reaches no pond,203.8,203.8,105700,
+fukuyama,879,今岡新池,8000,5.3,0,,,flow leaves the area or reaches no pond,195.0,195.0,105299,
+fukuyama,878,生池,2800,2.6,0,,,next pond holds,190.9,190.9,105298,
+fukuyama,65,菅池,1570,3.8,0,,,flow leaves the area or reaches no pond,190.4,190.4,103212,
+fukuyama,1236,笹池,10840,12.6,0,,,flow leaves the area or reaches no pond,186.6,186.6,106250,
+fukuyama,725,野田奥池,1200,4.3,0,,,flow leaves the area or reaches no pond,183.7,183.7,104983,
+fukuyama,735,油舟池,3300,11.8,0,,,flow leaves the area or reaches no pond,180.2,180.2,104993,
+fukuyama,738,本谷池,100000,11.5,0,,,flow leaves the area or reaches no pond,177.1,177.1,104996,
+fukuyama,741,石堂池,1100,4.4,0,,,flow leaves the area or reaches no pond,174.2,174.2,104999,
+fukuyama,1127,西奥池,3200,5.5,0,,,next pond holds,173.6,173.6,105566,
+fukuyama,198,達中池,10700,5.2,0,,,next pond has no water surface,171.7,171.7,104369,
+fukuyama,1225,水晶窪池,1850,4.5,0,,,flow leaves the area or reaches no pond,171.4,171.4,106236,
+fukuyama,64,新池,1340,4.0,0,,,flow leaves the area or reaches no pond,169.7,169.7,103211,
+fukuyama,549,白土下池,5000,3.9,0,,,next pond beyond the distance,166.5,166.5,104780,
+fukuyama,62,治郎丸下池,1430,2.9,0,,,flow leaves the area or reaches no pond,163.2,163.2,103209,
+fukuyama,326,下細ケ谷池,5000,6.4,0,,,next pond holds,162.9,162.9,104499,
+fukuyama,327,梶ケ谷池２号,3900,6.3,0,,,next pond holds,159.0,159.0,104500,
+fukuyama,736,畑池,2300,4.3,0,,,next pond holds,155.9,155.9,104994,
+fukuyama,789,塚の池,1900,4.5,0,,,flow leaves the area or reaches no pond,155.9,155.9,105070,
+fukuyama,178,蓮池,2100,2.8,0,,,next pond beyond the distance,149.8,149.8,104326,
+fukuyama,734,北迫池,3600,5.4,0,,,flow leaves the area or reaches no pond,144.2,144.2,104992,
+fukuyama,875,篠原池,5300,3.0,0,,,next pond holds,142.6,142.6,105295,
+fukuyama,869,塚堂池,1100,3.3,0,,,flow leaves the area or reaches no pond,142.2,142.2,105289,
+fukuyama,59,遠部池,4830,6.1,0,,,flow leaves the area or reaches no pond,142.1,142.1,103206,
+fukuyama,726,山の田池,18700,6.4,0,,,flow leaves the area or reaches no pond,139.3,139.3,104984,
+fukuyama,705,フナ池|カルマタ池,5200,4.5,0,,,next pond holds,139.0,139.0,104960|104961,
+fukuyama,731,新屋戸池,12400,10.0,0,,,next pond beyond the distance,137.6,137.6,104989,
+fukuyama,721,カノコ池,10400,8.0,0,,,flow leaves the area or reaches no pond,136.5,136.5,104979,
+fukuyama,180,深田西池,2300,2.5,0,,,next pond beyond the distance,133.5,133.5,104328,
+fukuyama,544,二六池,38500,8.0,0,,,next pond holds,133.1,133.1,104775,
+fukuyama,189,中の谷池,1500,4.0,0,,,next pond beyond the distance,129.6,129.6,104339,
+fukuyama,190,保々路谷池,2600,4.7,0,,,next pond beyond the distance,129.3,129.3,104340,
+fukuyama,788,下の惣池,4100,4.5,0,,,flow leaves the area or reaches no pond,128.8,128.8,105069,
+fukuyama,188,光林寺池,433000,19.9,0,,,next pond beyond the distance,127.2,127.2,104338,
+fukuyama,182,猫池|深田東池,3260,3.8,0,,,next pond beyond the distance,126.9,126.9,104330|104331,
+fukuyama,305,柳ケ谷下池,23000,5.0,0,,,next pond beyond the distance,125.9,125.9,104478,
+fukuyama,814,四正面池,1100,5.5,0,,,flow leaves the area or reaches no pond,124.9,124.9,105113,
+fukuyama,304,段頭池,5900,7.1,0,,,next pond beyond the distance,123.8,123.8,104477,
+fukuyama,619,若宮原中池,1200,3.9,0,,,next pond holds,123.6,123.6,104867,
+fukuyama,994,水行池,7700,5.5,0,,,flow leaves the area or reaches no pond,123.1,123.1,105423,
+fukuyama,713,屋戸池,2100,6.3,0,,,next pond holds,119.6,119.6,104969,
+fukuyama,67,志村大池,3290,5.1,0,,,flow leaves the area or reaches no pond,119.4,119.4,103214,
+fukuyama,617,後池,1100,3.9,0,,,next pond holds,118.6,118.6,104865,
+fukuyama,185,七ツ池,24800,5.2,0,,,next pond beyond the distance,118.4,118.4,104335,
+fukuyama,1131,桐池,2300,4.7,0,,,next pond holds,116.7,116.7,105570,
+fukuyama,1224,原の池,20000,8.0,0,,,flow leaves the area or reaches no pond,114.6,114.6,106235,
+fukuyama,210,小林池,3900,4.5,0,,,next pond beyond the distance,114.5,114.5,104382,
+fukuyama,194,中池|上池,10700,3.9,0,,,next pond holds,114.3,114.3,104344|104345,
+fukuyama,61,源入池,6110,7.0,0,,,flow leaves the area or reaches no pond,114.2,114.2,103208,
+fukuyama,204,打越池,3600,4.6,0,,,next pond beyond the distance,113.1,113.1,104375,
+fukuyama,322,下内畑池,4900,5.0,0,,,next pond beyond the distance,111.2,111.2,104495,
+fukuyama,186,松葉迫池|柳井下池,1870,3.4,0,,,next pond beyond the distance,109.9,109.9,104336|104689,
+fukuyama,880,権化池,4100,4.7,0,,,next pond holds,109.0,109.0,105300,
+fukuyama,871,中原新池,12800,7.7,0,,,flow leaves the area or reaches no pond,107.0,107.0,105291,
+fukuyama,951,福岡池,18800,9.4,0,,,flow leaves the area or reaches no pond,105.7,105.7,105376,
+fukuyama,193,三ツ池,3400,5.4,0,,,next pond beyond the distance,103.5,103.5,104343,
+fukuyama,550,白土池,3600,3.9,0,,,next pond holds,103.2,103.2,104781,
+fukuyama,55,向窪池,1370,5.1,0,,,next pond has no water surface,102.0,102.0,103171,
+fukuyama,70,ドブス池,1650,3.7,0,,,flow leaves the area or reaches no pond,101.0,101.0,103257,
+fukuyama,720,新池（岡ノ端）,16200,2.5,0,,,flow leaves the area or reaches no pond,99.9,99.9,104978,
+fukuyama,995,恵木迫下池,2400,4.3,0,,,flow leaves the area or reaches no pond,97.3,97.3,105424,
+fukuyama,1220,塩首池（汐首池）,4610,5.6,0,,,flow leaves the area or reaches no pond,95.1,95.1,106194,
+fukuyama,771,芦駒池,4100,4.8,0,,,flow leaves the area or reaches no pond,92.4,92.4,105037,
+fukuyama,997,束田池,1700,6.0,0,,,flow leaves the area or reaches no pond,89.6,89.6,105426,
+fukuyama,739,永道大池,9000,7.0,0,,,next pond holds,88.6,88.6,104997,
+fukuyama,309,平田池,12640,9.8,0,,,next pond beyond the distance,87.4,87.4,104482,
+fukuyama,614,和田池,5500,3.1,0,,,flow leaves the area or reaches no pond,86.7,86.7,104862,
+fukuyama,311,下西ケ谷池,3280,5.7,0,,,next pond beyond the distance,86.3,86.3,104484,
+fukuyama,405,身倒池,6900,4.95,0,,,next pond beyond the distance,86.0,86.0,104579,
+fukuyama,1185,鷹ノ巣池,5700,7.05,0,,,flow leaves the area or reaches no pond,83.3,83.3,105814,
+fukuyama,184,深田池,2300,6.0,0,,,next pond beyond the distance,82.4,82.4,104334,
+fukuyama,221,徳永池,2000,4.1,0,,,next pond beyond the distance,79.4,79.4,104393,
+fukuyama,658,水尾下池,300000,3.0,0,,,flow leaves the area or reaches no pond,77.3,77.3,104911,
+fukuyama,196,比々宇谷大池,5700,5.9,0,,,next pond holds,77.2,77.2,104347,
+fukuyama,323,明鹿池,2500,4.0,0,,,next pond has no water surface,74.4,74.4,104496,
+fukuyama,750,坊寺上池,1500,8.4,0,,,next pond holds,73.0,73.0,105009,
+fukuyama,954,すり鉢池,1300,3.7,0,,,next pond holds,71.7,71.7,105379,
+fukuyama,1260,湯之口池,6210,6.4,0,,,flow leaves the area or reaches no pond,68.7,68.7,106281,
+fukuyama,2,新池,5400,24.9,0,,,flow leaves the area or reaches no pond,66.7,66.7,103062,
+fukuyama,539,盗人池（吉田池）,7700,7.2,0,,,flow leaves the area or reaches no pond,63.9,63.9,104770,
+fukuyama,1,盤若池（花池）,12333,6.0,0,,,flow leaves the area or reaches no pond,63.5,63.5,103061,
+fukuyama,29,元広池,1480,6.7,0,,,flow leaves the area or reaches no pond,60.7,60.7,103097,
+fukuyama,230,延谷下池,3200,10.0,0,,,next pond beyond the distance,60.2,60.2,104402,
+fukuyama,965,大谷池,91000,14.5,0,,,flow leaves the area or reaches no pond,58.7,58.7,105390,
+fukuyama,892,田の迫上池|田の迫下池,2160,6.6,0,,,flow leaves the area or reaches no pond,56.2,56.2,105312|105313,
+fukuyama,888,釜の口池,7260,8.4,0,,,flow leaves the area or reaches no pond,55.0,55.0,105308,
+fukuyama,816,三谷池,1000,1.1,0,,,next pond holds,53.6,53.6,105115,
+fukuyama,234,上池,4300,4.7,0,,,next pond beyond the distance,53.4,53.4,104406,
+fukuyama,174,矢迫池,2400,6.0,0,,,flow leaves the area or reaches no pond,51.9,51.9,104322,
+fukuyama,887,猪谷池,5500,7.5,0,,,flow leaves the area or reaches no pond,51.2,51.2,105307,
+fukuyama,970,岡田池,1400,5.5,0,,,flow leaves the area or reaches no pond,50.7,50.7,105397,
+fukuyama,1259,用土新池,2880,4.4,0,,,flow leaves the area or reaches no pond,48.2,48.2,106276,
+fukuyama,241,新池,6500,6.7,0,,,next pond beyond the distance,47.6,47.6,104413,
+fukuyama,772,黒谷池,9600,13.0,0,,,flow leaves the area or reaches no pond,47.3,47.3,105039,
+fukuyama,940,梶ケ迫奥下池,2040,6.3,0,,,next pond has no water surface,46.9,46.9,105364,
+fukuyama,8,宗光池,3680,8.3,0,,,flow leaves the area or reaches no pond,46.8,46.8,103068,
+fukuyama,939,湯口池,2600,6.2,0,,,next pond beyond the distance,44.9,44.9,105363,
+fukuyama,599,ヤザコ池,2500,2.9,0,,,next pond has no water surface,42.9,42.9,104845,
+fukuyama,5,下池,1410,5.5,0,,,flow leaves the area or reaches no pond,42.8,42.8,103065,
+fukuyama,16,奥迫池,1490,5.9,0,,,flow leaves the area or reaches no pond,42.6,42.6,103077,
+fukuyama,1232,矢無掛下池,16590,11.8,0,,,next pond beyond the distance,42.1,42.1,106245,
+fukuyama,613,神原池,3110,5.2,0,,,flow leaves the area or reaches no pond,42.0,42.0,104861,
+fukuyama,907,尾白池,3300,6.3,0,,,next pond has no water surface,41.4,41.4,105329,
+fukuyama,41,大豆池,14000,9.9,0,,,flow leaves the area or reaches no pond,41.1,41.1,103118,
+fukuyama,19,切池,1370,5.0,0,,,flow leaves the area or reaches no pond,41.0,41.0,103080,
+fukuyama,171,大富池,3900,10.0,0,,,next pond holds,40.7,40.7,104319,
+fukuyama,18,雲戸池,9950,9.2,0,,,flow leaves the area or reaches no pond,40.5,40.5,103079,
+fukuyama,215,鴨尾池,5500,8.4,0,,,next pond beyond the distance,40.5,40.5,104387,
+fukuyama,197,茂浦池,35000,19.2,0,,,next pond beyond the distance,40.3,40.3,104362,
+fukuyama,228,掛池,3600,6.5,0,,,next pond holds,40.3,40.3,104400,
+fukuyama,894,大谷池,7500,7.6,0,,,next pond has no water surface,40.0,40.0,105315,
+fukuyama,919,仕方池|仕方池,1140,4.5,0,,,flow leaves the area or reaches no pond,39.8,39.8,105342|105403,
+fukuyama,245,日入ケ谷池,3400,6.6,0,,,next pond holds,39.4,39.4,104417,
+fukuyama,173,御池,1900,1.8,0,,,flow leaves the area or reaches no pond,38.9,38.9,104321,
+fukuyama,821,永堂上池,1500,4.3,0,,,next pond holds,38.6,38.6,105121,
+fukuyama,604,中池,3100,6.8,0,,,next pond has no water surface,37.8,37.8,104850,
+fukuyama,35,大段池,1233,8.0,0,,,flow leaves the area or reaches no pond,36.7,36.7,103110,
+fukuyama,50,別迫池,2630,7.2,0,,,flow leaves the area or reaches no pond,36.7,36.7,103127,
+fukuyama,1190,穴ノ奥池,4570,4.7,0,,,next pond has no water surface,36.3,36.3,105826,
+fukuyama,49,谷池,5867,8.6,0,,,flow leaves the area or reaches no pond,36.2,36.2,103126,
+fukuyama,34,石原池,1100,6.0,0,,,flow leaves the area or reaches no pond,35.2,35.2,103109,
+fukuyama,1187,地蔵堂池,1600,4.2,0,,,flow leaves the area or reaches no pond,34.4,34.4,105818,
+fukuyama,52,山神池,1380,6.0,0,,,flow leaves the area or reaches no pond,34.1,34.1,103129,
+fukuyama,696,五区下池,2300,3.3,0,,,next pond has no water surface,34.0,34.0,104950,
+fukuyama,213,黒木平池,2400,4.1,0,,,next pond beyond the distance,33.5,33.5,104385,
+fukuyama,969,長池,6070,5.5,0,,,flow leaves the area or reaches no pond,33.4,33.4,105396,
+fukuyama,1202,茅場池,3000,5.6,0,,,next pond holds,32.9,32.9,105838,
+fukuyama,1231,矢無掛上池,9360,8.7,0,,,next pond beyond the distance,32.2,32.2,106244,
+fukuyama,36,田口池,1727,6.0,0,,,flow leaves the area or reaches no pond,32.1,32.1,103111,
+fukuyama,605,ぶんき池,22000,6.2,0,,,next pond holds,32.1,32.1,104851,
+fukuyama,170,新池,7800,7.6,0,,,next pond has no water surface,32.0,32.0,104318,
+fukuyama,1045,同道池,42500,10.1,0,,,flow leaves the area or reaches no pond,31.5,31.5,105476,
+fukuyama,1044,大坊池,5100,6.5,0,,,flow leaves the area or reaches no pond,30.8,30.8,105475,
+fukuyama,164,新池,1600,5.0,0,,,flow leaves the area or reaches no pond,30.7,30.7,104260,
+fukuyama,167,大畑池,3200,6.6,0,,,next pond has no water surface,30.3,30.3,104315,
+fukuyama,1191,稲木池,2300,4.8,0,,,flow leaves the area or reaches no pond,29.5,29.5,105827,
+fukuyama,592,丸山上池|丸山下池,1520,4.5,0,,,next pond holds,28.9,28.9,104836|104837,
+fukuyama,632,ハス池,3600,4.2,0,,,flow leaves the area or reaches no pond,28.9,28.9,104884,
+fukuyama,22,追附谷池,1280,6.9,0,,,flow leaves the area or reaches no pond,27.7,27.7,103083,
+fukuyama,1183,北迫小池,1500,4.0,0,,,next pond beyond the distance,26.3,26.3,105725,
+fukuyama,1199,美濃谷中池,1400,4.1,0,,,next pond holds,25.4,25.4,105835,
+fukuyama,1203,名郷池,5500,3.7,0,,,next pond beyond the distance,25.2,25.2,105839,
+fukuyama,627,五反田池,2400,4.2,0,,,next pond holds,24.5,24.5,104878,
+fukuyama,1197,菅田大池,171500,15.0,0,,,flow leaves the area or reaches no pond,23.8,23.8,105833,
+fukuyama,46,下峠池,1010,6.8,0,,,flow leaves the area or reaches no pond,22.8,22.8,103123,
+fukuyama,1209,源迫下池,6600,8.0,0,,,next pond beyond the distance,22.3,22.3,105847,
+fukuyama,519,大濁池,5500,9.5,0,,,next pond beyond the distance,21.9,21.9,104750,
+fukuyama,131,喜三郎池,2600,4.7,0,,,flow leaves the area or reaches no pond,21.7,21.7,104226,
+fukuyama,626,国本池,2100,4.4,0,,,next pond has no water surface,21.1,21.1,104877,
+fukuyama,896,畑奥大池,8870,8.1,0,,,next pond has no water surface,20.7,20.7,105317,
+fukuyama,127,八反田池,1600,3.6,0,,,next pond beyond the distance,20.2,20.2,104222,
+fukuyama,1167,昭十九池,5800,6.8,0,,,next pond beyond the distance,19.7,19.7,105699,
+fukuyama,628,新池,2000,2.1,0,,,next pond holds,19.4,19.4,104879,
+fukuyama,90,峠池,2520,7.0,0,,,flow leaves the area or reaches no pond,19.3,19.3,103334,
+fukuyama,913,龍王池,1500,5.2,0,,,next pond beyond the distance,19.3,19.3,105335,
+fukuyama,1210,源迫中池,2200,6.3,0,,,next pond holds,19.0,19.0,105848,
+fukuyama,418,新池（願成寺）,18300,8.8,0,,,next pond holds,18.9,18.9,104592,
+fukuyama,424,エネキダオ１号池,1600,3.2,0,,,next pond holds,18.6,18.6,104598,
+fukuyama,423,鍋峠池,3200,8.0,0,,,next pond beyond the distance,18.5,18.5,104597,
+fukuyama,1196,馬乗新池,1800,3.8,0,,,flow leaves the area or reaches no pond,17.9,17.9,105832,
+fukuyama,1037,新池（久田谷）,40500,12.7,0,,,flow leaves the area or reaches no pond,17.8,17.8,105468,
+fukuyama,1192,中畝池,1600,4.8,0,,,flow leaves the area or reaches no pond,17.7,17.7,105828,
+fukuyama,520,大石上池,2100,7.0,0,,,next pond holds,17.6,17.6,104751,
+fukuyama,967,立石池,8100,7.0,0,,,next pond holds,15.3,15.3,105392,
+fukuyama,441,鈴池,386000,19.0,0,,,flow leaves the area or reaches no pond,14.4,14.4,104615,
+fukuyama,442,にがき原池,2300,4.3,0,,,flow leaves the area or reaches no pond,14.4,14.4,104616,
+fukuyama,540,新池,48000,14.3,0,,,flow leaves the area or reaches no pond,14.0,14.0,104771,
+fukuyama,773,才戸池,1500,3.6,0,,,flow leaves the area or reaches no pond,12.9,12.9,105040,
+fukuyama,435,藁峠１号池,1300,4.3,0,,,next pond holds,11.1,11.1,104609,
+fukuyama,437,長者ヶ原中池,3460,4.6,0,,,next pond holds,10.5,10.5,104611,
+fukuyama,820,延迫池,1600,3.5,0,,,next pond has no water surface,9.7,9.7,105120,
+fukuyama,111,しぶら池,1610,6.1,0,,,flow leaves the area or reaches no pond,8.9,8.9,103664,
+fukuyama,1146,下宮下池,2500,4.0,0,,,next pond holds,8.8,8.8,105589,
+fukuyama,120,西の池,1213,4.2,0,,,flow leaves the area or reaches no pond,8.2,8.2,103674,
+fukuyama,30,洲焼池,5670,6.8,0,,,flow leaves the area or reaches no pond,7.1,7.1,103105,
+fukuyama,121,イヤガ谷池,1740,8.8,0,,,flow leaves the area or reaches no pond,6.3,6.3,103675,
+fukuyama,966,青笹池,9000,10.0,0,,,next pond beyond the distance,5.7,5.7,105391,
+fukuyama,1189,広角池,8800,6.5,0,,,flow leaves the area or reaches no pond,4.5,4.5,105824,
+fukuyama,744,新池,3500,9.6,0,,,next pond beyond the distance,2.0,2.0,105002,
+fukuyama,54,土金坊池,1550,5.7,0,,,flow leaves the area or reaches no pond,1.9,1.9,103160,
+fukuyama,743,夫婦岩池,3500,8.9,0,,,next pond beyond the distance,1.5,1.5,105001,
+fukuyama,1176,永谷池,1210,3.7,0,,,flow leaves the area or reaches no pond,0.7,0.7,105714,
+fukuyama,166,奥池,2300,7.3,0,,,flow leaves the area or reaches no pond,0.0,0.0,104262,
+fukuyama,809,小田池,20000,15.0,0,,,next pond beyond the distance,0.0,0.0,105096,
+fukuyama,837,服部大池,650000,15.0,0,,,flow leaves the area or reaches no pond,0.0,0.0,105239,
