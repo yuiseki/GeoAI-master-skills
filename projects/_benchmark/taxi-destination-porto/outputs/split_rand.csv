@@ -1,0 +1,4 @@
+variant,set,trips
+rand,test,19711
+rand,valid,19023
+rand,train,1666035
