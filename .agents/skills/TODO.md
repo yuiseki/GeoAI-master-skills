@@ -137,6 +137,8 @@
       - [x] `references/huggingface/yuiseki/jma-rain-chiba.md`: 気象庁の千葉県内18観測所の日別・時間別降水量 1974〜2026年9月
       - [x] `references/huggingface/yuiseki/jma-rain-kanto.md`: 気象庁の茨城・埼玉・千葉・神奈川73観測所の日別・時間別降水量 1974〜2026年9月
       - [x] `references/huggingface/yuiseki/gsi-inundation-estimate-kita-inbanuma-jp-2026-10.md`: 国土地理院の浸水推定図「北印旛沼」の輪郭線 4版 (令和8年台風第25号)
+      - [x] `references/huggingface/yuiseki/un-pko-deployments.md`: 国連PKO部隊配置図から自動抽出した部隊配置点 (2022〜2025年、計5,110件)
+      - [x] `references/huggingface/yuiseki/maff-tameike-list-jp-2026-03.md`: 農林水産省の農業用ため池一覧 (令和8年3月末時点、47都道府県 161,846件)
     - [x] `references/mlit-nlftp/README.md`: 目録の AGENTS.md への案内、年に付くライセンス、再配布の承認
     - [x] `references/tokyo-ckan/README.md`: 目録の AGENTS.md への案内、推定した場所と時刻、切れるリンク
     - [x] `references/fao-ferspas/README.md`: GeoParquet の表、gs:// の読み替え、匿名で読めないバケット

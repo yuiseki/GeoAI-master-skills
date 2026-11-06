@@ -81,6 +81,8 @@
 | [jma-rain-kanto](huggingface/yuiseki/jma-rain-kanto.md) | 気象庁の関東4県73観測所の日別 (1,406,418行) と時間別 (29,536,104行) の降水量、品質・均質番号つき。県ごとのファイルで、県を足して育てる | 茨城・埼玉・千葉・神奈川の73観測所 (気象官署9・アメダス64) | 1974〜2026年9月、2026-10-31 取得 |
 | [jma-rain-chiba](huggingface/yuiseki/jma-rain-chiba.md) | 気象庁の千葉県内18観測所の日別 (346,788行) と時間別 (8,025,000行) の降水量、品質・均質番号つき。令和8年8月千葉豪雨を含む | 千葉県内18観測所 (気象官署4・アメダス14) | 1974〜2026年9月、2026-10-31 取得 |
 | [gsi-inundation-estimate-kita-inbanuma-jp-2026-10](huggingface/yuiseki/gsi-inundation-estimate-kita-inbanuma-jp-2026-10.md) | 国土地理院の浸水推定図「北印旛沼」の浸水範囲の輪郭線 4版 (4行の GeoParquet、原典の GeoJSON と PDF つき)。撮影時点の推定で、深さは無い (PDL1.0) | 千葉県の北印旛沼の周り | 令和8年台風第25号、2026-09-22〜10-01 の時点、2026-10-31 取得 |
+| [un-pko-deployments](huggingface/yuiseki/un-pko-deployments.md) | 国連PKO部隊配置図から自動抽出した部隊配置点 (5,110件、ミッション・日付・兵科・規模)。正確性無保証 | PKOミッション展開地域 (8ミッション) | 2022〜2025年、2026-11-06 取得 |
+| [maff-tameike-list-jp-2026-03](huggingface/yuiseki/maff-tameike-list-jp-2026-03.md) | 農林水産省の農業用ため池一覧 (161,846件、座標・堤高・堤頂長・総貯水量・満水面積)。PDL 1.0 | 日本全国 (47都道府県) | 令和8年3月末時点、2026-11-06 取得 |
 
 ## サービス
 
