@@ -1,0 +1,4 @@
+box,ponds,outside_grid,hole_30m,point_30m,hole_share_30m_pct,hole_share_60m_pct,nodes,nodes_2plus_ponds,nodes_with_downstream,nodes_with_downstream_pct,top_only_5pct,top_only_10pct,top_only_20pct,top10_size,top_only_10pct_60m,pairs_5m,pairs_10m,pairs_both,jaccard_5m_10m,explore_top_only_10pct_within_500m,explore_top_only_10pct_within_1000m,explore_top_only_10pct_within_2000m,pair_length_m_median,expected_pairs_reproduced,expected_pairs,dem5a_tiles,dem5a_tiles_404,seconds
+kagawa,2106,88,739,1279,36.6,55.8,1934,78,774,40.0,12,32,52,193,29,774,752,539,0.546,27,30,31,235,0,0,256,0,26
+fukuyama,1335,40,735,560,56.8,61.3,1261,34,706,56.0,15,28,42,126,28,706,709,572,0.679,24,26,28,209,0,0,240,0,23
+awaji,4479,8,2096,2375,46.9,60.1,4282,170,2840,66.3,86,128,197,428,119,2840,2627,1867,0.519,119,128,129,130,2,2,256,92,21
