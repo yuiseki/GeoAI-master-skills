@@ -1,0 +1,65 @@
+{
+ "boxes": [
+  {
+   "box": "kagawa",
+   "s1_scenes": 23,
+   "s2_dates": 43,
+   "s1_shift_rows_cols": [
+    -1,
+    -4
+   ],
+   "s1_shift_corr": 0.522,
+   "s2_shift_rows_cols": [
+    0,
+    0
+   ],
+   "s2_shift_corr": 0.634,
+   "s1_corr_unshifted": 0.296,
+   "s2_corr_unshifted": 0.634,
+   "pairs_of_dates": 8
+  },
+  {
+   "box": "fukuyama",
+   "s1_scenes": 23,
+   "s2_dates": 32,
+   "s1_shift_rows_cols": [
+    -1,
+    -4
+   ],
+   "s1_shift_corr": 0.422,
+   "s2_shift_rows_cols": [
+    0,
+    0
+   ],
+   "s2_shift_corr": 0.547,
+   "s1_corr_unshifted": 0.283,
+   "s2_corr_unshifted": 0.547,
+   "pairs_of_dates": 5
+  },
+  {
+   "box": "awaji",
+   "s1_scenes": 22,
+   "s2_dates": 70,
+   "s1_shift_rows_cols": [
+    -1,
+    -2
+   ],
+   "s1_shift_corr": 0.338,
+   "s2_shift_rows_cols": [
+    0,
+    0
+   ],
+   "s2_shift_corr": 0.456,
+   "s1_corr_unshifted": 0.257,
+   "s2_corr_unshifted": 0.456,
+   "pairs_of_dates": 16
+  }
+ ],
+ "c0": {
+  "s1_median_frac_ge5ha": 0.823,
+  "s1_n": 207,
+  "s2_median_frac_ge5ha": 0.9413,
+  "s2_n": 140,
+  "pass": true
+ }
+}
