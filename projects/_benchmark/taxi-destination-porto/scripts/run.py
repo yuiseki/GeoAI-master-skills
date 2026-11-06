@@ -127,10 +127,13 @@ class Data:
         self.std = np.array([self.t["lat"][pts_idx].std(), self.t["lon"][pts_idx].std()])
 
     def batch(self, trip, n, src=None):
-        src = self.t if src is None else src
-        x = batch_first_last(src["lat"], src["lon"], src["off"], trip, n, K)
+        x = batch_first_last(*((self.t if src is None else src)[k] for k in ("lat", "lon", "off")), trip, n, K)
         x = ((x - self.mean) / self.std).reshape(len(trip), -1).astype("float32")
-        return x, meta_of(src, trip, self.maps)
+        if src is not None:
+            return x, meta_of(src, trip, self.maps)
+        if not hasattr(self, "meta_all"):      # once per trip instead of once per batch (same values)
+            self.meta_all = meta_of(self.t, np.arange(len(self.t["lens"])), self.maps)
+        return x, {k: v[trip] for k, v in self.meta_all.items()}
 
     def kaggle(self):
         k = kaggle()
@@ -139,9 +142,13 @@ class Data:
         return k, idx, ok
 
 
+DEVICE = "cpu"
+
+
 def torch_inputs(x, meta, names):
     import torch
-    return torch.from_numpy(x), {m: torch.from_numpy(np.asarray(meta[m], dtype=np.int64)) for m in names}
+    return (torch.from_numpy(x).to(DEVICE),
+            {m: torch.from_numpy(np.asarray(meta[m], dtype=np.int64)).to(DEVICE) for m in names})
 
 
 def build(variant, model, d):
@@ -158,7 +165,7 @@ def predict(net, names, d, trip, n, src=None, bs=5000):
     with torch.no_grad():
         for i in range(0, len(trip), bs):
             x, m = d.batch(trip[i:i + bs], n[i:i + bs], src)
-            out.append(net(*torch_inputs(x, m, names)).numpy())
+            out.append(net(*torch_inputs(x, m, names)).cpu().numpy())
     return np.concatenate(out).astype("float64")
 
 
@@ -170,8 +177,11 @@ def train(args):
     rng = np.random.default_rng(args.seed)
     d = Data(args.variant)
     net, names = build(args.variant, args.model, d)
+    net.to(DEVICE)
     opt = torch.optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
     tr = d.s["train"]
+    trl = d.t["lens"][tr]
+    cum = np.cumsum(trl)
     vtrip, vn = d.s["valid_trip"], d.s["valid_n"]
     vdest = dest(d.t, vtrip)
     tag = f"{args.variant}_{args.model}_s{args.seed}"
@@ -180,10 +190,10 @@ def train(args):
     w.writerow(["step", "seconds", "train_loss_km", "valid_km"])
     best, t0, run = float("inf"), time.time(), []
     for step in range(1, args.steps + 1):
-        j, n = sample_prefixes(d.t["lens"][tr], 200, rng)
+        j, n = sample_prefixes(trl, 200, rng, cum=cum)
         trip = tr[j]
         x, m = d.batch(trip, n)
-        y = torch.from_numpy(dest(d.t, trip).astype("float32"))
+        y = torch.from_numpy(dest(d.t, trip).astype("float32")).to(DEVICE)
         loss = equirect_loss(net(*torch_inputs(x, m, names)), y)
         opt.zero_grad()
         loss.backward()
@@ -200,7 +210,7 @@ def train(args):
                 best = v
                 torch.save(net.state_dict(), ART / f"model_{tag}.pt")
     json.dump(dict(variant=args.variant, model=args.model, seed=args.seed, steps=args.steps, best_valid_km=best,
-                   seconds=round(time.time() - t0), torch=torch.__version__),
+                   seconds=round(time.time() - t0), torch=torch.__version__, device=DEVICE),
               open(OUT / f"train_{tag}.json", "w", encoding="utf-8"), indent=1)
 
 
@@ -254,7 +264,7 @@ def evaluate(args):
     for p in sorted(ART.glob(f"model_{args.variant}_*.pt")):
         model = p.stem.split("_")[2]
         net, nms = build(args.variant, model, d)
-        net.load_state_dict(torch.load(p))
+        net.load_state_dict(torch.load(p, map_location="cpu"))
         net.eval()
         models[p.stem.replace("model_", "")] = (net, nms)
     rows = []
@@ -294,7 +304,10 @@ def main():
     ap.add_argument("--steps", type=int, default=1000)
     ap.add_argument("--every", type=int, default=5000)
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--device", default="cpu")
     a = ap.parse_args()
+    global DEVICE
+    DEVICE = a.device
     if a.cmd == "split":
         t = load()
         s = split(t, a.variant)

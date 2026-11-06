@@ -62,9 +62,9 @@ def first_last_k(points, k):
     return np.concatenate([first, last])
 
 
-def sample_prefixes(lens, size, rng):
+def sample_prefixes(lens, size, rng, cum=None):
     lens = np.asarray(lens)
-    cum = np.cumsum(lens)
+    cum = np.cumsum(lens) if cum is None else cum
     flat = rng.integers(0, cum[-1], size)            # one of all prefixes
     trip = np.searchsorted(cum, flat, side="right")
     n = flat - (cum[trip] - lens[trip]) + 1

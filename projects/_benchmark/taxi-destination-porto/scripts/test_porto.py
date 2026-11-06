@@ -115,3 +115,10 @@ def test_equirectangular_loss_is_zero_at_the_target_and_matches_numpy():
     t = torch.tensor([[41.15, -8.61], [41.15, -8.61]], dtype=torch.float64)
     v = equirect_loss(p, t, reduce=False).numpy()
     assert v[0] == pytest.approx(0, abs=1e-3) and v[1] == pytest.approx(equirectangular(41.18, -8.58, 41.15, -8.61), rel=1e-9)
+
+
+def test_sample_prefixes_with_a_precomputed_cumsum_is_the_same_draw():
+    lens = np.array([3, 1, 8, 2])
+    a = sample_prefixes(lens, 1000, np.random.default_rng(5))
+    b = sample_prefixes(lens, 1000, np.random.default_rng(5), cum=np.cumsum(lens))
+    assert (a[0] == b[0]).all() and (a[1] == b[1]).all()
