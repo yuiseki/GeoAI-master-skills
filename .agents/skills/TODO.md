@@ -203,7 +203,7 @@
     - [x] `references/proxies.md`
     - [x] `references/two-records.md`: 独立した 2 つの記録の重なりの比較 (record_overlap.py、東京のヘリポート)
     - [ ] 記録される確率の模型 (ポアソン回帰の努力の項)。必要が実測されたら
-- 単位を決めて、データをそろえる (5 / 5)
+- 単位を決めて、データをそろえる (6 / 6)
   - [x] `analysis-unit-design`: 分析の 1 行が何を表すか (点、格子、行政区、国、地域の組、それぞれ × 時間) を決める
   - [x] `spatial-data-integration`: 包含、最近傍、キー、集計で複数の地理データを単位に結合し、全ての行を数える
     - [x] `references/duckdb-spatial.md`
@@ -223,6 +223,12 @@
     - [ ] 用途で絞った補助データ (住宅の建物、住宅地) での back-test
     - [x] `references/pycnophylactic.md`: pycnophylactic との比較 (tobler と照合、国勢調査のメッシュの back-test)
     - [ ] 回帰で重みを推定する方法との比較
+  - [x] `terrain-hydrology`: DEM から窪地の処理、最急降下の D8、集水面積、流出点の流域界、河道網、HAND。範囲の端の警告、閉じた盆地 (sink)、最寄りの川のセルへの寄せ、CRS と面積の尺度の検査。pyflwdir で計算し whitebox_workflows と照合
+    - [x] `references/pitfalls.md`: 落とし穴と罠 (範囲の端、閉じた盆地、DSM、pyflwdir の向きと idxs_pit、whitebox の int16 の頭打ちと呼び方、旧 whitebox の取得)
+    - [x] `references/validation.md`: 合成の地形、壊すと落ちること、whitebox との照合、相模川の 3 ダムの集水面積
+    - [x] `references/tools.md`: pyflwdir、whitebox_workflows、旧 WhiteboxTools の比較
+    - [ ] 市街地の DTM (DEM5A など) での流域と HAND の確認
+    - [ ] D∞ や MFD の流向、窪地を削る方法 (breach)、川の焼き込み
   - [x] `spatial-feature-engineering`: 半径内の数、最寄りまでの距離などの空間特徴量を作る
     - [x] 時系列のラグ、移動平均、累積の特徴量を、各行の時点より前のデータだけから作る (lag_features.py)
     - [x] 分母の小さい割合を全体の割合の方へ縮める (shrink_rates.py)

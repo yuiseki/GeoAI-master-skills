@@ -62,6 +62,7 @@
 | 値や結果を、誤解を生まない図や塗り分け図にしたい (分布、関係、時系列、残差、色、区切り方、比較可能な凡例)。日本語の文字を抜けずに描きたい | analysis-visualize |
 | 施設をどこに置くか決めたい | spatial-optimization |
 | 人口や標高、土地被覆のラスタを、区や格子や地点に集計したい | raster-data-integration、analysis-unit-design |
+| 標高から水の流れ、集水面積、ダムや観測所の流域、川からの高さ (HAND) を求めたい | terrain-hydrology |
 | 旧市町村の人口を新市町村へ、メッシュの統計を行政区へ、境界の違う区域へ移したい | areal-interpolation、analysis-unit-design |
 | 結論が単位の取り方に左右されないか確かめたい | robustness-analysis、analysis-unit-design |
 | どのデータを使えるか探したい | dataset-discovery、data-variable-semantics |
@@ -81,7 +82,7 @@
 | 問いを決める | 因果を問う (因果の問いのときだけ、準備の前に) | この因果効果を、このデータと仮定から識別できるか。処置、結果、推定の対象、調整する変数、してはいけない変数、識別の仮定は何か | causal-design |
 | 問いを決める | 検証を計画する (結論が比較の結果や問いの読み方で決まるとき、流す前に) | 何を主張とし、どの結果なら支持し、どの結果なら退けるか。同じ結果を説明できる別の理由は何か。結果を見た後に何を変えたか | experiment-design |
 | 共通の準備 | データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか。その品質で結論を支えられるか。記録の多さは現象の多さか、観測のされやすさか。これから観測するならどこを測るか。位置を使い、共有し、公開してよいか | dataset-discovery、data-variable-semantics、data-quality-audit、observation-bias-audit、spatial-sampling-design、location-privacy |
-| 共通の準備 | 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。境界の違う区域の値をどう移すか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、areal-interpolation、spatial-feature-engineering |
+| 共通の準備 | 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。境界の違う区域の値をどう移すか。標高から水の流れと流域をどう求めるか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、areal-interpolation、terrain-hydrology、spatial-feature-engineering |
 | 共通の準備 | 空間の関係を決める | 誰を誰の近傍とし、どう重みを付けるか。その選び方で結論が変わるか | spatial-weights-design |
 | 問いに応じた分析 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatiotemporal-modeling、spatial-interpolation、grid-risk-mapping、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation |
 | 問いに応じた分析 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか。点はどんな過程から生まれたか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis、spatial-process-modeling |

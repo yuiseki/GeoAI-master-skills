@@ -95,4 +95,4 @@ JAXA の[研究データ等の利用条件](https://earth.jaxa.jp/ja/data/policy
 
 ## 既存の reference との関係
 
-[jaxa-aw3d30](../jaxa-aw3d30.md) は、ログインが要る公式の配布 (1 度タイルの GeoTIFF) を指している。同じ AW3D30 は、ここで v3.2 と v4.1 (2024-04 公開) が登録なしの COG で読める (`JAXA.EORC_ALOS.PRISM_AW3D30.v4.1_global`、`je:ppu_max` = 3600、1 秒角)。item の assets は `DSM` と `MSK` の 2 つで、STK、QAI、元画像の一覧は無い。観測時点の監査に STK や元画像の一覧が要るときは公式の配布を使う。
+[jaxa-aw3d30](../jaxa-aw3d30.md) は、ログインが要る公式の配布 (1 度タイルの GeoTIFF) を指している。同じ AW3D30 は、ここで v3.2 と v4.1 (2024-04 公開) が登録なしの COG で読める (`JAXA.EORC_ALOS.PRISM_AW3D30.v4.1_global`、`je:ppu_max` = 3600、1 秒角)。最も細かいレベル (3) は 1 度角のタイルで、`2024-04/3/E139.00-E140.00/E139.00-N35.00-E140.00-N36.00-DSM.tiff` のように経度の帯と緯度で引ける (int16、nodata -9999、EPSG:4326 が入っていた)。2026-11-06 に、この COG を 2 タイル分つないで UTM 54N の 30 m にし、相模川のダムの流域を切った。山地の流域には使えたが、DSM なので湖の面が平らにならず、山中湖が深い窪地に見えた。item の assets は `DSM` と `MSK` の 2 つで、STK、QAI、元画像の一覧は無い。観測時点の監査に STK や元画像の一覧が要るときは公式の配布を使う。
