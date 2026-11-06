@@ -18,5 +18,6 @@ node_modules/
 !/projects/_traffic_bus/
 !/projects/_transit/
 !/projects/_urban/
+!/projects/_tameike/
 /artifacts/*
 !/artifacts/sample-project/

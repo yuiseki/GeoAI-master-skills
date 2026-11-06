@@ -1,0 +1,20 @@
+{
+  "claim": "C0",
+  "block": "B0",
+  "status": "PASS",
+  "mean_perm_water_db": -16.91,
+  "perm_water_threshold_db": -16.0,
+  "mean_forest_std_db": 0.32,
+  "forest_std_threshold_db": 0.8,
+  "dates_evaluated": [
+    "2024-07-02",
+    "2024-07-14",
+    "2024-07-26",
+    "2024-08-07",
+    "2024-08-19",
+    "2024-09-12"
+  ],
+  "n_perm_water_obs": 12,
+  "n_forest_sites": 3,
+  "notes": "Control baseline physical validity confirmed."
+}

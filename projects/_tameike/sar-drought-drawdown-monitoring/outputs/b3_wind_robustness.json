@@ -1,0 +1,22 @@
+{
+  "claim": "C3",
+  "block": "B3",
+  "status": "PASS",
+  "permanent_water_offsets_db": {
+    "2024-07-02": -17.18,
+    "2024-07-14": -16.130000000000003,
+    "2024-07-26": -16.965,
+    "2024-08-07": -17.64,
+    "2024-08-19": -17.545,
+    "2024-09-12": -15.995000000000001
+  },
+  "relative_wind_wave_anomalies_db": {
+    "2024-07-02": 0.0,
+    "2024-07-14": 1.05,
+    "2024-07-26": 0.21,
+    "2024-08-07": -0.46,
+    "2024-08-19": -0.37,
+    "2024-09-12": 1.18
+  },
+  "compensation_effect": "Subtracting spatial reference permanent water anomaly stabilizes residual lake backscatter."
+}
