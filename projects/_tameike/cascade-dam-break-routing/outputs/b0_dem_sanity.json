@@ -1,0 +1,37 @@
+{
+  "claim": "C0",
+  "block": "B0",
+  "status": "PASS",
+  "mean_valid_pixel_pct": 96.22,
+  "threshold_valid_pct": 90.0,
+  "measured_dam_slope_pct": 43.3,
+  "threshold_dam_slope_pct": 25.0,
+  "water_nan_clusters_filled": 28,
+  "tiles_evaluated": [
+    {
+      "region": "淡路市",
+      "tile": "28655_13039",
+      "total_px": 65536,
+      "valid_px": 63052,
+      "nan_px": 2484,
+      "valid_pct": 96.21
+    },
+    {
+      "region": "まんのう町",
+      "tile": "28569_13071",
+      "total_px": 65536,
+      "valid_px": 61840,
+      "nan_px": 3696,
+      "valid_pct": 94.36
+    },
+    {
+      "region": "福山市松永",
+      "tile": "28514_13047",
+      "total_px": 65536,
+      "valid_px": 64280,
+      "nan_px": 1256,
+      "valid_pct": 98.08
+    }
+  ],
+  "conclusion": "GSI DEM5A z15 resolves dam slopes (43.3%) and achieves 96.2% valid pixels with waterbody NaN filling."
+}

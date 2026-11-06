@@ -1,0 +1,6 @@
+国土地理院 標高タイル (DEM5A ズーム15, DEM10B ズーム14).
+農林水産省 全国ため池台帳 (yuiseki/maff-tameike-list-jp-2026-03).
+総務省統計局 令和2年国勢調査 人口メッシュ (yuiseki/estat-census-mesh-2020).
+国土地理院 地球地図日本 / 行政区域界データ (dataofjapan/land japan.geojson).
+先行プロジェクト成果: projects/_tameike/sar-drought-drawdown-monitoring/.
+図の生成スクリプト: projects/_tameike/cascade-dam-break-routing/scripts/run_cascade_experiments.py.

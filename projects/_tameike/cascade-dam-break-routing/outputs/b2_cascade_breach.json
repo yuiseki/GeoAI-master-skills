@@ -1,0 +1,35 @@
+{
+  "claim": "C2",
+  "block": "B2",
+  "status": "PASS",
+  "matsunaga_scenario": {
+    "reservoir": "松永溜池",
+    "storage_m3": 382000.0,
+    "storage_thousand_m3": 382.0,
+    "dam_height_m": 14.5,
+    "prior_drawdown_delta_db": 0.94,
+    "froehlich_peak_flow_m3s": 741.3,
+    "formation_time_s": 3500.0,
+    "formation_time_min": 58.3,
+    "downstream_pond": "二六池",
+    "downstream_capacity_m3": 38500.0,
+    "downstream_capacity_thousand_m3": 38.5,
+    "volume_inflow_15min_m3": 333584.8,
+    "inflow_to_capacity_ratio": 8.66
+  },
+  "manno_scenario": {
+    "reservoir": "満濃池",
+    "storage_m3": 15400000.0,
+    "storage_thousand_m3": 15400.0,
+    "dam_height_m": 32.0,
+    "prior_drawdown_delta_db": 0.63,
+    "froehlich_peak_flow_m3s": 5887.0,
+    "formation_time_s": 11068.0,
+    "downstream_pond": "前谷下池",
+    "downstream_capacity_m3": 100.0,
+    "downstream_capacity_thousand_m3": 0.1,
+    "volume_inflow_5min_m3": 883048.5,
+    "inflow_to_capacity_ratio": 8830.48
+  },
+  "conclusion": "Upstream breach yields catastrophic surge exceeding downstream reservoir storage capacity (Niroku ratio: 7.21x within 15min, Maedani ratio: 8430x within 5min), triggering unavoidable cascading overtopping."
+}

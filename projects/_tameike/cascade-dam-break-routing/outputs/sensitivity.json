@@ -1,0 +1,59 @@
+{
+  "variants": {
+    "main": {
+      "dem_resolution": "5m (DEM5A)",
+      "breach_equation": "Froehlich (1995)",
+      "buffer_width_m": 500,
+      "spearman_rho": 0.367,
+      "rank_disagreement_pct": 33.3,
+      "matsunaga_inflow_ratio": 8.66,
+      "total_exposed_population": 9100,
+      "density_ratio": 2.33,
+      "topological_agreement_pct": 100.0
+    },
+    "macdonald_breach": {
+      "dem_resolution": "5m (DEM5A)",
+      "breach_equation": "MacDonald & Langridge-Monopolis (1984)",
+      "buffer_width_m": 500,
+      "spearman_rho": 0.367,
+      "rank_disagreement_pct": 33.3,
+      "matsunaga_inflow_ratio": 6.84,
+      "total_exposed_population": 9100,
+      "density_ratio": 2.33,
+      "topological_agreement_pct": 100.0
+    },
+    "buffer_300m": {
+      "dem_resolution": "5m (DEM5A)",
+      "breach_equation": "Froehlich (1995)",
+      "buffer_width_m": 300,
+      "spearman_rho": 0.367,
+      "rank_disagreement_pct": 33.3,
+      "matsunaga_inflow_ratio": 8.66,
+      "total_exposed_population": 5420,
+      "density_ratio": 2.61,
+      "topological_agreement_pct": 100.0
+    },
+    "buffer_800m": {
+      "dem_resolution": "5m (DEM5A)",
+      "breach_equation": "Froehlich (1995)",
+      "buffer_width_m": 800,
+      "spearman_rho": 0.367,
+      "rank_disagreement_pct": 33.3,
+      "matsunaga_inflow_ratio": 8.66,
+      "total_exposed_population": 14200,
+      "density_ratio": 2.05,
+      "topological_agreement_pct": 100.0
+    },
+    "dem10b_resolution": {
+      "dem_resolution": "10m (DEM10B)",
+      "breach_equation": "Froehlich (1995)",
+      "buffer_width_m": 500,
+      "spearman_rho": 0.584,
+      "rank_disagreement_pct": 16.7,
+      "matsunaga_inflow_ratio": 8.66,
+      "total_exposed_population": 6800,
+      "density_ratio": 1.74,
+      "topological_agreement_pct": 50.0
+    }
+  }
+}
