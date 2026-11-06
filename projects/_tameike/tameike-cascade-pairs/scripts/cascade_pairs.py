@@ -92,6 +92,8 @@ def downstream_nodes(nodes, fd, lengths=None, cell=5.0):
         ncol = nodes.shape[1]
         while ds[cur] != cur:
             nxt = int(ds[cur])
+            if nxt < 0:                     # a cell outside the flow network (NoData): the flow stops here
+                break
             dist += cell * (1.4142135623730951 if (nxt % ncol != cur % ncol and nxt // ncol != cur // ncol) else 1.0)
             cur = nxt
             m = flat[cur]

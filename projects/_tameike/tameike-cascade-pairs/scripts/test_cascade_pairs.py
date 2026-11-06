@@ -104,3 +104,15 @@ def test_cumulative_within_drops_ponds_beyond_the_distance():
     lengths = {1: 800.0, 2: 300.0}
     assert cumulative_within(down, own, lengths, 1000) == {1: 10.0, 2: 11.0, 3: 1.5}   # 1 is 1,100 m above 3
     assert cumulative_within(down, own, lengths, 2000) == cumulative(down, own)
+
+
+def test_a_pond_on_nodata_does_not_follow_a_negative_index():
+    from hydro import flow
+    z = valley_with_ponds()
+    filled, labels = fill_holes(z)
+    filled[50:53, 2:5] = np.nan                      # a NoData patch with a point pond on it
+    nodes, (up, low, odd), _ = assign_nodes(labels, np.array([12, 37, 51]), np.array([15, 15, 3]), max_cells=6)
+    _, _, fd = flow(np.where(np.isnan(filled), -9999, filled), TR)
+    nodes[-1, -1] = 99                               # if -1 were followed as an index, it would land here
+    down = downstream_nodes(nodes, fd)
+    assert down[odd] is None
