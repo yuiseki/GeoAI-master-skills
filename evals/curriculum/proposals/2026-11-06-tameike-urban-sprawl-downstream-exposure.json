@@ -1,0 +1,137 @@
+{
+  "mode": "exploration",
+  "question": "都市計画区域・用途地域（mlit-toshi-keikaku-jp）の拡大とスプロール化が進行した神戸市北区・西区および播磨地域において、無登録・非指定プレフィックスを持つため池（name LIKE '(非)%'）の下流にどれだけの居住人口（estat-census-mesh-2020）が浸水・土砂災害に無防備な状態で曝露しているか？",
+  "social_problem": "兵庫県のため池台帳には、名前に『(非)』という接頭辞が付いた未登録・非指定のため池が693箇所存在し、特に神戸市北区（374箇所）、洲本市（63箇所）、丹波篠山市（51箇所）、神戸市西区（49箇所）など、大都市近郊の丘陵・開発地域に密集している。これらの『(非)』ため池は、貯水量や堤頂高が 9999.9（データ未取得センチネル）で埋められているものが多く、農業水利組合の解散や管理主体の不在（所有者不明・耕作放棄）に陥っている可能性が高い。高度経済成長期以降の宅地開発（スプロール）によって、かつて山林・農地だったため池直下に新興住宅地が造成され、住民が背後の危険ため池の存在すら認識しないまま生活している。",
+  "working_hypothesis": "都市計画決定GISデータ（youto）の住居系用途地域（第一種・第二種低層住居専用地域等）に接する『(非)』プレフィックスため池の下流500m圏内には、正規の防災重点ため池下流に匹敵する人口規模（1kmメッシュ当たり数百〜数千人）が集積しており、台帳管理の空白と都市的土地利用が最も危険な形で重複している。用途地域内外で『(非)』池の下流人口密度に有意差が無い場合は棄却する。",
+  "decision_use": "兵庫県都市整備部・神戸市都市計画局および危機管理室が、農業用ため池台帳の管理枠組みから漏れている『都市近郊無管理・非指定ため池』を抽出し、都市計画上の宅地造成規制・災害危険区域指定や緊急点検対象に組み込むための優先順位策定に利用する。",
+  "target_quantity": "用途地域区分別（低層住居、中高層住居、商業、準工業、市街化調整区域等）の、（1）ため池種別（正規指定池 vs `(非)%` 未指定池）の立地件数、（2）ため池下流500m扇状域内の1kmメッシュ常住夜間人口（T001140001）、（3）データ欠損・センチネル率（貯水量・堤頂高が9999.9である比率）。",
+  "unit": "都市計画用途地域界ポリゴン（youto の区画単位）および 1km 国勢調査メッシュ（KEY_CODE 単位）。",
+  "time_alignment": "ため池台帳は2026年3月末時点（maff-tameike-list-jp-2026-03）、都市計画決定GISデータは令和7年度版（mlit-toshi-keikaku-jp）、国勢調査は2020年（estat-census-mesh-2020）。",
+  "claim_type": "descriptive_association",
+  "datasets": [
+    "yuiseki/maff-tameike-list-jp-2026-03",
+    "yuiseki/mlit-toshi-keikaku-jp",
+    "yuiseki/estat-census-mesh-2020"
+  ],
+  "source_versions": {
+    "yuiseki/maff-tameike-list-jp-2026-03": "50ae80fdc0bc1347690fe4ff2cf7be29c78fe233",
+    "yuiseki/mlit-toshi-keikaku-jp": "39fdb22f42b7619b753b5389bc107aaadf8ba614",
+    "yuiseki/estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/maff-tameike-list-jp-2026-03",
+      "right": "yuiseki/mlit-toshi-keikaku-jp",
+      "how": "ため池代表点（lat, lon）および下流バッファと、都市計画決定GISデータの用途地域ポリゴン（youto.geometry）との空間包含・交差判定（ST_Intersects）",
+      "why": "各ため池がどの用途地域（住居専用地域、商業地域、市街化調整区域等）の内部または直近に位置するかを判定するため"
+    },
+    {
+      "left": "yuiseki/mlit-toshi-keikaku-jp",
+      "right": "yuiseki/estat-census-mesh-2020",
+      "how": "用途地域界ポリゴン（youto.geometry）およびため池影響圏と、国勢調査1kmメッシュ矩形ポリゴン（KEY_CODE）の面積加重交差（ST_Intersection）",
+      "why": "住宅系用途地域に接する危険ため池下流の居住人口密度（T001140001）を正確に按分・集計するため"
+    }
+  ],
+  "required_variables": [
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "name"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "prefecture"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "municipality"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "storage_thousand_m3"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "dam_height_m"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lat"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lon"
+    },
+    {
+      "dataset": "yuiseki/mlit-toshi-keikaku-jp",
+      "table": "youto",
+      "column": "Citycode"
+    },
+    {
+      "dataset": "yuiseki/mlit-toshi-keikaku-jp",
+      "table": "youto",
+      "column": "YoutoName"
+    },
+    {
+      "dataset": "yuiseki/mlit-toshi-keikaku-jp",
+      "table": "youto",
+      "column": "YoutoCode"
+    },
+    {
+      "dataset": "yuiseki/mlit-toshi-keikaku-jp",
+      "table": "youto",
+      "column": "geometry"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "KEY_CODE"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "T001140001"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "prefecture"
+    }
+  ],
+  "methodological_decisions": [
+    "『(非)』プレフィックスが付与されたため池（693件）を管理不全・未登録プロキシとして定義し、正規登録池との空間的・都市計画的分離度を計測する",
+    "下流影響範囲の定義において、一律同心円バッファ（等方性）と、等高線勾配に沿った下流側扇形バッファ（異方性）の感度比較を行う"
+  ],
+  "failure_modes": [
+    "神戸市等における丘陵地宅地造成時の大規模盛土・切土により、過去の地形と現在の盛土造成地の境界で流水経路が遮断または反転している複合地形エラー",
+    "都市計画決定GISデータに収録されていない自治体区域における欠測の混入"
+  ],
+  "robustness_checks": [
+    "下流影響バッファ距離を200m、500m、1,000mへ変化させた際の下流曝露人口の安定性検証",
+    "用途地域判定において都市計画区域外・未線引き地域を対照群としたオッズ比の頑健性確認"
+  ],
+  "simplest_solver": {
+    "description": "神戸市北区のため池の件数を『(非)』の有無でGROUP BY集計し、用途地域名ごとにクロス集計する単純頻度集計。",
+    "why_insufficient": "ため池の真下流にある居住人口の実態や、丘陵地開発によるスプロール住宅地の曝露程度が全く数値化されず、どの開発団地が直撃を受けるかの意思決定情報が得られない。"
+  },
+  "unknowns": [
+    "造成宅地開発時に施工された防災調整池への転換有無の履歴",
+    "『(非)』ため池の私有地所有者の相続・管理委託状況"
+  ],
+  "novelty": {
+    "difference_dimension": "spatial_conflict",
+    "substantive_difference": "従来別個に扱われてきた農政の『農業用ため池台帳（未登録・非指定池の存在）』と国交省の『都市計画用途地域（低層住宅地造成）』を幾何結合し、都市スプロールによる災害脆弱性の盲点を抉り出す点。"
+  },
+  "prediction": "神戸市北区および西区における『(非)』プレフィックスため池（計423件）の約45%が低層住居専用地域の下流500m圏内に位置し、正規の防災重点ため池と同等以上の高密人口（合計1万人超）が危険に曝露している実態が明らかになる。",
+  "rubric": [
+    "『(非)』プレフィックスおよびセンチネル値（9999.9）の意味が実データ監査に基づいて正しく定式化されているか",
+    "用途地域（youto）の住居系分類と人口メッシュの幾何結合が正確に処理されているか",
+    "都市計画部局と農政部局の制度的隙間（ガバナンスの盲点）に対する具体的政策含意が示されているか"
+  ]
+}

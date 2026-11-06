@@ -1,0 +1,133 @@
+{
+  "mode": "exploration",
+  "question": "香川県および兵庫県において、貯水量10,000m³以上の防災重点ため池直下流（300m圏内）に位置する指定緊急避難場所への避難道路網がため池決壊・越流によって遮断された場合、集落からの最短避難経路の迂回率増大と孤立化リスクは道路ネットワーク構造上どこに集中するか？",
+  "social_problem": "豪雨時に住民が逃げ込むべき『指定緊急避難場所』（gsi-evacuation-sites-jp）のうち、ため池直下流300m以内に位置する施設は兵庫県で762箇所（うち洪水指定かつ10,000m³以上のため池近接が310箇所）、香川県で347箇所（同118箇所）に達する。ため池が決壊・溢水した場合、避難場所そのものが直撃を受けるだけでなく、アクセス道路が土砂・濁流で物理的に寸断され、住民が避難所に到達できず車内や路上で被災する危険が高い。しかし現行の避難計画は直線距離での到達圏（ボロノイ図等）を前提としており、道路網グラフのトポロジー断絶による避難失敗が考慮されていない。",
+  "working_hypothesis": "OpenStreetMap道路網（planet_osm_line）を用いた最短経路解析において、大規模ため池近接リンクの途絶をシミュレートすると、幹線道路密度の低い中山間集落において避難所到達所要時間が平時の3倍以上に増大する『避難迂回ボトルネック』が特定され、全指定避難場所の約12%において代替ルートが存在しない完全孤立状態が発生する。道路網冗長性が高く迂回率の増加が1.2倍未満にとどまる地域では仮説を棄却する。",
+  "decision_use": "市町村防災部局および土木部局が、ため池ハザード想定下での『避難困難孤立集落』を事前特定し、指定避難場所の再配置・見直し、およびバックアップ避難路・緊急輸送路の防災補強工事の優先度決定に利用する。",
+  "target_quantity": "指定緊急避難場所および周辺集落ごとの、（1）ため池決壊時の道路リンク遮断に伴う最短経路距離迂回率（Detour Ratio = 迂回距離 / 平時距離）、（2）代替経路なしで到達不能となる孤立人口、（3）近接する最大ため池貯水量（千m³）と堤頂高（m）。",
+  "unit": "指定緊急避難場所（common_id 単位）および OpenStreetMap 道路ネットワークリンク（osm_id 単位）。",
+  "time_alignment": "ため池台帳は2026年3月末時点（maff-tameike-list-jp-2026-03）、指定緊急避難場所は2026年時点（gsi-evacuation-sites-jp）、道路網は2026年8月末時点（osm-japan-src-2026-08）。",
+  "claim_type": "descriptive_association",
+  "datasets": [
+    "yuiseki/maff-tameike-list-jp-2026-03",
+    "yuiseki/gsi-evacuation-sites-jp",
+    "yuiseki/osm-japan-src-2026-08"
+  ],
+  "source_versions": {
+    "yuiseki/maff-tameike-list-jp-2026-03": "50ae80fdc0bc1347690fe4ff2cf7be29c78fe233",
+    "yuiseki/gsi-evacuation-sites-jp": "d8ad2169789b71c951e8808b2e54a953030aae07",
+    "yuiseki/osm-japan-src-2026-08": "9a9b4a77e89e28a66bf15781644a16b63501f622"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/maff-tameike-list-jp-2026-03",
+      "right": "yuiseki/gsi-evacuation-sites-jp",
+      "how": "ため池代表点（lat, lon）から指定緊急避難場所の座標（geometry）への直線距離空間結合（ST_DWithin 300m / ST_Distance_Sphere）",
+      "why": "大規模ため池（貯水量10,000m³以上）の直下流300m圏内に位置する洪水指定避難場所（flood = true）を抽出するため"
+    },
+    {
+      "left": "yuiseki/gsi-evacuation-sites-jp",
+      "right": "yuiseki/osm-japan-src-2026-08",
+      "how": "指定緊急避難場所の座標（geometry）を OpenStreetMap 道路網（planet_osm_line の highway 属性を持つ線地物）の最近傍ノードに空間スナップ（ST_ClosestPoint / ST_Distance）",
+      "why": "避難場所を道路ネットワークグラフに接続し、リンク途絶前後の最短経路探索（ダイクストラ法）を行うため"
+    }
+  ],
+  "required_variables": [
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "name"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "prefecture"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "municipality"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "storage_thousand_m3"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "dam_height_m"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lat"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lon"
+    },
+    {
+      "dataset": "yuiseki/gsi-evacuation-sites-jp",
+      "table": "sites",
+      "column": "common_id"
+    },
+    {
+      "dataset": "yuiseki/gsi-evacuation-sites-jp",
+      "table": "sites",
+      "column": "municipality"
+    },
+    {
+      "dataset": "yuiseki/gsi-evacuation-sites-jp",
+      "table": "sites",
+      "column": "flood"
+    },
+    {
+      "dataset": "yuiseki/gsi-evacuation-sites-jp",
+      "table": "sites",
+      "column": "geometry"
+    },
+    {
+      "dataset": "yuiseki/osm-japan-src-2026-08",
+      "table": "planet_osm_line",
+      "column": "osm_id"
+    },
+    {
+      "dataset": "yuiseki/osm-japan-src-2026-08",
+      "table": "planet_osm_line",
+      "column": "way",
+      "evidence_file": ".agents/skills/dataset-discovery/references/huggingface/yuiseki/osm-japan-src-2026-08.md"
+    }
+  ],
+  "methodological_decisions": [
+    "道路網のトポロジー構築において、高速道路や歩行者通行不能リンク（motorway, trunk）を除外し、生活道路・歩行可能リンクのみで避難グラフを構築する",
+    "ため池決壊時の道路遮断モデルとして、ため池からの氾濫扇状角（左右45度、下流500m）に含まれる全リンクを切断するモデルと、堤体直下の交差リンクのみを切断するモデルを比較する"
+  ],
+  "failure_modes": [
+    "OSM道路データにおける農道・林道の接続不備（ノードの未結合）により、実際には通行可能な迂回路がグラフ上で切断と判定される過大評価エラー",
+    "避難場所の敷地代表点から道路へのスナップ距離が長大（>100m）で、グラフトポロジーへの進入点が誤認されるエラー"
+  ],
+  "robustness_checks": [
+    "道路リンク遮断判定バッファの距離閾値を200m、300m、500mへ掃引した際の影響避難所数の感度分析",
+    "歩行避難速度（4km/h）と車両避難速度（20km/h）における所要時間増大率の比較検証"
+  ],
+  "simplest_solver": {
+    "description": "各避難場所と集落代表点とのユークリッド直線距離を測り、ため池の300mバッファと交差するかどうかを調べる直線バッファ交差判定法。",
+    "why_insufficient": "山がち・谷筋の地形では直線上の移動は不可能であり、道路網のトポロジー（橋梁や谷筋の1本道）が遮断された際に発生する何倍もの迂回や袋小路孤立を完全に評価できない。"
+  },
+  "unknowns": [
+    "道路の実際の橋梁高さ・路面嵩上げ状況と流失耐性",
+    "夜間豪雨時における避難所管理者の現地解錠可否"
+  ],
+  "novelty": {
+    "difference_dimension": "network_topology",
+    "substantive_difference": "ため池ハザードを静的な浸水深ポリゴンとして見るのではなく、道路網グラフの動的リンク切断（パーコレーション）として捉え、避難所自体の被災と避難アクセスの途絶を同時にモデル化する点。"
+  },
+  "prediction": "兵庫県（特に丹波・淡路地域）および香川県南部の中山間部において、大規模ため池近接の洪水指定避難場所（計428箇所）のうち、単一リンク途絶で避難迂回距離が3倍以上に跳ね上がる脆弱避難場所が約35%存在し、完全孤立する施設が50箇所以上検出される。",
+  "rubric": [
+    "OSM道路リンクの種別（highway タグ）に基づく適切な歩行避難ネットワークが構築されているか",
+    "ため池堤体からの流路・道路交差判定が地理的に妥当な幾何バッファまたは流路モデルに基づいているか",
+    "平時最短経路と災害時迂回経路の Detour Ratio が定量的に算出され、孤立判定の頑健性が示されているか"
+  ]
+}

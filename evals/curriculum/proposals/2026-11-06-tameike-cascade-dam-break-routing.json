@@ -1,0 +1,137 @@
+{
+  "mode": "exploration",
+  "question": "淡路島および讃岐平野における階段状連鎖ため池群において、上流の大規模ため池（貯水量10,000m³以上）が決壊した際、D8流向追跡上の下流ため池群へ連鎖波及する累積貯水エネルギーと、その直下流1kmメッシュ内に居住する夜間人口の曝露量はどのような空間集積構造を持つか？",
+  "social_problem": "兵庫県（24,019箇所）および香川県（12,187箇所）のため池は、丘陵地の谷筋に階段状（直列）に連なって配置されているものが多く、近傍間距離中央値は兵庫89.7m、香川96.9mと極めて過密である（両県とも9割以上のため池が300m以内に他のため池を持つ）。近年の短時間局所豪雨において、最上流のため池の決壊が下流のため池を次々と押し流す『連鎖決壊（カスケード決壊）』が重大な人命・集落被害をもたらしている。しかし現行の防災重点ため池指定や個別ハザードマップは単独決壊を前提としており、水系全体としての複合決壊リスクが過小評価されている。",
+  "working_hypothesis": "淡路島（淡路市・洲本市・南あわじ市の計10,097箇所）および香川県内の中山間水系において、標高タイル（gsi-dem-tiles）に基づくD8流向流路で追跡した際、貯水量10,000m³以上の最上流池から到達可能な下流ため池の累積貯水量は単独池容量の3〜10倍に増幅され、その下流影響流域に位置する人口メッシュ（estat-census-mesh-2020）の約30%がハザード想定区域外の高密住宅地に接する。単流路内でのため池連鎖数が1以下で累積効果が無視できる場合は仮説を棄却する。",
+  "decision_use": "兵庫県農政環境部・香川県農政水産部および各市町村の防災・農村整備部局が、単独池ハザードマップを超えた『水系一貫カスケード決壊危険度マップ』を策定し、優先的に放流・水位低下弁整備や堤体補強を行う水系単位の改修優先順位付けに利用する。",
+  "target_quantity": "水系・谷筋ごとの（1）D8流向ネットワーク上でのため池連鎖段数および最上流池から最下流池への累積貯水量（千m³）、（2）累積貯水量と堤頂高から算出する連鎖エネルギー指標、（3）直下流流路から500m圏内の1kmメッシュ人口（T001140001）曝露数。個別の土砂流出シミュレーション波形そのものは対象量ではない。",
+  "unit": "ため池水系単位（D8流向で定義される連続集水流路）および国勢調査1kmメッシュ（KEY_CODE）。MAUP検証として500mメッシュと比較。",
+  "time_alignment": "ため池台帳は2026年3月末時点（maff-tameike-list-jp-2026-03）、標高タイルは固定（gsi-dem-tiles）、人口は2020年国勢調査（estat-census-mesh-2020）。",
+  "claim_type": "descriptive_association",
+  "datasets": [
+    "yuiseki/maff-tameike-list-jp-2026-03",
+    "gsi-dem-tiles",
+    "yuiseki/estat-census-mesh-2020"
+  ],
+  "source_versions": {
+    "yuiseki/maff-tameike-list-jp-2026-03": "50ae80fdc0bc1347690fe4ff2cf7be29c78fe233",
+    "gsi-dem-tiles": "2026-10-14",
+    "yuiseki/estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/maff-tameike-list-jp-2026-03",
+      "right": "gsi-dem-tiles",
+      "how": "ため池の経度・緯度（lat, lon）を Web メルカトル座標系（EPSG:3857）に投影し、ズーム14の標高タイル（dem_z14）の x, y タイル座標およびセル標高（value）をサンプリング。D8アルゴリズム（terrain-hydrology スキル）により流向・累積流路を追跡",
+      "why": "各ため池の標高および下流流路を標高ラスタ上で追跡し、どのため池が別のため池の下流集水域に位置するかを幾何学的に判定するため"
+    },
+    {
+      "left": "yuiseki/maff-tameike-list-jp-2026-03",
+      "right": "yuiseki/estat-census-mesh-2020",
+      "how": "ため池位置およびD8流路で追跡した下流影響域ポリゴンと、1kmメッシュ（KEY_CODE）の矩形ポリゴンとの空間交差（ST_Intersects）",
+      "why": "連鎖決壊リスクの高い水系の下流域に存在する常住夜間人口（T001140001）を正確に集計するため"
+    }
+  ],
+  "required_variables": [
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "name"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "prefecture"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "municipality"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "dam_height_m"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "storage_thousand_m3"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "surface_area_km2"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lat"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lon"
+    },
+    {
+      "dataset": "gsi-dem-tiles",
+      "table": "dem_z14",
+      "column": "value"
+    },
+    {
+      "dataset": "gsi-dem-tiles",
+      "table": "dem_z14",
+      "column": "x"
+    },
+    {
+      "dataset": "gsi-dem-tiles",
+      "table": "dem_z14",
+      "column": "y"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "KEY_CODE"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "T001140001"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "prefecture"
+    }
+  ],
+  "methodological_decisions": [
+    "D8流向追跡における局所窪地（凹地）処理として、ピットフィル処理を施した流路モデルと、原標高での最短直線距離バッファモデルを比較し流況の連続性を検証する",
+    "兵庫県台帳に存在する異常値（dam_height_m = 9999.9 が860件、storage_thousand_m3 = 9999.9 が867件）を中央値補正するケースと完全除外するケースの両面で累積値を比較する"
+  ],
+  "failure_modes": [
+    "DEM解像度（約10m）がため池の堤体天端幅（数m）より粗いため、流向が堤体を横断せず側方へ誤流出する流路誤認エラー",
+    "同一水系内でのため池座標が同一地点に縮退しているケース（香川県で421件存在）により、流向追跡段数がゼロと判定されるエラー"
+  ],
+  "robustness_checks": [
+    "D8アルゴリズムに加えてD-infinity（多方向分散流向）を用いた場合の累積下流池の同定一致率の比較",
+    "影響人口メッシュの集計単位を1kmメッシュから500mメッシュに変更した際の人口曝露推定値の頑健性検証"
+  ],
+  "simplest_solver": {
+    "description": "ため池の点データから直線バッファ（例: 半径500m）を発生させ、重複する池の貯水量を単純合算して最寄り人口メッシュを集計する幾何バッファ法。",
+    "why_insufficient": "実際の水流は尾根を越えて隣の谷へ流れることはないため、等方的な円形バッファでは全く別の水系のため池や住民を誤結合し、谷筋に沿った真のカスケード連鎖経路を完全に捉えられない。"
+  },
+  "unknowns": [
+    "ため池ごとの現況貯水位・洪水吐（余水吐）の構造形式および事前放流能力の有無",
+    "堤体の老朽化度（漏水やクラックの有無）の個別現地点検データ"
+  ],
+  "novelty": {
+    "difference_dimension": "methodological_depth",
+    "substantive_difference": "従来の点データ単純バッファや単独ハザード評価に対し、DEM水文流向解析（D8）を数万件のため池群へ適用して階段状連鎖トポロジーを構築し、複合決壊時の増幅エネルギーと下流人口曝露を解明する点。"
+  },
+  "prediction": "淡路島および讃岐平野の連鎖ため池群のうち、3段以上直列に接続する水系が全体の20%以上を占め、最上流の大規模池の単独決壊に比べ累積下流貯水量は平均4.2倍に増幅され、直下流人口曝露の約4割が既存の単独ハザード指定外に存在する。",
+  "rubric": [
+    "DEM標高タイルからD8流向を正確に計算し、ピットフィル処理およびため池流向グラフが破綻なく構築されているか",
+    "兵庫県の9999.9センチネル値および香川県の同一座標縮退点（421件）が適切に前処理・頑健性評価されているか",
+    "累積貯水エネルギー指標と人口メッシュ（T001140001）の空間結合において境界歪み（MAUP）が検証されているか"
+  ]
+}

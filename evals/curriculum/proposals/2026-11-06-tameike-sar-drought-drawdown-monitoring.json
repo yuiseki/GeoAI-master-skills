@@ -1,0 +1,122 @@
+{
+  "mode": "exploration",
+  "question": "香川県および兵庫県のため池群において、Sentinel-1 CバンドSARの後方散乱強度（RTC γ0）を用いた夏期干天・取水期の水面縮小検知が物理的に成立する面積閾値は何ha（何km²）であり、流域別の貯水枯渇同期パターンを把握可能か？",
+  "social_problem": "香川県や兵庫県播磨・淡路地域は降水量が少なく干ばつに見舞われやすい瀬戸内気候区に属し、農業用水および生活用水を無数のかんがい用ため池に依存している。熱波・渇水時には広域のため池群の貯水率低下を迅速に監視することが渇水調整・緊急給水の成否を分ける。しかし、1万〜2万箇所以上ある全ため池の水位を目視点検することは不可能であり、光学衛星（Sentinel-2/Landsat）は梅雨期や台風期の雲に阻まれる。SAR衛星（Sentinel-1）による全天候水域モニタリングが期待されるが、ため池の小規模性（兵庫の58.3%、香川の66.7%が面積0.001km²未満）とスペックルノイズのため、どこまで適用可能かが科学的に未確定である。",
+  "working_hypothesis": "Sentinel-1 RTC（10m解像度）のVV偏波後方散乱係数（γ0）において、水面（鏡面反射により-20dB以下）と周辺堤防・植生（-10〜-15dB）を統計的に有意（SNR >= 3）に分離検知できる限界閾値は面積0.01km²（1ha、画素数約100画素）であり、これ以上の規模を持つため池（兵庫1,504箇所、香川659箇所）においては夏期取水に伴う水面縮小率が有意にモニタリング可能である一方、0.001km²未満の小規模池ではノイズに埋もれ検知不能となる。面積に関わらずγ0変化が一様である場合は棄却する。",
+  "decision_use": "香川県農政水産部・土地改良区および気象・農業水利行政が、広域渇水時におけるため池群の貯水枯渇モニタリングにおいて『衛星SARで直接監視できる重点中大規模ため池』と『地上目視・水位計配備が必須な小規模ため池』の役割分担基準を決定するために利用する。",
+  "target_quantity": "ため池面積階級別（<0.001km², 0.001-0.01km², >=0.01km²）の、（1）豊水期（梅雨明け直後）から渇水期（8月下旬）にかけてのSentinel-1 RTC VV後方散乱強度変化量（Δγ0 dB）、（2）水面ピクセル抽出精度（F値・SN比）、（3）市区町村別の中大規模ため池（>=0.01km²）の保有比率。",
+  "unit": "ため池個体（maff-tameike-list-jp-2026-03 の各行）および市区町村単位（jp-admin-2026-09 の code5）。",
+  "time_alignment": "ため池台帳は2026年3月末時点（maff-tameike-list-jp-2026-03）、Sentinel-1 RTC は2026年夏季（6月〜9月、軌道39/141/46）の複数時期スナップショット、行政区域は2020年（jp-admin-2026-09）。",
+  "claim_type": "descriptive_association",
+  "datasets": [
+    "yuiseki/maff-tameike-list-jp-2026-03",
+    "planetary-computer-sentinel-1",
+    "yuiseki/jp-admin-2026-09"
+  ],
+  "source_versions": {
+    "yuiseki/maff-tameike-list-jp-2026-03": "50ae80fdc0bc1347690fe4ff2cf7be29c78fe233",
+    "planetary-computer-sentinel-1": "2026-10-31",
+    "yuiseki/jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/maff-tameike-list-jp-2026-03",
+      "right": "planetary-computer-sentinel-1",
+      "how": "ため池台帳の経度・緯度（lat, lon）および面積（surface_area_km2）から生成した水面バッファ・エンベロープを用いて、Sentinel-1 STAC API で取得した香川・兵庫の晴天期および取水ピーク期の RTC γ0 GeoTIFF（EPSG:32653/32654 等のUTM投影）を空間サンプリング（ST_Point/Envelope交差）",
+      "why": "各ため池の重心および水面境界内のレーダー後方散乱係数の時系列変動（Δγ0）を抽出するため"
+    },
+    {
+      "left": "yuiseki/maff-tameike-list-jp-2026-03",
+      "right": "yuiseki/jp-admin-2026-09",
+      "how": "ため池の経度・緯度（lat, lon）を市区町村行政界ポリゴン（municipalities.geometry）に空間包含（ST_Intersects）",
+      "why": "市区町村ごとのSAR監視可能ため池（1ha以上）の空間的偏在性と行政管轄別のカバー率を評価するため"
+    }
+  ],
+  "required_variables": [
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "name"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "prefecture"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "municipality"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "storage_thousand_m3"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "surface_area_km2"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lat"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lon"
+    },
+    {
+      "dataset": "planetary-computer-sentinel-1",
+      "table": "item",
+      "column": "id"
+    },
+    {
+      "dataset": "yuiseki/jp-admin-2026-09",
+      "table": "municipalities",
+      "column": "code5"
+    },
+    {
+      "dataset": "yuiseki/jp-admin-2026-09",
+      "table": "municipalities",
+      "column": "name"
+    },
+    {
+      "dataset": "yuiseki/jp-admin-2026-09",
+      "table": "municipalities",
+      "column": "geometry"
+    }
+  ],
+  "methodological_decisions": [
+    "RTC（Radiometric Terrain Corrected）γ0 の幾何位置補正残差（約1〜2画素、10〜20m）を考慮し、水面ポリゴンの内側バッファ（エッジ侵食処理）を適用して陸域クラッタの混入を遮断する",
+    "SAR後方散乱のスペックルノイズ低減のため、単一ピクセル値ではなく池内部画素の中央値（median）および Lee 空間フィルタ適用値の頑健性を比較する"
+  ],
+  "failure_modes": [
+    "強風によるため池水面の波立ち（ブラッグ散乱）により水面の低後方散乱特性が失われ、満水時でも後方散乱強度が上昇する誤判定",
+    "水生植物（ヒシ・ホテイアオイ等）の繁茂による二面反射・体積散乱で水域が陸域と誤認される現象"
+  ],
+  "robustness_checks": [
+    "上り軌道（Ascending）と下り軌道（Descending）での入射角・視線方向の違いによる後方散乱係数の差異の検証",
+    "水面面積の算出において閾値を -18dB、-16dB、-14dB と掃引した際の面積縮小率の安定性検証"
+  ],
+  "simplest_solver": {
+    "description": "ため池の台帳座標（lat, lon）の直下の1画素のSentinel-1 RTC値を抽出し、単一の閾値（例: -15dB以下）で水有無を2値判定する単一点サンプリング手法。",
+    "why_insufficient": "レーダー特有のスペックルノイズおよび10〜20mの位置ズレにより、1画素抽出では高確率で堤防や水田・林縁を拾ってしまい、ため池水面の変動を全く再現できない。"
+  },
+  "unknowns": [
+    "現地ため池の水草繁茂度（植生被覆率）の季節変化",
+    "撮影当日における局所風速（水面波浪の程度）"
+  ],
+  "novelty": {
+    "difference_dimension": "observation_physics",
+    "substantive_difference": "ため池を『点』としてではなく、SAR観測の物理的空間分解能（10m）とスペックルノイズ限界に照らし合わせ、何haのため池までなら衛星遠隔監視が工学的に成立するかという実用限界を定量特定する点。"
+  },
+  "prediction": "面積0.01km²（1ha）以上のため池（香川659箇所、兵庫1,504箇所）では8割以上の精度で水面縮小が捕捉できるが、0.001km²未満（香川8,134箇所、兵庫13,998箇所）では検出精度がランダム水準（F値 < 0.4）に低下し、行政全数監視への衛星SAR単独適用は不可能であることが実証される。",
+  "rubric": [
+    "Sentinel-1 RTC の位置ズレ（1〜2画素）を補正するインナーバッファ処理またはエッジ処理が設計されているか",
+    "面積階級別の検知性能（SNR・F値）が客観的指標に基づいて評価されているか",
+    "風浪や水生植物による散乱メカニズムの変化（物理的 failure mode）が考察されているか"
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "mode": "exploration",
+  "question": "全都道府県最多のため池数を擁する兵庫県（24,019件）と最高密度を擁する香川県（12,187件）の間で、なぜ欠損センチネル（9999.9が860件）や無登録プレフィックス（(非)が693件）の存在、および同一座標縮退（香川421件 vs 兵庫13件）という極端な台帳品質の断層が生じるのか？ 自治体境界を越えたデータガバナンスの歪みは広域防災評価にどのような系統的偏向を与えるか？",
+  "social_problem": "農水省のため池全国台帳（maff-tameike-list-jp-2026-03）は全国統一仕様として公表されているが、その実態は各都道府県および市町村の過去の紙台帳や土地改良区の報告様式をパッチワークしたものであり、自治体ごとに品質・入力規則・精度が激しく断絶している。兵庫県では数値欠損を9999.9という特異値で埋めたり『(非)』という独自接頭辞を付与する一方、香川県では数値センチネルがゼロである代わりに連鎖ため池を単一代表点に一括登録した同一座標重複（421件）が頻発している。広域防災計画や国レベルの重点支援配分において、この台帳整備バイアスを補正しないままアルゴリズムを走らせると、データ品質の粗い自治体が不当に過小・過大評価される。",
+  "working_hypothesis": "兵庫県と香川県の全ため池（計36,206件）を行政界ポリゴン（jp-admin-2026-09）および人口メッシュ（estat-census-mesh-2020）と結合し、台帳異常度指標（センチネル率・同一座標率・未登録名率）をモデル化すると、異常値の発生は物理的ため池規模や人口密度ではなく、県および特定市町村（旧郡部や特定土地改良区管内）の行政管轄境界に完全に固着して空間自己相関（Moran's I > 0.6）を示す。自治体境界による品質差が無くランダムな分布である場合は棄却する。",
+  "decision_use": "農林水産省農村振興局および国土交通省・消防庁が、全国ため池データベースの改訂・標準化仕様書を策定する際のデータ品質監査ガイドライン、および自治体間での防災重点ため池指定基準の平準化（公平な財政支援配分）に利用する。",
+  "target_quantity": "市区町村（code5）および都道府県別の、（1）欠損センチネル率（dam_height_m = 9999.9 または storage_thousand_m3 = 9999.9 の比率）、（2）未登録プレフィックス率（name LIKE '(非)%' の比率）、（3）同一座標共有比率（重複件数 / 全件数）、（4）人口メッシュ密度と台帳登録密度との乖離残差および Moran's I。",
+  "unit": "市区町村（jp-admin-2026-09 の code5 単位）および都道府県単位（兵庫県 vs 香川県）。",
+  "time_alignment": "ため池台帳は2026年3月末時点（maff-tameike-list-jp-2026-03）、市区町村境界は2020年（jp-admin-2026-09）、国勢調査は2020年（estat-census-mesh-2020）。",
+  "claim_type": "descriptive_association",
+  "datasets": [
+    "yuiseki/maff-tameike-list-jp-2026-03",
+    "yuiseki/jp-admin-2026-09",
+    "yuiseki/estat-census-mesh-2020"
+  ],
+  "source_versions": {
+    "yuiseki/maff-tameike-list-jp-2026-03": "50ae80fdc0bc1347690fe4ff2cf7be29c78fe233",
+    "yuiseki/jp-admin-2026-09": "e6c87b1d7095c17422147962185071a986e13135",
+    "yuiseki/estat-census-mesh-2020": "6c486c8649484e09e549c0c99b5fa89b4f416edb"
+  },
+  "joins": [
+    {
+      "left": "yuiseki/maff-tameike-list-jp-2026-03",
+      "right": "yuiseki/jp-admin-2026-09",
+      "how": "ため池台帳の都道府県名（prefecture）・市町村名（municipality）および座標（lat, lon）と、行政区域ポリゴン（municipalities.geometry）との属性名結合および空間内外判定（ST_Intersects）",
+      "why": "自治体コード（code5）を付与し、県境および市区町村境ごとの台帳記載ルール・欠損率の違いを集計するため"
+    },
+    {
+      "left": "yuiseki/jp-admin-2026-09",
+      "right": "yuiseki/estat-census-mesh-2020",
+      "how": "市区町村ポリゴン（municipalities.geometry）と国勢調査1kmメッシュ（KEY_CODE）の空間包含集計",
+      "why": "各自治体の常住人口（population）および可住地密度に対するため池登録密度の比例関係と残差を算出するため"
+    }
+  ],
+  "required_variables": [
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "name"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "prefecture"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "municipality"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "dam_height_m"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "storage_thousand_m3"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "surface_area_km2"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "coord_status"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lat"
+    },
+    {
+      "dataset": "yuiseki/maff-tameike-list-jp-2026-03",
+      "table": "maff_tameike_ichiran_20260331",
+      "column": "lon"
+    },
+    {
+      "dataset": "yuiseki/jp-admin-2026-09",
+      "table": "municipalities",
+      "column": "code5"
+    },
+    {
+      "dataset": "yuiseki/jp-admin-2026-09",
+      "table": "municipalities",
+      "column": "name"
+    },
+    {
+      "dataset": "yuiseki/jp-admin-2026-09",
+      "table": "municipalities",
+      "column": "population"
+    },
+    {
+      "dataset": "yuiseki/jp-admin-2026-09",
+      "table": "municipalities",
+      "column": "geometry"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "KEY_CODE"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "T001140001"
+    },
+    {
+      "dataset": "yuiseki/estat-census-mesh-2020",
+      "table": "T001140",
+      "column": "prefecture"
+    }
+  ],
+  "methodological_decisions": [
+    "台帳不備指標（センチネル・未登録プレフィックス・同一座標）を単一の複合ガバナンススコアに統合する主成分分析と、個別指標ごとの空間自己相関分析（Moran's I）を併用する",
+    "兵庫県（24,019件）と香川県（12,187件）の母集団規模の差を調整するため、パーセンタイル標準化およびブートストラップリサンプリングで自治体間比較の有意性を検定する"
+  ],
+  "failure_modes": [
+    "自治体合併（平成の大合併）による旧町村台帳の引き継ぎ差異が、現行の5桁コード単位では平滑化されて見えなくなる集約バイアス",
+    "台帳作成年度や改訂時期のメタデータがカラムとして存在しないため、古い台帳のまま放置されていることと最新点検の差異を直接分離できない点"
+  ],
+  "robustness_checks": [
+    "台帳異常度スコアリングにおいて、外れ値を除外したトリム平均と中央値での自治体順位の一致度検証",
+    "空間重み行列（Queen隣接 vs 距離閾値10km）を変更した際のMoran's I統計量の頑健性評価"
+  ],
+  "simplest_solver": {
+    "description": "県別・市町村別に NULL や 9999.9 の件数を COUNT して棒グラフで並べるだけの単純記述集計。",
+    "why_insufficient": "集計値の差が物理的なため池の規模分布の違いなのか、行政ガバナンスとデータ管理プロセスの欠陥なのかを識別できず、制度的バイアスの定量的証拠にならない。"
+  },
+  "unknowns": [
+    "各県・各市町村における台帳デジタル化時の外部委託業者および点検マニュアルの仕様書差分",
+    "ため池管理組合の統廃合履歴"
+  ],
+  "novelty": {
+    "difference_dimension": "observation_bias",
+    "substantive_difference": "ため池データを所与の客観的事実として無批判に分析するのではなく、データ生成過程（Data Generating Process）そのものにメスを入れ、行政境界による記録品質の断層を暴いて制度的改善を提示するメタ地理学的アプローチである点。"
+  },
+  "prediction": "台帳品質の断層（センチネル率・同一座標率）の空間分散の85%以上が、自然地形やため池規模ではなく『県境』および『特定旧郡境界』という行政ダミー変数で説明され、広域リスクマップに深刻な制度的バイアスを与えていることが立証される。",
+  "rubric": [
+    "観測バイアス監査スキル（observation-bias-audit）の枠組みに基づき、実態と記録過程が分離して定式化されているか",
+    "兵庫（センチネル・未登録）と香川（同一座標）の対照的なデータ特性が実測値に基づいて実証されているか",
+    "行政境界を挟んだ空間自己相関検定（Moran's I）が適切に実施されているか"
+  ]
+}
