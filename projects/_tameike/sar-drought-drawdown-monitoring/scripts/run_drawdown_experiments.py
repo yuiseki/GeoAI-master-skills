@@ -201,6 +201,9 @@ def extract_timeseries(targets, scenes):
         except Exception as e:
             print(f"Error reading scene {sdate}: {e}")
             
+    # Save all targets timeseries for audit and downstream visualization
+    with open(os.path.join(OUTPUTS_DIR, "pond_timeseries.json"), "w", encoding="utf-8") as fp:
+        json.dump(targets, fp, indent=2, ensure_ascii=False)
     return targets, [s["date"] for s in filtered_scenes]
 
 # 4. Evaluation of Blocks B0 - B4

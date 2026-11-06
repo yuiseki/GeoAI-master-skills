@@ -1,0 +1,22 @@
+{
+  "n_reservoirs": 17,
+  "reservoirs": [
+    {"name": "満濃池", "prefecture": "香川県", "delta_db": 0.63, "water_loss_pct": 0.2, "tier": "LARGE"},
+    {"name": "西の谷新池", "prefecture": "広島県", "delta_db": -0.15, "water_loss_pct": -0.4, "tier": "LARGE"},
+    {"name": "小池", "prefecture": "広島県", "delta_db": -0.42, "water_loss_pct": -1.1, "tier": "LARGE"},
+    {"name": "磯松１番池", "prefecture": "広島県", "delta_db": -0.38, "water_loss_pct": -0.9, "tier": "LARGE"},
+    {"name": "三川ダム", "prefecture": "広島県", "delta_db": -0.22, "water_loss_pct": -0.5, "tier": "LARGE"},
+    {"name": "道面池", "prefecture": "広島県", "delta_db": -0.31, "water_loss_pct": -0.8, "tier": "LARGE"},
+    {"name": "半田池", "prefecture": "広島県", "delta_db": -0.29, "water_loss_pct": -0.7, "tier": "LARGE"},
+    {"name": "大番池", "prefecture": "広島県", "delta_db": -0.45, "water_loss_pct": -1.2, "tier": "LARGE"},
+    {"name": "行所池", "prefecture": "兵庫県", "delta_db": -0.18, "water_loss_pct": -0.3, "tier": "LARGE"},
+    {"name": "藤尾ダム", "prefecture": "広島県", "delta_db": 1.20, "water_loss_pct": 13.2, "tier": "MED"},
+    {"name": "香六池", "prefecture": "広島県", "delta_db": -0.12, "water_loss_pct": -0.2, "tier": "MED"},
+    {"name": "光林寺池", "prefecture": "広島県", "delta_db": 0.45, "water_loss_pct": 3.6, "tier": "MED"},
+    {"name": "中野ダム", "prefecture": "広島県", "delta_db": -0.10, "water_loss_pct": -0.1, "tier": "MED"},
+    {"name": "柿ノ木谷池", "prefecture": "兵庫県", "delta_db": 0.15, "water_loss_pct": 1.2, "tier": "MED"},
+    {"name": "鈴池", "prefecture": "広島県", "delta_db": 0.38, "water_loss_pct": 2.5, "tier": "MED"},
+    {"name": "松永溜池", "prefecture": "広島県", "delta_db": 0.94, "water_loss_pct": 4.8, "tier": "MED"},
+    {"name": "八日谷溜池", "prefecture": "広島県", "delta_db": 0.64, "water_loss_pct": 0.0, "tier": "MED"}
+  ]
+}
