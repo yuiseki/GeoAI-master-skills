@@ -37,11 +37,11 @@ def kagawa(path, m):
     return rows
 
 
-def hiroshima(path):
+def hiroshima(path, munis=BOX_MUNIS["fukuyama"]):
     rows = []
     for line in text(path).splitlines():
         g = re.match(r"^\s*(34\d{7})\s+(.*?)\s*広島県\s+(\S+)\s+(.+)$", line)
-        if not g or g.group(3) not in BOX_MUNIS["fukuyama"]:
+        if not g or (munis is not None and g.group(3) not in munis):
             continue
         code, before, m, rest = g.groups()
         parts = re.split(r"\s{2,}", before.strip()) if before.strip() else []
@@ -54,12 +54,12 @@ def hiroshima(path):
     return rows
 
 
-def hyogo(path):
+def hyogo(path, munis=BOX_MUNIS["awaji"]):
     ws = openpyxl.load_workbook(path, read_only=True).worksheets[0]
     rows = []
     for r in ws.iter_rows(min_row=6, values_only=True):
         code, _, name, m, addr, _, _, bousai = r[:8]
-        if m and any(m.startswith(x) for x in BOX_MUNIS["awaji"]) and bousai:
+        if m and (munis is None or any(m.startswith(x) for x in munis)) and bousai:
             rows.append(dict(box="awaji", municipality=m, no=code, name=name or "", address=addr or "",
                              dam_height_m="", storage_thousand_m3=""))
     return rows

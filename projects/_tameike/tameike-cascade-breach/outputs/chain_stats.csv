@@ -1,4 +1,4 @@
-box,starts,chains_1plus,chains_2plus,chains_2plus_distinct_last_pond,chains_2plus_overflowed_ge_start,chains_2plus_people_ge_10,chains_2plus_people_ge_100,chains_2plus_people_median,chains_2plus_people_single_median,chains_2plus_max_overflowed,chains_2plus_stopped_leaving_area,chains_2plus_stopped_holding,chains_2plus_stopped_no_surface,chains_2plus_stopped_distance,starts_stopped_no_surface
-kagawa,872,137,30,23,26,24,13,50.4,42.0,4,24,2,2,2,46
-fukuyama,480,101,33,25,28,32,23,175.4,91.3,4,22,2,0,9,23
-awaji,1409,403,149,88,112,147,54,82.4,53.5,7,106,9,15,19,188
+box,starts,chains_1plus,chains_2plus,chains_2plus_distinct_last_pond,chains_2plus_overflowed_ge_start,chains_2plus_people_ge_10,chains_2plus_people_ge_100,chains_2plus_people_median,chains_2plus_people_single_median,chains_2plus_max_overflowed,chains_2plus_stopped_leaving_area,chains_2plus_ending_at_grid_edge,chains_2plus_stopped_holding,chains_2plus_stopped_no_surface,chains_2plus_stopped_distance,starts_stopped_no_surface
+kagawa,872,137,30,23,26,24,13,50.4,42.0,4,24,19,2,2,2,46
+fukuyama,480,101,33,25,28,32,23,175.4,91.3,4,22,1,2,0,9,23
+awaji,1409,403,149,88,112,147,54,82.4,53.5,7,106,12,9,15,19,188

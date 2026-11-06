@@ -10,6 +10,7 @@ outputs/summary.csv.
 """
 
 import csv
+import json
 import math
 import sys
 from pathlib import Path
@@ -111,8 +112,11 @@ def exposed(path, pop, shape):
     return float(pop[r0:r1, c0:c1][m].sum())
 
 
-def run_box(key, rain):
-    box = BOXES[key]
+def run_box(key, rain, box=None, start_box=None, out=OUT, lines=False):
+    """box: the area the flow is computed over (default the plan's box). start_box: only ponds with a ledger point
+    inside it start a chain (default all). out: where the csv and figure go. lines: also write
+    <key>_chain_lines.geojson, the flow line of each chain of 2 or more overflowed ponds (main setting)."""
+    box = box or BOXES[key]
     ponds = ponds_in(box)
     (h, w), tr = utm_grid(box, CELL)
     arr, tr3857, _ = mosaic("dem5a", box)
@@ -157,6 +161,9 @@ def run_box(key, rain):
     pop, pop_window_total = population_5m(box, (h, w), tr)
 
     starts_ = [n for n, p in pond_tab.items() if p["v"] and p["v"] >= MIN_START_M3 and p["h"]]
+    if start_box:
+        inside = lambda m: start_box[0] <= m["lon"] <= start_box[2] and start_box[1] <= m["lat"] <= start_box[3]
+        starts_ = [n for n in starts_ if any(inside(m) for m in info[n]["members"])]
     r_main = rain[MAIN_STATION[key]]["r_design_mm_h"]
     r_alt = rain[ALT_STATION[key]]["r_design_mm_h"]
     base = dict(f=0.7, r=r_main, margin=1.2, freeboard=1.0, max_dist=1000.0, peak=froehlich)
@@ -168,17 +175,25 @@ def run_box(key, rain):
     ncol = w
     cache = {}
 
+    def chain_path(start, failed):
+        # one unbroken flow line: from the start's outlet down through each overflowed pond to the last one's
+        # outlet, then 2 km further (so the chain's line always holds the single breach's first part)
+        path = [outlet[start]]
+        if failed:
+            path = walk(ds, outlet[start], stop_cells={outlet[failed[-1]]}, ncol=ncol)
+        return path + walk(ds, path[-1], max_m=TAIL_M, ncol=ncol)[1:]
+
     def chain_exposure(start, failed):
         k = (start, tuple(failed))
         if k not in cache:
-            # one unbroken flow line: from the start's outlet down through each overflowed pond to the last one's
-            # outlet, then 2 km further (so the chain's line always holds the single breach's first part)
-            path = [outlet[start]]
-            if failed:
-                path = walk(ds, outlet[start], stop_cells={outlet[failed[-1]]}, ncol=ncol)
-            path += walk(ds, path[-1], max_m=TAIL_M, ncol=ncol)[1:]
-            cache[k] = exposed(path, pop, (h, w))
+            cache[k] = exposed(chain_path(start, failed), pop, (h, w))
         return cache[k]
+
+    def end_at_edge(start, failed):
+        # where the flow below the last overflowed pond (or the start) ends: on the border of the grid or not
+        end = walk(ds, outlet[failed[-1] if failed else start], ncol=ncol)[-1]
+        r, c = divmod(end, ncol)
+        return r in (0, h - 1) or c in (0, w - 1)
 
     summary, chain_rows = [], []
     for name, change in variants.items():
@@ -203,6 +218,7 @@ def run_box(key, rain):
                                        overflowed_names=" > ".join(names(n) for n in failed),
                                        overflowed_m3=" > ".join(str(round(pond_tab[n]["v"] or 0)) for n in failed),
                                        stop=why, people_single=round(single, 1), people_chain=round(ppl, 1),
+                                       end_at_edge=end_at_edge(s, failed),
                                        start_source_rows=rows_of(s),
                                        overflowed_source_rows=" > ".join(rows_of(n) for n in failed),
                                        _failed=failed))
@@ -210,15 +226,28 @@ def run_box(key, rain):
                             starts=len(starts_), chains_1plus=n1,
                             chains_2plus=n2, chains_2plus_people=n2p,
                             verdict="ありそう" if n2p >= 1 else "なさそう"))
-    draw_top(key, chain_rows, cells_of, outlet, ds, filled, pop, (h, w), ncol)
+    draw_top(key, chain_rows, cells_of, outlet, ds, filled, pop, (h, w), ncol, out=out)
+    if lines:
+        back = Transformer.from_crs(DST, "EPSG:4326", always_xy=True)
+        feats = []
+        for r in chain_rows:
+            if r["overflowed"] < 2:
+                continue
+            rr, cc = np.unravel_index(np.array(chain_path(r["start"], r["_failed"])), (h, w))
+            x, y = tr * (cc + 0.5, rr + 0.5)
+            lon, lat = back.transform(x, y)
+            feats.append(dict(type="Feature", properties=dict(start=r["start"], start_source_rows=r["start_source_rows"],
+                                                              people_chain=r["people_chain"]),
+                              geometry=dict(type="LineString", coordinates=[[round(a, 6), round(b, 6)] for a, b in zip(lon, lat)])))
+        (out / f"{key}_chain_lines.geojson").write_text(json.dumps(dict(type="FeatureCollection", features=feats)), encoding="utf-8")
     pond_rows = [dict(node=n, names="|".join(str(m["name"]) for m in info[n]["members"]),
                       storage_m3=round(p["v"] or 0), dam_height_m=p["h"] or "", surface_m2=p["s"] or "",
                       catchment_km2=round(p["a"], 4), down_node=down.get(n) or "",
                       to_down_m=round(p["dist"]) if p["dist"] is not None else "",
                       source_rows="|".join(str(m["source_row"]) for m in info[n]["members"]))
                  for n, p in sorted(pond_tab.items())]
-    write(OUT / f"{key}_ponds.csv", pond_rows)
-    write(OUT / f"{key}_chains.csv", [{k: v for k, v in r.items() if k != "_failed"}
+    write(out / f"{key}_ponds.csv", pond_rows)
+    write(out / f"{key}_chains.csv", [{k: v for k, v in r.items() if k != "_failed"}
                                       for r in sorted(chain_rows, key=lambda r: (-r["overflowed"], -r["people_chain"]))])
     print(key, "starts", len(starts_), "nodes", len(pond_tab), "nodes without cells", len(no_cells),
           "worldpop in window", round(pop_window_total), flush=True)
@@ -227,7 +256,7 @@ def run_box(key, rain):
     return summary
 
 
-def draw_top(key, chain_rows, cells_of, outlet, ds, filled, pop, shape, ncol, n_top=3):
+def draw_top(key, chain_rows, cells_of, outlet, ds, filled, pop, shape, ncol, n_top=3, out=OUT):
     """outputs/fig_chains_<box>.png: the 3 chains of 2 or more overflowed ponds with the most people near the line."""
     import matplotlib
     matplotlib.use("Agg")
@@ -276,7 +305,7 @@ def draw_top(key, chain_rows, cells_of, outlet, ds, filled, pop, shape, ncol, n_
     fig.suptitle(f"{key}: 初めに決壊する池 (赤)、次々にあふれる池 (橙)、流れの線 (青)、人口 (WorldPop 2020、薄い赤)。"
                  "陰影は地理院 DEM5A", fontsize=9)
     fig.tight_layout()
-    fig.savefig(OUT / f"fig_chains_{key}.png", dpi=130)
+    fig.savefig(out / f"fig_chains_{key}.png", dpi=130)
     plt.close(fig)
 
 

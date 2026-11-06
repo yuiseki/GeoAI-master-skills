@@ -26,6 +26,8 @@ for key in ("kagawa", "fukuyama", "awaji"):
         chains_2plus_people_single_median=round(st.median(float(r["people_single"]) for r in c2), 1) if c2 else "",
         chains_2plus_max_overflowed=max((int(r["overflowed"]) for r in c2), default=0),
         chains_2plus_stopped_leaving_area=sum(r["stop"] == "flow leaves the area or reaches no pond" for r in c2),
+        # of those, the ones whose flow line really ends on the border of the grid (the rest end at the sea or a pit)
+        chains_2plus_ending_at_grid_edge=sum(r["end_at_edge"] == "True" for r in c2),
         chains_2plus_stopped_holding=sum(r["stop"] == "next pond holds" for r in c2),
         chains_2plus_stopped_no_surface=sum(r["stop"] == "next pond has no water surface" for r in c2),
         chains_2plus_stopped_distance=sum(r["stop"] == "next pond beyond the distance" for r in c2),

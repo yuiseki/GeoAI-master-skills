@@ -1,0 +1,1413 @@
+box,start,start_names,start_m3,start_h_m,overflowed,overflowed_names,overflowed_m3,stop,people_single,people_chain,end_at_edge,start_source_rows,overflowed_source_rows
+awaji,2832,牛蒡谷上池,10000,12.2,7,牛蒡谷下池 > 古佐池 > 堂ヶ後池 > 古保池 > 川池 > 龍神池 > 谷奥池,13000 > 3000 > 20000 > 26000 > 14000 > 60000 > 8000,flow leaves the area or reaches no pond,10.2,117.3,False,67950,67949 > 67951 > 67959 > 67952 > 67956 > 67977 > 67972
+awaji,2831,牛蒡谷下池,13000,11.7,6,古佐池 > 堂ヶ後池 > 古保池 > 川池 > 龍神池 > 谷奥池,3000 > 20000 > 26000 > 14000 > 60000 > 8000,flow leaves the area or reaches no pond,10.6,116.9,False,67949,67951 > 67959 > 67952 > 67956 > 67977 > 67972
+awaji,3055,夫婦岩上池,19000,6.0,6,夫婦岩中池 > 夫婦岩新池（下池） > 大石池 > 中池 > 新池 > 川池,50000 > 2000 > 124000 > 12000 > 6000 > 12000,flow leaves the area or reaches no pond,21.4,57.4,False,68175,68176 > 68485 > 68167 > 68154 > 68145 > 68149
+awaji,2833,古佐池,3000,6.9,5,堂ヶ後池 > 古保池 > 川池 > 龍神池 > 谷奥池,20000 > 26000 > 14000 > 60000 > 8000,flow leaves the area or reaches no pond,11.6,116.9,False,67951,67959 > 67952 > 67956 > 67977 > 67972
+awaji,4118,淡-2697,4440,6.0,5,蛇の池下池 > 新池 > 姥懐池 > 滝ノ頭池 > 八幡田池,477 > 477 > 1200 > 8000 > 1667,flow leaves the area or reaches no pond,105.6,105.6,False,69339,69337 > 69335 > 69333 > 67739 > 68522
+awaji,2721,柳ケ谷池,1000,5.6,5,淡-4092 > 大池 > 空池 > 砂池 > 数河山池,560 > 1460 > 3800 > 1240 > 1560,flow leaves the area or reaches no pond,52.7,89.3,False,67830,69839 > 69844 > 67822 > 69861 > 69856
+awaji,224,カゴ池,17000,10.0,5,上池 > 皿池 > 新池（鴨郡） > 寄合池 > 溝下池,23400 > 17000 > 4000 > 60000 > 17000,flow leaves the area or reaches no pond,26.2,71.6,False,54765,55049 > 55043 > 54825 > 68216 > 68217
+awaji,3056,夫婦岩中池,50000,5.5,5,夫婦岩新池（下池） > 大石池 > 中池 > 新池 > 川池,2000 > 124000 > 12000 > 6000 > 12000,flow leaves the area or reaches no pond,23.2,57.1,False,68176,68485 > 68167 > 68154 > 68145 > 68149
+awaji,4372,(非)空の裏池,1960,8.0,4,ヘイザ池 > 淡-2340 > 矢後上池 > 矢後池（矢後下池）,684 > 393 > 8000 > 11000,flow leaves the area or reaches no pond,210.7,411.3,False,69603,69599 > 69596 > 67789 > 67790
+awaji,4572,クスノ池,1790,4.0,4,三財池 > 本坊池|石屋池 > 九エ門池 > 淡-4334,1980 > 5430 > 8200 > 24900,next pond has no water surface,100.2,185.3,False,69902,69906 > 67829|69907 > 69922 > 69924
+awaji,2871,立道上池,19000,11.6,4,立道下池 > 山ノ神池 > 中ノ池 > コンガ池,15000 > 2000 > 4000 > 3000,flow leaves the area or reaches no pond,113.6,179.6,False,67989,67988 > 67984 > 67986 > 67981
+awaji,1704,三郎池,2439,4.0,4,菱池 > 徳新池 > 樫谷池 > 谷池,3000 > 4000 > 670 > 93,next pond has no water surface,175.3,177.0,False,56922,54820 > 54781 > 56898 > 57623
+awaji,2841,堂ヶ後池,20000,14.9,4,古保池 > 川池 > 龍神池 > 谷奥池,26000 > 14000 > 60000 > 8000,flow leaves the area or reaches no pond,23.0,116.9,False,67959,67952 > 67956 > 67977 > 67972
+awaji,5227,上の池,3600,6.0,4,じょうきっつぁん池 > 淡-4350 > 大門池 > 昌ヶ瀬の池,620 > 6440 > 2000 > 69,next pond holds,59.1,111.7,False,70635,70637 > 70638 > 70642 > 70646
+awaji,5225,米山上池,2230,6.0,4,米山小池|米山下池 > はす池 > 淡-4307 > 淡-4315,1150 > 350 > 8940 > 720,next pond beyond the distance,53.0,106.7,False,70633,69910|69912 > 69913 > 69919 > 69920
+awaji,2918,菊江門池,5000,5.0,4,小原池 > 西小原池 > 淡-2901 > 東小原下池,2100 > 3400 > 780 > 3900,flow leaves the area or reaches no pond,75.1,105.2,False,68037,68474 > 68040 > 70847 > 71005
+awaji,2944,長次郎池,3000,7.0,4,皿池 > 新池 > 小谷池 > 新池,7000 > 4000 > 11000 > 5000,flow leaves the area or reaches no pond,44.9,90.1,False,68063,68060 > 68062 > 68061 > 68065
+awaji,6317,淡-1369,1140,5.0,4,淡-1351 > 田畑池 > 淡-1303 > 小川池,1300 > 1420 > 12000 > 3740,flow leaves the area or reaches no pond,61.3,87.7,False,71779,71777 > 71775 > 71771 > 71766
+awaji,3038,スゲガ谷池,29000,7.0,4,菅谷中池 > 新池（たき池田主） > 中池（たき池田主） > 川池,7000 > 11450 > 1920 > 5000,flow leaves the area or reaches no pond,42.2,72.2,False,68158,68161 > 71719 > 71720 > 68165
+awaji,469,上池,23400,6.0,4,皿池 > 新池（鴨郡） > 寄合池 > 溝下池,17000 > 4000 > 60000 > 17000,flow leaves the area or reaches no pond,30.7,71.5,False,55049,55043 > 54825 > 68216 > 68217
+awaji,109,鳴池,44000,10.0,4,皿池 > 井手口池（鳴池） > 蕨池 > 川池,2437 > 26000 > 10000 > 8000,flow leaves the area or reaches no pond,46.4,56.6,False,54641,56329 > 68228 > 68233 > 68230
+awaji,4276,淡-3502,1277,5.0,4,淡-3494 > 池内池 > 自分池 > 淡-3405,547 > 5000 > 3000 > 177,next pond holds,37.2,43.9,False,69502,69501 > 67758 > 67747 > 69469
+awaji,2524,払川池No.４,11000,8.2,4,払川池No.３ > 払川池No.２ > 払川池No.１ > 神社池,10000 > 6000 > 22000 > 6000,next pond beyond the distance,15.3,30.1,False,67628,67627 > 67626 > 67625 > 67617
+awaji,5015,淡-4139,1200,4.0,4,淡-4146 > 新池 > 大池 > 古川,1170 > 1800 > 3600 > 400,next pond beyond the distance,21.4,24.3,True,70419,70420 > 68465 > 68466 > 70421
+awaji,4612,淡-4398,12200,7.0,3,掛合池 > 神池 > 赤井池,732 > 25000 > 5000,flow leaves the area or reaches no pond,186.6,463.8,False,69946,69951 > 67833 > 67834
+awaji,2680,長谷ヶ原大池,130000,10.6,3,昭和池 > 八畑川池|八畑川池 > 淡-2295,62000 > 7669 > 1320,flow leaves the area or reaches no pond,20.2,275.1,False,67784,67776 > 67786|69597 > 69591
+awaji,142,新池|札立77番,44020,7.0,3,中ノ池 > 弥の谷池 > 新池,7000 > 3000 > 2000,next pond beyond the distance,109.1,211.3,False,54679|56608,54770 > 54774 > 54782
+awaji,4576,三財池,1980,5.0,3,本坊池|石屋池 > 九エ門池 > 淡-4334,5430 > 8200 > 24900,next pond has no water surface,120.5,180.1,False,69906,67829|69907 > 69922 > 69924
+awaji,2870,立道下池,15000,13.6,3,山ノ神池 > 中ノ池 > コンガ池,2000 > 4000 > 3000,flow leaves the area or reaches no pond,126.9,179.6,False,67988,67984 > 67986 > 67981
+awaji,279,菱池,3000,3.8,3,徳新池 > 樫谷池 > 谷池,4000 > 670 > 93,next pond has no water surface,173.8,174.5,False,54820,54781 > 56898 > 57623
+awaji,2508,上皿池,10000,5.3,3,下皿池 > 田古大池 > 淡-714,31000 > 85000 > 48,flow leaves the area or reaches no pond,58.6,169.6,False,67612,67610 > 67621 > 68911
+awaji,2526,奥ノ池,7000,4.0,3,中ノ池 > 力石池 > 新池,7000 > 11000 > 6000,next pond holds,119.8,135.4,False,67630,67638 > 67641 > 67633
+awaji,3009,ハンヌキ池,16000,8.0,3,皿池 > 直鯖池（玉鯖池） > 金山池,2000 > 25000 > 5538,flow leaves the area or reaches no pond,67.6,130.5,False,68128,68130 > 68134 > 71539
+awaji,2935,井手ノ口新池,8000,13.0,3,大池 > 清次郎川池 > 淡-2756,7000 > 7000 > 2520,flow leaves the area or reaches no pond,80.4,119.8,False,68054,68055 > 68058 > 70965
+awaji,2895,木戸池,6000,7.0,3,淡-3378 > 長池〔大池〕 > 増池（折ケ手池）,79 > 2000 > 2000,flow leaves the area or reaches no pond,89.2,118.0,False,68013,70747 > 68007 > 68005
+awaji,2885,新池,3000,5.0,3,淡-3378 > 長池〔大池〕 > 増池（折ケ手池）,79 > 2000 > 2000,flow leaves the area or reaches no pond,109.1,117.2,False,68003,70747 > 68007 > 68005
+awaji,2834,古保池,26000,16.0,3,川池 > 龍神池 > 谷奥池,14000 > 60000 > 8000,flow leaves the area or reaches no pond,38.7,116.9,False,67952,67956 > 67977 > 67972
+awaji,2455,長谷大池,24000,7.2,3,石込池 > 糸池 > 下池,7000 > 5000 > 4000,flow leaves the area or reaches no pond,83.9,113.1,False,67558,67557 > 67555 > 67552
+awaji,4561,ヒノキガワキ池|淡-4243,1340,6.0,3,淡-4259 > 矢坪池|淡-4278 > 淡-4315,2070 > 790 > 720,next pond beyond the distance,58.8,109.0,False,69889|69892,69901 > 69908|69909 > 69920
+awaji,5231,淡-4368,2390,5.0,3,淡-4391 > 蓑淵池 > 淡-4547,1240 > 3030 > 890,flow leaves the area or reaches no pond,105.7,107.8,False,70639,70644 > 70647 > 69972
+awaji,4578,米山小池|米山下池,1150,5.0,3,はす池 > 淡-4307 > 淡-4315,350 > 8940 > 720,next pond beyond the distance,55.0,106.6,False,69910|69912,69913 > 69919 > 69920
+awaji,3301,小原池,2100,4.0,3,西小原池 > 淡-2901 > 東小原下池,3400 > 780 > 3900,flow leaves the area or reaches no pond,75.3,95.5,False,68474,68040 > 70847 > 71005
+awaji,2882,山池,9000,5.7,3,淡-3280 > 淡-3296 > 石仏大池,2990 > 2660 > 27000,next pond has no water surface,67.4,92.9,False,68000,70722 > 70727 > 68004
+awaji,2495,東風池,44000,7.7,3,御門池 > （非）非赤松上池（廃止） > 赤松大池|赤松中池,223 > 9000 > 77000,next pond beyond the distance,42.8,92.7,False,67599,69101 > 68506 > 67581|67582
+awaji,2487,桂池,17000,6.9,3,上田池 > 皿池大池 > 皿池,5000 > 20000 > 33000,next pond beyond the distance,39.4,91.7,False,67591,67594 > 67593 > 67592
+awaji,2941,皿池,7000,9.0,3,新池 > 小谷池 > 新池,4000 > 11000 > 5000,flow leaves the area or reaches no pond,52.1,90.1,False,68060,68062 > 68061 > 68065
+awaji,2945,平石池,6000,9.0,3,新池 > 小谷池 > 新池,4000 > 11000 > 5000,flow leaves the area or reaches no pond,50.7,90.1,False,68064,68062 > 68061 > 68065
+awaji,6315,淡-1351,1300,3.0,3,田畑池 > 淡-1303 > 小川池,1420 > 12000 > 3740,flow leaves the area or reaches no pond,63.6,87.5,False,71777,71775 > 71771 > 71766
+awaji,2660,こやなご池,10000,6.1,3,六ツ田池 > 中池 > 六石谷池,11000 > 22000 > 2000,next pond has no water surface,30.8,77.1,False,67764,68456 > 67767 > 67771
+awaji,3039,バッチ池,17000,8.0,3,新池（たき池田主） > 中池（たき池田主） > 川池,11450 > 1920 > 5000,flow leaves the area or reaches no pond,45.7,73.1,False,68159,71719 > 71720 > 68165
+awaji,2898,荒神池,10000,5.0,3,熊野上池 > 熊野中池 > 熊野下池,8000 > 2000 > 4000,flow leaves the area or reaches no pond,72.7,72.7,False,68017,68026 > 68027 > 68025
+awaji,3041,菅谷中池,7000,8.0,3,新池（たき池田主） > 中池（たき池田主） > 川池,11450 > 1920 > 5000,flow leaves the area or reaches no pond,47.2,70.6,False,68161,71719 > 71720 > 68165
+awaji,2511,深山上池,23000,7.5,3,深山下池 > 道堂上池 > 道堂下池,10000 > 25000 > 19000,flow leaves the area or reaches no pond,42.7,68.8,False,67615,67634 > 67657 > 67656
+awaji,4252,淡-3427,209000,2.0,3,上池 > 角谷大池 > 細子池,8000 > 26000 > 28000,next pond beyond the distance,36.2,65.0,False,69476,67750 > 67755 > 67746
+awaji,4259,焼田池,5000,7.3,3,上池 > 角谷大池 > 細子池,8000 > 26000 > 28000,next pond beyond the distance,34.5,62.8,False,69485,67750 > 67755 > 67746
+awaji,4798,行者２池|行者１池,1370,5.0,3,色目池 > 淡-3624 > 色目大池,3600 > 1960 > 3800,flow leaves the area or reaches no pond,59.8,60.0,False,70143|70144,68460 > 70141 > 67851
+awaji,4748,砂池,7000,1.0,3,大池 > ばべ山池 > 淡-3888,1750 > 1200 > 1540,next pond has no water surface,47.0,52.1,False,70088,70091 > 70098 > 70103
+awaji,3047,大石池,124000,9.0,3,中池 > 新池 > 川池,12000 > 6000 > 12000,flow leaves the area or reaches no pond,37.7,46.0,False,68167,68154 > 68145 > 68149
+awaji,2639,喜田池|上池,2072,4.4,3,淡-2904 > 淡-2932 > 桃花池,6000 > 6000 > 21000,flow leaves the area or reaches no pond,31.8,38.8,False,67743|69345,69347 > 69350 > 67761
+awaji,2523,払川池No.３,10000,10.1,3,払川池No.２ > 払川池No.１ > 神社池,6000 > 22000 > 6000,next pond beyond the distance,18.0,30.1,False,67627,67626 > 67625 > 67617
+awaji,5016,淡-4146,1170,3.0,3,新池 > 大池 > 古川,1800 > 3600 > 400,next pond beyond the distance,22.8,24.3,True,70420,68465 > 68466 > 70421
+awaji,6420,一町田池,2200,3.0,3,初毛池 > 初毛下池 > 谷池,3280 > 1430 > 970,next pond beyond the distance,10.4,13.1,False,71888,71880 > 71881 > 71878
+awaji,2576,六十田池,5000,5.6,2,由谷上池 > 由谷池,14000 > 19000,flow leaves the area or reaches no pond,91.1,401.8,False,67680,67697 > 67698
+awaji,2579,古地池,3000,4.0,2,成就田池 > 総田池,4000 > 3000,flow leaves the area or reaches no pond,253.3,319.4,False,67683,67700 > 67690
+awaji,2751,城寺池,14000,12.3,2,淡-4172 > 淡-4181,1020 > 600,next pond has no water surface,314.5,314.5,False,67860,70244 > 70245
+awaji,4373,長池,1800,5.0,2,ヘイザ池 > 淡-2340,684 > 393,next pond holds,221.5,298.2,False,69604,69599 > 69596
+awaji,2672,昭和池,62000,15.8,2,八畑川池|八畑川池 > 淡-2295,7669 > 1320,flow leaves the area or reaches no pond,70.9,274.9,False,67776,67786|69597 > 69591
+awaji,2676,大日池,6000,6.6,2,八畑川池|八畑川池 > 淡-2295,7669 > 1320,flow leaves the area or reaches no pond,116.3,272.5,False,67780,67786|69597 > 69591
+awaji,4377,淡-2451,1200,6.0,2,淡-2438 > 菅ノ谷池,2490 > 14000,flow leaves the area or reaches no pond,195.7,258.3,False,69608,69607 > 67778
+awaji,2874,砂土谷上池,2000,6.0,2,砂土谷池 > タンノ池上|タンノ池下,4000 > 5210,flow leaves the area or reaches no pond,250.0,250.0,False,67992,67999 > 70832|70833
+awaji,2694,鬼蛇川上池,20000,6.8,2,鬼蛇川下池 > 岩隈池,20000 > 26000,flow leaves the area or reaches no pond,162.2,236.3,False,67798,67797 > 67796
+awaji,2697,向池（上池）,13000,7.9,2,鬼蛇川下池 > 岩隈池,20000 > 26000,flow leaves the area or reaches no pond,182.4,235.6,False,67801,67797 > 67796
+awaji,5416,水池上池,1910,4.0,2,中池 > 淡-3672,7000 > 70,next pond has no water surface,230.6,230.6,False,70834,68023 > 70835
+awaji,390,塩田池,3000,5.0,2,蓮寺大池 > 卯の日池,5000 > 15000,flow leaves the area or reaches no pond,213.5,213.5,False,54964,54966 > 54961
+awaji,229,中ノ池,7000,7.0,2,弥の谷池 > 新池,3000 > 2000,next pond beyond the distance,160.6,209.6,False,54770,54774 > 54782
+awaji,2866,山ノ神池,2000,6.2,2,中ノ池 > コンガ池,4000 > 3000,flow leaves the area or reaches no pond,141.0,178.0,False,67984,67986 > 67981
+awaji,2720,本坊池|石屋池,5430,4.2,2,九エ門池 > 淡-4334,8200 > 24900,next pond has no water surface,136.1,175.6,False,67829|69907,69922 > 69924
+awaji,239,円畑池|（非）洲-3186,4000,4.3,2,樫谷池 > 谷池,670 > 93,next pond has no water surface,170.6,171.0,False,54780|56871,56898 > 57623
+awaji,240,徳新池,4000,4.5,2,樫谷池 > 谷池,670 > 93,next pond has no water surface,170.6,171.0,False,54781,56898 > 57623
+awaji,2514,清水池,28000,9.3,2,田古大池 > 淡-714,85000 > 48,flow leaves the area or reaches no pond,68.8,169.4,False,67618,67621 > 68911
+awaji,2506,下皿池,31000,8.8,2,田古大池 > 淡-714,85000 > 48,flow leaves the area or reaches no pond,70.0,169.0,False,67610,67621 > 68911
+awaji,2534,中ノ池,7000,3.9,2,力石池 > 新池,11000 > 6000,next pond holds,119.1,130.4,False,67638,67641 > 67633
+awaji,3014,中池,9000,3.9,2,直鯖池（玉鯖池） > 金山池,25000 > 5538,flow leaves the area or reaches no pond,107.3,130.3,False,68133,68134 > 71539
+awaji,6076,淡-1582,4960,2.0,2,高畑池 > 石谷池,4000 > 4000,flow leaves the area or reaches no pond,84.1,125.7,False,71527,68117 > 68125
+awaji,2936,大池,7000,10.5,2,清次郎川池 > 淡-2756,7000 > 2520,flow leaves the area or reaches no pond,100.1,119.5,False,68055,68058 > 70965
+awaji,2838,川池,14000,9.7,2,龍神池 > 谷奥池,60000 > 8000,flow leaves the area or reaches no pond,43.8,116.7,False,67956,67977 > 67972
+awaji,2846,温池,6000,10.1,2,西谷池 > 奥の平池,44000 > 43000,flow leaves the area or reaches no pond,45.6,114.2,False,67964,67970 > 67963
+awaji,3115,皿池|細谷田主池,16220,5.0,2,細谷池 > 土田池,15000 > 12000,flow leaves the area or reaches no pond,89.9,112.5,False,68239|72012,68238 > 68244
+awaji,2855,池ノ川池,81000,13.7,2,龍神池 > 谷奥池,60000 > 8000,flow leaves the area or reaches no pond,52.6,112.3,False,67973,67977 > 67972
+awaji,3112,下皿池,3000,3.5,2,新池|（非）淡-730 > 土田池,9300 > 12000,flow leaves the area or reaches no pond,103.2,112.2,False,68236,68241|72008 > 68244
+awaji,2454,石込池,7000,3.8,2,糸池 > 下池,5000 > 4000,flow leaves the area or reaches no pond,101.8,112.0,False,67557,67555 > 67552
+awaji,5306,アセンボ池,1331,2.0,2,淡-3294 > 河内下池,2500 > 3000,flow leaves the area or reaches no pond,101.8,109.2,False,70718,70726 > 67997
+awaji,4568,淡-4251,1830,7.0,2,淡-4307 > 淡-4315,8940 > 720,next pond beyond the distance,55.5,108.1,False,69897,69919 > 69920
+awaji,4567,淡-4250|淡-4256,1536,6.0,2,矢坪池|淡-4278 > 淡-4315,790 > 720,next pond beyond the distance,60.9,107.8,False,69896|69900,69908|69909 > 69920
+awaji,4571,淡-4259,2070,6.0,2,矢坪池|淡-4278 > 淡-4315,790 > 720,next pond beyond the distance,61.3,107.7,False,69901,69908|69909 > 69920
+awaji,5230,淡-4350,6440,6.0,2,大門池 > 昌ヶ瀬の池,2000 > 69,next pond holds,74.0,107.6,False,70638,70642 > 70646
+awaji,2729,奥池,48000,14.2,2,中池 > 下池,48000 > 9000,flow leaves the area or reaches no pond,63.3,96.0,False,67838,67842 > 67839
+awaji,5459,小池,6000,8.0,2,平間池 > 下わんど池,264 > 2000,flow leaves the area or reaches no pond,81.6,90.8,False,70883,70663 > 68036
+awaji,2943,新池,4000,9.0,2,小谷池 > 新池,11000 > 5000,flow leaves the area or reaches no pond,63.1,90.1,False,68062,68061 > 68065
+awaji,2921,西小原池,3400,4.0,2,淡-2901 > 東小原下池,780 > 3900,flow leaves the area or reaches no pond,77.0,88.5,False,68040,70847 > 71005
+awaji,2440,山田上池|淡-166,1270,9.6,2,山田下池 > 淡-130,600 > 260,next pond holds,82.5,88.3,False,67543|68605,72341 > 68634
+awaji,6310,淡-1305,2580,6.0,2,淡-1303 > 小川池,12000 > 3740,flow leaves the area or reaches no pond,67.6,87.0,False,71772,71771 > 71766
+awaji,2713,空池,3800,6.3,2,砂池 > 数河山池,1240 > 1560,flow leaves the area or reaches no pond,72.3,86.3,False,67822,69861 > 69856
+awaji,6312,淡-1328,3210,7.0,2,淡-1303 > 小川池,12000 > 3740,flow leaves the area or reaches no pond,71.5,82.8,False,71774,71771 > 71766
+awaji,6155,淡-2096,1360,5.0,2,佃池 > 松本池,2000 > 5000,flow leaves the area or reaches no pond,80.5,80.5,False,71613,68155 > 71640
+awaji,2896,柚原池,6000,3.0,2,園出池1 > 園出池2,820 > 373,flow leaves the area or reaches no pond,78.5,78.5,False,68014,70769 > 70771
+awaji,2580,砂止池,8000,7.4,2,皿池 > 中池,17000 > 24000,next pond has no water surface,59.1,76.3,False,67684,67685 > 67693
+awaji,3283,六ツ田池,11000,4.8,2,中池 > 六石谷池,22000 > 2000,next pond has no water surface,42.4,74.6,False,68456,67767 > 67771
+awaji,4077,淡-2790,6650,1.0,2,淡-2795 > 露ノ奥池上池,1632 > 7000,next pond has no water surface,35.4,74.5,False,69298,69527 > 67769
+awaji,153,王寺池,10000,6.0,2,法華池 > 神田池,8260 > 4000,next pond beyond the distance,36.3,71.4,False,54690,56873 > 67605
+awaji,2716,小原池,60000,14.8,2,新池 > 下川池,41000 > 18000,flow leaves the area or reaches no pond,32.0,70.3,False,67825,67826 > 67821
+awaji,2907,熊野上池,8000,5.0,2,熊野中池 > 熊野下池,2000 > 4000,flow leaves the area or reaches no pond,69.7,69.7,False,68026,68027 > 68025
+awaji,6257,新池（たき池田主）,11450,10.0,2,中池（たき池田主） > 川池,1920 > 5000,flow leaves the area or reaches no pond,57.4,69.7,False,71719,71720 > 68165
+awaji,5371,シダ池,3570,4.0,2,古池（古下池） > 桃谷池,4000 > 1000,flow leaves the area or reaches no pond,69.5,69.5,False,70784,68032 > 68030
+awaji,5685,山田池,7820,7.0,2,中池（共同池） > 大池,15000 > 48000,flow leaves the area or reaches no pond,68.6,68.6,False,71121,71122 > 68077
+awaji,2897,塚原池,11000,7.0,2,淡-3522 > よさ池,960 > 100,flow leaves the area or reaches no pond,67.6,67.6,False,68015,70781 > 70779
+awaji,2739,猪ノ谷上池,8000,13.9,2,猪ノ谷下池 > 近藤池（その１）,6000 > 300,flow leaves the area or reaches no pond,40.5,67.0,False,67848,67847 > 70069
+awaji,3312,奥菰池,4000,4.0,2,石池 > 新池,4000 > 3000,flow leaves the area or reaches no pond,50.9,65.3,False,68486,68220 > 68219
+awaji,6426,新池,3500,4.5,2,清水上池 > 清水下池,2000 > 1000,flow leaves the area or reaches no pond,43.7,64.8,False,71894,68200 > 68199
+awaji,2740,笠松大池,7000,8.1,2,美の谷池 > 中ノ内池,5012 > 9000,next pond has no water surface,52.5,64.5,False,67849,70017 > 67846
+awaji,127,楠原池,6000,4.5,2,投石池 > 大久保池,4000 > 4000,flow leaves the area or reaches no pond,63.3,63.3,False,54661,54640 > 54649
+awaji,2646,上池,8000,4.2,2,角谷大池 > 細子池,26000 > 28000,next pond beyond the distance,34.4,62.2,False,67750,67755 > 67746
+awaji,3111,奥の谷池,1000,2.5,2,中池 > 砂池,2000 > 1000,flow leaves the area or reaches no pond,61.8,61.8,False,68235,68257 > 68250
+awaji,3287,色目池,3600,5.9,2,淡-3624 > 色目大池,1960 > 3800,flow leaves the area or reaches no pond,59.6,59.7,False,68460,70141 > 67851
+awaji,2736,葛原池,31000,10.2,2,ツカダ池 > 淡-3581,1000 > 272,flow leaves the area or reaches no pond,53.9,59.5,False,67845,70043 > 70040
+awaji,2899,住居谷上池（上池）,10000,5.0,2,住居谷中池（岩谷中池） > 住居谷池,15000 > 7000,flow leaves the area or reaches no pond,56.9,56.9,False,68018,68020 > 68019
+awaji,4254,淡-3435|淡-3438,1310,4.0,2,淡-3426 > うるし谷池,1074 > 9000,next pond has no water surface,51.8,56.8,False,69479|69481,69475 > 67748
+awaji,3104,井手口池（鳴池）,26000,10.5,2,蕨池 > 川池,10000 > 8000,flow leaves the area or reaches no pond,54.9,54.9,False,68228,68233 > 68230
+awaji,1255,堀池,1404,4.0,2,大平池 > 才ノ神池,2000 > 9000,flow leaves the area or reaches no pond,39.0,52.9,False,56441,54815 > 54817
+awaji,2469,不動下池,3000,4.8,2,新池 > 丸池,10000 > 1000,flow leaves the area or reaches no pond,36.5,52.3,False,67572,67565 > 67564
+awaji,1447,洲-3483,2720,6.0,2,名畑谷池 > 平田池下池(名畑谷ポンプ）,4000 > 2538,next pond beyond the distance,25.2,52.2,False,56651,54677 > 56649
+awaji,4750,大池,1750,7.0,2,ばべ山池 > 淡-3888,1200 > 1540,next pond has no water surface,48.6,52.0,False,70091,70098 > 70103
+awaji,2485,奥池下池,9000,4.8,2,ババ池 > 谷池,740 > 1000,next pond holds,47.3,51.6,False,67589,68764 > 67598
+awaji,491,樋池上池,5000,4.2,2,樋池中池 > 樋池下池,7099 > 3850,flow leaves the area or reaches no pond,34.7,46.7,False,55097,56186 > 56183
+awaji,3034,中池,12000,7.0,2,新池 > 川池,6000 > 12000,flow leaves the area or reaches no pond,43.2,45.6,False,68154,68145 > 68149
+awaji,4547,淡-4204,2350,9.0,2,淡-4206 > 淡-4211,1660 > 2450,next pond has no water surface,30.9,44.8,False,69875,69876 > 69878
+awaji,2654,池内池,5000,7.3,2,自分池 > 淡-3405,3000 > 177,next pond holds,41.9,43.8,False,67758,67747 > 69469
+awaji,4147,中池,4800,7.0,2,狸穴下池 > 投石池,8000 > 7000,flow leaves the area or reaches no pond,29.0,41.5,False,69369,67757 > 67759
+awaji,6204,淡-1092,1500,6.0,2,薬師池 > ちよも池,250 > 1820,next pond has no water surface,35.1,41.3,False,71664,71838 > 71666
+awaji,4125,淡-2904,6000,2.0,2,淡-2932 > 桃花池,6000 > 21000,flow leaves the area or reaches no pond,31.5,37.9,False,69347,69350 > 67761
+awaji,2744,池ノ谷上池,5000,10.0,2,池ノ谷池 > 寺の前,4000 > 1140,flow leaves the area or reaches no pond,30.0,32.3,False,67853,67854 > 70131
+awaji,2522,払川池No.２,6000,6.3,2,払川池No.１ > 神社池,22000 > 6000,next pond beyond the distance,24.1,30.1,False,67626,67625 > 67617
+awaji,4159,近藤上池,2700,11.0,2,近藤上池 > 近藤下池,2000 > 2000,flow leaves the area or reaches no pond,27.5,29.0,False,69382,67745 > 67744
+awaji,2754,土地切池,27000,10.2,2,室津池 > 淡-3737,13000 > 1095,next pond has no water surface,28.4,28.8,False,67863,67858 > 70184
+awaji,3292,新池,1800,10.5,2,大池 > 古川,3600 > 400,next pond beyond the distance,22.8,24.3,True,68465,68466 > 70421
+awaji,98,石ヶ谷池,3000,8.0,2,仲池 > 長池,2000 > 12000,next pond holds,20.7,23.7,False,54625,54627 > 54628
+awaji,2840,中池,6000,7.4,2,夫婦池 > あんのむかい池,5000 > 1540,next pond beyond the distance,17.2,17.5,False,67958,67960 > 70563
+awaji,2830,釜谷上池,41000,16.5,2,釜谷下池 > 滑池,43000 > 44000,next pond beyond the distance,8.7,13.1,False,67948,67947 > 67946
+awaji,2844,本谷池,21000,9.7,2,中池 > 滑池,54000 > 44000,next pond beyond the distance,3.0,13.1,False,67962,67957 > 67946
+awaji,6412,初毛池,3280,5.0,2,初毛下池 > 谷池,1430 > 970,next pond beyond the distance,10.5,13.1,False,71880,71881 > 71878
+awaji,3018,鴨池,8000,6.0,2,淡-2116 > 淡-2188,584 > 2700,flow leaves the area or reaches no pond,10.3,10.3,False,68137,71618 > 71628
+awaji,3088,平畑上池|平畑池,32000,6.8,2,淡-648 > 淡-636,190 > 390,next pond beyond the distance,10.2,10.2,False,68211|68212,71890 > 71889
+awaji,2413,奥ノ谷池,11000,6.5,1,西谷新池,4000,flow leaves the area or reaches no pond,831.2,831.2,False,67515,67526
+awaji,2419,皿池,8000,4.8,1,下池|上池,4000,next pond holds,554.3,554.3,False,67521,67517|67524
+awaji,3837,針池,1000,3.0,1,小谷池,250,next pond holds,438.8,530.7,False,69050,69051
+awaji,2681,桃谷池,72000,9.9,1,平池,6000,flow leaves the area or reaches no pond,414.3,483.1,False,67785,67787
+awaji,2584,庄ヶ内上池,3000,4.0,1,庄ヶ内中池,2000,flow leaves the area or reaches no pond,434.9,478.5,False,67688,67689
+awaji,2724,神池,25000,8.2,1,赤井池,5000,flow leaves the area or reaches no pond,385.4,462.7,False,67833,67834
+awaji,2685,矢後上池,8000,5.2,1,矢後池（矢後下池）,11000,flow leaves the area or reaches no pond,367.1,397.7,False,67789,67790
+awaji,3897,淡-1057,1400,7.0,1,淡-1090,500,flow leaves the area or reaches no pond,376.1,393.8,False,69114,69115
+awaji,2593,由谷上池,14000,4.1,1,由谷池,19000,flow leaves the area or reaches no pond,265.2,392.4,False,67697,67698
+awaji,110,（非）女子母池,4000,7.0,1,マス池,6000,flow leaves the area or reaches no pond,338.7,338.7,False,54643,54667
+awaji,124,皿池,15000,5.0,1,マス池,6000,flow leaves the area or reaches no pond,335.3,335.3,False,54658,54667
+awaji,2596,成就田池,4000,2.9,1,総田池,3000,flow leaves the area or reaches no pond,271.5,315.0,False,67700,67690
+awaji,4896,淡-4172,1020,2.0,1,淡-4181,600,next pond has no water surface,314.0,314.0,False,70244,70245
+awaji,3340,鼻野池,2280,10.21,1,五池,650,flow leaves the area or reaches no pond,273.8,304.2,False,68520,69052
+awaji,2669,久保谷池,20000,6.8,1,淡-2295,1320,flow leaves the area or reaches no pond,148.4,271.5,False,67773,69591
+awaji,2682,八畑川池|八畑川池,7669,7.5,1,淡-2295,1320,flow leaves the area or reaches no pond,177.2,270.7,False,67786|69597,69591
+awaji,4376,淡-2438,2490,9.0,1,菅ノ谷池,14000,flow leaves the area or reaches no pond,218.0,257.1,False,69607,67778
+awaji,2881,砂土谷池,4000,8.3,1,タンノ池上|タンノ池下,5210,flow leaves the area or reaches no pond,249.9,249.9,False,67999,70832|70833
+awaji,2578,笠川池,19000,9.7,1,笠川新池,22000,flow leaves the area or reaches no pond,161.8,248.7,False,67682,67681
+awaji,2703,惣林坊池,9000,6.3,1,鈩屋池,3000,flow leaves the area or reaches no pond,235.3,240.1,False,67807,67814
+awaji,2700,上池,1000,2.9,1,中池,2000,next pond holds,238.8,238.8,False,67804,67809
+awaji,2693,鬼蛇川下池,20000,9.5,1,岩隈池,26000,flow leaves the area or reaches no pond,214.7,234.8,False,67797,67796
+awaji,2904,中池,7000,9.0,1,淡-3672,70,next pond has no water surface,230.6,230.6,False,68023,70835
+awaji,2696,後谷池,7000,5.0,1,床池,14000,flow leaves the area or reaches no pond,157.4,221.5,False,67800,67803
+awaji,4575,淡-4272,3020,5.0,1,七代池,4200,flow leaves the area or reaches no pond,150.1,212.5,False,69905,67824
+awaji,2708,品ヶ谷上池|〈非)後谷上池（新堀池）(廃止),21000,6.0,1,品ヶ谷下池,16000,flow leaves the area or reaches no pond,203.8,210.8,False,67812|68507,67802
+awaji,2679,谷尻池,23000,8.3,1,大門池,49000,flow leaves the area or reaches no pond,128.9,210.6,False,67783,67781
+awaji,5770,トクロ池,59000,2.0,1,蔵谷池,50000,flow leaves the area or reaches no pond,195.4,209.1,False,71212,68088
+awaji,2714,山本池,8200,7.3,1,七代池,4200,flow leaves the area or reaches no pond,153.4,205.5,False,67823,67824
+awaji,233,弥の谷池,3000,4.0,1,新池,2000,next pond beyond the distance,179.4,204.8,False,54774,54782
+awaji,2752,瀬池|瀬池,31000,7.2,1,中池,3000,next pond has no water surface,109.8,200.8,False,67861|68016,68024
+awaji,2903,皿池,13000,9.0,1,中池,3000,next pond has no water surface,200.4,200.4,False,68022,68024
+awaji,2865,砂池,4000,8.2,1,コンガ池,3000,flow leaves the area or reaches no pond,132.7,196.1,False,67983,67981
+awaji,2673,松芝池,9000,11.5,1,谷ノ下池,3000,flow leaves the area or reaches no pond,136.8,194.4,False,67777,67782
+awaji,2864,荒神池,3000,6.3,1,コンガ池,3000,flow leaves the area or reaches no pond,135.2,193.3,False,67982,67981
+awaji,2687,冷田谷池,6000,6.4,1,谷ノ下池,3000,flow leaves the area or reaches no pond,135.5,192.4,False,67791,67782
+awaji,131,芳池,16000,5.0,1,中の池,19000,flow leaves the area or reaches no pond,70.1,177.3,False,54665,54664
+awaji,2868,中ノ池,4000,9.4,1,コンガ池,3000,flow leaves the area or reaches no pond,151.3,176.1,False,67986,67981
+awaji,4589,九エ門池,8200,6.0,1,淡-4334,24900,next pond has no water surface,145.7,171.9,False,69922,69924
+awaji,2517,田古大池,85000,13.5,1,淡-714,48,flow leaves the area or reaches no pond,118.4,167.7,False,67621,68911
+awaji,5818,荒神池,3330,8.0,1,小倉池,6000,flow leaves the area or reaches no pond,149.9,162.6,False,71261,68096
+awaji,6092,家ノ下池,2340,6.0,1,小倉池,6000,flow leaves the area or reaches no pond,144.7,161.9,False,71543,68096
+awaji,3010,ミツ池（ハス池）,2000,2.5,1,谷池,3000,flow leaves the area or reaches no pond,158.0,158.0,False,68129,68132
+awaji,1695,洲-3164,1100,9.0,1,洲-3153,540,next pond has no water surface,151.5,156.2,False,56913,56360
+awaji,2981,矢折上池,17000,5.5,1,矢折下池,7000,flow leaves the area or reaches no pond,155.8,155.8,False,68100,68099
+awaji,2605,高山上池,23000,15.0,1,高山池,25000,flow leaves the area or reaches no pond,23.9,151.5,False,67709,67710
+awaji,4603,近江谷池,11340,10.0,1,富原上池,23000,next pond has no water surface,133.6,150.1,False,69937,68459
+awaji,3000,葛原池,11000,3.8,1,新池,11000,flow leaves the area or reaches no pond,111.9,149.5,False,68119,68124
+awaji,3003,玉田池|寄池,26000,4.0,1,新池,11000,flow leaves the area or reaches no pond,95.8,149.5,False,68122|68481,68124
+awaji,3007,中村池,9000,3.2,1,新池,11000,flow leaves the area or reaches no pond,118.8,148.8,False,68126,68124
+awaji,3002,兜上池（兜池）,6000,4.0,1,兜下池,7000,flow leaves the area or reaches no pond,135.6,142.6,False,68121,68120
+awaji,5967,淡-1256,3800,8.0,1,淡-1287,690,flow leaves the area or reaches no pond,130.6,138.1,False,71415,70674
+awaji,2533,大谷池,16000,4.9,1,打越池,8000,next pond holds,123.1,136.6,False,67637,67635
+awaji,2995,白地池,4000,5.0,1,白地下池,1000,flow leaves the area or reaches no pond,106.4,131.2,False,68114,68113
+awaji,5195,助左エ門池,1155,3.0,1,長谷池,1606,next pond has no water surface,129.5,130.4,False,70603,70605
+awaji,3015,直鯖池（玉鯖池）,25000,7.5,1,金山池,5538,flow leaves the area or reaches no pond,120.7,130.1,False,68134,71539
+awaji,3031,大谷中池,8000,4.6,1,大谷下池,3000,flow leaves the area or reaches no pond,129.0,129.0,False,68151,68150
+awaji,2537,力石池,11000,5.6,1,新池,6000,next pond holds,123.3,127.4,False,67641,67633
+awaji,2509,上鷹ノ巣池,18000,3.5,1,下鷹ノ巣池,19000,next pond beyond the distance,118.7,126.1,False,67613,67611
+awaji,5199,せば谷池,1415,3.0,1,まこも池,758,next pond holds,125.9,125.9,False,70607,70611
+awaji,2998,高畑池,4000,5.5,1,石谷池,4000,flow leaves the area or reaches no pond,92.6,125.6,False,68117,68125
+awaji,3315,青谷池,4000,6.3,1,石谷池,4000,flow leaves the area or reaches no pond,89.2,125.1,False,68489,68125
+awaji,2476,荒神上池,2000,3.2,1,荒神下池（荒神池）,2000,flow leaves the area or reaches no pond,117.4,124.8,False,67579,67642
+awaji,4450,淡-4086,5249,3.0,1,長座池|淡-4101,17230,flow leaves the area or reaches no pond,94.5,124.7,False,69774,68458|69842
+awaji,2999,一町池,252000,6.0,1,合戸池,15000,flow leaves the area or reaches no pond,110.8,123.0,False,68118,68123
+awaji,2975,槙ヶ谷上池,38000,6.5,1,槙ヶ谷下池,24000,flow leaves the area or reaches no pond,120.6,120.6,False,68094,68093
+awaji,2510,新池,4000,4.3,1,深谷池,8000,next pond beyond the distance,109.7,116.6,False,67614,67616
+awaji,2889,長池〔大池〕,2000,3.2,1,増池（折ケ手池）,2000,flow leaves the area or reaches no pond,114.8,114.8,False,68007,68005
+awaji,5260,くぼのはら池,2180,3.0,1,淡-2694,340,overflowing pond has no height,97.3,114.6,False,70668,71014
+awaji,2852,西谷池,44000,16.9,1,奥の平池,43000,flow leaves the area or reaches no pond,78.8,114.2,False,67970,67963
+awaji,2536,風呂の山上池,20000,6.1,1,風呂の山下池,25000,next pond holds,103.3,114.0,False,67640,67639
+awaji,2939,清次郎川池,7000,8.0,1,淡-2756,2520,flow leaves the area or reaches no pond,108.1,112.9,False,68058,70965
+awaji,2452,糸池,5000,3.9,1,下池,4000,flow leaves the area or reaches no pond,108.8,110.6,False,67555,67552
+awaji,282,皿池,5000,6.0,1,洲-3072,5300,next pond has no water surface,79.4,110.3,False,54823,57024
+awaji,3114,細谷池,15000,5.0,1,土田池,12000,flow leaves the area or reaches no pond,103.7,110.3,False,68238,68244
+awaji,3117,新池|（非）淡-730,9300,3.5,1,土田池,12000,flow leaves the area or reaches no pond,106.9,110.3,False,68241|72008,68244
+awaji,2859,龍神池,60000,16.0,1,谷奥池,8000,flow leaves the area or reaches no pond,82.5,109.6,False,67977,67972
+awaji,2892,二子山新池,3000,7.0,1,サカマタ池|淡-3076,1110,next pond has no water surface,97.6,109.6,False,68010,67991|70688
+awaji,4395,淡-2632,1500,6.0,1,淡-2625,576,flow leaves the area or reaches no pond,100.8,109.0,False,69626,69622
+awaji,2912,井手ノ尻池,14000,6.0,1,谷池,528,flow leaves the area or reaches no pond,108.9,108.9,False,68031,70759
+awaji,3119,土井池,6000,4.0,1,原田池,3000,flow leaves the area or reaches no pond,107.6,108.9,False,68243,68249
+awaji,6551,淡-1073,2570,9.0,1,後の谷池,250,flow leaves the area or reaches no pond,108.1,108.1,False,72031,70679
+awaji,2557,宇土口上池,5000,4.5,1,忠谷池,2120,flow leaves the area or reaches no pond,85.2,106.9,False,67661,68517
+awaji,2883,四通池,3000,3.5,1,河内下池,3000,flow leaves the area or reaches no pond,106.9,106.9,False,68001,67997
+awaji,2632,清水池,8000,7.5,1,谷子池,45000,flow leaves the area or reaches no pond,105.7,105.7,False,67736,67740
+awaji,3037,鳶ノ巣上池,5000,3.5,1,鳶巣下池,7000,flow leaves the area or reaches no pond,100.3,105.7,False,68157,68156
+awaji,5314,淡-3294,2500,5.0,1,河内下池,3000,flow leaves the area or reaches no pond,105.7,105.7,False,70726,67997
+awaji,5859,淡-2574,1200,8.0,1,トウゴ池,900,next pond holds,105.5,105.5,False,71304,71105
+awaji,5860,淡-2615,3000,8.0,1,トウゴ池,900,next pond holds,105.0,105.0,False,71305,71105
+awaji,3300,瀬木谷下池|淡-3159,1230,3.0,1,淡-3138,195,flow leaves the area or reaches no pond,97.3,104.2,False,68473|70702,70698
+awaji,2684,本田池,9000,8.0,1,今谷池,7000,next pond has no water surface,103.2,103.2,False,67788,67775
+awaji,5945,淡-2220,1280,12.0,1,免田池,3000,flow leaves the area or reaches no pond,97.8,103.0,False,71390,68480
+awaji,4586,淡-4307,8940,9.0,1,淡-4315,720,next pond beyond the distance,81.2,102.8,False,69919,69920
+awaji,3638,太庵池,1240,7.0,1,新池,960,next pond has no water surface,97.2,101.7,False,68838,68840
+awaji,2984,古茂上池,4000,4.0,1,古茂下池,3000,flow leaves the area or reaches no pond,93.1,101.6,False,68103,68102
+awaji,4538,淡-4170,1260,3.0,1,淡-4166,1240,flow leaves the area or reaches no pond,91.5,101.2,False,69866,69863
+awaji,6541,淡-915,1770,8.0,1,楢原池,1000,next pond has no water surface,99.8,101.0,False,72021,68260
+awaji,5276,淡-3038,1070,2.0,1,淡-3029,870,flow leaves the area or reaches no pond,94.2,99.3,False,70684,70683
+awaji,5234,大門池,2000,7.0,1,昌ヶ瀬の池,69,next pond holds,96.4,98.8,False,70642,70646
+awaji,2992,石上池|淡-1325|淡-1345,1184,2.5,1,淡-1403,820,flow leaves the area or reaches no pond,93.0,97.3,False,68111|71433|71437,71455
+awaji,2460,横田池,15000,5.0,1,横田新池,1000,flow leaves the area or reaches no pond,90.0,95.1,False,67563,67562
+awaji,2500,山奥池,4000,4.8,1,平池,3000,next pond beyond the distance,75.9,94.7,False,67604,67608
+awaji,2733,中池,48000,13.0,1,下池,9000,flow leaves the area or reaches no pond,85.7,94.4,False,67842,67839
+awaji,2635,滝ノ頭池,8000,8.1,1,八幡田池,1667,flow leaves the area or reaches no pond,93.7,93.7,False,67739,68522
+awaji,2919,西小原下池,2300,4.5,1,谷池,1410,flow leaves the area or reaches no pond,83.8,92.5,False,68038,70854
+awaji,2429,谷池,7000,5.7,1,金谷古池,13000,flow leaves the area or reaches no pond,91.3,91.3,False,67532,67518
+awaji,5726,淡-3040,1590,3.0,1,城ヶ谷下池,1000,flow leaves the area or reaches no pond,78.4,91.3,False,71165,68074
+awaji,5240,大桜池,4580,9.0,1,淡-4547,890,flow leaves the area or reaches no pond,90.9,90.9,False,70648,69972
+awaji,149,長谷上池,5000,5.0,1,長谷下池,7000,next pond beyond the distance,84.5,90.6,False,54686,54683
+awaji,2569,新池,21000,7.0,1,古東谷池,22000,next pond has no water surface,77.1,90.1,False,67673,67668
+awaji,2942,小谷池,11000,11.0,1,新池,5000,flow leaves the area or reaches no pond,74.4,90.0,False,68061,68065
+awaji,2563,穴池（河合池）,7000,5.7,1,西の下池,8000,next pond has no water surface,86.5,89.8,False,67667,67674
+awaji,1427,ひょうたん池|（非）洲-3368,4200,5.0,1,フケ調整池,1070,next pond beyond the distance,66.8,86.8,False,56627|56630,56603
+awaji,2920,東小原上池,4000,3.5,1,東小原下池,3900,flow leaves the area or reaches no pond,73.2,86.6,False,68039,71005
+awaji,5443,淡-2983|ぜいもん池,4440,4.0,1,ぬるま池,1300,flow leaves the area or reaches no pond,82.1,86.0,False,70864|70865,68035
+awaji,4115,蓮池,4000,7.0,1,上池,4000,next pond has no water surface,85.9,85.9,False,69336,68447
+awaji,268,保ノ木谷池,6000,7.0,1,上池,3000,next pond beyond the distance,69.2,85.5,False,54809,54777
+awaji,2932,流田下池,2300,5.1,1,淡-2602|淡-2616,430,next pond holds,76.0,85.5,False,68051,70944|71016
+awaji,2940,大将軍池,14000,7.0,1,淡-2556,300,flow leaves the area or reaches no pond,83.0,84.5,False,68059,70930
+awaji,2489,皿池大池,20000,7.4,1,皿池,33000,next pond beyond the distance,47.6,82.7,False,67593,67592
+awaji,6309,淡-1303,12000,6.0,1,小川池,3740,flow leaves the area or reaches no pond,74.3,82.6,False,71771,71766
+awaji,2630,新池,6000,6.3,1,山ノ神池,15000,flow leaves the area or reaches no pond,82.4,82.4,False,67734,67728
+awaji,2987,土器谷上池,9000,5.0,1,土器谷下池,2000,flow leaves the area or reaches no pond,73.7,82.1,False,68106,68105
+awaji,1216,マス池|長池,1409,3.0,1,洲-3103,266,flow leaves the area or reaches no pond,77.3,81.8,False,56399|56400,56402
+awaji,4647,淡-3897,4000,10.0,1,池の谷池,7000,flow leaves the area or reaches no pond,73.1,81.1,False,69981,67841
+awaji,3471,蓮池|稲谷池,4070,9.0,1,西ノ門池,5000,next pond has no water surface,69.0,79.9,False,68662|68666,67568
+awaji,5374,氏神池,3740,5.0,1,新池,5000,flow leaves the area or reaches no pond,79.6,79.6,False,70787,68028
+awaji,1032,茶畑の池,1900,5.0,1,洲-3046,240,flow leaves the area or reaches no pond,70.0,76.6,False,56122,57018
+awaji,5362,淡-3501,3585,6.0,1,滝ヶ谷池,3754,overflowing pond has no height,68.8,76.6,False,70775,70763
+awaji,2581,皿池,17000,9.8,1,中池,24000,next pond has no water surface,67.2,76.3,False,67685,67693
+awaji,4558,淡-4233,1910,4.0,1,淡-4247,340,next pond has no water surface,72.8,75.8,False,69886,69894
+awaji,6538,淡-837,8100,8.0,1,イモジ谷池,9000,flow leaves the area or reaches no pond,61.6,75.4,False,72018,68246
+awaji,2963,源之丞池,12000,5.5,1,大糸谷池,115000,flow leaves the area or reaches no pond,75.3,75.3,False,68082,68089
+awaji,3284,洲留池,1700,0.4,1,四平池,920,next pond has no water surface,70.2,75.0,False,68457,69852
+awaji,6168,丈夫谷池,4589,4.0,1,松本池,5000,flow leaves the area or reaches no pond,73.6,73.6,False,71626,71640
+awaji,5446,神童池,1430,6.0,1,桐池,2000,next pond holds,60.2,73.1,False,70868,70871
+awaji,5451,なんまつ,1070,7.0,1,桐池,2000,next pond holds,69.4,73.1,False,70873,70871
+awaji,2472,保月中池,5000,9.0,1,保月下池,2000,flow leaves the area or reaches no pond,51.2,73.0,False,67575,67574
+awaji,5310,淡-3280,2990,8.0,1,淡-3296,2660,next pond holds,69.6,72.1,False,70722,70727
+awaji,1658,法華池,8260,8.0,1,神田池,4000,next pond beyond the distance,64.5,71.0,False,56873,67605
+awaji,3073,野上上池,12000,7.0,1,野上下池,10000,next pond has no water surface,59.5,71.0,False,68194,68226
+awaji,2626,女笠池,2000,4.4,1,新池,5000,flow leaves the area or reaches no pond,70.6,70.6,False,67730,67735
+awaji,3782,淡-1898,1443,7.0,1,川池,2450,flow leaves the area or reaches no pond,67.9,70.5,False,68995,68998
+awaji,2663,中池,22000,10.3,1,六石谷池,2000,next pond has no water surface,54.5,70.4,False,67767,67771
+awaji,2717,新池,41000,20.4,1,下川池,18000,flow leaves the area or reaches no pond,39.4,70.3,False,67826,67821
+awaji,3121,立石池,2000,3.5,1,一本松池,3000,next pond holds,38.8,70.0,False,68245,68234
+awaji,4289,淡-2727,1740,8.0,1,淡-2663,145,next pond has no water surface,52.6,69.7,False,69515,69510
+awaji,2652,谷田池,21000,8.6,1,淡-3581,272,flow leaves the area or reaches no pond,57.7,69.6,False,67756,70040
+awaji,2913,古池（古下池）,4000,4.0,1,桃谷池,1000,flow leaves the area or reaches no pond,69.1,69.1,False,68032,68030
+awaji,2908,熊野中池,2000,6.0,1,熊野下池,4000,flow leaves the area or reaches no pond,68.8,68.8,False,68027,68025
+awaji,3075,安乎堂池,36000,5.5,1,川池,1800,flow leaves the area or reaches no pond,44.5,68.7,False,68196,71884
+awaji,2573,中ノ谷池,7000,3.6,1,川池,4000,flow leaves the area or reaches no pond,60.3,68.5,False,67677,67675
+awaji,395,シゲ池,16000,6.5,1,大池,4000,flow leaves the area or reaches no pond,68.3,68.3,False,54969,54959
+awaji,2738,猪ノ谷下池,6000,9.8,1,近藤池（その１）,300,flow leaves the area or reaches no pond,43.2,66.9,False,67847,70069
+awaji,2645,小谷池|淡-3410,6240,5.2,1,常盤池,5000,flow leaves the area or reaches no pond,60.1,66.5,False,67749|69470,67850
+awaji,107,新池,5000,6.0,1,古新池,5000,next pond has no water surface,66.0,66.0,False,54639,54644
+awaji,5778,淡-2258,2750,15.0,1,山桑池,7000,flow leaves the area or reaches no pond,65.8,65.8,False,71220,68083
+awaji,2634,西沢池,13000,6.3,1,西沢下池,20000,flow leaves the area or reaches no pond,65.3,65.3,False,67738,67737
+awaji,3096,石池,4000,3.5,1,新池,3000,flow leaves the area or reaches no pond,61.6,64.9,False,68220,68219
+awaji,3101,福池,5000,6.0,1,新池,3000,flow leaves the area or reaches no pond,62.3,64.7,False,68225,68219
+awaji,1158,洲-3684|洲-3685|洲-3686,1320,6.0,1,洲-3683,1996,flow leaves the area or reaches no pond,64.6,64.6,False,56336|56337|56338,56335
+awaji,3078,清水上池,2000,3.0,1,清水下池,1000,flow leaves the area or reaches no pond,56.5,63.6,False,68200,68199
+awaji,1694,法華池上池,1497,6.0,1,法華池下池,910,next pond holds,61.6,63.2,False,56912,56914
+awaji,4753,淡-3854,1130,11.0,1,淡-3864,510,flow leaves the area or reaches no pond,59.4,62.6,False,70094,70096
+awaji,861,洲-3057,1632,4.0,1,谷池,2292,next pond holds,53.7,62.5,False,55760,56458
+awaji,121,奥の土井池,1000,4.0,1,中の池,2000,flow leaves the area or reaches no pond,62.0,62.0,False,54654,54648
+awaji,3069,鍋倉上池|鍋倉中池,38000,8.0,1,鍋倉新池,12000,flow leaves the area or reaches no pond,50.8,62.0,False,68189|68191,68190
+awaji,6496,フルツク奥池,1425,2.0,1,淡-818|フルツク池,2681,flow leaves the area or reaches no pond,60.6,62.0,False,71973,71971|71972
+awaji,108,投石池,4000,5.0,1,大久保池,4000,flow leaves the area or reaches no pond,61.7,61.7,False,54640,54649
+awaji,2553,道堂上池,25000,5.9,1,道堂下池,19000,flow leaves the area or reaches no pond,48.1,61.5,False,67657,67656
+awaji,112,堂ノ下池,1000,4.0,1,中の池,2000,flow leaves the area or reaches no pond,59.9,59.9,False,54645,54648
+awaji,2651,角谷大池,26000,7.8,1,細子池,28000,next pond beyond the distance,41.2,59.9,False,67755,67746
+awaji,3092,寄合池,60000,6.0,1,溝下池,17000,flow leaves the area or reaches no pond,48.6,58.5,False,68216,68217
+awaji,4796,淡-3624,1960,3.0,1,色目大池,3800,flow leaves the area or reaches no pond,57.9,57.9,False,70141,67851
+awaji,1189,洲-3540,1860,5.0,1,奥内池,4000,flow leaves the area or reaches no pond,42.4,57.5,False,56371,54687
+awaji,6482,大戸池上池,1830,5.0,1,大戸池,5000,flow leaves the area or reaches no pond,50.7,56.1,False,71956,68201
+awaji,6299,井面田主　西谷池,3000,4.0,1,新池,6000,flow leaves the area or reaches no pond,53.2,55.3,False,71761,68192
+awaji,2901,住居谷中池（岩谷中池）,15000,5.5,1,住居谷池,7000,flow leaves the area or reaches no pond,55.0,55.0,False,68020,68019
+awaji,3109,蕨池,10000,7.0,1,川池,8000,flow leaves the area or reaches no pond,54.9,54.9,False,68233,68230
+awaji,2662,谷山池,16000,13.8,1,（非）淡-2948,1140,next pond holds,37.4,54.5,False,67766,69545
+awaji,119,本田池,8000,6.0,1,大久保池,4000,flow leaves the area or reaches no pond,54.2,54.2,False,54652,54649
+awaji,2497,蓼町池|淡-193,3170,3.5,1,上田池,5000,next pond holds,37.4,54.0,False,67601|68779,67594
+awaji,2549,湯ノ谷上池,4000,6.0,1,中池,950,next pond has no water surface,50.7,53.3,False,67653,71671
+awaji,3067,才神池,7000,6.0,1,淡-1610,161,next pond holds,51.6,51.6,False,68187,71796
+awaji,1251,岩谷上池,1200,8.0,1,洲-3507,2500,next pond has no water surface,48.1,51.3,False,56437,56435
+awaji,4757,ばべ山池,1200,6.0,1,淡-3888,1540,next pond has no water surface,50.4,51.3,False,70098,70103
+awaji,3022,山中下池|山中池,6000,5.0,1,家の下池,200,next pond holds,47.8,51.2,False,68141|68142,71700
+awaji,2555,門ノ池,4000,4.8,1,西ノ池,1000,flow leaves the area or reaches no pond,49.2,50.4,False,67659,68455
+awaji,2462,新池,10000,5.7,1,丸池,1000,flow leaves the area or reaches no pond,38.7,50.2,False,67565,67564
+awaji,140,名畑谷池,4000,5.0,1,平田池下池(名畑谷ポンプ）,2538,next pond beyond the distance,26.6,50.1,False,54677,56649
+awaji,277,湯の谷池,2000,3.5,1,才ノ神池,9000,flow leaves the area or reaches no pond,33.6,50.0,False,54818,54817
+awaji,4709,行者池,1710,3.0,1,行者池|行者小池,9720,flow leaves the area or reaches no pond,49.4,49.9,False,70047,70046|70139
+awaji,274,大平池,2000,5.0,1,才ノ神池,9000,flow leaves the area or reaches no pond,42.3,49.6,False,54815,54817
+awaji,2556,和平池,3000,3.3,1,西ノ池,1000,flow leaves the area or reaches no pond,48.4,49.4,False,67660,68455
+awaji,3082,二ツ中池|二ツ上池,9000,5.2,1,二ツ池,13000,next pond has no water surface,46.1,49.4,False,68204|68205,68206
+awaji,141,木屋谷池,2000,6.0,1,平田池下池(名畑谷ポンプ）,2538,next pond beyond the distance,22.7,49.3,False,54678,56649
+awaji,2457,桂谷池,2000,3.0,1,丸池,1000,flow leaves the area or reaches no pond,41.2,48.6,False,67560,67564
+awaji,3770,淡-965,2330,5.0,1,志田花上池,5000,next pond holds,41.7,46.8,False,68980,67647
+awaji,1094,樋池中池,7099,3.7,1,樋池下池,3850,flow leaves the area or reaches no pond,40.7,46.4,False,56186,56183
+awaji,2486,奥池上池|淡-132,3180,4.0,1,上田池,5000,next pond holds,34.8,45.9,False,67590|68760,67594
+awaji,255,清蔵池（下）,2000,5.0,1,清蔵池（新）,1600,next pond holds,39.0,45.6,False,54796,54795
+awaji,2643,自分池,3000,6.0,1,淡-3405,177,next pond holds,42.4,43.8,False,67747,69469
+awaji,3133,中池,2000,3.5,1,砂池,1000,flow leaves the area or reaches no pond,43.5,43.5,False,68257,68250
+awaji,4548,淡-4206,1660,7.0,1,淡-4211,2450,next pond has no water surface,34.0,43.5,False,69876,69878
+awaji,5382,新池,1560,10.0,1,原の池,320,flow leaves the area or reaches no pond,43.1,43.1,False,70795,70794
+awaji,3134,中池|塔下池,59000,8.0,1,落合池,222,flow leaves the area or reaches no pond,42.8,42.8,False,68258|68259,70681
+awaji,2718,瀬地池,15000,21.7,1,大正池,10000,flow leaves the area or reaches no pond,25.3,42.6,False,67827,67828
+awaji,5379,政池,2750,15.0,1,下池,225,flow leaves the area or reaches no pond,42.5,42.5,False,70792,70791
+awaji,2653,狸穴下池,8000,9.1,1,投石池,7000,flow leaves the area or reaches no pond,32.4,41.5,False,67757,67759
+awaji,464,皿池,17000,7.0,1,新池（鴨郡）,4000,next pond holds,34.4,40.8,False,55043,54825
+awaji,4151,淡-3063,1250,5.0,1,淡-3111,2578,flow leaves the area or reaches no pond,32.4,40.6,False,69373,69383
+awaji,3097,惣代池,12000,5.0,1,上ソウダ|淡-340,568,next pond holds,39.8,40.4,False,68221,71937|71941
+awaji,6177,淡-2246,1520,6.0,1,淡-2279,2340,flow leaves the area or reaches no pond,39.7,39.7,False,71636,71639
+awaji,3091,笠松池,12000,3.5,1,土取新池（谷新池）,3000,next pond beyond the distance,37.3,38.4,False,68215,54828
+awaji,1465,悪瀬（「瀬」は「瀬の右側が刀貝」）池,3000,5.0,1,谷池,3000,next pond beyond the distance,35.6,38.2,False,56669,54755
+awaji,4133,淡-2958,30000,1.5,1,桃花池,21000,flow leaves the area or reaches no pond,31.7,37.3,False,69355,67761
+awaji,6203,乙坂池,3160,12.0,1,新池,1000,next pond has no water surface,34.1,37.2,False,71663,71665
+awaji,2426,川池上池,1000,3.6,1,川池下池,1000,flow leaves the area or reaches no pond,34.9,34.9,False,67529,67528
+awaji,3027,深山池|淡-1866,16050,4.5,1,深山下池,3000,flow leaves the area or reaches no pond,33.1,33.1,False,68147|71569,68146
+awaji,2647,新池,3000,6.7,1,淡-3353,2200,next pond has no water surface,24.0,32.8,False,67751,70120
+awaji,3103,犬ノ馬場池（鶴田上池）,3000,3.3,1,淡-372,108,next pond holds,31.8,32.8,False,68227,71947
+awaji,4142,竹の下池,2700,10.0,1,淡-3032,570,flow leaves the area or reaches no pond,31.5,32.6,False,69364,69368
+awaji,1750,清水池,1480,3.0,1,新池,3267,flow leaves the area or reaches no pond,27.9,32.4,False,56975,56972
+awaji,105,大池,51000,6.0,1,皿池,30000,flow leaves the area or reaches no pond,22.4,32.1,False,54632,54631
+awaji,2745,池ノ谷池,4000,9.0,1,寺の前,1140,flow leaves the area or reaches no pond,30.9,31.0,False,67854,70131
+awaji,2519,唐谷上池,5000,4.0,1,唐谷下池|きり池,8240,next pond beyond the distance,27.5,30.5,False,67623,67622|68865
+awaji,2521,払川池No.１,22000,8.3,1,神社池,6000,next pond beyond the distance,25.5,30.0,False,67625,67617
+awaji,3132,谷池,15000,5.9,1,落合池,222,flow leaves the area or reaches no pond,29.2,29.2,False,68256,70681
+awaji,2641,近藤上池,2000,3.7,1,近藤下池,2000,flow leaves the area or reaches no pond,28.5,28.6,False,67745,67744
+awaji,2749,室津池,13000,7.2,1,淡-3737,1095,next pond has no water surface,28.4,28.5,False,67858,70184
+awaji,5035,原田地区,1437,6.0,1,防災施設沈砂池（北淡17-2団地）,6830,next pond holds,27.3,27.9,False,70439,70443
+awaji,3021,山ノ内池,26000,6.6,1,夫婦岩新池（下池）,2000,next pond holds,23.2,26.3,False,68140,68485
+awaji,3052,塔下池,14000,4.0,1,宮池,18000,next pond holds,24.6,26.1,False,68172,68163
+awaji,4809,上池,1200,4.0,1,ハス池,1830,next pond holds,24.9,25.9,False,70155,70161
+awaji,1039,井戸ノ谷池,2470,9.0,1,大平池,3000,next pond holds,23.1,24.0,False,56129,54626
+awaji,3118,中尾池,4000,3.0,1,五反田池,3000,flow leaves the area or reaches no pond,22.5,22.5,False,68242,68237
+awaji,489,新池,6100,6.8,1,山王池,5109,next pond holds,19.7,21.6,False,55095,56145
+awaji,4465,淡-3801,3000,9.0,1,淡-3823,125,next pond holds,15.1,17.9,False,69791,69792
+awaji,5629,皿池,2350,4.0,1,淡-3068,1600,flow leaves the area or reaches no pond,17.6,17.6,False,71063,71066
+awaji,2842,夫婦池,5000,6.0,1,あんのむかい池,1540,next pond beyond the distance,17.2,17.4,False,67960,70563
+awaji,4107,(非）淡-3192,1306,2.0,1,淡-3237,395,next pond beyond the distance,11.6,15.3,False,69328,69330
+awaji,1457,又池,1400,5.0,1,中池,2010,next pond holds,10.7,14.1,False,56661,56656
+awaji,5630,淡-3035,1500,6.0,1,淡-3068,1600,flow leaves the area or reaches no pond,14.0,14.0,False,71064,71066
+awaji,2829,釜谷下池,43000,13.8,1,滑池,44000,next pond beyond the distance,10.1,13.1,False,67947,67946
+awaji,2839,中池,54000,10.3,1,滑池,44000,next pond beyond the distance,9.9,13.1,False,67957,67946
+awaji,6108,淡-1837|淡-1851,4349,4.0,1,鬼ヶ内池,10000,next pond has no water surface,13.0,13.0,False,71560|71564,68138
+awaji,6142,淡-2010,1690,5.0,1,淡-2034,480,next pond holds,13.0,13.0,False,71599,71603
+awaji,6413,初毛下池,1430,4.0,1,谷池,970,next pond beyond the distance,10.9,13.0,False,71881,71878
+awaji,2836,七口上池（七口池上池）,48000,10.2,1,七口下池,10000,next pond beyond the distance,11.2,11.7,False,67954,67953
+awaji,6427,平畑元池,1000,1.5,1,赤い谷池,1130,next pond beyond the distance,9.1,10.1,False,71895,71892
+awaji,2961,長池,41000,5.0,1,下池,9000,flow leaves the area or reaches no pond,9.9,9.9,False,68080,68068
+awaji,3087,平城上池,2000,4.8,1,平城池,3000,next pond holds,6.8,7.8,False,68210,68209
+awaji,6431,大開大池,2500,5.0,1,有池,1500,next pond holds,5.5,5.7,False,71899,71898
+awaji,2430,池田池,5000,3.8,0,,,flow leaves the area or reaches no pond,987.8,987.8,False,67533,
+awaji,2431,中池,1000,2.6,0,,,flow leaves the area or reaches no pond,978.5,978.5,False,67534,
+awaji,2592,煤ケ谷池,14000,6.4,0,,,flow leaves the area or reaches no pond,877.2,877.2,False,67696,
+awaji,2414,奥ノ内池,4000,3.9,0,,,flow leaves the area or reaches no pond,868.1,868.1,False,67516,
+awaji,2617,谷池|淡-1181,4030,4.1,0,,,flow leaves the area or reaches no pond,861.1,861.1,False,67721|69088,
+awaji,2427,岨池,3000,3.5,0,,,flow leaves the area or reaches no pond,831.3,831.3,False,67530,
+awaji,2433,八反田池|淡-822,2120,2.9,0,,,flow leaves the area or reaches no pond,831.2,831.2,False,67536|69167,
+awaji,2423,西谷新池,4000,3.5,0,,,flow leaves the area or reaches no pond,830.1,830.1,False,67526,
+awaji,2432,尼谷池,5000,4.0,0,,,flow leaves the area or reaches no pond,827.1,827.1,False,67535,
+awaji,3356,淡-1406,1460,5.0,0,,,flow leaves the area or reaches no pond,818.1,818.1,False,68537,
+awaji,3358,淡-1410|淡-1412,1130,2.0,0,,,next pond has no water surface,815.4,815.4,False,68539|68540,
+awaji,3874,淡-1210,1640,10.0,0,,,flow leaves the area or reaches no pond,795.5,795.5,False,69089,
+awaji,2590,天神新池,20000,5.0,0,,,flow leaves the area or reaches no pond,748.2,748.2,False,67694,
+awaji,2582,小谷池,54000,6.8,0,,,flow leaves the area or reaches no pond,738.8,738.8,False,67686,
+awaji,3852,調整池,1850,4.6,0,,,next pond holds,698.3,698.3,False,69065,
+awaji,3996,淡-1269,1550,3.0,0,,,next pond holds,688.9,688.9,False,69215,
+awaji,3987,淡-1197,1520,4.0,0,,,next pond holds,656.0,656.0,False,69206,
+awaji,2420,三宅谷池,78000,5.8,0,,,flow leaves the area or reaches no pond,618.1,618.1,False,67522,
+awaji,2422,新池,2000,2.7,0,,,next pond holds,557.5,557.5,False,67525,
+awaji,2412,井戸尻池,1000,3.1,0,,,next pond holds,551.8,551.8,False,67514,
+awaji,2415,下池|上池,4000,3.9,0,,,next pond holds,544.6,544.6,False,67517|67524,
+awaji,2583,庄ヶ内下池,1000,2.7,0,,,flow leaves the area or reaches no pond,537.7,537.7,False,67687,
+awaji,3391,大池|脇ノ城池,3320,5.0,0,,,next pond holds,529.8,529.8,False,68574|68575,
+awaji,2597,クサ池,2000,2.4,0,,,flow leaves the area or reaches no pond,522.0,522.0,False,67701,
+awaji,2957,瀬上池,6000,4.0,0,,,next pond holds,514.6,514.6,False,68076,
+awaji,5707,淡-2938,1470,2.0,0,,,next pond holds,512.1,512.1,False,71145,
+awaji,5705,うら池|田辺池,1125,4.8,0,,,next pond holds,510.5,510.5,False,71141|71142,
+awaji,2418,黒田池,100000,6.3,0,,,flow leaves the area or reaches no pond,504.3,504.3,False,67520,
+awaji,2614,大和畑池,25000,3.9,0,,,flow leaves the area or reaches no pond,500.5,500.5,False,67718,
+awaji,5708,谷池,1210,2.0,0,,,next pond holds,498.9,498.9,False,71146,
+awaji,5651,淡-2900,2300,20.0,0,,,flow leaves the area or reaches no pond,494.6,494.6,False,71085,
+awaji,5617,淡-2954,1140,2.0,0,,,next pond holds,493.8,493.8,False,71050,
+awaji,5615,淡-2928,1470,2.0,0,,,next pond has no water surface,490.0,490.0,False,71048,
+awaji,5652,淡-2902,2160,20.0,0,,,next pond has no water surface,486.2,486.2,False,71086,
+awaji,2954,皿池,50000,5.0,0,,,flow leaves the area or reaches no pond,483.1,483.1,False,68073,
+awaji,2723,新池,23000,7.4,0,,,flow leaves the area or reaches no pond,480.6,480.6,False,67832,
+awaji,3899,淡-1125,1440,3.0,0,,,flow leaves the area or reaches no pond,479.4,479.4,False,69116,
+awaji,2585,庄ヶ内中池,2000,4.0,0,,,flow leaves the area or reaches no pond,478.4,478.4,False,67689,
+awaji,2598,宇ノ森池,6000,3.8,0,,,flow leaves the area or reaches no pond,475.1,475.1,False,67702,
+awaji,2683,平池,6000,3.9,0,,,flow leaves the area or reaches no pond,466.2,466.2,False,67787,
+awaji,2688,谷川池,21000,4.2,0,,,flow leaves the area or reaches no pond,464.4,464.4,False,67792,
+awaji,2726,大池,95000,7.8,0,,,flow leaves the area or reaches no pond,460.5,460.5,False,67835,
+awaji,2725,赤井池,5000,5.9,0,,,flow leaves the area or reaches no pond,459.9,459.9,False,67834,
+awaji,2615,谷の向池,1000,6.0,0,,,flow leaves the area or reaches no pond,457.3,457.3,False,67719,
+awaji,2602,見通池,2000,3.4,0,,,flow leaves the area or reaches no pond,454.7,454.7,False,67706,
+awaji,4345,シルタニ池,1189,3.0,0,,,next pond holds,453.9,453.9,False,69575,
+awaji,2670,宮池,86000,13.6,0,,,flow leaves the area or reaches no pond,444.7,444.7,False,67774,
+awaji,3997,淡-1283,2420,5.0,0,,,flow leaves the area or reaches no pond,442.9,442.9,False,69216,
+awaji,4618,淡-4434,2248,4.0,0,,,flow leaves the area or reaches no pond,438.8,438.8,False,69952,
+awaji,3346,下池,2780,2.0,0,,,flow leaves the area or reaches no pond,408.1,408.1,False,68526,
+awaji,1138,大谷池,3264,1.0,0,,,next pond holds,402.6,402.6,False,56315,
+awaji,2686,矢後池（矢後下池）,11000,5.4,0,,,flow leaves the area or reaches no pond,394.7,394.7,False,67790,
+awaji,2616,谷池,13000,4.5,0,,,flow leaves the area or reaches no pond,387.5,387.5,False,67720,
+awaji,2594,由谷池,19000,9.7,0,,,flow leaves the area or reaches no pond,386.0,386.0,False,67698,
+awaji,2611,松田池,24000,5.1,0,,,flow leaves the area or reaches no pond,381.9,381.9,False,67715,
+awaji,120,女子母上池,4000,4.0,0,,,next pond holds,372.6,372.6,False,54653,
+awaji,2434,番匠ヶ谷池,40000,6.2,0,,,flow leaves the area or reaches no pond,356.7,356.7,False,67537,
+awaji,2609,芝ノ尻池,3800,4.5,0,,,next pond holds,346.0,346.0,False,67713,
+awaji,4344,淡-2107|淡-2132|淡-2143,1413,2.0,0,,,next pond holds,344.1,344.1,False,69572|69573|69574,
+awaji,2748,奥戸池,11000,10.5,0,,,flow leaves the area or reaches no pond,339.1,339.1,False,67857,
+awaji,2613,清水池,52000,8.8,0,,,flow leaves the area or reaches no pond,337.8,337.8,False,67717,
+awaji,3993,松原池,1610,3.0,0,,,next pond holds,335.6,335.6,False,69212,
+awaji,2595,蓮池,3000,2.9,0,,,flow leaves the area or reaches no pond,334.9,334.9,False,67699,
+awaji,4342,淡-2090,1020,5.0,0,,,next pond holds,323.2,323.2,False,69570,
+awaji,2675,蔵門池,4000,3.6,0,,,flow leaves the area or reaches no pond,321.9,321.9,False,67779,
+awaji,133,マス池,6000,5.0,0,,,flow leaves the area or reaches no pond,317.5,317.5,False,54667,
+awaji,2756,鶯池,9000,9.2,0,,,flow leaves the area or reaches no pond,317.1,317.1,False,67865,
+awaji,2753,長池,1100,4.2,0,,,flow leaves the area or reaches no pond,313.6,313.6,False,67862,
+awaji,2586,総田池,3000,2.7,0,,,flow leaves the area or reaches no pond,311.2,311.2,False,67690,
+awaji,3273,谷ノ向池,1000,2.0,0,,,next pond holds,311.1,311.1,False,68446,
+awaji,2575,馬繋池,20000,4.5,0,,,flow leaves the area or reaches no pond,306.1,306.1,False,67679,
+awaji,3347,谷池,41700,5.0,0,,,flow leaves the area or reaches no pond,300.5,300.5,False,68527,
+awaji,4459,築鼻池,2840,8.0,0,,,flow leaves the area or reaches no pond,297.7,297.7,False,69783,
+awaji,4907,鯨谷池,4930,5.0,0,,,flow leaves the area or reaches no pond,297.7,297.7,False,70255,
+awaji,4615,淡-4404,1250,5.0,0,,,next pond holds,295.7,295.7,False,69949,
+awaji,4908,淡-4349,2240,7.0,0,,,flow leaves the area or reaches no pond,293.6,293.6,False,70256,
+awaji,2620,裏門池,3000,5.2,0,,,next pond holds,290.9,290.9,False,67724,
+awaji,2587,大人下池,2000,2.3,0,,,next pond has no water surface,285.4,285.4,False,67691,
+awaji,2750,室田池,18000,5.2,0,,,flow leaves the area or reaches no pond,284.2,284.2,False,67859,
+awaji,3857,ます池,1330,4.0,0,,,next pond has no water surface,278.7,278.7,False,69070,
+awaji,4597,大池,2380,4.0,0,,,next pond holds,277.9,277.9,False,69931,
+awaji,2588,大人上池,4000,3.2,0,,,next pond has no water surface,275.3,275.3,False,67692,
+awaji,3387,淡-1106,1000,5.0,0,,,flow leaves the area or reaches no pond,273.7,273.7,False,68569,
+awaji,2560,榎木池,6000,4.0,0,,,flow leaves the area or reaches no pond,273.2,273.2,False,67664,
+awaji,2690,かご池,3000,3.2,0,,,next pond holds,271.9,271.9,False,67794,
+awaji,2755,平池,5200,5.5,0,,,flow leaves the area or reaches no pond,271.4,271.4,False,67864,
+awaji,4361,淡-2295,1320,3.0,0,,,flow leaves the area or reaches no pond,268.5,268.5,False,69591,
+awaji,2559,雨谷池,4000,3.4,0,,,flow leaves the area or reaches no pond,265.2,265.2,False,67663,
+awaji,4006,淡-1370,1030,4.0,0,,,next pond holds,262.9,262.9,False,69225,
+awaji,3793,太田池（1）,1090,6.0,0,,,flow leaves the area or reaches no pond,260.2,260.2,False,69006,
+awaji,4412,淡-1401,2260,4.0,0,,,next pond holds,259.6,259.6,False,69643,
+awaji,2701,上池,4000,3.5,0,,,next pond holds,254.7,254.7,False,67805,
+awaji,2674,菅ノ谷池,14000,5.0,0,,,flow leaves the area or reaches no pond,253.5,253.5,False,67778,
+awaji,3389,淡-1218|淡-1226,1050,6.0,0,,,flow leaves the area or reaches no pond,252.6,252.6,False,68571|68572,
+awaji,6255,淡-2509,1090,2.0,0,,,flow leaves the area or reaches no pond,252.6,252.6,False,71717,
+awaji,4676,淡-4167,3000,1.0,0,,,next pond has no water surface,250.9,250.9,False,70014,
+awaji,2704,大谷大池,34000,7.8,0,,,flow leaves the area or reaches no pond,250.1,250.1,False,67808,
+awaji,4413,かご池,1800,4.0,0,,,flow leaves the area or reaches no pond,249.1,249.1,False,69644,
+awaji,5412,ツブレ池,10200,10.0,0,,,flow leaves the area or reaches no pond,248.7,248.7,False,70829,
+awaji,3314,新池,1000,3.2,0,,,flow leaves the area or reaches no pond,247.7,247.7,False,68488,
+awaji,5415,タンノ池上|タンノ池下,5210,6.0,0,,,flow leaves the area or reaches no pond,247.6,247.6,False,70832|70833,
+awaji,3280,(非)坊池,7000,4.8,0,,,flow leaves the area or reaches no pond,247.0,247.0,False,68453,
+awaji,2577,笠川新池,22000,7.2,0,,,flow leaves the area or reaches no pond,245.6,245.6,False,67681,
+awaji,5414,山田池,1790,5.0,0,,,flow leaves the area or reaches no pond,240.7,240.7,False,70831,
+awaji,2734,野尻池,13000,7.0,0,,,flow leaves the area or reaches no pond,239.7,239.7,False,67843,
+awaji,2705,中池,2000,2.8,0,,,next pond holds,238.5,238.5,False,67809,
+awaji,4887,淡-4071,5040,8.0,0,,,flow leaves the area or reaches no pond,237.3,237.3,False,70235,
+awaji,5375,トンボ池,1800,5.0,0,,,flow leaves the area or reaches no pond,236.4,236.4,False,70788,
+awaji,2702,新池,7000,3.4,0,,,flow leaves the area or reaches no pond,236.2,236.2,False,67806,
+awaji,3791,佐田池,15200,6.0,0,,,flow leaves the area or reaches no pond,234.6,234.6,False,69004,
+awaji,5261,清水池|（非）清水下池,4740,6.0,0,,,flow leaves the area or reaches no pond,231.0,231.0,False,70669|71060,
+awaji,2692,岩隈池,26000,11.8,0,,,flow leaves the area or reaches no pond,229.7,229.7,False,67796,
+awaji,2710,鈩屋池,3000,3.0,0,,,flow leaves the area or reaches no pond,226.9,226.9,False,67814,
+awaji,4439,淡-1859,1760,2.0,0,,,flow leaves the area or reaches no pond,225.4,225.4,False,69670,
+awaji,3779,南谷大池,2928,3.0,0,,,next pond holds,224.2,224.2,False,68992,
+awaji,4429,まさへい池,1545,6.0,0,,,flow leaves the area or reaches no pond,219.4,219.4,False,69660,
+awaji,1787,伯父川下池,1851,8.0,0,,,flow leaves the area or reaches no pond,219.2,219.2,False,57015,
+awaji,2890,堂鼻池,3000,6.0,0,,,flow leaves the area or reaches no pond,218.3,218.3,False,68008,
+awaji,2910,前田大池,9000,6.0,0,,,flow leaves the area or reaches no pond,216.3,216.3,False,68029,
+awaji,2706,猪伏池,5000,4.1,0,,,flow leaves the area or reaches no pond,214.1,214.1,False,67810,
+awaji,384,（非）蓮寺上池,2000,5.0,0,,,next pond holds,213.2,213.2,False,54958,
+awaji,392,蓮寺大池,5000,4.5,0,,,next pond holds,213.2,213.2,False,54966,
+awaji,2689,湯ノ谷池,12000,5.7,0,,,flow leaves the area or reaches no pond,212.1,212.1,False,67793,
+awaji,382,丸田池,12000,5.0,0,,,flow leaves the area or reaches no pond,211.0,211.0,False,54956,
+awaji,387,卯の日池,15000,5.0,0,,,flow leaves the area or reaches no pond,210.6,210.6,False,54961,
+awaji,2691,楽谷池,8000,5.2,0,,,next pond holds,210.0,210.0,False,67795,
+awaji,2604,荒ケ谷池,14000,7.3,0,,,flow leaves the area or reaches no pond,209.9,209.9,False,67708,
+awaji,2698,品ヶ谷下池,16000,3.8,0,,,flow leaves the area or reaches no pond,209.6,209.6,False,67802,
+awaji,2699,床池,14000,3.3,0,,,flow leaves the area or reaches no pond,208.9,208.9,False,67803,
+awaji,2677,大門池,49000,10.3,0,,,flow leaves the area or reaches no pond,208.5,208.5,False,67781,
+awaji,3922,淡-512,1120,8.0,0,,,next pond has no water surface,208.1,208.1,False,69140,
+awaji,4410,淡-1317,1010,7.0,0,,,next pond holds,207.5,207.5,False,69641,
+awaji,2709,蓮池,79000,9.5,0,,,flow leaves the area or reaches no pond,206.3,206.3,False,67813,
+awaji,2695,金井谷池,30000,7.0,0,,,flow leaves the area or reaches no pond,205.1,205.1,False,67799,
+awaji,2969,蔵谷池,50000,6.2,0,,,flow leaves the area or reaches no pond,203.6,203.6,False,68088,
+awaji,2715,七代池,4200,4.5,0,,,flow leaves the area or reaches no pond,200.8,200.8,False,67824,
+awaji,3288,青池,4000,7.8,0,,,flow leaves the area or reaches no pond,200.7,200.7,False,68461,
+awaji,2905,中池,3000,8.0,0,,,next pond has no water surface,200.2,200.2,False,68024,
+awaji,3279,島池,23000,5.7,0,,,flow leaves the area or reaches no pond,199.8,199.8,False,68452,
+awaji,241,新池,2000,4.0,0,,,next pond beyond the distance,199.1,199.1,False,54782,
+awaji,138,福田池,1000,4.0,0,,,next pond has no water surface,195.6,195.6,False,54675,
+awaji,4438,藪下池,4000,4.0,0,,,next pond holds,195.6,195.6,False,69669,
+awaji,2599,奥池,2400,4.7,0,,,next pond has no water surface,195.5,195.5,False,67703,
+awaji,5767,淡-2022,2700,6.0,0,,,flow leaves the area or reaches no pond,195.0,195.0,False,71209,
+awaji,1679,洲-3100,1500,13.0,0,,,flow leaves the area or reaches no pond,194.8,194.8,False,56896,
+awaji,137,新池,1000,4.0,0,,,flow leaves the area or reaches no pond,192.0,192.0,False,54674,
+awaji,4885,青池,4687,4.0,0,,,flow leaves the area or reaches no pond,191.1,191.1,False,70233,
+awaji,3917,淡-478,1200,5.0,0,,,next pond holds,191.0,191.0,False,69135,
+awaji,4590,淡-4326,2510,7.0,0,,,flow leaves the area or reaches no pond,189.2,189.2,False,69923,
+awaji,2678,谷ノ下池,3000,4.1,0,,,flow leaves the area or reaches no pond,187.2,187.2,False,67782,
+awaji,1183,新池,12016,5.0,0,,,flow leaves the area or reaches no pond,186.7,186.7,False,56365,
+awaji,1795,にしゃ谷池,1300,2.4,0,,,flow leaves the area or reaches no pond,185.1,185.1,False,57023,
+awaji,2764,才ノ神池,4000,5.4,0,,,next pond holds,185.1,185.1,False,67873,
+awaji,5826,淡-2216,1910,5.0,0,,,flow leaves the area or reaches no pond,184.2,184.2,False,71269,
+awaji,3046,大水谷池,1000,3.0,0,,,flow leaves the area or reaches no pond,183.9,183.9,False,68166,
+awaji,2976,モサシ谷池,3000,4.0,0,,,flow leaves the area or reaches no pond,183.2,183.2,False,68095,
+awaji,1798,おりやもと池,2500,3.7,0,,,flow leaves the area or reaches no pond,183.0,183.0,False,57026,
+awaji,2561,奥ノ谷池,1000,3.1,0,,,flow leaves the area or reaches no pond,181.8,181.8,False,67665,
+awaji,2765,志津部池|林池,4000,5.0,0,,,flow leaves the area or reaches no pond,181.2,181.2,False,67874|67881,
+awaji,3926,淡-530,1320,6.0,0,,,next pond has no water surface,181.2,181.2,False,69144,
+awaji,3297,庵の瀬池,3000,5.0,0,,,flow leaves the area or reaches no pond,181.1,181.1,False,68470,
+awaji,3918,淡-483,1000,3.0,0,,,next pond has no water surface,180.8,180.8,False,69136,
+awaji,3306,深田上池,3000,4.0,0,,,flow leaves the area or reaches no pond,178.6,178.6,False,68479,
+awaji,2568,諸佛池,3000,3.8,0,,,flow leaves the area or reaches no pond,178.1,178.1,False,67672,
+awaji,3305,深田下池,1000,2.5,0,,,flow leaves the area or reaches no pond,177.2,177.2,False,68478,
+awaji,130,中の池,19000,7.0,0,,,flow leaves the area or reaches no pond,176.7,176.7,False,54664,
+awaji,2856,畑田池,2000,7.0,0,,,flow leaves the area or reaches no pond,175.1,175.1,False,67974,
+awaji,4416,淡-1514,1500,5.0,0,,,next pond holds,174.0,174.0,False,69647,
+awaji,2850,丈三郎池,5000,8.2,0,,,flow leaves the area or reaches no pond,173.3,173.3,False,67968,
+awaji,2758,岩根池,36000,15.0,0,,,flow leaves the area or reaches no pond,172.8,172.8,False,67867,
+awaji,2858,弥作池,4000,5.6,0,,,flow leaves the area or reaches no pond,172.3,172.3,False,67976,
+awaji,128,門口池,3000,4.0,0,,,flow leaves the area or reaches no pond,171.9,171.9,False,54662,
+awaji,2982,呉羽池（新池）,21000,6.5,0,,,flow leaves the area or reaches no pond,171.8,171.8,False,68101,
+awaji,4591,淡-4334,24900,9.0,0,,,next pond has no water surface,171.7,171.7,False,69924,
+awaji,1168,洲-3133,1300,8.0,0,,,next pond holds,167.0,167.0,False,56348,
+awaji,3368,淡-472,10000,5.0,0,,,next pond has no water surface,166.0,166.0,False,68550,
+awaji,5837,淡-2374,1130,7.0,0,,,flow leaves the area or reaches no pond,165.9,165.9,False,71280,
+awaji,2483,蓮池,4000,4.3,0,,,next pond beyond the distance,164.7,164.7,False,67587,
+awaji,389,刎穴池,12000,6.0,0,,,flow leaves the area or reaches no pond,164.0,164.0,False,54963,
+awaji,2863,コンガ池,3000,6.3,0,,,flow leaves the area or reaches no pond,164.0,164.0,False,67981,
+awaji,3016,天王池,2000,2.6,0,,,flow leaves the area or reaches no pond,162.8,162.8,False,68135,
+awaji,3621,淡-373|淡-375,1598,3.0,0,,,next pond holds,162.7,162.7,False,68820|68821,
+awaji,2977,小倉池,6000,4.0,0,,,flow leaves the area or reaches no pond,160.8,160.8,False,68096,
+awaji,3012,寺池,34000,6.5,0,,,flow leaves the area or reaches no pond,160.5,160.5,False,68131,
+awaji,5980,淡-1312,1170,3.0,0,,,next pond has no water surface,160.5,160.5,False,71429,
+awaji,4663,淡-4007|ぜんなげ池,8581,3.0,0,,,flow leaves the area or reaches no pond,159.1,159.1,False,70000|70002,
+awaji,3048,大畑池,5000,3.9,0,,,flow leaves the area or reaches no pond,157.9,157.9,False,68168,
+awaji,2707,白池,5000,5.9,0,,,next pond holds,157.8,157.8,False,67811,
+awaji,5961,淡-1202,1690,2.0,0,,,flow leaves the area or reaches no pond,157.6,157.6,False,71409,
+awaji,2574,長谷池,7000,4.9,0,,,next pond beyond the distance,157.5,157.5,False,67678,
+awaji,2990,奥の下池,2000,4.0,0,,,flow leaves the area or reaches no pond,157.4,157.4,False,68109,
+awaji,2851,新池,7000,10.6,0,,,flow leaves the area or reaches no pond,157.1,157.1,False,67969,
+awaji,3802,雨谷池,1050,3.0,0,,,flow leaves the area or reaches no pond,156.8,156.8,False,69015,
+awaji,5762,淡-1918,1100,3.0,0,,,next pond holds,155.3,155.3,False,71204,
+awaji,3013,谷池,3000,2.6,0,,,flow leaves the area or reaches no pond,154.9,154.9,False,68132,
+awaji,2973,南池,5000,4.5,0,,,flow leaves the area or reaches no pond,154.3,154.3,False,68092,
+awaji,5849,淡-2480|淡-2486,1100,4.0,0,,,flow leaves the area or reaches no pond,154.3,154.3,False,71293|71294,
+awaji,391,丸山池,2000,4.0,0,,,flow leaves the area or reaches no pond,153.9,153.9,False,54965,
+awaji,2968,蔵谷新池,6000,5.0,0,,,next pond holds,153.8,153.8,False,68087,
+awaji,2867,針ノ木池,3000,6.6,0,,,flow leaves the area or reaches no pond,153.0,153.0,False,67985,
+awaji,5969,屋敷下,1800,3.5,0,,,flow leaves the area or reaches no pond,152.5,152.5,False,71418,
+awaji,2980,矢折下池,7000,4.0,0,,,flow leaves the area or reaches no pond,152.4,152.4,False,68099,
+awaji,5970,淡-1270,2550,4.0,0,,,flow leaves the area or reaches no pond,152.3,152.3,False,71419,
+awaji,3880,淡-539,1250,4.0,0,,,flow leaves the area or reaches no pond,152.1,152.1,False,69096,
+awaji,3044,行司池,6000,4.0,0,,,flow leaves the area or reaches no pond,151.8,151.8,False,68164,
+awaji,3051,潰田池,6000,4.5,0,,,flow leaves the area or reaches no pond,151.7,151.7,False,68171,
+awaji,2493,仁是池,14000,6.4,0,,,next pond beyond the distance,151.0,151.0,False,67597,
+awaji,3286,富原上池,23000,10.3,0,,,next pond has no water surface,149.9,149.9,False,68459,
+awaji,2853,大脇池,6000,7.2,0,,,flow leaves the area or reaches no pond,149.7,149.7,False,67971,
+awaji,2606,高山池,25000,7.0,0,,,flow leaves the area or reaches no pond,149.5,149.5,False,67710,
+awaji,5206,古屋池,1431,4.0,0,,,flow leaves the area or reaches no pond,149.1,149.1,False,70614,
+awaji,2965,小屋池,7000,4.5,0,,,flow leaves the area or reaches no pond,148.8,148.8,False,68084,
+awaji,2996,門池,13000,6.0,0,,,flow leaves the area or reaches no pond,148.5,148.5,False,68115,
+awaji,5959,深山谷池（谷池）,3100,5.0,0,,,flow leaves the area or reaches no pond,147.8,147.8,False,71407,
+awaji,5768,淡-2030,4280,4.0,0,,,flow leaves the area or reaches no pond,147.4,147.4,False,71210,
+awaji,1134,谷池,1530,5.0,0,,,next pond holds,146.9,146.9,False,56311,
+awaji,2989,隠家池,8000,3.0,0,,,flow leaves the area or reaches no pond,146.2,146.2,False,68108,
+awaji,1426,洲-3353,1045,9.0,0,,,flow leaves the area or reaches no pond,145.4,145.4,False,56626,
+awaji,5795,あいや池,1000,2.0,0,,,next pond holds,145.0,145.0,False,71237,
+awaji,3005,新池,11000,4.5,0,,,flow leaves the area or reaches no pond,144.7,144.7,False,68124,
+awaji,2972,田中池,10000,6.0,0,,,flow leaves the area or reaches no pond,144.3,144.3,False,68091,
+awaji,3539,淡-875,31270,1.0,0,,,next pond has no water surface,143.8,143.8,False,68732,
+awaji,5126,淡-4806,1102,3.0,0,,,flow leaves the area or reaches no pond,141.5,141.5,False,70532,
+awaji,2978,清水垣池,3000,4.5,0,,,flow leaves the area or reaches no pond,141.1,141.1,False,68097,
+awaji,3001,兜下池,7000,5.7,0,,,flow leaves the area or reaches no pond,140.8,140.8,False,68120,
+awaji,129,石上池,2000,4.0,0,,,flow leaves the area or reaches no pond,140.7,140.7,False,54663,
+awaji,2527,後谷池,6000,5.3,0,,,flow leaves the area or reaches no pond,140.5,140.5,False,67631,
+awaji,3984,下志面池,1560,4.0,0,,,next pond holds,139.2,139.2,False,69203,
+awaji,3939,白土池(仮称),2500,2.0,0,,,flow leaves the area or reaches no pond,138.6,138.6,False,69157,
+awaji,5264,トンデ池,1360,3.0,0,,,flow leaves the area or reaches no pond,138.1,138.1,False,70672,
+awaji,5848,淡-2478,2690,10.0,0,,,next pond holds,137.1,137.1,False,71292,
+awaji,3032,大谷池,2000,4.0,0,,,next pond holds,136.5,136.5,False,68152,
+awaji,5220,淡-4609,1050,3.0,0,,,flow leaves the area or reaches no pond,134.3,134.3,False,70628,
+awaji,1221,平池,4632,8.0,0,,,flow leaves the area or reaches no pond,133.5,133.5,False,56405,
+awaji,132,年尻池,9000,8.0,0,,,flow leaves the area or reaches no pond,133.4,133.4,False,54666,
+awaji,5212,新織田池,1900,5.0,0,,,flow leaves the area or reaches no pond,133.0,133.0,False,70620,
+awaji,2532,大谷下池,4000,2.2,0,,,next pond holds,132.3,132.3,False,67636,
+awaji,2979,中谷下池|淡-2423,1070,2.0,0,,,next pond holds,131.5,131.5,False,68098|71285,
+awaji,5798,吉谷池,2450,1.0,0,,,next pond holds,131.4,131.4,False,71240,
+awaji,2547,西法寺池|淡-1009,29090,5.2,0,,,flow leaves the area or reaches no pond,130.6,130.6,False,67651|68670,
+awaji,6088,金山池,5538,4.0,0,,,flow leaves the area or reaches no pond,130.0,130.0,False,71539,
+awaji,2603,後谷池,2700,3.5,0,,,flow leaves the area or reaches no pond,129.7,129.7,False,67707,
+awaji,2962,吉谷池,8000,4.5,0,,,flow leaves the area or reaches no pond,129.6,129.6,False,68081,
+awaji,2860,内田池,18000,9.9,0,,,flow leaves the area or reaches no pond,129.5,129.5,False,67978,
+awaji,2971,池ノ谷池,32000,8.0,0,,,flow leaves the area or reaches no pond,129.1,129.1,False,68090,
+awaji,5197,長谷池,1606,4.0,0,,,next pond has no water surface,128.9,128.9,False,70605,
+awaji,5835,淡-2371,3250,7.0,0,,,next pond holds,128.0,128.0,False,71278,
+awaji,2994,白地下池,1000,2.5,0,,,flow leaves the area or reaches no pond,127.9,127.9,False,68113,
+awaji,5992,淡-1364,1510,2.0,0,,,flow leaves the area or reaches no pond,127.5,127.5,False,71443,
+awaji,2997,薬師池,1000,2.5,0,,,next pond holds,127.3,127.3,False,68116,
+awaji,2528,細田池,2000,3.1,0,,,next pond holds,126.9,126.9,False,67632,
+awaji,2591,道満池|淡-1971,4330,4.7,0,,,next pond holds,125.7,125.7,False,67695|69076,
+awaji,2529,新池,6000,5.0,0,,,next pond holds,125.6,125.6,False,67633,
+awaji,3006,石谷池,4000,5.5,0,,,flow leaves the area or reaches no pond,124.8,124.8,False,68125,
+awaji,6002,淡-1397,1080,3.0,0,,,next pond holds,124.3,124.3,False,71453,
+awaji,2531,打越池,8000,5.0,0,,,next pond holds,124.1,124.1,False,67635,
+awaji,2612,水原池,66000,3.5,0,,,flow leaves the area or reaches no pond,123.5,123.5,False,67716,
+awaji,2993,坪池,4000,3.5,0,,,flow leaves the area or reaches no pond,123.2,123.2,False,68112,
+awaji,5858,淡-2561,4020,4.0,0,,,next pond holds,122.6,122.6,False,71303,
+awaji,2507,下鷹ノ巣池,19000,5.2,0,,,next pond beyond the distance,122.3,122.3,False,67611,
+awaji,2847,橋松池,15000,7.4,0,,,flow leaves the area or reaches no pond,122.1,122.1,False,67965,
+awaji,2538,荒神下池（荒神池）,2000,3.3,0,,,flow leaves the area or reaches no pond,121.3,121.3,False,67642,
+awaji,3030,大谷下池,3000,3.6,0,,,flow leaves the area or reaches no pond,121.2,121.2,False,68150,
+awaji,6010,（非）淡-1447,1029,4.0,0,,,flow leaves the area or reaches no pond,121.0,121.0,False,71461,
+awaji,5202,せのん谷池,1574,4.0,0,,,next pond holds,120.8,120.8,False,70610,
+awaji,2481,長谷池,8000,4.5,0,,,flow leaves the area or reaches no pond,120.3,120.3,False,67585,
+awaji,2546,水谷池,7000,4.4,0,,,flow leaves the area or reaches no pond,120.2,120.2,False,67650,
+awaji,126,虹ヶ谷池,5000,4.0,0,,,flow leaves the area or reaches no pond,119.9,119.9,False,54660,
+awaji,2520,堂ノ池,3000,2.4,0,,,next pond beyond the distance,119.8,119.8,False,67624,
+awaji,148,赤井谷池,5000,7.0,0,,,next pond beyond the distance,119.5,119.5,False,54685,
+awaji,2475,岡池,3000,5.2,0,,,flow leaves the area or reaches no pond,119.4,119.4,False,67578,
+awaji,2991,新池（後池）,5000,4.0,0,,,flow leaves the area or reaches no pond,119.3,119.3,False,68110,
+awaji,2480,倉尾池,29000,5.7,0,,,flow leaves the area or reaches no pond,119.0,119.0,False,67584,
+awaji,3004,合戸池,15000,6.0,0,,,flow leaves the area or reaches no pond,118.8,118.8,False,68123,
+awaji,2482,二ツ池,2000,4.0,0,,,next pond beyond the distance,118.1,118.1,False,67586,
+awaji,6235,赤松池,2620,9.5,0,,,flow leaves the area or reaches no pond,118.0,118.0,False,71697,
+awaji,2492,前池,3000,3.0,0,,,next pond beyond the distance,117.8,117.8,False,67596,
+awaji,6242,大尤夫谷田主池,5650,5.0,0,,,flow leaves the area or reaches no pond,117.6,117.6,False,71704,
+awaji,2762,岩本池,6000,5.5,0,,,next pond holds,116.5,116.5,False,67871,
+awaji,4534,淡-4162,2332,5.0,0,,,flow leaves the area or reaches no pond,116.4,116.4,False,69862,
+awaji,2474,いなば池,1000,2.7,0,,,flow leaves the area or reaches no pond,116.0,116.0,False,67577,
+awaji,3908,淡-410,2000,5.0,0,,,flow leaves the area or reaches no pond,115.7,115.7,False,69125,
+awaji,2438,雁又池,20000,4.2,0,,,flow leaves the area or reaches no pond,115.2,115.2,False,67541,
+awaji,4537,淡-4169,2011,5.0,0,,,flow leaves the area or reaches no pond,114.9,114.9,False,69865,
+awaji,2974,槙ヶ谷下池,24000,6.0,0,,,flow leaves the area or reaches no pond,114.3,114.3,False,68093,
+awaji,2535,風呂の山下池,25000,8.1,0,,,next pond holds,113.8,113.8,False,67639,
+awaji,2862,鈴木池,2000,5.6,0,,,flow leaves the area or reaches no pond,113.5,113.5,False,67980,
+awaji,3285,長座池|淡-4101,17230,9.5,0,,,flow leaves the area or reaches no pond,113.1,113.1,False,68458|69842,
+awaji,2456,和佐田池,7000,3.5,0,,,flow leaves the area or reaches no pond,111.0,111.0,False,67559,
+awaji,2512,深谷池,8000,4.2,0,,,next pond beyond the distance,110.8,110.8,False,67616,
+awaji,2845,奥の平池,43000,15.8,0,,,flow leaves the area or reaches no pond,110.8,110.8,False,67963,
+awaji,3736,淡-1122|淡-1143,1184,1.0,0,,,next pond holds,110.6,110.6,False,68943|68944,
+awaji,1796,洲-3072,5300,5.0,0,,,next pond has no water surface,110.3,110.3,False,57024,
+awaji,2848,古屋大池,34000,8.3,0,,,flow leaves the area or reaches no pond,110.3,110.3,False,67966,
+awaji,5263,高崎池|高崎池上池,1050,2.0,0,,,flow leaves the area or reaches no pond,110.3,110.3,False,70671|71197,
+awaji,2449,下池,4000,7.2,0,,,flow leaves the area or reaches no pond,109.9,109.9,False,67552,
+awaji,2914,北代池,30000,9.0,0,,,flow leaves the area or reaches no pond,109.6,109.6,False,68033,
+awaji,3298,原中池,1000,3.0,0,,,next pond holds,109.1,109.1,False,68471,
+awaji,2861,入相池,5000,7.6,0,,,next pond has no water surface,108.6,108.6,False,67979,
+awaji,2544,新池,9000,4.9,0,,,flow leaves the area or reaches no pond,108.3,108.3,False,67648,
+awaji,2539,今谷池|淡-978,2110,3.5,0,,,flow leaves the area or reaches no pond,107.6,107.6,False,67643|68982,
+awaji,2767,川井谷池,3000,18.2,0,,,flow leaves the area or reaches no pond,106.8,106.8,False,67876,
+awaji,5268,新池,1220,3.0,0,,,flow leaves the area or reaches no pond,106.6,106.6,False,70676,
+awaji,3120,土田池,12000,5.5,0,,,flow leaves the area or reaches no pond,106.3,106.3,False,68244,
+awaji,2722,小井出池,12000,7.0,0,,,flow leaves the area or reaches no pond,106.2,106.2,False,67831,
+awaji,2854,谷奥池,8000,11.9,0,,,flow leaves the area or reaches no pond,106.1,106.1,False,67972,
+awaji,3057,平谷池,23000,5.0,0,,,flow leaves the area or reaches no pond,105.9,105.9,False,68177,
+awaji,2869,斗ノ内大池,20000,7.6,0,,,next pond has no water surface,105.8,105.8,False,67987,
+awaji,5537,淡-2756,2520,4.0,0,,,flow leaves the area or reaches no pond,105.6,105.6,False,70965,
+awaji,2887,増池（折ケ手池）,2000,4.5,0,,,flow leaves the area or reaches no pond,105.0,105.0,False,68005,
+awaji,5918,たず池,1210,3.0,0,,,flow leaves the area or reaches no pond,105.0,105.0,False,71363,
+awaji,2878,奥田上池,6000,5.0,0,,,flow leaves the area or reaches no pond,104.8,104.8,False,67996,
+awaji,2953,ミヨリガイチ下池,3000,6.0,0,,,next pond holds,104.7,104.7,False,68072,
+awaji,6542,淡-950,1560,4.0,0,,,flow leaves the area or reaches no pond,104.7,104.7,False,72022,
+awaji,3337,忠谷池,2120,7.0,0,,,flow leaves the area or reaches no pond,104.5,104.5,False,68517,
+awaji,2988,芳池,3000,5.5,0,,,flow leaves the area or reaches no pond,104.2,104.2,False,68107,
+awaji,5249,井戸池,1050,3.0,0,,,flow leaves the area or reaches no pond,104.2,104.2,False,70657,
+awaji,4884,淡-4022,1240,4.0,0,,,flow leaves the area or reaches no pond,104.1,104.1,False,70232,
+awaji,5672,古池(ハス池),1100,2.5,0,,,next pond holds,103.7,103.7,False,71108,
+awaji,3036,鳶巣下池,7000,4.0,0,,,flow leaves the area or reaches no pond,103.5,103.5,False,68156,
+awaji,3125,原田池,3000,2.5,0,,,flow leaves the area or reaches no pond,103.5,103.5,False,68249,
+awaji,2873,サカマタ池|淡-3076,1110,3.0,0,,,next pond has no water surface,102.4,102.4,False,67991|70688,
+awaji,5236,淡-4391,1240,5.0,0,,,next pond holds,102.2,102.2,False,70644,
+awaji,5504,大池,1000,4.0,0,,,next pond has no water surface,102.2,102.2,False,70929,
+awaji,2879,河内下池,3000,3.5,0,,,flow leaves the area or reaches no pond,102.1,102.1,False,67997,
+awaji,3278,岡池,2000,4.3,0,,,next pond has no water surface,102.1,102.1,False,68451,
+awaji,2439,山ノ谷池,7000,4.0,0,,,flow leaves the area or reaches no pond,102.0,102.0,False,67542,
+awaji,5940,淡-2126,1140,5.0,0,,,flow leaves the area or reaches no pond,102.0,102.0,False,71385,
+awaji,2951,〆田池|淡-2498,9400,3.0,0,,,flow leaves the area or reaches no pond,101.9,101.9,False,68070|71094,
+awaji,3307,免田池,3000,4.5,0,,,flow leaves the area or reaches no pond,101.8,101.8,False,68480,
+awaji,4601,淡-4338,1630,5.0,0,,,next pond holds,101.7,101.7,False,69935,
+awaji,3138,半田池,7000,3.5,0,,,flow leaves the area or reaches no pond,101.6,101.6,False,68263,
+awaji,6229,ミカタニ池,2800,2.0,0,,,flow leaves the area or reaches no pond,101.5,101.5,False,71690,
+awaji,5948,淡-2248,1400,5.0,0,,,next pond has no water surface,101.1,101.1,False,71393,
+awaji,4535,淡-4166,1240,6.0,0,,,flow leaves the area or reaches no pond,101.0,101.0,False,69863,
+awaji,3135,楢原池,1000,3.4,0,,,next pond has no water surface,100.9,100.9,False,68260,
+awaji,2927,清木池|仲間池,2320,4.0,0,,,flow leaves the area or reaches no pond,100.7,100.7,False,68046|71013,
+awaji,3011,皿池,2000,3.4,0,,,next pond holds,100.7,100.7,False,68130,
+awaji,2503,千帰庵池,3000,4.2,0,,,next pond beyond the distance,100.6,100.6,False,67607,
+awaji,6122,淡-1924|（非）淡-1941,1720,4.0,0,,,flow leaves the area or reaches no pond,100.5,100.5,False,71577|71581,
+awaji,4611,淡-4393,1230,4.0,0,,,next pond has no water surface,99.6,99.6,False,69945,
+awaji,2983,古茂下池,3000,2.5,0,,,flow leaves the area or reaches no pond,99.4,99.4,False,68102,
+awaji,6006,井手,1980,7.0,0,,,next pond holds,99.3,99.3,False,71457,
+awaji,4520,淡-4120,1300,2.0,0,,,next pond holds,98.6,98.6,False,69848,
+awaji,3116,上皿池,1000,2.0,0,,,next pond holds,98.1,98.1,False,68240,
+awaji,2888,谷池,1000,4.0,0,,,next pond has no water surface,97.9,97.9,False,68006,
+awaji,2985,細田池,4000,3.5,0,,,flow leaves the area or reaches no pond,97.9,97.9,False,68104,
+awaji,2950,〆田下池,2000,3.0,0,,,flow leaves the area or reaches no pond,97.5,97.5,False,68069,
+awaji,2668,開池,49000,8.3,0,,,flow leaves the area or reaches no pond,97.2,97.2,False,67772,
+awaji,5239,蓑淵池,3030,4.0,0,,,next pond holds,97.2,97.2,False,70647,
+awaji,2671,今谷池,7000,5.9,0,,,next pond has no water surface,97.1,97.1,False,67775,
+awaji,2960,八幡池,30000,6.0,0,,,flow leaves the area or reaches no pond,97.1,97.1,False,68079,
+awaji,4101,円城寺上池,2000,4.0,0,,,next pond has no water surface,96.9,96.9,False,69322,
+awaji,139,上池,2000,4.0,0,,,next pond holds,96.8,96.8,False,54676,
+awaji,5327,キヘ池,1172,4.0,0,,,next pond holds,96.6,96.6,False,70739,
+awaji,2894,夫婦池,15000,7.0,0,,,flow leaves the area or reaches no pond,96.3,96.3,False,68012,
+awaji,4112,姥懐池,1200,3.0,0,,,next pond holds,95.8,95.8,False,69333,
+awaji,5237,淡-4405,1050,5.0,0,,,next pond holds,95.1,95.1,False,70645,
+awaji,3743,淡-1225,5020,4.0,0,,,flow leaves the area or reaches no pond,95.0,95.0,False,68951,
+awaji,4103,円城寺下池,3200,6.0,0,,,next pond has no water surface,94.8,94.8,False,69324,
+awaji,3344,丘の池,1655,4.5,0,,,next pond has no water surface,94.7,94.7,False,68524,
+awaji,2451,三郎谷池,1000,7.6,0,,,flow leaves the area or reaches no pond,94.4,94.4,False,67554,
+awaji,2466,地主池,4000,2.5,0,,,flow leaves the area or reaches no pond,94.3,94.3,False,67569,
+awaji,2436,井ノ脇池,4000,6.4,0,,,flow leaves the area or reaches no pond,94.0,94.0,False,67539,
+awaji,5448,淡-3015,1164,2.3,0,,,flow leaves the area or reaches no pond,94.0,94.0,False,70870,
+awaji,2621,脇ノ池,2000,2.9,0,,,next pond holds,93.5,93.5,False,67725,
+awaji,5319,淡-3325,1000,4.0,0,,,next pond holds,93.3,93.3,False,70731,
+awaji,2730,下池,9000,8.6,0,,,flow leaves the area or reaches no pond,93.2,93.2,False,67839,
+awaji,4449,淡-4074,2152,2.5,0,,,next pond holds,93.2,93.2,False,69773,
+awaji,2548,大道池,3000,3.5,0,,,flow leaves the area or reaches no pond,93.1,93.1,False,67652,
+awaji,2877,奥田下池,8000,4.5,0,,,flow leaves the area or reaches no pond,92.2,92.2,False,67995,
+awaji,4105,淡-3036,3454,2.0,0,,,next pond beyond the distance,92.2,92.2,False,69326,
+awaji,3302,弥太郎池,1700,2.2,0,,,next pond has no water surface,92.0,92.0,False,68475,
+awaji,4099,札ノ本池,4820,7.0,0,,,next pond holds,92.0,92.0,False,69320,
+awaji,4657,（非）淡-3968,6235,5.0,0,,,flow leaves the area or reaches no pond,91.9,91.9,False,69994,
+awaji,3760,淡-1347,1370,4.0,0,,,flow leaves the area or reaches no pond,91.8,91.8,False,68970,
+awaji,2458,デブタ池,1000,3.4,0,,,flow leaves the area or reaches no pond,91.5,91.5,False,67561,
+awaji,4545,淡-4196,2040,5.0,0,,,flow leaves the area or reaches no pond,91.5,91.5,False,69873,
+awaji,2464,西ノ谷池|淡-46,11029,4.3,0,,,flow leaves the area or reaches no pond,91.4,91.4,False,67567|68657,
+awaji,3754,淡-1288|淡-1304,1413,4.0,0,,,flow leaves the area or reaches no pond,91.4,91.4,False,68963|68965,
+awaji,5742,淡-3243,1946,5.0,0,,,next pond holds,91.4,91.4,False,71181,
+awaji,3123,ヒジリ上池,4000,4.0,0,,,flow leaves the area or reaches no pond,91.1,91.1,False,68247,
+awaji,2928,長瀬池,1800,4.0,0,,,flow leaves the area or reaches no pond,90.5,90.5,False,68047,
+awaji,5990,井手,1620,6.0,0,,,next pond holds,90.4,90.4,False,71441,
+awaji,2477,申谷新池,16000,6.2,0,,,flow leaves the area or reaches no pond,90.3,90.3,False,67580,
+awaji,2459,横田新池,1000,2.0,0,,,flow leaves the area or reaches no pond,89.9,89.9,False,67562,
+awaji,2479,赤松長畠池,17000,8.4,0,,,next pond beyond the distance,89.9,89.9,False,67583,
+awaji,2567,志美谷池,5000,3.6,0,,,flow leaves the area or reaches no pond,89.9,89.9,False,67671,
+awaji,2857,斧谷池,16000,15.3,0,,,flow leaves the area or reaches no pond,89.7,89.7,False,67975,
+awaji,2540,歳ノ神池,8000,4.4,0,,,next pond has no water surface,89.5,89.5,False,67644,
+awaji,3065,今谷下池,30000,6.5,0,,,flow leaves the area or reaches no pond,89.3,89.3,False,68185,
+awaji,1405,洲-3291,1000,3.0,0,,,next pond holds,89.2,89.2,False,56604,
+awaji,271,普光寺池,15000,7.0,0,,,flow leaves the area or reaches no pond,88.8,88.8,False,54812,
+awaji,4655,淡-3954,1300,4.0,0,,,flow leaves the area or reaches no pond,88.1,88.1,False,69992,
+awaji,4295,サイガラ池,2070,6.0,0,,,flow leaves the area or reaches no pond,88.0,88.0,False,69521,
+awaji,146,長谷下池,7000,6.0,0,,,next pond beyond the distance,87.8,87.8,False,54683,
+awaji,6343,深谷池,24334,2.0,0,,,flow leaves the area or reaches no pond,87.6,87.6,False,71806,
+awaji,2955,城ヶ谷下池,1000,4.0,0,,,flow leaves the area or reaches no pond,87.5,87.5,False,68074,
+awaji,2570,西の下池,8000,7.2,0,,,next pond has no water surface,87.3,87.3,False,67674,
+awaji,5611,中池,1230,2.0,0,,,flow leaves the area or reaches no pond,87.3,87.3,False,71044,
+awaji,4292,水取池,1220,5.0,0,,,flow leaves the area or reaches no pond,86.8,86.8,False,69518,
+awaji,5434,谷池,1410,3.0,0,,,flow leaves the area or reaches no pond,86.8,86.8,False,70854,
+awaji,5453,上わんど池|淡-3043,1350,3.0,0,,,flow leaves the area or reaches no pond,86.8,86.8,False,70875|70876,
+awaji,2564,古東谷池,22000,10.4,0,,,next pond has no water surface,86.3,86.3,False,67668,
+awaji,3685,淡-534|淡-552,2032,6.0,0,,,next pond holds,86.2,86.2,False,68886|68889,
+awaji,2923,飛沢池,1700,3.3,0,,,flow leaves the area or reaches no pond,86.1,86.1,False,68042,
+awaji,2880,砂子上池,2000,4.5,0,,,next pond holds,85.9,85.9,False,67998,
+awaji,2925,松田池,2000,4.5,0,,,flow leaves the area or reaches no pond,85.7,85.7,False,68044,
+awaji,2470,平見池,1000,5.0,0,,,next pond has no water surface,85.6,85.6,False,67573,
+awaji,2478,赤松大池|赤松中池,77000,9.7,0,,,next pond beyond the distance,85.5,85.5,False,67581|67582,
+awaji,4113,門の池,2500,7.0,0,,,next pond has no water surface,85.5,85.5,False,69334,
+awaji,5733,淡-3154,1250,5.0,0,,,flow leaves the area or reaches no pond,85.5,85.5,False,71172,
+awaji,2948,柳田池,13000,4.6,0,,,flow leaves the area or reaches no pond,85.3,85.3,False,68067,
+awaji,2468,馬ノ瀬池,1000,4.0,0,,,flow leaves the area or reaches no pond,85.0,85.0,False,67571,
+awaji,3335,淡-1284,3000,6.0,0,,,flow leaves the area or reaches no pond,85.0,85.0,False,68515,
+awaji,4652,淡-3941|淡-3950,1347,5.0,0,,,next pond holds,85.0,85.0,False,69987|69990,
+awaji,2636,谷子池,45000,10.6,0,,,flow leaves the area or reaches no pond,84.8,84.8,False,67740,
+awaji,2886,石仏大池,27000,8.0,0,,,next pond has no water surface,84.1,84.1,False,68004,
+awaji,4579,淡-4284,1950,5.0,0,,,next pond has no water surface,84.1,84.1,False,69911,
+awaji,3139,明心池,7000,3.6,0,,,flow leaves the area or reaches no pond,83.7,83.7,False,68264,
+awaji,4528,数河山池,1560,4.0,0,,,flow leaves the area or reaches no pond,83.7,83.7,False,69856,
+awaji,2545,神田池,2000,3.0,0,,,flow leaves the area or reaches no pond,83.5,83.5,False,67649,
+awaji,2917,下わんど池,2000,4.5,0,,,flow leaves the area or reaches no pond,83.4,83.4,False,68036,
+awaji,5706,峽ノ谷池,1160,4.0,0,,,flow leaves the area or reaches no pond,83.4,83.4,False,71144,
+awaji,1657,つんぼ池,2770,4.5,0,,,next pond has no water surface,83.2,83.2,False,56872,
+awaji,2566,三角池,3000,5.1,0,,,next pond has no water surface,83.1,83.1,False,67670,
+awaji,3342,八幡田池,1667,3.8,0,,,flow leaves the area or reaches no pond,83.1,83.1,False,68522,
+awaji,236,上池,3000,5.0,0,,,next pond beyond the distance,82.9,82.9,False,54777,
+awaji,3274,上池,4000,7.6,0,,,next pond has no water surface,82.8,82.8,False,68447,
+awaji,5981,井手,2140,6.0,0,,,next pond has no water surface,82.8,82.8,False,71430,
+awaji,2558,宇土口池,7000,4.8,0,,,flow leaves the area or reaches no pond,82.7,82.7,False,67662,
+awaji,5864,神前池,4280,5.0,0,,,flow leaves the area or reaches no pond,82.7,82.7,False,71309,
+awaji,2608,高部池,10000,4.4,0,,,flow leaves the area or reaches no pond,82.4,82.4,False,67712,
+awaji,2664,露ノ奥下池,2000,6.7,0,,,flow leaves the area or reaches no pond,82.4,82.4,False,67768,
+awaji,2849,四辻池,5000,6.8,0,,,next pond has no water surface,82.3,82.3,False,67967,
+awaji,4502,淡-4059,1028,8.0,0,,,flow leaves the area or reaches no pond,82.3,82.3,False,69828,
+awaji,2572,滝ヶ平池,2000,4.0,0,,,next pond holds,82.2,82.2,False,67676,
+awaji,4533,砂池,1240,2.0,0,,,next pond holds,82.2,82.2,False,69861,
+awaji,4521,淡-4124,1539,6.0,0,,,flow leaves the area or reaches no pond,82.1,82.1,False,69849,
+awaji,5456,小池,1100,6.0,0,,,next pond holds,82.1,82.1,False,70880,
+awaji,1659,本田池,4580,4.5,0,,,next pond has no water surface,82.0,82.0,False,56874,
+awaji,2624,山ノ神池,15000,9.1,0,,,flow leaves the area or reaches no pond,81.8,81.8,False,67728,
+awaji,5344,家の横池,1143,6.0,0,,,flow leaves the area or reaches no pond,81.8,81.8,False,70757,
+awaji,2926,人位池,2800,3.5,0,,,flow leaves the area or reaches no pond,81.6,81.6,False,68045,
+awaji,3454,八幡池,1254,5.0,0,,,flow leaves the area or reaches no pond,81.4,81.4,False,68644,
+awaji,2562,ハナ池,1000,3.0,0,,,next pond holds,81.3,81.3,False,67666,
+awaji,2916,ぬるま池,1300,2.5,0,,,flow leaves the area or reaches no pond,81.3,81.3,False,68035,
+awaji,5885,淡-1743,1220,3.0,0,,,flow leaves the area or reaches no pond,81.3,81.3,False,71330,
+awaji,2473,籠池,1000,3.6,0,,,flow leaves the area or reaches no pond,81.2,81.2,False,67576,
+awaji,5243,淡-4520,1035,2.0,0,,,next pond holds,81.2,81.2,False,70651,
+awaji,2610,松下池,5000,3.2,0,,,flow leaves the area or reaches no pond,81.0,81.0,False,67714,
+awaji,2946,新池,5000,6.0,0,,,flow leaves the area or reaches no pond,81.0,81.0,False,68065,
+awaji,3064,原中池,1000,5.0,0,,,flow leaves the area or reaches no pond,81.0,81.0,False,68184,
+awaji,145,畑倉池,10000,5.0,0,,,next pond holds,80.7,80.7,False,54682,
+awaji,2959,八代池,3000,5.5,0,,,flow leaves the area or reaches no pond,80.7,80.7,False,68078,
+awaji,3129,上甲田池,3000,2.5,0,,,next pond holds,80.7,80.7,False,68253,
+awaji,3656,1丁目山本池,1500,10.0,0,,,next pond holds,80.5,80.5,False,68856,
+awaji,2504,平池,3000,3.0,0,,,next pond beyond the distance,80.4,80.4,False,67608,
+awaji,2931,奈良谷池,7100,4.5,0,,,flow leaves the area or reaches no pond,80.3,80.3,False,68050,
+awaji,270,鳴池,85000,8.0,0,,,flow leaves the area or reaches no pond,80.1,80.1,False,54811,
+awaji,4442,淡-2086,1600,6.0,0,,,next pond holds,80.1,80.1,False,69673,
+awaji,3127,寺池,4000,5.0,0,,,flow leaves the area or reaches no pond,80.0,80.0,False,68251,
+awaji,6023,上池,3600,2.0,0,,,next pond has no water surface,79.9,79.9,False,71474,
+awaji,6036,草池,1699,1.0,0,,,flow leaves the area or reaches no pond,79.9,79.9,False,71487,
+awaji,6304,小川池,3740,15.0,0,,,flow leaves the area or reaches no pond,79.9,79.9,False,71766,
+awaji,103,菰ヶ池,7000,2.5,0,,,flow leaves the area or reaches no pond,79.7,79.7,False,54630,
+awaji,2956,瀬下池,4000,4.5,0,,,flow leaves the area or reaches no pond,79.5,79.5,False,68075,
+awaji,2488,皿池,33000,6.3,0,,,next pond beyond the distance,79.0,79.0,False,67592,
+awaji,3066,今谷上池,7000,3.0,0,,,next pond holds,78.9,78.9,False,68186,
+awaji,2728,浜田西池,7000,7.2,0,,,flow leaves the area or reaches no pond,78.8,78.8,False,67837,
+awaji,5311,スリバチ池,1041,6.0,0,,,next pond holds,78.8,78.8,False,70723,
+awaji,2986,土器谷下池,2000,3.7,0,,,flow leaves the area or reaches no pond,78.7,78.7,False,68105,
+awaji,4540,エンドウバタノ池,1100,8.0,0,,,flow leaves the area or reaches no pond,78.7,78.7,False,69868,
+awaji,5575,東小原下池,3900,3.6,0,,,flow leaves the area or reaches no pond,78.7,78.7,False,71005,
+awaji,4608,椎ノ木池,3830,7.0,0,,,next pond has no water surface,78.6,78.6,False,69942,
+awaji,5244,淡-4544,2410,5.0,0,,,flow leaves the area or reaches no pond,78.4,78.4,False,70652,
+awaji,1404,フケ調整池,1070,2.0,0,,,next pond beyond the distance,78.3,78.3,False,56603,
+awaji,3303,山本池,2400,5.2,0,,,next pond holds,78.3,78.3,False,68476,
+awaji,1700,新池,1200,10.0,0,,,next pond has no water surface,78.2,78.2,False,56918,
+awaji,2465,西ノ門池,5000,4.0,0,,,next pond has no water surface,78.2,78.2,False,67568,
+awaji,2403,谷池,1300,2.0,0,,,flow leaves the area or reaches no pond,77.8,77.8,False,57888,
+awaji,4492,淡-4042,2781,3.0,0,,,flow leaves the area or reaches no pond,77.8,77.8,False,69818,
+awaji,5523,伊豆谷池,1132,4.0,0,,,next pond has no water surface,77.4,77.4,False,70950,
+awaji,3136,梅木池,4000,4.5,0,,,flow leaves the area or reaches no pond,77.3,77.3,False,68261,
+awaji,2443,狸穴池,3000,3.5,0,,,flow leaves the area or reaches no pond,77.2,77.2,False,67546,
+awaji,2666,露ノ奥池中池,1000,6.0,0,,,next pond has no water surface,77.2,77.2,False,67770,
+awaji,5420,淡-3690,3050,1.0,0,,,next pond beyond the distance,77.0,77.0,False,70838,
+awaji,3035,佃池,2000,4.5,0,,,next pond holds,76.9,76.9,False,68155,
+awaji,5567,ガマ池,1090,4.0,0,,,next pond holds,76.6,76.6,False,70997,
+awaji,2732,池の谷池,7000,7.2,0,,,flow leaves the area or reaches no pond,76.5,76.5,False,67841,
+awaji,860,長池,1400,8.0,0,,,flow leaves the area or reaches no pond,76.3,76.3,False,55758,
+awaji,2933,流田上池,2000,4.5,0,,,next pond has no water surface,76.3,76.3,False,68052,
+awaji,2589,中池,24000,8.2,0,,,next pond has no water surface,76.2,76.2,False,67693,
+awaji,3008,米原池,2000,3.0,0,,,next pond holds,76.2,76.2,False,68127,
+awaji,2463,清水池,2000,4.6,0,,,next pond has no water surface,76.1,76.1,False,67566,
+awaji,1410,ハス池,1010,3.0,0,,,next pond holds,76.0,76.0,False,56610,
+awaji,2416,金谷古池,13000,7.4,0,,,flow leaves the area or reaches no pond,76.0,76.0,False,67518,
+awaji,2884,小原中池,5000,4.5,0,,,next pond holds,76.0,76.0,False,68002,
+awaji,6559,西の池,1030,6.0,0,,,flow leaves the area or reaches no pond,76.0,76.0,False,72039,
+awaji,1150,洲-3669,1000,5.0,0,,,next pond holds,75.9,75.9,False,56328,
+awaji,3265,碗ノ池,1000,3.0,0,,,next pond has no water surface,75.9,75.9,False,68438,
+awaji,6516,南西谷池,3300,10.0,0,,,next pond holds,75.8,75.8,False,71994,
+awaji,5751,大町池,1420,4.0,0,,,next pond holds,75.7,75.7,False,71192,
+awaji,6308,田主池,1450,3.0,0,,,next pond has no water surface,75.7,75.7,False,71770,
+awaji,2417,金谷新池,30000,6.6,0,,,flow leaves the area or reaches no pond,75.6,75.6,False,67519,
+awaji,3336,前の谷池,1050,7.0,0,,,next pond holds,75.6,75.6,False,68516,
+awaji,2727,土橋池,3900,5.1,0,,,flow leaves the area or reaches no pond,75.4,75.4,False,67836,
+awaji,5440,荒神池|淡-2976,1310,4.0,0,,,next pond holds,75.2,75.2,False,70860|70863,
+awaji,1044,大木池,9350,7.0,0,,,flow leaves the area or reaches no pond,75.0,75.0,False,56134,
+awaji,6330,乙池,157500,2.5,0,,,flow leaves the area or reaches no pond,75.0,75.0,False,71792,
+awaji,1175,皿池,6762,5.3,0,,,next pond has no water surface,74.6,74.6,False,56357,
+awaji,2915,木瓜池,6200,6.5,0,,,flow leaves the area or reaches no pond,74.6,74.6,False,68034,
+awaji,5321,淡-3331,1056,3.0,0,,,next pond holds,74.5,74.5,False,70733,
+awaji,6222,淡-1634,2751,4.0,0,,,next pond has no water surface,74.4,74.4,False,71683,
+awaji,3122,イモジ谷池,9000,7.0,0,,,flow leaves the area or reaches no pond,74.2,74.2,False,68246,
+awaji,2947,夜添池,4000,7.0,0,,,next pond has no water surface,74.0,74.0,False,68066,
+awaji,2731,岩畳池,10000,6.9,0,,,flow leaves the area or reaches no pond,73.9,73.9,False,67840,
+awaji,5928,淡-2014,5430,9.0,0,,,flow leaves the area or reaches no pond,73.9,73.9,False,71373,
+awaji,2541,細池,12000,4.4,0,,,flow leaves the area or reaches no pond,73.5,73.5,False,67645,
+awaji,5552,淡-2820,1155,3.0,0,,,flow leaves the area or reaches no pond,73.4,73.4,False,70981,
+awaji,2938,小平田池,8000,6.5,0,,,next pond has no water surface,73.2,73.2,False,68057,
+awaji,1226,山際池,2412,10.0,0,,,flow leaves the area or reaches no pond,73.0,73.0,False,56410,
+awaji,1409,洲-3313,1270,1.0,0,,,next pond holds,73.0,73.0,False,56609,
+awaji,2565,孝田池,1000,3.7,0,,,flow leaves the area or reaches no pond,72.9,72.9,False,67669,
+awaji,5449,桐池,2000,2.5,0,,,next pond holds,72.9,72.9,False,70871,
+awaji,3792,ユムギ谷池,9490,9.0,0,,,flow leaves the area or reaches no pond,72.7,72.7,False,69005,
+awaji,1684,弥ノ谷池,1920,2.0,0,,,flow leaves the area or reaches no pond,72.6,72.6,False,56902,
+awaji,5118,淡-4669,1400,5.0,0,,,next pond holds,72.5,72.5,False,70524,
+awaji,3329,(非)大池(廃止),2200,4.8,0,,,flow leaves the area or reaches no pond,72.2,72.2,False,68509,
+awaji,2471,保月下池,2000,4.4,0,,,flow leaves the area or reaches no pond,72.1,72.1,False,67574,
+awaji,3098,濁池,24000,3.5,0,,,flow leaves the area or reaches no pond,72.1,72.1,False,68222,
+awaji,3476,長作池,1230,8.0,0,,,next pond has no water surface,71.9,71.9,False,68668,
+awaji,3343,川池,1000,2.5,0,,,flow leaves the area or reaches no pond,71.6,71.6,False,68523,
+awaji,2421,重郎兵衛池,5000,5.3,0,,,next pond holds,71.3,71.3,False,67523,
+awaji,3128,戎谷池,4000,4.0,0,,,flow leaves the area or reaches no pond,71.2,71.2,False,68252,
+awaji,4516,大池,1460,1.5,0,,,next pond holds,71.1,71.1,False,69844,
+awaji,5267,池町池（たき池田主）,5770,15.0,0,,,flow leaves the area or reaches no pond,71.0,71.0,False,70675,
+awaji,6214,とくわ池（たき池田主）,2960,5.0,0,,,flow leaves the area or reaches no pond,71.0,71.0,False,71674,
+awaji,5315,淡-3296,2660,7.0,0,,,next pond holds,70.8,70.8,False,70727,
+awaji,1165,洲-3098,1000,10.0,0,,,next pond holds,70.7,70.7,False,56345,
+awaji,5373,淡-3565,1260,5.0,0,,,next pond holds,70.7,70.7,False,70786,
+awaji,6219,琵琶池（たき池田主）,2900,5.0,0,,,flow leaves the area or reaches no pond,70.7,70.7,False,71680,
+awaji,2665,露ノ奥池上池,7000,6.6,0,,,next pond has no water surface,70.5,70.5,False,67769,
+awaji,3124,下甲田池,15000,5.5,0,,,flow leaves the area or reaches no pond,70.5,70.5,False,68248,
+awaji,6361,淡-912,1340,3.0,0,,,flow leaves the area or reaches no pond,70.5,70.5,False,71824,
+awaji,6264,ほう谷池,4193,3.0,0,,,flow leaves the area or reaches no pond,70.4,70.4,False,71726,
+awaji,1391,円子団池,1000,4.0,0,,,next pond beyond the distance,70.3,70.3,False,56590,
+awaji,1532,洲-3225,3314,3.0,0,,,next pond beyond the distance,70.3,70.3,False,56742,
+awaji,6231,ヒラキ池,4930,10.0,0,,,flow leaves the area or reaches no pond,70.1,70.1,False,71692,
+awaji,3110,一本松池,3000,4.0,0,,,next pond holds,70.0,70.0,False,68234,
+awaji,5372,淡-3560,1070,5.0,0,,,next pond holds,69.9,69.9,False,70785,
+awaji,2501,神田池,4000,4.0,0,,,next pond beyond the distance,69.8,69.8,False,67605,
+awaji,3785,川池,2450,4.0,0,,,flow leaves the area or reaches no pond,69.7,69.7,False,68998,
+awaji,2491,船越池,2000,3.5,0,,,next pond beyond the distance,69.5,69.5,False,67595,
+awaji,2711,岡田池,9000,5.1,0,,,next pond has no water surface,69.2,69.2,False,67820,
+awaji,3102,野上下池,10000,8.0,0,,,next pond has no water surface,69.1,69.1,False,68226,
+awaji,6344,今谷上池,1000,3.5,0,,,next pond holds,69.1,69.1,False,71807,
+awaji,5359,淡-3489,1600,2.0,0,,,next pond holds,68.8,68.8,False,70772,
+awaji,5485,荒神池|タンノ池,3210,4.0,0,,,flow leaves the area or reaches no pond,68.8,68.8,False,70909|70912,
+awaji,5680,淡-2689,2674,6.0,0,,,next pond holds,68.8,68.8,False,71116,
+awaji,6180,松本池,5000,2.0,0,,,flow leaves the area or reaches no pond,68.7,68.7,False,71640,
+awaji,1534,洲-3356,7231,1.0,0,,,next pond beyond the distance,68.6,68.6,False,56744,
+awaji,3304,大矢谷池,5600,3.5,0,,,next pond holds,68.5,68.5,False,68477,
+awaji,143,平池,15000,4.0,0,,,next pond holds,68.4,68.4,False,54680,
+awaji,5559,淡-2840|淡-2853,1941,4.0,0,,,flow leaves the area or reaches no pond,68.3,68.3,False,70988|70989,
+awaji,5585,三松池,2900,5.0,0,,,flow leaves the area or reaches no pond,68.1,68.1,False,71017,
+awaji,6324,家の上の池,1000,10.0,0,,,flow leaves the area or reaches no pond,67.6,67.6,False,71786,
+awaji,4585,グンバタケ池,1240,5.0,0,,,next pond has no water surface,67.5,67.5,False,69918,
+awaji,122,幣田池,1000,5.0,0,,,next pond holds,67.4,67.4,False,54655,
+awaji,1417,洲-3339,3250,5.0,0,,,next pond beyond the distance,67.4,67.4,False,56617,
+awaji,1416,平田池下池(板野下）,1832,4.0,0,,,next pond beyond the distance,67.0,67.0,False,56616,
+awaji,2627,小田池,7000,5.1,0,,,flow leaves the area or reaches no pond,66.9,66.9,False,67731,
+awaji,2571,川池,4000,4.9,0,,,flow leaves the area or reaches no pond,66.7,66.7,False,67675,
+awaji,2970,大糸谷池,115000,5.5,0,,,flow leaves the area or reaches no pond,66.6,66.6,False,68089,
+awaji,3062,宇城池,1000,4.0,0,,,flow leaves the area or reaches no pond,66.6,66.6,False,68182,
+awaji,2667,六石谷池,2000,5.5,0,,,next pond has no water surface,66.4,66.4,False,67771,
+awaji,3072,棒田池,4000,7.0,0,,,flow leaves the area or reaches no pond,66.2,66.2,False,68193,
+awaji,6316,ボウダ池（田主池）,4030,15.0,0,,,next pond has no water surface,66.2,66.2,False,71778,
+awaji,2934,安星池,11000,4.7,0,,,flow leaves the area or reaches no pond,66.0,66.0,False,68053,
+awaji,4646,（非）淡-3896|淡-3898,2789,5.0,0,,,next pond has no water surface,65.8,65.8,False,69980|69982,
+awaji,1088,洲-3176,1703,3.0,0,,,flow leaves the area or reaches no pond,65.6,65.6,False,56180,
+awaji,3089,北谷池,7000,4.0,0,,,flow leaves the area or reaches no pond,65.6,65.6,False,68213,
+awaji,5553,山崎池,1064,4.0,0,,,flow leaves the area or reaches no pond,65.4,65.4,False,70982,
+awaji,5352,御住居谷池,2000,8.0,0,,,next pond holds,65.2,65.2,False,70765,
+awaji,5686,中池（共同池）,15000,7.0,0,,,next pond holds,65.2,65.2,False,71122,
+awaji,3045,川池,5000,4.0,0,,,flow leaves the area or reaches no pond,65.1,65.1,False,68165,
+awaji,3084,白生奥池,8000,7.0,0,,,flow leaves the area or reaches no pond,65.1,65.1,False,68207,
+awaji,4600,あみだ池,18600,7.0,0,,,next pond has no water surface,65.1,65.1,False,69934,
+awaji,2502,西ノ宮池,12000,7.0,0,,,next pond beyond the distance,64.7,64.7,False,67606,
+awaji,3095,新池,3000,3.0,0,,,flow leaves the area or reaches no pond,64.6,64.6,False,68219,
+awaji,111,古新池,5000,8.0,0,,,next pond has no water surface,64.4,64.4,False,54644,
+awaji,3090,猿ヶ池,27000,7.0,0,,,flow leaves the area or reaches no pond,64.4,64.4,False,68214,
+awaji,2906,熊野下池,4000,5.0,0,,,flow leaves the area or reaches no pond,64.3,64.3,False,68025,
+awaji,6217,ビワクボ池|淡-1539,1408,2.0,0,,,next pond holds,64.3,64.3,False,71677|71679,
+awaji,2498,岩崎下池,31000,9.4,0,,,next pond beyond the distance,64.2,64.2,False,67602,
+awaji,4560,淡-4237,1620,3.0,0,,,next pond has no water surface,64.2,64.2,False,69888,
+awaji,6313,田畑池,1420,4.0,0,,,next pond holds,64.1,64.1,False,71775,
+awaji,2924,出雲谷池,19200,8.0,0,,,flow leaves the area or reaches no pond,64.0,64.0,False,68043,
+awaji,2499,岩崎上池,46000,9.0,0,,,next pond beyond the distance,63.8,63.8,False,67603,
+awaji,2922,大池,5000,6.0,0,,,flow leaves the area or reaches no pond,63.7,63.7,False,68041,
+awaji,2911,桃谷池,1000,2.2,0,,,flow leaves the area or reaches no pond,63.5,63.5,False,68030,
+awaji,3413,谷の下池,1200,2.5,0,,,next pond holds,63.2,63.2,False,68598,
+awaji,6258,中池（たき池田主）,1920,2.0,0,,,next pond holds,63.2,63.2,False,71720,
+awaji,3077,清水下池,1000,3.5,0,,,flow leaves the area or reaches no pond,63.0,63.0,False,68199,
+awaji,1793,洲-3065,1200,8.0,0,,,next pond holds,62.7,62.7,False,57021,
+awaji,3100,白生池（白生口池）,3000,7.0,0,,,flow leaves the area or reaches no pond,62.7,62.7,False,68224,
+awaji,3053,菱池,11000,5.3,0,,,next pond holds,62.6,62.6,False,68173,
+awaji,2633,西沢下池,20000,6.5,0,,,flow leaves the area or reaches no pond,62.3,62.3,False,67737,
+awaji,3634,大谷池,1350,9.0,0,,,next pond beyond the distance,62.3,62.3,False,68834,
+awaji,3085,武田池,1000,4.0,0,,,next pond holds,62.2,62.2,False,68208,
+awaji,1271,谷池,2292,8.0,0,,,next pond holds,62.1,62.1,False,56458,
+awaji,3063,元ホジ池,8000,8.0,0,,,flow leaves the area or reaches no pond,61.9,61.9,False,68183,
+awaji,117,下池,3000,5.0,0,,,flow leaves the area or reaches no pond,61.8,61.8,False,54650,
+awaji,3060,宇城上池,2000,5.0,0,,,flow leaves the area or reaches no pond,61.8,61.8,False,68180,
+awaji,4764,淡-3893,2520,7.0,0,,,flow leaves the area or reaches no pond,61.8,61.8,False,70105,
+awaji,4754,（非）淡-3863,1370,10.0,0,,,flow leaves the area or reaches no pond,61.7,61.7,False,70095,
+awaji,4455,淡-3858,1000,4.0,0,,,flow leaves the area or reaches no pond,61.6,61.6,False,69779,
+awaji,2966,小糸谷池（小糸池）,15000,7.0,0,,,flow leaves the area or reaches no pond,61.5,61.5,False,68085,
+awaji,6377,家の下池,1770,4.0,0,,,next pond holds,61.5,61.5,False,71840,
+awaji,3059,宇城下池,4000,5.0,0,,,flow leaves the area or reaches no pond,61.4,61.4,False,68179,
+awaji,3678,責谷池,1960,4.0,0,,,next pond holds,61.4,61.4,False,68879,
+awaji,5488,(非)淡-2442,2200,4.0,0,,,next pond has no water surface,61.4,61.4,False,70913,
+awaji,1157,洲-3683,1996,3.0,0,,,flow leaves the area or reaches no pond,61.3,61.3,False,56335,
+awaji,278,昭和池,3000,6.0,0,,,flow leaves the area or reaches no pond,61.2,61.2,False,54819,
+awaji,6495,淡-818|フルツク池,2681,2.0,0,,,flow leaves the area or reaches no pond,61.2,61.2,False,71971|71972,
+awaji,6553,寒風池,2010,10.0,0,,,flow leaves the area or reaches no pond,61.2,61.2,False,72033,
+awaji,3058,井面上池|井面池|淡-1063|淡-1098,44090,5.0,0,,,flow leaves the area or reaches no pond,61.1,61.1,False,68178|68197|71919|71924,
+awaji,2552,道堂下池,19000,4.9,0,,,flow leaves the area or reaches no pond,61.0,61.0,False,67656,
+awaji,3131,西谷池,8000,3.5,0,,,flow leaves the area or reaches no pond,61.0,61.0,False,68255,
+awaji,3834,西谷池（中の池）,1950,7.0,0,,,next pond has no water surface,60.6,60.6,False,69047,
+awaji,2746,かずはら池,29000,8.8,0,,,next pond has no water surface,60.5,60.5,False,67855,
+awaji,102,丸田池,6000,3.6,0,,,flow leaves the area or reaches no pond,60.4,60.4,False,54629,
+awaji,6378,共同池|古池,2770,4.0,0,,,next pond holds,60.4,60.4,False,71841|71843,
+awaji,2929,長尾池,26000,3.8,0,,,flow leaves the area or reaches no pond,60.3,60.3,False,68048,
+awaji,3651,戌角池,2500,5.0,0,,,next pond beyond the distance,60.3,60.3,False,68851,
+awaji,6416,川池,1800,2.0,0,,,flow leaves the area or reaches no pond,60.3,60.3,False,71884,
+awaji,3269,中山池,1000,5.4,0,,,next pond holds,59.9,59.9,False,68442,
+awaji,2737,中ノ内池,9000,12.0,0,,,next pond has no water surface,59.8,59.8,False,67846,
+awaji,2550,湯ノ谷新池,2000,5.3,0,,,flow leaves the area or reaches no pond,59.7,59.7,False,67654,
+awaji,5855,淡-2533,1260,5.0,0,,,next pond has no water surface,59.5,59.5,False,71300,
+awaji,2712,下川池,18000,9.8,0,,,flow leaves the area or reaches no pond,59.4,59.4,False,67821,
+awaji,3328,（非）非赤松上池（廃止）,9000,6.2,0,,,next pond holds,58.9,58.9,False,68506,
+awaji,4768,淡-3915,1200,4.0,0,,,flow leaves the area or reaches no pond,58.9,58.9,False,70109,
+awaji,2964,山桑池,7000,5.0,0,,,flow leaves the area or reaches no pond,58.7,58.7,False,68083,
+awaji,2442,大地池,4000,4.6,0,,,flow leaves the area or reaches no pond,58.6,58.6,False,67545,
+awaji,3050,長池,8000,5.5,0,,,flow leaves the area or reaches no pond,58.6,58.6,False,68170,
+awaji,4257,淡-3443,1000,3.5,0,,,next pond beyond the distance,58.6,58.6,False,69483,
+awaji,5503,ます池,3000,5.0,0,,,flow leaves the area or reaches no pond,58.6,58.6,False,70928,
+awaji,1232,新池,1873,7.0,0,,,flow leaves the area or reaches no pond,58.4,58.4,False,56416,
+awaji,2958,大池,48000,6.0,0,,,flow leaves the area or reaches no pond,58.4,58.4,False,68077,
+awaji,4084,淡-2985,26670,5.0,0,,,next pond has no water surface,58.4,58.4,False,69305,
+awaji,4718,上池,1080,3.0,0,,,flow leaves the area or reaches no pond,58.4,58.4,False,70056,
+awaji,2735,井ノ神池,18000,12.0,0,,,next pond has no water surface,58.2,58.2,False,67844,
+awaji,115,中の池,2000,5.0,0,,,flow leaves the area or reaches no pond,58.1,58.1,False,54648,
+awaji,3070,鍋倉新池,12000,5.0,0,,,flow leaves the area or reaches no pond,58.1,58.1,False,68190,
+awaji,1228,カリマタ池,1400,3.5,0,,,flow leaves the area or reaches no pond,57.9,57.9,False,56412,
+awaji,2909,新池,5000,3.3,0,,,flow leaves the area or reaches no pond,57.9,57.9,False,68028,
+awaji,4240,（非）淡-3386,1017,6.0,0,,,next pond beyond the distance,57.8,57.8,False,69463,
+awaji,1717,アイヤ池,1200,2.4,0,,,next pond holds,57.7,57.7,False,56937,
+awaji,4454,平間池,5290,7.0,0,,,next pond has no water surface,57.7,57.7,False,69778,
+awaji,2467,長池,14000,5.2,0,,,flow leaves the area or reaches no pond,57.6,57.6,False,67570,
+awaji,3822,淡-2292,1400,5.0,0,,,next pond has no water surface,57.6,57.6,False,69035,
+awaji,252,中畑池,1000,5.0,0,,,next pond has no water surface,57.5,57.5,False,54793,
+awaji,150,奥内池,4000,5.0,0,,,flow leaves the area or reaches no pond,57.4,57.4,False,54687,
+awaji,3061,宇城谷池,15000,8.0,0,,,flow leaves the area or reaches no pond,57.4,57.4,False,68181,
+awaji,144,そが谷池,2000,5.0,0,,,flow leaves the area or reaches no pond,57.2,57.2,False,54681,
+awaji,3049,滝池,258000,14.2,0,,,flow leaves the area or reaches no pond,57.2,57.2,False,68169,
+awaji,3559,淡-100,1000,4.0,0,,,next pond beyond the distance,56.2,56.2,False,68753,
+awaji,275,平池下,2000,4.5,0,,,flow leaves the area or reaches no pond,56.1,56.1,False,54816,
+awaji,3079,大戸池,5000,5.0,0,,,flow leaves the area or reaches no pond,56.1,56.1,False,68201,
+awaji,6436,淡-878|淡-885|淡-886,1370,2.0,0,,,next pond holds,56.1,56.1,False,71904|71906|71907,
+awaji,2642,細子池,28000,8.9,0,,,next pond beyond the distance,56.0,56.0,False,67746,
+awaji,4490,淡-4034,1007,1.0,0,,,next pond holds,56.0,56.0,False,69816,
+awaji,2644,うるし谷池,9000,7.9,0,,,next pond has no water surface,55.9,55.9,False,67748,
+awaji,151,中谷池,1000,5.0,0,,,next pond beyond the distance,55.8,55.8,False,54688,
+awaji,2631,新池,5000,5.7,0,,,flow leaves the area or reaches no pond,55.8,55.8,False,67735,
+awaji,2437,一色池,4000,5.4,0,,,flow leaves the area or reaches no pond,55.7,55.7,False,67540,
+awaji,6526,（非）淡-511,1000,5.0,0,,,next pond holds,55.3,55.3,False,72004,
+awaji,3105,深谷池,4000,5.5,0,,,next pond holds,55.2,55.2,False,68229,
+awaji,4729,久保谷池,4340,4.5,0,,,flow leaves the area or reaches no pond,55.2,55.2,False,70067,
+awaji,6505,（非）淡-542,1020,6.0,0,,,next pond has no water surface,55.1,55.1,False,71983,
+awaji,4734,川池,3280,7.0,0,,,flow leaves the area or reaches no pond,55.0,55.0,False,70073,
+awaji,6504,（非）淡-540,2000,8.0,0,,,next pond holds,55.0,55.0,False,71982,
+awaji,2428,孫九郎池,23000,5.0,0,,,flow leaves the area or reaches no pond,54.9,54.9,False,67531,
+awaji,6522,（非）淡-474,1140,8.0,0,,,next pond has no water surface,54.5,54.5,False,72000,
+awaji,4679,美の谷池,5012,2.0,0,,,next pond holds,54.4,54.4,False,70017,
+awaji,4318,（非）淡-2948,1140,3.0,0,,,next pond holds,54.1,54.1,False,69545,
+awaji,1151,皿池,2437,2.0,0,,,next pond holds,54.0,54.0,False,56329,
+awaji,3106,川池,8000,4.5,0,,,flow leaves the area or reaches no pond,53.9,53.9,False,68230,
+awaji,4271,淡-3482,2102,8.0,0,,,next pond holds,53.9,53.9,False,69497,
+awaji,6556,淡-1219,2000,8.0,0,,,flow leaves the area or reaches no pond,53.9,53.9,False,72036,
+awaji,4705,ツカダ池,1000,4.0,0,,,next pond holds,53.8,53.8,False,70043,
+awaji,2937,隠矢池,104000,12.0,0,,,flow leaves the area or reaches no pond,53.4,53.4,False,68056,
+awaji,3076,見子池|見子上池,3440,4.0,0,,,flow leaves the area or reaches no pond,53.4,53.4,False,68198|71879,
+awaji,3313,鶴田池,2000,3.0,0,,,next pond holds,53.4,53.4,False,68487,
+awaji,2742,色目大池,3800,6.0,0,,,flow leaves the area or reaches no pond,53.2,53.2,False,67851,
+awaji,3107,白池,3000,2.5,0,,,flow leaves the area or reaches no pond,53.1,53.1,False,68231,
+awaji,4251,淡-3426,1074,4.0,0,,,next pond holds,52.8,52.8,False,69475,
+awaji,5208,善平池,1520,7.0,0,,,flow leaves the area or reaches no pond,52.8,52.8,False,70616,
+awaji,3094,荒倉池,4000,4.0,0,,,flow leaves the area or reaches no pond,52.7,52.7,False,68218,
+awaji,2542,志田花下池,7000,4.7,0,,,next pond holds,52.5,52.5,False,67646,
+awaji,2648,清水池,5000,4.5,0,,,flow leaves the area or reaches no pond,52.5,52.5,False,67752,
+awaji,4695,淡-3563,1160,2.0,0,,,next pond holds,52.5,52.5,False,70033,
+awaji,3081,東池,3000,3.7,0,,,flow leaves the area or reaches no pond,52.4,52.4,False,68203,
+awaji,3093,溝下池,17000,6.0,0,,,flow leaves the area or reaches no pond,52.1,52.1,False,68217,
+awaji,4253,淡-3429,2064,3.0,0,,,next pond has no water surface,51.9,51.9,False,69477,
+awaji,125,逆池|（非）洲-3597|（非）洲-3580|（非）洲-3602,40000,5.0,0,,,next pond has no water surface,51.8,51.8,False,54659|56317|56685|56694,
+awaji,4229,淡-3343,1020,9.0,0,,,flow leaves the area or reaches no pond,51.8,51.8,False,69452,
+awaji,4249,淡-3423,206000,2.0,0,,,flow leaves the area or reaches no pond,51.8,51.8,False,69473,
+awaji,152,山神池,15000,7.0,0,,,next pond beyond the distance,51.6,51.6,False,54689,
+awaji,4712,淡-3652,1190,5.0,0,,,flow leaves the area or reaches no pond,51.6,51.6,False,70050,
+awaji,3054,菱池上池,2000,4.5,0,,,next pond holds,51.4,51.4,False,68174,
+awaji,4735,淡-3795,3090,6.0,0,,,flow leaves the area or reaches no pond,51.3,51.3,False,70074,
+awaji,1249,洲-3507,2500,4.0,0,,,next pond has no water surface,51.2,51.2,False,56435,
+awaji,2494,谷池,1000,2.4,0,,,next pond holds,51.0,51.0,False,67598,
+awaji,6521,（非）淡-450,1100,8.0,0,,,next pond has no water surface,50.9,50.9,False,71999,
+awaji,4697,淡-3569,1378,4.0,0,,,flow leaves the area or reaches no pond,50.5,50.5,False,70035,
+awaji,4762,淡-3888,1540,7.0,0,,,next pond has no water surface,50.1,50.1,False,70103,
+awaji,2661,陰地池,1000,5.0,0,,,next pond holds,49.8,49.8,False,67765,
+awaji,5269,打本池,2380,5.0,0,,,next pond holds,49.8,49.8,False,70677,
+awaji,2900,住居谷池,7000,3.3,0,,,flow leaves the area or reaches no pond,49.7,49.7,False,68019,
+awaji,4268,淡-3476,1150,2.0,0,,,flow leaves the area or reaches no pond,49.7,49.7,False,69494,
+awaji,1526,上池,1200,6.0,0,,,next pond holds,49.4,49.4,False,56736,
+awaji,3732,中野池,1330,8.0,0,,,next pond holds,49.4,49.4,False,68939,
+awaji,272,保六田池|洲-3427|（非）洲-3424,14216,6.0,0,,,flow leaves the area or reaches no pond,49.3,49.3,False,54813|56420|56968,
+awaji,6301,淡-1136,1380,6.0,0,,,flow leaves the area or reaches no pond,49.3,49.3,False,71763,
+awaji,273,新池,2000,4.0,0,,,flow leaves the area or reaches no pond,49.2,49.2,False,54814,
+awaji,3083,二ツ池,13000,5.5,0,,,next pond has no water surface,49.1,49.1,False,68206,
+awaji,6410,皿池,2900,3.0,0,,,next pond holds,49.1,49.1,False,71877,
+awaji,6520,（非）淡-420,1240,7.0,0,,,next pond has no water surface,49.1,49.1,False,71998,
+awaji,4708,行者池|行者小池,9720,8.0,0,,,flow leaves the area or reaches no pond,49.0,49.0,False,70046|70139,
+awaji,4788,淡-3595,1700,5.0,0,,,flow leaves the area or reaches no pond,48.8,48.8,False,70130,
+awaji,2741,常盤池,5000,12.8,0,,,flow leaves the area or reaches no pond,48.7,48.7,False,67850,
+awaji,2516,大坂池,11000,3.8,0,,,next pond beyond the distance,48.6,48.6,False,67620,
+awaji,3071,新池,6000,6.0,0,,,flow leaves the area or reaches no pond,48.1,48.1,False,68192,
+awaji,6240,淡-2058,1980,5.0,0,,,flow leaves the area or reaches no pond,47.7,47.7,False,71702,
+awaji,1445,平田池下池(名畑谷ポンプ）,2538,1.0,0,,,next pond beyond the distance,47.1,47.1,False,56649,
+awaji,3068,中ノ谷池,2000,4.5,0,,,flow leaves the area or reaches no pond,47.1,47.1,False,68188,
+awaji,1082,中池,11828,2.0,0,,,flow leaves the area or reaches no pond,47.0,47.0,False,56174,
+awaji,2484,まこも池,8000,3.4,0,,,next pond holds,46.8,46.8,False,67588,
+awaji,3282,西ノ池,1000,3.2,0,,,flow leaves the area or reaches no pond,46.6,46.6,False,68455,
+awaji,276,才ノ神池,9000,5.0,0,,,flow leaves the area or reaches no pond,46.5,46.5,False,54817,
+awaji,2461,丸池,1000,2.4,0,,,flow leaves the area or reaches no pond,46.5,46.5,False,67564,
+awaji,2530,深山下池,10000,4.2,0,,,next pond holds,46.5,46.5,False,67634,
+awaji,3074,野田池,6000,7.0,0,,,flow leaves the area or reaches no pond,46.4,46.4,False,68195,
+awaji,4301,淡-2795,1632,1.0,0,,,next pond holds,46.2,46.2,False,69527,
+awaji,4451,柚ノ平上池,6260,4.5,0,,,next pond has no water surface,46.0,46.0,False,69775,
+awaji,1091,樋池下池,3850,3.0,0,,,flow leaves the area or reaches no pond,45.8,45.8,False,56183,
+awaji,2543,志田花上池,5000,4.6,0,,,next pond holds,45.8,45.8,False,67647,
+awaji,2554,道堂新池,17000,5.7,0,,,flow leaves the area or reaches no pond,45.8,45.8,False,67658,
+awaji,4714,淡-3661,3250,5.0,0,,,flow leaves the area or reaches no pond,45.8,45.8,False,70052,
+awaji,6279,淡-1913,2600,2.0,0,,,next pond holds,45.4,45.4,False,71741,
+awaji,2490,上田池,5000,4.5,0,,,next pond holds,45.3,45.3,False,67594,
+awaji,3130,上池,12000,4.3,0,,,next pond holds,45.1,45.1,False,68254,
+awaji,1093,菖蒲池|新池,2046,4.0,0,,,flow leaves the area or reaches no pond,44.9,44.9,False,56185|56187,
+awaji,3309,原熊池,2000,2.2,0,,,next pond holds,44.9,44.9,False,68483,
+awaji,254,清蔵池（新）,1600,4.0,0,,,next pond holds,44.8,44.8,False,54795,
+awaji,2747,榎谷池,25000,12.5,0,,,flow leaves the area or reaches no pond,44.3,44.3,False,67856,
+awaji,4559,淡-4234,1580,3.0,0,,,next pond has no water surface,44.0,44.0,False,69887,
+awaji,3099,中ノ池,5000,3.5,0,,,next pond holds,43.9,43.9,False,68223,
+awaji,3333,梶ヤヌ下池,2790,5.0,0,,,flow leaves the area or reaches no pond,43.9,43.9,False,68513,
+awaji,1483,洲-3588,1600,8.0,0,,,next pond beyond the distance,43.7,43.7,False,56690,
+awaji,6208,りんだやしき池,1370,6.0,0,,,next pond holds,43.3,43.3,False,71668,
+awaji,2659,脇ノ谷池,4000,7.9,0,,,flow leaves the area or reaches no pond,43.2,43.2,False,67763,
+awaji,5476,淡-2318,2500,4.0,0,,,next pond holds,43.1,43.1,False,70900,
+awaji,2876,羽坂池,3000,4.5,0,,,flow leaves the area or reaches no pond,43.0,43.0,False,67994,
+awaji,6207,家の下池,1180,2.0,0,,,next pond holds,43.0,43.0,False,71667,
+awaji,2638,奥ノ谷池|淡-3100,1040,3.5,0,,,flow leaves the area or reaches no pond,42.8,42.8,False,67742|69379,
+awaji,3025,新池,6000,3.5,0,,,next pond holds,42.8,42.8,False,68145,
+awaji,4468,淡-3886,1680,14.0,0,,,next pond has no water surface,42.8,42.8,False,69794,
+awaji,2719,大正池,10000,13.8,0,,,flow leaves the area or reaches no pond,42.6,42.6,False,67828,
+awaji,3042,岩谷新池,8000,5.5,0,,,flow leaves the area or reaches no pond,42.5,42.5,False,68162,
+awaji,1477,洲-3574,3873,2.0,0,,,next pond beyond the distance,41.6,41.6,False,56683,
+awaji,4550,淡-4211,2450,9.0,0,,,next pond has no water surface,41.4,41.4,False,69878,
+awaji,1084,隠谷池,1400,7.0,0,,,flow leaves the area or reaches no pond,41.3,41.3,False,56176,
+awaji,3029,川池,12000,5.5,0,,,flow leaves the area or reaches no pond,40.7,40.7,False,68149,
+awaji,4160,淡-3111,2578,6.0,0,,,flow leaves the area or reaches no pond,40.6,40.6,False,69383,
+awaji,3276,背池,1000,3.6,0,,,next pond holds,39.9,39.9,False,68449,
+awaji,2655,投石池,7000,5.5,0,,,flow leaves the area or reaches no pond,39.7,39.7,False,67759,
+awaji,3040,宇城池,2000,4.0,0,,,next pond holds,39.6,39.6,False,68160,
+awaji,2743,新開池,3800,4.8,0,,,next pond has no water surface,39.4,39.4,False,67852,
+awaji,4715,淡-3664,2050,6.0,0,,,flow leaves the area or reaches no pond,39.3,39.3,False,70053,
+awaji,6459,菅谷上池,1120,5.0,0,,,next pond holds,39.3,39.3,False,71932,
+awaji,284,新池（鴨郡）,4000,5.0,0,,,next pond holds,38.9,38.9,False,54825,
+awaji,1141,洲-3614,1717,2.0,0,,,next pond beyond the distance,38.8,38.8,False,56319,
+awaji,3268,家ノ上池,1000,3.3,0,,,next pond holds,38.8,38.8,False,68441,
+awaji,2435,福目谷池,3000,3.6,0,,,flow leaves the area or reaches no pond,38.4,38.4,False,67538,
+awaji,1103,神田池,4400,5.5,0,,,next pond has no water surface,38.1,38.1,False,56273,
+awaji,4713,淡-3653,2410,6.0,0,,,flow leaves the area or reaches no pond,37.8,37.8,False,70051,
+awaji,6206,ちよも池,1820,3.0,0,,,next pond has no water surface,37.8,37.8,False,71666,
+awaji,1743,西谷池,2992,5.0,0,,,flow leaves the area or reaches no pond,37.7,37.7,False,56967,
+awaji,2505,壱丁田池,11000,4.8,0,,,next pond holds,37.7,37.7,False,67609,
+awaji,215,谷池,3000,3.5,0,,,next pond beyond the distance,37.6,37.6,False,54755,
+awaji,2658,日雇ヶ原池,4000,4.4,0,,,flow leaves the area or reaches no pond,37.6,37.6,False,67762,
+awaji,3033,丹後谷池,5000,3.5,0,,,flow leaves the area or reaches no pond,37.6,37.6,False,68153,
+awaji,286,センマリ池,1000,3.0,0,,,next pond holds,37.5,37.5,False,54827,
+awaji,4802,家下池,1340,3.0,0,,,flow leaves the area or reaches no pond,37.5,37.5,False,70148,
+awaji,6382,菅谷小池1|菅谷小池2|菅谷角池,1810,4.0,0,,,next pond holds,37.5,37.5,False,71846|71847|71848,
+awaji,3028,瀬戸池,6000,5.5,0,,,next pond has no water surface,37.4,37.4,False,68148,
+awaji,4743,（非）淡-3837|淡-3845|（非）淡-3848,2670,6.0,0,,,next pond holds,37.3,37.3,False,70082|70087|70089,
+awaji,4187,淡-3235,2723,8.0,0,,,flow leaves the area or reaches no pond,37.2,37.2,False,69410,
+awaji,6145,谷小池（３）|谷小池（２）,1140,5.0,0,,,flow leaves the area or reaches no pond,37.0,37.0,False,71602|71605,
+awaji,6563,長内谷池,1850,2.0,0,,,flow leaves the area or reaches no pond,36.9,36.9,False,72043,
+awaji,1254,（非）洲-3520,1200,1.0,0,,,next pond holds,36.7,36.7,False,56440,
+awaji,4877,淡-3833,2080,5.0,0,,,flow leaves the area or reaches no pond,36.3,36.3,False,70225,
+awaji,2496,蓼町新池,1000,5.8,0,,,next pond holds,36.2,36.2,False,67600,
+awaji,2650,双子新池,3000,5.1,0,,,flow leaves the area or reaches no pond,36.1,36.1,False,67754,
+awaji,3137,八王子池,2000,3.8,0,,,flow leaves the area or reaches no pond,36.0,36.0,False,68262,
+awaji,6205,新池,1000,8.0,0,,,next pond has no water surface,36.0,36.0,False,71665,
+awaji,4227,淡-3337,1035,5.0,0,,,flow leaves the area or reaches no pond,35.8,35.8,False,69450,
+awaji,465,阿僧谷池|阿僧谷池,2800,4.0,0,,,next pond beyond the distance,35.7,35.7,False,55044|56393,
+awaji,3126,砂池,1000,2.8,0,,,flow leaves the area or reaches no pond,35.6,35.6,False,68250,
+awaji,4265,淡-3471,1900,8.0,0,,,next pond holds,35.5,35.5,False,69491,
+awaji,1464,大工部溜池,1800,5.0,0,,,next pond beyond the distance,35.4,35.4,False,56668,
+awaji,4781,淡-3466,1343,10.0,0,,,flow leaves the area or reaches no pond,35.2,35.2,False,70123,
+awaji,1487,新池,1360,1.0,0,,,next pond beyond the distance,34.9,34.9,False,56696,
+awaji,116,大久保池,4000,5.0,0,,,flow leaves the area or reaches no pond,34.7,34.7,False,54649,
+awaji,1201,洲-3571,2000,3.5,0,,,next pond beyond the distance,34.7,34.7,False,56383,
+awaji,6290,淡-2275,2750,5.0,0,,,flow leaves the area or reaches no pond,34.7,34.7,False,71752,
+awaji,1490,洲-3615,1000,3.0,0,,,next pond beyond the distance,34.5,34.5,False,56699,
+awaji,1480,薮の谷池,1940,9.0,0,,,next pond beyond the distance,34.4,34.4,False,56687,
+awaji,6408,矢櫃池,2500,4.5,0,,,next pond holds,34.1,34.1,False,71875,
+awaji,219,椚原下池|洲-3570,1560,3.7,0,,,next pond beyond the distance,33.8,33.8,False,54760|56682,
+awaji,3023,出雲谷池|淡-2268,3057,5.0,0,,,next pond has no water surface,33.8,33.8,False,68143|71638,
+awaji,4446,淡-2337,1690,4.0,0,,,next pond holds,33.8,33.8,False,69677,
+awaji,2425,川池下池,1000,2.6,0,,,flow leaves the area or reaches no pond,33.7,33.7,False,67528,
+awaji,226,森ヶ本下池,1400,5.2,0,,,flow leaves the area or reaches no pond,33.6,33.6,False,54767,
+awaji,222,瀬池,2000,4.4,0,,,next pond beyond the distance,33.3,33.3,False,54763,
+awaji,4810,淡-3663,12260,10.0,0,,,flow leaves the area or reaches no pond,33.3,33.3,False,70156,
+awaji,6150,淡-2053,1760,5.0,0,,,flow leaves the area or reaches no pond,33.2,33.2,False,71608,
+awaji,2607,高山中池,8000,6.8,0,,,next pond holds,33.1,33.1,False,67711,
+awaji,2424,青井谷池,4000,4.0,0,,,flow leaves the area or reaches no pond,33.0,33.0,False,67527,
+awaji,2657,桃花池,21000,10.0,0,,,flow leaves the area or reaches no pond,32.9,32.9,False,67761,
+awaji,3026,深山下池,3000,3.1,0,,,flow leaves the area or reaches no pond,32.7,32.7,False,68146,
+awaji,4778,淡-3353,2200,15.0,0,,,next pond has no water surface,32.7,32.7,False,70120,
+awaji,6376,坂ノ脇池,1600,2.0,0,,,next pond holds,32.7,32.7,False,71839,
+awaji,220,森ヶ本池|洲-3302,1086,3.0,0,,,next pond has no water surface,32.6,32.6,False,54761|56938,
+awaji,6179,淡-2279,2340,7.0,0,,,flow leaves the area or reaches no pond,32.3,32.3,False,71639,
+awaji,287,土取新池（谷新池）,3000,4.0,0,,,next pond beyond the distance,32.2,32.2,False,54828,
+awaji,2766,新池,8000,7.5,0,,,next pond holds,32.0,32.0,False,67875,
+awaji,4128,淡-2932,6000,2.0,0,,,next pond holds,31.9,31.9,False,69350,
+awaji,3602,小池,1560,5.0,0,,,next pond holds,31.7,31.7,False,68800,
+awaji,3664,淡-307,1300,8.0,0,,,next pond beyond the distance,31.7,31.7,False,68864,
+awaji,4326,大池,1017,2.0,0,,,next pond has no water surface,31.6,31.6,False,69553,
+awaji,4472,淡-3938,1300,2.0,0,,,next pond holds,31.3,31.3,False,69798,
+awaji,6577,才ノ池,1000,6.0,0,,,next pond holds,31.3,31.3,False,72057,
+awaji,2445,妙見上池,1000,5.0,0,,,flow leaves the area or reaches no pond,31.1,31.1,False,67548,
+awaji,1747,新池,3267,2.0,0,,,flow leaves the area or reaches no pond,31.0,31.0,False,56972,
+awaji,6199,スケ池,1160,4.0,0,,,flow leaves the area or reaches no pond,31.0,31.0,False,71659,
+awaji,104,皿池,30000,10.4,0,,,flow leaves the area or reaches no pond,30.8,30.8,False,54631,
+awaji,2444,妙見下池,1000,4.0,0,,,flow leaves the area or reaches no pond,30.8,30.8,False,67547,
+awaji,2649,川池,2000,3.6,0,,,flow leaves the area or reaches no pond,30.7,30.7,False,67753,
+awaji,4789,寺の前,1140,7.0,0,,,flow leaves the area or reaches no pond,30.7,30.7,False,70131,
+awaji,6475,上取上池,1800,2.0,0,,,next pond holds,30.7,30.7,False,71949,
+awaji,4856,繁谷下池|繁谷上池,1200,7.0,0,,,next pond holds,30.5,30.5,False,70202|70205,
+awaji,2518,唐谷下池|きり池,8240,4.2,0,,,next pond beyond the distance,30.4,30.4,False,67622|68865,
+awaji,1481,洲-3584,2590,10.0,0,,,next pond beyond the distance,30.3,30.3,False,56688,
+awaji,281,土取池,28000,7.0,0,,,next pond beyond the distance,30.1,30.1,False,54822,
+awaji,2515,前池,15000,5.5,0,,,next pond beyond the distance,29.8,29.8,False,67619,
+awaji,2656,東坊池,1000,5.7,0,,,flow leaves the area or reaches no pond,29.4,29.4,False,67760,
+awaji,2967,西の谷池,1560,3.1,0,,,flow leaves the area or reaches no pond,29.4,29.4,False,68086,
+awaji,6371,滝の鼻池,1260,6.0,0,,,next pond holds,29.4,29.4,False,71834,
+awaji,4144,淡-3023,1400,9.0,0,,,next pond has no water surface,29.3,29.3,False,69366,
+awaji,1148,洲-3666,1650,2.0,0,,,flow leaves the area or reaches no pond,29.1,29.1,False,56326,
+awaji,4317,脇池,1330,5.0,0,,,next pond holds,28.8,28.8,False,69544,
+awaji,2640,近藤下池,2000,4.8,0,,,flow leaves the area or reaches no pond,28.5,28.5,False,67744,
+awaji,3020,皿池,1000,3.0,0,,,flow leaves the area or reaches no pond,28.5,28.5,False,68139,
+awaji,4838,淡-3737,1095,6.0,0,,,next pond has no water surface,28.4,28.4,False,70184,
+awaji,4858,淡-3775,1408,6.0,0,,,flow leaves the area or reaches no pond,28.4,28.4,False,70204,
+awaji,4845,淡-3757,1314,6.0,0,,,flow leaves the area or reaches no pond,28.3,28.3,False,70191,
+awaji,5251,灯ろう池,1225,7.0,0,,,flow leaves the area or reaches no pond,28.3,28.3,False,70659,
+awaji,4314,淡-2914,1650,3.0,0,,,next pond holds,28.2,28.2,False,69541,
+awaji,4853,上池,1500,10.0,0,,,next pond has no water surface,28.1,28.1,False,70199,
+awaji,227,下司免下池,44000,6.0,0,,,flow leaves the area or reaches no pond,27.8,27.8,False,54768,
+awaji,2513,神社池,6000,6.0,0,,,next pond beyond the distance,27.8,27.8,False,67617,
+awaji,221,政処池,9000,7.0,0,,,flow leaves the area or reaches no pond,27.7,27.7,False,54762,
+awaji,228,岡清水池,6000,5.0,0,,,next pond has no water surface,27.7,27.7,False,54769,
+awaji,1504,洲-3644,1934,3.5,0,,,next pond beyond the distance,27.0,27.0,False,56713,
+awaji,4868,淡-3800,3300,10.0,0,,,next pond has no water surface,27.0,27.0,False,70216,
+awaji,4059,淡-3677,1396,6.0,0,,,next pond has no water surface,26.9,26.9,False,69280,
+awaji,4064,淡-3791,1055,3.0,0,,,next pond beyond the distance,26.8,26.8,False,69285,
+awaji,4145,淡-3026,1200,3.0,0,,,next pond holds,26.6,26.6,False,69367,
+awaji,4470,淡-3902,1400,3.5,0,,,next pond holds,26.3,26.3,False,69796,
+awaji,4815,ハス池,1830,5.0,0,,,next pond holds,25.9,25.9,False,70161,
+awaji,214,鴫池（菱池）|洲-3533,3016,6.0,0,,,next pond holds,25.8,25.8,False,54754|56985,
+awaji,3108,蓮池,2000,3.0,0,,,next pond has no water surface,25.7,25.7,False,68232,
+awaji,4137,淡-2978,1880,7.0,0,,,next pond has no water surface,25.7,25.7,False,69359,
+awaji,6438,小熊池,5051,2.0,0,,,next pond holds,25.5,25.5,False,71908,
+awaji,6098,淡-1769,2638,3.0,0,,,next pond holds,25.3,25.3,False,71550,
+awaji,1139,（非）洲-3595,3897,2.0,0,,,next pond has no water surface,25.2,25.2,False,56316,
+awaji,1205,長池,1080,2.0,0,,,next pond holds,25.1,25.1,False,56387,
+awaji,1192,奥池,1200,3.0,0,,,next pond holds,25.0,25.0,False,56374,
+awaji,5039,防災施設沈砂池（北淡17-2団地）,6830,7.0,0,,,next pond holds,25.0,25.0,False,70443,
+awaji,4067,後一向池,1000,10.0,0,,,next pond beyond the distance,24.8,24.8,False,69288,
+awaji,4457,淡-4199,1880,10.0,0,,,next pond has no water surface,24.7,24.7,False,69781,
+awaji,5158,いのしり池,2730,6.0,0,,,next pond beyond the distance,24.7,24.7,False,70565,
+awaji,3311,夫婦岩新池（下池）,2000,3.8,0,,,next pond holds,24.6,24.6,False,68485,
+awaji,4904,淡-4217,1870,9.0,0,,,flow leaves the area or reaches no pond,24.6,24.6,False,70252,
+awaji,3296,沼池,5500,5.2,0,,,next pond holds,24.5,24.5,False,68469,
+awaji,4331,川池,3660,5.0,0,,,next pond holds,24.5,24.5,False,69559,
+awaji,5717,淡-2995|淡-3021,2790,7.0,0,,,next pond holds,24.4,24.4,False,71155|71162,
+awaji,1052,寺池,1300,6.0,0,,,next pond holds,24.3,24.3,False,56142,
+awaji,95,奥の池,1000,3.7,0,,,next pond holds,24.2,24.2,False,54622,
+awaji,1048,堂ノ城池,2112,10.0,0,,,next pond holds,24.2,24.2,False,56138,
+awaji,4812,淡-3668,2140,5.0,0,,,flow leaves the area or reaches no pond,24.2,24.2,False,70158,
+awaji,5716,淡-2993|淡-3018,3070,5.0,0,,,next pond holds,24.2,24.2,False,71154|71191,
+awaji,1034,中池,1500,2.0,0,,,next pond holds,24.1,24.1,False,56124,
+awaji,3043,宮池,18000,7.5,0,,,next pond holds,24.0,24.0,False,68163,
+awaji,217,笹山池,1000,2.6,0,,,next pond beyond the distance,23.8,23.8,False,54758,
+awaji,1042,荘ヶ瀬池,2394,7.0,0,,,next pond holds,23.8,23.8,False,56132,
+awaji,4786,淡-3584,2000,4.0,0,,,flow leaves the area or reaches no pond,23.7,23.7,False,70128,
+awaji,6256,平川池,3900,7.0,0,,,flow leaves the area or reaches no pond,23.7,23.7,False,71718,
+awaji,4302,新池,2000,5.0,0,,,next pond has no water surface,23.6,23.6,False,69528,
+awaji,4880,古茂谷池,6060,2.0,0,,,flow leaves the area or reaches no pond,23.6,23.6,False,70228,
+awaji,99,大平池,3000,4.6,0,,,next pond holds,23.3,23.3,False,54626,
+awaji,3310,柏木池（夫婦岩下池）,2000,5.4,0,,,next pond holds,23.0,23.0,False,68484,
+awaji,96,桂原池,2000,3.8,0,,,next pond holds,22.9,22.9,False,54623,
+awaji,97,根之曽池|長町池,20100,5.3,0,,,next pond holds,22.9,22.9,False,54624|56150,
+awaji,1759,岡清水上池,1780,5.0,0,,,next pond has no water surface,22.9,22.9,False,56984,
+awaji,213,上池,16000,6.0,0,,,next pond holds,22.7,22.7,False,54753,
+awaji,5029,淡-4260,1720,8.0,0,,,next pond beyond the distance,22.4,22.4,False,70433,
+awaji,1488,洲-3608,6900,1.0,0,,,next pond beyond the distance,22.2,22.2,False,56697,
+awaji,1431,ツブロ池(平田池下池）,1290,2.0,0,,,next pond holds,22.1,22.1,False,56633,
+awaji,1485,ニジリ池,3120,5.0,0,,,next pond has no water surface,21.6,21.6,False,56692,
+awaji,1054,宮野原池,1634,1.0,0,,,next pond holds,21.0,21.0,False,56144,
+awaji,2902,札立池,21000,7.0,0,,,flow leaves the area or reaches no pond,20.7,20.7,False,68021,
+awaji,6511,中の池,1082,4.0,0,,,next pond has no water surface,20.7,20.7,False,71989,
+awaji,100,仲池,2000,7.1,0,,,next pond holds,20.6,20.6,False,54627,
+awaji,218,助の谷池,3000,2.7,0,,,next pond beyond the distance,20.1,20.1,False,54759,
+awaji,1479,洲-3582,1360,2.0,0,,,next pond has no water surface,20.1,20.1,False,56686,
+awaji,101,長池,12000,5.0,0,,,next pond holds,19.8,19.8,False,54628,
+awaji,2952,戸平谷池,5000,5.0,0,,,next pond holds,19.7,19.7,False,68071,
+awaji,4217,淡-3306,1150,2.0,0,,,next pond holds,19.5,19.5,False,69440,
+awaji,3563,淡-126,1380,4.0,0,,,next pond holds,19.4,19.4,False,68757,
+awaji,1056,米掛池,6873,4.0,0,,,next pond holds,19.0,19.0,False,56146,
+awaji,1060,堀切池,6500,6.0,0,,,next pond has no water surface,19.0,19.0,False,56151,
+awaji,5192,淡-4582,1046,5.0,0,,,next pond holds,19.0,19.0,False,70600,
+awaji,5812,平川大池,6000,6.0,0,,,flow leaves the area or reaches no pond,19.0,19.0,False,71255,
+awaji,4517,淡-4114,2024,8.0,0,,,next pond holds,18.7,18.7,False,69845,
+awaji,1055,山王池,5109,2.0,0,,,next pond holds,18.5,18.5,False,56145,
+awaji,3024,上那木池|淡-1880,11210,3.5,0,,,next pond has no water surface,18.3,18.3,False,68144|71572,
+awaji,4333,農地新池,5040,2.0,0,,,next pond has no water surface,18.2,18.2,False,69561,
+awaji,1497,洲-3629,1100,1.0,0,,,next pond beyond the distance,17.6,17.6,False,56706,
+awaji,2637,板木池,45000,11.0,0,,,next pond beyond the distance,17.4,17.4,False,67741,
+awaji,3113,五反田池,3000,4.0,0,,,flow leaves the area or reaches no pond,17.4,17.4,False,68237,
+awaji,6506,淡-546,1110,6.0,0,,,flow leaves the area or reaches no pond,17.4,17.4,False,71984,
+awaji,2837,新池,1000,5.9,0,,,next pond holds,17.2,17.2,False,67955,
+awaji,6569,淡-1572,1500,7.0,0,,,next pond has no water surface,17.1,17.1,False,72049,
+awaji,5734,淡-3163,1820,4.0,0,,,next pond holds,17.0,17.0,False,71173,
+awaji,5270,西の谷池,1870,5.0,0,,,flow leaves the area or reaches no pond,16.5,16.5,False,70678,
+awaji,3080,大谷池,4000,6.5,0,,,next pond beyond the distance,16.1,16.1,False,68202,
+awaji,5272,栄我山池,1300,2.0,0,,,flow leaves the area or reaches no pond,16.1,16.1,False,70680,
+awaji,2843,堀池,1000,4.0,0,,,next pond beyond the distance,16.0,16.0,False,67961,
+awaji,5156,あんのむかい池,1540,5.0,0,,,next pond beyond the distance,16.0,16.0,False,70563,
+awaji,1469,中池,1000,6.0,0,,,next pond beyond the distance,15.4,15.4,False,56674,
+awaji,5159,荒神池,5680,7.0,0,,,next pond beyond the distance,15.2,15.2,False,70566,
+awaji,5646,淡-3244,1946,5.0,0,,,flow leaves the area or reaches no pond,15.2,15.2,False,71080,
+awaji,2891,楠谷池,19000,5.0,0,,,next pond has no water surface,15.1,15.1,False,68009,
+awaji,2893,八幡原池,2000,2.0,0,,,flow leaves the area or reaches no pond,15.0,15.0,False,68011,
+awaji,5390,淡-3914,1140,6.0,0,,,next pond has no water surface,14.8,14.8,False,70803,
+awaji,5177,淡-4514,1100,3.0,0,,,next pond has no water surface,14.5,14.5,False,70585,
+awaji,1462,若林池|若林の池,2620,2.0,0,,,next pond beyond the distance,14.1,14.1,False,56666|56671,
+awaji,147,平田池|平田下池,35000,6.0,0,,,next pond beyond the distance,13.7,13.7,False,54684|54757,
+awaji,1452,中池,2010,3.5,0,,,next pond holds,13.7,13.7,False,56656,
+awaji,4051,淡-3487,1230,3.0,0,,,next pond has no water surface,13.7,13.7,False,69272,
+awaji,216,蔭池,11000,5.0,0,,,next pond beyond the distance,13.3,13.3,False,54756,
+awaji,2828,滑池,44000,12.6,0,,,next pond beyond the distance,13.1,13.1,False,67946,
+awaji,5012,淡-4115,2140,6.0,0,,,next pond beyond the distance,12.6,12.6,False,70416,
+awaji,5187,淡-4556,1829,4.0,0,,,next pond has no water surface,12.3,12.3,False,70595,
+awaji,2875,ボタモチ池,1000,4.5,0,,,flow leaves the area or reaches no pond,12.2,12.2,False,67993,
+awaji,1438,ゴアイ,1808,4.0,0,,,next pond holds,11.9,11.9,False,56640,
+awaji,4043,六メ池上池,14400,9.0,0,,,next pond beyond the distance,11.9,11.9,False,69263,
+awaji,3019,鬼ヶ内池,10000,3.5,0,,,next pond has no water surface,11.8,11.8,False,68138,
+awaji,2835,七口下池,10000,7.0,0,,,next pond beyond the distance,11.4,11.4,False,67953,
+awaji,4041,六貫池,1600,15.0,0,,,next pond has no water surface,11.4,11.4,False,69261,
+awaji,5628,群家組（みなと谷上池）,10820,20.0,0,,,next pond has no water surface,11.4,11.4,False,71062,
+awaji,5632,淡-3068,1600,3.5,0,,,flow leaves the area or reaches no pond,11.4,11.4,False,71066,
+awaji,5745,淡-3277|淡-3287,1005,6.0,0,,,next pond holds,11.3,11.3,False,71184|71185,
+awaji,4869,淡-3803,1060,11.0,0,,,next pond has no water surface,10.5,10.5,False,70217,
+awaji,5044,淡-4454,3600,5.8,0,,,next pond holds,10.5,10.5,False,70449,
+awaji,6195,淡-2430,1680,3.0,0,,,flow leaves the area or reaches no pond,10.5,10.5,False,71655,
+awaji,2800,片自池（片白池）|淡-4445(沈砂池）,3683,5.8,0,,,next pond holds,10.4,10.4,False,67918|70448,
+awaji,4867,淡-3799,1860,9.0,0,,,next pond has no water surface,10.4,10.4,False,70215,
+awaji,223,奥池,4000,6.0,0,,,next pond has no water surface,10.3,10.3,False,54764,
+awaji,3017,下那木新池,12000,3.0,0,,,next pond has no water surface,10.2,10.2,False,68136,
+awaji,4388,淡-2576,1170,5.0,0,,,next pond holds,10.1,10.1,False,69619,
+awaji,6424,赤い谷池,1130,4.0,0,,,next pond beyond the distance,10.1,10.1,False,71892,
+awaji,5619,群家組（みなと下池）,1200,10.0,0,,,flow leaves the area or reaches no pond,10.0,10.0,False,71052,
+awaji,5649,淡-3286,1050,6.0,0,,,flow leaves the area or reaches no pond,10.0,10.0,False,71083,
+awaji,4397,淡-2644,4900,11.0,0,,,next pond holds,9.8,9.8,False,69628,
+awaji,225,平池,8000,5.0,0,,,next pond has no water surface,9.7,9.7,False,54766,
+awaji,2949,下池,9000,4.3,0,,,flow leaves the area or reaches no pond,9.5,9.5,False,68068,
+awaji,5399,三軒家池|淡-3986|淡-3992|下池,1150,2.5,0,,,flow leaves the area or reaches no pond,8.9,8.9,False,70813|70814|70816|70817,
+awaji,6202,淡-2647,2965,5.0,0,,,flow leaves the area or reaches no pond,8.8,8.8,False,71662,
+awaji,3086,平城池,3000,5.1,0,,,next pond holds,7.8,7.8,False,68209,
+awaji,2525,払川池No.５,28000,12.5,0,,,next pond has no water surface,6.4,6.4,False,67629,
+awaji,4069,長畑下池,4800,15.0,0,,,next pond has no water surface,6.1,6.1,False,69290,
+awaji,6429,長池,2000,5.0,0,,,next pond holds,6.1,6.1,False,71897,
+awaji,6430,有池,1500,5.0,0,,,next pond holds,5.7,5.7,False,71898,
+awaji,118,節田池,4000,5.5,0,,,next pond has no water surface,5.0,5.0,False,54651,
+awaji,6170,淡-2188,2700,10.0,0,,,flow leaves the area or reaches no pond,5.0,5.0,False,71628,
+awaji,3308,垂井池,3000,3.5,0,,,flow leaves the area or reaches no pond,4.7,4.7,False,68482,
+awaji,4070,長畑長池,1221,10.0,0,,,next pond has no water surface,4.4,4.4,False,69291,
+awaji,4071,タカマル池,1211,6.0,0,,,next pond has no water surface,2.2,2.2,False,69292,
+awaji,5011,きゅうじさん池,1250,9.0,0,,,next pond holds,1.1,1.1,False,70415,
+awaji,6149,淡-2043,2280,5.0,0,,,flow leaves the area or reaches no pond,0.4,0.4,False,71607,
+awaji,6133,淡-1968,1890,6.0,0,,,flow leaves the area or reaches no pond,0.1,0.1,False,71590,

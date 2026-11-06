@@ -1,0 +1,4 @@
+box,chains_2plus_people_old,chains_2plus_people_new,old_ending_at_edge,new_ending_at_edge,new_ending_at_edge_share,max_overflowed_old,max_overflowed_new,old_chains_longer_now,old_chains_shorter_now,variants_min_new,variants_max_new,variants_min_old,variants_max_old
+kagawa,30,29,19,6,0.207,4,4,0,1,20,35,21,35
+fukuyama,33,33,1,0,0.0,4,4,0,2,19,39,19,39
+awaji,149,152,12,3,0.02,7,7,3,7,108,188,105,185

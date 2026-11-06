@@ -55,13 +55,20 @@ def fetch(layer, z, x, y):
     path = CACHE / layer / f"{z}_{x}_{y}.txt"
     if not path.exists():
         path.parent.mkdir(parents=True, exist_ok=True)
-        try:
-            with urllib.request.urlopen(f"https://cyberjapandata.gsi.go.jp/xyz/{layer}/{z}/{x}/{y}.txt", timeout=30) as r:
-                body = r.read()
-        except urllib.error.HTTPError as e:
-            if e.code != 404:
-                raise
-            body = b""
+        for attempt in range(5):  # GSI sometimes resets the connection: retry with a growing wait, then fail
+            try:
+                with urllib.request.urlopen(f"https://cyberjapandata.gsi.go.jp/xyz/{layer}/{z}/{x}/{y}.txt", timeout=30) as r:
+                    body = r.read()
+                break
+            except urllib.error.HTTPError as e:
+                if e.code != 404:
+                    raise
+                body = b""
+                break
+            except (urllib.error.URLError, ConnectionError, TimeoutError):
+                if attempt == 4:
+                    raise
+                time.sleep(2.0 * 2 ** attempt)
         path.write_bytes(body)
         time.sleep(0.1)
     text = path.read_text().strip()
