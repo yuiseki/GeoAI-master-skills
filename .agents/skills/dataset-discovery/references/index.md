@@ -38,7 +38,7 @@
 | [statsmodels-co2](statsmodels-co2.md) | GeoAI の分析対象ではなく、季節のある時系列の予測を検証するための benchmark。マウナロアの CO2 の週の値。強い季節と上昇の傾向。statsmodels に同梱 | 1 地点 | 1958-03〜2001-12、週 |
 | [maddison-project](huggingface/yuiseki/maddison-project.md) | 国ごとの 1 人あたり実質 GDP と人口の長期の推計 (2018、2020、2023 年版) | 世界の国 | 西暦 1〜2022 年 |
 | [worldpop/japan.md](worldpop/japan.md) | 日本の人口の格子の凍結版。100 m と 1 km の総人口、年齢・性別、都市化度 (COG) | 日本 | 2015〜2030、R2025A |
-| [mapterhorn](mapterhorn.md) | 全世界の標高のラスタタイル (Terrarium の可逆 WebP、PMTiles)。z0〜12 は 1 ファイル、z13 以上は地域ごと。151 の配布元の DEM を合わせたもの | 全世界の陸域 (海は 0) | 版 0.0.13、2026-10-16 取得 |
+| [mapterhorn/](mapterhorn/README.md) | 全世界の標高のラスタタイル (Terrarium の可逆 WebP、PMTiles)。z0〜12 は 1 ファイル、z13 以上は地域ごと。151 の配布元の DEM を合わせたもの | 全世界の陸域 (海は 0) | 版 0.0.13、2026-10-16 取得 |
 | [dynamic-world](dynamic-world.md) | Sentinel-2 のシーンごとの 10 m の土地被覆 (9 クラスの確率とラベル)。Earth Engine の中だけ。未実測 | 全世界の陸域 | 2015-06-27 から、ほぼ実時間 |
 | [esa-worldcover](esa-worldcover.md) | 全世界の 10 m 土地被覆図 (11 クラス)。東京周辺の10×10画素集約 GeoParquet を公開済み | 全世界の陸域、派生データは東京周辺 | 2020 (v100)、2021 (v200) |
 | [ctrees-agb-100m](ctrees-agb-100m.md) | 地上部バイオマス密度と不確実性の 100 m 年次 COG。東北海道の 2010・2025 年を 43,550 セルに GeoParquet 化して公開 (CC BY 4.0) | 全球の植生域、派生データは東北海道 | 2000〜2025 年 |

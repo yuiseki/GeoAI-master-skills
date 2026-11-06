@@ -74,3 +74,15 @@ done
 - `2026-11-06-tameike-hyogo-kagawa-governance-audit.json`: `{"status": "critic_review", "reasons": []}`
 
 全5件の提案 JSON が必須フィールド・データセット接続グラフ・変数実在性・非自明性・Rubric 等のハードゲートチェックを全てクリアした。
+
+---
+
+## 5. 詳細 Probe (予備測定) の実施記録
+
+提案候補の実効性をさらに担保するため、個別テーマの実データ Probe を実施した。
+
+- **Theme 1 (連鎖決壊水文解析)**:
+  - `evals/curriculum/dry-runs/2026-11-06-tameike-cascade-5m-dem-probe.md`: 国土地理院 5m DEM（`gsi-dem-tiles/dem5a_z15`、解像度約 3.94 m/pixel）の淡路島・讃岐平野での疎通（200 OK）、淡路市深山池〜深山下池間の 43.3% 堤体法面勾配の実測、およびため池水面 NaN マスク（タイル内 28 箇所・3.79%）に伴う水文流向追跡の前処理要件（水面標高補間と余水吐ブリーチ）を実証・記録した。
+  - 実測スクリプト: `evals/curriculum/dry-runs/tameike-pilots/probe_cascade_5m_dem.py`
+  - 出力データ: `evals/curriculum/dry-runs/tameike-pilots/probe_cascade_5m_dem.json`
+

@@ -147,7 +147,8 @@
     - [x] `references/statsmodels-co2.md`: マウナロアの CO2 の週の値。季節のある時系列の予測を検証するための benchmark
     - [x] `references/nsw-lalonde.md`: 職業訓練の実験と観察の対照。GeoAI の分析対象ではなく、統計手法を検証するための benchmark (地理の列なし)
     - [x] `references/gsi-dem-tiles.md`
-    - [x] `references/mapterhorn.md`: 全世界の標高のラスタタイル。タイルを読んで Terrarium から標高に直せることを実測
+    - [x] `references/mapterhorn/README.md`: Mapterhorn の全世界標高タイル目録。data-access、download_urls.json (459ファイル・9.03 TiB)、日本周辺22タイルの実測
+      - [x] `terrain.md`
     - [x] `references/esa-worldcover.md`: 10 m の土地被覆の分類図。公開 S3 のタイルを読み、NoData と海の値、窓ごとのクラスの数を実測
     - [x] `references/huggingface/yuiseki/ksj-l01-land-price.md`: 地価公示 2019〜2026 年。前年の番号での年の結び方を変動率で確かめ、新しい地点の変動率が 0.0 であること、.prj と座標の食い違いを実測
     - [x] `references/huggingface/yuiseki/mlit-underpass.md`: 全国のアンダーパス箇所マップ 3,841 点。重複の組、市区町村の面との結合を実測。GeoParquet の CRS が文字列で DuckDB 1.5.6 が読めなかった版 e16afd6 と、直った版 4d00072

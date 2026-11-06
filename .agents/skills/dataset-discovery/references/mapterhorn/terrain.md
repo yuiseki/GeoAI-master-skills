@@ -59,7 +59,7 @@ tables:
   - y
 ---
 
-# Mapterhorn の標高タイル (mapterhorn)
+# Mapterhorn の標高タイル (mapterhorn/terrain)
 
 各国の公開の DEM と Copernicus GLO-30 を合わせて、全世界の標高を 1 つのタイルの集まりにしたもの。タイルは 512 × 512 画素の可逆 WebP で、色に標高を符号化している (Terrarium)。地図の陰影や 3D 表示のためのタイルとして作られているが、画素の値は標高 (m) に戻せるので、点や面に標高を付ける入力に使える。
 
@@ -70,7 +70,7 @@ tables:
 | 入口 | 中身 | 大きさ (2026-10-16) |
 |---|---|---|
 | `https://download.mapterhorn.com/planet.pmtiles` | ズーム 0〜12、全世界 | 355,579,263,191 バイト (約 356 GB) |
-| `https://download.mapterhorn.com/{z}-{x}-{y}.pmtiles` | ズーム 13 以上、ズーム 6 のタイル 1 枚の範囲ごと。458 ファイル | 最大 18 まで。全部で約 9.9 TB |
+| `https://download.mapterhorn.com/{z}-{x}-{y}.pmtiles` | ズーム 13 以上、ズーム 6 のタイル 1 枚の範囲ごと。458 ファイル | 最大 18 まで。全部で約 8.9 TB |
 | `https://tiles.mapterhorn.com/{z}/{x}/{y}.webp` | 1 枚ずつ | 1 枚 57〜164 KB (読んだ 5 枚) |
 | `https://data.source.coop/mapterhorn/mapterhorn/` | 地域の PMTiles の複製 (459 のうち 156。planet は無い) | |
 

@@ -1,0 +1,352 @@
+{
+  "dem_comparison": {
+    "淡路市 上那木池": {
+      "dem5a_z15": {
+        "status": 200,
+        "tile_x": 28655,
+        "tile_y": 13039,
+        "metres_per_pixel": 3.94,
+        "valid_pct": 96.21
+      },
+      "dem5b_z15": {
+        "status": 404,
+        "tile_x": 28655,
+        "tile_y": 13039,
+        "metres_per_pixel": 3.94,
+        "valid_pct": 0.0
+      },
+      "dem_z14": {
+        "status": 200,
+        "tile_x": 14327,
+        "tile_y": 6519,
+        "metres_per_pixel": 7.88,
+        "valid_pct": 49.77
+      }
+    },
+    "淡路市 下那木新池": {
+      "dem5a_z15": {
+        "status": 200,
+        "tile_x": 28655,
+        "tile_y": 13039,
+        "metres_per_pixel": 3.94,
+        "valid_pct": 96.21
+      },
+      "dem5b_z15": {
+        "status": 404,
+        "tile_x": 28655,
+        "tile_y": 13039,
+        "metres_per_pixel": 3.94,
+        "valid_pct": 0.0
+      },
+      "dem_z14": {
+        "status": 200,
+        "tile_x": 14327,
+        "tile_y": 6519,
+        "metres_per_pixel": 7.88,
+        "valid_pct": 49.77
+      }
+    },
+    "淡路市 深山池": {
+      "dem5a_z15": {
+        "status": 200,
+        "tile_x": 28655,
+        "tile_y": 13039,
+        "metres_per_pixel": 3.94,
+        "valid_pct": 96.21
+      },
+      "dem5b_z15": {
+        "status": 404,
+        "tile_x": 28655,
+        "tile_y": 13039,
+        "metres_per_pixel": 3.94,
+        "valid_pct": 0.0
+      },
+      "dem_z14": {
+        "status": 200,
+        "tile_x": 14327,
+        "tile_y": 6519,
+        "metres_per_pixel": 7.88,
+        "valid_pct": 49.77
+      }
+    },
+    "淡路市 深山下池": {
+      "dem5a_z15": {
+        "status": 200,
+        "tile_x": 28655,
+        "tile_y": 13039,
+        "metres_per_pixel": 3.94,
+        "valid_pct": 96.21
+      },
+      "dem5b_z15": {
+        "status": 404,
+        "tile_x": 28655,
+        "tile_y": 13039,
+        "metres_per_pixel": 3.94,
+        "valid_pct": 0.0
+      },
+      "dem_z14": {
+        "status": 200,
+        "tile_x": 14327,
+        "tile_y": 6519,
+        "metres_per_pixel": 7.88,
+        "valid_pct": 49.77
+      }
+    },
+    "香川県 まんのう町 満濃池": {
+      "dem5a_z15": {
+        "status": 200,
+        "tile_x": 28569,
+        "tile_y": 13071,
+        "metres_per_pixel": 3.95,
+        "valid_pct": 64.16
+      },
+      "dem5b_z15": {
+        "status": 404,
+        "tile_x": 28569,
+        "tile_y": 13071,
+        "metres_per_pixel": 3.95,
+        "valid_pct": 0.0
+      },
+      "dem_z14": {
+        "status": 200,
+        "tile_x": 14284,
+        "tile_y": 6535,
+        "metres_per_pixel": 7.91,
+        "valid_pct": 100.0
+      }
+    },
+    "香川県 高松市 三郎池": {
+      "dem5a_z15": {
+        "status": 200,
+        "tile_x": 28587,
+        "tile_y": 13058,
+        "metres_per_pixel": 3.95,
+        "valid_pct": 100.0
+      },
+      "dem5b_z15": {
+        "status": 404,
+        "tile_x": 28587,
+        "tile_y": 13058,
+        "metres_per_pixel": 3.95,
+        "valid_pct": 0.0
+      },
+      "dem_z14": {
+        "status": 200,
+        "tile_x": 14293,
+        "tile_y": 6529,
+        "metres_per_pixel": 7.89,
+        "valid_pct": 100.0
+      }
+    }
+  },
+  "cascade_profiles": [
+    {
+      "chain_name": "淡路市 深山池 -> 深山下池",
+      "upper": "深山池 (貯水量 16.0k m³, 堤高 4.5m)",
+      "lower": "深山下池 (貯水量 3.0k m³, 堤高 3.1m)",
+      "pixel_resolution_m": 3.94,
+      "total_distance_m": 90.7,
+      "profile": [
+        {
+          "step": 0,
+          "dist_m": 0.0,
+          "px": 93,
+          "py": 219,
+          "elev_5m_m": 35.34
+        },
+        {
+          "step": 1,
+          "dist_m": 3.9,
+          "px": 93,
+          "py": 218,
+          "elev_5m_m": 33.8
+        },
+        {
+          "step": 2,
+          "dist_m": 7.9,
+          "px": 93,
+          "py": 217,
+          "elev_5m_m": 31.88
+        },
+        {
+          "step": 3,
+          "dist_m": 11.8,
+          "px": 93,
+          "py": 216,
+          "elev_5m_m": 29.9
+        },
+        {
+          "step": 4,
+          "dist_m": 15.8,
+          "px": 93,
+          "py": 215,
+          "elev_5m_m": 28.5
+        },
+        {
+          "step": 5,
+          "dist_m": 19.7,
+          "px": 93,
+          "py": 214,
+          "elev_5m_m": null
+        },
+        {
+          "step": 6,
+          "dist_m": 23.6,
+          "px": 93,
+          "py": 213,
+          "elev_5m_m": null
+        },
+        {
+          "step": 7,
+          "dist_m": 27.6,
+          "px": 93,
+          "py": 212,
+          "elev_5m_m": null
+        },
+        {
+          "step": 8,
+          "dist_m": 31.5,
+          "px": 93,
+          "py": 211,
+          "elev_5m_m": null
+        },
+        {
+          "step": 9,
+          "dist_m": 35.5,
+          "px": 93,
+          "py": 210,
+          "elev_5m_m": null
+        },
+        {
+          "step": 10,
+          "dist_m": 39.4,
+          "px": 93,
+          "py": 209,
+          "elev_5m_m": null
+        },
+        {
+          "step": 11,
+          "dist_m": 43.3,
+          "px": 93,
+          "py": 208,
+          "elev_5m_m": null
+        },
+        {
+          "step": 12,
+          "dist_m": 47.3,
+          "px": 92,
+          "py": 207,
+          "elev_5m_m": null
+        },
+        {
+          "step": 13,
+          "dist_m": 51.2,
+          "px": 92,
+          "py": 206,
+          "elev_5m_m": null
+        },
+        {
+          "step": 14,
+          "dist_m": 55.2,
+          "px": 92,
+          "py": 205,
+          "elev_5m_m": null
+        },
+        {
+          "step": 15,
+          "dist_m": 59.1,
+          "px": 92,
+          "py": 204,
+          "elev_5m_m": null
+        },
+        {
+          "step": 16,
+          "dist_m": 63.0,
+          "px": 92,
+          "py": 203,
+          "elev_5m_m": null
+        },
+        {
+          "step": 17,
+          "dist_m": 67.0,
+          "px": 92,
+          "py": 202,
+          "elev_5m_m": null
+        },
+        {
+          "step": 18,
+          "dist_m": 70.9,
+          "px": 92,
+          "py": 201,
+          "elev_5m_m": null
+        },
+        {
+          "step": 19,
+          "dist_m": 74.8,
+          "px": 92,
+          "py": 200,
+          "elev_5m_m": null
+        },
+        {
+          "step": 20,
+          "dist_m": 78.8,
+          "px": 92,
+          "py": 199,
+          "elev_5m_m": null
+        },
+        {
+          "step": 21,
+          "dist_m": 82.7,
+          "px": 92,
+          "py": 198,
+          "elev_5m_m": null
+        },
+        {
+          "step": 22,
+          "dist_m": 86.7,
+          "px": 92,
+          "py": 197,
+          "elev_5m_m": 29.5
+        },
+        {
+          "step": 23,
+          "dist_m": 90.6,
+          "px": 92,
+          "py": 196,
+          "elev_5m_m": 29.36
+        }
+      ]
+    }
+  ],
+  "nan_masking_audit": {
+    "tile": "28655_13039",
+    "total_pixels": 65536,
+    "nan_pixels": 2484,
+    "nan_pct": 3.79,
+    "n_waterbody_clusters": 28,
+    "top_cluster_sizes_pixels": [
+      414,
+      409,
+      289,
+      237,
+      190,
+      144,
+      140,
+      105,
+      86,
+      86
+    ],
+    "top_cluster_areas_m2": [
+      6424.5,
+      6346.9,
+      4484.7,
+      3677.8,
+      2948.4,
+      2234.6,
+      2172.5,
+      1629.4,
+      1334.6,
+      1334.6
+    ]
+  }
+}

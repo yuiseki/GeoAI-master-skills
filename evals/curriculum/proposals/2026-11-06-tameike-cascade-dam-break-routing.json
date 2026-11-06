@@ -89,6 +89,21 @@
       "column": "y"
     },
     {
+      "dataset": "gsi-dem-tiles",
+      "table": "dem5a_z15",
+      "column": "value"
+    },
+    {
+      "dataset": "gsi-dem-tiles",
+      "table": "dem5a_z15",
+      "column": "x"
+    },
+    {
+      "dataset": "gsi-dem-tiles",
+      "table": "dem5a_z15",
+      "column": "y"
+    },
+    {
       "dataset": "yuiseki/estat-census-mesh-2020",
       "table": "T001140",
       "column": "KEY_CODE"

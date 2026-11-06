@@ -25,6 +25,17 @@ tables:
   - name: value
     type: VARCHAR
     meaning: 画素の標高 (m、小数 2 桁)。e は値なし
+- name: dem5a_z15
+  read: https://cyberjapandata.gsi.go.jp/xyz/dem5a/15/{x}/{y}.txt
+  grain: ズーム 15 のタイルの 1 画素 (5m メッシュ LiDAR DEM、北緯 34.5 度で東西約 3.94 m)。水面は e でマスク
+  rows: null
+  id:
+  - x
+  - y
+  columns:
+  - name: value
+    type: VARCHAR
+    meaning: 画素の標高 (m、小数 2 桁)。e は水面または値なし
 ---
 
 # 国土地理院の標高タイル (gsi-dem-tiles)
