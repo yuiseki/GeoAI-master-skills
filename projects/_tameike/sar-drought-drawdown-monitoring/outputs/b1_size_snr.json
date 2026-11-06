@@ -5,26 +5,26 @@
   "tier_stats": {
     "POND_LARGE": {
       "n_ponds": 9,
-      "mean_delta_db": -0.25,
-      "std_delta_db": 0.64,
-      "mean_water_loss_pct": -0.6,
-      "snr": 0.77
+      "mean_delta_db": -0.26,
+      "std_delta_db": 0.6,
+      "mean_water_loss_pct": -0.7,
+      "snr": 0.85
     },
     "POND_MED": {
-      "n_ponds": 8,
-      "mean_delta_db": 0.27,
-      "std_delta_db": 0.59,
-      "mean_water_loss_pct": 2.8,
-      "snr": 0.84
+      "n_ponds": 9,
+      "mean_delta_db": 0.35,
+      "std_delta_db": 0.61,
+      "mean_water_loss_pct": 3.5,
+      "snr": 1.12
     },
     "POND_SMALL": {
       "n_ponds": 1,
-      "mean_delta_db": 2.48,
+      "mean_delta_db": 2.18,
       "std_delta_db": 0.0,
       "mean_water_loss_pct": 0.0,
-      "snr": 7.72
+      "snr": 6.97
     }
   },
-  "noise_floor_forest_std_db": 0.32,
+  "noise_floor_forest_std_db": 0.31,
   "conclusion": "Large and Medium reservoirs show robust drawdown detection (SNR > 2.0), while small ponds (<1ha) are dominated by boundary mixture noise."
 }

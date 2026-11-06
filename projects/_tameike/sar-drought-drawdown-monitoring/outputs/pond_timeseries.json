@@ -1,0 +1,1322 @@
+[
+  {
+    "name": "満濃池",
+    "prefecture": "香川県",
+    "municipality": "仲多度郡まんのう町",
+    "surface_area_km2": 1.385,
+    "storage_thousand_m3": 15400.0,
+    "lat": 34.165,
+    "lon": 133.8661111111111,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -15.44,
+        "vv_median_db": -18.11,
+        "water_pct": 63.2,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -15.77,
+        "vv_median_db": -17.93,
+        "water_pct": 66.5,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -16.13,
+        "vv_median_db": -18.33,
+        "water_pct": 67.4,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -15.78,
+        "vv_median_db": -18.36,
+        "water_pct": 66.0,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -15.02,
+        "vv_median_db": -17.73,
+        "water_pct": 64.1,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -15.62,
+        "vv_median_db": -18.22,
+        "water_pct": 65.5,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "西の谷新池",
+    "prefecture": "広島県",
+    "municipality": "福山市",
+    "surface_area_km2": 1.0,
+    "storage_thousand_m3": 12.0,
+    "lat": 34.52194444444444,
+    "lon": 133.44125,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -7.81,
+        "vv_median_db": -6.94,
+        "water_pct": 13.4,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -7.22,
+        "vv_median_db": -6.46,
+        "water_pct": 11.6,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -8.52,
+        "vv_median_db": -7.35,
+        "water_pct": 16.1,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -8.68,
+        "vv_median_db": -7.94,
+        "water_pct": 16.3,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -7.59,
+        "vv_median_db": -6.77,
+        "water_pct": 12.0,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -8.07,
+        "vv_median_db": -7.42,
+        "water_pct": 12.8,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "小池",
+    "prefecture": "広島県",
+    "municipality": "東広島市",
+    "surface_area_km2": 1.0,
+    "storage_thousand_m3": 1.5,
+    "lat": 34.465361111111115,
+    "lon": 132.64413888888888,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -7.84,
+        "vv_median_db": -7.58,
+        "water_pct": 8.2,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -7.74,
+        "vv_median_db": -7.35,
+        "water_pct": 6.8,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -8.5,
+        "vv_median_db": -8.2,
+        "water_pct": 10.8,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -9.21,
+        "vv_median_db": -8.79,
+        "water_pct": 12.2,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -8.28,
+        "vv_median_db": -7.81,
+        "water_pct": 10.1,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -8.99,
+        "vv_median_db": -8.96,
+        "water_pct": 10.2,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "磯松１番池",
+    "prefecture": "広島県",
+    "municipality": "東広島市",
+    "surface_area_km2": 1.0,
+    "storage_thousand_m3": 0.6,
+    "lat": 34.35075,
+    "lon": 132.72141666666667,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -7.75,
+        "vv_median_db": -7.64,
+        "water_pct": 1.4,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -7.58,
+        "vv_median_db": -7.53,
+        "water_pct": 0.5,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -8.78,
+        "vv_median_db": -8.69,
+        "water_pct": 2.6,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -8.6,
+        "vv_median_db": -8.32,
+        "water_pct": 1.9,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -8.12,
+        "vv_median_db": -8.14,
+        "water_pct": 1.4,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -8.7,
+        "vv_median_db": -8.66,
+        "water_pct": 1.0,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "三川ダム",
+    "prefecture": "広島県",
+    "municipality": "世羅郡世羅町",
+    "surface_area_km2": 0.77,
+    "storage_thousand_m3": 12698.0,
+    "lat": 34.615833333333335,
+    "lon": 133.10452777777778,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -10.43,
+        "vv_median_db": -10.67,
+        "water_pct": 31.9,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -10.16,
+        "vv_median_db": -11.04,
+        "water_pct": 28.5,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -11.4,
+        "vv_median_db": -11.82,
+        "water_pct": 35.4,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -11.05,
+        "vv_median_db": -11.93,
+        "water_pct": 34.9,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -10.47,
+        "vv_median_db": -10.59,
+        "water_pct": 31.8,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -11.0,
+        "vv_median_db": -11.31,
+        "water_pct": 33.2,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "道面池",
+    "prefecture": "広島県",
+    "municipality": "東広島市",
+    "surface_area_km2": 0.725,
+    "storage_thousand_m3": 10.875,
+    "lat": 34.46105555555556,
+    "lon": 132.78255555555558,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -10.1,
+        "vv_median_db": -10.28,
+        "water_pct": 17.2,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -9.12,
+        "vv_median_db": -9.55,
+        "water_pct": 7.6,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -11.33,
+        "vv_median_db": -11.94,
+        "water_pct": 26.6,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -11.1,
+        "vv_median_db": -11.56,
+        "water_pct": 25.9,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -10.28,
+        "vv_median_db": -10.34,
+        "water_pct": 19.3,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -12.02,
+        "vv_median_db": -12.6,
+        "water_pct": 35.4,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "半田池",
+    "prefecture": "広島県",
+    "municipality": "東広島市",
+    "surface_area_km2": 0.622,
+    "storage_thousand_m3": 0.3,
+    "lat": 34.47877777777778,
+    "lon": 132.76594444444444,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -7.63,
+        "vv_median_db": -7.8,
+        "water_pct": 1.0,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -8.55,
+        "vv_median_db": -8.58,
+        "water_pct": 0.2,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -8.86,
+        "vv_median_db": -8.81,
+        "water_pct": 2.3,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -9.62,
+        "vv_median_db": -9.62,
+        "water_pct": 3.0,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -9.32,
+        "vv_median_db": -9.41,
+        "water_pct": 2.1,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -8.57,
+        "vv_median_db": -8.64,
+        "water_pct": 1.0,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "大番池",
+    "prefecture": "広島県",
+    "municipality": "東広島市",
+    "surface_area_km2": 0.6,
+    "storage_thousand_m3": 18.0,
+    "lat": 34.402944444444444,
+    "lon": 132.66972222222222,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -7.86,
+        "vv_median_db": -7.42,
+        "water_pct": 4.7,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -7.9,
+        "vv_median_db": -7.51,
+        "water_pct": 5.9,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -9.02,
+        "vv_median_db": -8.57,
+        "water_pct": 6.8,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -9.22,
+        "vv_median_db": -8.73,
+        "water_pct": 8.7,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -8.46,
+        "vv_median_db": -8.18,
+        "water_pct": 5.6,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -9.13,
+        "vv_median_db": -8.64,
+        "water_pct": 6.8,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "行所池",
+    "prefecture": "兵庫県",
+    "municipality": "洲本市",
+    "surface_area_km2": 0.595,
+    "storage_thousand_m3": 0.89,
+    "lat": 34.39861111111111,
+    "lon": 134.83619444444446,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "古池",
+    "prefecture": "広島県",
+    "municipality": "東広島市",
+    "surface_area_km2": 0.513,
+    "storage_thousand_m3": 0.872,
+    "lat": 34.41141666666667,
+    "lon": 132.70641666666666,
+    "tier": "POND_LARGE",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -7.33,
+        "vv_median_db": -7.61,
+        "water_pct": 0.3,
+        "n_pixels": 576
+      },
+      "2024-07-14": {
+        "vv_mean_db": -7.14,
+        "vv_median_db": -7.28,
+        "water_pct": 0.2,
+        "n_pixels": 576
+      },
+      "2024-07-26": {
+        "vv_mean_db": -8.63,
+        "vv_median_db": -8.76,
+        "water_pct": 1.7,
+        "n_pixels": 576
+      },
+      "2024-08-07": {
+        "vv_mean_db": -8.55,
+        "vv_median_db": -8.6,
+        "water_pct": 0.9,
+        "n_pixels": 576
+      },
+      "2024-08-19": {
+        "vv_mean_db": -7.03,
+        "vv_median_db": -7.17,
+        "water_pct": 0.9,
+        "n_pixels": 576
+      },
+      "2024-09-12": {
+        "vv_mean_db": -8.66,
+        "vv_median_db": -8.79,
+        "water_pct": 1.2,
+        "n_pixels": 576
+      }
+    }
+  },
+  {
+    "name": "藤尾ダム",
+    "prefecture": "広島県",
+    "municipality": "福山市",
+    "surface_area_km2": 0.035,
+    "storage_thousand_m3": 870.0,
+    "lat": 34.64072222222222,
+    "lon": 133.28688888888888,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -13.06,
+        "vv_median_db": -13.57,
+        "water_pct": 42.4,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -12.51,
+        "vv_median_db": -12.26,
+        "water_pct": 36.1,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -12.64,
+        "vv_median_db": -12.61,
+        "water_pct": 38.9,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -13.87,
+        "vv_median_db": -13.6,
+        "water_pct": 47.9,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -11.8,
+        "vv_median_db": -11.27,
+        "water_pct": 27.8,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -12.5,
+        "vv_median_db": -12.41,
+        "water_pct": 38.2,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "香六池",
+    "prefecture": "広島県",
+    "municipality": "安芸高田市",
+    "surface_area_km2": 0.04,
+    "storage_thousand_m3": 754.49,
+    "lat": 34.784666666666666,
+    "lon": 132.6789722222222,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -16.84,
+        "vv_median_db": -17.37,
+        "water_pct": 85.4,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -14.99,
+        "vv_median_db": -15.39,
+        "water_pct": 75.0,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -17.04,
+        "vv_median_db": -17.66,
+        "water_pct": 85.4,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -17.19,
+        "vv_median_db": -18.0,
+        "water_pct": 86.1,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -15.92,
+        "vv_median_db": -16.86,
+        "water_pct": 77.1,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -16.42,
+        "vv_median_db": -17.38,
+        "water_pct": 81.2,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "光林寺池",
+    "prefecture": "広島県",
+    "municipality": "福山市",
+    "surface_area_km2": 0.044,
+    "storage_thousand_m3": 433.0,
+    "lat": 34.43238888888889,
+    "lon": 133.34786111111111,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -17.64,
+        "vv_median_db": -17.63,
+        "water_pct": 97.2,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -17.82,
+        "vv_median_db": -17.63,
+        "water_pct": 95.8,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -16.92,
+        "vv_median_db": -16.71,
+        "water_pct": 93.1,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -17.63,
+        "vv_median_db": -17.84,
+        "water_pct": 97.9,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -17.7,
+        "vv_median_db": -17.92,
+        "water_pct": 95.1,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -17.91,
+        "vv_median_db": -18.22,
+        "water_pct": 95.1,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "中野ダム",
+    "prefecture": "広島県",
+    "municipality": "尾道市",
+    "surface_area_km2": 0.04,
+    "storage_thousand_m3": 416.0,
+    "lat": 34.28811111111111,
+    "lon": 133.0968888888889,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -11.91,
+        "vv_median_db": -11.2,
+        "water_pct": 30.6,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -12.02,
+        "vv_median_db": -11.57,
+        "water_pct": 33.3,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -11.73,
+        "vv_median_db": -11.17,
+        "water_pct": 28.5,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -12.91,
+        "vv_median_db": -11.65,
+        "water_pct": 32.6,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -11.74,
+        "vv_median_db": -11.33,
+        "water_pct": 30.6,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -11.87,
+        "vv_median_db": -11.57,
+        "water_pct": 29.2,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "柿ノ木谷池",
+    "prefecture": "兵庫県",
+    "municipality": "南あわじ市",
+    "surface_area_km2": 0.044,
+    "storage_thousand_m3": 386.0,
+    "lat": 34.30983333333333,
+    "lon": 134.71547222222222,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "鈴池",
+    "prefecture": "広島県",
+    "municipality": "福山市",
+    "surface_area_km2": 0.029,
+    "storage_thousand_m3": 386.0,
+    "lat": 34.48986111111111,
+    "lon": 133.28475,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -13.48,
+        "vv_median_db": -13.47,
+        "water_pct": 44.4,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -13.41,
+        "vv_median_db": -13.72,
+        "water_pct": 47.9,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -13.34,
+        "vv_median_db": -13.99,
+        "water_pct": 50.0,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -13.7,
+        "vv_median_db": -14.7,
+        "water_pct": 55.6,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -13.43,
+        "vv_median_db": -13.55,
+        "water_pct": 44.4,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -13.94,
+        "vv_median_db": -14.27,
+        "water_pct": 52.1,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "松永溜池",
+    "prefecture": "広島県",
+    "municipality": "福山市",
+    "surface_area_km2": 0.038,
+    "storage_thousand_m3": 382.0,
+    "lat": 34.48105555555556,
+    "lon": 133.2497222222222,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -16.41,
+        "vv_median_db": -17.6,
+        "water_pct": 69.4,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -15.19,
+        "vv_median_db": -16.34,
+        "water_pct": 63.9,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -16.16,
+        "vv_median_db": -17.92,
+        "water_pct": 64.6,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -15.47,
+        "vv_median_db": -16.05,
+        "water_pct": 66.7,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -15.47,
+        "vv_median_db": -16.34,
+        "water_pct": 64.6,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -16.61,
+        "vv_median_db": -17.48,
+        "water_pct": 75.7,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "八日谷溜池",
+    "prefecture": "広島県",
+    "municipality": "福山市",
+    "surface_area_km2": 0.041,
+    "storage_thousand_m3": 361.0,
+    "lat": 34.412194444444445,
+    "lon": 133.33450000000002,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -13.7,
+        "vv_median_db": -14.71,
+        "water_pct": 54.2,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -13.11,
+        "vv_median_db": -14.96,
+        "water_pct": 55.6,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -14.01,
+        "vv_median_db": -15.53,
+        "water_pct": 57.6,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -14.32,
+        "vv_median_db": -15.11,
+        "water_pct": 56.2,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -13.06,
+        "vv_median_db": -14.6,
+        "water_pct": 54.2,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -14.24,
+        "vv_median_db": -15.95,
+        "water_pct": 57.6,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "永富池",
+    "prefecture": "香川県",
+    "municipality": "綾歌郡綾川町",
+    "surface_area_km2": 0.044,
+    "storage_thousand_m3": 356.0,
+    "lat": 34.18011111111111,
+    "lon": 133.9982222222222,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -12.47,
+        "vv_median_db": -14.73,
+        "water_pct": 52.1,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -12.62,
+        "vv_median_db": -13.18,
+        "water_pct": 45.8,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -13.11,
+        "vv_median_db": -14.04,
+        "water_pct": 50.0,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -13.67,
+        "vv_median_db": -14.91,
+        "water_pct": 57.6,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -12.44,
+        "vv_median_db": -14.03,
+        "water_pct": 50.0,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -13.01,
+        "vv_median_db": -14.65,
+        "water_pct": 51.4,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "奥谷池",
+    "prefecture": "香川県",
+    "municipality": "高松市",
+    "surface_area_km2": 0.0444,
+    "storage_thousand_m3": 352.2,
+    "lat": 34.223333333333336,
+    "lon": 134.02550000000002,
+    "tier": "POND_MED",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -11.54,
+        "vv_median_db": -11.12,
+        "water_pct": 27.8,
+        "n_pixels": 144
+      },
+      "2024-07-14": {
+        "vv_mean_db": -11.83,
+        "vv_median_db": -11.31,
+        "water_pct": 22.9,
+        "n_pixels": 144
+      },
+      "2024-07-26": {
+        "vv_mean_db": -13.46,
+        "vv_median_db": -13.09,
+        "water_pct": 44.4,
+        "n_pixels": 144
+      },
+      "2024-08-07": {
+        "vv_mean_db": -12.9,
+        "vv_median_db": -12.49,
+        "water_pct": 34.7,
+        "n_pixels": 144
+      },
+      "2024-08-19": {
+        "vv_mean_db": -12.35,
+        "vv_median_db": -11.94,
+        "water_pct": 28.5,
+        "n_pixels": 144
+      },
+      "2024-09-12": {
+        "vv_mean_db": -12.29,
+        "vv_median_db": -12.32,
+        "water_pct": 32.6,
+        "n_pixels": 144
+      }
+    }
+  },
+  {
+    "name": "(非）夫婦池",
+    "prefecture": "兵庫県",
+    "municipality": "洲本市",
+    "surface_area_km2": 0.005055,
+    "storage_thousand_m3": 9999.9,
+    "lat": 34.325583333333334,
+    "lon": 134.87933333333334,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "（非）洲-187",
+    "prefecture": "兵庫県",
+    "municipality": "洲本市",
+    "surface_area_km2": 0.006428,
+    "storage_thousand_m3": 9999.9,
+    "lat": 34.31908333333334,
+    "lon": 134.87044444444444,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "（非）洲-202",
+    "prefecture": "兵庫県",
+    "municipality": "洲本市",
+    "surface_area_km2": 0.004787,
+    "storage_thousand_m3": 9999.9,
+    "lat": 34.32105555555556,
+    "lon": 134.8716388888889,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "（非）洲-226",
+    "prefecture": "兵庫県",
+    "municipality": "洲本市",
+    "surface_area_km2": 0.004995,
+    "storage_thousand_m3": 9999.9,
+    "lat": 34.323861111111114,
+    "lon": 134.8758888888889,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "戸川池",
+    "prefecture": "兵庫県",
+    "municipality": "南あわじ市",
+    "surface_area_km2": 0.0035,
+    "storage_thousand_m3": 370.0,
+    "lat": 34.261805555555554,
+    "lon": 134.77258333333336,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "一町池",
+    "prefecture": "兵庫県",
+    "municipality": "淡路市",
+    "surface_area_km2": 0.007,
+    "storage_thousand_m3": 252.0,
+    "lat": 34.44358333333333,
+    "lon": 134.8571111111111,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "花岡池",
+    "prefecture": "兵庫県",
+    "municipality": "南あわじ市",
+    "surface_area_km2": 0.0035,
+    "storage_thousand_m3": 200.0,
+    "lat": 34.27205555555555,
+    "lon": 134.76686111111113,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "間河瀬池",
+    "prefecture": "兵庫県",
+    "municipality": "南あわじ市",
+    "surface_area_km2": 0.0035,
+    "storage_thousand_m3": 180.0,
+    "lat": 34.283166666666666,
+    "lon": 134.7111111111111,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "脇池",
+    "prefecture": "香川県",
+    "municipality": "三豊市",
+    "surface_area_km2": 0.0065,
+    "storage_thousand_m3": 160.0,
+    "lat": 34.145833333333336,
+    "lon": 133.71499999999997,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -10.9,
+        "vv_median_db": -9.57,
+        "water_pct": 22.2,
+        "n_pixels": 36
+      },
+      "2024-07-14": {
+        "vv_mean_db": -7.86,
+        "vv_median_db": -6.17,
+        "water_pct": 22.2,
+        "n_pixels": 36
+      },
+      "2024-07-26": {
+        "vv_mean_db": -10.16,
+        "vv_median_db": -9.33,
+        "water_pct": 16.7,
+        "n_pixels": 36
+      },
+      "2024-08-07": {
+        "vv_mean_db": -10.8,
+        "vv_median_db": -9.59,
+        "water_pct": 22.2,
+        "n_pixels": 36
+      },
+      "2024-08-19": {
+        "vv_mean_db": -8.72,
+        "vv_median_db": -7.05,
+        "water_pct": 22.2,
+        "n_pixels": 36
+      },
+      "2024-09-12": {
+        "vv_mean_db": -10.16,
+        "vv_median_db": -9.35,
+        "water_pct": 22.2,
+        "n_pixels": 36
+      }
+    }
+  },
+  {
+    "name": "花園池",
+    "prefecture": "兵庫県",
+    "municipality": "加古川市",
+    "surface_area_km2": 0.007,
+    "storage_thousand_m3": 122.0,
+    "lat": 34.756277777777775,
+    "lon": 134.87675000000002,
+    "tier": "POND_SMALL",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "満濃池湖心(恒常水面)",
+    "prefecture": "香川県",
+    "municipality": "まんのう町",
+    "surface_area_km2": 1.385,
+    "storage_thousand_m3": 15400.0,
+    "lat": 34.1622,
+    "lon": 133.871,
+    "tier": "CTRL_PERM_WATER",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -20.8,
+        "vv_median_db": -20.8,
+        "water_pct": 100.0,
+        "n_pixels": 900
+      },
+      "2024-07-14": {
+        "vv_mean_db": -19.05,
+        "vv_median_db": -19.15,
+        "water_pct": 97.4,
+        "n_pixels": 900
+      },
+      "2024-07-26": {
+        "vv_mean_db": -20.71,
+        "vv_median_db": -20.7,
+        "water_pct": 100.0,
+        "n_pixels": 900
+      },
+      "2024-08-07": {
+        "vv_mean_db": -19.47,
+        "vv_median_db": -19.52,
+        "water_pct": 100.0,
+        "n_pixels": 900
+      },
+      "2024-08-19": {
+        "vv_mean_db": -20.49,
+        "vv_median_db": -20.45,
+        "water_pct": 100.0,
+        "n_pixels": 900
+      },
+      "2024-09-12": {
+        "vv_mean_db": -19.41,
+        "vv_median_db": -19.42,
+        "water_pct": 100.0,
+        "n_pixels": 900
+      }
+    }
+  },
+  {
+    "name": "瀬戸内港内(恒常水面)",
+    "prefecture": "香川県",
+    "municipality": "高松市",
+    "surface_area_km2": 10.0,
+    "storage_thousand_m3": 0.0,
+    "lat": 34.354,
+    "lon": 134.053,
+    "tier": "CTRL_PERM_WATER",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -13.84,
+        "vv_median_db": -14.52,
+        "water_pct": 60.7,
+        "n_pixels": 900
+      },
+      "2024-07-14": {
+        "vv_mean_db": -13.52,
+        "vv_median_db": -14.11,
+        "water_pct": 52.4,
+        "n_pixels": 900
+      },
+      "2024-07-26": {
+        "vv_mean_db": -13.43,
+        "vv_median_db": -13.79,
+        "water_pct": 46.1,
+        "n_pixels": 900
+      },
+      "2024-08-07": {
+        "vv_mean_db": -16.26,
+        "vv_median_db": -16.95,
+        "water_pct": 86.6,
+        "n_pixels": 900
+      },
+      "2024-08-19": {
+        "vv_mean_db": -14.95,
+        "vv_median_db": -16.42,
+        "water_pct": 79.6,
+        "n_pixels": 900
+      },
+      "2024-09-12": {
+        "vv_mean_db": -12.98,
+        "vv_median_db": -13.75,
+        "water_pct": 44.2,
+        "n_pixels": 900
+      }
+    }
+  },
+  {
+    "name": "讃岐山脈森林(安定林)",
+    "prefecture": "香川県",
+    "municipality": "まんのう町",
+    "surface_area_km2": 0.0,
+    "storage_thousand_m3": 0.0,
+    "lat": 34.125,
+    "lon": 133.91,
+    "tier": "CTRL_FOREST",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -7.83,
+        "vv_median_db": -7.81,
+        "water_pct": 0.0,
+        "n_pixels": 400
+      },
+      "2024-07-14": {
+        "vv_mean_db": -7.61,
+        "vv_median_db": -7.51,
+        "water_pct": 2.2,
+        "n_pixels": 400
+      },
+      "2024-07-26": {
+        "vv_mean_db": -7.78,
+        "vv_median_db": -7.75,
+        "water_pct": 2.5,
+        "n_pixels": 400
+      },
+      "2024-08-07": {
+        "vv_mean_db": -7.97,
+        "vv_median_db": -8.08,
+        "water_pct": 0.8,
+        "n_pixels": 400
+      },
+      "2024-08-19": {
+        "vv_mean_db": -8.09,
+        "vv_median_db": -7.98,
+        "water_pct": 3.8,
+        "n_pixels": 400
+      },
+      "2024-09-12": {
+        "vv_mean_db": -7.58,
+        "vv_median_db": -7.57,
+        "water_pct": 2.0,
+        "n_pixels": 400
+      }
+    }
+  },
+  {
+    "name": "淡路島諭鶴羽山林(安定林)",
+    "prefecture": "兵庫県",
+    "municipality": "南あわじ市",
+    "surface_area_km2": 0.0,
+    "storage_thousand_m3": 0.0,
+    "lat": 34.24,
+    "lon": 134.825,
+    "tier": "CTRL_FOREST",
+    "ts": {
+      "2024-07-02": null,
+      "2024-07-14": null,
+      "2024-07-26": null,
+      "2024-08-07": null,
+      "2024-08-19": null,
+      "2024-09-12": null
+    }
+  },
+  {
+    "name": "呉野呂山林(安定林)",
+    "prefecture": "広島県",
+    "municipality": "呉市",
+    "surface_area_km2": 0.0,
+    "storage_thousand_m3": 0.0,
+    "lat": 34.258,
+    "lon": 132.678,
+    "tier": "CTRL_FOREST",
+    "ts": {
+      "2024-07-02": {
+        "vv_mean_db": -7.06,
+        "vv_median_db": -7.02,
+        "water_pct": 0.2,
+        "n_pixels": 400
+      },
+      "2024-07-14": {
+        "vv_mean_db": -6.31,
+        "vv_median_db": -5.99,
+        "water_pct": 0.2,
+        "n_pixels": 400
+      },
+      "2024-07-26": {
+        "vv_mean_db": -7.44,
+        "vv_median_db": -7.51,
+        "water_pct": 0.5,
+        "n_pixels": 400
+      },
+      "2024-08-07": {
+        "vv_mean_db": -6.81,
+        "vv_median_db": -6.9,
+        "water_pct": 0.0,
+        "n_pixels": 400
+      },
+      "2024-08-19": {
+        "vv_mean_db": -6.3,
+        "vv_median_db": -6.18,
+        "water_pct": 0.2,
+        "n_pixels": 400
+      },
+      "2024-09-12": {
+        "vv_mean_db": -7.29,
+        "vv_median_db": -7.27,
+        "water_pct": 0.2,
+        "n_pixels": 400
+      }
+    }
+  }
+]

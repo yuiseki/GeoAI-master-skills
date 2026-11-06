@@ -3,7 +3,7 @@
   "block": "B4",
   "status": "FAIL",
   "n_top_drawdown_ponds": 4,
-  "cascade_chain_ratio": 0.5,
+  "cascade_chain_ratio": 0.25,
   "threshold_chain_ratio": 0.6,
   "cascade_candidates": [
     {
@@ -12,8 +12,8 @@
       "municipality": "福山市",
       "lat": 34.64072222222222,
       "lon": 133.28688888888888,
-      "delta_db": 1.2,
-      "water_loss_pct": 13.2,
+      "delta_db": 1.26,
+      "water_loss_pct": 14.6,
       "n_ponds_within_300m": 0,
       "has_cascade_chain": false
     },
@@ -29,6 +29,17 @@
       "has_cascade_chain": true
     },
     {
+      "name": "香六池",
+      "prefecture": "広島県",
+      "municipality": "安芸高田市",
+      "lat": 34.784666666666666,
+      "lon": 132.6789722222222,
+      "delta_db": 0.92,
+      "water_loss_pct": 8.3,
+      "n_ponds_within_300m": 0,
+      "has_cascade_chain": false
+    },
+    {
       "name": "八日谷溜池",
       "prefecture": "広島県",
       "municipality": "福山市",
@@ -38,17 +49,6 @@
       "water_loss_pct": 0.0,
       "n_ponds_within_300m": 0,
       "has_cascade_chain": false
-    },
-    {
-      "name": "満濃池",
-      "prefecture": "香川県",
-      "municipality": "仲多度郡まんのう町",
-      "lat": 34.165,
-      "lon": 133.8661111111111,
-      "delta_db": 0.63,
-      "water_loss_pct": 0.2,
-      "n_ponds_within_300m": 1,
-      "has_cascade_chain": true
     }
   ],
   "recommendation_for_cascade_project": "The identified high-drawdown cascade chains serve as prime inputs for projects/_tameike/cascade-dam-break-routing/."

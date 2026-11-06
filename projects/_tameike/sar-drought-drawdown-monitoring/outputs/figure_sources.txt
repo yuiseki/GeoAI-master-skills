@@ -1,6 +1,0 @@
-Contains modified Copernicus Sentinel data 2024 (Planetary Computer sentinel-1-rtc, Orbit 90).
-農林水産省 全国ため池台帳 (yuiseki/maff-tameike-list-jp-2026-03).
-国土地理院 地球地図日本 / 行政区域界データ (dataofjapan/land japan.geojson).
-気象庁 アメダス観測データ (高松、洲本、福山、呉).
-JAXA GCOM-C SGLI 蒸発散量積算値.
-図の生成スクリプト: projects/_tameike/sar-drought-drawdown-monitoring/scripts/generate_report_figures.py

@@ -2,9 +2,9 @@
   "claim": "C0",
   "block": "B0",
   "status": "PASS",
-  "mean_perm_water_db": -16.91,
+  "mean_perm_water_db": -17.08,
   "perm_water_threshold_db": -16.0,
-  "mean_forest_std_db": 0.32,
+  "mean_forest_std_db": 0.31,
   "forest_std_threshold_db": 0.8,
   "dates_evaluated": [
     "2024-07-02",

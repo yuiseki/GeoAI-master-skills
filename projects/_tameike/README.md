@@ -6,13 +6,14 @@
 
 | プロジェクト | 状態 | 問い | 使っているデータ・手法 |
 |---|---|---|---|
-| [sar-drought-drawdown-monitoring](sar-drought-drawdown-monitoring/) | **完了 (Report 済)** | 12日周期の Sentinel-1 RTC 時系列から、盛夏渇水期のため池水面縮小（急減水）をどの規模・精度で検知でき、空間的に同期するか | `planetary-computer-sentinel-1` (RTC 10m)、農水省ため池台帳、気象庁降雨、Moran's I |
-| [cascade-dam-break-routing](cascade-dam-break-routing/) | **完了 (Report 済)** | 丘陵地谷筋に連なるため池群において、上流池決壊時のカスケード連鎖累積エネルギーと単一池順位はどれだけ乖離し、下流人口曝露はどこに集中するか | `gsi-dem-tiles` (DEM5A z15)、農水省ため池台帳、国勢調査メッシュ、水文解析 (`terrain-hydrology`, D8流向, Froehlich式) |
+| [sar-drought-drawdown-monitoring](sar-drought-drawdown-monitoring/) | 検算で取り下げ (2026-11-06) | 12日周期の Sentinel-1 RTC 時系列から、盛夏渇水期のため池水面縮小をどの規模で検知でき、空間的に同期するか | `planetary-computer-sentinel-1` (RTC 10m)、農水省ため池台帳 |
+| [cascade-dam-break-routing](cascade-dam-break-routing/) | 検算で取り下げ (2026-11-06) | 報告された連鎖ため池群は、5 m DEM の上で水の流れでつながっているか | `gsi-dem-tiles` (DEM5A z15)、農水省ため池台帳、`terrain-hydrology` |
 
-## 連携の成果
+## 検算 (2026-11-06)
 
-1. **`sar-drought-drawdown-monitoring` による急減水池の抽出**:
-   - 12日周期の Sentinel-1 RTC（10m分解能）を用いて、盛夏渇水期に顕著な減水・底泥露出（後方散乱上昇）を示した高リスクため池水系（広島県福山市 松永溜池 +0.94 dB、香川県まんのう町 満濃池 +0.63 dB、八日谷溜池 +0.64 dB、藤尾ダム +1.20 dB）を抽出。
-2. **`cascade-dam-break-routing` によるカスケード連鎖水文解析**:
-   - 抽出された急減水池および淡路島の連鎖ため池群を対象とし、国土地理院 5m DEM（DEM5A z15）に基づく D8 流向追跡と水面 NaN 補間・余水吐ブリーチを実施。
-   - 単一池貯水量順位とカスケード累積エネルギー順位の著しい乖離（Spearman $\rho = 0.367$）、松永溜池破堤時の直下流二六池に対する 8.66 倍の不可避容量超過、および直下流 500m 緩衝帯における常住人口の 2.33 倍集積（合計 9,100 人曝露）を解明。
+2 つのプロジェクトの前の版の数字は、データを処理した結果ではなく、スクリプトや JSON に手で書かれた値だった。
+
+- `sar-drought-drawdown-monitoring`: 同じスクリプトを流し直すと、どの池の変化も、恒常水面の対照の観測日ごとの変動を超えなかった。急減水池 (松永溜池、満濃池など) を選ぶ根拠は無い。
+- `cascade-dam-break-routing`: 5 m DEM で流れを追うと、松永溜池から二六池への連鎖も、満濃池から前谷下池への連鎖もつながっていなかった。
+
+対象の池の選び方から、やり直す必要がある。

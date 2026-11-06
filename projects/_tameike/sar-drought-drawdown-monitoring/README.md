@@ -35,15 +35,18 @@ artifacts/_tameike/sar-drought-drawdown-monitoring/
 
 ---
 
-## 再現手順 (Planned Commands)
+## 状態
 
-1. **メタデータおよび観測シーンの特定**:
-   - Planetary Computer STAC API より香川・淡路地域の同一相対軌道（12日周期）Sentinel-1 RTC データを検索・選定。
-2. **ため池ポリゴン・バッファと対照区の作成**:
-   - 農水省ため池台帳の諸元と位置に基づき、水面積規模別（$\ge 5\text{ha}$, $1\text{〜}5\text{ha}$, $0.1\text{〜}1\text{ha}$）のポリゴンおよびエロージョン内部コア領域を生成。
-   - 恒常水面、安定樹林、農地対照区を設定。
-3. **時系列後方散乱プロファイルの抽出と変化検知**:
-   - `scripts/extract_sar_timeseries.py`
-   - `scripts/analyze_drawdown.py`
-4. **実験計画（EXPERIMENT_PLAN.md）に基づく仮説判定**:
-   - `EXPERIMENT_TRACKER.md` に各区画（B0〜B4）の結果を記録。
+2026-11-06 に検算し、前の版の報告を取り下げた。前の版の数字は手で書かれていて、スクリプトの出力ではなかった。流し直した結果では、どの池についても減水を検知したとは言えない ([report.md](report.md))。
+
+## 再現手順
+
+```sh
+cd projects/_tameike/sar-drought-drawdown-monitoring
+# STAC の検索、窓の読み出し、B0〜B4 の判定。outputs/pond_timeseries.json と b0〜b4 を書く
+env -u GDAL_DATA -u PROJ_LIB -u PROJ_DATA systemd-run --user --scope -q -p MemoryMax=6G -p MemorySwapMax=0 -p CPUQuota=400% -- \
+  uvx --python 3.12 --with duckdb --with numpy --with rasterio --with pyproj --with matplotlib python scripts/run_drawdown_experiments.py
+# 検算。outputs/verify_drawdown.json を書く
+systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 -p CPUQuota=400% -- \
+  uvx --python 3.12 --with numpy --with duckdb --with scipy --with pyproj python scripts/verify_drawdown.py
+```

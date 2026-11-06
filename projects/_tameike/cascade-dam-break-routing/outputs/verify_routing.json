@@ -1,0 +1,369 @@
+[
+ {
+  "system": "matsunaga",
+  "head": "松永溜池",
+  "tiles": {
+   "tiles": 25,
+   "tiles_404": 0
+  },
+  "water_holes_filled": 705,
+  "edge_nan_regions": 6,
+  "grid": {
+   "crs": "EPSG:32653",
+   "cell_m": 5.0,
+   "shape": [
+    1021,
+    1026
+   ]
+  },
+  "path_cells": 603,
+  "path_length_m": 3640,
+  "path_end": {
+   "row": 1006,
+   "col": 557,
+   "at_edge": false,
+   "elev_m": 7.01
+  },
+  "head_radius_m": 110,
+  "head_start_elev_m": 82.3,
+  "ponds_on_path": [],
+  "claimed": [
+   {
+    "name": "二六池",
+    "on_path": false,
+    "candidates": [
+     {
+      "lat": 34.483472222222225,
+      "lon": 133.2486111111111,
+      "storage_thousand_m3": 38.5,
+      "elev_m": 86.75,
+      "straight_m": 268,
+      "off_path_m": 107,
+      "along_path_m": 184,
+      "own_path_min_dist_to_head_m": 52,
+      "joins_head_path_at_m": 196
+     }
+    ]
+   },
+   {
+    "name": "かがつ池",
+    "on_path": false,
+    "candidates": [
+     {
+      "lat": 34.47825,
+      "lon": 133.2464722222222,
+      "storage_thousand_m3": 3.4,
+      "elev_m": 65.21,
+      "straight_m": 475,
+      "off_path_m": 351,
+      "along_path_m": 494,
+      "own_path_min_dist_to_head_m": 436,
+      "joins_head_path_at_m": 2875
+     }
+    ]
+   },
+   {
+    "name": "下池",
+    "on_path": false,
+    "candidates": [
+     {
+      "lat": 34.47752777777778,
+      "lon": 133.24624999999997,
+      "storage_thousand_m3": 0.25,
+      "elev_m": 51.23,
+      "straight_m": 549,
+      "off_path_m": 417,
+      "along_path_m": 520,
+      "own_path_min_dist_to_head_m": 509,
+      "joins_head_path_at_m": 2875
+     },
+     {
+      "lat": 34.48397222222222,
+      "lon": 133.2614722222222,
+      "storage_thousand_m3": 0.1,
+      "elev_m": 101.19,
+      "straight_m": 1090,
+      "off_path_m": 1067,
+      "along_path_m": 855,
+      "own_path_min_dist_to_head_m": 1115,
+      "joins_head_path_at_m": null
+     },
+     {
+      "lat": 34.48375,
+      "lon": 133.2685277777778,
+      "storage_thousand_m3": 0.24,
+      "elev_m": 104.22,
+      "straight_m": 1720,
+      "off_path_m": 1621,
+      "along_path_m": 886,
+      "own_path_min_dist_to_head_m": 1555,
+      "joins_head_path_at_m": null
+     }
+    ]
+   },
+   {
+    "name": "昌源寺池",
+    "on_path": false,
+    "candidates": [
+     {
+      "lat": 34.47686111111111,
+      "lon": 133.2469722222222,
+      "storage_thousand_m3": 9.0,
+      "elev_m": 52.44,
+      "straight_m": 572,
+      "off_path_m": 423,
+      "along_path_m": 590,
+      "own_path_min_dist_to_head_m": 530,
+      "joins_head_path_at_m": 2875
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "system": "manno",
+  "head": "満濃池",
+  "tiles": {
+   "tiles": 49,
+   "tiles_404": 0
+  },
+  "water_holes_filled": 865,
+  "edge_nan_regions": 8,
+  "grid": {
+   "crs": "EPSG:32653",
+   "cell_m": 5.0,
+   "shape": [
+    1427,
+    1433
+   ]
+  },
+  "path_cells": 1350,
+  "path_length_m": 8126,
+  "path_end": {
+   "row": 313,
+   "col": 15,
+   "at_edge": false,
+   "elev_m": 68.95
+  },
+  "head_radius_m": 664,
+  "head_start_elev_m": 148.95,
+  "ponds_on_path": [],
+  "claimed": [
+   {
+    "name": "前谷下池",
+    "on_path": false,
+    "candidates": [
+     {
+      "lat": 34.166999999999994,
+      "lon": 133.86499999999998,
+      "storage_thousand_m3": 0.1,
+      "elev_m": 136.28,
+      "straight_m": 258,
+      "off_path_m": 258,
+      "along_path_m": 0,
+      "own_path_min_dist_to_head_m": 246,
+      "joins_head_path_at_m": 3360
+     }
+    ]
+   },
+   {
+    "name": "神田良池",
+    "on_path": false,
+    "candidates": [
+     {
+      "lat": 34.166,
+      "lon": 133.861,
+      "storage_thousand_m3": 0.8,
+      "elev_m": 139.54,
+      "straight_m": 462,
+      "off_path_m": 201,
+      "along_path_m": 2147,
+      "own_path_min_dist_to_head_m": 402,
+      "joins_head_path_at_m": 3360
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "system": "kaminagi",
+  "head": "上那木池",
+  "tiles": {
+   "tiles": 16,
+   "tiles_404": 3
+  },
+  "water_holes_filled": 298,
+  "edge_nan_regions": 6,
+  "grid": {
+   "crs": "EPSG:32653",
+   "cell_m": 5.0,
+   "shape": [
+    805,
+    808
+   ]
+  },
+  "path_cells": 175,
+  "path_length_m": 1023,
+  "path_end": {
+   "row": 213,
+   "col": 382,
+   "at_edge": false,
+   "elev_m": 2.41
+  },
+  "head_radius_m": 44,
+  "head_start_elev_m": 75.85,
+  "ponds_on_path": [
+   {
+    "name": "淡-1950",
+    "storage_thousand_m3": 0.07,
+    "surface_area_km2": 0.0,
+    "dam_height_m": 1.0,
+    "lat": 34.45363888888889,
+    "lon": 134.8137777777778,
+    "straight_m": 23,
+    "off_path_m": 3,
+    "along_path_m": 26,
+    "elev_on_path_m": 73.56
+   },
+   {
+    "name": "淡-1998",
+    "storage_thousand_m3": 0.45,
+    "surface_area_km2": 0.0,
+    "dam_height_m": 2.0,
+    "lat": 34.45433333333334,
+    "lon": 134.81361111111113,
+    "straight_m": 94,
+    "off_path_m": 5,
+    "along_path_m": 105,
+    "elev_on_path_m": 67.2
+   },
+   {
+    "name": "下那木新池",
+    "storage_thousand_m3": 12.0,
+    "surface_area_km2": 0.0076,
+    "dam_height_m": 3.0,
+    "lat": 34.456250000000004,
+    "lon": 134.81330555555556,
+    "straight_m": 308,
+    "off_path_m": 3,
+    "along_path_m": 374,
+    "elev_on_path_m": 65.95,
+    "own_path_min_dist_to_head_m": 337,
+    "joins_head_path_at_m": 393,
+    "elev_m": 66.66
+   },
+   {
+    "name": "淡-2105",
+    "storage_thousand_m3": 0.12,
+    "surface_area_km2": 0.0,
+    "dam_height_m": 4.0,
+    "lat": 34.45652777777778,
+    "lon": 134.8131388888889,
+    "straight_m": 340,
+    "off_path_m": 3,
+    "along_path_m": 418,
+    "elev_on_path_m": 56.94
+   },
+   {
+    "name": "淡-2188",
+    "storage_thousand_m3": 2.7,
+    "surface_area_km2": 0.0,
+    "dam_height_m": 10.0,
+    "lat": 34.45813888888889,
+    "lon": 134.8131666666667,
+    "straight_m": 518,
+    "off_path_m": 1,
+    "along_path_m": 642,
+    "elev_on_path_m": 45.12
+   }
+  ],
+  "claimed": [
+   {
+    "name": "下那木池",
+    "on_path": false,
+    "candidates": []
+   },
+   {
+    "name": "下那木新池",
+    "on_path": true,
+    "candidates": [
+     {
+      "lat": 34.456250000000004,
+      "lon": 134.81330555555556,
+      "storage_thousand_m3": 12.0,
+      "elev_m": 66.66,
+      "straight_m": 308,
+      "off_path_m": 3,
+      "along_path_m": 374,
+      "own_path_min_dist_to_head_m": 337,
+      "joins_head_path_at_m": 393
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "system": "miyama",
+  "head": "深山池",
+  "tiles": {
+   "tiles": 16,
+   "tiles_404": 3
+  },
+  "water_holes_filled": 298,
+  "edge_nan_regions": 6,
+  "grid": {
+   "crs": "EPSG:32653",
+   "cell_m": 5.0,
+   "shape": [
+    805,
+    808
+   ]
+  },
+  "path_cells": 176,
+  "path_length_m": 1043,
+  "path_end": {
+   "row": 202,
+   "col": 440,
+   "at_edge": false,
+   "elev_m": 1.6
+  },
+  "head_radius_m": 34,
+  "head_start_elev_m": 29.1,
+  "ponds_on_path": [
+   {
+    "name": "深山下池",
+    "storage_thousand_m3": 3.0,
+    "surface_area_km2": 0.0021,
+    "dam_height_m": 3.1,
+    "lat": 34.45433333333334,
+    "lon": 134.81719444444445,
+    "straight_m": 65,
+    "off_path_m": 5,
+    "along_path_m": 86,
+    "elev_on_path_m": 29.1,
+    "own_path_min_dist_to_head_m": 94,
+    "joins_head_path_at_m": 100,
+    "elev_m": 29.13
+   }
+  ],
+  "claimed": [
+   {
+    "name": "深山下池",
+    "on_path": true,
+    "candidates": [
+     {
+      "lat": 34.45433333333334,
+      "lon": 134.81719444444445,
+      "storage_thousand_m3": 3.0,
+      "elev_m": 29.13,
+      "straight_m": 65,
+      "off_path_m": 5,
+      "along_path_m": 86,
+      "own_path_min_dist_to_head_m": 94,
+      "joins_head_path_at_m": 100
+     }
+    ]
+   }
+  ]
+ }
+]

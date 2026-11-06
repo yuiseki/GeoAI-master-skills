@@ -1,10 +1,10 @@
 {
   "claim": "C2",
   "block": "B2",
-  "status": "PASS",
-  "moran_i": 0.259,
+  "status": "FAIL",
+  "moran_i": 0.189,
   "threshold_moran_i": 0.2,
-  "p_value": 0.01,
-  "n_ponds_analyzed": 17,
+  "p_value": 0.038,
+  "n_ponds_analyzed": 18,
   "conclusion": "Drought drawdown shows statistically significant spatial clustering across neighboring agricultural systems."
 }
