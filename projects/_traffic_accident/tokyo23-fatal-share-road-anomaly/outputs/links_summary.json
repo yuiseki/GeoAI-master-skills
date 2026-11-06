@@ -1,0 +1,45 @@
+{
+ "ways": 1058404,
+ "links": 1787694,
+ "max_m": 30.0,
+ "accidents": 144123,
+ "unassigned": 1751,
+ "unassigned_fatal": 8,
+ "assigned": 142372,
+ "assigned_fatal": 680,
+ "links_with_accident": 63139,
+ "links_with_fatal": 672,
+ "strata": 72,
+ "min_n_stratum": 210,
+ "q_lt_005": 4,
+ "q_lt_010": 4,
+ "min_P": 0.0,
+ "min_q": 0.0,
+ "P_zero": 4,
+ "min_P_nonzero": 0.00011066136722393265,
+ "P_needed_first": 7.919035778203646e-07,
+ "q_lt_005_nonzero_P": 0,
+ "k_needed_median": 2.0,
+ "accidents_per_link_median": 1.0,
+ "max_O": 3,
+ "top10_in_main_top10_meshes": 0,
+ "turnover": {
+  "top10": {
+   "common": 0,
+   "jaccard": 0.0,
+   "random_expectation": 0.002
+  },
+  "top20": {
+   "common": 0,
+   "jaccard": 0.0,
+   "random_expectation": 0.006
+  },
+  "top50": {
+   "common": 0,
+   "jaccard": 0.0,
+   "random_expectation": 0.04
+  },
+  "spearman_n_vs_minus_log10_P": 0.0819
+ },
+ "seconds": 119.1
+}

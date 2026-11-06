@@ -14,6 +14,9 @@
 | R006 | - | - | exploratory | 03_explore.py | 4 版 | done | outputs/explore.json、top_mesh_roads.csv、m1000_hit_fatal.csv | D2 | 層に専用道を足しても T の置換の p 0.008、歩行者か自転車を足しても 0.004。1 km の外れ 53393553 は前の期間 O 6 (E 0.745)、後の期間 O 2 (E 0.375、上側確率 0.054)。1 km の人口と件数の Spearman 0.6124、人口と外れの強さ 0.1397 |
 | R007 | - | - | exploratory | 地図 | 4 版 | done | outputs/map_anomaly.png | D3 | 初回の図は範囲が西へ広がった (468 km 離れた 1 点)。D3 の後に描き直した |
 | R008 | - | - | exploratory | 残差の Moran's I | 4 版 | done | outputs/moran.txt | D2 | z = (O - E) / sqrt(V)、8 近傍で I 0.040 (置換の p 0.001)。0〜0.75 km で 0.043、0.75〜1.5 km で 0.011 |
+| R009 | B1 | - | sanity | build_links と assign_nearest のテスト 2 件 | なし | done | scripts/test_fatalshare.py | - | 15 件通過 |
+| R010 | B7 | - | exploratory | 道路リンク | 4 版 | done | outputs/links_summary.json、links_top20.csv | - | 道 1,058,404 本からリンク 1,787,694。30 m 以内に入らない事故 1,751 (死亡事故 8)。q < 0.05 は 4 で全て P = 0 の縮退、除けば 0。総件数との上位 20 の共通 0、主の上位 10 のメッシュに入る上位 10 のリンク 0 |
+| R011 | B8 | - | exploratory | 目黒区 53393553 の拡大図 | 4 版 | done | outputs/zoom_meguro.png、zoom_meguro_fatal.csv | - | 死亡事故 8 件は 8 本の別のリンク。環七通り 4、駒沢通り 2、柿の木坂通り 1、名前なし 1。歩行者か自転車が当事者 6 |
 
 ## deviation
 

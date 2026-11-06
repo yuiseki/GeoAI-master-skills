@@ -146,3 +146,23 @@ def poibin_k_needed(p, alpha):
     sf = np.cumsum(dist[::-1])[::-1]  # sf[k] = P(X >= k)
     ok = np.flatnonzero(sf <= alpha)
     return int(ok[0]) if len(ok) else len(p) + 1
+
+
+def build_links(ways):
+    """Junction-to-junction road links: node all ways where they meet or cross, then merge at degree-2 points."""
+    import shapely
+    noded = shapely.union_all(np.asarray(ways, dtype=object))
+    merged = shapely.line_merge(noded)
+    parts = shapely.get_parts(merged)
+    return [g for g in parts if g.length > 0]
+
+
+def assign_nearest(links, xy, max_m):
+    """Index of the nearest link for each point, -1 when none lies within max_m."""
+    import shapely
+    tree = shapely.STRtree(np.asarray(links, dtype=object))
+    pts = shapely.points(np.asarray(xy, float))
+    pi, li = tree.query_nearest(pts, max_distance=max_m, all_matches=False)
+    out = np.full(len(pts), -1, dtype=int)
+    out[pi] = li
+    return out

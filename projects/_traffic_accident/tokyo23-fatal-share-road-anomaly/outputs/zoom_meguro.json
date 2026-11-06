@@ -1,0 +1,72 @@
+{
+ "question": "1 km メッシュ 53393553 (目黒区) の死亡事故 8 件は、どの道のどこで起きたか",
+ "source": "警察庁 交通事故統計オープンデータ 389500a (2019〜2025 年)、OSM 2026-08-31 (ODbL)。加工して作成",
+ "edges_file": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-road-anomaly/artifacts/_traffic_accident/tokyo23-fatal-share-road-anomaly/zoom_53393553_links.parquet",
+ "crs": "EPSG:6677",
+ "value": "n",
+ "value_label": "リンクの人身事故 (2019〜2025 年)",
+ "unit": "件",
+ "bins": [
+  1.0,
+  3.0,
+  10.0,
+  30.0
+ ],
+ "class_labels": [
+  "0 より大きく 1 以下",
+  "1 より大きく 3 以下",
+  "3 より大きく 10 以下",
+  "10 より大きく 30 以下"
+ ],
+ "counts": {
+  "zero": 204,
+  "nodata": 0,
+  "classes": [
+   75,
+   46,
+   20,
+   7
+  ]
+ },
+ "edges": 352,
+ "palette": "YlOrRd",
+ "theme": "light",
+ "widths": [
+  0.8,
+  2.2,
+  3.6,
+  5.0
+ ],
+ "highlighted": 8,
+ "labels": [
+  "(名前なし)",
+  "駒沢通り",
+  "環七通り",
+  "柿の木坂通り"
+ ],
+ "points": [
+  {
+   "label": "死亡事故 (歩行者か自転車が当事者) (6)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-road-anomaly/artifacts/_traffic_accident/tokyo23-fatal-share-road-anomaly/zoom_53393553_v.csv",
+   "n": 6
+  },
+  {
+   "label": "死亡事故 (その他) (2)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-road-anomaly/artifacts/_traffic_accident/tokyo23-fatal-share-road-anomaly/zoom_53393553_o.csv",
+   "n": 2
+  },
+  {
+   "label": "500 m メッシュの中心 (4)",
+   "path": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills-road-anomaly/artifacts/_traffic_accident/tokyo23-fatal-share-road-anomaly/zoom_53393553_centres.csv",
+   "n": 4
+  }
+ ],
+ "view": [
+  -15534.014628065615,
+  -41652.620340219444,
+  -14280.280399650328,
+  -40606.21583434168
+ ],
+ "text_overlaps": [],
+ "font": "Noto Sans CJK JP"
+}

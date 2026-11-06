@@ -8,27 +8,31 @@
 
 ```sh
 L="systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% --"
-W="uvx --from duckdb>=1.5.5 --with numpy --with scipy --with pandas --with pyarrow --with shapely --with matplotlib --with scikit-learn python -u"
+W="uvx --from duckdb>=1.5.5 --with numpy --with scipy --with pandas --with pyarrow --with shapely --with matplotlib --with scikit-learn --with pyproj python -u"
 cd projects/_traffic_accident/tokyo23-fatal-share-road-anomaly
 $L $W scripts/01_extract.py   # 23 区の事故を取り出す (outputs/extract.json)
 $L $W scripts/02_anomaly.py   # B2〜B6 (summary.json、meshes_main.csv、variants.csv など)
 $L $W scripts/03_explore.py   # 探索: 層を足した検定、1 km の持続、人口、OSM の道路の名前
 $L $W scripts/04_map.py       # 地図 (outputs/map_anomaly.png)
 $L $W scripts/05_moran.py     # 残差の Moran's I (outputs/moran.txt)
+$L $W scripts/06_links.py     # 探索 B7: 単位を OSM の道路リンクに
+$L $W scripts/07_zoom.py      # 探索 B8: 目黒区 53393553 の拡大図
 ```
 
 テスト:
 
 ```sh
 cd projects/_traffic_accident/tokyo23-fatal-share-road-anomaly/scripts
-uvx --with numpy --with scipy --with pytest pytest -q test_fatalshare.py
+uvx --with numpy --with scipy --with shapely --with pytest pytest -q test_fatalshare.py
 ```
 
 | スクリプト | 中身 |
 |---|---|
-| `fatalshare.py` | Poisson 二項分布の上側確率、メッシュのコード、層のまとめ、自分を除いた割合、BH、ばらつきの統計量、層の中の並べ替え |
+| `fatalshare.py` | Poisson 二項分布の上側確率、メッシュのコード、層のまとめ、自分を除いた割合、BH、ばらつきの統計量、層の中の並べ替え、道路リンクの組み立てと割り当て |
 | `01_extract.py` | 本票 7 ファイルから 23 区の事故を取り出し、行を数える |
 | `02_anomaly.py` | 計画の B2〜B6 |
 | `03_explore.py` | 結果を見た後の探索 (記録の D2) |
 | `04_map.py` | analysis-visualize の classify_map.py で地図を描く |
 | `05_moran.py` | spatial-autocorrelation の spatial_autocorrelation.py で残差の Moran's I |
+| `06_links.py` | 探索 B7: 道路リンクを単位にした版 |
+| `07_zoom.py` | 探索 B8: network_map.py で目黒区 53393553 の拡大図 |

@@ -119,3 +119,20 @@ def test_poibin_k_needed():
     k = fs.poibin_k_needed(p, 1e-3)
     assert binom.sf(k - 1, 30, 0.1) <= 1e-3 < binom.sf(k - 2, 30, 0.1)
     assert fs.poibin_k_needed(np.array([0.5]), 1e-3) == 2  # even 1 of 1 is not enough
+
+
+def test_build_links_cuts_at_crossings_and_merges_degree_two():
+    import shapely
+    # a horizontal road drawn as two ways meeting at x=5 (degree 2), crossed by a vertical road at x=7
+    ways = [shapely.LineString([(0, 0), (5, 0)]), shapely.LineString([(5, 0), (10, 0)]),
+            shapely.LineString([(7, -3), (7, 3)])]
+    links = fs.build_links(ways)
+    lengths = sorted(round(g.length, 6) for g in links)
+    assert lengths == [3.0, 3.0, 3.0, 7.0]
+
+
+def test_assign_nearest_link_with_max_distance():
+    import shapely
+    links = [shapely.LineString([(0, 0), (10, 0)]), shapely.LineString([(0, 100), (10, 100)])]
+    idx = fs.assign_nearest(links, np.array([[5, 2], [5, 97], [5, 50]]), max_m=30)
+    assert idx.tolist() == [0, 1, -1]
