@@ -1,0 +1,2 @@
+times,sensors,samples,train,val,test,adjacency_nonzero,adjacency_nonzero_offdiag,distance_rows,scaler_mean,scaler_sd,zeros_share
+52116,325,52093,36465,5209,10419,2694,2369,8358,62.7357,9.4382,3.1e-05

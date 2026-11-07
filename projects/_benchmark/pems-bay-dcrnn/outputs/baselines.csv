@@ -1,0 +1,7 @@
+model,horizon_steps,minutes,mae,rmse,mape,mae_ci_low,mae_ci_high,days
+M0_historical_average,3,15,2.4394,5.2352,0.0556,2.1879,2.7181,37
+M1_last_value,3,15,1.5976,3.433,0.0324,1.458,1.7256,37
+M0_historical_average,6,30,2.4386,5.2339,0.0555,2.1877,2.718,37
+M1_last_value,6,30,2.1789,4.985,0.0465,1.9433,2.3954,37
+M0_historical_average,12,60,2.4372,5.2313,0.0555,2.1871,2.7166,37
+M1_last_value,12,60,3.0483,7.0145,0.0683,2.6543,3.4151,37
