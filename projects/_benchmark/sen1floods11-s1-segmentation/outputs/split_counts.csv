@@ -1,0 +1,5 @@
+split,chips,events
+train,252,10
+valid,89,10
+test,90,10
+bolivia,15,1

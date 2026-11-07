@@ -7,4 +7,4 @@
 | プロジェクト | 状態 | 問い | データ |
 |---|---|---|---|
 | [taxi-destination-porto](taxi-destination-porto/) | 報告済み (2026-11-07)。再現した | Porto のタクシーの行き先の予測で、優勝モデルを再現できるか。基準に対する差は後の時期でも保たれるか | UCI 339 (ECML/PKDD 2015、CC BY 4.0) |
-| [sen1floods11-s1-segmentation](sen1floods11-s1-segmentation/) | 計画 (2026-11-07) | Sentinel-1 の水の切り出しで、論文の FCN と Otsu の値を再現できるか。U-Net は FCN より良いか | Sen1Floods11 v1.1 (ライセンスは原本で未確認。数字だけを報告) |
+| [sen1floods11-s1-segmentation](sen1floods11-s1-segmentation/) | 報告済み (2026-11-07)。Otsu は再現、FCN は論文より高く再現しない | Sentinel-1 の水の切り出しで、論文の FCN と Otsu の値を再現できるか。U-Net は FCN より良いか | Sen1Floods11 v1.1 (ライセンスは原本で未確認。数字だけを報告) |

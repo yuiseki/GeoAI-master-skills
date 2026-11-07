@@ -1,0 +1,10 @@
+{
+ "model": "fcn",
+ "seed": 3,
+ "epochs": 100,
+ "accum": 2,
+ "best_valid": 0.4030424679293575,
+ "seconds": 1003,
+ "device": "cuda",
+ "torch": "2.14.1+cu130"
+}

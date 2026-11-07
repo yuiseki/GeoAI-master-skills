@@ -1,0 +1,10 @@
+{
+ "model": "unet",
+ "seed": 3,
+ "epochs": 100,
+ "accum": 1,
+ "best_valid": 0.37941507617427794,
+ "seconds": 365,
+ "device": "cuda",
+ "torch": "2.14.1+cu130"
+}

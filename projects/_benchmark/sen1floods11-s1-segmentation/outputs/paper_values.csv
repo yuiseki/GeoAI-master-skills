@@ -1,0 +1,9 @@
+source,model,split,aw,fw,pw,note
+Bonafilia et al. 2020 Table 1,Hand-Labeled FCNN,test,0.3125,0.2421,0.2570,mean IoU of the water class over chips
+Bonafilia et al. 2020 Table 1,Otsu Threshold-VH,test,0.3591,0.2850,0.4571,
+Bonafilia et al. 2020 Table 2,Hand-Labeled FCNN,bolivia,0.3524,0.2905,0.2300,
+Bonafilia et al. 2020 Table 2,Otsu Threshold-VH,bolivia,0.3862,0.3239,0.2859,
+EXPERIMENT_PLAN.md B0,Otsu tolerance,test,0.02,,,
+EXPERIMENT_PLAN.md B1,FCNN tolerance,test,0.05,,,0.3125 +- 0.05
+derived,mean of three FCN seeds (this project),test,0.3770,,,mean of 0.3803 0.3721 0.3787 in summary.csv
+derived,mean of three U-Net seeds (this project),test,0.3622,,,mean of 0.3715 0.3614 0.3536 in summary.csv
