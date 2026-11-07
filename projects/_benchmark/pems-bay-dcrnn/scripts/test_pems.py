@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from pems import (adjacency, historical_average, make_xy, masked_metrics, random_walk, split_counts, time_in_day,
+from pems import (adjacency, boot_ratio, historical_average, paired_day_sums, make_xy, masked_metrics, random_walk, split_counts, time_in_day,
                   window_starts)
 
 
@@ -94,3 +94,25 @@ def test_dcrnn_shapes_and_teacher_forcing():
     x, y = torch.randn(5, 12, 4, 2), torch.randn(5, 3, 4)
     assert m(x).shape == (5, 3, 4)
     assert m(x, y, teacher_prob=1.0).shape == (5, 3, 4)
+
+
+def test_paired_day_sums_leave_out_zeros_and_keep_the_sign():
+    truth = np.array([[10.0, 0.0], [10.0, 10.0], [20.0, 20.0]])
+    a = np.array([[12.0, 5.0], [10.0, 10.0], [20.0, 20.0]])  # |err| 2 on day 0 (the 0 truth is left out)
+    b = np.array([[11.0, 9.0], [11.0, 13.0], [20.0, 21.0]])  # |err| 1 on day 0; 1+3 on day 0; 1 on day 1
+    days = np.array([0, 0, 1])
+    u, s, c = paired_day_sums(a, b, truth, days)
+    assert list(u) == [0, 1]
+    assert np.allclose(s, [2 - 1 + 0 - 1 + 0 - 3, 0 - 1])
+    assert list(c) == [3, 2]
+    # the pooled ratio is the difference of the two masked MAE
+    assert s.sum() / c.sum() == pytest.approx(np.mean([2, 0, 0, 0, 0]) - np.mean([1, 1, 3, 0, 1]))
+
+
+def test_boot_ratio_resamples_whole_groups():
+    s = np.array([1.0, 1.0, 1.0])
+    c = np.array([1, 2, 3])
+    lo, hi = boot_ratio(s, c, reps=500)
+    assert 1 / 3 - 1e-9 <= lo <= hi <= 1 + 1e-9
+    lo, hi = boot_ratio(np.array([2.0, 4.0]), np.array([1, 2]), reps=200)
+    assert lo == pytest.approx(2.0) and hi == pytest.approx(2.0)

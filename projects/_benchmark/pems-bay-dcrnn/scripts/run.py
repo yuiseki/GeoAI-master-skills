@@ -216,6 +216,52 @@ def evaluate():
     write(OUT / "evaluate.csv", rows)
 
 
+def compare():
+    """Paired MAE differences on the same test points, with the day bootstrap."""
+    from pems import boot_ratio, paired_day_sums
+    p = load()
+    te = p["sets"]["test"]
+    pairs = [("M3_k0_s1", "M2_k2_s1"), ("M1_last_value", "M2_k2_s1"), ("M0_historical_average", "M2_k2_s1"),
+             ("M1_last_value", "M3_k0_s1")]
+    rows = []
+    for h in HORIZONS:
+        truth = p["values"][te + h]
+        days = day_of(p, te, h)
+        for a, b in pairs:
+            pa = np.load(ART / f"pred_{a}_h{h}.npy").astype("float64")
+            pb = np.load(ART / f"pred_{b}_h{h}.npy").astype("float64")
+            u, s, c = paired_day_sums(pa, pb, truth, days)
+            lo, hi = boot_ratio(s, c)
+            rows.append(dict(a=a, b=b, horizon_steps=h, minutes=5 * h, mae_a_minus_b=round(s.sum() / c.sum(), 4),
+                             ci_low=round(lo, 4), ci_high=round(hi, 4), days=len(u)))
+            print(rows[-1], flush=True)
+    write(OUT / "compare.csv", rows)
+
+
+def explore():
+    """Exploratory (after the main results): where does the graph help? Split the test points by the
+    true speed (congested < 40 mph) and by the change over the horizon (|truth - last input| >= 10 mph)."""
+    p = load()
+    te = p["sets"]["test"]
+    rows = []
+    for h in HORIZONS:
+        truth = p["values"][te + h]
+        last = p["values"][te]
+        a = np.abs(np.load(ART / f"pred_M3_k0_s1_h{h}.npy").astype("float64") - truth)
+        b = np.abs(np.load(ART / f"pred_M2_k2_s1_h{h}.npy").astype("float64") - truth)
+        ok = (truth != 0) & (last != 0)
+        groups = {"free_flow_ge_40": truth >= 40, "congested_lt_40": truth < 40,
+                  "steady_change_lt_10": np.abs(truth - last) < 10, "changing_ge_10": np.abs(truth - last) >= 10}
+        for g, m in groups.items():
+            m = m & ok
+            rows.append(dict(group=g, horizon_steps=h, minutes=5 * h, share=round(m.sum() / ok.sum(), 4),
+                             mae_M3=round(a[m].mean(), 4), mae_M2=round(b[m].mean(), 4),
+                             M3_minus_M2=round((a[m] - b[m]).mean(), 4),
+                             share_of_total_gain=round((a[m] - b[m]).sum() / (a[ok] - b[ok]).sum(), 4)))
+            print(rows[-1], flush=True)
+    write(OUT / "explore_where_graph_helps.csv", rows)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd")
@@ -226,7 +272,7 @@ def main():
     ap.add_argument("--device", default="cuda")
     a = ap.parse_args()
     OUT.mkdir(exist_ok=True)
-    {"prepare": prepare, "baselines": baselines, "train": lambda: train(a), "evaluate": evaluate}[a.cmd]()
+    {"prepare": prepare, "baselines": baselines, "train": lambda: train(a), "evaluate": evaluate, "compare": compare, "explore": explore}[a.cmd]()
 
 
 if __name__ == "__main__":

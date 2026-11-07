@@ -1,0 +1,13 @@
+source,model,minutes,mae
+Li et al. 2018 Table 1 PEMS-BAY,DCRNN,15,1.38
+Li et al. 2018 Table 1 PEMS-BAY,DCRNN,30,1.74
+Li et al. 2018 Table 1 PEMS-BAY,DCRNN,60,2.07
+Li et al. 2018 Table 1 PEMS-BAY,FC-LSTM,15,2.05
+Li et al. 2018 Table 1 PEMS-BAY,FC-LSTM,30,2.20
+Li et al. 2018 Table 1 PEMS-BAY,FC-LSTM,60,2.37
+Li et al. 2018 Table 1 PEMS-BAY,HA,15,2.88
+Li et al. 2018 Table 1 PEMS-BAY,HA,30,2.88
+Li et al. 2018 Table 1 PEMS-BAY,HA,60,2.88
+this project,M2 / paper ratio,15,0.9517
+this project,M2 / paper ratio,30,0.9530
+this project,M2 / paper ratio,60,0.9571

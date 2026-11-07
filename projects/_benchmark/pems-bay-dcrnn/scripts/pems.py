@@ -77,3 +77,21 @@ def historical_average(values, target, weeks=4):
     v = values[np.maximum(idx, 0)]                            # (b, weeks, nodes)
     ok = (idx[:, :, None] >= 0) & (v != 0)
     return np.where(ok, v, 0).sum(1) / np.maximum(ok.sum(1), 1)
+
+
+def paired_day_sums(pred_a, pred_b, truth, days):
+    """Per day, the sum of |a - truth| - |b - truth| over non-missing points, and the count.
+
+    The pooled ratio sum / count is MAE(a) - MAE(b) with the same mask, so the day bootstrap of
+    the ratio gives an interval for the paired difference."""
+    ok = truth != 0
+    d = (np.abs(pred_a - truth) - np.abs(pred_b - truth)) * ok
+    u, inv = np.unique(days, return_inverse=True)
+    return u, np.bincount(inv, d.sum(1)), np.bincount(inv, ok.sum(1))
+
+
+def boot_ratio(sums, counts, reps=2000, seed=0):
+    """95% interval of sum(sums) / sum(counts) when whole groups (days) are drawn with replacement."""
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, len(counts), (reps, len(counts)))
+    return tuple(np.percentile(sums[idx].sum(1) / counts[idx].sum(1), [2.5, 97.5]))
