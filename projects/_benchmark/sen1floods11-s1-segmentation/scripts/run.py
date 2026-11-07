@@ -132,7 +132,10 @@ def train(a):
     tr, va = load("train"), load("valid")
     net, head = build(a.model)
     net.to(device)
-    crit = torch.nn.CrossEntropyLoss(weight=torch.tensor([1.0, 8.0], device=device), ignore_index=IGNORE)
+    wts = torch.tensor([1.0, 8.0], device=device)
+    # summed loss over the micro-batches, divided by the total weight of the whole batch of 16: the same value as the
+    # weighted mean of CrossEntropyLoss(weight=[1, 8]) over 16 at once, whatever the accumulation
+    crit = torch.nn.CrossEntropyLoss(weight=wts, ignore_index=IGNORE, reduction="sum")
     opt = torch.optim.AdamW(net.parameters(), lr=5e-4)
     steps = math.ceil(len(tr) / 16)
     sched = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(opt, steps * 10, T_mult=2, eta_min=0)
@@ -148,13 +151,17 @@ def train(a):
         for s in range(steps):
             idx = order[s * 16:(s + 1) * 16]
             opt.zero_grad()
-            for k in range(0, len(idx), mb):
-                pairs = [random_crop_flip(tr[i]["x"], tr[i]["y"], 256, rng) for i in idx[k:k + mb]]
-                x = torch.from_numpy(np.stack([p[0] for p in pairs])).to(device)
-                y = torch.from_numpy(np.stack([p[1] for p in pairs])).to(device)
-                loss = crit(head(net(x)), y) * len(pairs) / len(idx)
+            pairs = [random_crop_flip(tr[i]["x"], tr[i]["y"], 256, rng) for i in idx]
+            ys = np.stack([p[1] for p in pairs])
+            denom = float((ys == 0).sum() * 1.0 + (ys == 1).sum() * 8.0)
+            total = 0.0
+            for k in range(0, len(pairs), mb):
+                x = torch.from_numpy(np.stack([p[0] for p in pairs[k:k + mb]])).to(device)
+                y = torch.from_numpy(ys[k:k + mb]).to(device)
+                loss = crit(head(net(x)), y) / denom
                 loss.backward()
-                losses.append(loss.item() * len(idx) / len(pairs))
+                total += loss.item()
+            losses.append(total)
             opt.step()
             sched.step()
         v = float(np.mean([chip_iou(p, d["y"]) for p, d in zip(predict(net, head, va, device), va)]))
