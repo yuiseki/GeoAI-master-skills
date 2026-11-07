@@ -253,7 +253,7 @@
     - [x] spatial-autocorrelation の `contiguity.py` との重複: 同じ内容のコピーで持ち、check_skills の COPIES に登録した
     - [ ] 選んだ W を、自己相関や空間回帰のスクリプトが読めるようにする (今は Parquet に書くだけ)
     - [ ] ネットワークの距離での近傍
-- 予測して、評価を疑う (11 / 11)
+- 予測して、評価を疑う (12 / 12)
   - [x] `eda-and-baseline`: 分布、欠損、相関を見て、どのモデルも超えるべき基準の点数を出す
   - [x] `cross-validation-design`: データの依存の構造 (グループ、空間、時間) から分け方を選び、分割表を 1 つ作る。基準もモデルもその分割表で採点する
     - [x] `references/group.md`
@@ -315,6 +315,14 @@
     - [x] 大域的な勾配を除いてから補間する (ユニバーサルクリギング、`--method universal`。PyKrige と照合、references/kriging.md)
     - [x] 異方性 (`--anisotropy 角度 比` と auto。PyKrige と照合、references/kriging.md)
     - [x] 予測地点までの距離に合わせた分け方を、スクリプトの分け方に足す (`--split target-distance`)
+  - [x] `trajectory-prediction`: 動いているものの軌跡の始まりから行き先を当てる。時刻で切る試験、最後の点の基準、haversine、切った時刻ごとのブートストラップと対にした差、後の時期の試験。ECML/PKDD 2015 の優勝 MLP を Porto で再現した (2.597 km、論文 2.81 km)
+    - [x] `references/task-design.md`: 問いの形、時刻で切る試験と学習の接頭の分布、同じ時期と後の時期、漏れ
+    - [x] `references/baselines-and-metrics.md`: 中心と最後の点、haversine と equirectangular、時刻ごとの区間、Porto の数字
+    - [x] `references/destination-mlp.md`: 行き先の塊の重み付き平均を出す MLP、計算の時間 (CPU と GPU)、再現した値としていないこと
+    - [ ] 種を変えた揺れ
+    - [ ] 双方向 RNN の窓 (論文の自前の試験の最良) の再現
+    - [ ] n 分後の位置と到着の時刻の予測を、同じ試験の作り方で確かめる
+    - [ ] `dataset-discovery` に UCI 339 (Porto のタクシー) の目録を足す
   - [x] `leakage-audit`: 特徴量に答えの言い換え、単位の識別子、未来の情報が紛れ込んでいないかを監査する
   - [x] `noise-ceiling-analysis`: 目的変数の雑音から、どんなモデルでも超えられない点数の上限 (天井) を見積もる
     - [x] `references/repeat.md`
