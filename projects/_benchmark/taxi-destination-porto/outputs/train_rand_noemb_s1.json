@@ -1,0 +1,10 @@
+{
+ "variant": "rand",
+ "model": "noemb",
+ "seed": 1,
+ "steps": 300000,
+ "best_valid_km": 2.582417249358005,
+ "seconds": 616,
+ "torch": "2.12.0+cu130",
+ "device": "cuda"
+}

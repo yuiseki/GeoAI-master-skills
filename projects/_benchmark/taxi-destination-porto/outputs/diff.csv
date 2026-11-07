@@ -1,0 +1,7 @@
+block,variant,test,worse,better,n,diff_km,ci_low,ci_high
+B1,rand,test,M1_last_point,M2_rand_mlp_s1,19711,0.4204,0.3237,0.5254
+B1,rand,test,M0_centre,M2_rand_mlp_s1,19711,1.6648,1.6051,1.7256
+B3,rand,test,M3_rand_noemb_s1,M2_rand_mlp_s1,19711,0.1021,0.076,0.128
+B1,rand,kaggle,M1_last_point,M2_rand_mlp_s1,320,0.4231,0.0913,0.8567
+B2,late,test,M1_last_point,M2_late_mlp_s1,18852,0.4981,0.4346,0.5646
+B2,late,late,M1_last_point,M2_late_mlp_s1,19902,0.4914,0.4183,0.5684

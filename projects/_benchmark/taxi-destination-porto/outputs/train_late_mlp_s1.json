@@ -1,0 +1,10 @@
+{
+ "variant": "late",
+ "model": "mlp",
+ "seed": 1,
+ "steps": 300000,
+ "best_valid_km": 2.456931425849519,
+ "seconds": 704,
+ "torch": "2.12.0+cu130",
+ "device": "cuda"
+}

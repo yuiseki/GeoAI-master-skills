@@ -1,0 +1,10 @@
+source,model,test,mean_km,note
+de Brebisson et al. 2015 Table 2,MLP clustering (winning model),custom test,2.81,19770 prefixes cut at 500 uniform times
+de Brebisson et al. 2015 Table 2,MLP clustering no embeddings,custom test,2.93,
+de Brebisson et al. 2015 Table 2,MLP clustering (winning model),Kaggle public,2.39,160 prefixes
+de Brebisson et al. 2015 Table 2,MLP clustering (winning model),Kaggle private,1.878,160 prefixes
+derived,MLP clustering (winning model),Kaggle all 320,2.134,mean of public and private (equal halves)
+de Brebisson et al. 2015 section 2.4,destination clusters,,3392,mean-shift on all training destinations
+de Brebisson et al. 2015 section 4.1,custom validation set size,,19427,
+de Brebisson et al. 2015 section 4.1,custom test set size,,19770,
+EXPERIMENT_PLAN.md B1,reproduction threshold,custom test,3.1,1.1 x 2.81

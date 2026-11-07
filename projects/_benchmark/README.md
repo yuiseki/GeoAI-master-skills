@@ -6,4 +6,4 @@
 
 | プロジェクト | 状態 | 問い | データ |
 |---|---|---|---|
-| [taxi-destination-porto](taxi-destination-porto/) | 計画 (2026-11-07) | Porto のタクシーの行き先の予測で、優勝モデルを再現できるか。基準に対する差は後の時期でも保たれるか | UCI 339 (ECML/PKDD 2015、CC BY 4.0) |
+| [taxi-destination-porto](taxi-destination-porto/) | 報告済み (2026-11-07)。再現した | Porto のタクシーの行き先の予測で、優勝モデルを再現できるか。基準に対する差は後の時期でも保たれるか | UCI 339 (ECML/PKDD 2015、CC BY 4.0) |

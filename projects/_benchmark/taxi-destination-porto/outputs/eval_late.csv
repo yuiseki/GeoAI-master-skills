@@ -1,0 +1,7 @@
+variant,test,model,n,mean_km,ci_low,ci_high,groups,empty_prefixes
+late,test,M0_centre,18852,4.2661,4.1356,4.405,498,0
+late,test,M1_last_point,18852,3.0311,2.9189,3.1477,498,0
+late,test,M2_late_mlp_s1,18852,2.5329,2.4273,2.642,498,0
+late,late,M0_centre,19902,4.1579,4.0294,4.3017,499,0
+late,late,M1_last_point,19902,3.0418,2.9202,3.1655,499,0
+late,late,M2_late_mlp_s1,19902,2.5503,2.4455,2.6592,499,0

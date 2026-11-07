@@ -1,0 +1,9 @@
+variant,test,model,n,mean_km,ci_low,ci_high,groups,empty_prefixes
+rand,test,M0_centre,19711,4.2619,4.1132,4.4204,500,0
+rand,test,M1_last_point,19711,3.0176,2.8939,3.157,500,0
+rand,test,M2_rand_mlp_s1,19711,2.5972,2.4695,2.7326,500,0
+rand,test,M3_rand_noemb_s1,19711,2.6993,2.5679,2.8439,500,0
+rand,kaggle,M0_centre,320,3.6663,3.3163,4.0335,320,0
+rand,kaggle,M1_last_point,320,2.9621,2.3442,3.6568,320,0
+rand,kaggle,M2_rand_mlp_s1,320,2.5391,2.1074,2.9957,320,0
+rand,kaggle,M3_rand_noemb_s1,320,2.4441,2.065,2.8177,320,0

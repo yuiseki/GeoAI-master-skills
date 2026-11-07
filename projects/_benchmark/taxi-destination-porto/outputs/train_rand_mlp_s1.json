@@ -1,0 +1,9 @@
+{
+ "variant": "rand",
+ "model": "mlp",
+ "seed": 1,
+ "steps": 300000,
+ "best_valid_km": 2.4669519025847397,
+ "seconds": 7033,
+ "torch": "2.12.0+cpu"
+}
