@@ -44,6 +44,7 @@
 | 時間とともに変わる値の先を当てたい | time-series-forecasting |
 | 動いているものの軌跡の続きや行き先を当てたい | trajectory-prediction |
 | 画像の画素を水か否かなどに分けたい | image-segmentation |
+| 道路の感知器のような網の上の地点の値を、網のつながりを使って先へ予測したい。グラフが何を足したかを知りたい | spatial-gnn |
 | 地点ごとに繰り返し観測した値を、観測の無い地点や先の時刻へ予測したい | spatiotemporal-modeling |
 | 観測した地点の値から、観測していない地点の値を推定したい | spatial-interpolation |
 | 分析を流す前に、何が出たら主張を認め、何が出たら認めないかを決めておきたい。問いの読み方で答えが変わりうるので、主にする読み方を先に決めたい | experiment-design |
@@ -86,7 +87,7 @@
 | 共通の準備 | データを知る | どのデータで答えられるか。変数は問いの言葉と同じものを指すか。その品質で結論を支えられるか。記録の多さは現象の多さか、観測のされやすさか。これから観測するならどこを測るか。位置を使い、共有し、公開してよいか | dataset-discovery、data-variable-semantics、data-quality-audit、observation-bias-audit、spatial-sampling-design、location-privacy |
 | 共通の準備 | 単位を決めて、データをそろえる | 1 行は何か。複数のデータをどう結ぶか。ラスタの値をどう単位に集めるか。境界の違う区域の値をどう移すか。標高から水の流れと流域をどう求めるか。どんな特徴量を作るか | analysis-unit-design、spatial-data-integration、raster-data-integration、areal-interpolation、terrain-hydrology、spatial-feature-engineering |
 | 共通の準備 | 空間の関係を決める | 誰を誰の近傍とし、どう重みを付けるか。その選び方で結論が変わるか | spatial-weights-design |
-| 問いに応じた分析 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatiotemporal-modeling、spatial-interpolation、grid-risk-mapping、trajectory-prediction、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation |
+| 問いに応じた分析 | 予測して、評価を疑う | 基準は。評価の分け方は。点数は信じてよいか。どこまで良くなりうるか | eda-and-baseline、cross-validation-design、spatial-data-modeling、time-series-forecasting、spatiotemporal-modeling、spatial-interpolation、grid-risk-mapping、trajectory-prediction、spatial-gnn、leakage-audit、noise-ceiling-analysis、uncertainty-estimation、model-explanation |
 | 問いに応じた分析 | 構造を探す | 近い単位どうしで似ているか。群はあるか。外れはあるか。点は集まっているか。点はどんな過程から生まれたか | spatial-autocorrelation、clustering-analysis、dimensionality-reduction、anomaly-detection、point-pattern-analysis、spatial-process-modeling |
 | 問いに応じた分析 | 画像の変化を測る | 出来事の前と後で、SAR の後方散乱はどこでどちら向きに変わったか。その変化は記録と合うか。画素を水か否かに分けるモデルは、場面ごとのしきい値を上回るか | sar-change-detection、image-segmentation |
 | 問いに応じた分析 | ネットワークと最適化 | 実際に歩いて何分か。道の無い面を進むと何分か。施設の容量は需要に足りるか。施設をどこに置くか | spatial-network-analysis、land-cover-cost、raster-cost-distance、spatial-accessibility-analysis、spatial-optimization |
@@ -107,6 +108,7 @@
 - 予測と、その評価の分け方、リーク、雑音の天井、不確かさ。
 - 構造の探索: 空間の自己相関、群、外れ、点のパターン。
 - モデル: 線形、木、ブースティング、事前学習モデル、パネルの固定効果、階層モデル、共役な事前分布のベイズ、MCMC (Metropolis、HMC、BYM2 の空間のランダム効果)、測定の誤差、空間ラグと空間誤差のモデル、GWR と MGWR。
+- 網の上の地点の値の、グラフのニューラルネットワーク (DCRNN) による予測と、グラフを外した同じモデルとの比較。
 - 補間と時空間: クリギング (通常、ユニバーサル、異方性)、時空間の分解、時空間のクリギング (分離できる共分散)、SPDE (規則格子、ν = 1)。SARIMA と ETS。
 - 点過程: Poisson 過程の尤度、Cox 過程とクラスタ過程 (Thomas、LGCP の最小コントラスト)、Strauss 過程、Hawkes 過程。
 - 不確かさと説明: 較正、CV+ と CQR、グループごとの共形予測、SHAP (介入型と条件付き)。
