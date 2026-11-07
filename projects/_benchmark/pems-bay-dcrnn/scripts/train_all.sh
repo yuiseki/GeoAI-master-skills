@@ -1,8 +1,8 @@
 #!/bin/sh
-# R003 of EXPERIMENT_TRACKER.md: DCRNN (K = 2) and the no-graph model (K = 0), seed 1, 60 epochs, side by side on one GPU.
+# R003 of EXPERIMENT_TRACKER.md: DCRNN (K = 2), then the no-graph model (K = 0), seed 1, 60 epochs, one GPU.
+# One run takes 2.5-3 GB of GPU memory; two side by side ran out of memory on a GPU with 5.6 GB free.
 cd "$(dirname "$0")/.."
-RUN="systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=200% -- env CUDA_VISIBLE_DEVICES=${GPU:?set GPU} nice -n 10 uvx -q --python 3.12 --with numpy --with h5py --with torch==2.14.1 python -u scripts/run.py"
-$RUN train --k 2 --seed 1 --epochs 60 > ~/logs/pems_k2.log 2>&1 &
-$RUN train --k 0 --seed 1 --epochs 60 > ~/logs/pems_k0.log 2>&1 &
-wait
+RUN="systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% -- env CUDA_VISIBLE_DEVICES=${GPU:?set GPU} nice -n 10 uvx -q --python 3.12 --with numpy --with h5py --with torch==2.14.1 python -u scripts/run.py"
+$RUN train --k 2 --seed 1 --epochs 60 > ~/logs/pems_k2.log 2>&1
+$RUN train --k 0 --seed 1 --epochs 60 > ~/logs/pems_k0.log 2>&1
 echo ALL DONE
