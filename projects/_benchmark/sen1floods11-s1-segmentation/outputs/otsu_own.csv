@@ -1,0 +1,3 @@
+split,chips,own_aw_chip_mean,authors_aw_chip_mean,own_aw_pooled,pixel_agreement_median,pixel_agreement_min
+test,90,0.2284,0.3573,0.2265,0.7119,0.3253
+bolivia,15,0.3875,0.4531,0.3778,0.8991,0.5766

@@ -1,0 +1,7 @@
+split,focal_window,aw_chip_mean,pixel_agreement_with_authors_median,pixel_agreement_min
+test,1,0.2845,0.9606,0.819
+test,3,0.3158,0.9804,0.871
+test,5,0.337,0.9899,0.9237
+bolivia,1,0.443,0.9671,0.8924
+bolivia,3,0.4676,0.9781,0.931
+bolivia,5,0.472,0.9852,0.957

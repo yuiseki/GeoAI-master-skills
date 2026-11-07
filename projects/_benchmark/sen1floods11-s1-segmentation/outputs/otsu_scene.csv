@@ -1,0 +1,5 @@
+top,split,aw_chip_mean,median_abs_threshold_diff_db
+0.1,test,0.3473,1.1
+0.1,bolivia,0.4673,1.1
+0.25,test,0.3393,0.62
+0.25,bolivia,0.4679,0.62
