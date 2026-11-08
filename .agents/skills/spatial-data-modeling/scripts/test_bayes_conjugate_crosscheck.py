@@ -58,7 +58,7 @@ def test_share_of_tokyo_sites_designated_for_tsunami():
     duckdb = pytest.importorskip("duckdb")
     k, n = duckdb.sql("""select count(*) filter (where tsunami), count(*)
                          from 'hf://datasets/yuiseki/gsi-evacuation-sites-jp/parquet/sites.parquet'
-                         where municipality like '東京都%'""").fetchone()
+                         where municipality like '東京都%'""").fetchall()[0]
     post = beta_binomial(k, n, 1, 1)
     assert post["mean"] == pytest.approx(stats.beta(1 + k, 1 + n - k).mean(), rel=1e-12)
     assert beta_interval(post["a"], post["b"]) == pytest.approx(tuple(stats.beta.ppf([0.025, 0.975], post["a"], post["b"])), rel=1e-7)

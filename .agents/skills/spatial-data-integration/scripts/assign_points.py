@@ -19,6 +19,8 @@ import duckdb
 def assign(points, point_id, polygons, polygon_key, max_km, out):
     con = duckdb.connect()
     con.sql("install spatial; load spatial; install httpfs; load httpfs;")
+    # points are (longitude, latitude); DuckDB 2.0 refuses ST_Distance_Sphere until the axis order is set
+    con.sql("set geometry_always_xy = true")
     con.sql(
         f"create table pt as select \"{point_id}\" as pid,"
         f" ST_SetCRS(geometry, 'EPSG:4326') as geometry from '{points}'"
@@ -27,8 +29,8 @@ def assign(points, point_id, polygons, polygon_key, max_km, out):
         f"create table pg as select \"{polygon_key}\" as pkey,"
         f" ST_SetCRS(geometry, 'EPSG:4326') as geometry from '{polygons}'"
     )
-    n_points = con.sql("select count(*) from pt").fetchone()[0]
-    dup_ids = con.sql("select count(*) - count(distinct pid) from pt").fetchone()[0]
+    n_points = con.sql("select count(*) from pt").fetchall()[0][0]
+    dup_ids = con.sql("select count(*) - count(distinct pid) from pt").fetchall()[0][0]
     if dup_ids:
         raise SystemExit(f"{point_id} is not unique: {dup_ids} duplicate ids")
 
@@ -41,17 +43,14 @@ def assign(points, point_id, polygons, polygon_key, max_km, out):
         " from hit group by pid"
     )
 
-    # Nearest polygon for points in none. ST_Distance_Sphere takes (latitude, longitude),
-    # hence the flips; the degree filter only narrows the candidates.
+    # Nearest polygon for points in none. With geometry_always_xy, ST_Distance_Sphere takes (longitude, latitude);
+    # the degree filter only narrows the candidates.
     deg = max_km / 111.0 / 0.2  # generous: a degree of longitude shrinks towards the poles
     con.sql(f"""
         create table nearest as
         select pid, arg_min(pkey, km) as pkey, min(km) as km from (
             select pt.pid, pg.pkey,
-                   ST_Distance_Sphere(
-                       ST_FlipCoordinates(pt.geometry),
-                       ST_FlipCoordinates(ST_ClosestPoint(pg.geometry, pt.geometry))
-                   ) / 1000.0 as km
+                   ST_Distance_Sphere(pt.geometry, ST_ClosestPoint(pg.geometry, pt.geometry)) / 1000.0 as km
             from pt join pg on ST_DWithin(pg.geometry, pt.geometry, {deg})
             where pt.pid not in (select pid from contained)
         ) where km <= {max_km}
@@ -80,7 +79,7 @@ def assign(points, point_id, polygons, polygon_key, max_km, out):
     if counts.get("nearest"):
         q = con.sql(
             "select quantile_cont(km, [0.5, 0.9]), max(km) from assigned where how = 'nearest'"
-        ).fetchone()
+        ).fetchall()[0]
         print(f"nearest km: median {q[0][0]:.3f}, p90 {q[0][1]:.3f}, max {q[1]:.3f}")
 
     if out:

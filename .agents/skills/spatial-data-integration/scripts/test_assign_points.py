@@ -58,7 +58,7 @@ def test_every_point_is_accounted_for(files, capsys):
 def test_nearest_distance_is_in_kilometres(files):
     points, polygons, out = files
     assign(str(points), "id", str(polygons), "key", 5.0, str(out))
-    km = duckdb.sql(f"select km from '{out}' where id = 'near_a'").fetchone()[0]
+    km = duckdb.sql(f"select km from '{out}' where id = 'near_a'").fetchall()[0][0]
     # 0.01 degree of longitude at 60.5N, on a sphere of radius 6,371 km: about 0.55 km.
     expected = 2 * math.pi * 6371.0 * 0.01 / 360 * math.cos(math.radians(60.5))
     assert km == pytest.approx(expected, rel=0.01)

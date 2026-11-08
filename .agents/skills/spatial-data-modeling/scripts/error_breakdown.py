@@ -77,13 +77,13 @@ def joined_rows(predictions, table, id_col, column, model, weight=None):
     Stops when a predicted id has no row in the table, or the table repeats an id."""
     import duckdb
 
-    dup = duckdb.sql(f"""select count(*) - count(distinct cast("{id_col}" as varchar)) from '{table}'""").fetchone()[0]
+    dup = duckdb.sql(f"""select count(*) - count(distinct cast("{id_col}" as varchar)) from '{table}'""").fetchall()[0][0]
     if dup:
         raise SystemExit(f"{id_col} repeats in {table}: {dup} duplicate rows")
     cols = ["avg(p.target)", "avg(p.prediction)", f'any_value(t."{column}")']
     if weight:
         cols.append(f'any_value(t."{weight}")')
-    n_pred = duckdb.sql(f"select count(distinct id) from '{predictions}' where model = '{model}'").fetchone()[0]
+    n_pred = duckdb.sql(f"select count(distinct id) from '{predictions}' where model = '{model}'").fetchall()[0][0]
     rows = duckdb.sql(f"""
         select {", ".join(cols)}
         from '{predictions}' p join '{table}' t on cast(t."{id_col}" as varchar) = p.id

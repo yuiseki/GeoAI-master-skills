@@ -51,10 +51,10 @@ def neighbors(query, query_id, reference, reference_id, radii_km, exclude_self, 
                    floor(z / {cell})::bigint as cz
             from xyz
         """)
-    n_query = con.sql("select count(*) from q").fetchone()[0]
-    if con.sql("select count(*) - count(distinct id) from q").fetchone()[0]:
+    n_query = con.sql("select count(*) from q").fetchall()[0][0]
+    if con.sql("select count(*) - count(distinct id) from q").fetchall()[0][0]:
         raise SystemExit(f"{query_id} is not unique in the query points")
-    if con.sql("select count(*) from q where x is null").fetchone()[0]:
+    if con.sql("select count(*) from q where x is null").fetchall()[0][0]:
         raise SystemExit("some query points have no coordinates")
 
     # Each reference point is listed under its own cube and the 26 around it, so an equi-join on
@@ -85,19 +85,19 @@ def neighbors(query, query_id, reference, reference_id, radii_km, exclude_self, 
         group by q.id
     """)
 
-    n_out = con.sql("select count(*) from result").fetchone()[0]
+    n_out = con.sql("select count(*) from result").fetchall()[0][0]
     if n_out != n_query:
         raise SystemExit(f"{n_out} result rows for {n_query} query points")
-    n_none = con.sql("select count(*) from result where nearest_km is null").fetchone()[0]
+    n_none = con.sql("select count(*) from result where nearest_km is null").fetchall()[0][0]
     print(f"query points: {n_query}")
-    print(f"reference points: {con.sql('select count(*) from r').fetchone()[0]}")
+    print(f"reference points: {con.sql('select count(*) from r').fetchall()[0][0]}")
     print(f"no reference point within {radii_km[-1]:g} km: {n_none}")
     for (col,) in con.sql(
         "select column_name from (describe result) where column_name like 'n_within_%'"
     ).fetchall():
         zero, med, mx = con.sql(
             f"select count(*) filter (where {col} = 0), median({col}), max({col}) from result"
-        ).fetchone()
+        ).fetchall()[0]
         print(f"{col}: zero {zero}, median {med}, max {mx}")
     con.sql(f"copy (select * from result order by 1) to '{out}' (format parquet)")
 
