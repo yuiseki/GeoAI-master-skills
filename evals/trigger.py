@@ -5,8 +5,8 @@ This measures one step before that, cheaply and many times: given only a request
 references/*.md the agent opens. Cases are in trigger_cases.yaml (explicit, implicit, scope, negative).
 
 Each case gets a fresh workdir (prepare_workdir.py, so no evals/ on its disk), the prompt plus SUFFIX, and one run
-of evals/run_opencode_docker.sh. What counts as read: a `read` call on a skill file, or a shell command that names
-one (cat, sed, head, grep on the file). A directory listing does not count, nor does a name in the agent's text.
+of evals/run_opencode_docker.sh. What counts as read: a `read` call on a skill file, OpenCode's `skill` tool (it loads the
+SKILL.md), or a shell command that names one (cat, sed, head, grep on the file). A directory listing does not count, nor does a name in the agent's text.
 Reading a reference counts as reading its skill.
 
 Verdicts: PASS (every expect read, no forbid read), FAIL, ERROR (the run failed: a non-zero exit other than the
@@ -57,6 +57,8 @@ def reads(log_text):
         inp = part.get("state", {}).get("input") or {}
         if part.get("tool") == "read":
             got |= _items(str(inp.get("filePath", "")))
+        elif part.get("tool") == "skill" and re.fullmatch(r"[A-Za-z0-9_-]+", str(inp.get("name", ""))):
+            got.add(inp["name"])
         elif part.get("tool") == "bash":
             got |= _items(str(inp.get("command", "")))
     return got

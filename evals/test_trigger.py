@@ -67,3 +67,8 @@ def test_the_cases_name_only_skills_and_references_that_exist_and_hide_them_from
             assert not c.get("expect") and c.get("forbid")
         else:
             assert c.get("expect")
+
+
+def test_the_skill_tool_counts_as_reading_the_skill():
+    # OpenCode loads a SKILL.md with its own skill tool (seen in the i2-taxi run, 2026-11-09)
+    assert reads(ev("skill", name="trajectory-prediction")) == {"trajectory-prediction"}

@@ -67,3 +67,34 @@
   kind: negative
   prompt: CSV を読んで列の名前を小文字にそろえる Python の関数を書き、その単体テストも書きたい。
   forbid: [spatial-gnn, image-segmentation, trajectory-prediction, spatial-data-modeling, spatial-interpolation, point-pattern-analysis]
+
+- id: e4-spatial-cv
+  kind: explicit
+  prompt: 国ごとの平均寿命を予測するモデルの点数を、空間ブロックで分けた交差検証で出したい。
+  expect: [cross-validation-design, cross-validation-design/references/spatial.md]
+
+- id: i5-clustered-points
+  kind: implicit
+  prompt: 東京のコンビニの位置の点が、人の住んでいる場所に比べて固まって置かれているかを、距離ごとに確かめたい。
+  expect: [point-pattern-analysis, point-pattern-analysis/references/ripley.md]
+
+- id: i6-leaky-score
+  kind: implicit
+  prompt: 町丁目ごとの地価を当てるモデルの決定係数が 0.95 と高すぎる気がする。何かおかしくないか確かめたい。
+  expect: [leakage-audit]
+
+- id: i7-far-place
+  kind: implicit
+  prompt: ある県で学習した土砂災害の起きやすさのモデルを、隣の県で使いたい。隣の県でどれくらい当たるかを、手元のデータだけで見積もりたい。
+  expect: [cross-validation-design]
+
+- id: s3-variogram-only
+  kind: scope
+  prompt: 観測所の降水量の値が、距離とともにどれだけ似なくなるかを、経験 variogram の図だけで見たい。値の推定はしない。
+  expect: [spatial-interpolation, spatial-interpolation/references/kriging.md]
+  forbid: [spatial-data-modeling]
+
+- id: n3-plot-style
+  kind: negative
+  prompt: matplotlib の図の日本語の文字が豆腐 (四角) になるのを直したい。
+  forbid: [spatial-gnn, image-segmentation, trajectory-prediction, spatial-data-modeling, spatial-interpolation, point-pattern-analysis, cross-validation-design]
