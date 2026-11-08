@@ -71,3 +71,30 @@ def test_population_in_boxes_by_country(run):
 def test_feeds_per_country_through_iso2(run):
     c, _ = run
     assert sorted(c.sql("select a3, n, n_off from nfeeds").fetchall()) == [("AAA", 1, 1), ("FFF", 1, 0)]
+
+
+@pytest.mark.xfail(strict=True, reason="BUG: the 'corr share vs ln gdppc' line uses in_cap/pop, which is NULL, not 0, "
+                                       "for a country with no covered cell, so uncovered countries drop out of the "
+                                       "correlation (the fit table below it uses coalesce and keeps them)")
+def test_uncovered_countries_count_as_a_share_of_zero_in_the_correlation(tmp_path):
+    # shares by ln(gdppc): AAA (10, 1.0), CCC (9, 0.5), BBB (9.5, 0). corr = 0.25 / sqrt(0.5 * 0.5) = 0.5;
+    # with BBB dropped, two points give 1.0
+    (tmp_path / "data").mkdir()
+    (tmp_path / "data" / "feeds_v2.csv").write_text("\n".join([
+        HEADER, "f1,gtfs,AA,True,active,0,9.5,10.5,9.5,10.5", "f2,gtfs,CC,True,active,0,29.5,30.5,29.5,30.5"]) + "\n")
+    c = duckdb.connect(str(tmp_path / "pilot.duckdb"))
+    c.sql("load spatial")
+    c.sql("""create table hexcty as select * from (values
+        ('A', 6e6, ST_Point(10, 10), 'AAA'), ('B', 6e6, ST_Point(20, 20), 'BBB'),
+        ('C1', 3e6, ST_Point(30, 30), 'CCC'), ('C2', 3e6, ST_Point(40, 40), 'CCC')) t(h3, pop, ctr, a3)""")
+    c.sql(f"""copy (select * from (values ('AA', 'AAA'), ('BB', 'BBB'), ('CC', 'CCC')) t(ISO_A2_EH, ISO_A3_EH))
+              to '{tmp_path}/data/ne0.parquet' (format parquet)""")
+    c.sql(f"""copy (select country_code, 'NY.GDP.PCAP.CD' indicator_code, 2023 "year", exp(l) "value" from (values
+              ('AAA', 10.0), ('BBB', 9.5), ('CCC', 9.0)) t(country_code, l)) to '{tmp_path}/data/wdi.parquet' (format parquet)""")
+    c.close()
+    r = subprocess.run([sys.executable, "-I", str(SCRIPT)], cwd=tmp_path, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    line = next(l for l in r.stdout.splitlines() if l.startswith("corr share vs ln gdppc "))
+    n, corr_share, _ = eval(line[len("corr share vs ln gdppc "):])[0]
+    assert n == 3
+    assert corr_share == pytest.approx(0.5)
