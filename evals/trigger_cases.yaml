@@ -1,0 +1,69 @@
+# Cases for trigger.py: does an agent read the skill and the reference the request needs, and leave the others?
+#
+# kind      explicit  the method is named; the skill and its reference must be read
+#           implicit  only the goal is named; the skill must be found from it
+#           scope     a narrow request inside a skill; the reference it needs, and not the ones it does not
+#           negative  a request that needs no analysis skill; none of forbid may be read
+# expect    skills (name) and references (name/references/file.md) that must be read
+# forbid    skills and references that must not be read
+#
+# A prompt must not name a skill or a reference file (test_trigger.py checks it): the point is whether the agent
+# finds them. Method names (DCRNN, クリギング, Moran's I) are fine. The runner adds the same closing sentence to
+# every prompt (trigger.py SUFFIX).
+
+- id: e1-dcrnn
+  kind: explicit
+  prompt: 道路に並んだ 325 の速度の感知器の、5 分ごとの記録がある。DCRNN を学習して、1 時間先の速度を予測したい。
+  expect: [spatial-gnn, spatial-gnn/references/dcrnn.md]
+
+- id: e2-kriging
+  kind: explicit
+  prompt: 気象観測所で測った気温から、観測所の無い地点の気温を通常クリギングで推定したい。
+  expect: [spatial-interpolation, spatial-interpolation/references/kriging.md]
+
+- id: e3-spatial-lag
+  kind: explicit
+  prompt: 東京の区ごとの犯罪の率に、空間ラグモデルを当てはめたい。
+  expect: [spatial-data-modeling, spatial-data-modeling/references/spatial-regression.md]
+
+- id: i1-sensor-network
+  kind: implicit
+  prompt: 道路の感知器の速度を、道路のつながりを使って先の時刻まで当てたい。つながりが本当に効いているのかも知りたい。
+  expect: [spatial-gnn]
+
+- id: i2-taxi
+  kind: implicit
+  prompt: 走っているタクシーの、ここまでの軌跡から、客がどこで降りるかを当てたい。
+  expect: [trajectory-prediction]
+
+- id: i3-flood-pixels
+  kind: implicit
+  prompt: Sentinel-1 の画像のチップから、洪水で水に浸かった画素を当てるモデルを作り、単純な方法より本当に良いかを確かめたい。
+  expect: [image-segmentation]
+
+- id: i4-final-report
+  kind: implicit
+  prompt: 空間回帰の比較の分析が終わった。結論を最終の報告 (report.md) に書きたい。読んだ人が結論をどこまで信じてよいか判断できるようにしたい。
+  expect: [analysis-reporting, analysis-reporting/references/failure-modes.md]
+
+- id: s1-moran-only
+  kind: scope
+  prompt: 区ごとの値が近い区どうしで似ているかを、Moran's I だけで確かめたい。回帰のモデルは当てはめない。
+  expect: [spatial-autocorrelation]
+  forbid: [spatial-data-modeling]
+
+- id: s2-sensor-baselines
+  kind: scope
+  prompt: 道路の感知器の速度の予測で、最後の値をそのまま答える基準と、過去の平均の基準の点数だけを出したい。モデルは学習しない。
+  expect: [spatial-gnn, spatial-gnn/references/evaluation.md]
+  forbid: [spatial-gnn/references/dcrnn.md]
+
+- id: n1-typo
+  kind: negative
+  prompt: このリポジトリの README.md に誤字が無いか見て、あれば直したい。
+  forbid: [spatial-gnn, image-segmentation, trajectory-prediction, spatial-data-modeling, spatial-interpolation, point-pattern-analysis]
+
+- id: n2-unit-test
+  kind: negative
+  prompt: CSV を読んで列の名前を小文字にそろえる Python の関数を書き、その単体テストも書きたい。
+  forbid: [spatial-gnn, image-segmentation, trajectory-prediction, spatial-data-modeling, spatial-interpolation, point-pattern-analysis]
