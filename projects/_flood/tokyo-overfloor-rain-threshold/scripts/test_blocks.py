@@ -95,9 +95,6 @@ def test_adjusted_weights_the_period_differences():
     assert g(d) == pytest.approx((0.5 * 1 + 1.0 * 1) / 2)
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: 03_within_period.adjusted multiplies a period's NaN difference by its "
-                                       "weight 0, so one period with no unit at or above the cut makes the whole "
-                                       "adjusted difference NaN instead of the other period's difference")
 def test_adjusted_ignores_a_period_with_zero_weight():
     d = units([[D1, "first", 80, 1, 3], [D1, "first", 20, 3, 1], [D2, "second", 10, 4, 0]])
     g = wp.adjusted(bl.diff_at(70), lambda x: int((x["rain"] >= 70).sum()))

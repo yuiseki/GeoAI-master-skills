@@ -24,7 +24,8 @@ PERIODS = ("first", "second")
 
 def adjusted(f, weight):
     def g(d):
-        parts = [(f(d[d["period"] == p]), weight(d[d["period"] == p])) for p in PERIODS]
+        # a period with no weight (no unit at or above the cut) adds nothing; its difference is NaN, and NaN * 0 is NaN
+        parts = [(v, n) for v, n in ((f(d[d["period"] == p]), weight(d[d["period"] == p])) for p in PERIODS) if n]
         w = sum(n for _, n in parts)
         return sum(v * n for v, n in parts) / w if w else float("nan")
     return g
