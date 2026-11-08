@@ -15,6 +15,8 @@ reads the answer and, optionally, the outputs it was written from.
                             当てはまらない, 確かめていない) and its ground; a mode left 確かめていない is named in
                             確かめていないこと (failure_mode_problems; references/failure-modes.md)
                    確かめていないこと  required at "full"; optional otherwise
+                 a diagnostic table (| 診断 | 実測 | 基準 | 判定 | 次の手 |), when there is one: verdicts OK, 要対処 or 確認,
+                 and a next step for each 要対処 (diagnostic_problems)
                  and a length budget: simple at most 8 non-empty lines, standard at most 40, full no limit
     traceable    every number in 結論 must appear in the evidence (tool outputs, logs, the commands run), up to
                  rounding at the conclusion's own precision (82% and 82 % match 0.8183; 0.45 does not match 0.4446). A
@@ -159,6 +161,34 @@ def failure_mode_problems(text):
     return problems
 
 
+DIAG_HEADER = re.compile(r"^\|\s*診断\s*\|\s*実測\s*\|\s*基準\s*\|\s*判定\s*\|\s*次の手\s*\|\s*$")
+DIAG_VERDICTS = ("OK", "要対処", "確認")
+
+
+def diagnostic_problems(text):
+    """A table headed | 診断 | 実測 | 基準 | 判定 | 次の手 | (a method's required diagnostics): each verdict is one of
+    DIAG_VERDICTS, and a row judged 要対処 names its next step."""
+    problems, inside = [], False
+    for line in text.splitlines():
+        if DIAG_HEADER.match(line.strip()):
+            inside = True
+            continue
+        if not inside:
+            continue
+        if not line.strip().startswith("|"):
+            inside = False
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if set("".join(cells)) <= set("-: ") or len(cells) < 5:
+            continue
+        name, verdict, step = cells[0], cells[3], cells[4]
+        if verdict not in DIAG_VERDICTS:
+            problems.append(f"診断: {name} has verdict {verdict}; use OK, 要対処 or 確認")
+        elif verdict == "要対処" and not step:
+            problems.append(f"診断: {name} is 要対処 but names no next step")
+    return problems
+
+
 def check(text, level, evidence=None, failure_modes="required"):
     """failure_modes: "required" (the default), or "if_present": a report older than the rule is checked only when
     it has a 失敗の型 section."""
@@ -180,6 +210,7 @@ def check(text, level, evidence=None, failure_modes="required"):
         problems.append("確かめていないこと: a full report says what was not checked")
     if level == "full" and (failure_modes == "required" or "失敗の型" in s):
         problems += failure_mode_problems(text)
+    problems += diagnostic_problems(text)
     limit = LIMITS[level]
     lines = [x for x in text.splitlines() if x.strip()]
     if limit is not None and len(lines) > limit:

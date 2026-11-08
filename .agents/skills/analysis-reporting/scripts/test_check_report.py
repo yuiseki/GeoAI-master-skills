@@ -309,3 +309,22 @@ def test_failure_modes_can_be_optional_but_are_checked_when_written():
     broken = full_with(FAILURES.replace("| F7 | 確かめた | 照合した |\n", ""))
     assert "失敗の型: F7 is missing" in check(broken, "full", EVIDENCE, failure_modes="if_present")
     assert any("失敗の型" in p for p in check(no_section, "full", EVIDENCE))   # required by default
+
+
+DIAG = """
+| 診断 | 実測 | 基準 | 判定 | 次の手 |
+|---|---|---|---|---|
+| 残差の Moran's I | 0.21 | p > 0.05 | 要対処 | 空間誤差モデルと並べる |
+| VIF の最大 | 3.1 | < 10 | OK | |
+"""
+
+
+def test_a_diagnostic_table_needs_known_verdicts_and_a_next_step_for_each_problem():
+    from check_report import diagnostic_problems
+    assert diagnostic_problems(DIAG) == []
+    assert diagnostic_problems(DIAG.replace("| OK |", "| たぶん |")) == [
+        "診断: VIF の最大 has verdict たぶん; use OK, 要対処 or 確認"]
+    assert diagnostic_problems(DIAG.replace("空間誤差モデルと並べる", "")) == [
+        "診断: 残差の Moran's I is 要対処 but names no next step"]
+    assert diagnostic_problems("| a | b |\n|---|---|\n| 1 | 2 |\n") == []      # other tables are left alone
+    assert any(p.startswith("診断:") for p in check(SIMPLE + DIAG.replace("| OK |", "| x |"), "simple"))
