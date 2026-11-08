@@ -6,7 +6,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from check_report import check, format_problems, numbers_in, sections, traceable
+from check_report import FAILURE_MODES, check, failure_mode_problems, format_problems, numbers_in, sections, traceable
 
 SIMPLE = """問い: 東京 23 区の中心部に、ヘリポートはいくつ記録されているか。
 結論: OurAirports に 391 件、OpenStreetMap に 83 件。両方にあるのは 68 件 (50 m 以内)。
@@ -56,9 +56,13 @@ def test_a_simple_question_is_not_written_up_as_a_long_report():
     assert check(long.replace("\n方法の補足", "\n- 方法の補足"), "standard", EVIDENCE) == []
 
 
+FAILURES = "## 失敗の型\n\n| ID | 判定 | 根拠 |\n|---|---|---|\n" + "".join(
+    f"| {i} | {'確かめていない' if i == 'F4' else '確かめた'} | 照合した |\n" for i in FAILURE_MODES) + "\n"
+
+
 def test_a_heavy_analysis_must_say_what_was_not_checked():
     assert any("確かめていないこと" in p for p in check(SIMPLE, "full", EVIDENCE))
-    full = SIMPLE + "確かめていないこと: 2 つの記録が独立かは確かめていない。\n"
+    full = SIMPLE + FAILURES + "確かめていないこと: F4 2 つの記録が独立かは確かめていない。\n"
     assert check(full, "full", EVIDENCE) == []
 
 
@@ -264,3 +268,36 @@ def test_a_month_is_a_date_not_a_value():
     # "4 週先の 9〜12 月の MAE は 8.429" and "10 月以降" name months
     assert [t for t, *_ in numbers_in("4 週先の 9〜12 月の MAE は 8.429。10 月以降")] == ["4", "8.429"]
     assert [t for t, *_ in numbers_in("13 月")] == ["13"]
+
+
+def full_with(failures):
+    return SIMPLE + failures + "確かめていないこと: F4 2 つの記録が独立かは確かめていない。\n"
+
+
+def test_a_heavy_report_must_go_through_every_failure_mode():
+    assert FAILURE_MODES == [f"F{i}" for i in range(1, 10)]
+    assert failure_mode_problems(full_with(FAILURES)) == []
+    no_section = SIMPLE + "確かめていないこと: 独立かは確かめていない。\n"
+    assert any("失敗の型" in p for p in check(no_section, "full", EVIDENCE))
+    assert not any("失敗の型" in p for p in check(SIMPLE, "standard", EVIDENCE))   # only heavy reports
+
+
+def test_a_missing_mode_a_bad_verdict_and_an_empty_ground_are_reported():
+    missing = FAILURES.replace("| F7 | 確かめた | 照合した |\n", "")
+    assert failure_mode_problems(full_with(missing)) == ["失敗の型: F7 is missing"]
+    vague = FAILURES.replace("| F2 | 確かめた |", "| F2 | たぶん大丈夫 |")
+    assert failure_mode_problems(full_with(vague)) == [
+        "失敗の型: F2 has verdict たぶん大丈夫; use 確かめた, 当てはまらない or 確かめていない"]
+    empty = FAILURES.replace("| F3 | 確かめた | 照合した |", "| F3 | 確かめた |  |")
+    assert failure_mode_problems(full_with(empty)) == ["失敗の型: F3 gives no ground for its verdict"]
+
+
+def test_an_unchecked_mode_must_be_listed_in_what_was_not_checked():
+    report = SIMPLE + FAILURES + "確かめていないこと: 2 つの記録が独立かは確かめていない。\n"
+    assert failure_mode_problems(report) == ["失敗の型: F4 is 確かめていない but 確かめていないこと does not name F4"]
+
+
+def test_the_failure_mode_section_ends_the_method():
+    s = sections(full_with(FAILURES))
+    assert list(s) == ["問い", "結論", "データ", "方法", "失敗の型", "確かめていないこと"]
+    assert not any("照合した" in x for x in s["方法"])

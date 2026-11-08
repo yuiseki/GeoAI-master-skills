@@ -28,9 +28,23 @@ REPORT = """# 区の事故
 
 半径 30 m の円で数えた。
 
+## 失敗の型
+
+| ID | 判定 | 根拠 |
+|---|---|---|
+| F1 | 確かめた | 半径の中の数を手で数えた区画と照合した |
+| F2 | 当てはまらない | モデルと比べていない |
+| F3 | 当てはまらない | 予測をしていない |
+| F4 | 確かめていない | 交通量で割っていない |
+| F5 | 当てはまらない | 想定と違う結果は無い |
+| F6 | 確かめた | 方法の半径をコードと照合した |
+| F7 | 確かめていない | 半径を変えていない |
+| F8 | 確かめた | check_project.py |
+| F9 | 確かめた | 版を書いた |
+
 ## 確かめていないこと
 
-交通量で割っていない。
+交通量で割っていない (F4)。半径を変えていない (F7)。
 """
 
 
@@ -62,6 +76,7 @@ def test_missing_sections_are_reported(tmp_path):
     assert "report.md: データ: missing or empty" in problems
     assert "report.md: 方法: missing or empty" in problems
     assert "report.md: 確かめていないこと: a full report says what was not checked" in problems
+    assert any(p.startswith("report.md: 失敗の型:") for p in problems)
 
 
 def test_a_link_to_a_file_that_does_not_exist_is_reported(tmp_path):
@@ -144,9 +159,23 @@ KEY_TABLE = """# 区の事故
 
 半径 30 m の円で数えた。
 
+## 失敗の型
+
+| ID | 判定 | 根拠 |
+|---|---|---|
+| F1 | 確かめた | 半径の中の数を手で数えた区画と照合した |
+| F2 | 当てはまらない | モデルと比べていない |
+| F3 | 当てはまらない | 予測をしていない |
+| F4 | 確かめていない | 交通量で割っていない |
+| F5 | 当てはまらない | 想定と違う結果は無い |
+| F6 | 確かめた | 方法の半径をコードと照合した |
+| F7 | 確かめていない | 半径を変えていない |
+| F8 | 確かめた | check_project.py |
+| F9 | 確かめた | 版を書いた |
+
 ## 確かめていないこと
 
-交通量で割っていない。
+交通量で割っていない (F4)。半径を変えていない (F7)。
 """
 
 

@@ -11,6 +11,9 @@ reads the answer and, optionally, the outputs it was written from.
                    結論     present, second (the answer comes before how it was reached)
                    データ   present; names a version or a date (or says 版は未確認)
                    方法     present
+                   失敗の型  required at "full": a table with every failure mode F1..F9, a verdict (確かめた,
+                            当てはまらない, 確かめていない) and its ground; a mode left 確かめていない is named in
+                            確かめていないこと (failure_mode_problems; references/failure-modes.md)
                    確かめていないこと  required at "full"; optional otherwise
                  and a length budget: simple at most 8 non-empty lines, standard at most 40, full no limit
     traceable    every number in 結論 must appear in the evidence (tool outputs, logs, the commands run), up to
@@ -33,9 +36,12 @@ import re
 import sys
 
 REQUIRED = ["問い", "結論", "データ", "方法"]
-OPTIONAL = ["確かめていないこと"]
+OPTIONAL = ["失敗の型", "確かめていないこと"]
+# references/failure-modes.md: a heavy report gives each failure mode a verdict and its ground
+FAILURE_MODES = [f"F{i}" for i in range(1, 10)]
+VERDICTS = ("確かめた", "当てはまらない", "確かめていない")
 LIMITS = {"simple": 8, "standard": 40, "full": None}
-_LABEL = re.compile(r"^\s*(?:#{1,6}\s*)?(問い|結論|データ|方法|確かめていないこと)\s*(?:[:：]\s*(.*))?$")
+_LABEL = re.compile(r"^\s*(?:#{1,6}\s*)?(問い|結論|データ|方法|失敗の型|確かめていないこと)\s*(?:[:：]\s*(.*))?$")
 _PAGE = re.compile(r"<\s*(?:!doctype|html|head|body|script|style|iframe|div)\b", re.IGNORECASE)
 # a date (2026-10-31, 2026-10), a year (2011 年, 1981〜2000年) and a month (10 月, 9〜12 月)
 _YEAR = r"(?<![\d,.])(?:1[89]|20)\d{2}"
@@ -125,6 +131,34 @@ def format_problems(path, text):
     return problems
 
 
+def failure_mode_problems(text):
+    """The 失敗の型 table: every mode F1..F9 once, a verdict of VERDICTS, a ground that is not empty, and each mode
+    left 確かめていない named in 確かめていないこと."""
+    s = sections(text)
+    if "失敗の型" not in s:
+        return ["失敗の型: a full report gives every failure mode (F1 to F9) a verdict (references/failure-modes.md)"]
+    rows = {}
+    for line in s["失敗の型"]:
+        cells = [c.strip() for c in line.strip().strip("|").split("|")] if line.strip().startswith("|") else []
+        if cells and re.fullmatch(r"F\d+", cells[0]):
+            rows[cells[0]] = cells[1:]
+    problems = []
+    unchecked = " ".join(s.get("確かめていないこと", []))
+    for mode in FAILURE_MODES:
+        if mode not in rows:
+            problems.append(f"失敗の型: {mode} is missing")
+            continue
+        verdict = rows[mode][0] if rows[mode] else ""
+        ground = " ".join(rows[mode][1:]).strip()
+        if verdict not in VERDICTS:
+            problems.append(f"失敗の型: {mode} has verdict {verdict}; use 確かめた, 当てはまらない or 確かめていない")
+        elif not ground:
+            problems.append(f"失敗の型: {mode} gives no ground for its verdict")
+        elif verdict == "確かめていない" and not re.search(rf"(?<![A-Za-z0-9]){mode}(?!\d)", unchecked):
+            problems.append(f"失敗の型: {mode} is 確かめていない but 確かめていないこと does not name {mode}")
+    return problems
+
+
 def check(text, level, evidence=None):
     if level not in LIMITS:
         raise ValueError(f"level is one of {list(LIMITS)}")
@@ -142,6 +176,8 @@ def check(text, level, evidence=None):
         problems.append("データ: give each dataset's version or date (or write 版は未確認)")
     if level == "full" and not any(x.strip() for x in s.get("確かめていないこと", [])):
         problems.append("確かめていないこと: a full report says what was not checked")
+    if level == "full":
+        problems += failure_mode_problems(text)
     limit = LIMITS[level]
     lines = [x for x in text.splitlines() if x.strip()]
     if limit is not None and len(lines) > limit:
