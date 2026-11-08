@@ -42,7 +42,7 @@ uvx --with numpy python docs/tutorial/crs_demo.py
 WDI (世界銀行の開発指標) を使う。国 × 年 × 指標の縦持ちの表で、座標は無い。国のほかに、World や地域の集計も同じ表に入っている。国だけに絞る必要がある。
 
 ```sh
-uvx --from 'duckdb>=1.5.5' python docs/tutorial/run_sql.py docs/tutorial/wdi_2022.sql
+uvx --from 'duckdb>=1.5.5,<2' python docs/tutorial/run_sql.py docs/tutorial/wdi_2022.sql
 ```
 
 ```
@@ -61,7 +61,7 @@ countries  with_life  with_gdp  with_pop  with_urban  complete
 ## 3. 目的変数を見る (スキル eda-and-baseline)
 
 ```sh
-uvx --from 'duckdb>=1.5.5' python -c "
+uvx --from 'duckdb>=1.5.5,<2' python -c "
 import duckdb
 duckdb.sql(\"copy (select * from 'tmp/wdi_2022.parquet' where life_exp is not null and log_gdp_pc is not null) to 'tmp/wdi_2022_complete.parquet' (format parquet)\")
 print(duckdb.sql(\"select count(*) n, round(min(life_exp),1) lo, round(median(life_exp),1) med, round(max(life_exp),1) hi from 'tmp/wdi_2022_complete.parquet'\"))"

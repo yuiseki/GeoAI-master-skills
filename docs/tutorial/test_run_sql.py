@@ -1,4 +1,4 @@
-"""uvx --python 3.12 --with 'duckdb>=1.5.5' --with pytest pytest -q test_run_sql.py"""
+"""uvx --python 3.12 --with 'duckdb>=1.5.5,<2' --with pytest pytest -q test_run_sql.py"""
 
 # Tests for run_sql.py: run a file of SQL statements with DuckDB and print the result of the last one.
 # The script runs `install httpfs` first; that is a no-op when the extension is already installed locally.
@@ -65,16 +65,12 @@ def test_a_missing_file_fails(tmp_path):
     assert "nope.sql" in r.stderr
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: a trailing comment after the last statement becomes its own "
-                                       "'statement'; duckdb.sql returns None for it and the script prints nothing")
 def test_a_comment_after_the_last_statement_does_not_hide_its_result(tmp_path):
     r = run(tmp_path, "select 42 as answer;\n-- end of file\n")
     assert r.returncode == 0, r.stderr
     assert "42" in r.stdout
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: the file is split on every ';\\n', even inside a string literal, "
-                                       "so a valid statement is cut in two")
 def test_a_semicolon_and_newline_inside_a_string_is_not_a_statement_break(tmp_path):
     r = run(tmp_path, "select 'a;\nb' as s;\n")
     assert r.returncode == 0, r.stderr

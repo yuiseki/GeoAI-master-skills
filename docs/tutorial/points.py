@@ -1,6 +1,6 @@
 """Point data to a prediction, end to end: events -> equal-area grid -> features -> CV that respects space.
 
-    uvx --from 'duckdb>=1.5.5' --with scikit-learn --with pandas --with pyarrow python docs/tutorial/points.py
+    uvx --from 'duckdb>=1.5.5,<2' --with scikit-learn --with pandas --with pyarrow python docs/tutorial/points.py
 
 Reads UCDP GED 26.1 from Hugging Face (needs the network), keeps events whose position is accurate
 (where_prec <= 2), projects them to an equal-area CRS (EPSG:6933), counts them per 100 km cell, and

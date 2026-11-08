@@ -5,7 +5,7 @@
 問い: 2022 年に事件のあった 100 km 四方のセルで、2023 年の事件の数を、2022 年の事件から予測する。
 
 ```sh
-uvx --from 'duckdb>=1.5.5' --with scikit-learn --with pandas --with pyarrow python docs/tutorial/points.py
+uvx --from 'duckdb>=1.5.5,<2' --with scikit-learn --with pandas --with pyarrow python docs/tutorial/points.py
 ```
 
 ## 1. 点を読む

@@ -4,8 +4,8 @@
 # The script reads UCDP GED from Hugging Face. Here duckdb.connect is wrapped so the hf:// URL points at a
 # small synthetic GeoParquet in tmp_path and `install httpfs` is skipped; nothing goes to the network.
 # The DuckDB spatial extension must already be installed locally (`load spatial` only).
-# DuckDB is held below 2: in the 2.0 Python API a relation has no fetchone(), and points.py calls
-# con.sql(...).fetchone(), so under the `duckdb>=1.5.5` of the tutorial's own command it stops at line 31.
+# DuckDB is held below 2, as in the tutorial's own command: in the 2.0 Python API a relation has no fetchone(),
+# and points.py calls con.sql(...).fetchone().
 #
 # Where the synthetic events land: EPSG:6933 is cylindrical equal-area with standard parallels +-30,
 # so x = a * k0 * lon_rad with a = 6378137 and k0 = cos 30 / sqrt(1 - e^2 sin^2 30) = 0.86675,

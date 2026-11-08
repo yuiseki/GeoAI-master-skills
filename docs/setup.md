@@ -33,7 +33,7 @@ uvx --with numpy --with scikit-learn python script.py
 データを読んで集計するのに、DuckDB を使う。SQL で書く。ファイルや URL を直接読めるので、読み込みの手順が要らない。
 
 ```sh
-uvx --from 'duckdb>=1.5.5' python -c "
+uvx --from 'duckdb>=1.5.5,<2' python -c "
 import duckdb
 print(duckdb.sql(\"select count(*) from 'https://example.com/data.parquet'\"))"
 ```
