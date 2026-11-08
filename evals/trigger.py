@@ -13,9 +13,11 @@ Verdicts: PASS (every expect read, no forbid read), FAIL, ERROR (the run failed:
 time limit 124, or an error event from the provider). An ERROR is not graded: run the case again. A run cut off
 by the time limit is graded on what it had read.
 
-    python3 evals/trigger.py run OUT_DIR [--cases evals/trigger_cases.yaml] [--only ID ...] [--model M] [--minutes N]
+    python3 evals/trigger.py run OUT_DIR [--cases evals/trigger_cases.yaml] [--only ID ...] [--model M] [--minutes N] [--repeats N]
     python3 evals/trigger.py judge OUT_DIR       # re-grade saved logs
-OUT_DIR gets one folder per case (prompt.md, log, exit) and summary.tsv. Keep it outside the repository.
+OUT_DIR gets one folder per case and run (id/r1/: prompt.md, log, exit), summary.tsv (one row per run) and
+cases.tsv (per case: runs passed, graded, in error). --repeats N runs each case N times, round by round, and
+keeps the runs already there, so a stopped run can be resumed. Keep OUT_DIR outside the repository.
 """
 
 import argparse
@@ -93,8 +95,8 @@ def prompt_problems(case, names):
     return [f"{case['id']} names {n}" for n in sorted(names) if n in case["prompt"]]
 
 
-def _run_case(case, out, model, minutes):
-    d = out / case["id"]
+def _run_case(case, out, model, minutes, repeat=1):
+    d = out / case["id"] / f"r{repeat}"
     if d.exists():
         shutil.rmtree(d)
     d.mkdir(parents=True)
@@ -110,24 +112,39 @@ def _run_case(case, out, model, minutes):
     shutil.rmtree(work, ignore_errors=True)
 
 
+def _runs(out, case_id):
+    """The run folders of a case: id/r1, id/r2, ... (or id itself, for logs saved before repeats existed)."""
+    d = out / case_id
+    runs = sorted((x for x in d.glob("r*") if (x / "exit").exists()), key=lambda x: int(x.name[1:]))
+    return runs or ([d] if (d / "exit").exists() else [])
+
+
 def grade(out, cases):
-    rows = []
+    """summary.tsv: one row per run. cases.tsv: per case, runs passed, runs graded (PASS or FAIL), runs in ERROR."""
+    rows, per_case = [], []
     for case in cases:
-        d = out / case["id"]
-        if not (d / "exit").exists():
-            continue
-        text = (d / "log").read_text(encoding="utf-8", errors="replace")
-        got = reads(text)
-        r = judge(case, got, int((d / "exit").read_text().strip()), error_event(text))
-        rows.append([case["id"], case["kind"], r["verdict"], " ".join(r["missing"]), " ".join(r["forbidden"]),
-                     " ".join(sorted(got))])
+        verdicts = []
+        for d in _runs(out, case["id"]):
+            text = (d / "log").read_text(encoding="utf-8", errors="replace")
+            got = reads(text)
+            r = judge(case, got, int((d / "exit").read_text().strip()), error_event(text))
+            verdicts.append(r["verdict"])
+            rows.append([case["id"], case["kind"], r["verdict"], " ".join(r["missing"]), " ".join(r["forbidden"]),
+                         " ".join(sorted(got)), d.name])
+        if verdicts:
+            per_case.append([case["id"], case["kind"], str(verdicts.count("PASS")),
+                             str(sum(v != "ERROR" for v in verdicts)), str(verdicts.count("ERROR"))])
     with open(out / "summary.tsv", "w", encoding="utf-8") as f:
-        f.write("id\tkind\tverdict\tmissing\tforbidden\tread\n")
+        f.write("id\tkind\tverdict\tmissing\tforbidden\tread\trun\n")
         for row in rows:
             f.write("\t".join(row) + "\n")
-    for row in rows:
-        print("\t".join(row[:5]))
-    return rows
+    with open(out / "cases.tsv", "w", encoding="utf-8") as f:
+        f.write("id\tkind\tpassed\tgraded\terrors\n")
+        for row in per_case:
+            f.write("\t".join(row) + "\n")
+    for row in per_case:
+        print("\t".join(row))
+    return rows, per_case
 
 
 def main():
@@ -138,15 +155,19 @@ def main():
     p.add_argument("--only", nargs="*")
     p.add_argument("--model")
     p.add_argument("--minutes", type=int, default=10)
+    p.add_argument("--repeats", type=int, default=1, help="runs per case (r1, r2, ...); runs already there are kept")
     a = p.parse_args()
     out = Path(a.out).resolve()
     if REPO in out.parents or out == REPO:
         sys.exit("OUT_DIR must be outside the repository")
     cases = [c for c in load_cases(a.cases) if not a.only or c["id"] in a.only]
     if a.cmd == "run":
-        for c in cases:
-            print(f"running {c['id']}", flush=True)
-            _run_case(c, out, a.model, a.minutes)
+        for k in range(1, a.repeats + 1):        # round by round, so a stop half way leaves every case run alike
+            for c in cases:
+                if (out / c["id"] / f"r{k}" / "exit").exists():
+                    continue
+                print(f"running {c['id']} r{k}", flush=True)
+                _run_case(c, out, a.model, a.minutes, k)
     grade(out, cases)
 
 

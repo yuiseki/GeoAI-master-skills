@@ -72,3 +72,18 @@ def test_the_cases_name_only_skills_and_references_that_exist_and_hide_them_from
 def test_the_skill_tool_counts_as_reading_the_skill():
     # OpenCode loads a SKILL.md with its own skill tool (seen in the i2-taxi run, 2026-11-09)
     assert reads(ev("skill", name="trajectory-prediction")) == {"trajectory-prediction"}
+
+
+def test_repeats_are_graded_per_run_and_summed_per_case(tmp_path):
+    from trigger import grade
+    case = {"id": "c", "kind": "implicit", "expect": ["spatial-gnn"]}
+    for r, (tool_path, code) in enumerate([("spatial-gnn/SKILL.md", 0), ("image-segmentation/SKILL.md", 0),
+                                           ("spatial-gnn/SKILL.md", 1)], 1):
+        d = tmp_path / "c" / f"r{r}"
+        d.mkdir(parents=True)
+        (d / "log").write_text(ev("read", filePath=f"/work/.agents/skills/{tool_path}"))
+        (d / "exit").write_text(f"{code}\n")
+    rows, cases = grade(tmp_path, [case])
+    assert [r[2] for r in rows] == ["PASS", "FAIL", "ERROR"]
+    assert cases == [["c", "implicit", "1", "2", "1"]]          # id, kind, passed, graded, errors
+    assert (tmp_path / "cases.tsv").read_text().splitlines()[1] == "c\timplicit\t1\t2\t1"

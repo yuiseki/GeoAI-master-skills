@@ -98,3 +98,47 @@
   kind: negative
   prompt: matplotlib の図の日本語の文字が豆腐 (四角) になるのを直したい。
   forbid: [spatial-gnn, image-segmentation, trajectory-prediction, spatial-data-modeling, spatial-interpolation, point-pattern-analysis, cross-validation-design]
+
+# Confusable pairs: two skills look plausible, and the wording decides which one the request needs.
+
+- id: c1-temperature-now
+  kind: implicit
+  prompt: 気象観測所で 1 回だけ測った気温から、観測所の無い学校の校庭の気温を見積もりたい。
+  expect: [spatial-interpolation]
+  forbid: [spatiotemporal-modeling]
+
+- id: c2-rain-tomorrow
+  kind: implicit
+  prompt: 観測所ごとの毎日の雨量の記録から、観測所の無い地点の明日の雨量まで予測したい。
+  expect: [spatiotemporal-modeling]
+
+- id: c3-ward-counts-alike
+  kind: implicit
+  prompt: 区ごとの交通事故の件数が、隣の区どうしで似ているかを確かめたい。
+  expect: [spatial-autocorrelation]
+  forbid: [point-pattern-analysis]
+
+- id: c4-crash-points-gather
+  kind: implicit
+  prompt: 交通事故が起きた地点が、道路の多い場所に比べてさらに固まって起きているかを確かめたい。
+  expect: [point-pattern-analysis]
+
+- id: c5-next-year-grid
+  kind: implicit
+  prompt: 100 m の格子のどこで来年に交通事故が起きやすいかを、地図にして交番に配りたい。
+  expect: [grid-risk-mapping]
+
+- id: c6-mesh-to-blocks
+  kind: implicit
+  prompt: 500 m のメッシュで集計された人口を、町丁目の境界に割り振り直したい。
+  expect: [areal-interpolation]
+
+- id: c7-walk-ten-minutes
+  kind: implicit
+  prompt: 駅から道を歩いて 10 分の範囲に住んでいる人を数えたい。
+  expect: [spatial-network-analysis]
+
+- id: c8-new-station-price
+  kind: implicit
+  prompt: 新しい駅ができたことで、周りの土地の値段が上がったのかを知りたい。
+  expect: [causal-design]
