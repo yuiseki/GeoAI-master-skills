@@ -167,8 +167,6 @@ def test_a_missing_pdf_parquet_fails_loudly(tmp_path, monkeypatch, capsys):
     assert capsys.readouterr().out == ""
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: 'pump' matches any ポンプ in the free text, so a text that says there is "
-                                       "no pump (排水ポンプなし) is counted as naming the equipment")
 def test_a_text_saying_there_is_no_pump_is_not_a_pump_sign(tmp_path, monkeypatch, capsys):
     records = [r if r[0] != "A" else ("A", "kanto", "ok", "排水ポンプなし", None) for r in RECORDS]
     out = run(tmp_path, monkeypatch, capsys, records=records)

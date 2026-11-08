@@ -19,7 +19,7 @@ c.sql("""create or replace table cty as select h.a3, sum(h.pop) pop, sum(h.pop) 
   sum(h.pop) filter (where h.h3 in (select h3 from cov_cap25)) in_cap from hexcty h group by 1""")
 c.sql("create or replace table nfeeds as select i.iso3 a3, count(*) n, count(*) filter (where is_official='True') n_off from g join iso i on i.iso2=g.cc group by 1")
 print('world share in bbox', c.sql("select round(sum(in_all)/sum(pop),3), round(sum(in_cap)/sum(pop),3) from cty").fetchall())
-print('corr share vs ln gdppc', c.sql("select count(*), corr(in_cap/pop, ln(gdppc)), corr(ln(coalesce(n,0)+1), ln(gdppc)) from cty join gdp using (a3) left join nfeeds using (a3) where pop>5e6").fetchall())
+print('corr share vs ln gdppc', c.sql("select count(*), corr(coalesce(in_cap,0)/pop, ln(gdppc)), corr(ln(coalesce(n,0)+1), ln(gdppc)) from cty join gdp using (a3) left join nfeeds using (a3) where pop>5e6").fetchall())
 c.sql("""create or replace table fit as select a3, pop, gdppc, coalesce(in_cap,0)/pop share, coalesce(n,0) n,
   regr_intercept(coalesce(in_cap,0)/pop, ln(gdppc)) over () + regr_slope(coalesce(in_cap,0)/pop, ln(gdppc)) over () * ln(gdppc) expected
   from cty join gdp using (a3) left join nfeeds using (a3) where pop>5e6""")

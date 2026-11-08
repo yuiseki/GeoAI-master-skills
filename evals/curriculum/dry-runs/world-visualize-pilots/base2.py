@@ -1,7 +1,9 @@
 import duckdb
 c=duckdb.connect('pilot.duckdb'); c.sql('load spatial'); c.sql('set geometry_always_xy=true')
 c.sql("create or replace table ne as select ADM0_A3 a3, ISO_A3_EH iso3, NAME_JA name_ja, ST_SetCRS(geometry,'OGC:CRS84') g from 'data/ne0.parquet'")
-c.sql("create or replace table hexc as select h.h3, h.pop, h.ctr, ne.iso3, ne.a3 from hex h left join ne on ST_Intersects(ne.g, h.ctr)")
+# a centroid on a shared border intersects both countries; keep one (the first by code) so its population counts once
+c.sql("""create or replace table hexc as select h.h3, h.pop, h.ctr, ne.iso3, ne.a3 from hex h left join ne on ST_Intersects(ne.g, h.ctr)
+ qualify row_number() over (partition by h.h3 order by ne.a3) = 1""")
 print(c.sql("select count(*), count(distinct h3), sum(pop) filter (where a3 is null)/1e6 unassigned_m, count(*) filter (where a3 is null) from hexc").fetchall())
 # nearest country for unassigned
 c.sql("""create or replace table hexn as

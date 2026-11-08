@@ -73,9 +73,6 @@ def test_feeds_per_country_through_iso2(run):
     assert sorted(c.sql("select a3, n, n_off from nfeeds").fetchall()) == [("AAA", 1, 1), ("FFF", 1, 0)]
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: the 'corr share vs ln gdppc' line uses in_cap/pop, which is NULL, not 0, "
-                                       "for a country with no covered cell, so uncovered countries drop out of the "
-                                       "correlation (the fit table below it uses coalesce and keeps them)")
 def test_uncovered_countries_count_as_a_share_of_zero_in_the_correlation(tmp_path):
     # shares by ln(gdppc): AAA (10, 1.0), CCC (9, 0.5), BBB (9.5, 0). corr = 0.25 / sqrt(0.5 * 0.5) = 0.5;
     # with BBB dropped, two points give 1.0

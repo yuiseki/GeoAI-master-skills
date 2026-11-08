@@ -75,8 +75,6 @@ def test_every_hexagon_is_kept_once_with_its_population(tmp_path):
     assert out.splitlines()[0] == "[(4, 4, 8e-05, 2)]"
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: a centroid on a shared border intersects both countries, so hexc "
-                                       "and hexcty hold it twice and its population is counted twice")
 def test_a_centroid_on_a_shared_border_is_counted_once(tmp_path):
     setup(tmp_path, HEXES + [("h_border", 1000.0, 10, 5)])
     c, _ = run(tmp_path)

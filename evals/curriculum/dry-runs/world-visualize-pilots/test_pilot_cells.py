@@ -64,9 +64,6 @@ def test_population_without_coverage(run):
     assert got["BBB"][0] == 1.0 and got["FFF"] == (1.0, 1.0)
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: gap0 and gap1 are sum(pop) filter (...) / sum(pop), which is NULL, not 0, "
-                                       "when no cell of a country lacks coverage; fully covered countries then drop "
-                                       "out of corr(gap0, cel) and the gap rankings")
 def test_a_fully_covered_country_has_a_gap_of_zero(run):
     c, _, _ = run
     got = {a3: (g0, g1) for a3, g0, g1 in c.sql("select a3, gap0, gap1 from gap").fetchall()}

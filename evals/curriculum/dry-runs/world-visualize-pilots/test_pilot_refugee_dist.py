@@ -75,9 +75,6 @@ def test_yearly_rows_weight_distance_by_refugees(tmp_path):
     assert years[2025][1] == 1.0 and years[2025][3] == pytest.approx(round(KM10), abs=1)
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: refugees whose pair is not on the map stay in sum(r) of the weighted "
-                                       "mean, while their null distance drops out of sum(r * cdist), so the mean "
-                                       "distance shrinks by the unmatched share")
 def test_unmatched_refugees_do_not_pull_the_weighted_distance_down(tmp_path):
     # 2025: 50 from BBB to AAA (1,112 km), and 50 from XXX, which is not on the map
     _, out = setup(tmp_path, UNHCR + [(2025, "XXX", "AAA", 50)])

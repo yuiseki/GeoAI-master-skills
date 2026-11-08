@@ -27,7 +27,8 @@ NONE = r"冠水実績(は)?(無|なし|ない)|冠水解消"
 HRR_TEXT = ["注意喚起方法", "情報入手方法", "冠水原因", "冠水範囲", "その他"]
 SIGNS = {
     "record": f"regexp_matches(txt, '{RECORD}') and not regexp_matches(txt, '{NONE}')",
-    "pump": "(regexp_matches(txt, 'ポンプ') or regexp_matches(hrr_pump, '^(有|あり)'))",
+    "pump": "((regexp_matches(txt, 'ポンプ') and not regexp_matches(txt, 'ポンプ\\s*(は|が)?\\s*(無|なし|ない|未設置)'))"
+            " or regexp_matches(hrr_pump, '^(有|あり)'))",
     "sensor": "regexp_matches(txt, '水位センサ|冠水センサ|水位計')",
     "warning": "regexp_matches(txt, '警報|情報板|電光|表示板')",
     "deep": "regexp_matches(hrr_deep, '^(有|あり)')",
