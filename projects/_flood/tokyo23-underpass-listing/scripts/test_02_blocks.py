@@ -41,14 +41,11 @@ def test_blocks_for_distance():
     assert r["listed"] == 3 and r["flood_listed"] == 1 and r["B2_flood_share_unlisted"] == round(3 / 7, 3)
 
 
-@pytest.mark.xfail(strict=True, raises=IndexError,
-                   reason="BUG: blocks_for guards B3 for a population with no flooded unit (None), but the B3 block "
-                          "bootstrap then gets NaN from every resample and listing.block_bootstrap calls "
-                          "np.percentile on an empty list")
 def test_blocks_for_with_no_flooded_unit():
     r = bk.blocks_for(units(), flood="flood30")
     assert r["flood"] == 0 and r["B3_unlisted_share_of_flood"] is None
     assert "B3_unlisted_share_of_flood_pct" not in r
+    assert r["B3_ci"] == [None, None] and r["verdict"]["C3"].startswith("not judged")
 
 
 def test_b4_tables_by_kind():

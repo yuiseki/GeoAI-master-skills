@@ -51,16 +51,11 @@ def test_b0_and_b1_from_controls_and_ponds(tmp_path, monkeypatch):
     assert b1["tier_stats"]["POND_SMALL"]["n_ponds"] == 0
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: with no control observations (or a forest seen on fewer than 3 dates) "
-                                       "B0 falls back to -20 dB water and 0.5 dB forest sd and reports PASS instead "
-                                       "of failing or saying it could not judge")
 def test_b0_without_controls_does_not_pass(tmp_path, monkeypatch):
     b0, _ = run(tmp_path, monkeypatch, [pond("POND_LARGE", -18.0, -14.0)])
     assert b0["status"] != "PASS"
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: b1_size_snr.json always carries the conclusion that large and medium "
-                                       "ponds show robust drawdown detection, even when B1 is FAIL")
 def test_b1_conclusion_follows_the_result(tmp_path, monkeypatch):
     ponds = [pond("POND_LARGE", -18.0, -18.1), pond("POND_MED", -17.0, -17.0)]
     _, b1 = run(tmp_path, monkeypatch, controls() + ponds)

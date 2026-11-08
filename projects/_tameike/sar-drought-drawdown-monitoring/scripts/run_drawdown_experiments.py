@@ -240,16 +240,18 @@ def evaluate_blocks(targets, dates):
         if len(vals) >= 3:
             forest_stds.append(float(np.std(vals)))
     
-    mean_perm_water = float(np.mean(perm_water_vals)) if perm_water_vals else -20.0
-    mean_forest_std = float(np.mean(forest_stds)) if forest_stds else 0.5
+    # without control observations B0 cannot be judged; no default value stands in for a missing control
+    mean_perm_water = float(np.mean(perm_water_vals)) if perm_water_vals else float("nan")
+    mean_forest_std = float(np.mean(forest_stds)) if forest_stds else float("nan")
+    b0_judged = bool(perm_water_vals) and bool(forest_stds)
     
     # Decision rule: Forest SD <= 0.8 dB and Perm Water < -16 dB
-    b0_pass = (mean_forest_std <= 0.8) and (mean_perm_water < -16.0)
+    b0_pass = b0_judged and (mean_forest_std <= 0.8) and (mean_perm_water < -16.0)
     
     b0_result = {
         "claim": "C0",
         "block": "B0",
-        "status": "PASS" if b0_pass else "FAIL",
+        "status": ("PASS" if b0_pass else "FAIL") if b0_judged else "NOT_JUDGED",
         "mean_perm_water_db": round(mean_perm_water, 2),
         "perm_water_threshold_db": -16.0,
         "mean_forest_std_db": round(mean_forest_std, 2),
@@ -257,7 +259,8 @@ def evaluate_blocks(targets, dates):
         "dates_evaluated": dates,
         "n_perm_water_obs": len(perm_water_vals),
         "n_forest_sites": len(forests),
-        "notes": "Control baseline physical validity confirmed."
+        "notes": ("controls within the rule" if b0_pass else "controls outside the rule") if b0_judged
+                 else "no permanent-water observation or no forest seen on 3 dates: B0 not judged"
     }
     with open(os.path.join(OUTPUTS_DIR, "b0_sanity.json"), "w", encoding="utf-8") as fp:
         json.dump(b0_result, fp, indent=2, ensure_ascii=False)
@@ -282,7 +285,7 @@ def evaluate_blocks(targets, dates):
         mean_ddb = float(np.mean(delta_dbs)) if delta_dbs else 0.0
         std_ddb = float(np.std(delta_dbs)) if delta_dbs else 1.0
         # SNR = |mean_delta| / forest_noise_floor
-        noise_floor = mean_forest_std if mean_forest_std > 0 else 0.5
+        noise_floor = mean_forest_std if mean_forest_std > 0 else float("nan")
         snr = abs(mean_ddb) / noise_floor
         
         tier_stats[tier] = {
@@ -302,7 +305,8 @@ def evaluate_blocks(targets, dates):
         "status": "PASS" if b1_pass else "FAIL",
         "tier_stats": tier_stats,
         "noise_floor_forest_std_db": round(noise_floor, 2),
-        "conclusion": "Large and Medium reservoirs show robust drawdown detection (SNR > 2.0), while small ponds (<1ha) are dominated by boundary mixture noise."
+        "conclusion": (f"large SNR {tier_stats['POND_LARGE']['snr']} and medium SNR {tier_stats['POND_MED']['snr']} "
+                       + ("meet" if b1_pass else "do not meet") + " the rule (large >= 2.0, medium >= 1.5)")
     }
     with open(os.path.join(OUTPUTS_DIR, "b1_size_snr.json"), "w", encoding="utf-8") as fp:
         json.dump(b1_result, fp, indent=2, ensure_ascii=False)
@@ -380,7 +384,7 @@ def evaluate_blocks(targets, dates):
     date_offsets = {}
     for d in dates:
         pw_vals = [pw["ts"][d]["vv_mean_db"] for pw in perm_waters if pw["ts"].get(d)]
-        date_offsets[d] = float(np.mean(pw_vals)) if pw_vals else -20.0
+        date_offsets[d] = float(np.mean(pw_vals)) if pw_vals else float("nan")
     
     # Normalized baseline offset
     base_offset = date_offsets[d_base]
@@ -389,10 +393,11 @@ def evaluate_blocks(targets, dates):
     b3_result = {
         "claim": "C3",
         "block": "B3",
-        "status": "PASS",
+        # no decision rule is computed here: the offsets are described, not tested
+        "status": "NOT_JUDGED",
         "permanent_water_offsets_db": date_offsets,
         "relative_wind_wave_anomalies_db": wind_anomalies,
-        "compensation_effect": "Subtracting spatial reference permanent water anomaly stabilizes residual lake backscatter."
+        "compensation_effect": "not tested: the offsets of the permanent-water controls by date, relative to the base date"
     }
     with open(os.path.join(OUTPUTS_DIR, "b3_wind_robustness.json"), "w", encoding="utf-8") as fp:
         json.dump(b3_result, fp, indent=2, ensure_ascii=False)

@@ -36,10 +36,14 @@ def blocks_for(u, d=100.0, flood="flood"):
     lo2, hi2, n2 = block_bootstrap(b, lambda i: diff_share(fl[i], listed[i]))
     r["B2_ci"] = [round(lo2, 3), round(hi2, 3)]
     r["B3_unlisted_share_of_flood"] = round(share(~listed[fl]), 3) if fl.any() else None
-    lo3, hi3, n3 = block_bootstrap(b, lambda i: share(~listed[i][fl[i]]) if fl[i].any() else np.nan)
-    r["B3_ci"] = [round(lo3, 3), round(hi3, 3)]
+    if fl.any():
+        lo3, hi3, n3 = block_bootstrap(b, lambda i: share(~listed[i][fl[i]]) if fl[i].any() else np.nan)
+        r["B3_ci"] = [round(lo3, 3), round(hi3, 3)]
+        c3 = verdict(*r["B3_ci"], 0.2)
+    else:  # no flooded unit: B3 has nothing to measure, and every resample would be NaN
+        n3, r["B3_ci"], c3 = 0, [None, None], "not judged: no flooded unit"
     r["bootstrap_used"] = {"B2": n2, "B3": n3}
-    r["verdict"] = {"C1": verdict_below(*r["B1_ci"], 0.5), "C2": verdict(*r["B2_ci"], 0.0), "C3": verdict(*r["B3_ci"], 0.2)}
+    r["verdict"] = {"C1": verdict_below(*r["B1_ci"], 0.5), "C2": verdict(*r["B2_ci"], 0.0), "C3": c3}
     for k in ("B1_share_listed", "B2_flood_share_listed", "B2_flood_share_unlisted", "B3_unlisted_share_of_flood"):
         if r[k] is not None:
             r[k + "_pct"] = round(100 * r[k], 1)
