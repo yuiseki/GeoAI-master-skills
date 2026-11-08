@@ -4,7 +4,7 @@ check_project.py の ok は、どの間違いがあり得ないことを意味�
 
 ## 2026-11-09 の結果
 
-72 の報告、壊し方ごとに 1 回 (数字は 1 報告につき 3 回)、種 0。結果の行は `evals/results/check-calibration-2026-11-09.csv`。
+72 の報告、壊し方ごとに 1 回 (数字は 1 報告につき 3 回)、種 0。結果の行は `docs/harness-audits/check-calibration-2026-11-09.csv`。
 
 | 壊し方 | 検査の役目 | 拾った |
 |---|---|---|
