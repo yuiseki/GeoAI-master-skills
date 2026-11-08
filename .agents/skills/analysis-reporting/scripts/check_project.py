@@ -17,6 +17,8 @@ evidence it is given; this finds the evidence itself, so a project cannot pass b
     encoding     every text file in the project is UTF-8. A Windows default (cp932) is the usual cause; write text
                  with encoding='utf-8'
     readme       README.md exists, to say what the project is and how to run it again
+    failure modes  the 失敗の型 table of a full report is required when report.md was first committed on or after
+                 FAILURE_MODES_SINCE (or is not committed yet); an older report is checked only when it has one
 
 Usage:
     python3 check_project.py projects/<name> [more projects ...] [--level simple|standard|full] [--evidence F ...]
@@ -26,6 +28,7 @@ Prints "<project>: ok" or one line per problem. Exit status 1 when any project h
 import argparse
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -174,6 +177,22 @@ def _key_rows(conclusion):
     return rows
 
 
+# the 失敗の型 table became required on this day; a report first committed before it passes without one, and is still
+# checked when it has one. A report not yet committed is new.
+FAILURE_MODES_SINCE = "2026-11-09"
+
+
+def first_added(report):
+    """The committer date (YYYY-MM-DD) of the commit that first added the file, or None when git does not know it."""
+    report = Path(report).resolve()
+    try:
+        out = subprocess.run(["git", "-C", str(report.parent), "log", "--follow", "--diff-filter=A", "--format=%cs",
+                              "--", report.name], capture_output=True, text=True, check=True).stdout.split()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+    return out[-1] if out else None
+
+
 def check_project(project, level="full", extra=()):
     project = Path(project)
     problems = [f"{f} is not UTF-8: write text outputs with encoding='utf-8'" for f in not_utf8(project)]
@@ -187,6 +206,8 @@ def check_project(project, level="full", extra=()):
     except UnicodeDecodeError:
         return problems
     problems += [f"report.md: links to {t}, which does not exist" for t in dead_links(report)]
+    added = first_added(report)
+    failure_modes = "if_present" if added and added < FAILURE_MODES_SINCE else "required"
     evidence = evidence_for(project, text, extra)
     conclusion = sections(text).get("結論", [])
     for i, row in enumerate(_key_rows(conclusion), 1):
@@ -202,7 +223,7 @@ def check_project(project, level="full", extra=()):
         rest = rest.replace(segment, "（出典つき）")
     # settings written in 問い and 方法 are definitions, so the rest of 結論 may repeat them too
     definitions = "\n".join(parts.get("問い", []) + parts.get("方法", []))
-    problems += [f"report.md: {p}" for p in format_problems(report, text) + check(rest, level, evidence + "\n" + definitions)]
+    problems += [f"report.md: {p}" for p in format_problems(report, text) + check(rest, level, evidence + "\n" + definitions, failure_modes)]
     problems += scoped
     for reader in sorted((project / "reports").rglob("*.md")) if (project / "reports").is_dir() else []:
         try:

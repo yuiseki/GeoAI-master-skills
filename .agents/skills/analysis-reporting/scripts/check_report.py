@@ -159,7 +159,9 @@ def failure_mode_problems(text):
     return problems
 
 
-def check(text, level, evidence=None):
+def check(text, level, evidence=None, failure_modes="required"):
+    """failure_modes: "required" (the default), or "if_present": a report older than the rule is checked only when
+    it has a 失敗の型 section."""
     if level not in LIMITS:
         raise ValueError(f"level is one of {list(LIMITS)}")
     problems = []
@@ -176,7 +178,7 @@ def check(text, level, evidence=None):
         problems.append("データ: give each dataset's version or date (or write 版は未確認)")
     if level == "full" and not any(x.strip() for x in s.get("確かめていないこと", [])):
         problems.append("確かめていないこと: a full report says what was not checked")
-    if level == "full":
+    if level == "full" and (failure_modes == "required" or "失敗の型" in s):
         problems += failure_mode_problems(text)
     limit = LIMITS[level]
     lines = [x for x in text.splitlines() if x.strip()]

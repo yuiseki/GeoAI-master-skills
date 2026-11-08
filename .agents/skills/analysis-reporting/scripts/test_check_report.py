@@ -301,3 +301,11 @@ def test_the_failure_mode_section_ends_the_method():
     s = sections(full_with(FAILURES))
     assert list(s) == ["問い", "結論", "データ", "方法", "失敗の型", "確かめていないこと"]
     assert not any("照合した" in x for x in s["方法"])
+
+
+def test_failure_modes_can_be_optional_but_are_checked_when_written():
+    no_section = SIMPLE + "確かめていないこと: 独立かは確かめていない。\n"
+    assert not any("失敗の型" in p for p in check(no_section, "full", EVIDENCE, failure_modes="if_present"))
+    broken = full_with(FAILURES.replace("| F7 | 確かめた | 照合した |\n", ""))
+    assert "失敗の型: F7 is missing" in check(broken, "full", EVIDENCE, failure_modes="if_present")
+    assert any("失敗の型" in p for p in check(no_section, "full", EVIDENCE))   # required by default

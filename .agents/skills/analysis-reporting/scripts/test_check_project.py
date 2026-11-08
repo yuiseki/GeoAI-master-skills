@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from check_project import check_project, dead_links, evidence_for, not_utf8
+from check_project import FAILURE_MODES_SINCE, check_project, dead_links, evidence_for, first_added, not_utf8
 
 HERE = Path(__file__).parent
 
@@ -304,3 +304,48 @@ def test_the_row_count_of_a_cited_table_counts_as_evidence(tmp_path):
     assert check_project(project) == []
     (project / "report.md").write_text(report.replace("41 校", "43 校"), encoding="utf-8")
     assert check_project(project) == ["report.md: 43 is not in outputs/schools.csv"]
+
+
+def _git(root, *args, date=None):
+    import os
+    env = dict(os.environ, GIT_AUTHOR_DATE=date or "", GIT_COMMITTER_DATE=date or "") if date else None
+    subprocess.run(["git", "-C", str(root), *args], check=True, capture_output=True, env=env)
+
+
+def _repo(root):
+    _git(root, "init", "-q")
+    _git(root, "config", "user.email", "t@example.invalid")
+    _git(root, "config", "user.name", "t")
+
+
+WITHOUT_TABLE = REPORT.split("## 失敗の型")[0] + "## 確かめていないこと\n\n交通量で割っていない。\n"
+
+
+def test_failure_modes_are_required_from_the_day_the_rule_began(tmp_path):
+    assert FAILURE_MODES_SINCE == "2026-11-09"
+    _repo(tmp_path)
+    project = make_project(tmp_path, WITHOUT_TABLE)
+    # not committed yet: a new report, so the table is required
+    assert first_added(project / "report.md") is None
+    assert any("失敗の型" in p for p in check_project(project))
+    # a report first committed before the rule began passes without the table
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-q", "-m", "old", date="2026-11-01T12:00:00+09:00")
+    assert first_added(project / "report.md") == "2026-11-01"
+    assert check_project(project) == []
+
+
+def test_an_old_report_that_writes_the_table_is_still_checked(tmp_path):
+    _repo(tmp_path)
+    project = make_project(tmp_path, REPORT.replace("| F7 | 確かめていない | 半径を変えていない |\n", ""))
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-q", "-m", "old", date="2026-11-01T12:00:00+09:00")
+    assert "report.md: 失敗の型: F7 is missing" in check_project(project)
+
+
+def test_a_report_added_on_or_after_the_day_needs_the_table(tmp_path):
+    _repo(tmp_path)
+    project = make_project(tmp_path, WITHOUT_TABLE)
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-q", "-m", "new", date="2026-11-09T12:00:00+09:00")
+    assert any("失敗の型" in p for p in check_project(project))
