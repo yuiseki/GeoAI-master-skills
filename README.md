@@ -145,3 +145,21 @@
 ## 関連するスキル集
 
 大きなジョブを流す技術 (分割、再開、事前の検査) は、外のスキル集が詳しい。違いと注意は [docs/related-work.md](docs/related-work.md)。
+
+## ライセンス
+
+Copyright 2026 yuiseki
+
+このリポジトリのスキル、スクリプト、文書、評価の課題は [Apache License 2.0](LICENSE) で配布する。次のものは除く。それぞれ元の条件に従う。
+
+| もの | 条件 |
+|---|---|
+| `.agents/skills/frontend-design/` (anthropics/skills から) | Apache License 2.0 ([LICENSE.txt](.agents/skills/frontend-design/LICENSE.txt)) |
+| `.agents/skills/natural-japanese/` (coji/natural-japanese から) | MIT ([LICENSE](.agents/skills/natural-japanese/LICENSE)) |
+| `.agents/skills/stop-describing-ui/` (artouc/stop-describing-ui から) | MIT ([LICENSE](.agents/skills/stop-describing-ui/LICENSE)) |
+| `.agents/skills/yomiyasu/` (nanaism/yomiyasu から) | MIT ([LICENSE](.agents/skills/yomiyasu/LICENSE))、Unicode の表は [UNICODE-LICENSE.txt](.agents/skills/yomiyasu/UNICODE-LICENSE.txt) |
+| `.agents/skills/web-design-guidelines/` (vercel-labs/agent-skills から) | 配布元の README に MIT とある (ライセンスのファイルは配布元に無い) |
+| `site/src/assets/fonts/` の Noto CJK | SIL Open Font License 1.1 ([LICENSE-Noto-CJK.txt](site/src/assets/fonts/LICENSE-Noto-CJK.txt)) |
+| `projects/` と `evals/` に含まれる、データから作った表、数字、図 | 元のデータの条件。各報告のデータの節と、データセットの reference に書いてある |
+
+外から入れたスキルの出どころは [skills-lock.json](skills-lock.json) にある。
