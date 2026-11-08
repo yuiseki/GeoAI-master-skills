@@ -142,6 +142,8 @@
 
 主なモデルのスクリプト (パネルの固定効果、階層モデル、DAG の調整の集合、空間回帰、GWR と MGWR、MCMC、クリギング、時空間の分解、点過程、共形予測、SHAP など) は、確立した実装 (pyfixest、statsmodels、networkx、pgmpy、PySAL の spreg と mgwr と pointpats と access と tobler、PyKrige、PyMC、scikit-learn、MAPIE、shap、tick、scipy) と数値を突き合わせてある。DAG は無作為なグラフで、それ以外は合成データと実データで照合した。外部の実装が無いもの (波及の効果の一部、条件付きの SHAP など) は、閉じた形や解析解で確かめ、reference にそう書いた。各スクリプトの `test_*_crosscheck.py` と、reference の「外部の実装との照合」の節にある。
 
+報告の検査がどの間違いをどれだけ拾うかは、答えの分かる壊し方で測ってある (数字の誤りは半分ほど、言葉の主張は拾わない。[較正](.agents/skills/analysis-reporting/references/calibration.md))。検査や「必ず」の規則を残すか外すかは、モデルが変わるたびに [足場の監査](docs/harness-audits/README.md) で見直す。
+
 スクリプトが正しく動くことと、エージェントがスキルを使って分析をやり遂げられることは別の話。後者をどこまで評価したかは [evals/status.md](evals/status.md) にある。独立に評価したスキルは、まだ一部だけ。
 
 ## 関連するスキル集
