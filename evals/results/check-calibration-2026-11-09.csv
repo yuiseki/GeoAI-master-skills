@@ -1,0 +1,480 @@
+project,mutation,expect,change,caught,new_problems
+projects/__exp/hokkaido-forest-biomass-survey,perturb_number,caught,35.14 -> 35.17 (uncited),0,
+projects/__exp/hokkaido-forest-biomass-survey,perturb_number,caught,34.91 -> 34.94 (uncited),0,
+projects/__exp/hokkaido-forest-biomass-survey,perturb_number,caught,61.65 -> 61.68 (cited),1,report.md: 61.68 is not in outputs/candidate-municipalities.csv or outputs/summary.json
+projects/__exp/hokkaido-forest-biomass-survey,swap_unit,not_checked,km -> m,0,
+projects/__exp/hokkaido-forest-biomass-survey,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/__exp/hokkaido-forest-biomass-survey,break_link,caught,summary.json -> missing_summary.json,1,"report.md: links to outputs/missing_summary.json, which does not exist"
+projects/__exp/hokkaido-forest-biomass-survey,add_claim,not_checked,a causal claim in words,0,
+projects/__exp/japan-climate-analysis,perturb_number,caught,91.5% -> 91.8% (cited),1,report.md: 91.8% is not in outputs/interval-coverage.json or outputs/source-values.csv
+projects/__exp/japan-climate-analysis,perturb_number,caught,91.5% -> 91.8% (uncited),1,report.md: 結論: 91.8% does not appear in the evidence
+projects/__exp/japan-climate-analysis,perturb_number,caught,90% -> 93% (uncited),1,report.md: 結論: 93% does not appear in the evidence
+projects/__exp/japan-climate-analysis,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/__exp/japan-climate-analysis,break_link,caught,national-pca.log -> missing_national-pca.log,1,"report.md: links to outputs/missing_national-pca.log, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/__exp/japan-climate-analysis,add_claim,not_checked,a causal claim in words,0,
+projects/__exp/japan-grid-population-audit,perturb_number,caught,46 -> 49 (uncited),0,
+projects/__exp/japan-grid-population-audit,perturb_number,caught,0.812 -> 0.815 (uncited),1,report.md: 結論: 0.815 does not appear in the evidence
+projects/__exp/japan-grid-population-audit,perturb_number,caught,0.8254 -> 0.8257 (uncited),1,report.md: 結論: 0.8257 does not appear in the evidence
+projects/__exp/japan-grid-population-audit,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/__exp/japan-grid-population-audit,break_link,caught,full-summary.json -> missing_full-summary.json,1,"report.md: links to outputs/missing_full-summary.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/__exp/japan-grid-population-audit,add_claim,not_checked,a causal claim in words,0,
+projects/__exp/record-vs-occurrence,perturb_number,caught,1.615 -> 1.618 (uncited),1,report.md: 結論: 1.618 does not appear in the evidence
+projects/__exp/record-vs-occurrence,perturb_number,caught,5.600 -> 5.603 (uncited),1,report.md: 結論: 5.603 does not appear in the evidence
+projects/__exp/record-vs-occurrence,perturb_number,caught,2.67 -> 2.60 (uncited),0,
+projects/__exp/record-vs-occurrence,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/__exp/record-vs-occurrence,break_link,caught,summary.json -> missing_summary.json,1,"report.md: links to outputs/missing_summary.json, which does not exist"
+projects/__exp/record-vs-occurrence,add_claim,not_checked,a causal claim in words,0,
+projects/__exp/tokyo-town-types,perturb_number,caught,40 -> 43 (uncited),1,report.md: 結論: 43 does not appear in the evidence
+projects/__exp/tokyo-town-types,perturb_number,caught,0.028 -> 0.021 (uncited),1,report.md: 結論: 0.021 does not appear in the evidence
+projects/__exp/tokyo-town-types,perturb_number,caught,0.029 -> 0.022 (uncited),1,report.md: 結論: 0.022 does not appear in the evidence
+projects/__exp/tokyo-town-types,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/__exp/tokyo-town-types,break_link,caught,source-values.csv -> missing_source-values.csv,1,"report.md: 0.14 is not in outputs/silhouette-ranges.json / report.md: 0.16 is not in outputs/silhouette-ranges.json / report.md: 0.19 is not in outputs/silhouette-ranges.json / report.md: 0.38 is not in outputs/silhouette-ranges.json / report.md: links to outputs/missing_source-values.csv, which doe"
+projects/__exp/tokyo-town-types,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/akita-bear-human-interface,perturb_number,caught,−0.142 -> −0.145 (uncited),0,
+projects/_bear/akita-bear-human-interface,perturb_number,caught,7.4% -> 7.7% (cited),1,report.md: 7.7% is not in outputs/map_phase_classes.json
+projects/_bear/akita-bear-human-interface,perturb_number,caught,−0.142 -> −0.145 (uncited),0,
+projects/_bear/akita-bear-human-interface,swap_unit,not_checked,km -> m,0,
+projects/_bear/akita-bear-human-interface,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/akita-bear-human-interface,break_link,caught,b2_confirm_2023-2024_to_2025.json -> missing_b2_confirm_2023-2024_to_2025.json,1,"report.md: 0.403 is not in outputs/b3_confirm_2023-2025_to_2026.json / report.md: 0.530 is not in outputs/b3_confirm_2023-2025_to_2026.json / report.md: 0.957 is not in outputs/b3_confirm_2023-2025_to_2026.json / report.md: links to outputs/missing_b2_confirm_2023-2024_to_2025.json, which does not e"
+projects/_bear/akita-bear-human-interface,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/akita-bear-latent-observation-model,perturb_number,caught,0.822 -> 0.825 (cited),1,report.md: 0.825 is not in outputs/real_full_default.json
+projects/_bear/akita-bear-latent-observation-model,perturb_number,caught,17.2 -> 17.5 (uncited),1,report.md: 結論: 17.5 does not appear in the evidence
+projects/_bear/akita-bear-latent-observation-model,perturb_number,caught,1.0 -> 1.3 (cited),1,report.md: 1.3 is not in outputs/voi_summary.json
+projects/_bear/akita-bear-latent-observation-model,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/akita-bear-latent-observation-model,break_link,caught,identifiability_gate_L3.json -> missing_identifiability_gate_L3.json,1,"report.md: links to outputs/missing_identifiability_gate_L3.json, which does not exist"
+projects/_bear/akita-bear-latent-observation-model,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/akita-bear-mast-exposure,perturb_number,caught,2026 -> 2029 (uncited),1,report.md: 結論: 2029 does not appear in the evidence
+projects/_bear/akita-bear-mast-exposure,perturb_number,caught,0.5518 -> 0.5511 (uncited),0,
+projects/_bear/akita-bear-mast-exposure,perturb_number,caught,2026 -> 2029 (uncited),1,report.md: 結論: 2029 does not appear in the evidence
+projects/_bear/akita-bear-mast-exposure,swap_unit,not_checked,km -> m,0,
+projects/_bear/akita-bear-mast-exposure,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/akita-bear-mast-exposure,break_link,caught,exposure_qa.json -> missing_exposure_qa.json,1,"report.md: 96.0% is not in outputs/exposure_build.json / report.md: links to outputs/missing_exposure_qa.json, which does not exist / report.md: −0.67 is not in outputs/exposure_build.json"
+projects/_bear/akita-bear-mast-exposure,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/akita-bear-risk-grid-100m,perturb_number,caught,500 -> 503 (uncited),0,
+projects/_bear/akita-bear-risk-grid-100m,perturb_number,caught,0.167 -> 0.160 (uncited),0,
+projects/_bear/akita-bear-risk-grid-100m,perturb_number,caught,0.175 -> 0.178 (uncited),0,
+projects/_bear/akita-bear-risk-grid-100m,swap_unit,not_checked,km -> m,0,
+projects/_bear/akita-bear-risk-grid-100m,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/akita-bear-risk-grid-100m,break_link,caught,b2_confirm_2023-2024_to_2025.json -> missing_b2_confirm_2023-2024_to_2025.json,1,report.md: 0.360 is not in outputs/b3_confirm_2023-2025_to_2026.json or outputs/b2_b3_positive_feature_audit.json / report.md: 0.373 is not in outputs/b3_confirm_2023-2025_to_2026.json or outputs/b2_b3_positive_feature_audit.json / report.md: links to outputs/missing_b2_confirm_2023-2024_to_2025.jso
+projects/_bear/akita-bear-risk-grid-100m,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/bear-outbreak-weather,perturb_number,caught,0.0056 -> 0.0059 (cited),1,report.md: 0.0059 is not in outputs/explore_weather.json
+projects/_bear/bear-outbreak-weather,perturb_number,caught,1.52 -> 1.55 (cited),1,report.md: 1.55 is not in outputs/h1_table.csv
+projects/_bear/bear-outbreak-weather,perturb_number,caught,0.62 -> 0.65 (cited),1,report.md: 0.65 is not in outputs/h1.json
+projects/_bear/bear-outbreak-weather,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/bear-outbreak-weather,break_link,caught,h1.json -> missing_h1.json,1,"report.md: links to outputs/missing_h1.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_bear/bear-outbreak-weather,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/bear-risk-sources,perturb_number,caught,0.428 -> 0.421 (uncited),1,report.md: 結論: 0.421 does not appear in the evidence
+projects/_bear/bear-risk-sources,perturb_number,caught,25 -> 28 (cited),0,
+projects/_bear/bear-risk-sources,perturb_number,caught,0.432 -> 0.435 (uncited),0,
+projects/_bear/bear-risk-sources,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/bear-risk-sources,break_link,caught,mean_by_k.csv -> missing_mean_by_k.csv,1,"report.md: 0.264 is not in outputs/pairs_better_than_base.csv / report.md: 0.433 is not in outputs/pairs_better_than_base.csv / report.md: links to outputs/missing_mean_by_k.csv, which does not exist"
+projects/_bear/bear-risk-sources,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/bear-risk-transfer,perturb_number,caught,−0.009 -> −0.002 (uncited),0,
+projects/_bear/bear-risk-transfer,perturb_number,caught,−0.043 -> −0.046 (uncited),0,
+projects/_bear/bear-risk-transfer,perturb_number,caught,0.002 -> 0.005 (uncited),0,
+projects/_bear/bear-risk-transfer,swap_unit,not_checked,km -> m,0,
+projects/_bear/bear-risk-transfer,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/bear-risk-transfer,break_link,caught,transfer-capture.json -> missing_transfer-capture.json,1,"report.md: links to outputs/missing_transfer-capture.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_bear/bear-risk-transfer,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/bear-synthesis,perturb_number,caught,794 -> 797 (cited),1,report.md: 797 is not in ../japan-bear-sighting-forecast/outputs/dev_b2_paired.csv or ../japan-bear-sighting-forecast/outputs/data_profile.txt
+projects/_bear/bear-synthesis,perturb_number,caught,2025 -> 2028 (uncited),1,report.md: 結論: 2028 does not appear in the evidence
+projects/_bear/bear-synthesis,perturb_number,caught,0.3‰ -> 0.6‰ (uncited),0,
+projects/_bear/bear-synthesis,swap_unit,not_checked,km -> m,0,
+projects/_bear/bear-synthesis,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/bear-synthesis,break_link,caught,added_predictors.csv -> missing_added_predictors.csv,1,"report.md: links to outputs/missing_added_predictors.csv, which does not exist / report.md: 要点 row 2 cites no file in outputs/: link the output each number comes from"
+projects/_bear/bear-synthesis,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/beech-masting-satellite-proxy,perturb_number,caught,−0.105 -> −0.108 (cited),0,
+projects/_bear/beech-masting-satellite-proxy,perturb_number,caught,0.243 -> 0.246 (uncited),0,
+projects/_bear/beech-masting-satellite-proxy,perturb_number,caught,0.713 -> 0.716 (uncited),0,
+projects/_bear/beech-masting-satellite-proxy,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/beech-masting-satellite-proxy,break_link,caught,coverage_audit.json -> missing_coverage_audit.json,1,"report.md: links to outputs/missing_coverage_audit.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_bear/beech-masting-satellite-proxy,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/beech-masting-spatial-proxy,perturb_number,caught,0.0018 -> 0.0011 (uncited),1,report.md: 結論: 0.0011 does not appear in the evidence
+projects/_bear/beech-masting-spatial-proxy,perturb_number,caught,10 -> 13 (uncited),0,
+projects/_bear/beech-masting-spatial-proxy,perturb_number,caught,0.0044 -> 0.0047 (uncited),0,
+projects/_bear/beech-masting-spatial-proxy,swap_unit,not_checked,km -> m,0,
+projects/_bear/beech-masting-spatial-proxy,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/beech-masting-spatial-proxy,break_link,caught,sites-blocks.png -> missing_sites-blocks.png,1,"report.md: links to outputs/missing_sites-blocks.png, which does not exist"
+projects/_bear/beech-masting-spatial-proxy,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/beech-masting-triggers,perturb_number,caught,−0.518 -> −0.511 (cited),1,report.md: −0.511 is not in outputs/b5_satellite.json
+projects/_bear/beech-masting-triggers,perturb_number,caught,0.655 -> 0.658 (uncited),0,
+projects/_bear/beech-masting-triggers,perturb_number,caught,2018 -> 2011 (uncited),0,
+projects/_bear/beech-masting-triggers,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/beech-masting-triggers,break_link,caught,b2_b3_confirm.json -> missing_b2_b3_confirm.json,1,report.md: 0.153 is not in outputs/b1_frozen_models.json / report.md: 0.351 is not in outputs/b1_frozen_models.json / report.md: 1.173 is not in outputs/b1_frozen_models.json / report.md: 1.326 is not in outputs/b1_frozen_models.json / report.md: 1.348 is not in outputs/b1_frozen_models.json / repor
+projects/_bear/beech-masting-triggers,add_claim,not_checked,a causal claim in words,0,
+projects/_bear/japan-bear-sighting-forecast,perturb_number,caught,0.019 -> 0.012 (cited),1,report.md: 0.012 is not in outputs/mae-by-model.json or outputs/c1_gifu_b4.json
+projects/_bear/japan-bear-sighting-forecast,perturb_number,caught,90% -> 93% (cited),1,report.md: 93% is not in outputs/dev_b2_paired.csv
+projects/_bear/japan-bear-sighting-forecast,perturb_number,caught,5.122 -> 5.125 (uncited),1,report.md: 結論: 5.125 does not appear in the evidence
+projects/_bear/japan-bear-sighting-forecast,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_bear/japan-bear-sighting-forecast,break_link,caught,dev_b2_paired.csv -> missing_dev_b2_paired.csv,1,"report.md: links to outputs/missing_dev_b2_paired.csv, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_bear/japan-bear-sighting-forecast,add_claim,not_checked,a causal claim in words,0,
+projects/_benchmark/pems-bay-dcrnn,perturb_number,caught,12 -> 15 (uncited),0,
+projects/_benchmark/pems-bay-dcrnn,perturb_number,caught,1.3133 -> 1.3136 (uncited),1,report.md: 結論: 1.3136 does not appear in the evidence
+projects/_benchmark/pems-bay-dcrnn,perturb_number,caught,0.1927 -> 0.1920 (uncited),1,report.md: 結論: 0.1920 does not appear in the evidence
+projects/_benchmark/pems-bay-dcrnn,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_benchmark/pems-bay-dcrnn,break_link,caught,evaluate.csv -> missing_evaluate.csv,1,"report.md: links to outputs/missing_evaluate.csv, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_benchmark/pems-bay-dcrnn,drop_failure_row,caught,no F7,1,report.md: 失敗の型: F7 is missing
+projects/_benchmark/pems-bay-dcrnn,add_claim,not_checked,a causal claim in words,0,
+projects/_benchmark/sen1floods11-s1-segmentation,perturb_number,caught,0.9899 -> 0.9892 (cited),1,report.md: 結論: 0.9892 does not appear in the evidence
+projects/_benchmark/sen1floods11-s1-segmentation,perturb_number,caught,0.3473 -> 0.3476 (uncited),0,
+projects/_benchmark/sen1floods11-s1-segmentation,perturb_number,caught,0.2284 -> 0.2287 (uncited),1,report.md: 結論: 0.2287 does not appear in the evidence
+projects/_benchmark/sen1floods11-s1-segmentation,swap_unit,not_checked,km -> m,0,
+projects/_benchmark/sen1floods11-s1-segmentation,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_benchmark/sen1floods11-s1-segmentation,break_link,caught,b0_otsu.csv -> missing_b0_otsu.csv,1,"report.md: 0.3573 is not in outputs/paper_values.csv / report.md: links to outputs/missing_b0_otsu.csv, which does not exist"
+projects/_benchmark/sen1floods11-s1-segmentation,drop_failure_row,caught,no F1,1,report.md: 失敗の型: F1 is missing
+projects/_benchmark/sen1floods11-s1-segmentation,add_claim,not_checked,a causal claim in words,0,
+projects/_benchmark/taxi-destination-porto,perturb_number,caught,2.444 -> 2.447 (cited),1,report.md: 2.447 is not in outputs/eval_rand.csv
+projects/_benchmark/taxi-destination-porto,perturb_number,caught,0.491 -> 0.494 (cited),1,report.md: 0.494 is not in outputs/diff.csv
+projects/_benchmark/taxi-destination-porto,perturb_number,caught,4.262 -> 4.265 (cited),1,report.md: 4.265 is not in outputs/eval_rand.csv
+projects/_benchmark/taxi-destination-porto,swap_unit,not_checked,km -> m,0,
+projects/_benchmark/taxi-destination-porto,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_benchmark/taxi-destination-porto,break_link,caught,eval_rand.csv -> missing_eval_rand.csv,1,"report.md: links to outputs/missing_eval_rand.csv, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_benchmark/taxi-destination-porto,drop_failure_row,caught,no F4,1,report.md: 失敗の型: F4 is missing
+projects/_benchmark/taxi-destination-porto,add_claim,not_checked,a causal claim in words,0,
+projects/_evacuation_shelter/taito-bridge-cut-detour,perturb_number,caught,811 -> 814 (cited),1,report.md: 814 is not in outputs/spot_compare_summary.json
+projects/_evacuation_shelter/taito-bridge-cut-detour,perturb_number,caught,293.1 -> 293.4 (cited),1,report.md: 293.4 is not in outputs/main/structures.csv
+projects/_evacuation_shelter/taito-bridge-cut-detour,perturb_number,caught,293.1 -> 293.4 (uncited),0,
+projects/_evacuation_shelter/taito-bridge-cut-detour,swap_unit,not_checked,km -> m,0,
+projects/_evacuation_shelter/taito-bridge-cut-detour,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_evacuation_shelter/taito-bridge-cut-detour,break_link,caught,main/summary.json -> missing_main/summary.json,1,"report.md: links to outputs/missing_main/summary.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_evacuation_shelter/taito-bridge-cut-detour,add_claim,not_checked,a causal claim in words,0,
+projects/_evacuation_shelter/taito-shelter-planning,perturb_number,caught,"2,244 -> 2,401 (cited)",1,"report.md: 2,401 is not in outputs/existing-shelters.csv or outputs/existing-shelters-summary.json"
+projects/_evacuation_shelter/taito-shelter-planning,perturb_number,caught,"110,715 -> 118,465 (cited)",1,"report.md: 結論: 118,465 does not appear in the evidence"
+projects/_evacuation_shelter/taito-shelter-planning,perturb_number,caught,400 -> 403 (uncited),1,report.md: 結論: 403 does not appear in the evidence
+projects/_evacuation_shelter/taito-shelter-planning,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_evacuation_shelter/taito-shelter-planning,break_link,caught,front-data.json -> missing_front-data.json,1,"report.md: 110,715 is not in outputs/shelter-summary.json / report.md: 44,051 is not in outputs/shelter-summary.json / report.md: links to outputs/missing_front-data.json, which does not exist"
+projects/_evacuation_shelter/taito-shelter-planning,add_claim,not_checked,a causal claim in words,0,
+projects/_evacuation_shelter/tokyo23-daytime-evac-stress,perturb_number,caught,53394610 -> 53394613 (uncited),1,report.md: 結論: 53394613 does not appear in the evidence
+projects/_evacuation_shelter/tokyo23-daytime-evac-stress,perturb_number,caught,"1,003 -> 1,073 (cited)",1,"report.md: 1,073 is not in outputs/zero_shelter_top10.csv or outputs/analysis_results.json"
+projects/_evacuation_shelter/tokyo23-daytime-evac-stress,perturb_number,caught,53394610 -> 53394613 (uncited),1,report.md: 結論: 53394613 does not appear in the evidence
+projects/_evacuation_shelter/tokyo23-daytime-evac-stress,swap_unit,not_checked,km -> m,0,
+projects/_evacuation_shelter/tokyo23-daytime-evac-stress,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_evacuation_shelter/tokyo23-daytime-evac-stress,break_link,caught,analysis_results.json -> missing_analysis_results.json,1,"report.md: links to outputs/missing_analysis_results.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_evacuation_shelter/tokyo23-daytime-evac-stress,add_claim,not_checked,a causal claim in words,0,
+projects/_flood/hagibis-tokyo-sar-flood-record,perturb_number,caught,98.9 % -> 98.2 % (cited),1,report.md: 98.2 % is not in outputs/blocks.json
+projects/_flood/hagibis-tokyo-sar-flood-record,perturb_number,caught,0.2126 -> 0.2129 (cited),1,report.md: 0.2129 is not in outputs/ota_map.json
+projects/_flood/hagibis-tokyo-sar-flood-record,perturb_number,caught,0.1032 -> 0.1035 (cited),1,report.md: 0.1035 is not in outputs/blocks.json
+projects/_flood/hagibis-tokyo-sar-flood-record,swap_unit,not_checked,km -> m,0,
+projects/_flood/hagibis-tokyo-sar-flood-record,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_flood/hagibis-tokyo-sar-flood-record,break_link,caught,blocks.json -> missing_blocks.json,1,"report.md: links to outputs/missing_blocks.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_flood/hagibis-tokyo-sar-flood-record,add_claim,not_checked,a causal claim in words,0,
+projects/_flood/hagibis-tokyo23-sources,perturb_number,caught,"33,172 -> 35,494 (cited)",1,"report.md: 35,494 is not in outputs/ward_sources.csv"
+projects/_flood/hagibis-tokyo23-sources,perturb_number,caught,14 -> 17 (cited),1,report.md: 17 is not in outputs/tokyo_sources.csv
+projects/_flood/hagibis-tokyo23-sources,perturb_number,caught,"5,376 -> 5,752 (cited)",1,"report.md: 結論: 5,752 does not appear in the evidence"
+projects/_flood/hagibis-tokyo23-sources,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_flood/hagibis-tokyo23-sources,break_link,caught,tokyo_sources.csv -> missing_tokyo_sources.csv,1,"report.md: links to outputs/missing_tokyo_sources.csv, which does not exist"
+projects/_flood/hagibis-tokyo23-sources,add_claim,not_checked,a causal claim in words,0,
+projects/_flood/kita-inbanuma-sar-changepoint,perturb_number,caught,0.0582 -> 0.0585 (uncited),0,
+projects/_flood/kita-inbanuma-sar-changepoint,perturb_number,caught,39 -> 32 (uncited),1,report.md: 結論: 32 does not appear in the evidence
+projects/_flood/kita-inbanuma-sar-changepoint,perturb_number,caught,0.682 -> 0.685 (cited),1,report.md: 0.685 is not in outputs/blocks.json
+projects/_flood/kita-inbanuma-sar-changepoint,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_flood/kita-inbanuma-sar-changepoint,break_link,caught,blocks.json -> missing_blocks.json,1,"report.md: links to outputs/missing_blocks.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_flood/kita-inbanuma-sar-changepoint,add_claim,not_checked,a causal claim in words,0,
+projects/_flood/kita-inbanuma-sar-replication,perturb_number,caught,2021 -> 2024 (uncited),1,report.md: 結論: 2024 does not appear in the evidence
+projects/_flood/kita-inbanuma-sar-replication,perturb_number,caught,61.1 % -> 61.4 % (uncited),1,report.md: 結論: 61.4 % does not appear in the evidence
+projects/_flood/kita-inbanuma-sar-replication,perturb_number,caught,2026 -> 2029 (uncited),1,report.md: 結論: 2029 does not appear in the evidence
+projects/_flood/kita-inbanuma-sar-replication,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_flood/kita-inbanuma-sar-replication,break_link,caught,blocks.json -> missing_blocks.json,1,"report.md: 61.1 % is not in outputs/article_claims.json / report.md: 75.4 % is not in outputs/article_claims.json / report.md: links to outputs/missing_blocks.json, which does not exist"
+projects/_flood/kita-inbanuma-sar-replication,add_claim,not_checked,a causal claim in words,0,
+projects/_flood/tokyo-overfloor-rain-threshold,perturb_number,caught,0.047 -> 0.040 (cited),1,report.md: 0.040 is not in outputs/within_period.json
+projects/_flood/tokyo-overfloor-rain-threshold,perturb_number,caught,0.046 -> 0.049 (uncited),0,
+projects/_flood/tokyo-overfloor-rain-threshold,perturb_number,caught,70 -> 73 (uncited),1,report.md: 結論: 73 does not appear in the evidence
+projects/_flood/tokyo-overfloor-rain-threshold,swap_unit,not_checked,km -> m,0,
+projects/_flood/tokyo-overfloor-rain-threshold,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_flood/tokyo-overfloor-rain-threshold,break_link,caught,blocks.json -> missing_blocks.json,1,"report.md: links to outputs/missing_blocks.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_flood/tokyo-overfloor-rain-threshold,add_claim,not_checked,a causal claim in words,0,
+projects/_flood/tokyo23-flood-record-vs-a31a,perturb_number,caught,0.630 -> 0.633 (uncited),1,report.md: 結論: 0.633 does not appear in the evidence
+projects/_flood/tokyo23-flood-record-vs-a31a,perturb_number,caught,2.5% -> 2.8% (uncited),0,
+projects/_flood/tokyo23-flood-record-vs-a31a,perturb_number,caught,0.5 -> 0.8 (uncited),0,
+projects/_flood/tokyo23-flood-record-vs-a31a,swap_unit,not_checked,km -> m,0,
+projects/_flood/tokyo23-flood-record-vs-a31a,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_flood/tokyo23-flood-record-vs-a31a,break_link,caught,b1_main.json -> missing_b1_main.json,1,"report.md: links to outputs/missing_b1_main.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_flood/tokyo23-flood-record-vs-a31a,add_claim,not_checked,a causal claim in words,0,
+projects/_flood/tokyo23-underpass-listing,perturb_number,caught,31.7 % -> 31.0 % (uncited),0,
+projects/_flood/tokyo23-underpass-listing,perturb_number,caught,50 -> 53 (uncited),0,
+projects/_flood/tokyo23-underpass-listing,perturb_number,caught,63.6 % -> 63.9 % (cited),1,report.md: 63.9 % is not in outputs/blocks.json
+projects/_flood/tokyo23-underpass-listing,swap_unit,not_checked,km -> m,0,
+projects/_flood/tokyo23-underpass-listing,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_flood/tokyo23-underpass-listing,break_link,caught,blocks.json -> missing_blocks.json,1,"report.md: links to outputs/missing_blocks.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_flood/tokyo23-underpass-listing,add_claim,not_checked,a causal claim in words,0,
+projects/_flood/underpass-ponding-exposure,perturb_number,caught,303 -> 306 (uncited),1,report.md: 結論: 306 does not appear in the evidence
+projects/_flood/underpass-ponding-exposure,perturb_number,caught,10% -> 13% (uncited),0,
+projects/_flood/underpass-ponding-exposure,perturb_number,caught,0.57 -> 0.50 (uncited),0,
+projects/_flood/underpass-ponding-exposure,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_flood/underpass-ponding-exposure,break_link,caught,blocks.json -> missing_blocks.json,1,"report.md: links to outputs/missing_blocks.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_flood/underpass-ponding-exposure,add_claim,not_checked,a causal claim in words,0,
+projects/_tameike/cascade-dam-break-routing,perturb_number,caught,29.1 -> 29.4 (cited),1,report.md: 29.4 is not in outputs/verify_routing.json
+projects/_tameike/cascade-dam-break-routing,perturb_number,caught,374 -> 377 (cited),1,report.md: 377 is not in outputs/verify_routing.json
+projects/_tameike/cascade-dam-break-routing,perturb_number,caught,"3,360 -> 3,595 (cited)",1,"report.md: 3,595 is not in outputs/verify_routing.json"
+projects/_tameike/cascade-dam-break-routing,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_tameike/cascade-dam-break-routing,break_link,caught,verify_routing.json -> missing_verify_routing.json,1,"report.md: links to outputs/missing_verify_routing.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_tameike/cascade-dam-break-routing,add_claim,not_checked,a causal claim in words,0,
+projects/_tameike/sar-drought-drawdown-monitoring,perturb_number,caught,0.67 -> 0.60 (cited),0,
+projects/_tameike/sar-drought-drawdown-monitoring,perturb_number,caught,50% -> 53% (cited),1,report.md: 53% is not in outputs/verify_drawdown.json
+projects/_tameike/sar-drought-drawdown-monitoring,perturb_number,caught,13 -> 16 (cited),0,
+projects/_tameike/sar-drought-drawdown-monitoring,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_tameike/sar-drought-drawdown-monitoring,break_link,caught,b2_moran.json -> missing_b2_moran.json,1,"report.md: links to outputs/missing_b2_moran.json, which does not exist"
+projects/_tameike/sar-drought-drawdown-monitoring,add_claim,not_checked,a causal claim in words,0,
+projects/_tameike/tameike-cascade-breach,perturb_number,caught,33 -> 36 (cited),1,report.md: 36 is not in outputs/summary.csv
+projects/_tameike/tameike-cascade-breach,perturb_number,caught,"1,000 -> 1,070 (cited)",1,"report.md: 1,070 is not in outputs/summary.csv"
+projects/_tameike/tameike-cascade-breach,perturb_number,caught,100 -> 103 (uncited),0,
+projects/_tameike/tameike-cascade-breach,swap_unit,not_checked,km -> m,0,
+projects/_tameike/tameike-cascade-breach,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_tameike/tameike-cascade-breach,break_link,caught,summary.csv -> missing_summary.csv,1,"report.md: links to outputs/missing_summary.csv, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_tameike/tameike-cascade-breach,add_claim,not_checked,a causal claim in words,0,
+projects/_tameike/tameike-cascade-designation,perturb_number,caught,18 -> 11 (cited),0,
+projects/_tameike/tameike-cascade-designation,perturb_number,caught,309.7 -> 309.0 (uncited),0,
+projects/_tameike/tameike-cascade-designation,perturb_number,caught,100 -> 103 (uncited),1,report.md: 結論: 103 does not appear in the evidence
+projects/_tameike/tameike-cascade-designation,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_tameike/tameike-cascade-designation,break_link,caught,candidates.csv -> missing_candidates.csv,1,"report.md: links to outputs/missing_candidates.csv, which does not exist"
+projects/_tameike/tameike-cascade-designation,add_claim,not_checked,a causal claim in words,0,
+projects/_tameike/tameike-cascade-pairs,perturb_number,caught,20% -> 23% (uncited),0,
+projects/_tameike/tameike-cascade-pairs,perturb_number,caught,119 -> 112 (cited),1,report.md: 112 is not in outputs/summary.csv
+projects/_tameike/tameike-cascade-pairs,perturb_number,caught,0.679 -> 0.672 (cited),1,report.md: 0.672 is not in outputs/summary.csv
+projects/_tameike/tameike-cascade-pairs,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_tameike/tameike-cascade-pairs,break_link,caught,summary.csv -> missing_summary.csv,1,"report.md: links to outputs/missing_summary.csv, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_tameike/tameike-cascade-pairs,add_claim,not_checked,a causal claim in words,0,
+projects/_tameike/tameike-cascade-wide,perturb_number,caught,24 -> 27 (uncited),0,
+projects/_tameike/tameike-cascade-wide,perturb_number,caught,10 -> 13 (uncited),0,
+projects/_tameike/tameike-cascade-wide,perturb_number,caught,33 -> 36 (uncited),0,
+projects/_tameike/tameike-cascade-wide,swap_unit,not_checked,km -> m,0,
+projects/_tameike/tameike-cascade-wide,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_tameike/tameike-cascade-wide,break_link,caught,b0.csv -> missing_b0.csv,1,"report.md: links to outputs/missing_b0.csv, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_tameike/tameike-cascade-wide,add_claim,not_checked,a causal claim in words,0,
+projects/_tameike/tameike-sar-water-area,perturb_number,caught,10 -> 13 (cited),1,report.md: 13 is not in outputs/b0.json
+projects/_tameike/tameike-sar-water-area,perturb_number,caught,95% -> 98% (uncited),0,
+projects/_tameike/tameike-sar-water-area,perturb_number,caught,-0.0289 -> -0.0282 (cited),1,report.md: -0.0282 is not in outputs/b2.csv
+projects/_tameike/tameike-sar-water-area,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_tameike/tameike-sar-water-area,break_link,caught,b0.json -> missing_b0.json,1,"report.md: links to outputs/missing_b0.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_tameike/tameike-sar-water-area,add_claim,not_checked,a causal claim in words,0,
+projects/_telecom/tokyo-mobile-speed-prediction,perturb_number,caught,"1,745 -> 1,867 (uncited)",1,"report.md: 結論: 1,867 does not appear in the evidence"
+projects/_telecom/tokyo-mobile-speed-prediction,perturb_number,caught,"2,246 -> 2,403 (uncited)",1,"report.md: 結論: 2,403 does not appear in the evidence"
+projects/_telecom/tokyo-mobile-speed-prediction,perturb_number,caught,"1,745 -> 1,867 (uncited)",1,"report.md: 結論: 1,867 does not appear in the evidence"
+projects/_telecom/tokyo-mobile-speed-prediction,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_telecom/tokyo-mobile-speed-prediction,break_link,caught,source-values.csv -> missing_source-values.csv,1,"report.md: 0.095 is not in outputs/source-quotes.json / report.md: 0.1 is not in outputs/source-quotes.json / report.md: links to outputs/missing_source-values.csv, which does not exist"
+projects/_telecom/tokyo-mobile-speed-prediction,add_claim,not_checked,a causal claim in words,0,
+projects/_telecom/tokyo-undergrounding-classification,perturb_number,caught,32 -> 35 (uncited),1,report.md: 結論: 35 does not appear in the evidence
+projects/_telecom/tokyo-undergrounding-classification,perturb_number,caught,0.87 -> 0.80 (uncited),1,report.md: 結論: 0.80 does not appear in the evidence
+projects/_telecom/tokyo-undergrounding-classification,perturb_number,caught,0.931 -> 0.934 (uncited),1,report.md: 結論: 0.934 does not appear in the evidence
+projects/_telecom/tokyo-undergrounding-classification,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_telecom/tokyo-undergrounding-classification,break_link,caught,source-values.csv -> missing_source-values.csv,1,"report.md: links to outputs/missing_source-values.csv, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_telecom/tokyo-undergrounding-classification,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/adachi-accident-trends-by-role,perturb_number,caught,18 -> 11 (uncited),0,
+projects/_traffic_accident/adachi-accident-trends-by-role,perturb_number,caught,10 -> 13 (uncited),0,
+projects/_traffic_accident/adachi-accident-trends-by-role,perturb_number,caught,65 -> 68 (uncited),0,
+projects/_traffic_accident/adachi-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/adachi-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/adachi-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,report.md: 100 is not in outputs/summary.txt / report.md: 107.3 is not in outputs/summary.txt / report.md: 1540.1 is not in outputs/summary.txt / report.md: 1698.8 is not in outputs/summary.txt / report.md: 1710.0 is not in outputs/summary.txt / report.md: 1876.9 is not in outputs/summary.txt / repo
+projects/_traffic_accident/adachi-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/arakawa-accident-trends-by-role,perturb_number,caught,4.00 -> 4.03 (uncited),1,report.md: 結論: 4.03 does not appear in the evidence
+projects/_traffic_accident/arakawa-accident-trends-by-role,perturb_number,caught,17 -> 10 (uncited),0,
+projects/_traffic_accident/arakawa-accident-trends-by-role,perturb_number,caught,15 -> 18 (cited),0,
+projects/_traffic_accident/arakawa-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/arakawa-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/arakawa-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 83.9 is not in outputs/summary.txt / report.md: 99.1 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/arakawa-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/bunkyo-accident-trends-by-role,perturb_number,caught,50 -> 53 (cited),1,report.md: 53 is not in outputs/analysis.json
+projects/_traffic_accident/bunkyo-accident-trends-by-role,perturb_number,caught,20 -> 23 (cited),0,
+projects/_traffic_accident/bunkyo-accident-trends-by-role,perturb_number,caught,10 -> 13 (cited),0,
+projects/_traffic_accident/bunkyo-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/bunkyo-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/bunkyo-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 111.9 is not in outputs/summary.txt / report.md: 90.0 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/bunkyo-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/chiyoda-accident-trends-by-role,perturb_number,caught,15 -> 18 (cited),0,
+projects/_traffic_accident/chiyoda-accident-trends-by-role,perturb_number,caught,65 -> 68 (cited),1,report.md: 68 is not in outputs/summary.txt
+projects/_traffic_accident/chiyoda-accident-trends-by-role,perturb_number,caught,28 -> 21 (uncited),0,
+projects/_traffic_accident/chiyoda-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/chiyoda-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/chiyoda-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 75.7 is not in outputs/summary.txt / report.md: 90.1 is not in outputs/summary.txt / report.md: 99.4 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/chiyoda-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/chuo-accident-trends-by-role,perturb_number,caught,22.7% -> 22.0% (uncited),0,
+projects/_traffic_accident/chuo-accident-trends-by-role,perturb_number,caught,379 -> 372 (uncited),0,
+projects/_traffic_accident/chuo-accident-trends-by-role,perturb_number,caught,4.75 -> 4.78 (uncited),1,report.md: 結論: 4.78 does not appear in the evidence
+projects/_traffic_accident/chuo-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/chuo-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/chuo-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 2020 is not in outputs/summary.txt / report.md: 2021 is not in outputs/summary.txt / report.md: 2022 is not in outputs/summary.txt / report.md: 2023 is not in outputs/summary.txt / report.md: 7
+projects/_traffic_accident/chuo-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/edogawa-accident-trends-by-role,perturb_number,caught,23 -> 26 (cited),0,
+projects/_traffic_accident/edogawa-accident-trends-by-role,perturb_number,caught,17.0% -> 17.3% (cited),0,
+projects/_traffic_accident/edogawa-accident-trends-by-role,perturb_number,caught,100 -> 103 (cited),1,report.md: 103 is not in outputs/summary.txt or outputs/yearly.csv
+projects/_traffic_accident/edogawa-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/edogawa-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/edogawa-accident-trends-by-role,break_link,caught,summary.txt -> missing_summary.txt,1,"report.md: 11,018 is not in outputs/yearly.csv / report.md: 42 is not in outputs/yearly.csv / report.md: 9,856 is not in outputs/yearly.csv / report.md: links to outputs/missing_summary.txt, which does not exist"
+projects/_traffic_accident/edogawa-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/itabashi-accident-trends-by-role,perturb_number,caught,9.67 -> 9.60 (uncited),1,report.md: 結論: 9.60 does not appear in the evidence
+projects/_traffic_accident/itabashi-accident-trends-by-role,perturb_number,caught,"1,228 -> 1,314 (uncited)",1,"report.md: 結論: 1,314 does not appear in the evidence"
+projects/_traffic_accident/itabashi-accident-trends-by-role,perturb_number,caught,23 -> 26 (uncited),0,
+projects/_traffic_accident/itabashi-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/itabashi-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/itabashi-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 1,228 is not in outputs/summary.txt / report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 125.2 is not in outputs/summary.txt / report.md: 88.4 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does"
+projects/_traffic_accident/itabashi-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/katsushika-accident-trends-by-role,perturb_number,caught,15 -> 18 (cited),0,
+projects/_traffic_accident/katsushika-accident-trends-by-role,perturb_number,caught,83.7 -> 83.0 (cited),0,
+projects/_traffic_accident/katsushika-accident-trends-by-role,perturb_number,caught,2.33 -> 2.36 (uncited),1,report.md: 結論: 2.36 does not appear in the evidence
+projects/_traffic_accident/katsushika-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/katsushika-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/katsushika-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,report.md: 1029.9 is not in outputs/summary.txt / report.md: 120.4 is not in outputs/summary.txt / report.md: 65.9 is not in outputs/summary.txt / report.md: 748.4 is not in outputs/summary.txt / report.md: 860.5 is not in outputs/summary.txt / report.md: 907.0 is not in outputs/summary.txt / report
+projects/_traffic_accident/katsushika-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/kita-accident-trends-by-role,perturb_number,caught,16 -> 19 (uncited),0,
+projects/_traffic_accident/kita-accident-trends-by-role,perturb_number,caught,1.58 -> 1.51 (cited),1,report.md: 1.51 is not in outputs/summary.txt or outputs/wards.csv or outputs/analysis.json
+projects/_traffic_accident/kita-accident-trends-by-role,perturb_number,caught,122 -> 125 (uncited),0,
+projects/_traffic_accident/kita-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/kita-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/kita-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,report.md: 100 is not in outputs/summary.txt / report.md: 136.7 is not in outputs/summary.txt / report.md: 459.0 is not in outputs/summary.txt / report.md: 547.9 is not in outputs/summary.txt / report.md: 635.6 is not in outputs/summary.txt / report.md: 739.3 is not in outputs/summary.txt / report.m
+projects/_traffic_accident/kita-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/koto-accident-trends-by-role,perturb_number,caught,34 -> 37 (uncited),0,
+projects/_traffic_accident/koto-accident-trends-by-role,perturb_number,caught,"1,271 -> 1,360 (cited)",1,"report.md: 1,360 is not in outputs/analysis.json"
+projects/_traffic_accident/koto-accident-trends-by-role,perturb_number,caught,18.4% -> 18.7% (cited),1,report.md: 18.7% is not in outputs/summary.txt
+projects/_traffic_accident/koto-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/koto-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/koto-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 121.4 is not in outputs/summary.txt / report.md: 126.5 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/koto-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/meguro-accident-trends-by-role,perturb_number,caught,47.9% -> 47.2% (cited),1,report.md: 47.2% is not in outputs/summary.txt or outputs/analysis.json
+projects/_traffic_accident/meguro-accident-trends-by-role,perturb_number,caught,131.8 -> 131.1 (cited),1,report.md: 131.1 is not in outputs/yearly.csv or outputs/summary.txt
+projects/_traffic_accident/meguro-accident-trends-by-role,perturb_number,caught,16 -> 19 (uncited),0,
+projects/_traffic_accident/meguro-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/meguro-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/meguro-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 131.8 is not in outputs/summary.txt / report.md: 146.7 is not in outputs/summary.txt / report.md: 82.6 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does"
+projects/_traffic_accident/meguro-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/minato-accident-trends-by-role,perturb_number,caught,989.4 -> 989.7 (uncited),1,report.md: 結論: 989.7 does not appear in the evidence
+projects/_traffic_accident/minato-accident-trends-by-role,perturb_number,caught,14 -> 17 (uncited),0,
+projects/_traffic_accident/minato-accident-trends-by-role,perturb_number,caught,187 -> 180 (uncited),0,
+projects/_traffic_accident/minato-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/minato-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/minato-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 72.6 is not in outputs/summary.txt / report.md: 80.2 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/minato-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/nakano-accident-trends-by-role,perturb_number,caught,38.0% -> 38.3% (cited),1,report.md: 38.3% is not in outputs/wards.csv or outputs/analysis.json
+projects/_traffic_accident/nakano-accident-trends-by-role,perturb_number,caught,631.3 -> 631.6 (uncited),1,report.md: 結論: 631.6 does not appear in the evidence
+projects/_traffic_accident/nakano-accident-trends-by-role,perturb_number,caught,"4,444 -> 4,755 (uncited)",1,"report.md: 結論: 4,755 does not appear in the evidence"
+projects/_traffic_accident/nakano-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/nakano-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/nakano-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.2 is not in outputs/summary.txt / report.md: 84.1 is not in outputs/summary.txt / report.md: 89.6 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/nakano-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/nerima-accident-trends-by-role,perturb_number,caught,14 -> 17 (uncited),0,
+projects/_traffic_accident/nerima-accident-trends-by-role,perturb_number,caught,46.4% -> 46.7% (cited),1,report.md: 46.7% is not in outputs/wards.csv or outputs/analysis.json
+projects/_traffic_accident/nerima-accident-trends-by-role,perturb_number,caught,92.3 -> 92.6 (cited),1,report.md: 92.6 is not in outputs/yearly.csv or outputs/summary.txt
+projects/_traffic_accident/nerima-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/nerima-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/nerima-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 78.3 is not in outputs/summary.txt / report.md: 92.3 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/nerima-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/ota-accident-trends-by-role,perturb_number,caught,14.7% -> 14.0% (uncited),0,
+projects/_traffic_accident/ota-accident-trends-by-role,perturb_number,caught,23 -> 26 (cited),0,
+projects/_traffic_accident/ota-accident-trends-by-role,perturb_number,caught,11 -> 14 (uncited),0,
+projects/_traffic_accident/ota-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/ota-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/ota-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 119.8 is not in outputs/summary.txt / report.md: 93.6 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/ota-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/setagaya-accident-trends-by-role,perturb_number,caught,12 -> 15 (cited),0,
+projects/_traffic_accident/setagaya-accident-trends-by-role,perturb_number,caught,101.6 -> 101.9 (uncited),1,report.md: 結論: 101.9 does not appear in the evidence
+projects/_traffic_accident/setagaya-accident-trends-by-role,perturb_number,caught,11 -> 14 (cited),0,
+projects/_traffic_accident/setagaya-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/setagaya-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/setagaya-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 78.6 is not in outputs/summary.txt / report.md: 82.9 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/setagaya-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/shibuya-accident-trends-by-role,perturb_number,caught,149.0 -> 149.3 (cited),1,report.md: 149.3 is not in outputs/yearly.csv or outputs/summary.txt
+projects/_traffic_accident/shibuya-accident-trends-by-role,perturb_number,caught,15 -> 18 (uncited),0,
+projects/_traffic_accident/shibuya-accident-trends-by-role,perturb_number,caught,12 -> 15 (cited),0,
+projects/_traffic_accident/shibuya-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/shibuya-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/shibuya-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 133.2 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/shibuya-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/shinagawa-accident-trends-by-role,perturb_number,caught,"1,178 -> 1,260 (cited)",1,"report.md: 1,260 is not in outputs/summary.txt"
+projects/_traffic_accident/shinagawa-accident-trends-by-role,perturb_number,caught,43.3% -> 43.6% (uncited),0,
+projects/_traffic_accident/shinagawa-accident-trends-by-role,perturb_number,caught,10 -> 13 (cited),0,
+projects/_traffic_accident/shinagawa-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/shinagawa-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/shinagawa-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 120.1 is not in outputs/summary.txt / report.md: 128.2 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/shinagawa-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/shinjuku-accident-trends-by-role,perturb_number,caught,692.5 -> 692.8 (cited),1,report.md: 結論: 692.8 does not appear in the evidence
+projects/_traffic_accident/shinjuku-accident-trends-by-role,perturb_number,caught,"2,219 -> 2,374 (cited)",1,"report.md: 2,374 is not in outputs/summary.txt"
+projects/_traffic_accident/shinjuku-accident-trends-by-role,perturb_number,caught,16 -> 19 (cited),0,
+projects/_traffic_accident/shinjuku-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/shinjuku-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/shinjuku-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 161.5 is not in outputs/summary.txt / report.md: 90.6 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/shinjuku-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/suginami-accident-trends-by-role,perturb_number,caught,83.7 -> 83.0 (uncited),0,
+projects/_traffic_accident/suginami-accident-trends-by-role,perturb_number,caught,17 -> 10 (uncited),0,
+projects/_traffic_accident/suginami-accident-trends-by-role,perturb_number,caught,30 -> 33 (uncited),0,
+projects/_traffic_accident/suginami-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/suginami-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/suginami-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 78.6 is not in outputs/summary.txt / report.md: 91.8 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/suginami-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/sumida-accident-trends-by-role,perturb_number,caught,23 -> 26 (cited),0,
+projects/_traffic_accident/sumida-accident-trends-by-role,perturb_number,caught,4.3% -> 4.6% (uncited),0,
+projects/_traffic_accident/sumida-accident-trends-by-role,perturb_number,caught,31.7% -> 31.0% (uncited),0,
+projects/_traffic_accident/sumida-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/sumida-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/sumida-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 101.6 is not in outputs/summary.txt / report.md: 127.1 is not in outputs/summary.txt / report.md: 139.4 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/sumida-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/taito-accident-trends-by-role,perturb_number,caught,93.3 -> 93.6 (cited),1,report.md: 93.6 is not in outputs/yearly.csv or outputs/summary.txt
+projects/_traffic_accident/taito-accident-trends-by-role,perturb_number,caught,15 -> 18 (uncited),0,
+projects/_traffic_accident/taito-accident-trends-by-role,perturb_number,caught,46.9% -> 46.2% (cited),1,report.md: 46.2% is not in outputs/summary.txt
+projects/_traffic_accident/taito-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/taito-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/taito-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 71.2 is not in outputs/summary.txt / report.md: 93.3 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/taito-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/tokyo23-accident-rate-2025,perturb_number,caught,10 -> 13 (uncited),0,
+projects/_traffic_accident/tokyo23-accident-rate-2025,perturb_number,caught,163.2 -> 163.5 (uncited),1,report.md: 結論: 163.5 does not appear in the evidence
+projects/_traffic_accident/tokyo23-accident-rate-2025,perturb_number,caught,301.3 -> 301.6 (uncited),1,report.md: 結論: 301.6 does not appear in the evidence
+projects/_traffic_accident/tokyo23-accident-rate-2025,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/tokyo23-accident-rate-2025,break_link,caught,analysis.json -> missing_analysis.json,1,"report.md: links to outputs/missing_analysis.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_traffic_accident/tokyo23-accident-rate-2025,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/tokyo23-fatal-share-road-anomaly,perturb_number,caught,574 -> 577 (uncited),0,
+projects/_traffic_accident/tokyo23-fatal-share-road-anomaly,perturb_number,caught,20 -> 23 (uncited),0,
+projects/_traffic_accident/tokyo23-fatal-share-road-anomaly,perturb_number,caught,0.05 -> 0.08 (uncited),0,
+projects/_traffic_accident/tokyo23-fatal-share-road-anomaly,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/tokyo23-fatal-share-road-anomaly,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/tokyo23-fatal-share-road-anomaly,break_link,caught,summary.json -> missing_summary.json,1,"report.md: links to outputs/missing_summary.json, which does not exist"
+projects/_traffic_accident/tokyo23-fatal-share-road-anomaly,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/tokyo23-road-adjusted-accidents,perturb_number,caught,4.55 -> 4.58 (uncited),1,report.md: 結論: 4.58 does not appear in the evidence
+projects/_traffic_accident/tokyo23-road-adjusted-accidents,perturb_number,caught,"6,277 -> 6,716 (uncited)",1,"report.md: 結論: 6,716 does not appear in the evidence"
+projects/_traffic_accident/tokyo23-road-adjusted-accidents,perturb_number,caught,10 -> 13 (cited),1,report.md: 13 is not in outputs/analysis.json
+projects/_traffic_accident/tokyo23-road-adjusted-accidents,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/tokyo23-road-adjusted-accidents,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/tokyo23-road-adjusted-accidents,break_link,caught,analysis.json -> missing_analysis.json,1,"report.md: links to outputs/missing_analysis.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_traffic_accident/tokyo23-road-adjusted-accidents,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/tokyo23-ward-comparison,perturb_number,caught,15 -> 18 (uncited),0,
+projects/_traffic_accident/tokyo23-ward-comparison,perturb_number,caught,22.4% -> 22.7% (uncited),0,
+projects/_traffic_accident/tokyo23-ward-comparison,perturb_number,caught,37.9 -> 37.2 (uncited),1,report.md: 結論: 37.2 does not appear in the evidence
+projects/_traffic_accident/tokyo23-ward-comparison,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/tokyo23-ward-comparison,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/tokyo23-ward-comparison,break_link,caught,wards.csv -> missing_wards.csv,1,report.md: 0.922 is not in outputs/analysis.json / report.md: 1.406 is not in outputs/analysis.json / report.md: 2.575 is not in outputs/analysis.json / report.md: 2.593 is not in outputs/analysis.json / report.md: 2.715 is not in outputs/analysis.json / report.md: 9.067 is not in outputs/analysis.j
+projects/_traffic_accident/tokyo23-ward-comparison,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_accident/toshima-accident-trends-by-role,perturb_number,caught,83.7 -> 83.0 (uncited),0,
+projects/_traffic_accident/toshima-accident-trends-by-role,perturb_number,caught,61 -> 64 (uncited),0,
+projects/_traffic_accident/toshima-accident-trends-by-role,perturb_number,caught,61 -> 64 (uncited),0,
+projects/_traffic_accident/toshima-accident-trends-by-role,swap_unit,not_checked,km -> m,0,
+projects/_traffic_accident/toshima-accident-trends-by-role,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_accident/toshima-accident-trends-by-role,break_link,caught,yearly.csv -> missing_yearly.csv,1,"report.md: 100 is not in outputs/summary.txt / report.md: 105.7 is not in outputs/summary.txt / report.md: 86.9 is not in outputs/summary.txt / report.md: 91.3 is not in outputs/summary.txt / report.md: links to outputs/missing_yearly.csv, which does not exist"
+projects/_traffic_accident/toshima-accident-trends-by-role,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_bus/japan-bus-operator-concentration-replication,perturb_number,caught,18 -> 11 (uncited),0,
+projects/_traffic_bus/japan-bus-operator-concentration-replication,perturb_number,caught,"200,995 -> 215,065 (uncited)",1,"report.md: 結論: 215,065 does not appear in the evidence"
+projects/_traffic_bus/japan-bus-operator-concentration-replication,perturb_number,caught,"1,175 -> 1,257 (uncited)",1,"report.md: 結論: 1,257 does not appear in the evidence"
+projects/_traffic_bus/japan-bus-operator-concentration-replication,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_bus/japan-bus-operator-concentration-replication,break_link,caught,audit.json -> missing_audit.json,1,"report.md: links to outputs/missing_audit.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_traffic_bus/japan-bus-operator-concentration-replication,add_claim,not_checked,a causal claim in words,0,
+projects/_traffic_bus/taito-bus-operations,perturb_number,caught,171 -> 174 (cited),1,report.md: 174 is not in outputs/source-values.csv
+projects/_traffic_bus/taito-bus-operations,perturb_number,caught,59 -> 52 (cited),1,report.md: 52 is not in outputs/blocks-megurin.json
+projects/_traffic_bus/taito-bus-operations,perturb_number,caught,14 -> 17 (uncited),0,
+projects/_traffic_bus/taito-bus-operations,swap_unit,not_checked,km -> m,0,
+projects/_traffic_bus/taito-bus-operations,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_traffic_bus/taito-bus-operations,break_link,caught,source-values.csv -> missing_source-values.csv,1,"report.md: links to outputs/missing_source-values.csv, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_traffic_bus/taito-bus-operations,add_claim,not_checked,a causal claim in words,0,
+projects/_transit/elderly-transit-100m-allocation,perturb_number,caught,100 -> 103 (cited),0,
+projects/_transit/elderly-transit-100m-allocation,perturb_number,caught,36 -> 39 (uncited),0,
+projects/_transit/elderly-transit-100m-allocation,perturb_number,caught,65 -> 68 (uncited),0,
+projects/_transit/elderly-transit-100m-allocation,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_transit/elderly-transit-100m-allocation,break_link,caught,allocations-summary.json -> missing_allocations-summary.json,1,"report.md: links to outputs/missing_allocations-summary.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_transit/elderly-transit-100m-allocation,add_claim,not_checked,a causal claim in words,0,
+projects/_transit/tokyo-mainland-elderly-transit-gaps,perturb_number,caught,"1,429 -> 1,529 (uncited)",0,
+projects/_transit/tokyo-mainland-elderly-transit-gaps,perturb_number,caught,"3,341 -> 3,575 (uncited)",0,
+projects/_transit/tokyo-mainland-elderly-transit-gaps,perturb_number,caught,"1,742 -> 1,864 (uncited)",0,
+projects/_transit/tokyo-mainland-elderly-transit-gaps,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_transit/tokyo-mainland-elderly-transit-gaps,break_link,caught,analysis.json -> missing_analysis.json,1,"report.md: links to outputs/missing_analysis.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_transit/tokyo-mainland-elderly-transit-gaps,add_claim,not_checked,a causal claim in words,0,
+projects/_urban/chishirodai-sar-redevelopment,perturb_number,caught,1423054131 -> 1423054134 (uncited),1,report.md: 結論: 1423054134 does not appear in the evidence
+projects/_urban/chishirodai-sar-redevelopment,perturb_number,caught,0.475 -> 0.478 (cited),1,report.md: 0.478 is not in outputs/explore.json
+projects/_urban/chishirodai-sar-redevelopment,perturb_number,caught,0.4444 -> 0.4447 (uncited),1,report.md: 結論: 0.4447 does not appear in the evidence
+projects/_urban/chishirodai-sar-redevelopment,drop_section,caught,no データ,1,report.md: データ: missing or empty
+projects/_urban/chishirodai-sar-redevelopment,break_link,caught,blocks.json -> missing_blocks.json,1,"report.md: links to outputs/missing_blocks.json, which does not exist / report.md: 要点 row 1 cites no file in outputs/: link the output each number comes from"
+projects/_urban/chishirodai-sar-redevelopment,add_claim,not_checked,a causal claim in words,0,

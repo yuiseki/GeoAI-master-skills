@@ -12,6 +12,7 @@ description: 分析の最終回答を、何を調べたか (問い)、結論、�
 | [levels](references/levels.md) | 詳細度の 3 段階 (簡単、標準、重い) の選び方、段階ごとに足すもの、実際の分析の出力から書いた例 |
 | [github-markdown](references/github-markdown.md) | GFM と GitHub 独自の数式・Mermaid の記法、公式文書 |
 | [failure-modes](references/failure-modes.md) | できのよい報告に見えて結論が間違う 9 つの型 (F1〜F9) と確かめ方、重い報告の「失敗の型」の表の書き方 |
+| [calibration](references/calibration.md) | check_project.py が、答えの分かる壊し方をどれだけ拾うか (節の欠けとリンク切れは全て、数字の誤りは半分ほど、言葉の主張は拾わない) と、書き手への助言 |
 | [figure-led-report](references/figure-led-report.md) | 重い分析の report.md。結論を要点の表、読み手ごとの表、図ごとの読み方、読み方で変わる答えの表の順に組む |
 
 ひな形は [assets/answer-template.md](assets/answer-template.md)。
@@ -72,9 +73,11 @@ check_project.py は、`outputs/` の UTF-8 のテキスト (CSV、JSON、TXT、
 
 数字の照合が ok でも、数字が正しいとは限らない。小さな数や短い小数は、出力のどこかの別の値と偶然に一致しうる。そこで、出力のファイルへのリンクを持つ表の行と文は、その数字をリンク先のファイルの中だけで照合する。要点の表は、数字を書いた行ならどれも、出力のファイルへのリンクを持たなければならない (`12,291 件 ([yearly.csv](outputs/yearly.csv))`)。リンク先だけで照合するときも、10 未満の整数、問いか方法に書いた設定 (半径 800 m、65 歳、置換 10,000 回)、リンクしたファイルの名前の数 (`top20_delta_abs.csv` の 20) は、定義として通す。問いと方法の設定は、出どころの無い結論の文でも通す。年 (2011 年、1981〜2000年)、月 (9〜12 月)、図番号の並び (図 6、7、9) は数字として数えない。‰ は小数の 1,000 倍、`2.34e-06` のような指数の表記は 1 つの数として照合する。`reports/` に読み手ごとの報告を分けたなら、その数字も同じように照合する。
 
+検査がどれだけ拾うかは、`scripts/calibrate_checks.py` で測る (リポジトリの報告を一時的な場所に写し、1 か所ずつ壊して検査を流す)。2026-11-09 の測定では、数字の誤りを拾ったのは半分ほどで、出力へリンクしていない行と 2 桁以下の数字で取りこぼしが多い ([calibration](references/calibration.md))。検査を直したら、測り直して結果を書き換える。
+
 言葉の主張 (横断中、夜間、何倍、昼間人口が多い) は照合できない。出力に数えた結果がある主張だけを書き、外の知識で補うなら出典を書いて、分析で確かめていないと書く。
 
-テストは `uvx --with pytest pytest scripts/test_check_report.py scripts/test_check_project.py`。
+テストは `uvx --with pytest pytest scripts/test_check_report.py scripts/test_check_project.py scripts/test_calibrate_checks.py`。
 
 ## やらないこと
 

@@ -451,6 +451,7 @@
     - [x] `references/levels.md`: 詳細度の 3 段階、数字の扱い、実際の分析から書いた例
     - [x] `references/github-markdown.md`: GFM と GitHub の数式・Mermaid、表・PNG の使い分けと公式文書
     - [x] `references/figure-led-report.md`: 重い分析の report.md を、要点の表、読み手ごとの表、図ごとの読み方、読み方で変わる答えの表の順に組む
+    - [x] `references/calibration.md`: check_project.py の較正 (答えの分かる壊し方で拾う割合、calibrate_checks.py)
     - [x] `references/failure-modes.md`: できのよい報告に見えて結論が間違う 9 つの型 (F1〜F9)、確かめ方、重い報告の「失敗の型」の表と check_report.py の検査
     - [x] 問いを、最初に 1 行で残す (使い道は未対応)
     - [ ] 採用した手法と、それを選んだ理由を残す
