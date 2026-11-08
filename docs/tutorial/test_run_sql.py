@@ -1,4 +1,4 @@
-"""uvx --python 3.12 --with 'duckdb>=1.5.5' --with pytest pytest -q docs/tutorial/test_run_sql.py"""
+"""uvx --python 3.12 --with 'duckdb>=1.5.5' --with pytest pytest -q test_run_sql.py"""
 
 # Tests for run_sql.py: run a file of SQL statements with DuckDB and print the result of the last one.
 # The script runs `install httpfs` first; that is a no-op when the extension is already installed locally.

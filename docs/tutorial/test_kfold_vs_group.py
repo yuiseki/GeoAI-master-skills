@@ -1,4 +1,4 @@
-"""uvx --python 3.12 --with duckdb --with scikit-learn --with pandas --with pyarrow --with numpy --with pytest pytest -q docs/tutorial/test_kfold_vs_group.py"""
+"""uvx --python 3.12 --with duckdb --with scikit-learn --with pandas --with pyarrow --with numpy --with pytest pytest -q test_kfold_vs_group.py"""
 
 # Tests for kfold_vs_group.py: ordinary K-fold vs holding out whole regions, read from a parquet of countries.
 # Inputs are small synthetic tables; the expected R2 values follow from how the tables are built.

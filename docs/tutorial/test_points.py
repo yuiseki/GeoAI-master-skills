@@ -1,4 +1,4 @@
-"""uvx --python 3.12 --with 'duckdb>=1.5.5,<2' --with scikit-learn --with pandas --with pyarrow --with numpy --with pytest pytest -q docs/tutorial/test_points.py"""
+"""uvx --python 3.12 --with 'duckdb>=1.5.5,<2' --with scikit-learn --with pandas --with pyarrow --with numpy --with pytest pytest -q test_points.py"""
 
 # Tests for points.py: events -> 100 km cells in EPSG:6933 -> features -> CV by 1,000 km blocks.
 # The script reads UCDP GED from Hugging Face. Here duckdb.connect is wrapped so the hf:// URL points at a

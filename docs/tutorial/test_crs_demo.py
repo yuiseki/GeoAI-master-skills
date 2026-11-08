@@ -1,4 +1,4 @@
-"""uvx --python 3.12 --with numpy --with pytest pytest -q docs/tutorial/test_crs_demo.py"""
+"""uvx --python 3.12 --with numpy --with pytest pytest -q test_crs_demo.py"""
 
 # Tests for crs_demo.py: the length of a degree, and what swapping lon and lat does to a distance.
 # The README of docs/tutorial prints the script's output; that table is the promise checked here.
