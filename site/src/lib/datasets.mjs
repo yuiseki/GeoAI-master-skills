@@ -51,7 +51,9 @@ export function datasetSlug(id) {
 }
 
 function cardId(file) {
-  const match = readFileSync(file, 'utf8').match(/^---\n[\s\S]*?^id: (.+)$/m);
+  // only the front matter: an "id:" line in the body of a card is not its id
+  const front = readFileSync(file, 'utf8').match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
+  const match = front && front[1].match(/^id: (.+)$/m);
   return match ? match[1].trim() : undefined;
 }
 

@@ -132,8 +132,7 @@ test('入れ子の子ノードの中のリンクも書き換える', () => {
   assert.equal(got, '/datasets/esa-worldcover/');
 });
 
-xfail('id はフロントマターの中からだけ読む', 'BUG: cardId matches the first "id: " line anywhere after the opening ---, '
-  + 'so a published card whose front matter has no id takes one from its body', () => {
+test('id はフロントマターの中からだけ読む', () => {
   const root = repo({ ...CARDS, 'gsi-dem-tiles.md': '---\ntitle: no id\n---\n# 標高タイル\n\nid: from-the-body\n' });
   const got = rewrite(root, 'esa-worldcover.md', ['gsi-dem-tiles.md']);
   assert.notEqual(got[0], undefined);
