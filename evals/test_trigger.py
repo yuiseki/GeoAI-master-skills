@@ -114,3 +114,29 @@ def test_retry_errors_sets_the_failed_run_aside_and_keeps_the_graded_ones(tmp_pa
     assert _needs_run(tmp_path, case, 2, retry_errors=True)
     assert not empty.exists() and (tmp_path / "c" / "err" / "r2-1" / "exit").exists()   # kept, out of the grade
     assert _needs_run(tmp_path, case, 3, retry_errors=False)
+
+
+def test_the_free_usage_limit_is_recognised_in_the_stderr_of_a_run():
+    """OpenCode retries a provider's usage limit until the time limit and writes nothing to stdout; the reason is
+    only in its stderr (seen 2026-11-09: 25 runs of 10 minutes each, all empty)."""
+    from trigger import usage_limited
+    err = ('level=ERROR message="stream error" error.error="AI_APICallError: Free usage limit reached. '
+           'Free models work in OpenCode (https://opencode.ai); subscribe to OpenCode Go to keep going"')
+    assert usage_limited(err)
+    assert not usage_limited('level=INFO message="llm runtime selected"')
+    assert not usage_limited('level=INFO message="rate limit headers" remaining=100')
+    assert not usage_limited("")
+
+
+def test_only_runs_the_named_cases_but_the_tables_keep_every_case(tmp_path):
+    """--only once rewrote summary.tsv and cases.tsv with the one case it ran, dropping the others' rows."""
+    import subprocess
+    import sys
+    for cid in ("e2-kriging", "n1-typo"):
+        d = tmp_path / cid / "r1"
+        d.mkdir(parents=True)
+        (d / "log").write_text(ev("read", filePath="/work/README.md") + "\n")
+        (d / "exit").write_text("0\n")
+    subprocess.run([sys.executable, str(HERE / "trigger.py"), "judge", str(tmp_path), "--only", "n1-typo"], check=True)
+    ids = [line.split("\t")[0] for line in (tmp_path / "cases.tsv").read_text().splitlines()[1:]]
+    assert ids == ["e2-kriging", "n1-typo"]

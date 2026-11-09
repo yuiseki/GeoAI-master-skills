@@ -12,11 +12,12 @@ Reading a reference counts as reading its skill.
 Verdicts: PASS (every expect read, no forbid read), FAIL, ERROR (the run failed: a non-zero exit other than the
 time limit 124, an error event from the provider, or no event at all: the provider can hang until the time limit
 without answering). An ERROR is not graded: run the case again (--retry-errors). A run cut off
-by the time limit is graded on what it had read.
+by the time limit is graded on what it had read. When a run's stderr shows the provider's usage limit, the whole run
+stops (exit 3) instead of waiting the time limit on every remaining case.
 
     python3 evals/trigger.py run OUT_DIR [--cases evals/trigger_cases.yaml] [--only ID ...] [--model M] [--minutes N] [--repeats N] [--retry-errors]
     python3 evals/trigger.py judge OUT_DIR       # re-grade saved logs
-OUT_DIR gets one folder per case and run (id/r1/: prompt.md, log, exit), summary.tsv (one row per run) and
+OUT_DIR gets one folder per case and run (id/r1/: prompt.md, log (stdout), stderr, exit), summary.tsv (one row per run) and
 cases.tsv (per case: runs passed, graded, in error). --repeats N runs each case N times, round by round, and
 keeps the runs already there, so a stopped run can be resumed. Keep OUT_DIR outside the repository.
 """
@@ -89,6 +90,13 @@ def silent(log_text):
     return True
 
 
+def usage_limited(stderr_text):
+    """The provider refused for its usage limit. OpenCode retries this until the time limit and writes nothing to
+    stdout, so every later run would also wait the full time for nothing."""
+    return any("level=ERROR" in line and re.search(r"usage limit reached|rate limit", line, re.I)
+               for line in stderr_text.splitlines())
+
+
 def judge(case, read, exit_code, error_event=False, silent=False):
     if error_event or silent or exit_code not in (0, 124):
         return {"verdict": "ERROR", "missing": [], "forbidden": []}
@@ -117,11 +125,12 @@ def _run_case(case, out, model, minutes, repeat=1):
                    check=True, capture_output=True)
     (d / "prompt.md").write_text(case["prompt"] + SUFFIX + "\n", encoding="utf-8")
     env = dict(os.environ, **({"EVAL_MODEL": model} if model else {}))
-    with open(d / "log", "w", encoding="utf-8") as log:
+    with open(d / "log", "w", encoding="utf-8") as log, open(d / "stderr", "w", encoding="utf-8") as err:
         r = subprocess.run(["timeout", f"{minutes}m", str(HERE / "run_opencode_docker.sh"), "--prompt",
-                            str(d / "prompt.md"), str(work)], stdout=log, stderr=subprocess.DEVNULL, env=env)
+                            str(d / "prompt.md"), str(work)], stdout=log, stderr=err, env=env)
     (d / "exit").write_text(f"{r.returncode}\n")
     shutil.rmtree(work, ignore_errors=True)
+    return usage_limited((d / "stderr").read_text(encoding="utf-8", errors="replace"))
 
 
 def _runs(out, case_id):
@@ -194,15 +203,20 @@ def main():
     out = Path(a.out).resolve()
     if REPO in out.parents or out == REPO:
         sys.exit("OUT_DIR must be outside the repository")
-    cases = [c for c in load_cases(a.cases) if not a.only or c["id"] in a.only]
+    every = load_cases(a.cases)                 # the tables always list every case that has runs
+    cases = [c for c in every if not a.only or c["id"] in a.only]
     if a.cmd == "run":
         for k in range(1, a.repeats + 1):        # round by round, so a stop half way leaves every case run alike
             for c in cases:
                 if not _needs_run(out, c, k, a.retry_errors):
                     continue
                 print(f"running {c['id']} r{k}", flush=True)
-                _run_case(c, out, a.model, a.minutes, k)
-    grade(out, cases)
+                if _run_case(c, out, a.model, a.minutes, k):
+                    print(f"stopped: the provider's usage limit (see {c['id']}/r{k}/stderr); "
+                          "run again later with --retry-errors", flush=True)
+                    grade(out, every)
+                    sys.exit(3)
+    grade(out, every)
 
 
 if __name__ == "__main__":
