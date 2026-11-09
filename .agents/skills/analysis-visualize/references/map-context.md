@@ -51,9 +51,9 @@ uvx --with numpy --with duckdb --with shapely --with matplotlib python scripts/c
 
 北海道東部の 10,230 の格子 (1 辺 0.00889 度) で、この 2 つのコマンドの図は手で組んだ図と同じ読み方ができた (2026-10-26)。縁取りは自動で外れた (中央の幅 4.4 ピクセル)。本図で重なっていた番号 3 組は、拡大図で読めるので `zoomed_in_inset` に分かれ、`text_overlaps` は 0 件だった。
 
-`squares` は、格子の間隔を中心の組の傾きの中央値で決める。組は全部で n (n − 1) / 2 あり、以前の版は全ての組をリストにしていた。東京 23 区の 100 m の格子 (66,460 セル) では約 22 億組になり、終わらないままメモリを使い続けた (2026-10-26)。今の版は、組が 20 万 (`MAX_PAIRS`) を超えたら種を固定した 20 万組の抽出で中央値を取る。66,460 セルで 1.8 秒、最大の常駐メモリ 148 MB だった。さらにコマンドはデータ領域の上限 (`RLIMIT_DATA`、`--max-memory-gb`、既定 4 GB) の下で動き、超える入力は `MemoryError` で止まる。アドレス空間の上限 (`RLIMIT_AS`) は DuckDB が仮想メモリを先に取るため、4 GB でも何も書かずに落ちた (終了コード 139) ので使わない。
+`squares` は、格子の間隔を中心の組の傾きの中央値で決める。組は全部で n (n − 1) / 2 あり、以前の版は全ての組をリストにしていた。東京 23 区の 100 m の格子 (66,460 セル) では約 22 億組になり、終わらないままメモリを使い続けた (2026-10-26)。今の版は、組が 20 万 (`MAX_PAIRS`) を超えたら種を固定した 20 万組の抽出で中央値を取る。66,460 セルで 1.8 秒、最大の常駐メモリ 148 MB だった。さらにコマンドはデータ領域の上限 (`RLIMIT_DATA`、`--max-memory-gb`、既定 4 GB) の下で動き、超える入力は `MemoryError` で止まる。この上限が効くのは Linux だけで、macOS は `RLIMIT_DATA` を下げる呼び出しを `ValueError` で拒む (守らせもしない)。macOS と Windows では、上限を掛けられなかったと stderr に書いて、上限なしで動く。上限が要るなら外から掛ける。アドレス空間の上限 (`RLIMIT_AS`) は DuckDB が仮想メモリを先に取るため、4 GB でも何も書かずに落ちた (終了コード 139) ので使わない。
 
-テストは `uvx --with numpy --with duckdb --with shapely --with matplotlib --with pytest pytest scripts/test_context_map.py` と `scripts/test_classify_map.py`。4 万セルの格子が既定の上限の下で 120 秒以内に終わること、抽出の分岐でも外れた中心で止まること、上限を 0.2 GB にすると `MemoryError` で止まることを確かめている。全ての組をリストにする以前の実装に戻すと、4 万セルのテストが `MemoryError` で落ちる (上限があるので機械のメモリは使い切らない)。
+テストは `uvx --with numpy --with duckdb --with shapely --with matplotlib --with pytest pytest scripts/test_context_map.py` と `scripts/test_classify_map.py`。4 万セルの格子が既定の上限の下で 120 秒以内に終わること、抽出の分岐でも外れた中心で止まること、上限を 0.2 GB にすると止まること (Linux だけ。`import duckdb` の途中で、`MemoryError` か共有ライブラリの mmap の失敗で止まる)、上限を拒む OS でも止まらずに警告することを確かめている。全ての組をリストにする以前の実装に戻すと、4 万セルのテストが `MemoryError` で落ちる (上限があるので機械のメモリは使い切らない)。
 
 ## 道具に入れていないこと
 

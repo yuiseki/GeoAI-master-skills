@@ -176,12 +176,32 @@ def test_sampled_slope_still_ignores_a_misplaced_centre():
         fit_grid(rows, cols, x2, y)
 
 
+def test_a_platform_that_refuses_the_limit_gets_a_warning_not_a_crash(monkeypatch, capsys):
+    # macOS rejects lowering RLIMIT_DATA (ValueError: current limit exceeds maximum limit) and does not
+    # enforce it anyway; the command must still run, and say on stderr that it runs without the cap.
+    import context_map as cm
+
+    if cm.resource is None:
+        pytest.skip("no resource module")
+
+    def refuse(*_):
+        raise ValueError("current limit exceeds maximum limit")
+
+    monkeypatch.setattr(cm.resource, "setrlimit", refuse)
+    cm.limit_memory(0.2)
+    assert "not applied" in capsys.readouterr().err
+
+
+@pytest.mark.skipif(not sys.platform.startswith("linux"), reason="RLIMIT_DATA is enforced only on Linux")
 def test_memory_limit_stops_the_command_with_an_error(tmp_path):
     _grid_csv(tmp_path / "small.csv", 3)
     out = subprocess.run([sys.executable, str(Path(__file__).with_name("context_map.py")), "squares", str(tmp_path / "small.csv"),
                           "--row", "r", "--col", "c", "--x", "x", "--y", "y", "--out", str(tmp_path / "s.parquet"),
                           "--max-memory-gb", "0.2"], capture_output=True, text=True, timeout=120)
-    assert out.returncode != 0 and "MemoryError" in out.stderr
+    # 0.2 GB is reached while duckdb is imported: as MemoryError when bytecode is compiled, or as a failed
+    # mmap of the shared library when the bytecode is cached. Both are the cap stopping the run.
+    assert out.returncode != 0
+    assert "MemoryError" in out.stderr or "failed to map segment" in out.stderr, out.stderr[-1000:]
 
 
 def _pixel(geom, xy, fill):

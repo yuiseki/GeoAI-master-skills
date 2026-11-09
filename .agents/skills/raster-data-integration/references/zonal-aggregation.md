@@ -15,7 +15,7 @@
 
 単位が画素の中心を 1 つも持たないとき、中心の規則では値が無い。`aggregate_raster.py` は、これを 0 でなく `no_pixel_centre` として返す。
 
-面積の割合 (fraction) は、細かい格子の中心が境界の線の上にあると、それを中に数える。1 画素を対角線で半分に切った三角形は、交差の面積なら 0.5、`--subdivide 10` では 0.55 になった (`scripts/test_aggregate_raster.py`)。
+面積の割合 (fraction) は、細かい格子の中心が境界の線の上にあると、それを中に数えるか外に数えるかが GDAL の版や環境で変わる。1 画素を対角線で半分に切った三角形は、交差の面積なら 0.5、`--subdivide 10` では Linux の GDAL 3.12 で 0.55、macOS の環境で 0.45 になった (`scripts/test_aggregate_raster.py`)。どちらでも、線の上の中心の分だけずれる。
 
 ## 交差の面積の使い方
 

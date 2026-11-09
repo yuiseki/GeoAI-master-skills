@@ -205,12 +205,13 @@ def test_exact_rule_weights_pixels_by_their_intersection_area(tmp_path, counts):
 
 
 def test_exact_rule_is_exact_where_the_subdivided_grid_is_not(tmp_path, counts):
-    # 100 sub-cell centres of pixel (0,0): 45 lie strictly inside (i + j < 9) and 10 on the diagonal (i + j = 9),
-    # which GDAL counts as inside, so fraction says 0.55
+    # 100 sub-cell centres of pixel (0,0): 45 lie strictly inside (i + j < 9) and 10 on the diagonal (i + j = 9).
+    # Whether GDAL counts a centre on the edge as inside differs between builds (0.55 on Linux GDAL 3.12,
+    # 0.45 on a macOS build), so fraction is off by the whole diagonal either way; exact is not.
     exact, _ = run(tmp_path, counts, {"tri": TRIANGLE}, "extensive", method="exact")
     frac, _ = run(tmp_path, counts, {"tri": TRIANGLE}, "extensive", method="fraction")
     assert exact["tri"]["sum"] == pytest.approx(0.5)
-    assert frac["tri"]["sum"] == pytest.approx(0.55)
+    assert frac["tri"]["sum"] in (pytest.approx(0.45), pytest.approx(0.55))
 
 
 def test_all_touched_rule_takes_every_touched_pixel_whole(tmp_path, counts):

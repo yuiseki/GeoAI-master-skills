@@ -12,8 +12,9 @@ Functions used by classify_map.py, and a command that turns grid-cell centres in
   With a single row (or column) squareness cannot be checked, and the result says so. The step is the
   median slope over at most MAX_PAIRS pairs of centres (all pairs when there are few, a seeded sample
   otherwise), so memory and time grow with the number of cells, not with its square.
-- squares: the command runs under an address-space limit (--max-memory-gb, default 4): a run that would
-  need more stops with MemoryError instead of taking the machine's memory.
+- squares: the command runs under a data-segment limit (RLIMIT_DATA, --max-memory-gb, default 4): a run that
+  would need more stops with MemoryError instead of taking the machine's memory. Only Linux enforces it; on
+  macOS and Windows the command warns on stderr and runs without the cap.
 - check_context_crs: a background layer in another CRS stops the run, unless the difference is declared
   (it is recorded with the map).
 - label_areas: names of the background areas, only for areas big enough in the view, on a white box.
@@ -26,6 +27,7 @@ Functions used by classify_map.py, and a command that turns grid-cell centres in
 
 import argparse
 import math
+import sys
 try:
     import resource
 except ImportError:
@@ -204,12 +206,22 @@ def text_overlaps(fig, texts, legends=(), marks=()):
 
 
 def limit_memory(gb):
-    """Cap this process's address space, so that an input too big for the method stops it with MemoryError."""
+    """Cap this process's data segment, so that an input too big for the method stops it with MemoryError.
+
+    Only Linux enforces RLIMIT_DATA. macOS refuses to lower it (ValueError) and Windows has no resource module;
+    there the command runs without the cap and says so on stderr.
+    """
     if gb and gb > 0:
         cap = int(gb * 1024 ** 3)
-        if resource is not None:
-            soft, hard = resource.getrlimit(resource.RLIMIT_DATA)
+        if resource is None:
+            print(f"warning: memory cap of {gb:g} GB not applied (no resource module on this platform)", file=sys.stderr)
+            return
+        soft, hard = resource.getrlimit(resource.RLIMIT_DATA)
+        try:
             resource.setrlimit(resource.RLIMIT_DATA, (cap if hard == resource.RLIM_INFINITY else min(cap, hard), hard))
+        except (ValueError, OSError) as e:
+            print(f"warning: memory cap of {gb:g} GB not applied ({e}); "
+                  f"cap the process from outside instead", file=sys.stderr)
 
 
 def squares_command(a):
