@@ -13,6 +13,7 @@ description: 地点で観測した連続的な値 (標高、気温、降水量�
 |---|---|
 | [evaluation](references/evaluation.md) | 分け方 (ランダム、ブロック、距離を合わせる) と、実データの back-test |
 | [kriging](references/kriging.md) | variogram (ナゲット、シル、レンジ)、通常クリギング、区間の被覆率、大域的な勾配を除くユニバーサルクリギング (`--method universal`)、異方性 (`--anisotropy`) |
+| [hsgp](references/hsgp.md) | ガウス過程を基底の和で近似し (HSGP)、長さ、尺度、ノイズまで事後分布で引く。箱の広さと基底の数の決め方と、2 次元で目安が足りないこと。標高でクリギングと比べた結果 |
 
 ## 手順
 
@@ -47,6 +48,7 @@ description: 地点で観測した連続的な値 (標高、気温、降水量�
 | IDW | Σ v d^-p / Σ d^-p | 冪 p、近傍の数 k、届く距離 | p を 2 に決め打ちしない。複数の p を同じ分け方で比べる。観測と同じ地点ではその値を返す |
 | 通常クリギング | variogram に基づく重み | variogram のモデルと、ナゲット、シル、レンジ | ライブラリの既定の variogram をそのまま使わない。区間の被覆率を確かめる ([kriging](references/kriging.md)) |
 | ユニバーサルクリギング | 平面の勾配を条件で消した重み | 平面の残差の variogram | 経験 variogram が遠くで上がり続けるときに。勾配を外へ延ばすので、凸包の外は勾配が続く仮定 ([kriging](references/kriging.md)) |
+| HSGP (ベイズのガウス過程の近似) | 基底の重みとパラメータを NUTS で引く (`scripts/hsgp_numpyro.py`) | カーネル、箱の広さ c、基底の数 m | 面が範囲に比べて滑らかなときに。m を増やして結果が変わらないことを確かめる。細かい起伏が主の値では、局所のクリギングに負ける ([hsgp](references/hsgp.md)) |
 
 ## 分け方
 

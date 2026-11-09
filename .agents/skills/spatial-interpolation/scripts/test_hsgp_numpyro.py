@@ -1,4 +1,4 @@
-"""uvx --with numpy --with scipy --with jax==0.12.0.1 --with numpyro==0.22.0 --with pytest pytest test_hsgp_numpyro.py
+"""uvx --with numpy --with scipy --with jax==0.12.0.1 --with numpyro==0.22.0 --with pyproj --with pytest pytest test_hsgp_numpyro.py
 
 The basis of hsgp.py against NumPyro's own (numpyro.contrib.hsgp), and the model with inferred parameters on a
 surface drawn from a known Matern 5/2 process: the parameters' intervals cover the truth and the 90% predictive
@@ -75,3 +75,53 @@ def test_three_times_the_rule_recovers_a_known_surface_and_its_intervals_hold():
     lo, hi = np.quantile(y, [0.05, 0.95], axis=0)
     cover = np.mean((v[1000:] > lo) & (v[1000:] < hi))
     assert 0.84 < cover < 0.96, cover
+
+
+def _yamanashi_dem(n, seed=42):
+    """n random pixels of 4 x 4 GSI elevation tiles (zoom 14, x 14493-14496, y 6449-6452), UTM 54N in km."""
+    import urllib.request
+
+    from pyproj import Transformer
+    grid = np.empty((1024, 1024))
+    for i, y in enumerate(range(6449, 6453)):
+        for j, x in enumerate(range(14493, 14497)):
+            url = f"https://cyberjapandata.gsi.go.jp/xyz/dem/14/{x}/{y}.txt"
+            text = urllib.request.urlopen(url, timeout=30).read().decode()
+            grid[i * 256:(i + 1) * 256, j * 256:(j + 1) * 256] = [[float(s) for s in r.split(",")] for r in text.split()]
+    k = np.random.default_rng(seed).choice(1024 * 1024, n, replace=False)
+    py, px = np.divmod(k, 1024)
+    size = 2 ** 14 * 256
+    lon = (14493 * 256 + px + 0.5) / size * 360 - 180
+    lat = np.degrees(np.arctan(np.sinh(np.pi * (1 - 2 * (6449 * 256 + py + 0.5) / size))))
+    e, nn = Transformer.from_crs(4326, 32654, always_xy=True).transform(lon, lat)
+    return np.c_[e, nn] / 1000.0, grid[py, px]
+
+
+@pytest.mark.skipif(os.environ.get("GEOAI_REALDATA") != "1", reason="real data: set GEOAI_REALDATA=1")
+def test_yamanashi_elevation_against_kriging():
+    """500 observed pixels, 300 held out. HSGP (Matern 5/2, c = 1.5, the rule's m for ell = 1 km, doubled) passes
+    the length-scale diagnostic and holds about 90% in its intervals; it beats the nearest neighbour but not local
+    ordinary kriging, whose intervals are too wide."""
+    from interpolate_points import Obs
+    from interpolate_points import predict as kpredict
+    xy, v = _yamanashi_dem(800)
+    o, h = slice(0, 500), slice(500, None)
+    nearest = np.abs(kpredict(Obs(xy[o] * 1000, v[o]), xy[h] * 1000, "nearest")["prediction"] - v[h]).mean()
+    kr = kpredict(Obs(xy[o] * 1000, v[o]), xy[h] * 1000, "kriging", k=12)
+    kerr = kr["prediction"] - v[h]
+    half = Box.around(xy[o]).half.max()
+    _, m = rule("matern52", 1.0, half)
+    c, m = 1.5, 2 * m
+    box = Box.around(xy[o], c=c)
+    post = fit(xy[o], v[o], box, m, draws=500, warmup=500, chains=2, seed=0)
+    f, y = predict(post, xy[h], box, m)
+    lo, hi = np.quantile(y, [0.05, 0.95], axis=0)
+    mae, cover = np.abs(f.mean(0) - v[h]).mean(), np.mean((v[h] > lo) & (v[h] < hi))
+    kcover = np.mean(np.abs(kerr) < 1.645 * kr["kriging_sd"])
+    print(f"nearest {nearest:.2f} kriging {np.abs(kerr).mean():.2f} ({kcover:.3f}) hsgp m {m} {mae:.2f} ({cover:.3f}) "
+          f"ell {np.median(post['ell']):.3f} ell_min {ell_min('matern52', c, m, half):.3f} "
+          f"noise {np.median(post['noise']):.2f}")
+    assert np.median(post["ell"]) > ell_min("matern52", c, m, half)
+    assert 0.85 < cover < 0.95
+    assert np.abs(kerr).mean() < mae < nearest
+    assert kcover > 0.95

@@ -320,6 +320,7 @@
   - [x] `spatial-interpolation`: 地点で観測した連続的な値から、観測していない地点の値を推定する。平均と最近傍を基準に IDW と通常クリギングを比べ、予測地点の離れ方に合わせた分け方で評価し、凸包の中と外、距離ごとに誤差を分ける
     - [x] `references/evaluation.md`
     - [x] `references/kriging.md`
+    - [x] `references/hsgp.md`: ガウス過程の Hilbert 空間の近似 (HSGP) を NumPyro でパラメータまで引く。2 次元では論文の c と m の目安が足りないこと、山梨県の標高でクリギングと比べた back-test
     - [x] 大域的な勾配を除いてから補間する (ユニバーサルクリギング、`--method universal`。PyKrige と照合、references/kriging.md)
     - [x] 異方性 (`--anisotropy 角度 比` と auto。PyKrige と照合、references/kriging.md)
     - [x] 予測地点までの距離に合わせた分け方を、スクリプトの分け方に足す (`--split target-distance`)
