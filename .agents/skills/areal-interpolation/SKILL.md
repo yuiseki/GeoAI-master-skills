@@ -9,11 +9,11 @@ description: ある区域で集計された値 (人口、世帯、件数) を、
 
 扱うのは、源の区域 (source zone) に付いた集計値を、先の区域 (target zone) に配ること。どちらの区域を使うかは、使う前に決めておく。点を区域に入れること、キーで結ぶことは、このスキルの外。点の観測から面を推定する補間 (クリギング、IDW など) も扱わない。
 
-| reference | 中身 |
-|---|---|
-| [validation](references/validation.md) | 細かい真値での back-test の組み方と、東京 23 区での実測 |
-| [auxiliary](references/auxiliary.md) | 補助データで配る方法の仮定と落とし穴 (実測) |
-| [pycnophylactic](references/pycnophylactic.md) | 区域の総量を保つ滑らかな面 (Tobler)。tobler との照合、国勢調査のメッシュでの back-test (改善は 5〜7%) (`scripts/pycno.py`) |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [validation](references/validation.md) | 細かい真値で仮定の誤差を測るとき、区域ごとにどれだけ外れるかを答えるとき (手順 8 の前) | 細かい真値での back-test の組み方と、東京 23 区での実測 |
+| [auxiliary](references/auxiliary.md) | 面積でなく補助データ (建物、土地利用) に比例して配るとき (手順 5 の前) | 補助データで配る方法の仮定と落とし穴 (実測) |
+| [pycnophylactic](references/pycnophylactic.md) | 区域の総量を保つ滑らかな面で配るとき (手順 5 の前) | 区域の総量を保つ滑らかな面 (Tobler)。tobler との照合、国勢調査のメッシュでの back-test (改善は 5〜7%) (`scripts/pycno.py`) |
 
 ## 手順
 

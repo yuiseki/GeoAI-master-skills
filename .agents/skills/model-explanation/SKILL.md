@@ -7,11 +7,11 @@ description: モデルが何に頼って予測しているかを、採点と同�
 
 説明はモデルの説明であって、世界の説明ではない。重要度が高いことは、その特徴量が目的変数の原因であることを意味しない。モデルがその特徴量に頼っていることだけを意味する。
 
-| reference | 何を見るか |
-|---|---|
-| [permutation](references/permutation.md) | 特徴量 (や特徴量の群) を並べ替えたとき、点数がどれだけ落ちるか |
-| [partial-dependence](references/partial-dependence.md) | 1 つの特徴量を動かしたとき、予測の平均がどう動くか |
-| [shap](references/shap.md) | 1 行の予測を、特徴量 (や群) ごとの寄与に分ける。足し算の性質の確かめ、相関する特徴量の分け方の不安定さ |
+| reference | 読むとき | 何を見るか |
+|---|---|---|
+| [permutation](references/permutation.md) | 重要度を測るとき、いつも (手順 2 の前) | 特徴量 (や特徴量の群) を並べ替えたとき、点数がどれだけ落ちるか |
+| [partial-dependence](references/partial-dependence.md) | 特徴量を動かしたときの予測を見るとき (手順 4 の前) | 1 つの特徴量を動かしたとき、予測の平均がどう動くか |
+| [shap](references/shap.md) | 行ごとの説明が要るとき (手順 5 の前) | 1 行の予測を、特徴量 (や群) ごとの寄与に分ける。足し算の性質の確かめ、相関する特徴量の分け方の不安定さ |
 
 ## 手順
 

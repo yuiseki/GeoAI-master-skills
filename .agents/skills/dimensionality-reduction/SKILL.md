@@ -7,10 +7,10 @@ description: 多くの特徴量を少数の軸 (主成分) で要約できるか
 
 主成分は、データがあれば必ず出てくる。何軸を残すかは、雑音のデータでも出てくる大きさと比べて決める。軸に名前を付けるのは、標本を取り直してもその軸が戻ってくるときだけ。
 
-| reference | 中身 |
-|---|---|
-| [pca](references/pca.md) | 標準化、符号、負荷量と得点、欠損 |
-| [choosing-components](references/choosing-components.md) | 並行分析で軸の数を決め、ブートストラップで軸と空間の安定を確かめる |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [pca](references/pca.md) | PCA を流すとき、いつも (手順 3 の前) | 標準化、符号、負荷量と得点、欠損 |
+| [choosing-components](references/choosing-components.md) | 軸の数を決め、軸の安定を確かめるとき (手順 4、5 の前) | 並行分析で軸の数を決め、ブートストラップで軸と空間の安定を確かめる |
 
 ## 手順
 

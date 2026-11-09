@@ -7,12 +7,12 @@ description: 観測を、比べる相手 (自分の過去、地理的な近傍�
 
 異常は「比べる相手から期待される値からの外れ」。何と比べるかで、同じ観測が異常にも普通にもなる。比べる相手を先に決め、それを書く。
 
-| reference | 比べる相手 | 期待値の作り方 |
-|---|---|---|
-| [time](references/time.md) | 同じ単位の前後 (または過去) の時点 | 前後の時点の中央値 |
-| [space](references/space.md) | 地理的に近い単位 | 近傍の中央値 |
-| [expected](references/expected.md) | 似た条件の単位 | モデルの予測 (交差検証の外側) |
-| [global](references/global.md) | 全ての単位 | 期待値を作らず、特徴量の空間での孤立の度合い (Isolation Forest、LOF) |
+| reference | 読むとき | 比べる相手 | 期待値の作り方 |
+|---|---|---|---|
+| [time](references/time.md) | 手順 1 で、同じ単位の前後の時点と比べると決めたとき | 同じ単位の前後 (または過去) の時点 | 前後の時点の中央値 |
+| [space](references/space.md) | 手順 1 で、近い単位と比べると決めたとき | 地理的に近い単位 | 近傍の中央値 |
+| [expected](references/expected.md) | 手順 1 で、似た条件の単位 (モデルの予測) と比べると決めたとき | 似た条件の単位 | モデルの予測 (交差検証の外側) |
+| [global](references/global.md) | 手順 1 で、比べる相手を決めずに全体からの孤立を見るとき | 全ての単位 | 期待値を作らず、特徴量の空間での孤立の度合い (Isolation Forest、LOF) |
 
 ## 手順
 

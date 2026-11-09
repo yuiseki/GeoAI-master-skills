@@ -9,11 +9,11 @@ description: 標高のラスタ (DEM) から、窪地の処理、流向 (D8)、�
 
 このスキルが答えるのは、「この DEM の上で、各セルの水はどちらへ流れ、どれだけの面積から水が集まり、ある点に集まる流域はどこか、各セルは最寄りの川から何 m 高いか」まで。降った雨が何時間後に何 m³/s 流れるか (流出)、川の水位、氾濫の広がり、何年に一度の雨かは、このスキルの外。
 
-| reference | 中身 |
-|---|---|
-| [pitfalls](references/pitfalls.md) | 落とし穴と罠。DSM と DTM、範囲の端で切れる流域、閉じた盆地、流向の規則、流出点の寄せ方、CRS、pyflwdir と whitebox の罠 |
-| [validation](references/validation.md) | 答えの分かる合成の地形、壊すと落ちることの確認、whitebox との照合、相模川の 3 ダムの集水面積との照合、メモリと時間 |
-| [tools](references/tools.md) | pyflwdir、Whitebox Workflows (whitebox_next_gen)、旧 WhiteboxTools のライセンス、版、呼び方、選んだ理由 |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [pitfalls](references/pitfalls.md) | DEM を切り出す前、いつも (手順 1〜6 の前) | 落とし穴と罠。DSM と DTM、範囲の端で切れる流域、閉じた盆地、流向の規則、流出点の寄せ方、CRS、pyflwdir と whitebox の罠 |
+| [validation](references/validation.md) | 結果を公表値や別の道具と照合するとき (手順 8 の前) | 答えの分かる合成の地形、壊すと落ちることの確認、whitebox との照合、相模川の 3 ダムの集水面積との照合、メモリと時間 |
+| [tools](references/tools.md) | 使う道具 (pyflwdir、Whitebox) を選ぶとき、入れるとき | pyflwdir、Whitebox Workflows (whitebox_next_gen)、旧 WhiteboxTools のライセンス、版、呼び方、選んだ理由 |
 
 ## 手順
 

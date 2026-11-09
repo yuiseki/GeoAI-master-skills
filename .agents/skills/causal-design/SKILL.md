@@ -11,12 +11,12 @@ description: 因果の効果を推定する前に、その効果を、このデ�
 
 このスキルの問いは「この因果効果を、このデータと仮定から識別できるか」だけ。予測の精度を比べること、パネルの固定効果を推定すること、入れ子の構造を扱うこと、結論の頑健性を試すこと、特徴量の重要度を測ることは、それぞれ別の問い。予測の精度、重要度、固定効果の係数の良さは、どれも識別の根拠にならない。合流点で調整したモデルは、当てはまり (R2 = 1) が最も良いまま、効果 0 を -1 と答えた ([dag-adjustment](references/dag-adjustment.md))。
 
-| reference | 中身 |
-|---|---|
-| [potential-outcomes](references/potential-outcomes.md) | 潜在的な結果と反事実、関連と因果の違い、ATE と ATT、識別の 4 つの仮定と、データで確かめられるか |
-| [dag-adjustment](references/dag-adjustment.md) | DAG、交絡、中間変数、合流点とその子孫、バックドアの経路、調整の集合 (`scripts/dag_check.py`) |
-| [spatial](references/spatial.md) | 隣への波及と曝露の写像、空間的な交絡、地図の上の支え (positivity) |
-| [sensitivity](references/sensitivity.md) | 未観測の交絡の強さを変えたときの結論、負の対照、感度の分析にできないこと |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [potential-outcomes](references/potential-outcomes.md) | 設計の表を埋めるとき、いつも (手順 1 の前) | 潜在的な結果と反事実、関連と因果の違い、ATE と ATT、識別の 4 つの仮定と、データで確かめられるか |
+| [dag-adjustment](references/dag-adjustment.md) | DAG を書き、調整の集合を決めるとき (手順 3 の前) | DAG、交絡、中間変数、合流点とその子孫、バックドアの経路、調整の集合 (`scripts/dag_check.py`) |
+| [spatial](references/spatial.md) | 支え、隣への波及、空間的な交絡を考えるとき (手順 4〜6 の前) | 隣への波及と曝露の写像、空間的な交絡、地図の上の支え (positivity) |
+| [sensitivity](references/sensitivity.md) | 測っていない交絡で結論が変わるかを書くとき、いつも (手順 7 の前) | 未観測の交絡の強さを変えたときの結論、負の対照、感度の分析にできないこと |
 
 ## 手順
 

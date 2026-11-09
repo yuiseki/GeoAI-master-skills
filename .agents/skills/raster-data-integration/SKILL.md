@@ -15,13 +15,13 @@ description: 数値やクラスのコードを持つ機械可読なラスタ (�
 
 このスキルが答えるのは、意味の決まったラスタの値を、決まった分析の単位にどう対応付けるか、まで。何を 1 行にするかは、使う前に決めておく。単位に付けた値から特徴量を作ること、結論全体の頑健性を確かめることは、このスキルの外。
 
-| reference | 中身 |
-|---|---|
-| [raster-semantics](references/raster-semantics.md) | 画素の意味を確かめる項目。連続値とクラス、量 (足せる) と水準 (足せない)、NoData と 0 と範囲外 |
-| [resampling](references/resampling.md) | 再標本化と再投影の方法ごとの、値と総量の変わり方 (実測)。rasterio と GDAL の癖 |
-| [zonal-aggregation](references/zonal-aggregation.md) | 面への集計。画素を面に入れる規則、交差の面積と近似の差、境界の画素、総量の保存、解像度による違い (実測) |
-| [time-aggregation](references/time-aggregation.md) | 月ごと、日ごとのラスタを期間にまとめる。量、率、状態、月の長さ、欠けたスライス、時間帯、空間と時間の順序 |
-| [regular-grid](references/regular-grid.md) | 単位が細かい規則格子 (100 万セルなど) のとき。画素の中心をセルに入れる方法と、画素とセルの大きさが近いときのまだら (`scripts/raster_to_grid.py`) |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [raster-semantics](references/raster-semantics.md) | 画素の意味を決めるとき、いつも (手順 3 の前) | 画素の意味を確かめる項目。連続値とクラス、量 (足せる) と水準 (足せない)、NoData と 0 と範囲外 |
+| [resampling](references/resampling.md) | 再標本化や再投影をするとき、解像度で動くかを確かめるとき (手順 9 の前) | 再標本化と再投影の方法ごとの、値と総量の変わり方 (実測)。rasterio と GDAL の癖 |
+| [zonal-aggregation](references/zonal-aggregation.md) | 面 (行政区、格子) に集計するとき (手順 5〜7 の前) | 面への集計。画素を面に入れる規則、交差の面積と近似の差、境界の画素、総量の保存、解像度による違い (実測) |
+| [time-aggregation](references/time-aggregation.md) | 月ごと、日ごとのラスタを期間 (年、季節) にまとめるとき (手順 8 の前) | 月ごと、日ごとのラスタを期間にまとめる。量、率、状態、月の長さ、欠けたスライス、時間帯、空間と時間の順序 |
+| [regular-grid](references/regular-grid.md) | 単位が細かい規則格子のとき (手順 5 の前) | 単位が細かい規則格子 (100 万セルなど) のとき。画素の中心をセルに入れる方法と、画素とセルの大きさが近いときのまだら (`scripts/raster_to_grid.py`) |
 
 ## 手順
 

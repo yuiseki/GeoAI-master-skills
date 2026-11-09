@@ -12,11 +12,11 @@ description: 衛星や空中の画像のチップから、画素ごとに 2 つ�
 - 意味の決まったラスタ (分類済みの土地被覆など) を単位に集計するのは、ラスタの集計の問い。ここでは画素のクラスそのものを当てる。
 - データのライセンスは、学習の前に配布元の原本で確かめる。画像の写しの説明は原本と食い違うことがある (Sen1Floods11 では写しが CC BY 4.0、原本の目録が proprietary)。
 
-| reference | 中身 |
-|---|---|
-| [baselines](references/baselines.md) | Otsu のしきい値の 3 つの作り方 (チップごと、与えられた場面のしきい値、場面ごとに自分で決める) と、平滑化。Sen1Floods11 の数字 |
-| [evaluation](references/evaluation.md) | IoU のチップごとの平均と画素をまとめた値、無効の画素、0/0 の扱い、場面ごとの区間、対にした差、学習に入っていない場面 |
-| [training](references/training.md) | 切り出しと反転、損失の重み、GroupNorm、勾配を分けても損失を変えない書き方、FCN と U-Net の設定と計算の時間、cuDNN の版の落とし穴、再現した値としていないこと |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [baselines](references/baselines.md) | しきい値の基準を作るとき、いつも (手順 4 の前) | Otsu のしきい値の 3 つの作り方 (チップごと、与えられた場面のしきい値、場面ごとに自分で決める) と、平滑化。Sen1Floods11 の数字 |
+| [evaluation](references/evaluation.md) | IoU と区間を出すとき、いつも (手順 5、7 の前) | IoU のチップごとの平均と画素をまとめた値、無効の画素、0/0 の扱い、場面ごとの区間、対にした差、学習に入っていない場面 |
+| [training](references/training.md) | モデル (FCN、U-Net) を学習するとき、学習の予算を決めるとき (手順 6 の前) | 切り出しと反転、損失の重み、GroupNorm、勾配を分けても損失を変えない書き方、FCN と U-Net の設定と計算の時間、cuDNN の版の落とし穴、再現した値としていないこと |
 
 ## 手順
 

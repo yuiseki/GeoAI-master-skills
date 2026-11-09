@@ -9,15 +9,15 @@ description: 因果の効果を識別できると判定した後に、設計の�
 
 推定量は、識別の仮定を直さない。測っていない交絡があれば、回帰による調整も IPW も AIPW も同じだけずれる。推定量の役目は、識別できた効果を、データの支えの範囲で、モデルの誤りにできるだけ強く、正直な不確かさとともに出すこと。
 
-| reference | 識別の型 | 中身 |
-|---|---|---|
-| [adjustment-weighting](references/adjustment-weighting.md) | 調整の集合で交絡が尽きる | 回帰による調整、IPW、AIPW。重なり、重み、バランス、地域で引き直す区間 (`scripts/estimate_effect.py`) |
-| [matching](references/matching.md) | 調整の集合で交絡が尽きる | ATT の最近傍マッチング (戻して選ぶ)、同点、キャリパー、線形の偏りの補正、Abadie と Imbens の標準誤差、使われた対照の数 (`scripts/match.py`) |
-| [did](references/did.md) | 平行な傾向 | 2 × 2、二方向の固定効果、Callaway と Sant'Anna の群 × 時点と集計、処置の前のセル (`scripts/did.py`) |
-| [iv](references/iv.md) | 操作変数 (関連、除外、独立) | 2SLS、1 段目の F と偏決定係数、Anderson-Rubin の集合、LATE (`scripts/iv.py`) |
-| [rdd](references/rdd.md) | 閾値での連続 | 鋭い RD と曖昧な RD の局所線形、帯域の感度、共変量の跳ね、偽の閾値、密度 (`scripts/rdd.py`) |
-| [synthetic-control](references/synthetic-control.md) | 処置された単位 1 つと、要因の共通 | 処置の前の結果を合わせる凸結合の重み、処置の後の差、置換の順位 (`scripts/synth.py`) |
-| [spillover](references/spillover.md) | 割り付けの分かる設計と、曝露の写像 | 自分と隣の処置による 4 つの曝露、直接の効果と波及の効果、設計の引き直しによる曝露の確率、保守的な分散 (`scripts/spillover.py`) |
+| reference | 読むとき | 識別の型 | 中身 |
+|---|---|---|---|
+| [adjustment-weighting](references/adjustment-weighting.md) | 調整の集合で交絡が尽きるとき、いつも (手順 3〜5 の前) | 調整の集合で交絡が尽きる | 回帰による調整、IPW、AIPW。重なり、重み、バランス、地域で引き直す区間 (`scripts/estimate_effect.py`) |
+| [matching](references/matching.md) | ATT をマッチングで出すとき (手順 5 の前) | 調整の集合で交絡が尽きる | ATT の最近傍マッチング (戻して選ぶ)、同点、キャリパー、線形の偏りの補正、Abadie と Imbens の標準誤差、使われた対照の数 (`scripts/match.py`) |
+| [did](references/did.md) | 処置の前後と処置の無い群があるとき | 平行な傾向 | 2 × 2、二方向の固定効果、Callaway と Sant'Anna の群 × 時点と集計、処置の前のセル (`scripts/did.py`) |
+| [iv](references/iv.md) | 操作変数があるとき | 操作変数 (関連、除外、独立) | 2SLS、1 段目の F と偏決定係数、Anderson-Rubin の集合、LATE (`scripts/iv.py`) |
+| [rdd](references/rdd.md) | 処置が閾値で決まるとき | 閾値での連続 | 鋭い RD と曖昧な RD の局所線形、帯域の感度、共変量の跳ね、偽の閾値、密度 (`scripts/rdd.py`) |
+| [synthetic-control](references/synthetic-control.md) | 処置された単位が 1 つ (や少数) のとき | 処置された単位 1 つと、要因の共通 | 処置の前の結果を合わせる凸結合の重み、処置の後の差、置換の順位 (`scripts/synth.py`) |
+| [spillover](references/spillover.md) | 処置が隣の単位にも届くとき (手順 2 の前) | 割り付けの分かる設計と、曝露の写像 | 自分と隣の処置による 4 つの曝露、直接の効果と波及の効果、設計の引き直しによる曝露の確率、保守的な分散 (`scripts/spillover.py`) |
 
 識別の型ごとに、その行の推定量を使う。別の型の推定量で代用しない。観察のデータでの波及の効果 (割り付けの分からない処置)、ATE のマッチング、時間で変わる処置は、まだ無い。
 

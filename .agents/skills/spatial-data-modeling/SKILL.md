@@ -7,25 +7,25 @@ description: 基準 (平均、グループ平均、線形) と同じ分割、同
 
 モデルの点数は、基準と同じ分割、同じ指標で並べて初めて比べられる。このスキルは、全てのモデルに共通する比べ方を決める。モデルの種類ごとの知識は references にある。
 
-| reference | 中身 |
-|---|---|
-| [linear-modeling](references/linear-modeling.md) | 線形回帰、Ridge、Lasso、ロジスティック回帰。係数を説明に使うとき |
-| [tree-modeling](references/tree-modeling.md) | 決定木、ランダムフォレスト。非線形と相互作用、しきい値 |
-| [boosting-modeling](references/boosting-modeling.md) | HistGradientBoosting、XGBoost、LightGBM、CatBoost |
-| [foundation-modeling](references/foundation-modeling.md) | TabPFN、TimesFM などの事前学習モデル。版ごとのライセンス |
-| [classification](references/classification.md) | 目的変数がカテゴリのときに、どのモデルにも加わる論点。多クラスの指標、稀なクラス、argmax、空間的に固まったクラス |
-| [panel-data](references/panel-data.md) | 同じ単位を繰り返し観測したデータ。単位と時間の固定効果、時間で変わらない変数、クラスタの標準誤差、ラグ (`scripts/panel_fit.py`) |
-| [multilevel-models](references/multilevel-models.md) | 入れ子の構造 (地点、市区町村、都道府県)。部分的なまとめと縮小、ICC、ランダム傾き、上の段を落とす誤り、Mundlak (`scripts/multilevel_fit.py`) |
-| [bayesian-modeling](references/bayesian-modeling.md) | 事前、尤度、事後、事後予測を解析的に解ける小さいモデルで。事前予測と事前分布の感度、事後予測の確かめ、信用区間と信頼区間、階層モデルとの対応 (`scripts/bayes_conjugate.py`) |
-| [mcmc](references/mcmc.md) | 解析的に解けない事後をマルコフ連鎖で引く。ランダムウォーク Metropolis、R-hat と ESS、ヤコビアン、模擬に基づく較正 (SBC)、地域のランダム切片のポアソン回帰、勾配を使う HMC、空間のランダム効果 BYM2 (島のある隣接も) (`scripts/mcmc.py`) |
-| [measurement-error](references/measurement-error.md) | 観測値が潜在的な真値の雑音まじりの代わりのとき。古典的と Berkson の誤差、減衰と信頼性、繰り返しと検証用の標本、回帰による較正、誤分類 (`scripts/measurement_error.py`) |
-| [weights](references/weights.md) | 行ごとの重みで学習し採点する。実効的な標本の数 |
-| [error-analysis](references/error-analysis.md) | 誤差をグループや分位ごとに分けて、どこで外れているかを見る |
-| [regression-diagnostics](references/regression-diagnostics.md) | 係数を説明や検定に使うときの、残差の広がり (Breusch-Pagan、White)、形 (Jarque-Bera)、計画行列の条件数、HC3 の標準誤差 (`scripts/regression_diagnostics.py`)。予測の点数で比べるだけなら要らない |
-| [spatial-regression](references/spatial-regression.md) | 残差に空間の偏りが残るときの、空間ラグモデル、空間誤差モデル、空間フィルタ、GWR の選び方。ラグと誤差の最尤、LM 検定、直接効果と間接効果 (`scripts/spatial_regression.py`) |
-| [gwr](references/gwr.md) | 係数が場所で違うかを見る地理的加重回帰。核と帯域、AICc の曲線、tr(S)、調整した臨界の t、局所の傾きが共線で動くこと、局所の条件数と VIF、係数ごとの帯域 (MGWR、`--multiscale`) (`scripts/gwr.py`) |
-| [count-modeling](references/count-modeling.md) | 件数と率: ポアソン回帰と offset、発生率比、過分散と負の二項、ゼロが多いとき (合成データの比較) |
-| [compositional](references/compositional.md) | 合計が一定の割合 (土地利用、年齢、産業の構成): 閉包、共線性、基準のカテゴリ、対数比、0 の扱い |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [linear-modeling](references/linear-modeling.md) | 線形回帰、Ridge、Lasso、ロジスティック回帰を試すとき (手順 2、4 の前) | 線形回帰、Ridge、Lasso、ロジスティック回帰。係数を説明に使うとき |
+| [tree-modeling](references/tree-modeling.md) | 決定木やランダムフォレストを試すとき (手順 2、4 の前) | 決定木、ランダムフォレスト。非線形と相互作用、しきい値 |
+| [boosting-modeling](references/boosting-modeling.md) | 勾配ブースティングを試すとき (手順 2、4 の前) | HistGradientBoosting、XGBoost、LightGBM、CatBoost |
+| [foundation-modeling](references/foundation-modeling.md) | 事前学習モデル (TabPFN など) を試すとき (手順 2 の前) | TabPFN、TimesFM などの事前学習モデル。版ごとのライセンス |
+| [classification](references/classification.md) | 目的変数がカテゴリのとき (手順 1 の後) | 目的変数がカテゴリのときに、どのモデルにも加わる論点。多クラスの指標、稀なクラス、argmax、空間的に固まったクラス |
+| [panel-data](references/panel-data.md) | 同じ単位を繰り返し観測したデータのとき (手順 2 の前) | 同じ単位を繰り返し観測したデータ。単位と時間の固定効果、時間で変わらない変数、クラスタの標準誤差、ラグ (`scripts/panel_fit.py`) |
+| [multilevel-models](references/multilevel-models.md) | 単位が入れ子 (地点、市区町村、都道府県) のとき (手順 2 の前) | 入れ子の構造 (地点、市区町村、都道府県)。部分的なまとめと縮小、ICC、ランダム傾き、上の段を落とす誤り、Mundlak (`scripts/multilevel_fit.py`) |
+| [bayesian-modeling](references/bayesian-modeling.md) | 事前分布を置くモデルや、事後分布で答えるとき | 事前、尤度、事後、事後予測を解析的に解ける小さいモデルで。事前予測と事前分布の感度、事後予測の確かめ、信用区間と信頼区間、階層モデルとの対応 (`scripts/bayes_conjugate.py`) |
+| [mcmc](references/mcmc.md) | 事後分布を解析的に解けず、サンプリングで引くとき | 解析的に解けない事後をマルコフ連鎖で引く。ランダムウォーク Metropolis、R-hat と ESS、ヤコビアン、模擬に基づく較正 (SBC)、地域のランダム切片のポアソン回帰、勾配を使う HMC、空間のランダム効果 BYM2 (島のある隣接も) (`scripts/mcmc.py`) |
+| [measurement-error](references/measurement-error.md) | 説明変数や目的変数が、真値の雑音まじりの代わりのとき | 観測値が潜在的な真値の雑音まじりの代わりのとき。古典的と Berkson の誤差、減衰と信頼性、繰り返しと検証用の標本、回帰による較正、誤分類 (`scripts/measurement_error.py`) |
+| [weights](references/weights.md) | 行ごとの重みで学習し採点するとき | 行ごとの重みで学習し採点する。実効的な標本の数 |
+| [error-analysis](references/error-analysis.md) | 選んだモデルの誤差を分けて見るとき、いつも (手順 8 の前) | 誤差をグループや分位ごとに分けて、どこで外れているかを見る |
+| [regression-diagnostics](references/regression-diagnostics.md) | 係数を説明や検定に使うとき (手順 1 で説明と決めたら) | 係数を説明や検定に使うときの、残差の広がり (Breusch-Pagan、White)、形 (Jarque-Bera)、計画行列の条件数、HC3 の標準誤差 (`scripts/regression_diagnostics.py`)。予測の点数で比べるだけなら要らない |
+| [spatial-regression](references/spatial-regression.md) | 残差に空間の偏りが残るか測るとき、いつも (手順 9 の前) | 残差に空間の偏りが残るときの、空間ラグモデル、空間誤差モデル、空間フィルタ、GWR の選び方。ラグと誤差の最尤、LM 検定、直接効果と間接効果 (`scripts/spatial_regression.py`) |
+| [gwr](references/gwr.md) | 係数が場所で違うかを見るとき | 係数が場所で違うかを見る地理的加重回帰。核と帯域、AICc の曲線、tr(S)、調整した臨界の t、局所の傾きが共線で動くこと、局所の条件数と VIF、係数ごとの帯域 (MGWR、`--multiscale`) (`scripts/gwr.py`) |
+| [count-modeling](references/count-modeling.md) | 目的変数が件数や率のとき (手順 2 の前) | 件数と率: ポアソン回帰と offset、発生率比、過分散と負の二項、ゼロが多いとき (合成データの比較) |
+| [compositional](references/compositional.md) | 説明変数や目的変数が、合計が一定の割合のとき | 合計が一定の割合 (土地利用、年齢、産業の構成): 閉包、共線性、基準のカテゴリ、対数比、0 の扱い |
 
 言葉:
 - 分割表: 交差検証で、どの行を学習に、どの行を試験に使うかを書いたファイル。1 行が 1 つの (repeat、fold、id、role)。repeat は分け直しの回、fold はその回の何番目の分け、id は行の識別子、role は `train` (学習) か `test` (試験)。Parquet (列指向のファイル形式) で書く。

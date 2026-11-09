@@ -7,12 +7,12 @@ description: モデルの不確かさを信じてよいかを確かめる。分�
 
 確率や区間は、全体で約束を守っていても、特定のグループで守っていないことがある。全体の数字に加えて、本番で使う単位のグループごとに確かめる。
 
-| reference | 対象 |
-|---|---|
-| [calibration](references/calibration.md) | 分類の確率。モデルが 0.3 と言った行の 3 割が陽性か |
-| [intervals](references/intervals.md) | 回帰の予測区間。区間を作るのに使っていない行の 9 割を、90% の区間が覆うか |
-| [cv-plus-and-cqr](references/cv-plus-and-cqr.md) | 自分でモデルを当てて作る、保証の付く区間。fold のモデルを使う CV+ と、分位点のモデルを広げる CQR (雑音の大きい行で区間が広がる) |
-| [input-uncertainty](references/input-uncertainty.md) | 入力と前処理 (位置の誤差、按分の推定、分類の誤り) の不確かさが後の段階へ伝わること。固定すると区間が狭すぎる |
+| reference | 読むとき | 対象 |
+|---|---|---|
+| [calibration](references/calibration.md) | 分類の確率をそのまま使うとき (手順 1 の後) | 分類の確率。モデルが 0.3 と言った行の 3 割が陽性か |
+| [intervals](references/intervals.md) | 回帰の予測区間を出すとき (手順 1 の後) | 回帰の予測区間。区間を作るのに使っていない行の 9 割を、90% の区間が覆うか |
+| [cv-plus-and-cqr](references/cv-plus-and-cqr.md) | 自分でモデルを当てて保証の付く区間を作るとき (手順 5 の前) | 自分でモデルを当てて作る、保証の付く区間。fold のモデルを使う CV+ と、分位点のモデルを広げる CQR (雑音の大きい行で区間が広がる) |
+| [input-uncertainty](references/input-uncertainty.md) | 入力や前処理 (位置、按分、分類) が推定を含むとき | 入力と前処理 (位置の誤差、按分の推定、分類の誤り) の不確かさが後の段階へ伝わること。固定すると区間が狭すぎる |
 
 ## 手順
 

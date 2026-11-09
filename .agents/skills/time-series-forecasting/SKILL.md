@@ -7,12 +7,12 @@ description: 多数の系列 (国、格子、地点ごとの月や年の値) の
 
 時系列の予測は、前の期間の値という強い基準に負けることが多い。基準を必ず並べる。過去の平均 (平年値) は、傾向のある系列では系統的にずれる。
 
-| reference | 中身 |
-|---|---|
-| [baselines](references/baselines.md) | 前の期間、季節ナイーブ、平年値、縮めた前の期間 |
-| [ets](references/ets.md) | 指数平滑 (Holt-Winters) |
-| [lag-gbdt](references/lag-gbdt.md) | 過去の値を特徴量にした勾配ブースティング |
-| [sarima](references/sarima.md) | 季節 ARIMA (既定は airline モデル)。差分の取りすぎの見分け方 |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [baselines](references/baselines.md) | 基準を作るとき、いつも (手順 5 の前) | 前の期間、季節ナイーブ、平年値、縮めた前の期間 |
+| [ets](references/ets.md) | 指数平滑を試すとき (手順 5 の前) | 指数平滑 (Holt-Winters) |
+| [lag-gbdt](references/lag-gbdt.md) | 過去の値を特徴量にしたブースティングを試すとき (手順 5 の前) | 過去の値を特徴量にした勾配ブースティング |
+| [sarima](references/sarima.md) | 季節 ARIMA を試すとき、差分の数を決めるとき (手順 5 の前) | 季節 ARIMA (既定は airline モデル)。差分の取りすぎの見分け方 |
 
 TimesFM はまだ入っていない。
 

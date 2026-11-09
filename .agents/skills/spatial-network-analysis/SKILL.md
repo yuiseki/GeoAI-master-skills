@@ -7,10 +7,10 @@ description: 道路などの線のデータからネットワークを作り、�
 
 直線距離は、川、線路、行き止まりを知らない。人や車が動く距離を問うなら、道のりで測る。道のりはネットワークの作り方 (どの道を入れるか、どこでつなぐか、範囲をどこで切るか) で決まるので、作り方を書く。
 
-| reference | 中身 |
-|---|---|
-| [building-the-graph](references/building-the-graph.md) | Overture の道路からネットワークを作る。どの道を入れるか、連結成分、範囲の端 |
-| [measures](references/measures.md) | 道のりの距離、点の寄せ方、到達圏、迂回率 |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [building-the-graph](references/building-the-graph.md) | 道路からネットワークを作るとき、いつも (手順 2、3 の前) | Overture の道路からネットワークを作る。どの道を入れるか、連結成分、範囲の端 |
+| [measures](references/measures.md) | 距離、点の寄せ方、到達圏、迂回率を測るとき、いつも (手順 4、5 の前) | 道のりの距離、点の寄せ方、到達圏、迂回率 |
 
 ## 手順
 

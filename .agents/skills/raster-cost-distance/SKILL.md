@@ -9,11 +9,11 @@ description: 値の意味が決まった cost raster (1 m 進むコスト、た�
 
 このスキルが答えるのは、「この cost raster の上で、各 cell から最寄りの destination まで、最小でどれだけのコストか、それはどの destination か」まで。cost raster は、すでに意味の決まったものを受け取る。土地被覆の分類から速さへの換算、道路や川の焼き込み、人口との重ね合わせは、このスキルの外。標高から傾斜で歩く時間を変えることだけは、`--walk tobler` で扱う (cost raster の代わりに標高のラスタを受け取る)。
 
-| reference | 中身 |
-|---|---|
-| [cost-definition](references/cost-definition.md) | 値の意味と単位 (1 m あたりのコスト)、隣の cell への移動のコスト (2 cell の平均 × 移動の長さ) を選んだ理由、8 近傍と 16 近傍の距離、非正方形の画素、CRS の確かめ方、標高で上りと下りの違う歩く時間 (`--walk tobler`) |
-| [barriers-and-nodata](references/barriers-and-nodata.md) | 通れる cell、barrier、NoData、範囲外、届かない cell の区別。対角の移動で角を抜ける規則 |
-| [validation](references/validation.md) | 答えの分かる合成の例、仮定を崩した例、GRASS GIS `r.cost` と scikit-image と scipy との照合、速さ |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [cost-definition](references/cost-definition.md) | cost raster の値の意味と単位を書くとき、いつも (手順 1 の前) | 値の意味と単位 (1 m あたりのコスト)、隣の cell への移動のコスト (2 cell の平均 × 移動の長さ) を選んだ理由、8 近傍と 16 近傍の距離、非正方形の画素、CRS の確かめ方、標高で上りと下りの違う歩く時間 (`--walk tobler`) |
+| [barriers-and-nodata](references/barriers-and-nodata.md) | barrier と NoData を決め、届かない cell を数えるとき (手順 3、6 の前) | 通れる cell、barrier、NoData、範囲外、届かない cell の区別。対角の移動で角を抜ける規則 |
+| [validation](references/validation.md) | 結果を答えの分かる例や別の道具と照合するとき (手順 5 の後) | 答えの分かる合成の例、仮定を崩した例、GRASS GIS `r.cost` と scikit-image と scipy との照合、速さ |
 
 ## 手順
 

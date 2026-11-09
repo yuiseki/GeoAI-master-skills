@@ -12,11 +12,11 @@ description: 動いているもの (タクシー、車、人、船) の軌跡の
 - 道路網の上の最短経路や到達圏は、ネットワークの問い。ここでは観測された軌跡から学ぶ。
 - 個人の軌跡を共有、公開してよいかは、位置情報のプライバシーの問い。行き先の予測は自宅や勤め先の推定にもなるので、個人の軌跡を扱うなら先にそちらを確かめる。
 
-| reference | 中身 |
-|---|---|
-| [task-design](references/task-design.md) | 問いの形 (行き先、次の位置、到着の時刻)。時刻で切る試験の作り方、学習の接頭の分布、試験と学習の分け方、同じ時期と後の時期、漏れ |
-| [baselines-and-metrics](references/baselines-and-metrics.md) | 中心、最後の点の基準。haversine と equirectangular。切った時刻ごとのブートストラップ、対にした差。Porto の数字 |
-| [destination-mlp](references/destination-mlp.md) | 行き先の塊の重み付き平均を出す MLP。設定、塊の作り方、計算の時間 (CPU と GPU)、Porto で再現した値と再現していないこと |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [task-design](references/task-design.md) | 問いの形と試験の作り方を決めるとき、いつも (手順 1、3 の前) | 問いの形 (行き先、次の位置、到着の時刻)。時刻で切る試験の作り方、学習の接頭の分布、試験と学習の分け方、同じ時期と後の時期、漏れ |
+| [baselines-and-metrics](references/baselines-and-metrics.md) | 基準と誤差の測り方、区間を決めるとき、いつも (手順 4、7 の前) | 中心、最後の点の基準。haversine と equirectangular。切った時刻ごとのブートストラップ、対にした差。Porto の数字 |
+| [destination-mlp](references/destination-mlp.md) | 行き先をニューラルネットで当てるとき、学習の予算を決めるとき (手順 6 の前) | 行き先の塊の重み付き平均を出す MLP。設定、塊の作り方、計算の時間 (CPU と GPU)、Porto で再現した値と再現していないこと |
 
 ## 手順
 

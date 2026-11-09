@@ -7,12 +7,12 @@ description: 単位 (国、地点) を、特徴量の似たものどうしの群
 
 クラスタリングは、構造が無いデータにも群を返す。群ができたことは、構造がある証拠にならない。設定を変えても同じ群が戻ってくるか、既知の区分と何が違うかを確かめてから、群に名前を付ける。
 
-| reference | 手法 |
-|---|---|
-| [kmeans](references/kmeans.md) | 群の数 k を決めて、中心からの距離で分ける |
-| 階層 (Ward 法) | `--method ward --k ...`。分散の増え方が最も小さい組から併合し、k 個で切る。初期値に依らないので、k-means と並べると手法の違いだけを比べられる |
-| [density-based](references/density-based.md) | DBSCAN、HDBSCAN。密な所を群にし、疎な点を雑音とする |
-| [dpmm](references/dpmm.md) | ディリクレ過程の混合正規分布。群の数をデータに合わせる |
+| reference | 読むとき | 手法 |
+|---|---|---|
+| [kmeans](references/kmeans.md) | 群の数を決めて分けるとき、比べる手法の 1 つとして (手順 3〜5 の前) | 群の数 k を決めて、中心からの距離で分ける |
+| 階層 (Ward 法) |  | `--method ward --k ...`。分散の増え方が最も小さい組から併合し、k 個で切る。初期値に依らないので、k-means と並べると手法の違いだけを比べられる |
+| [density-based](references/density-based.md) | 密な所を群にし、疎な点を雑音にするとき (手順 3〜5 の前) | DBSCAN、HDBSCAN。密な所を群にし、疎な点を雑音とする |
+| [dpmm](references/dpmm.md) | 群の数をデータに合わせたいとき (手順 3〜5 の前) | ディリクレ過程の混合正規分布。群の数をデータに合わせる |
 
 ## 手順
 

@@ -9,12 +9,12 @@ description: 空間統計 (Moran's I、局所の指標、空間回帰) を使う
 
 このスキルが答えるのは、「この問いとこのデータで、どの W がもっともらしく、その選び方で結論が変わるか」まで。W を使って自己相関や空間回帰を測ること自体は、このスキルの外。
 
-| reference | 中身 |
-|---|---|
-| [contiguity](references/contiguity.md) | 面の隣接 (Queen と Rook)、境界の隙間と重なり、島、つながりの成分 (`scripts/contiguity.py`) |
-| [distance-and-knn](references/distance-and-knn.md) | k 近傍と距離の帯と距離で減る重み、距離の単位と CRS、密度の違う場所での近傍の数と距離の偏り |
-| [standardization](references/standardization.md) | 0/1、行の標準化、対称にした重み。統計量の意味がどう変わるか |
-| [sensitivity](references/sensitivity.md) | W を変えたときの近傍の重なりと統計量の動き。並べ方 |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [contiguity](references/contiguity.md) | 面の隣接で W を作るとき (手順 3 の前) | 面の隣接 (Queen と Rook)、境界の隙間と重なり、島、つながりの成分 (`scripts/contiguity.py`) |
+| [distance-and-knn](references/distance-and-knn.md) | 距離や k 近傍で W を作るとき、近傍の数を数えるとき (手順 2〜4 の前) | k 近傍と距離の帯と距離で減る重み、距離の単位と CRS、密度の違う場所での近傍の数と距離の偏り |
+| [standardization](references/standardization.md) | 標準化を決めるとき、いつも (手順 5 の前) | 0/1、行の標準化、対称にした重み。統計量の意味がどう変わるか |
+| [sensitivity](references/sensitivity.md) | W を変えたときの感度を見るとき、いつも (手順 6 の前) | W を変えたときの近傍の重なりと統計量の動き。並べ方 |
 
 ## 手順
 

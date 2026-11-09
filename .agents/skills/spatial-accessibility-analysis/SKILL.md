@@ -9,11 +9,11 @@ description: 需要 (問いで定義した人々) に対して、施設やサー
 
 このスキルが答えるのは、「この需要の定義、この供給、このコストと圏域で、誰がどれだけ使えるか、足りないのはどこか」まで。移動のコスト (道のり、所要時間、面の上の累積コスト) を作ること、施設をどこに置くかを決めることは、このスキルの外。
 
-| reference | 中身 |
-|---|---|
-| [2sfca](references/2sfca.md) | 2SFCA の定義、供給の保存、到達性との違い、状態の数え方、既知解、PySAL の access との照合、3SFCA と M2SFCA、東京の小学校の実データ |
-| [distance-decay](references/distance-decay.md) | 重みの型 (0/1、線形、ガウス、段階、累乗)、圏域の大きさを変えた感度 (合成) |
-| [boundary-effects](references/boundary-effects.md) | 分析の範囲の端で、外の需要と施設が欠けたときの偏り (合成)、範囲の外に足す帯の幅 |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [2sfca](references/2sfca.md) | 2SFCA で解くとき、いつも (手順 4 の前) | 2SFCA の定義、供給の保存、到達性との違い、状態の数え方、既知解、PySAL の access との照合、3SFCA と M2SFCA、東京の小学校の実データ |
+| [distance-decay](references/distance-decay.md) | 圏域の中の重みの型を選ぶとき、圏域の感度を見るとき (手順 4、7 の前) | 重みの型 (0/1、線形、ガウス、段階、累乗)、圏域の大きさを変えた感度 (合成) |
+| [boundary-effects](references/boundary-effects.md) | 分析の範囲を決めるとき、いつも (手順 3 の前) | 分析の範囲の端で、外の需要と施設が欠けたときの偏り (合成)、範囲の外に足す帯の幅 |
 
 ## 手順
 

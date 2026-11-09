@@ -9,14 +9,14 @@ description: 分析済みの値を、誤解を生まない図や地図にする�
 
 このスキルが答えるのは、「この結果を、どの型の図や地図に、どの軸、色、階級、注記で描けば、問いに対して誤解を生まないか」まで。何を分析するか、どの数字を報告に入れるかは、このスキルの外。地図にする値と形は、分析済みの単位ごとの出力から読む。
 
-| reference | 中身 |
-|---|---|
-| [japanese-text](references/japanese-text.md) | 日本語の文字が抜ける仕組み、eval の環境で測ったこと、フォントの入れ方と使用許諾、`scripts/cjk_font.py` の使い方 |
-| [spatial-results](references/spatial-results.md) | クラスタラベルと主成分得点の地図。`scripts/spatial_result_map.py` の入力、凡例、来歴、確認 |
-| [result-figures](references/result-figures.md) | パレート前線と運行・勤務の時刻割当。`scripts/result_figures.py` の入力、解の欠落と区間重複の検査 |
-| [thematic-mapping](references/thematic-mapping.md) | 連続値、件数、率、残差、クラスの塗り分け図。`scripts/classify_map.py` の階級、色、NoData、来歴の検査 |
-| [map-context](references/map-context.md) | 地図で場所を読ませる原則。背景の境界と地名、単位の形、縦横の比、凡例、強調と拡大図、数の照合、文字の重なり。`scripts/context_map.py` と `classify_map.py` の引数 |
-| [network-map](references/network-map.md) | 値が辺に付いた結果 (最短経路の木、流れ、効く橋) を、辺の色と太さで描く。`scripts/network_map.py` の入力、階級、0 と値なし、背景に対する色の向き、ラベルの置き方 |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [japanese-text](references/japanese-text.md) | 図に日本語の文字を使うとき、いつも (手順 6 の前) | 日本語の文字が抜ける仕組み、eval の環境で測ったこと、フォントの入れ方と使用許諾、`scripts/cjk_font.py` の使い方 |
+| [spatial-results](references/spatial-results.md) | 類型 (クラスタ) や主成分の得点を地図にするとき | クラスタラベルと主成分得点の地図。`scripts/spatial_result_map.py` の入力、凡例、来歴、確認 |
+| [result-figures](references/result-figures.md) | パレート前線や時刻の割当を描くとき | パレート前線と運行・勤務の時刻割当。`scripts/result_figures.py` の入力、解の欠落と区間重複の検査 |
+| [thematic-mapping](references/thematic-mapping.md) | 値を階級で塗り分ける地図を描くとき (手順 3 の前) | 連続値、件数、率、残差、クラスの塗り分け図。`scripts/classify_map.py` の階級、色、NoData、来歴の検査 |
+| [map-context](references/map-context.md) | 地図を描くとき、いつも (手順 8 の前) | 地図で場所を読ませる原則。背景の境界と地名、単位の形、縦横の比、凡例、強調と拡大図、数の照合、文字の重なり。`scripts/context_map.py` と `classify_map.py` の引数 |
+| [network-map](references/network-map.md) | 値が辺に付いた結果 (経路、流れ、橋) を描くとき | 値が辺に付いた結果 (最短経路の木、流れ、効く橋) を、辺の色と太さで描く。`scripts/network_map.py` の入力、階級、0 と値なし、背景に対する色の向き、ラベルの置き方 |
 
 ## 図の型を、問いから決める
 

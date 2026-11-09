@@ -9,10 +9,10 @@ description: 地図の上の記録の数、密度、分布の違いが、現象�
 
 扱うのは、記録の数や密度を現象の強さとして読んでよいかの監査。欠けた値の埋め方、リーク、列の意味の取り違え、点が集まっているかの検定、因果の推定、標本の重み付け一般は、このスキルの外。
 
-| reference | 中身 |
-|---|---|
-| [proxies](references/proxies.md) | 観測の努力の代わりになるものの選び方と、実データでの測定 (OSM の東京 23 区) |
-| [two-records](references/two-records.md) | 独立した 2 つの記録の重なり: 1 対 1 の照合、半径の感度、独立を仮定した総数 (Chapman) と、それが下限になる理由 (`scripts/record_overlap.py`) |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [proxies](references/proxies.md) | 観測の努力の代わりを選び、記録との関係を測るとき (手順 2〜4 の前) | 観測の努力の代わりになるものの選び方と、実データでの測定 (OSM の東京 23 区) |
+| [two-records](references/two-records.md) | 同じ現象の別の記録と突き合わせるとき (手順 8 の前) | 独立した 2 つの記録の重なり: 1 対 1 の照合、半径の感度、独立を仮定した総数 (Chapman) と、それが下限になる理由 (`scripts/record_overlap.py`) |
 
 ## 3 つを分ける
 
