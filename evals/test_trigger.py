@@ -87,3 +87,30 @@ def test_repeats_are_graded_per_run_and_summed_per_case(tmp_path):
     assert [r[2] for r in rows] == ["PASS", "FAIL", "ERROR"]
     assert cases == [["c", "implicit", "1", "2", "1"]]          # id, kind, passed, graded, errors
     assert (tmp_path / "cases.tsv").read_text().splitlines()[1] == "c\timplicit\t1\t2\t1"
+
+
+def test_a_run_with_no_event_at_all_is_an_error_not_a_grade():
+    """The provider can hang until the time limit without sending one event. The log is then empty: the agent never
+    saw the request, so the run says nothing about the skills (and a negative case would pass for free)."""
+    from trigger import silent
+    assert silent("")
+    assert silent("not json\n")
+    assert not silent(ev("read", filePath="/work/README.md"))
+    case = {"id": "n", "kind": "negative", "forbid": ["spatial-gnn"]}
+    assert judge(case, set(), exit_code=124, error_event=False, silent=True)["verdict"] == "ERROR"
+
+
+def test_retry_errors_sets_the_failed_run_aside_and_keeps_the_graded_ones(tmp_path):
+    from trigger import _needs_run
+    case = {"id": "c", "kind": "implicit", "expect": ["spatial-gnn"]}
+    ok, empty = tmp_path / "c" / "r1", tmp_path / "c" / "r2"
+    for d in (ok, empty):
+        d.mkdir(parents=True)
+        (d / "exit").write_text("124\n")
+    (ok / "log").write_text(ev("read", filePath="/work/.agents/skills/spatial-gnn/SKILL.md"))
+    (empty / "log").write_text("")
+    assert not _needs_run(tmp_path, case, 1, retry_errors=True)
+    assert not _needs_run(tmp_path, case, 2, retry_errors=False)
+    assert _needs_run(tmp_path, case, 2, retry_errors=True)
+    assert not empty.exists() and (tmp_path / "c" / "err" / "r2-1" / "exit").exists()   # kept, out of the grade
+    assert _needs_run(tmp_path, case, 3, retry_errors=False)

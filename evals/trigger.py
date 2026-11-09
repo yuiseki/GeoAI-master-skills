@@ -10,10 +10,11 @@ SKILL.md), or a shell command that names one (cat, sed, head, grep on the file).
 Reading a reference counts as reading its skill.
 
 Verdicts: PASS (every expect read, no forbid read), FAIL, ERROR (the run failed: a non-zero exit other than the
-time limit 124, or an error event from the provider). An ERROR is not graded: run the case again. A run cut off
+time limit 124, an error event from the provider, or no event at all: the provider can hang until the time limit
+without answering). An ERROR is not graded: run the case again (--retry-errors). A run cut off
 by the time limit is graded on what it had read.
 
-    python3 evals/trigger.py run OUT_DIR [--cases evals/trigger_cases.yaml] [--only ID ...] [--model M] [--minutes N] [--repeats N]
+    python3 evals/trigger.py run OUT_DIR [--cases evals/trigger_cases.yaml] [--only ID ...] [--model M] [--minutes N] [--repeats N] [--retry-errors]
     python3 evals/trigger.py judge OUT_DIR       # re-grade saved logs
 OUT_DIR gets one folder per case and run (id/r1/: prompt.md, log, exit), summary.tsv (one row per run) and
 cases.tsv (per case: runs passed, graded, in error). --repeats N runs each case N times, round by round, and
@@ -77,8 +78,19 @@ def error_event(log_text):
     return False
 
 
-def judge(case, read, exit_code, error_event=False):
-    if error_event or exit_code not in (0, 124):
+def silent(log_text):
+    """No JSON event at all: the provider never answered, so the agent did nothing to grade."""
+    for line in log_text.splitlines():
+        try:
+            json.loads(line)
+            return False
+        except ValueError:
+            continue
+    return True
+
+
+def judge(case, read, exit_code, error_event=False, silent=False):
+    if error_event or silent or exit_code not in (0, 124):
         return {"verdict": "ERROR", "missing": [], "forbidden": []}
     missing = [x for x in case.get("expect", []) if x not in read]
     forbidden = [x for x in case.get("forbid", []) if x in read]
@@ -119,6 +131,27 @@ def _runs(out, case_id):
     return runs or ([d] if (d / "exit").exists() else [])
 
 
+def _verdict(case, d):
+    text = (d / "log").read_text(encoding="utf-8", errors="replace")
+    return judge(case, reads(text), int((d / "exit").read_text().strip()), error_event(text), silent(text))["verdict"]
+
+
+def _needs_run(out, case, k, retry_errors=False):
+    """Whether run k of the case is still to do. With retry_errors, a run in ERROR is moved to id/err/rK-N (kept,
+    out of the grade) and run again."""
+    d = out / case["id"] / f"r{k}"
+    if not (d / "exit").exists():
+        return True
+    if not retry_errors or _verdict(case, d) != "ERROR":
+        return False
+    n = 1
+    while (out / case["id"] / "err" / f"r{k}-{n}").exists():
+        n += 1
+    (out / case["id"] / "err").mkdir(exist_ok=True)
+    d.rename(out / case["id"] / "err" / f"r{k}-{n}")
+    return True
+
+
 def grade(out, cases):
     """summary.tsv: one row per run. cases.tsv: per case, runs passed, runs graded (PASS or FAIL), runs in ERROR."""
     rows, per_case = [], []
@@ -127,7 +160,7 @@ def grade(out, cases):
         for d in _runs(out, case["id"]):
             text = (d / "log").read_text(encoding="utf-8", errors="replace")
             got = reads(text)
-            r = judge(case, got, int((d / "exit").read_text().strip()), error_event(text))
+            r = judge(case, got, int((d / "exit").read_text().strip()), error_event(text), silent(text))
             verdicts.append(r["verdict"])
             rows.append([case["id"], case["kind"], r["verdict"], " ".join(r["missing"]), " ".join(r["forbidden"]),
                          " ".join(sorted(got)), d.name])
@@ -156,6 +189,7 @@ def main():
     p.add_argument("--model")
     p.add_argument("--minutes", type=int, default=10)
     p.add_argument("--repeats", type=int, default=1, help="runs per case (r1, r2, ...); runs already there are kept")
+    p.add_argument("--retry-errors", action="store_true", help="run again the runs in ERROR (the old ones go to id/err/)")
     a = p.parse_args()
     out = Path(a.out).resolve()
     if REPO in out.parents or out == REPO:
@@ -164,7 +198,7 @@ def main():
     if a.cmd == "run":
         for k in range(1, a.repeats + 1):        # round by round, so a stop half way leaves every case run alike
             for c in cases:
-                if (out / c["id"] / f"r{k}" / "exit").exists():
+                if not _needs_run(out, c, k, a.retry_errors):
                     continue
                 print(f"running {c['id']} r{k}", flush=True)
                 _run_case(c, out, a.model, a.minutes, k)
