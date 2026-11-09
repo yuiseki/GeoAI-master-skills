@@ -1,0 +1,54 @@
+# Third held-out set for trigger.py (same format as trigger_cases.yaml). Written on 2026-11-10, after ce8a4e3 (the
+# AGENTS.md rule that a plan reads the references of its later steps) and before any other SKILL.md gets a
+# 読むとき column. Each case aims at a reference that its skill names only in a late step. Measure the columns on
+# these. Do not edit these to fit a result.
+
+- id: h14-tree-terrain
+  kind: implicit
+  prompt: 調査区の木の位置を、地形の傾きを説明変数にした点過程のモデルで当てたい。当てた後にも残る木どうしの集まりも扱いたい。
+  expect: [spatial-process-modeling, spatial-process-modeling/references/cox.md]
+
+- id: h15-burglary-lgcp
+  kind: explicit
+  prompt: 空き巣の発生地点に、対数ガウス Cox 過程と Thomas 過程を当てて、どちらが合うかを比べたい。
+  expect: [spatial-process-modeling, spatial-process-modeling/references/cox.md]
+
+- id: h16-bear-grid
+  kind: implicit
+  prompt: クマの出没の通報から、100 m の格子ごとに来年の出没しやすさの地図を作りたい。県の担当者が、その値を確率として読んでよいかも確かめたい。
+  expect: [grid-risk-mapping, grid-risk-mapping/references/history-and-level.md]
+
+- id: h17-fire-grid
+  kind: implicit
+  prompt: 過去の火災の発生地点から、250 m の格子ごとに来年の火災の起こりやすさの順位の地図を作りたい。前の年までの件数を特徴量に使う。
+  expect: [grid-risk-mapping, grid-risk-mapping/references/history-and-level.md]
+
+- id: h18-sar-typhoon
+  kind: implicit
+  prompt: 台風の前と後の Sentinel-1 で浸水した所を測り、浸水実績図と突き合わせたい。変化がたまたまではないことをどう示すかも決めたい。
+  expect: [sar-change-detection, sar-change-detection/references/controls.md]
+
+- id: h19-monthly-rain
+  kind: implicit
+  prompt: 月ごとの降水量の格子 (単位は mm/日) を、市町村ごとの年の降水量にまとめたい。
+  expect: [raster-data-integration, raster-data-integration/references/time-aggregation.md]
+
+- id: h20-mesh-to-ward
+  kind: implicit
+  prompt: 1 km メッシュの人口を、新しい区の境界に移したい。面積で配ったときに、区ごとの値がどれくらい外れるかも知りたい。
+  expect: [areal-interpolation, areal-interpolation/references/validation.md]
+
+- id: h21-station-land-price
+  kind: implicit
+  prompt: 駅に近いことが地価を上げる効果を推定する前に、それがこのデータで識別できるかを判断したい。測っていない交絡があったら結論が変わるかも含めて。
+  expect: [causal-design, causal-design/references/sensitivity.md]
+
+- id: h22-taxi-dropoff
+  kind: implicit
+  prompt: タクシーの走り始めの 10 点から降車する地点を当てるニューラルネットを作り、最後の点をそのまま答える基準と比べたい。
+  expect: [trajectory-prediction, trajectory-prediction/references/destination-mlp.md]
+
+- id: h23-building-unet
+  kind: explicit
+  prompt: 空中写真のチップから建物の画素を U-Net で分けたい。しきい値で分ける基準とも比べる。
+  expect: [image-segmentation, image-segmentation/references/training.md]

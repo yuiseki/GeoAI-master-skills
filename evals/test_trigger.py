@@ -56,7 +56,8 @@ def test_a_prompt_must_not_name_a_skill_or_a_reference():
 
 def test_the_cases_name_only_skills_and_references_that_exist_and_hide_them_from_the_prompt():
     tuning = load_cases(HERE / "trigger_cases.yaml")
-    held = load_cases(HERE / "trigger_holdout.yaml") + load_cases(HERE / "trigger_holdout2.yaml")
+    held = (load_cases(HERE / "trigger_holdout.yaml") + load_cases(HERE / "trigger_holdout2.yaml") +
+            load_cases(HERE / "trigger_holdout3.yaml"))
     assert {c["kind"] for c in tuning} == {"explicit", "implicit", "scope", "negative"}
     cases = tuning + held
     assert len({c["id"] for c in cases}) == len(cases)       # the two sets never share an id
