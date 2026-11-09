@@ -9,19 +9,19 @@ description: 点 (事件、施設) が、比べる基準の分布 (どこにで�
 
 このスキルは、集まっているか、どの距離でかを測る。点がどんな確率過程から生まれたか (強度が説明変数でどう変わるか、残った集まりは環境か引き合いか) をパラメータの推定と模擬で比べるのは、別の問い。
 
-| reference | 中身 |
-|---|---|
-| [ripley](references/ripley.md) | 距離ごとの点の組の数 (Ripley の K) と、無作為な配置との比べ方 |
-| [baselines](references/baselines.md) | 比べる基準の分布の選び方 |
-| [kernel-density](references/kernel-density.md) | 点の強度の地図。帯域の交差検証、端の補正、帯域で山の数が変わること (`scripts/kernel_density.py`) |
-| [cross](references/cross.md) | 2 種類の点の間の組の数を、種類だけを入れ替えた配置と比べる (クロス K と random labelling) |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [ripley](references/ripley.md) | 点が集まっているか、どの距離でかを測るとき、いつも (K 関数、L 関数、組の数、包絡線) | 距離ごとの点の組の数 (Ripley の K) と、無作為な配置との比べ方 |
+| [baselines](references/baselines.md) | 比べる基準を決める前 | 比べる基準の分布の選び方 |
+| [kernel-density](references/kernel-density.md) | 点の強度 (密度) の地図を描くとき | 点の強度の地図。帯域の交差検証、端の補正、帯域で山の数が変わること (`scripts/kernel_density.py`) |
+| [cross](references/cross.md) | 2 種類の点の間の近さを問うとき | 2 種類の点の間の組の数を、種類だけを入れ替えた配置と比べる (クロス K と random labelling) |
 
 ## 手順
 
 1. 問いを書く。「ヘリポートは、人の住む所に沿う以上に集まっているか」。
 2. 比べる基準を決める (references/baselines.md)。少なくとも 2 つ (一様と、問いに合った分布) で比べる。
 3. 点の位置の精度を確かめる (データの説明か、実データの座標の桁数と重なり具合で)。精度が粗い点 (行政区の代表点) は、その大きさより短い距離で偽の集まりを作る。
-4. `scripts/point_pattern.py` で、距離ごとに観測した点の組の数を、基準から無作為に置いた点の組の数と比べる。
+4. `scripts/point_pattern.py` で、距離ごとに観測した点の組の数を、基準から無作為に置いた点の組の数と比べる (references/ripley.md)。
 5. 基準の外にある点 (基準の分布で置けない場所の点) の数を書く。
 6. 集まっている距離と、その倍率を書く。どこが集まりを作っているかを、点の中身 (名前、種類、地域) で確かめる。
 

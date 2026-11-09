@@ -2,7 +2,7 @@
 
 地理空間データの分析を頼まれたら、この流れで進める。各段階の手順は `.agents/skills/<スキル>/SKILL.md` にある。問いに合うスキルだけを読み、全部を読まなくてよい。
 
-スキルの名前と説明だけから手順を答えない。使うと決めたスキルは、手順を決める前に `SKILL.md` を開いて読む。`SKILL.md` の reference の表が「読むとき」に今の段階を挙げていれば、その reference も開いて読む。手順を答えるだけの依頼でも同じ。知らない用語は [docs/glossary.md](docs/glossary.md) で引く。スキルを書く、直すときの決まりは `.agents/skills/AGENTS.md`。
+スキルの名前と説明だけから手順を答えない。使うと決めたスキルは、手順を決める前に `SKILL.md` を開いて読む。`SKILL.md` の reference の表が「読むとき」に今の段階を挙げていれば、その reference も開いて読む。手順を答えるだけの依頼でも同じ。手順を決める依頼では、決める手順のどこかで読むとされる reference は全て今の段階に入る (後の手順の reference も、手順を決める前に読む)。知らない用語は [docs/glossary.md](docs/glossary.md) で引く。スキルを書く、直すときの決まりは `.agents/skills/AGENTS.md`。
 
 研究・調査テーマから決める依頼では、分析の流れに入る前に `research-question-generation` を使う。利用可能なデータ、既存スキル、課題履歴から候補を作り、粗い候補を棄却して proposal として残す。人が候補を比較する短い記録を求められたら、`evals/curriculum/task-cards/` にタスクカードを作る。問いが既に具体的に指定されているなら、このスキルを挟まず、その問いの分析へ進む。proposal やタスクカードを正式課題へ自動追加しない。
 
