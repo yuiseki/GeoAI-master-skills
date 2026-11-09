@@ -8,7 +8,8 @@ Each case gets a fresh workdir (prepare_workdir.py, so no evals/ on its disk), t
 of an agent in Docker: OpenCode (run_opencode_docker.sh), Codex (run_codex_docker.sh) or the Gemini CLI
 (run_gemini_docker.sh), chosen with --agent. What counts as read: a file tool on a skill file (OpenCode's `read`, the
 Gemini CLI's read_file and view_file), OpenCode's `skill` tool (it loads the SKILL.md), or a shell command that
-names one (cat, sed, head, grep on the file; Codex reads only this way). A directory listing does not count, nor does
+names one (cat, sed, head, grep on the file; Codex reads only this way), also after the shell expands
+braces, a for loop or a glob within one skill (cat references/*.md, against the files at the pinned revision). A directory listing does not count, nor does
 a name in the agent's text.
 Reading a reference counts as reading its skill.
 
@@ -59,9 +60,31 @@ _BRACE = re.compile(r"([^\s{}'\"]*)\{([^{}\s]*,[^{}\s]*)\}([^\s{}'\"]*)")
 _FOR = re.compile(r"\bfor\s+(\w+)\s+in\s+([^;]+?)\s*;\s*do\b(.*?)\bdone\b", re.S)
 
 
-def _shell(command):
-    """A shell command with brace expansion and simple for loops written out, so files named only after the
-    shell expands them are seen: cat .agents/skills/{a,b}/SKILL.md, for s in a b; do cat .../$s/SKILL.md; done."""
+_GLOB = re.compile(r"(\.agents/skills/([A-Za-z0-9_-]+)/[^\s'\";|&<>]*[*?\[][^\s'\";|&<>]*)")
+_LISTS = {"ls", "find", "stat", "tree", "du", "file"}
+
+
+def _globs(text, files):
+    """File names a glob within one skill matches among the skill files at the run's revision (files).
+    Not for a listing (ls, find) or a wildcard in the skill's name, which searches across skills."""
+    out = []
+    for seg in re.split(r"&&|\|\||[;|\n]", text):
+        words = [w.strip("'\"(") for w in seg.split()]
+        while words and (re.fullmatch(r"(/\S*/)?(ba)?sh|-l?c|", words[0])):     # Codex's /bin/bash -lc '...'
+            words = words[1:]
+        if not words or words[0] in _LISTS:
+            continue
+        for pat, _skill in _GLOB.findall(seg):
+            rx = re.compile(re.escape(pat).replace(r"\*", "[^/]*").replace(r"\?", "[^/]") + "$")
+            out += [f for f in files if rx.match(f)]
+    return out
+
+
+def _shell(command, files=()):
+    """A shell command with brace expansion, simple for loops and globs within one skill written out, so files
+    named only after the shell expands them are seen: cat .agents/skills/{a,b}/SKILL.md,
+    for s in a b; do cat .../$s/SKILL.md; done, cat .agents/skills/a/references/*.md (globs need files, the
+    skill files at the run's revision)."""
     text, n = command, 0
     while n < 20 and _BRACE.search(text):
         text = _BRACE.sub(lambda m: " ".join(m[1] + x + m[3] for x in m[2].split(",")), text)
@@ -70,6 +93,8 @@ def _shell(command):
     for var, words, body in _FOR.findall(text):
         for w in words.split():
             out.append(re.sub(r"\$\{?" + var + r"\b\}?", w.strip("'\""), body))
+    if files:
+        out += _globs("\n".join(out), files)
     return "\n".join(out)
 
 
@@ -77,10 +102,11 @@ def _shell(command):
 _AGY_READS = {"read_file", "view_file", "run_command", "grep_search"}
 
 
-def reads(log_text):
+def reads(log_text, files=()):
     """Skills and references the agent read, from the JSON events of any of the three agents: OpenCode
     (`opencode run --format json`), Codex (`codex exec --json`) and the Gemini CLI (`agy --output-format
-    stream-json`). The event shapes do not overlap, so a log is read without being told which agent wrote it."""
+    stream-json`). The event shapes do not overlap, so a log is read without being told which agent wrote it.
+    files: the skill files at the run's revision, to expand globs (_shell)."""
     got = set()
     for line in log_text.splitlines():
         try:
@@ -97,16 +123,16 @@ def reads(log_text):
             elif part.get("tool") == "skill" and re.fullmatch(r"[A-Za-z0-9_-]+", str(inp.get("name", ""))):
                 got.add(inp["name"])
             elif part.get("tool") == "bash":
-                got |= _items(_shell(str(inp.get("command", ""))))
+                got |= _items(_shell(str(inp.get("command", "")), files))
         elif j.get("type") == "item.completed":                             # Codex: it reads through the shell
             item = j.get("item") or {}
             if item.get("type") == "command_execution":
-                got |= _items(_shell(str(item.get("command", ""))))
+                got |= _items(_shell(str(item.get("command", "")), files))
         elif j.get("event") == "step_update":                               # Gemini CLI
             st = j.get("step_update") or {}
             if st.get("step_type") == "tool" and st.get("state") == "DONE" and st.get("tool_name") in _AGY_READS:
                 params = (st.get("tool_info") or {}).get("parameters") or {}
-                got |= _items(_shell(" ".join(str(v) for v in params.values())))
+                got |= _items(_shell(" ".join(str(v) for v in params.values()), files))
     return got
 
 
@@ -286,14 +312,20 @@ def _needs_run(out, case, k, retry_errors=False):
     return True
 
 
-def grade(out, cases):
-    """summary.tsv: one row per run. cases.tsv: per case, runs passed, runs graded (PASS or FAIL), runs in ERROR."""
+def skill_files(revision):
+    """The skill files at a revision, to expand the globs an agent ran (cat references/*.md)."""
+    return _git("ls-tree", "-r", "--name-only", revision, ".agents/skills").split()
+
+
+def grade(out, cases, files=()):
+    """summary.tsv: one row per run. cases.tsv: per case, runs passed, runs graded (PASS or FAIL), runs in ERROR.
+    files: the skill files at the pinned revision (skill_files), to expand globs."""
     rows, per_case = [], []
     for case in cases:
         verdicts = []
         for d in _runs(out, case["id"]):
             text = (d / "log").read_text(encoding="utf-8", errors="replace")
-            got = reads(text)
+            got = reads(text, files)
             r = judge(case, got, int((d / "exit").read_text().strip()), error_event(text), silent(text))
             verdicts.append(r["verdict"])
             rows.append([case["id"], case["kind"], r["verdict"], " ".join(r["missing"]), " ".join(r["forbidden"]),
@@ -352,6 +384,7 @@ def main():
     # The tables always list every case that has runs, from the pinned revision when there is one.
     every = cases_at(had["revision"], had["cases"]) if had else load_cases(REPO / a.cases)
     cases = [c for c in every if not a.only or c["id"] in a.only]
+    files = skill_files(had["revision"]) if had else skill_files("HEAD")
     if a.cmd == "run":
         for k in range(1, a.repeats + 1):        # round by round, so a stop half way leaves every case run alike
             for c in cases:
@@ -361,9 +394,9 @@ def main():
                 if _run_case(c, out, a.agent, a.model, a.effort, a.minutes, k, had["revision"]):
                     print(f"stopped: the provider's usage limit (see {c['id']}/r{k}/stderr); "
                           "run again later with --retry-errors", flush=True)
-                    grade(out, every)
+                    grade(out, every, files)
                     sys.exit(3)
-    grade(out, every)
+    grade(out, every, files)
 
 
 if __name__ == "__main__":

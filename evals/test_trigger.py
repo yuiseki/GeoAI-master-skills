@@ -241,3 +241,50 @@ def test_shell_reads_through_brace_expansion_and_for_loops_count():
     ])
     assert reads(log) == {"dataset-discovery", "cross-validation-design", "leakage-audit", "eda-and-baseline",
                           "spatial-gnn", "spatial-gnn/references/dcrnn.md"}
+
+
+FILES = [".agents/skills/point-pattern-analysis/SKILL.md",
+         ".agents/skills/point-pattern-analysis/references/ripley.md",
+         ".agents/skills/point-pattern-analysis/references/baselines.md",
+         ".agents/skills/spatial-gnn/SKILL.md",
+         ".agents/skills/spatial-gnn/references/dcrnn.md",
+         ".agents/skills/spatial-gnn/references/graph.md"]
+
+
+def test_a_glob_inside_one_skill_reads_the_files_it_matches_at_the_revision():
+    """Seen with a Claude subagent on 2026-11-10: cat references/*.md read every reference of the skill."""
+    log = "\n".join([
+        cx("/bin/bash -lc 'cat .agents/skills/point-pattern-analysis/references/*.md'"),
+        ev("bash", command="head -50 /work/.agents/skills/spatial-gnn/references/d?rnn.md"),
+    ])
+    assert reads(log, FILES) == {"point-pattern-analysis", "point-pattern-analysis/references/ripley.md",
+                                 "point-pattern-analysis/references/baselines.md",
+                                 "spatial-gnn", "spatial-gnn/references/dcrnn.md"}
+
+
+def test_a_glob_that_lists_or_spans_skills_is_not_a_read():
+    """ls of a glob only lists. A wildcard in the skill's name is a search across skills, like grep -r on the
+    folder, and would otherwise count all 59 SKILL.md as read."""
+    log = "\n".join([
+        cx("/bin/bash -lc 'ls .agents/skills/spatial-gnn/references/*.md'"),
+        cx("/bin/bash -lc 'grep -l DCRNN .agents/skills/*/SKILL.md'"),
+        cx("/bin/bash -lc 'find .agents/skills/spatial-gnn -name \"*.md\"'"),
+    ])
+    assert reads(log, FILES) == set()
+
+
+def test_without_the_file_list_a_glob_is_not_expanded():
+    assert reads(cx("/bin/bash -lc 'cat .agents/skills/spatial-gnn/references/*.md'")) == set()
+
+
+def test_grade_expands_globs_against_the_skill_files_at_the_pinned_revision(tmp_path):
+    from trigger import _git, grade, skill_files
+    head = _git("rev-parse", "HEAD").strip()
+    assert ".agents/skills/spatial-gnn/references/dcrnn.md" in skill_files(head)
+    case = {"id": "c", "kind": "implicit", "expect": ["spatial-gnn/references/dcrnn.md"]}
+    d = tmp_path / "c" / "r1"
+    d.mkdir(parents=True)
+    (d / "log").write_text(cx("/bin/bash -lc 'cat .agents/skills/spatial-gnn/references/*.md'"))
+    (d / "exit").write_text("0\n")
+    assert [r[2] for r in grade(tmp_path, [case], skill_files(head))[0]] == ["PASS"]
+    assert [r[2] for r in grade(tmp_path, [case])[0]] == ["FAIL"]

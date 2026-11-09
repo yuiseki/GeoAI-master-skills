@@ -27,7 +27,7 @@ Gemini 3.8 Flash low は、A と B の後も dcrnn.md と ripley.md をほとん
 
 - 直す前の点は言い方で大きく変わった。「再現」(h10) や「L 関数」(h11) と書くと開き、名前を出さない h9、h13 は 1 回も開かなかった。直した後は 6 ケースとも 5/5。
 - 最初の 25 ケースを ce8a4e3 で各 3 回流し直すと、Gemini は 65/75 (68ca7f2) から 73/75 になった。e1-dcrnn と i5-clustered-points は 0/3 から 3/3。発火してはいけない 3 ケースは 3/3 のまま。残る外れは e3-spatial-lag の 2 回で、spatial-weights-design の reference を 4 本読んで spatial-data-modeling を開かなかった (68ca7f2 でも 2/3)。ログは `~/Workspaces/tmp/trigger-ce8a4e3-gemini/`。
-- Codex gpt-6-luna medium は ce8a4e3 で 6 ケース各 5 回、29/30 (h9 の 1 回が dcrnn.md を開かず)。直す前の Codex は流していないので、Codex への効果は言えない。
+- Codex gpt-6-luna medium は ce8a4e3 で 6 ケース各 5 回、30/30。最初は 29/30 と数えたが、h9 の 1 回は `cat .agents/skills/spatial-gnn/references/*` で dcrnn.md も読んでおり、採点が `*` を展開しなかった (2026-11-10 に直した)。直す前の Codex は流していないので、Codex への効果は言えない。
 
 ## 確かめていないこと
 
