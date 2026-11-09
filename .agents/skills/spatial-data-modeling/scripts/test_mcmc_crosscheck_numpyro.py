@@ -1,4 +1,4 @@
-"""uvx --with numpy --with scipy --with arviz --with numpyro==0.22.0 --with geopandas --with libpysal --with pytest pytest test_mcmc_crosscheck_numpyro.py
+"""uvx --with numpy --with scipy --with arviz --with jax==0.12.0.1 --with numpyro==0.22.0 --with geopandas --with libpysal --with pytest pytest test_mcmc_crosscheck_numpyro.py
 
 The BYM2 model's HMC (mcmc.py) against the same model in NumPyro (NUTS on JAX), a second outside implementation
 beside PyMC (test_mcmc_crosscheck.py). What differs from ours: the sampler, the gradients (JAX's autodiff, not our
