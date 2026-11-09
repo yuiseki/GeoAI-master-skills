@@ -64,24 +64,30 @@ libpysal の Scotlip (56 地区の 1975〜1980 年の件数と期待数、GeoDa 
 
 Scotlip (上と同じ 56 地区、Queen の隣接、島 3 つ、成分 4 つ。共変数は入れていない):
 
-| | こちらの HMC | PyMC の NUTS |
-|---|---|---|
-| α の中央値 (標準偏差)、R-hat、ESS | 0.053 (0.057)、1.002、2,150 | 0.049 (0.059)、1.001、2,202 |
-| σ | 0.644 (0.094)、1.008、417 | 0.654 (0.097)、1.007、730 |
-| ρ | 0.968 (0.085)、1.008、408 | 0.969 (0.096)、1.018、280 |
-| 地区の効果の事後平均 | 両者の差は最大 0.025 (事後の標準偏差の平均 0.29)、相関 0.9999 | |
-| 時間 (4 連鎖、2,000 + 1,000) | 50 秒 | 89 秒 |
+| | こちらの HMC | PyMC の NUTS | NumPyro の NUTS |
+|---|---|---|---|
+| α の中央値 (標準偏差)、R-hat、ESS | 0.053 (0.057)、1.002、2,150 | 0.049 (0.059)、1.001、2,202 | 0.051 (0.058)、1.000、5,269 |
+| σ | 0.644 (0.094)、1.008、417 | 0.654 (0.097)、1.007、730 | 0.651 (0.092)、1.001、1,235 |
+| ρ | 0.968 (0.085)、1.008、408 | 0.969 (0.096)、1.018、280 | 0.964 (0.089)、1.006、777 |
+| 地区の効果の事後平均 | こちらとの差は最大 0.025 (事後の標準偏差の平均 0.29)、相関 0.9999 | | こちらとの差は最大 0.019、相関 0.9999 |
+| 時間 (4 連鎖、2,000 + 1,000) | 50 秒 | 89 秒 | 23 秒 (CPU、コンパイルを含む) |
+
+こちらの HMC の値は、PyMC との照合のときの値 (種と版が同じでも、NumPyro との照合の実行では σ 0.641、ρ 0.969 と少し違う引きになった)。NumPyro は 0.22.0、JAX は 0.12.0.1。
 
 - 115 パラメータでも、HMC の R-hat は 1.01 以下。上のランダムウォーク (58 パラメータ、20,000 回で 1.06) とは違う。
 - 地区の効果のほとんどは構造化された部分 (ρ の中央値 0.97)。ρ は境界の近くで ESS が 300〜400 と少なく、PyMC の R-hat も 1.018 で 1.01 を超えた。ρ の推定は、どちらでも長く引いて確かめる。
+
+2 つ目の外部の実装として NumPyro (`scripts/test_mcmc_crosscheck_numpyro.py`) とも照合した。5 × 5 の格子と島 1 つ、Scotlip の両方で、α、σ、ρ の事後の中央値がモンテカルロの誤差の 4 倍以内で一致した。NumPyro との照合が確かめるのは、サンプラー、勾配 (こちらは手で書き、NumPyro は JAX の自動微分)、σ と ρ の変数の変換とそのヤコビアン (NumPyro は自分で足す) である。ICAR のポテンシャルと尺度の係数は 3 つとも同じ書き方なので、この照合では確かめていない。
+
+JAX は、読み込んだときに GPU のメモリの 75% を取る。GPU を他と分け合う機械では、`JAX_PLATFORMS=cpu` で CPU に限る (テストはそうしている)。
 
 ## 適用できない条件
 
 - 数十を超える次元、強く相関した事後 (ランダムウォークでは混ざらない)。
 - BYM2 に共変数は無い (切片だけ)。
-- NUTS は無い。軌跡の長さは固定の目安からの一様で、事後の形によっては無駄が多い。
+- NUTS は無い。軌跡の長さは固定の目安からの一様で、事後の形によっては無駄が多い。NUTS が要る大きいモデルは、NumPyro か PyMC で書き、ここの小さいモデルで両者が合うことを先に確かめる。
 - 事前予測と事後予測の確かめは、bayesian-modeling.md の共役なモデルにはあるが、このスクリプトのモデルにはまだ無い。
 
 ## テスト
 
-`uvx --with numpy --with scipy --with pytest pytest scripts/test_mcmc.py`。上の診断、既知解、ヤコビアン、SBC、HMC と BYM2 を確かめている。分けない R-hat、ランダム切片のモデルの log σ のヤコビアンを落とす、のそれぞれで落ちる。tail の R-hat を外す、Geyer の単調化を外す、のそれぞれは主のテストでは落ちず、照合のテスト (`uvx --with numpy --with scipy --with arviz --with pymc --with pytensor --with geopandas --with libpysal --with pytest pytest scripts/test_mcmc_crosscheck.py`、Scotlip は `GEOAI_REALDATA=1`) で落ちる。BYM2 の log σ のヤコビアンを落とすと、事前に戻るテストだけで落ちる。
+`uvx --with numpy --with scipy --with pytest pytest scripts/test_mcmc.py`。上の診断、既知解、ヤコビアン、SBC、HMC と BYM2 を確かめている。分けない R-hat、ランダム切片のモデルの log σ のヤコビアンを落とす、のそれぞれで落ちる。tail の R-hat を外す、Geyer の単調化を外す、のそれぞれは主のテストでは落ちず、照合のテスト (`uvx --with numpy --with scipy --with arviz --with pymc --with pytensor --with geopandas --with libpysal --with pytest pytest scripts/test_mcmc_crosscheck.py`、Scotlip は `GEOAI_REALDATA=1`) で落ちる。NumPyro との照合は `uvx --with numpy --with scipy --with arviz --with numpyro==0.22.0 --with geopandas --with libpysal --with pytest pytest scripts/test_mcmc_crosscheck_numpyro.py` (2 つで約 2 分半)。BYM2 の log σ のヤコビアンを落とすと、事前に戻るテストだけで落ちる。

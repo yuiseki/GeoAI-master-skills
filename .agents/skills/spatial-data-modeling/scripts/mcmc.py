@@ -96,7 +96,8 @@ def hmc(logp_grad, x0, draws=1000, warmup=1000, chains=4, seed=0, target=0.8, pa
             r0 = rng.normal(size=d) / np.sqrt(inv_m)
             h0 = -lp + 0.5 * (r0 * r0 * inv_m).sum()
             xn, rn, gn, lpn = leapfrog(x, r0, g, eps, inv_m, n)
-            h1 = -lpn + 0.5 * (rn * rn * inv_m).sum() if np.isfinite(lpn) else np.inf
+            with np.errstate(over="ignore"):         # a step too long in warmup: h1 is inf and the move is rejected
+                h1 = -lpn + 0.5 * (rn * rn * inv_m).sum() if np.isfinite(lpn) else np.inf
             acc = float(np.exp(min(0.0, h0 - h1))) if np.isfinite(h1) else 0.0
             if h1 - h0 > 1000:
                 if t >= warmup:
