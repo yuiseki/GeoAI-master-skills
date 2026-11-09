@@ -1,0 +1,33 @@
+# Second held-out set for trigger.py (same format as trigger_cases.yaml). Written on 2026-11-10, after Gemini
+# missed dcrnn.md and ripley.md in trigger_cases.yaml (e1, i5) and trigger_holdout.yaml (h1, h2, h7), and before
+# any SKILL.md was changed for those misses. Measure that change on these. Do not edit these to fit a result.
+
+- id: h8-river-dcrnn
+  kind: explicit
+  prompt: 川の水位計が 80 地点あり、10 分ごとの水位がある。川の流れのつながりを使う DCRNN で、3 時間先の水位を予測したい。GPU は 1 枚。
+  expect: [spatial-gnn, spatial-gnn/references/dcrnn.md]
+
+- id: h9-diffusion-conv
+  kind: implicit
+  prompt: 高速道路の感知器の速度を、道路網の上の拡散畳み込みと再帰ネットを組み合わせたモデルで、30 分先まで当てたい。
+  expect: [spatial-gnn, spatial-gnn/references/dcrnn.md]
+
+- id: h10-pems-reproduce
+  kind: explicit
+  prompt: PEMS-BAY で DCRNN を学習し、論文の 1 時間先の MAE を再現できるか確かめたい。
+  expect: [spatial-gnn, spatial-gnn/references/dcrnn.md]
+
+- id: h11-l-function
+  kind: explicit
+  prompt: 自転車の事故の地点が、どの距離で集まっているかを、L 関数と包絡線で調べたい。
+  expect: [point-pattern-analysis, point-pattern-analysis/references/ripley.md]
+
+- id: h12-pair-counts
+  kind: implicit
+  prompt: 古本屋どうしが近くに固まっているかを、半径ごとに店の組を数えて、無作為に置いた場合と比べたい。
+  expect: [point-pattern-analysis, point-pattern-analysis/references/ripley.md]
+
+- id: h13-ambulance-calls
+  kind: implicit
+  prompt: 救急の出動地点が、人の住む所の分布と比べて、どの距離で集まっているかを確かめたい。
+  expect: [point-pattern-analysis, point-pattern-analysis/references/ripley.md]
