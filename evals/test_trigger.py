@@ -55,9 +55,10 @@ def test_a_prompt_must_not_name_a_skill_or_a_reference():
 
 
 def test_the_cases_name_only_skills_and_references_that_exist_and_hide_them_from_the_prompt():
-    cases = load_cases(HERE / "trigger_cases.yaml")
-    assert {c["kind"] for c in cases} == {"explicit", "implicit", "scope", "negative"}
-    assert len({c["id"] for c in cases}) == len(cases)
+    tuning, held = load_cases(HERE / "trigger_cases.yaml"), load_cases(HERE / "trigger_holdout.yaml")
+    assert {c["kind"] for c in tuning} == {"explicit", "implicit", "scope", "negative"}
+    cases = tuning + held
+    assert len({c["id"] for c in cases}) == len(cases)       # the two sets never share an id
     names = {d.name for d in SKILLS.iterdir() if d.is_dir()} | {f.name for f in SKILLS.glob("*/references/*.md")}
     for c in cases:
         for item in c.get("expect", []) + c.get("forbid", []):

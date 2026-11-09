@@ -1,0 +1,39 @@
+# Held-out cases for trigger.py (same format as trigger_cases.yaml). Written on 2026-11-09 before any SKILL.md or
+# AGENTS.md was changed for the misses of the first runs, and aimed at the same references: failure-modes.md,
+# dcrnn.md, spatial.md, spatial-regression.md, ripley.md. Measure a change to the skills on these, not on
+# trigger_cases.yaml, whose misses the change was made from. Do not edit these to fit a result; add new ones.
+
+- id: h1-diffusion-rnn
+  kind: explicit
+  prompt: 交差点ごとの流量計の 15 分値がある。拡散畳み込みの再帰ネット (DCRNN) で、2 時間先の流量を当てたい。
+  expect: [spatial-gnn, spatial-gnn/references/dcrnn.md]
+
+- id: h2-station-dcrnn
+  kind: explicit
+  prompt: 地下鉄の駅ごとの 10 分ごとの乗降人数を、路線のつながりを使う DCRNN で 30 分先まで予測したい。
+  expect: [spatial-gnn, spatial-gnn/references/dcrnn.md]
+
+- id: h3-report-overclaim
+  kind: implicit
+  prompt: 浸水のモデルの結果を、自治体の担当者に渡す報告書にまとめる。書いた結論が、分析で言えることより強くなっていないかを確かめたい。
+  expect: [analysis-reporting, analysis-reporting/references/failure-modes.md]
+
+- id: h4-report-pitfalls
+  kind: implicit
+  prompt: 地域ごとの分析の報告書の下書きができた。相関を原因のように書く、といった、よくある書き方の誤りが入っていないか点検したい。
+  expect: [analysis-reporting, analysis-reporting/references/failure-modes.md]
+
+- id: h5-block-cv
+  kind: explicit
+  prompt: 市町村ごとの値を予測するモデルを、学習に使っていない離れた地域でも使えるかで評価したい。空間ブロックの交差検証の分け方を決めたい。
+  expect: [cross-validation-design, cross-validation-design/references/spatial.md]
+
+- id: h6-spatial-error
+  kind: explicit
+  prompt: 都道府県ごとの失業率を説明する回帰に、空間誤差モデルを当てはめたい。
+  expect: [spatial-data-modeling, spatial-data-modeling/references/spatial-regression.md]
+
+- id: h7-k-function
+  kind: explicit
+  prompt: コンビニの位置が、ランダムに比べて集まっているかを、距離ごとの K 関数で確かめたい。
+  expect: [point-pattern-analysis, point-pattern-analysis/references/ripley.md]
