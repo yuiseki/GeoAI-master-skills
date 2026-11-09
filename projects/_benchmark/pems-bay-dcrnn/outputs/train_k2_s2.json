@@ -1,0 +1,10 @@
+{
+ "k": 2,
+ "seed": 2,
+ "epochs_run": 60,
+ "best_epoch": 45,
+ "best_val_mae": 1.6052318357641107,
+ "seconds": 16757,
+ "device": "cuda",
+ "torch": "2.14.1+cu130"
+}

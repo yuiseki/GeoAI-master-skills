@@ -223,6 +223,8 @@ def compare():
     te = p["sets"]["test"]
     pairs = [("M3_k0_s1", "M2_k2_s1"), ("M1_last_value", "M2_k2_s1"), ("M0_historical_average", "M2_k2_s1"),
              ("M1_last_value", "M3_k0_s1")]
+    if (ART / "pred_M2_k2_s2_h3.npy").exists():   # R008: the same pair with seed 2, and each model across seeds
+        pairs += [("M3_k0_s2", "M2_k2_s2"), ("M2_k2_s2", "M2_k2_s1"), ("M3_k0_s2", "M3_k0_s1")]
     rows = []
     for h in HORIZONS:
         truth = p["values"][te + h]
