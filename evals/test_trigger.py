@@ -225,3 +225,17 @@ def test_the_cases_are_read_from_the_pinned_revision_not_the_working_tree():
                             "evals/trigger_cases.yaml"], capture_output=True, text=True).stdout.split()[-1]
     assert [c["id"] for c in cases_at(head)] == [c["id"] for c in load_cases(HERE / "trigger_cases.yaml")]
     assert len(cases_at(first)) < len(cases_at(head))      # the first version had fewer cases
+
+
+def test_shell_reads_through_brace_expansion_and_for_loops_count():
+    """Seen with Codex on 2026-11-09: several SKILL.md at once, named only after the shell expands them."""
+    log = "\n".join([
+        cx("/bin/sh -lc 'for f in .agents/skills/{dataset-discovery,cross-validation-design}/SKILL.md; "
+           "do echo \"### $f\"; cat \"$f\"; done'"),
+        cx("/bin/sh -lc 'for s in leakage-audit eda-and-baseline; do echo \"### $s\"; "
+           "cat .agents/skills/$s/SKILL.md; done'"),
+        cx("/bin/sh -lc 'for s in spatial-gnn; do cat \".agents/skills/${s}/references/dcrnn.md\"; done'"),
+        cx("/bin/sh -lc 'ls .agents/skills/{trajectory-prediction,causal-design}'"),     # a listing still is not
+    ])
+    assert reads(log) == {"dataset-discovery", "cross-validation-design", "leakage-audit", "eda-and-baseline",
+                          "spatial-gnn", "spatial-gnn/references/dcrnn.md"}

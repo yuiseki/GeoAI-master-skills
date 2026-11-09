@@ -55,6 +55,24 @@ def _items(path_text):
     return out
 
 
+_BRACE = re.compile(r"([^\s{}'\"]*)\{([^{}\s]*,[^{}\s]*)\}([^\s{}'\"]*)")
+_FOR = re.compile(r"\bfor\s+(\w+)\s+in\s+([^;]+?)\s*;\s*do\b(.*?)\bdone\b", re.S)
+
+
+def _shell(command):
+    """A shell command with brace expansion and simple for loops written out, so files named only after the
+    shell expands them are seen: cat .agents/skills/{a,b}/SKILL.md, for s in a b; do cat .../$s/SKILL.md; done."""
+    text, n = command, 0
+    while n < 20 and _BRACE.search(text):
+        text = _BRACE.sub(lambda m: " ".join(m[1] + x + m[3] for x in m[2].split(",")), text)
+        n += 1
+    out = [text]
+    for var, words, body in _FOR.findall(text):
+        for w in words.split():
+            out.append(re.sub(r"\$\{?" + var + r"\b\}?", w.strip("'\""), body))
+    return "\n".join(out)
+
+
 # Tools of the Gemini CLI (agy) that read a file or run a command; list_dir and find_by_name only list.
 _AGY_READS = {"read_file", "view_file", "run_command", "grep_search"}
 
@@ -79,16 +97,16 @@ def reads(log_text):
             elif part.get("tool") == "skill" and re.fullmatch(r"[A-Za-z0-9_-]+", str(inp.get("name", ""))):
                 got.add(inp["name"])
             elif part.get("tool") == "bash":
-                got |= _items(str(inp.get("command", "")))
+                got |= _items(_shell(str(inp.get("command", ""))))
         elif j.get("type") == "item.completed":                             # Codex: it reads through the shell
             item = j.get("item") or {}
             if item.get("type") == "command_execution":
-                got |= _items(str(item.get("command", "")))
+                got |= _items(_shell(str(item.get("command", ""))))
         elif j.get("event") == "step_update":                               # Gemini CLI
             st = j.get("step_update") or {}
             if st.get("step_type") == "tool" and st.get("state") == "DONE" and st.get("tool_name") in _AGY_READS:
                 params = (st.get("tool_info") or {}).get("parameters") or {}
-                got |= _items(" ".join(str(v) for v in params.values()))
+                got |= _items(_shell(" ".join(str(v) for v in params.values())))
     return got
 
 
