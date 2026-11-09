@@ -28,7 +28,7 @@
 ## 確かめていないこと
 
 - 1 群 10 回 (対照は 15 回) で、差の区間は出していない。前から A + B への failure-modes.md の 4/10 から 10/10 は大きいが、A だけの差は揺れの内にある。
-- Gemini が dcrnn.md を開かない理由。
+- Gemini が dcrnn.md を開かない理由。仮説を立てて直し、別のケースで測った ([trigger-holdout2-2026-11-10.md](trigger-holdout2-2026-11-10.md))。
 - Claude のサブエージェントを、全体の CLAUDE.md と記憶の無い条件で流したときの点。
 
 ## 最初の 25 ケースを A + B の版で流し直した (2026-11-10)
@@ -56,3 +56,19 @@ Claude Code のサブエージェント (Opus 5.5、general-purpose) に、会�
 - 35 回全て合格。Gemini が 1 度も開かなかった dcrnn.md も、10 回とも開いた。
 - 条件は Codex と Gemini と同じではない。Claude Code はリポジトリの AGENTS.md を自動では読まない (読むのは CLAUDE.md で、作業場所には無い)。代わりに、流した人の端末にある全体の CLAUDE.md と記憶が読み込まれていた。答えに systemd-run の上限が繰り返し出てくるのと、35 回のうち 7 回で `amem keep` を呼んで活動の記録を書いたのはそのため。AGENTS.md は 27 回で開くか grep した。B の決まりが届いた結果か、自分で探し当てた結果かは分けられない。
 - 1 回で 7〜9 万トークンを使った (35 回で約 290 万)。
+
+## Claude Sonnet のサブエージェント (2026-11-10)
+
+上の Opus と同じ条件 (68ca7f2、同じ作業場所の作り方、同じ指示の文、各 5 回) で、モデルだけ Sonnet 5.5 に変えた。35 回とも記録のモデルは claude-sonnet-5-5。
+
+| ケース (狙う reference) | Opus 5.5 | Sonnet 5.5 |
+|---|---:|---:|
+| h1、h2 (dcrnn.md) | 10/10 | 8/10 |
+| h3、h4 (failure-modes.md) | 10/10 | 10/10 |
+| h5〜h7 (対照) | 15/15 | 15/15 |
+
+- 外れは h2-station-dcrnn の 2 回。どちらも `grep -n "^#" references/*.md` で reference の見出しだけを拾い、dcrnn.md の本文を開かずに答えた。
+- 採点の規則のままでは 32/35 になる。h1-diffusion-rnn の 1 回は `cat spatial-gnn/references/*.md` で 3 本とも読んでいたが、trigger.py の採点は `*` を展開しないので dcrnn.md を数え落とす。記録を読んで合格に数え直した。Codex の採点にも同じ数え落としがありうる (確かめていない)。
+- `amem keep` を呼んだ回は 0 (Opus は 7)。AGENTS.md は 33 回で開いた。全体の CLAUDE.md と記憶が読み込まれる条件は Opus と同じ。
+- 1 回で 7〜9 万トークンを使った。
+
