@@ -5,8 +5,11 @@ This measures one step before that, cheaply and many times: given only a request
 references/*.md the agent opens. Cases are in trigger_cases.yaml (explicit, implicit, scope, negative).
 
 Each case gets a fresh workdir (prepare_workdir.py, so no evals/ on its disk), the prompt plus SUFFIX, and one run
-of evals/run_opencode_docker.sh. What counts as read: a `read` call on a skill file, OpenCode's `skill` tool (it loads the
-SKILL.md), or a shell command that names one (cat, sed, head, grep on the file). A directory listing does not count, nor does a name in the agent's text.
+of an agent in Docker: OpenCode (run_opencode_docker.sh), Codex (run_codex_docker.sh) or the Gemini CLI
+(run_gemini_docker.sh), chosen with --agent. What counts as read: a file tool on a skill file (OpenCode's `read`, the
+Gemini CLI's read_file and view_file), OpenCode's `skill` tool (it loads the SKILL.md), or a shell command that
+names one (cat, sed, head, grep on the file; Codex reads only this way). A directory listing does not count, nor does
+a name in the agent's text.
 Reading a reference counts as reading its skill.
 
 Verdicts: PASS (every expect read, no forbid read), FAIL, ERROR (the run failed: a non-zero exit other than the
@@ -15,9 +18,11 @@ without answering). An ERROR is not graded: run the case again (--retry-errors).
 by the time limit is graded on what it had read. When a run's stderr shows the provider's usage limit, the whole run
 stops (exit 3) instead of waiting the time limit on every remaining case.
 
-    python3 evals/trigger.py run OUT_DIR [--cases evals/trigger_cases.yaml] [--only ID ...] [--model M] [--minutes N] [--repeats N] [--retry-errors]
+    python3 evals/trigger.py run OUT_DIR [--agent opencode|codex|gemini] [--model M] [--effort E]
+        [--cases evals/trigger_cases.yaml] [--only ID ...] [--minutes N] [--repeats N] [--retry-errors]
     python3 evals/trigger.py judge OUT_DIR       # re-grade saved logs
-OUT_DIR gets one folder per case and run (id/r1/: prompt.md, log (stdout), stderr, exit), summary.tsv (one row per run) and
+OUT_DIR holds the runs of one agent and model (agent.json; a run with another one is refused) and gets one folder
+per case and run (id/r1/: prompt.md, agent.json, log (stdout), stderr, exit), summary.tsv (one row per run) and
 cases.tsv (per case: runs passed, graded, in error). --repeats N runs each case N times, round by round, and
 keeps the runs already there, so a stopped run can be resumed. Keep OUT_DIR outside the repository.
 """
@@ -47,34 +52,58 @@ def _items(path_text):
     return out
 
 
+# Tools of the Gemini CLI (agy) that read a file or run a command; list_dir and find_by_name only list.
+_AGY_READS = {"read_file", "view_file", "run_command", "grep_search"}
+
+
 def reads(log_text):
-    """Skills and references the agent read, from the JSON events of `opencode run --format json`."""
+    """Skills and references the agent read, from the JSON events of any of the three agents: OpenCode
+    (`opencode run --format json`), Codex (`codex exec --json`) and the Gemini CLI (`agy --output-format
+    stream-json`). The event shapes do not overlap, so a log is read without being told which agent wrote it."""
     got = set()
     for line in log_text.splitlines():
         try:
             j = json.loads(line)
         except ValueError:
             continue
-        if j.get("type") != "tool_use":
+        if not isinstance(j, dict):
             continue
-        part = j.get("part", {})
-        inp = part.get("state", {}).get("input") or {}
-        if part.get("tool") == "read":
-            got |= _items(str(inp.get("filePath", "")))
-        elif part.get("tool") == "skill" and re.fullmatch(r"[A-Za-z0-9_-]+", str(inp.get("name", ""))):
-            got.add(inp["name"])
-        elif part.get("tool") == "bash":
-            got |= _items(str(inp.get("command", "")))
+        if j.get("type") == "tool_use":                                     # OpenCode
+            part = j.get("part", {})
+            inp = part.get("state", {}).get("input") or {}
+            if part.get("tool") == "read":
+                got |= _items(str(inp.get("filePath", "")))
+            elif part.get("tool") == "skill" and re.fullmatch(r"[A-Za-z0-9_-]+", str(inp.get("name", ""))):
+                got.add(inp["name"])
+            elif part.get("tool") == "bash":
+                got |= _items(str(inp.get("command", "")))
+        elif j.get("type") == "item.completed":                             # Codex: it reads through the shell
+            item = j.get("item") or {}
+            if item.get("type") == "command_execution":
+                got |= _items(str(item.get("command", "")))
+        elif j.get("event") == "step_update":                               # Gemini CLI
+            st = j.get("step_update") or {}
+            if st.get("step_type") == "tool" and st.get("state") == "DONE" and st.get("tool_name") in _AGY_READS:
+                params = (st.get("tool_info") or {}).get("parameters") or {}
+                got |= _items(" ".join(str(v) for v in params.values()))
     return got
 
 
 def error_event(log_text):
+    """The provider or the agent reported a failed run. Codex's "Reconnecting" errors are retries, not a failure:
+    only turn.failed counts."""
     for line in log_text.splitlines():
         try:
             j = json.loads(line)
         except ValueError:
             continue
-        if j.get("type") == "error":
+        if not isinstance(j, dict):
+            continue
+        if j.get("type") == "error" and "error" in j:                       # OpenCode
+            return True
+        if j.get("type") == "turn.failed":                                  # Codex
+            return True
+        if j.get("event") == "result" and (j.get("result") or {}).get("status") != "SUCCESS":   # Gemini CLI
             return True
     return False
 
@@ -115,7 +144,46 @@ def prompt_problems(case, names):
     return [f"{case['id']} names {n}" for n in sorted(names) if n in case["prompt"]]
 
 
-def _run_case(case, out, model, minutes, repeat=1):
+# The defaults are the conditions of the earlier evals (evals/results): Codex gpt-6-luna at medium effort, the
+# Gemini CLI with gemini-3.8-flash-low (OAuth; the effort is part of the name), OpenCode's free DeepSeek.
+DEFAULTS = {"opencode": ("opencode/deepseek-v4.1-flash-free", ""), "codex": ("gpt-6-luna", "medium"),
+            "gemini": ("gemini-3.8-flash-low", "")}
+
+
+def agent_command(agent, model, effort, prompt, work):
+    """The runner command for one run, and the agent, model and effort to record with it."""
+    model = model or DEFAULTS[agent][0]
+    effort = effort or DEFAULTS[agent][1]
+    if agent == "codex":
+        cmd = [str(HERE / "run_codex_docker.sh"), "--prompt", str(prompt), str(work), "--json",
+               "-m", model, "-c", f"model_reasoning_effort={effort}"]
+    elif agent == "gemini":
+        if effort:
+            raise ValueError("with the Gemini CLI the effort is part of the model name (gemini-3.8-flash-low)")
+        cmd = [str(HERE / "run_gemini_docker.sh"), "--auth", "oauth", "--prompt", str(prompt), str(work),
+               "--model", model]
+    elif agent == "opencode":
+        if effort:
+            raise ValueError("the OpenCode runner takes no effort")
+        cmd = [str(HERE / "run_opencode_docker.sh"), "--prompt", str(prompt), str(work)]
+    else:
+        raise ValueError(agent)
+    return cmd, {"agent": agent, "model": model, "effort": effort}
+
+
+def _check_one_model(out, meta):
+    """One OUT_DIR holds runs of one agent and model, so its tables never mix them."""
+    f = out / "agent.json"
+    if f.exists():
+        had = json.loads(f.read_text())
+        if had != meta:
+            sys.exit(f"{out} holds runs of {had}; use another OUT_DIR for {meta}")
+    else:
+        out.mkdir(parents=True, exist_ok=True)
+        f.write_text(json.dumps(meta) + "\n")
+
+
+def _run_case(case, out, agent, model, effort, minutes, repeat=1):
     d = out / case["id"] / f"r{repeat}"
     if d.exists():
         shutil.rmtree(d)
@@ -124,10 +192,11 @@ def _run_case(case, out, model, minutes, repeat=1):
     subprocess.run([sys.executable, str(HERE / "prepare_workdir.py"), "HEAD", str(work), "--repo", str(REPO)],
                    check=True, capture_output=True)
     (d / "prompt.md").write_text(case["prompt"] + SUFFIX + "\n", encoding="utf-8")
-    env = dict(os.environ, **({"EVAL_MODEL": model} if model else {}))
+    cmd, meta = agent_command(agent, model, effort, d / "prompt.md", work)
+    (d / "agent.json").write_text(json.dumps(meta) + "\n")
+    env = dict(os.environ, **({"EVAL_MODEL": meta["model"]} if agent == "opencode" else {}))
     with open(d / "log", "w", encoding="utf-8") as log, open(d / "stderr", "w", encoding="utf-8") as err:
-        r = subprocess.run(["timeout", f"{minutes}m", str(HERE / "run_opencode_docker.sh"), "--prompt",
-                            str(d / "prompt.md"), str(work)], stdout=log, stderr=err, env=env)
+        r = subprocess.run(["timeout", f"{minutes}m", *cmd], stdout=log, stderr=err, env=env)
     (d / "exit").write_text(f"{r.returncode}\n")
     shutil.rmtree(work, ignore_errors=True)
     return usage_limited((d / "stderr").read_text(encoding="utf-8", errors="replace"))
@@ -195,7 +264,9 @@ def main():
     p.add_argument("out")
     p.add_argument("--cases", default=str(HERE / "trigger_cases.yaml"))
     p.add_argument("--only", nargs="*")
-    p.add_argument("--model")
+    p.add_argument("--agent", choices=sorted(DEFAULTS), default="opencode")
+    p.add_argument("--model", help="default per agent: " + ", ".join(f"{a} {m}" for a, (m, _) in DEFAULTS.items()))
+    p.add_argument("--effort", help="Codex only (default medium)")
     p.add_argument("--minutes", type=int, default=10)
     p.add_argument("--repeats", type=int, default=1, help="runs per case (r1, r2, ...); runs already there are kept")
     p.add_argument("--retry-errors", action="store_true", help="run again the runs in ERROR (the old ones go to id/err/)")
@@ -206,12 +277,13 @@ def main():
     every = load_cases(a.cases)                 # the tables always list every case that has runs
     cases = [c for c in every if not a.only or c["id"] in a.only]
     if a.cmd == "run":
+        _check_one_model(out, agent_command(a.agent, a.model, a.effort, "p", "w")[1])
         for k in range(1, a.repeats + 1):        # round by round, so a stop half way leaves every case run alike
             for c in cases:
                 if not _needs_run(out, c, k, a.retry_errors):
                     continue
                 print(f"running {c['id']} r{k}", flush=True)
-                if _run_case(c, out, a.model, a.minutes, k):
+                if _run_case(c, out, a.agent, a.model, a.effort, a.minutes, k):
                     print(f"stopped: the provider's usage limit (see {c['id']}/r{k}/stderr); "
                           "run again later with --retry-errors", flush=True)
                     grade(out, every)

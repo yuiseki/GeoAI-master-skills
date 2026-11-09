@@ -140,3 +140,66 @@ def test_only_runs_the_named_cases_but_the_tables_keep_every_case(tmp_path):
     subprocess.run([sys.executable, str(HERE / "trigger.py"), "judge", str(tmp_path), "--only", "n1-typo"], check=True)
     ids = [line.split("\t")[0] for line in (tmp_path / "cases.tsv").read_text().splitlines()[1:]]
     assert ids == ["e2-kriging", "n1-typo"]
+
+
+def agy(tool, state="DONE", **params):
+    return json.dumps({"event": "step_update", "step_update": {"step_index": 1, "state": state, "step_type": "tool",
+                                                                "tool_name": tool, "tool_info": {"name": tool,
+                                                                                                 "parameters": params}}})
+
+
+def cx(command, kind="command_execution"):
+    return json.dumps({"type": "item.completed", "item": {"id": "i", "type": kind, "command": command,
+                                                          "exit_code": 0, "status": "completed"}})
+
+
+def test_reads_takes_the_gemini_cli_s_file_tools_and_commands():
+    """agy --output-format stream-json (seen 2026-11-09): read_file / view_file with Path, run_command with a
+    command line. Listings (list_dir, find_by_name) are not reads."""
+    log = "\n".join([
+        json.dumps({"event": "init", "init": {"model": "gemini-3.8-flash-low"}}),
+        agy("read_file", Path="/work/.agents/skills/spatial-gnn/SKILL.md", StartLine=1, EndLine=100),
+        agy("view_file", AbsolutePath="/work/.agents/skills/spatial-gnn/references/dcrnn.md"),
+        agy("run_command", CommandLine="sed -n 1,80p .agents/skills/point-pattern-analysis/references/ripley.md"),
+        agy("list_dir", DirectoryPath="/work/.agents/skills/trajectory-prediction/references"),
+        agy("read_file", state="ACTIVE", Path="/work/.agents/skills/image-segmentation/SKILL.md"),
+    ])
+    assert reads(log) == {"spatial-gnn", "spatial-gnn/references/dcrnn.md",
+                          "point-pattern-analysis", "point-pattern-analysis/references/ripley.md"}
+
+
+def test_reads_takes_codex_s_shell_commands():
+    log = "\n".join([
+        json.dumps({"type": "thread.started", "thread_id": "x"}),
+        cx("/bin/bash -lc 'cat .agents/skills/spatial-gnn/SKILL.md'"),
+        cx("/bin/bash -lc \"sed -n '1,120p' .agents/skills/spatial-gnn/references/dcrnn.md\""),
+        cx("/bin/bash -lc 'ls .agents/skills/trajectory-prediction/references'"),
+    ])
+    assert reads(log) == {"spatial-gnn", "spatial-gnn/references/dcrnn.md"}
+
+
+def test_a_failed_turn_or_run_is_an_error_event_in_each_format():
+    from trigger import error_event
+    assert error_event(json.dumps({"type": "turn.failed", "error": {"message": "unauthorized (401)"}}))
+    assert not error_event(json.dumps({"type": "error", "message": "Reconnecting... 1/5"}) + "\n" + cx("cat x"))
+    assert error_event(json.dumps({"event": "result", "result": {"status": "ERROR"}}))
+    assert not error_event(json.dumps({"event": "result", "result": {"status": "SUCCESS"}}))
+    assert error_event(json.dumps({"type": "error", "error": {"name": "APIError"}}))      # opencode
+
+
+def test_each_agent_gets_its_runner_and_the_run_records_the_model(tmp_path):
+    """The command for each agent, and the agent, model and effort written next to the log (results are only
+    comparable within one model)."""
+    from trigger import agent_command
+    cmd, meta = agent_command("codex", None, None, tmp_path / "p.md", tmp_path / "w")
+    assert cmd[0].endswith("run_codex_docker.sh") and cmd[-4:] == ["-m", "gpt-6-luna", "-c",
+                                                                   "model_reasoning_effort=medium"]
+    assert "--json" in cmd and meta == {"agent": "codex", "model": "gpt-6-luna", "effort": "medium"}
+    cmd, meta = agent_command("gemini", None, None, tmp_path / "p.md", tmp_path / "w")
+    assert cmd[0].endswith("run_gemini_docker.sh") and "--auth" in cmd
+    assert meta == {"agent": "gemini", "model": "gemini-3.8-flash-low", "effort": ""}
+    cmd, meta = agent_command("opencode", "opencode/glm-5.3-flash-free", None, tmp_path / "p.md", tmp_path / "w")
+    assert cmd[0].endswith("run_opencode_docker.sh")
+    assert meta == {"agent": "opencode", "model": "opencode/glm-5.3-flash-free", "effort": ""}
+    with pytest.raises(ValueError):
+        agent_command("gemini", None, "high", tmp_path / "p.md", tmp_path / "w")   # the effort is in the name
