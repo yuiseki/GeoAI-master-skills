@@ -7,13 +7,13 @@ description: 分析の最終回答を、何を調べたか (問い)、結論、�
 
 答えを読む人は、まず結論を知りたい。次に、その結論をどこまで信じてよいかを、データと方法から判断したい。このスキルは、分析の段階で既に出た数字と来歴 (データの名前と版、実行したコマンドと設定) を、最終回答の決まった枠に並べる。新しい計算はしない。答えに書く数字は、分析の出力にある数字だけ。
 
-| reference | 中身 |
-|---|---|
-| [levels](references/levels.md) | 詳細度の 3 段階 (簡単、標準、重い) の選び方、段階ごとに足すもの、実際の分析の出力から書いた例 |
-| [github-markdown](references/github-markdown.md) | GFM と GitHub 独自の数式・Mermaid の記法、公式文書 |
-| [failure-modes](references/failure-modes.md) | できのよい報告に見えて結論が間違う 9 つの型 (F1〜F9) と確かめ方、重い報告の「失敗の型」の表の書き方 |
-| [calibration](references/calibration.md) | check_project.py が、答えの分かる壊し方をどれだけ拾うか (節の欠けとリンク切れは全て、数字の誤りは半分ほど、言葉の主張は拾わない) と、書き手への助言 |
-| [figure-led-report](references/figure-led-report.md) | 重い分析の report.md。結論を要点の表、読み手ごとの表、図ごとの読み方、読み方で変わる答えの表の順に組む |
+| reference | 読むとき | 中身 |
+|---|---|---|
+| [levels](references/levels.md) | 答えを書き始める前に、いつも | 詳細度の 3 段階 (簡単、標準、重い) の選び方、段階ごとに足すもの、実際の分析の出力から書いた例 |
+| [failure-modes](references/failure-modes.md) | 結論をどこまで信じてよいかを書くとき、報告 (report.md) を書くとき、書いた結論が言いすぎでないかを点検するとき | できのよい報告に見えて結論が間違う 9 つの型 (F1〜F9) と確かめ方、重い報告の「失敗の型」の表の書き方 |
+| [figure-led-report](references/figure-led-report.md) | 重い分析の report.md を組むとき | 結論を要点の表、読み手ごとの表、図ごとの読み方、読み方で変わる答えの表の順に組む |
+| [github-markdown](references/github-markdown.md) | 数式、Mermaid、GitHub 独自の記法を使うとき | GFM と GitHub 独自の数式・Mermaid の記法、公式文書 |
+| [calibration](references/calibration.md) | check_project.py が ok でも数字を疑うとき、検査を直すとき | check_project.py が、答えの分かる壊し方をどれだけ拾うか (節の欠けとリンク切れは全て、数字の誤りは半分ほど、言葉の主張は拾わない) と、書き手への助言 |
 
 ひな形は [assets/answer-template.md](assets/answer-template.md)。
 
@@ -54,10 +54,11 @@ description: 分析の最終回答を、何を調べたか (問い)、結論、�
    - 標準: 手法を 1 つ選んで当てた。
    - 重い: モデル、因果、推論、複数の手法の比較、確かめの段階がある。
 2. 結論に使う数字を、分析の出力 (ツールの結果、ログ、表) から拾う。拾えない数字は書かない。足りなければ、分析の段階に戻って出す。ここで計算し直さない。
-3. 4 つの枠を埋める。データの版と件数、方法の設定は、出力やコマンドに書いてあるものを写す。分析中に起きたこと (除いた行、止まった理由、外れた仮説) のうち、結論の読み方を変えるものだけを残す。流す前に書いた計画と実行の記録があれば、結論ごとに確認 (規則を先に決めた比較) か探索かと、計画から変えたこと (何を見た後に、何を、なぜ) を、記録から写す。記録が無いなら、事後に思い出して確認と書かない。
-4. 重い分析の report.md は、結論の枠を要点の表から図へ降りる形に組む ([figure-led-report](references/figure-led-report.md))。
-5. 段階の長さに収める。簡単なら全体で 8 行まで、標準なら 40 行まで。表の行、数式・Mermaid のフェンスと中身も空でない行として数える。収まらないなら、重さの見立てが違うか、結論に関係しないことを書いている。
-6. 確かめる。答えを Markdown のファイル (`.md`) に書き、出力とコマンドを別のファイルに集めて、`scripts/check_report.py` に渡す。
+3. 標準と重い分析では、枠を埋める前に [failure-modes](references/failure-modes.md) を読み、9 つの型のどれが結論を崩しうるかを見る。
+4. 4 つの枠を埋める。データの版と件数、方法の設定は、出力やコマンドに書いてあるものを写す。分析中に起きたこと (除いた行、止まった理由、外れた仮説) のうち、結論の読み方を変えるものだけを残す。流す前に書いた計画と実行の記録があれば、結論ごとに確認 (規則を先に決めた比較) か探索かと、計画から変えたこと (何を見た後に、何を、なぜ) を、記録から写す。記録が無いなら、事後に思い出して確認と書かない。
+5. 重い分析の report.md は、結論の枠を要点の表から図へ降りる形に組む ([figure-led-report](references/figure-led-report.md))。
+6. 段階の長さに収める。簡単なら全体で 8 行まで、標準なら 40 行まで。表の行、数式・Mermaid のフェンスと中身も空でない行として数える。収まらないなら、重さの見立てが違うか、結論に関係しないことを書いている。
+7. 確かめる。答えを Markdown のファイル (`.md`) に書き、出力とコマンドを別のファイルに集めて、`scripts/check_report.py` に渡す。
 
 ```sh
 python3 scripts/check_report.py tmp/answer.md --level simple --evidence tmp/outputs.txt
