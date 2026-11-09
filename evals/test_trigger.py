@@ -203,3 +203,25 @@ def test_each_agent_gets_its_runner_and_the_run_records_the_model(tmp_path):
     assert meta == {"agent": "opencode", "model": "opencode/glm-5.3-flash-free", "effort": ""}
     with pytest.raises(ValueError):
         agent_command("gemini", None, "high", tmp_path / "p.md", tmp_path / "w")   # the effort is in the name
+
+
+def test_a_manifest_that_differs_names_what_changed():
+    """An OUT_DIR is one condition: resuming or retrying with another revision, cases, model, image, CLI, runner
+    or time limit is refused, and the refusal says which."""
+    from trigger import manifest_diff
+    old = {"revision": "a" * 40, "cases_sha256": "c1", "agent": "gemini", "model": "gemini-3.8-flash-low",
+           "effort": "", "image_id": "sha256:1", "cli_version": "1.3.5", "runner_sha256": "r1", "minutes": 10,
+           "created": "2026-11-09T12:00:00+09:00"}
+    assert manifest_diff(old, dict(old, created="2026-11-10T09:00:00+09:00")) == []     # the time is not a condition
+    assert manifest_diff(old, dict(old, revision="b" * 40, cli_version="1.3.6")) == ["cli_version", "revision"]
+
+
+def test_the_cases_are_read_from_the_pinned_revision_not_the_working_tree():
+    from trigger import cases_at, load_cases
+    import subprocess
+    head = subprocess.run(["git", "-C", str(HERE.parent), "rev-parse", "HEAD"], capture_output=True, text=True,
+                          check=True).stdout.strip()
+    first = subprocess.run(["git", "-C", str(HERE.parent), "log", "--format=%H", "--diff-filter=A", "--",
+                            "evals/trigger_cases.yaml"], capture_output=True, text=True).stdout.split()[-1]
+    assert [c["id"] for c in cases_at(head)] == [c["id"] for c in load_cases(HERE / "trigger_cases.yaml")]
+    assert len(cases_at(first)) < len(cases_at(head))      # the first version had fewer cases

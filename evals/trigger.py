@@ -21,8 +21,11 @@ stops (exit 3) instead of waiting the time limit on every remaining case.
     python3 evals/trigger.py run OUT_DIR [--agent opencode|codex|gemini] [--model M] [--effort E]
         [--cases evals/trigger_cases.yaml] [--only ID ...] [--minutes N] [--repeats N] [--retry-errors]
     python3 evals/trigger.py judge OUT_DIR       # re-grade saved logs
-OUT_DIR holds the runs of one agent and model (agent.json; a run with another one is refused) and gets one folder
-per case and run (id/r1/: prompt.md, agent.json, log (stdout), stderr, exit), summary.tsv (one row per run) and
+OUT_DIR is one condition. Its first run writes manifest.json: the revision of the skills and the cases (each workdir
+is made from it, not from HEAD, and the cases are read from it), the agent, model and effort, the Docker image id,
+the CLI's version, the runner's hash and the time limit. Resuming or --retry-errors under anything different is
+refused with what changed. It gets one folder per case and run (id/r1/: prompt.md, agent.json, log (stdout),
+stderr, exit), summary.tsv (one row per run) and
 cases.tsv (per case: runs passed, graded, in error). --repeats N runs each case N times, round by round, and
 keeps the runs already there, so a stopped run can be resumed. Keep OUT_DIR outside the repository.
 """
@@ -139,6 +142,53 @@ def load_cases(path):
     return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
 
 
+CASES = "evals/trigger_cases.yaml"
+
+
+def _git(*args):
+    return subprocess.run(["git", "-C", str(REPO), *args], capture_output=True, text=True, check=True).stdout
+
+
+def cases_at(revision, path=CASES):
+    """The cases as committed at a revision: the working tree may have moved on since the runs began."""
+    import yaml
+    return yaml.safe_load(_git("show", f"{revision}:{path}"))
+
+
+IMAGES = {"opencode": ("geoai-master-skills-evals-opencode", "opencode"),
+          "codex": ("geoai-master-skills-evals-codex", "codex"), "gemini": ("geoai-master-skills-evals-gemini", "agy")}
+RUNNERS = {"opencode": "run_opencode_docker.sh", "codex": "run_codex_docker.sh", "gemini": "run_gemini_docker.sh"}
+# What makes two runs comparable. The creation time is recorded but is not a condition.
+CONDITIONS = ("revision", "cases", "cases_sha256", "suffix_sha256", "agent", "model", "effort", "image",
+              "image_id", "cli_version", "runner_sha256", "minutes")
+
+
+def build_manifest(revision, cases, meta, minutes):
+    """The conditions of an OUT_DIR, fixed by its first run. The revision is resolved to a full sha."""
+    import datetime
+    import hashlib
+    image, cli = IMAGES[meta["agent"]]
+    image = os.environ.get("EVAL_IMAGE", image)
+    run = lambda *c: subprocess.run(c, capture_output=True, text=True, check=True).stdout.strip()
+    return {
+        "revision": _git("rev-parse", "--verify", f"{revision}^{{commit}}").strip(),
+        "cases": cases,
+        "cases_sha256": hashlib.sha256(_git("show", f"{revision}:{cases}").encode()).hexdigest(),
+        "suffix_sha256": hashlib.sha256(SUFFIX.encode()).hexdigest(),
+        **meta,
+        "image": image,
+        "image_id": run("docker", "image", "inspect", "--format", "{{.Id}}", image),
+        "cli_version": run("docker", "run", "--rm", image, cli, "--version").splitlines()[-1],
+        "runner_sha256": hashlib.sha256((HERE / RUNNERS[meta["agent"]]).read_bytes()).hexdigest(),
+        "minutes": minutes,
+        "created": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
+    }
+
+
+def manifest_diff(old, new):
+    return sorted(k for k in CONDITIONS if old.get(k) != new.get(k))
+
+
 def prompt_problems(case, names):
     """A prompt may not name a skill or a reference file: finding them is what is measured."""
     return [f"{case['id']} names {n}" for n in sorted(names) if n in case["prompt"]]
@@ -171,25 +221,13 @@ def agent_command(agent, model, effort, prompt, work):
     return cmd, {"agent": agent, "model": model, "effort": effort}
 
 
-def _check_one_model(out, meta):
-    """One OUT_DIR holds runs of one agent and model, so its tables never mix them."""
-    f = out / "agent.json"
-    if f.exists():
-        had = json.loads(f.read_text())
-        if had != meta:
-            sys.exit(f"{out} holds runs of {had}; use another OUT_DIR for {meta}")
-    else:
-        out.mkdir(parents=True, exist_ok=True)
-        f.write_text(json.dumps(meta) + "\n")
-
-
-def _run_case(case, out, agent, model, effort, minutes, repeat=1):
+def _run_case(case, out, agent, model, effort, minutes, repeat=1, revision="HEAD"):
     d = out / case["id"] / f"r{repeat}"
     if d.exists():
         shutil.rmtree(d)
     d.mkdir(parents=True)
     work = d / "work"
-    subprocess.run([sys.executable, str(HERE / "prepare_workdir.py"), "HEAD", str(work), "--repo", str(REPO)],
+    subprocess.run([sys.executable, str(HERE / "prepare_workdir.py"), revision, str(work), "--repo", str(REPO)],
                    check=True, capture_output=True)
     (d / "prompt.md").write_text(case["prompt"] + SUFFIX + "\n", encoding="utf-8")
     cmd, meta = agent_command(agent, model, effort, d / "prompt.md", work)
@@ -262,7 +300,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("cmd", choices=["run", "judge"])
     p.add_argument("out")
-    p.add_argument("--cases", default=str(HERE / "trigger_cases.yaml"))
+    p.add_argument("--cases", default=CASES, help="path in the repository, read at the pinned revision")
+    p.add_argument("--rev", default="HEAD", help="revision of the skills and cases for a new OUT_DIR (then fixed)")
     p.add_argument("--only", nargs="*")
     p.add_argument("--agent", choices=sorted(DEFAULTS), default="opencode")
     p.add_argument("--model", help="default per agent: " + ", ".join(f"{a} {m}" for a, (m, _) in DEFAULTS.items()))
@@ -274,16 +313,34 @@ def main():
     out = Path(a.out).resolve()
     if REPO in out.parents or out == REPO:
         sys.exit("OUT_DIR must be outside the repository")
-    every = load_cases(a.cases)                 # the tables always list every case that has runs
+    mf = out / "manifest.json"
+    had = json.loads(mf.read_text()) if mf.exists() else None
+    if a.cmd == "run":
+        meta = agent_command(a.agent, a.model, a.effort, "p", "w")[1]
+        if had is None and any(out.glob("*/r*/exit")):
+            sys.exit(f"{out} has runs but no manifest.json (made before manifests): use a new OUT_DIR")
+        now = build_manifest(had["revision"] if had else a.rev, had["cases"] if had else a.cases, meta, a.minutes)
+        if had:
+            diff = manifest_diff(had, now)
+            if diff:
+                sys.exit(f"{out} was run under other conditions: " +
+                         "; ".join(f"{k}: {had.get(k)} -> {now.get(k)}" for k in diff))
+        else:
+            out.mkdir(parents=True, exist_ok=True)
+            mf.write_text(json.dumps(now, indent=1) + "\n")
+            had = now
+        print(f"revision {had['revision'][:10]} {meta['agent']} {meta['model']} {meta['effort']} "
+              f"{had['cli_version']}", flush=True)
+    # The tables always list every case that has runs, from the pinned revision when there is one.
+    every = cases_at(had["revision"], had["cases"]) if had else load_cases(REPO / a.cases)
     cases = [c for c in every if not a.only or c["id"] in a.only]
     if a.cmd == "run":
-        _check_one_model(out, agent_command(a.agent, a.model, a.effort, "p", "w")[1])
         for k in range(1, a.repeats + 1):        # round by round, so a stop half way leaves every case run alike
             for c in cases:
                 if not _needs_run(out, c, k, a.retry_errors):
                     continue
                 print(f"running {c['id']} r{k}", flush=True)
-                if _run_case(c, out, a.agent, a.model, a.effort, a.minutes, k):
+                if _run_case(c, out, a.agent, a.model, a.effort, a.minutes, k, had["revision"]):
                     print(f"stopped: the provider's usage limit (see {c['id']}/r{k}/stderr); "
                           "run again later with --retry-errors", flush=True)
                     grade(out, every)
