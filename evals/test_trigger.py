@@ -357,6 +357,17 @@ def test_a_cd_is_followed_within_a_command_and_across_claude_code_s_calls():
     assert reads(codex) == {"point-pattern-analysis", "point-pattern-analysis/references/ripley.md"}
 
 
+def test_a_brace_before_a_separator_is_expanded_without_the_separator():
+    """Seen on 2026-11-10 (Sonnet, effort low): cd /work/.agents/skills; cat spatial-gnn/references/{a,b,c}.md;
+    sed ... The ; went into every expanded word, so after the cd only the first file counted."""
+    log = cl("Bash", command="cd /work/.agents/skills; cat spatial-gnn/references/{graph,evaluation,dcrnn}.md; "
+                             "sed -n 1,60p time-series-forecasting/SKILL.md")
+    assert reads(log) == {"spatial-gnn", "spatial-gnn/references/graph.md", "spatial-gnn/references/evaluation.md",
+                          "spatial-gnn/references/dcrnn.md", "time-series-forecasting"}
+    assert reads(cl("Bash", command="cat .agents/skills/{spatial-gnn,eda-and-baseline}/SKILL.md&&echo ok|cat")) \
+        == {"spatial-gnn", "eda-and-baseline"}
+
+
 def test_a_cd_reaches_globs_too():
     log = cl("Bash", command="cd /work/.agents/skills/spatial-gnn && cat references/*.md")
     assert reads(log, FILES) == {"spatial-gnn", "spatial-gnn/references/dcrnn.md", "spatial-gnn/references/graph.md"}

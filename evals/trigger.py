@@ -58,7 +58,7 @@ def _items(path_text):
     return out
 
 
-_BRACE = re.compile(r"([^\s{}'\"]*)\{([^{}\s]*,[^{}\s]*)\}([^\s{}'\"]*)")
+_BRACE = re.compile(r"([^\s{}'\";&|<>()]*)\{([^{}\s;&|<>()]*,[^{}\s;&|<>()]*)\}([^\s{}'\";&|<>()]*)")
 _FOR = re.compile(r"\bfor\s+(\w+)\s+in\s+([^;]+?)\s*;\s*do\b(.*?)\bdone\b", re.S)
 
 
