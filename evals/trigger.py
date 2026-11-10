@@ -6,7 +6,8 @@ references/*.md the agent opens. Cases are in trigger_cases.yaml (explicit, impl
 
 Each case gets a fresh workdir (prepare_workdir.py, so no evals/ on its disk), the prompt plus SUFFIX, and one run
 of an agent in Docker: OpenCode (run_opencode_docker.sh), Codex (run_codex_docker.sh) or the Gemini CLI
-(run_gemini_docker.sh), chosen with --agent. What counts as read: a file tool on a skill file (OpenCode's `read`, the
+(run_gemini_docker.sh), chosen with --agent; or Claude Code on the host (run_claude_local.sh: no user settings, no
+CLAUDE.md unless --context gives one, its workdir outside OUT_DIR under EVAL_CLAUDE_WORK_BASE, default /tmp/trigger-claude). What counts as read: a file tool on a skill file (OpenCode's `read`, the
 Gemini CLI's read_file and view_file), OpenCode's `skill` tool (it loads the SKILL.md), or a shell command that
 names one (cat, sed, head, grep on the file; Codex reads only this way), also after the shell expands
 braces, a for loop or a glob within one skill (cat references/*.md, against the files at the pinned revision). A directory listing does not count, nor does
@@ -19,7 +20,8 @@ without answering). An ERROR is not graded: run the case again (--retry-errors).
 by the time limit is graded on what it had read. When a run's stderr shows the provider's usage limit, the whole run
 stops (exit 3) instead of waiting the time limit on every remaining case.
 
-    python3 evals/trigger.py run OUT_DIR [--agent opencode|codex|gemini] [--model M] [--effort E]
+    python3 evals/trigger.py run OUT_DIR [--agent opencode|codex|gemini|claude] [--model M] [--effort E]
+        [--context CLAUDE_MD]
         [--cases evals/trigger_cases.yaml] [--only ID ...] [--minutes N] [--repeats N] [--retry-errors]
     python3 evals/trigger.py judge OUT_DIR       # re-grade saved logs
 OUT_DIR is one condition. Its first run writes manifest.json: the revision of the skills and the cases (each workdir
@@ -103,9 +105,9 @@ _AGY_READS = {"read_file", "view_file", "run_command", "grep_search"}
 
 
 def reads(log_text, files=()):
-    """Skills and references the agent read, from the JSON events of any of the three agents: OpenCode
-    (`opencode run --format json`), Codex (`codex exec --json`) and the Gemini CLI (`agy --output-format
-    stream-json`). The event shapes do not overlap, so a log is read without being told which agent wrote it.
+    """Skills and references the agent read, from the JSON events of any of the four agents: OpenCode
+    (`opencode run --format json`), Codex (`codex exec --json`), the Gemini CLI (`agy --output-format
+    stream-json`) and Claude Code (`claude -p --output-format stream-json`; Glob only lists). The event shapes do not overlap, so a log is read without being told which agent wrote it.
     files: the skill files at the run's revision, to expand globs (_shell)."""
     got = set()
     for line in log_text.splitlines():
@@ -128,6 +130,17 @@ def reads(log_text, files=()):
             item = j.get("item") or {}
             if item.get("type") == "command_execution":
                 got |= _items(_shell(str(item.get("command", "")), files))
+        elif j.get("type") == "assistant":                                  # Claude Code
+            for c in (j.get("message") or {}).get("content") or []:
+                if not isinstance(c, dict) or c.get("type") != "tool_use":
+                    continue
+                inp = c.get("input") or {}
+                if c.get("name") == "Read":
+                    got |= _items(str(inp.get("file_path", "")))
+                elif c.get("name") == "Grep":
+                    got |= _items(str(inp.get("path", "")))
+                elif c.get("name") == "Bash":
+                    got |= _items(_shell(str(inp.get("command", "")), files))
         elif j.get("event") == "step_update":                               # Gemini CLI
             st = j.get("step_update") or {}
             if st.get("step_type") == "tool" and st.get("state") == "DONE" and st.get("tool_name") in _AGY_READS:
@@ -152,6 +165,8 @@ def error_event(log_text):
             return True
         if j.get("event") == "result" and (j.get("result") or {}).get("status") != "SUCCESS":   # Gemini CLI
             return True
+        if j.get("type") == "result" and (j.get("is_error") or j.get("subtype") != "success"):   # Claude Code
+            return True
     return False
 
 
@@ -166,11 +181,21 @@ def silent(log_text):
     return True
 
 
-def usage_limited(stderr_text):
+def usage_limited(stderr_text, log_text=""):
     """The provider refused for its usage limit. OpenCode retries this until the time limit and writes nothing to
-    stdout, so every later run would also wait the full time for nothing."""
-    return any("level=ERROR" in line and re.search(r"usage limit reached|rate limit", line, re.I)
-               for line in stderr_text.splitlines())
+    stdout, so every later run would also wait the full time for nothing. Claude Code says so in its result event."""
+    if any("level=ERROR" in line and re.search(r"usage limit reached|rate limit", line, re.I)
+           for line in stderr_text.splitlines()):
+        return True
+    for line in log_text.splitlines():
+        try:
+            j = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(j, dict) and j.get("type") == "result" and j.get("is_error") and \
+                re.search(r"usage limit|rate limit", str(j.get("result", "")), re.I):
+            return True
+    return False
 
 
 def judge(case, read, exit_code, error_event=False, silent=False):
@@ -201,19 +226,25 @@ def cases_at(revision, path=CASES):
 
 IMAGES = {"opencode": ("geoai-master-skills-evals-opencode", "opencode"),
           "codex": ("geoai-master-skills-evals-codex", "codex"), "gemini": ("geoai-master-skills-evals-gemini", "agy")}
-RUNNERS = {"opencode": "run_opencode_docker.sh", "codex": "run_codex_docker.sh", "gemini": "run_gemini_docker.sh"}
+RUNNERS = {"opencode": "run_opencode_docker.sh", "codex": "run_codex_docker.sh", "gemini": "run_gemini_docker.sh",
+           "claude": "run_claude_local.sh"}
 # What makes two runs comparable. The creation time is recorded but is not a condition.
 CONDITIONS = ("revision", "cases", "cases_sha256", "suffix_sha256", "agent", "model", "effort", "image",
-              "image_id", "cli_version", "runner_sha256", "minutes")
+              "image_id", "cli_version", "runner_sha256", "minutes", "context_sha256")
 
 
 def build_manifest(revision, cases, meta, minutes):
     """The conditions of an OUT_DIR, fixed by its first run. The revision is resolved to a full sha."""
     import datetime
     import hashlib
-    image, cli = IMAGES[meta["agent"]]
-    image = os.environ.get("EVAL_IMAGE", image)
     run = lambda *c: subprocess.run(c, capture_output=True, text=True, check=True).stdout.strip()
+    if meta["agent"] == "claude":                    # on the host (run_claude_local.sh): no image
+        image, image_id, cli_version = "host", "", run("claude", "--version")
+    else:
+        image, cli = IMAGES[meta["agent"]]
+        image = os.environ.get("EVAL_IMAGE", image)
+        image_id = run("docker", "image", "inspect", "--format", "{{.Id}}", image)
+        cli_version = run("docker", "run", "--rm", image, cli, "--version").splitlines()[-1]
     return {
         "revision": _git("rev-parse", "--verify", f"{revision}^{{commit}}").strip(),
         "cases": cases,
@@ -221,8 +252,8 @@ def build_manifest(revision, cases, meta, minutes):
         "suffix_sha256": hashlib.sha256(SUFFIX.encode()).hexdigest(),
         **meta,
         "image": image,
-        "image_id": run("docker", "image", "inspect", "--format", "{{.Id}}", image),
-        "cli_version": run("docker", "run", "--rm", image, cli, "--version").splitlines()[-1],
+        "image_id": image_id,
+        "cli_version": cli_version,
         "runner_sha256": hashlib.sha256((HERE / RUNNERS[meta["agent"]]).read_bytes()).hexdigest(),
         "minutes": minutes,
         "created": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
@@ -241,13 +272,23 @@ def prompt_problems(case, names):
 # The defaults are the conditions of the earlier evals (evals/results): Codex gpt-6-luna at medium effort, the
 # Gemini CLI with gemini-3.8-flash-low (OAuth; the effort is part of the name), OpenCode's free DeepSeek.
 DEFAULTS = {"opencode": ("opencode/deepseek-v4.1-flash-free", ""), "codex": ("gpt-6-luna", "medium"),
-            "gemini": ("gemini-3.8-flash-low", "")}
+            "gemini": ("gemini-3.8-flash-low", ""), "claude": ("claude-sonnet-5-5", "")}
 
 
-def agent_command(agent, model, effort, prompt, work):
-    """The runner command for one run, and the agent, model and effort to record with it."""
+def agent_command(agent, model, effort, prompt, work, context=None):
+    """The runner command for one run, and the agent, model and effort to record with it. context: a file Claude
+    Code gets as CLAUDE.md above its workdir (recorded by its hash; "none" when there is none)."""
+    import hashlib
     model = model or DEFAULTS[agent][0]
     effort = effort or DEFAULTS[agent][1]
+    if context and agent != "claude":
+        raise ValueError("--context is a CLAUDE.md: only Claude Code reads it")
+    if agent == "claude":
+        cmd = [str(HERE / "run_claude_local.sh"), "--prompt", str(prompt)]
+        cmd += ["--context", str(context)] if context else []
+        cmd += [str(work)] + (["--effort", effort] if effort else []) + ["--model", model]
+        sha = hashlib.sha256(Path(context).read_bytes()).hexdigest() if context else "none"
+        return cmd, {"agent": agent, "model": model, "effort": effort, "context_sha256": sha}
     if agent == "codex":
         cmd = [str(HERE / "run_codex_docker.sh"), "--prompt", str(prompt), str(work), "--json",
                "-m", model, "-c", f"model_reasoning_effort={effort}"]
@@ -265,23 +306,31 @@ def agent_command(agent, model, effort, prompt, work):
     return cmd, {"agent": agent, "model": model, "effort": effort}
 
 
-def _run_case(case, out, agent, model, effort, minutes, repeat=1, revision="HEAD"):
+def _run_case(case, out, agent, model, effort, minutes, repeat=1, revision="HEAD", context=None):
     d = out / case["id"] / f"r{repeat}"
     if d.exists():
         shutil.rmtree(d)
     d.mkdir(parents=True)
     work = d / "work"
+    if agent == "claude":
+        # Claude Code reads every CLAUDE.md above its folder, and OUT_DIR may be under one. Its workdir goes in a
+        # folder of its own under EVAL_CLAUDE_WORK_BASE, which run_claude_local.sh checks has none above it.
+        import tempfile
+        base = Path(os.environ.get("EVAL_CLAUDE_WORK_BASE", "/tmp/trigger-claude"))
+        base.mkdir(parents=True, exist_ok=True)
+        work = Path(tempfile.mkdtemp(prefix=f"{case['id']}-r{repeat}-", dir=base)) / "work"
     subprocess.run([sys.executable, str(HERE / "prepare_workdir.py"), revision, str(work), "--repo", str(REPO)],
                    check=True, capture_output=True)
     (d / "prompt.md").write_text(case["prompt"] + SUFFIX + "\n", encoding="utf-8")
-    cmd, meta = agent_command(agent, model, effort, d / "prompt.md", work)
+    cmd, meta = agent_command(agent, model, effort, d / "prompt.md", work, **({"context": context} if context else {}))
     (d / "agent.json").write_text(json.dumps(meta) + "\n")
     env = dict(os.environ, **({"EVAL_MODEL": meta["model"]} if agent == "opencode" else {}))
     with open(d / "log", "w", encoding="utf-8") as log, open(d / "stderr", "w", encoding="utf-8") as err:
         r = subprocess.run(["timeout", f"{minutes}m", *cmd], stdout=log, stderr=err, env=env)
     (d / "exit").write_text(f"{r.returncode}\n")
-    shutil.rmtree(work, ignore_errors=True)
-    return usage_limited((d / "stderr").read_text(encoding="utf-8", errors="replace"))
+    shutil.rmtree(work.parent if agent == "claude" else work, ignore_errors=True)
+    return usage_limited((d / "stderr").read_text(encoding="utf-8", errors="replace"),
+                         (d / "log").read_text(encoding="utf-8", errors="replace"))
 
 
 def _runs(out, case_id):
@@ -355,7 +404,9 @@ def main():
     p.add_argument("--only", nargs="*")
     p.add_argument("--agent", choices=sorted(DEFAULTS), default="opencode")
     p.add_argument("--model", help="default per agent: " + ", ".join(f"{a} {m}" for a, (m, _) in DEFAULTS.items()))
-    p.add_argument("--effort", help="Codex only (default medium)")
+    p.add_argument("--effort", help="Codex (default medium) and Claude Code (default: claude's own)")
+    p.add_argument("--context", help="Claude Code only: a file it gets as CLAUDE.md (e.g. the user's global rules); "
+                                     "recorded by its hash")
     p.add_argument("--minutes", type=int, default=10)
     p.add_argument("--repeats", type=int, default=1, help="runs per case (r1, r2, ...); runs already there are kept")
     p.add_argument("--retry-errors", action="store_true", help="run again the runs in ERROR (the old ones go to id/err/)")
@@ -366,7 +417,7 @@ def main():
     mf = out / "manifest.json"
     had = json.loads(mf.read_text()) if mf.exists() else None
     if a.cmd == "run":
-        meta = agent_command(a.agent, a.model, a.effort, "p", "w")[1]
+        meta = agent_command(a.agent, a.model, a.effort, "p", "w", **({"context": a.context} if a.context else {}))[1]
         if had is None and any(out.glob("*/r*/exit")):
             sys.exit(f"{out} has runs but no manifest.json (made before manifests): use a new OUT_DIR")
         now = build_manifest(had["revision"] if had else a.rev, had["cases"] if had else a.cases, meta, a.minutes)
@@ -391,7 +442,7 @@ def main():
                 if not _needs_run(out, c, k, a.retry_errors):
                     continue
                 print(f"running {c['id']} r{k}", flush=True)
-                if _run_case(c, out, a.agent, a.model, a.effort, a.minutes, k, had["revision"]):
+                if _run_case(c, out, a.agent, a.model, a.effort, a.minutes, k, had["revision"], a.context):
                     print(f"stopped: the provider's usage limit (see {c['id']}/r{k}/stderr); "
                           "run again later with --retry-errors", flush=True)
                     grade(out, every, files)

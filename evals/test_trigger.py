@@ -289,3 +289,70 @@ def test_grade_expands_globs_against_the_skill_files_at_the_pinned_revision(tmp_
     (d / "exit").write_text("0\n")
     assert [r[2] for r in grade(tmp_path, [case], skill_files(head))[0]] == ["PASS"]
     assert [r[2] for r in grade(tmp_path, [case])[0]] == ["FAIL"]
+
+
+def cl(name, **inp):
+    """A tool call in Claude Code's stream-json (claude -p --output-format stream-json --verbose)."""
+    return json.dumps({"type": "assistant", "message": {"content": [{"type": "tool_use", "name": name, "input": inp}]}})
+
+
+def test_reads_takes_claude_code_s_read_bash_and_grep_calls():
+    log = "\n".join([
+        json.dumps({"type": "system", "subtype": "init", "cwd": "/tmp/x/work"}),
+        cl("Read", file_path="/tmp/x/work/.agents/skills/spatial-gnn/SKILL.md"),
+        cl("Read", file_path="/tmp/x/work/.agents/skills/spatial-gnn/references/dcrnn.md"),
+        cl("Bash", command="sed -n 1,80p .agents/skills/point-pattern-analysis/references/ripley.md"),
+        cl("Grep", pattern="L 関数", path="/tmp/x/work/.agents/skills/point-pattern-analysis/references/ripley.md"),
+        cl("Glob", pattern=".agents/skills/trajectory-prediction/references/*.md"),            # a listing
+        cl("Bash", command="ls .agents/skills/image-segmentation/references"),
+    ])
+    assert reads(log) == {"spatial-gnn", "spatial-gnn/references/dcrnn.md",
+                          "point-pattern-analysis", "point-pattern-analysis/references/ripley.md"}
+
+
+def test_claude_code_s_failed_result_is_an_error_event_and_its_usage_limit_stops_the_run():
+    from trigger import error_event, usage_limited
+    ok = json.dumps({"type": "result", "subtype": "success", "is_error": False, "result": "1. ..."})
+    bad = json.dumps({"type": "result", "subtype": "success", "is_error": True,
+                      "result": "Claude AI usage limit reached|1794280200"})
+    assert not error_event(ok) and error_event(bad)
+    assert error_event(json.dumps({"type": "result", "subtype": "error_max_turns", "is_error": False}))
+    assert usage_limited("", bad) and not usage_limited("", ok)
+
+
+def test_claude_runs_on_the_host_with_the_context_file_recorded(tmp_path):
+    from trigger import agent_command
+    c = tmp_path / "global.md"
+    c.write_text("rules")
+    cmd, meta = agent_command("claude", None, None, "p.md", "w", context=c)
+    assert cmd[0].endswith("run_claude_local.sh") and "--context" in cmd and str(c) in cmd
+    assert cmd[-2:] == ["--model", "claude-sonnet-5-5"]
+    assert meta["context_sha256"] and meta["context_sha256"] != agent_command("claude", None, None, "p", "w")[1][
+        "context_sha256"]
+    assert agent_command("claude", None, None, "p", "w")[1]["context_sha256"] == "none"
+    with pytest.raises(ValueError):
+        agent_command("codex", None, None, "p", "w", context=c)       # only Claude Code reads a CLAUDE.md
+
+
+def test_the_context_is_a_condition_of_the_out_dir():
+    from trigger import CONDITIONS
+    assert "context_sha256" in CONDITIONS
+
+
+def test_a_claude_run_works_outside_the_out_dir_and_leaves_nothing_there(tmp_path, monkeypatch):
+    """OUT_DIR may sit under a folder with a CLAUDE.md (here, /Workspaces): Claude's workdir must not."""
+    import trigger
+    seen = {}
+
+    def fake(agent, model, effort, prompt, work, context=None):
+        seen["work"] = Path(work)
+        return ["sh", "-c", 'printf "%s" "$0"', str(work)], {"agent": agent, "model": "m", "effort": "",
+                                                             "context_sha256": "none"}
+    monkeypatch.setattr(trigger, "agent_command", fake)
+    monkeypatch.setenv("EVAL_CLAUDE_WORK_BASE", str(tmp_path / "base"))
+    out = tmp_path / "out"
+    trigger._run_case({"id": "c", "prompt": "p"}, out, "claude", None, None, 1)
+    work = seen["work"]
+    assert (tmp_path / "base") in work.parents and out not in work.parents
+    assert (out / "c" / "r1" / "log").read_text() == str(work)
+    assert not work.parent.exists()                     # the run's own folder (and any CLAUDE.md in it) is gone
