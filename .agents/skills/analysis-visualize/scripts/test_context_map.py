@@ -199,9 +199,11 @@ def test_memory_limit_stops_the_command_with_an_error(tmp_path):
                           "--row", "r", "--col", "c", "--x", "x", "--y", "y", "--out", str(tmp_path / "s.parquet"),
                           "--max-memory-gb", "0.2"], capture_output=True, text=True, timeout=120)
     # 0.2 GB is reached while duckdb is imported: as MemoryError when bytecode is compiled, or as a failed
-    # mmap of the shared library when the bytecode is cached. Both are the cap stopping the run.
+    # mmap of the shared library when the bytecode is cached. With fewer threads (OMP_NUM_THREADS=1) the import
+    # fits and DuckDB's own allocation fails instead. All are the cap stopping the run.
     assert out.returncode != 0
-    assert "MemoryError" in out.stderr or "failed to map segment" in out.stderr, out.stderr[-1000:]
+    assert any(m in out.stderr for m in ("MemoryError", "failed to map segment", "Out of Memory Error")), \
+        out.stderr[-1000:]
 
 
 def _pixel(geom, xy, fill):

@@ -135,6 +135,7 @@
 
 - Python の道具は `uv` だけで動く。スクリプトは `uvx --with ... python scripts/<name>.py` で、環境を作らずに動く。大きなデータを流すときは、自分の環境のメモリと CPU に合わせて、並列の数やデータの量を考える。
 - スキルを書く人向けの決まり (作者の環境の話を含む) は `.agents/skills/AGENTS.md` にある。独立の検査は `python3 .agents/skills/check_skills.py` (PyYAML が要る。Docker の環境には入っている)。
+- テストは、各ファイルの 1 行目に書いた流し方で流す。全部は `python3 tools/run_tests.py` で流せる (`projects/` を除く)。1 つの `pytest` でまとめて流すと、手元の Python の版の道具で走り、書いた条件と違う結果になる。GitHub では push のたびに同じものが流れる。
 
 ## 数字について
 

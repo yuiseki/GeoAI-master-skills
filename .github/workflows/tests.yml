@@ -1,0 +1,28 @@
+# Every test, each the way its first line says it runs (tools/run_tests.py), and the skills checker.
+# projects/ is left out (see tools/run_tests.py). Actions are pinned by commit.
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0          # evals/test_trigger.py reads the cases at earlier commits
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
+        with:
+          version: "0.8.24"       # the uv of the eval images
+      - name: Skills checker
+        run: uvx --python 3.12 --with pyyaml python .agents/skills/check_skills.py
+      - name: Tests
+        run: python3 tools/run_tests.py --jobs 4
