@@ -371,3 +371,27 @@ def test_a_brace_before_a_separator_is_expanded_without_the_separator():
 def test_a_cd_reaches_globs_too():
     log = cl("Bash", command="cd /work/.agents/skills/spatial-gnn && cat references/*.md")
     assert reads(log, FILES) == {"spatial-gnn", "spatial-gnn/references/dcrnn.md", "spatial-gnn/references/graph.md"}
+
+
+def test_qoder_runs_in_docker_with_its_effort_flag():
+    from trigger import agent_command, IMAGES, RUNNERS
+    cmd, meta = agent_command("qoder", None, None, "p.md", "w")
+    assert cmd[0].endswith("run_qoder_docker.sh") and cmd[-2:] == ["--model", "Auto"]
+    assert meta == {"agent": "qoder", "model": "Auto", "effort": ""}
+    cmd = agent_command("qoder", "GLM-5.3", "low", "p.md", "w")[0]
+    assert cmd[-4:] == ["--reasoning-effort", "low", "--model", "GLM-5.3"]
+    assert IMAGES["qoder"] == ("geoai-master-skills-evals-qoder", "qodercli") and RUNNERS["qoder"] == "run_qoder_docker.sh"
+
+
+def test_a_skill_tool_call_reads_that_skill():
+    """qodercli 1.1.86 (and Claude Code) load .agents/skills as skills of their own and can open one with a Skill
+    tool call: that is a read of its SKILL.md, as OpenCode's skill tool is. A name outside the skills is not."""
+    log = "\n".join([cl("Skill", skill="spatial-gnn"), json.dumps({"type": "assistant", "message": {"content": [
+        {"type": "tool_use", "name": "Skill", "input": {"name": "eda-and-baseline"}}]}}), cl("Skill", skill="a/../b")])
+    assert reads(log) == {"spatial-gnn", "eda-and-baseline"}
+
+
+def test_a_qoder_run_out_of_credits_stops_the_runs():
+    from trigger import usage_limited
+    res = json.dumps({"type": "result", "is_error": True, "result": "Insufficient credits for this request"})
+    assert usage_limited("", res)

@@ -6,9 +6,9 @@ references/*.md the agent opens. Cases are in trigger_cases.yaml (explicit, impl
 
 Each case gets a fresh workdir (prepare_workdir.py, so no evals/ on its disk), the prompt plus SUFFIX, and one run
 of an agent in Docker: OpenCode (run_opencode_docker.sh), Codex (run_codex_docker.sh) or the Gemini CLI
-(run_gemini_docker.sh) or Claude Code (run_claude_docker.sh: none of the user's setup, and no CLAUDE.md unless
---context gives one), chosen with --agent. What counts as read: a file tool on a skill file (OpenCode's `read`, the
-Gemini CLI's read_file and view_file), OpenCode's `skill` tool (it loads the SKILL.md), or a shell command that
+(run_gemini_docker.sh), Claude Code (run_claude_docker.sh: none of the user's setup, and no CLAUDE.md unless
+--context gives one) or the Qoder CLI (run_qoder_docker.sh), chosen with --agent. What counts as read: a file tool on a skill file (OpenCode's `read`, the
+Gemini CLI's read_file and view_file), OpenCode's `skill` tool and the Skill tool of Claude Code and qodercli (they load the SKILL.md), or a shell command that
 names one (cat, sed, head, grep on the file; Codex reads only this way), also after the shell expands
 braces, a for loop or a glob within one skill (cat references/*.md, against the files at the pinned revision). A directory listing does not count, nor does
 a name in the agent's text.
@@ -20,7 +20,7 @@ without answering). An ERROR is not graded: run the case again (--retry-errors).
 by the time limit is graded on what it had read. When a run's stderr shows the provider's usage limit, the whole run
 stops (exit 3) instead of waiting the time limit on every remaining case.
 
-    python3 evals/trigger.py run OUT_DIR [--agent opencode|codex|gemini|claude] [--model M] [--effort E]
+    python3 evals/trigger.py run OUT_DIR [--agent opencode|codex|gemini|claude|qoder] [--model M] [--effort E]
         [--context CLAUDE_MD]
         [--cases evals/trigger_cases.yaml] [--only ID ...] [--minutes N] [--repeats N] [--retry-errors]
     python3 evals/trigger.py judge OUT_DIR       # re-grade saved logs
@@ -129,7 +129,8 @@ _AGY_READS = {"read_file", "view_file", "run_command", "grep_search"}
 def reads(log_text, files=()):
     """Skills and references the agent read, from the JSON events of any of the four agents: OpenCode
     (`opencode run --format json`), Codex (`codex exec --json`), the Gemini CLI (`agy --output-format
-    stream-json`) and Claude Code (`claude -p --output-format stream-json`; Glob only lists). The event shapes do not overlap, so a log is read without being told which agent wrote it.
+    stream-json`) and Claude Code (`claude -p --output-format stream-json`; Glob only lists; qodercli 1.1.86 writes
+    the same events). The event shapes do not overlap, so a log is read without being told which agent wrote it.
     files: the skill files at the run's revision, to expand globs (_shell)."""
     got = set()
     claude_cwd = ""                     # Claude Code's Bash keeps the folder a cd left it in
@@ -153,13 +154,17 @@ def reads(log_text, files=()):
             item = j.get("item") or {}
             if item.get("type") == "command_execution":
                 got |= _items(_shell(str(item.get("command", "")), files))
-        elif j.get("type") == "assistant":                                  # Claude Code
+        elif j.get("type") == "assistant":                                  # Claude Code and qodercli
             for c in (j.get("message") or {}).get("content") or []:
                 if not isinstance(c, dict) or c.get("type") != "tool_use":
                     continue
                 inp = c.get("input") or {}
                 if c.get("name") == "Read":
                     got |= _items(str(inp.get("file_path", "")))
+                elif c.get("name") == "Skill":
+                    name = str(inp.get("skill") or inp.get("name") or "")
+                    if re.fullmatch(r"[A-Za-z0-9_-]+", name):
+                        got.add(name)
                 elif c.get("name") == "Grep":
                     got |= _items(str(inp.get("path", "")))
                 elif c.get("name") == "Bash":
@@ -208,7 +213,7 @@ def silent(log_text):
 
 def usage_limited(stderr_text, log_text=""):
     """The provider refused for its usage limit. OpenCode retries this until the time limit and writes nothing to
-    stdout, so every later run would also wait the full time for nothing. Claude Code says so in its result event."""
+    stdout, so every later run would also wait the full time for nothing. Claude Code and qodercli say so in their result event (qodercli's wording for spent credits is a guess)."""
     if any("level=ERROR" in line and re.search(r"usage limit reached|rate limit", line, re.I)
            for line in stderr_text.splitlines()):
         return True
@@ -218,7 +223,7 @@ def usage_limited(stderr_text, log_text=""):
         except ValueError:
             continue
         if isinstance(j, dict) and j.get("type") == "result" and j.get("is_error") and \
-                re.search(r"usage limit|rate limit", str(j.get("result", "")), re.I):
+                re.search(r"usage limit|rate limit|credit|quota", str(j.get("result", "")), re.I):
             return True
     return False
 
@@ -251,9 +256,10 @@ def cases_at(revision, path=CASES):
 
 IMAGES = {"opencode": ("geoai-master-skills-evals-opencode", "opencode"),
           "codex": ("geoai-master-skills-evals-codex", "codex"), "gemini": ("geoai-master-skills-evals-gemini", "agy"),
-          "claude": ("geoai-master-skills-evals-claude", "claude")}
+          "claude": ("geoai-master-skills-evals-claude", "claude"),
+          "qoder": ("geoai-master-skills-evals-qoder", "qodercli")}
 RUNNERS = {"opencode": "run_opencode_docker.sh", "codex": "run_codex_docker.sh", "gemini": "run_gemini_docker.sh",
-           "claude": "run_claude_docker.sh"}
+           "claude": "run_claude_docker.sh", "qoder": "run_qoder_docker.sh"}
 # What makes two runs comparable. The creation time is recorded but is not a condition.
 CONDITIONS = ("revision", "cases", "cases_sha256", "suffix_sha256", "agent", "model", "effort", "image",
               "image_id", "cli_version", "runner_sha256", "minutes", "context_sha256")
@@ -295,7 +301,8 @@ def prompt_problems(case, names):
 # The defaults are the conditions of the earlier evals (evals/results): Codex gpt-6-luna at medium effort, the
 # Gemini CLI with gemini-3.8-flash-low (OAuth; the effort is part of the name), OpenCode's free DeepSeek.
 DEFAULTS = {"opencode": ("opencode/deepseek-v4.1-flash-free", ""), "codex": ("gpt-6-luna", "medium"),
-            "gemini": ("gemini-3.8-flash-low", ""), "claude": ("claude-sonnet-5-5", "")}
+            "gemini": ("gemini-3.8-flash-low", ""), "claude": ("claude-sonnet-5-5", ""),
+            "qoder": ("Auto", "")}
 
 
 def agent_command(agent, model, effort, prompt, work, context=None):
@@ -312,7 +319,10 @@ def agent_command(agent, model, effort, prompt, work, context=None):
         cmd += [str(work)] + (["--effort", effort] if effort else []) + ["--model", model]
         sha = hashlib.sha256(Path(context).read_bytes()).hexdigest() if context else "none"
         return cmd, {"agent": agent, "model": model, "effort": effort, "context_sha256": sha}
-    if agent == "codex":
+    if agent == "qoder":
+        cmd = [str(HERE / "run_qoder_docker.sh"), "--prompt", str(prompt), str(work)]
+        cmd += (["--reasoning-effort", effort] if effort else []) + ["--model", model]
+    elif agent == "codex":
         cmd = [str(HERE / "run_codex_docker.sh"), "--prompt", str(prompt), str(work), "--json",
                "-m", model, "-c", f"model_reasoning_effort={effort}"]
     elif agent == "gemini":
@@ -420,7 +430,7 @@ def main():
     p.add_argument("--only", nargs="*")
     p.add_argument("--agent", choices=sorted(DEFAULTS), default="opencode")
     p.add_argument("--model", help="default per agent: " + ", ".join(f"{a} {m}" for a, (m, _) in DEFAULTS.items()))
-    p.add_argument("--effort", help="Codex (default medium) and Claude Code (default: claude's own)")
+    p.add_argument("--effort", help="Codex (default medium), Claude Code and qodercli (default: the CLI's own)")
     p.add_argument("--context", help="Claude Code only: a file it gets as CLAUDE.md (e.g. the user's global rules); "
                                      "recorded by its hash")
     p.add_argument("--minutes", type=int, default=10)
