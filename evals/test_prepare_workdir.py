@@ -214,7 +214,7 @@ def test_hard_tasks_and_rubric_cover_the_same_numbered_tasks_with_pinned_dataset
         assert rubric_metadata["task_id"] == metadata["task_id"]
         assert "採点の項目:" in rubric_body and "実測: 未。" in rubric_body
         assert all(label in body for label in ("問い:", "使い道:", "使うデータ:", "範囲:"))
-    assert task_numbers == list(range(30, 45))
+    assert task_numbers == list(range(30, 50))
     tasks = "\n".join(path.read_text(encoding="utf-8") for path in task_paths)
     pinned = set(re.findall(r"^\| `([^`]+)` \| `([^`]+)` \|$", tasks, re.MULTILINE))
     pinned_names = {name for name, revision in pinned if revision}
@@ -226,7 +226,7 @@ def test_every_task_is_one_frontmatter_file_with_a_paired_evaluator_rubric():
     from prepare_workdir import parse_frontmatter
     root = Path(__file__).resolve().parent.parent / "evals/tasks"
     task_paths = sorted(path for path in root.glob("*/[0-9w][0-9w].md") if path.parent.name != "rubrics")
-    assert len(task_paths) == 54
+    assert len(task_paths) == 59
     seen_ids = set()
     for path in task_paths:
         metadata, body = parse_frontmatter(path.read_text(encoding="utf-8"))
