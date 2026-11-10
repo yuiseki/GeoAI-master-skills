@@ -1,43 +1,30 @@
-# Claude Code (Sonnet 5.5, effort low) on h1 and h2, with and without a CLAUDE.md, 2026-11-10
+# Claude Code (Sonnet 5.5、effort low) で h1 と h2、CLAUDE.md の有無、2026-11-10
 
-Question: is Sonnet missing a reference (h2 in [trigger-holdout-2026-11-09](trigger-holdout-2026-11-09.md), 2 of 5
-runs as a subagent) a trait of the model, or of the everyday session it ran in (the user's CLAUDE.md, memory,
-hooks)? And does a low effort, the setting where Gemini low misses most, make Sonnet miss too?
+問い: [trigger-holdout-2026-11-09](trigger-holdout-2026-11-09.md) で Sonnet がサブエージェントとして h2 の reference を 5 回中 2 回読み落としたのは、モデルの性質か、それが走った普段のセッション (利用者の CLAUDE.md、メモリ、フック) のせいか。また、Gemini low が最も外す軽い設定 (effort low) で、Sonnet も外すようになるか。
 
-## Conditions
+## 条件
 
-- Skills and cases: 68ca7f2, evals/trigger_holdout.yaml, the 2 cases Sonnet missed or nearly missed
-  (h1-diffusion-rnn, h2-station-dcrnn), 5 runs each.
-- Claude Code 2.1.321 in Docker (evals/run_claude_docker.sh, image geoai-master-skills-evals-claude), the same limits
-  and workdir as the Codex and Gemini runs. `--model claude-sonnet-5-5 --effort low`.
-- Two OUT_DIRs, differing only in `--context`:
-  - none: only the workdir's AGENTS.md.
-  - ctx: /Workspaces/CLAUDE.md (sha256 fc9afc93...) mounted as /CLAUDE.md, the global rules of the user's sessions.
-- Commands:
-  `python3 evals/trigger.py run ~/Workspaces/tmp/trigger-claude-low-{none,ctx} --rev 68ca7f2
-  --cases evals/trigger_holdout.yaml --only h1-diffusion-rnn h2-station-dcrnn --repeats 5 --agent claude
-  --model claude-sonnet-5-5 --effort low [--context /Workspaces/CLAUDE.md]`
+- スキルとケース: 68ca7f2 の evals/trigger_holdout.yaml から、Sonnet が外したか外しかけた 2 ケース (h1-diffusion-rnn、h2-station-dcrnn) を 5 回ずつ。
+- Claude Code 2.1.321 を Docker で (evals/run_claude_docker.sh、イメージ geoai-master-skills-evals-claude)。Codex と Gemini と同じ上限と作業場所。`--model claude-sonnet-5-5 --effort low`。
+- OUT_DIR は 2 つで、違いは `--context` だけ。
+  - none: 作業場所の AGENTS.md だけ。
+  - ctx: /Workspaces/CLAUDE.md (sha256 fc9afc93...) を /CLAUDE.md として渡す。利用者のセッションの全体の規則。
+- コマンド:
+  `python3 evals/trigger.py run ~/Workspaces/tmp/trigger-claude-low-{none,ctx} --rev 68ca7f2 --cases evals/trigger_holdout.yaml --only h1-diffusion-rnn h2-station-dcrnn --repeats 5 --agent claude --model claude-sonnet-5-5 --effort low [--context /Workspaces/CLAUDE.md]`
 
-## Results
+## 結果
 
-| case | none | ctx |
+| ケース | none | ctx |
 |---|---|---|
 | h1-diffusion-rnn | 5/5 | 5/5 |
 | h2-station-dcrnn | 5/5 | 5/5 |
 
-- First graded 19/20: one ctx run of h2 failed on dcrnn.md. Its log shows
-  `cd /work/.agents/skills; cat spatial-gnn/references/{graph,evaluation,dcrnn}.md; ...`: it read all three. The
-  grader's brace expansion carried the `;` into every expanded word, so after the cd only graph.md counted. Fixed in
-  trigger.py (a brace word stops at shell separators) with a test; regraded, no other saved run changed by it.
-- Every run read SKILL.md and all three references of spatial-gnn, most with one `cat` of the three. Median 2 to 2.5
-  tool calls, 12 s, about 1,180 output tokens per run.
-- The single Docker smoke runs of h2 at Claude Code's default effort (medium) passed in both conditions.
+- 最初の採点は 19/20 で、ctx の h2 の 1 回が dcrnn.md の不足で不合格だった。記録では `cd /work/.agents/skills; cat spatial-gnn/references/{graph,evaluation,dcrnn}.md; ...` で 3 本とも読んでいた。採点の括弧の展開が `;` を展開後の語すべてに付けたため、cd の後で graph.md しか数えなかった。trigger.py を直し (括弧の語はシェルの区切りで止まる)、テストを足した。保存した記録をすべて数え直し、この修正で変わったのはこの 1 回だけだった。
+- どの回も spatial-gnn の SKILL.md と reference 3 本を全部読んだ。多くは 1 回の `cat` で 3 本まとめて。1 回あたりの中央値は道具の呼び出し 2〜2.5 回、12 秒、出力約 1,180 トークン。
+- Claude Code の既定の effort (medium) で流した h2 の試走 1 回ずつは、どちらの条件でも合格だった。
 
-## What it says, and what it does not
+## 言えること、言えないこと
 
-- In a clean container Sonnet at low effort did not miss in 20 runs, against 2 misses in 5 runs as a subagent of an
-  everyday session. Removing that session's surroundings, not raising the effort, is what changed. Which part of
-  the session (the subagent's own prompt, the absence of AGENTS.md being loaded as such, memory, hooks) caused the
-  misses is not separated here: the CLAUDE.md alone (ctx) did not bring them back.
-- 5 runs per case cannot tell a miss rate of 0 from one of 10 to 20 %.
-- Not run: the other 33 held-out cases with Claude Code in Docker, and medium effort beyond the one smoke run.
+- 余計なもののないコンテナでは、effort low の Sonnet は 20 回とも外さなかった。普段のセッションのサブエージェントでは 5 回中 2 回外していた。変わったのは effort を上げたことではなく、セッションの周りを取り除いたこと。周りのどれ (サブエージェントへの依頼文、AGENTS.md が作業場所の規則として読まれないこと、メモリ、フック) が外れの元かは分けていない。CLAUDE.md だけを戻しても (ctx) 外れは戻らなかった。
+- 1 ケース 5 回では、外れの率が 0 なのか 10〜20% なのかは区別できない。
+- 流していないもの: 残りの held-out 33 ケースを Docker の Claude Code で流すこと、試走 1 回を超える medium での実行。
