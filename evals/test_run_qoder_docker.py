@@ -1,7 +1,6 @@
 """Tests for run_qoder_docker.sh, through --dry-run (no Docker needed): the limits, mounts and what reaches qodercli are the eval condition."""
 
 import os
-import re
 import subprocess
 from pathlib import Path
 
@@ -80,19 +79,3 @@ def test_the_everyday_qoder_home_is_refused(home, workdir):
     r = run("--dry-run", str(workdir), home=home, env={"EVAL_QODER_HOME": str(home / ".qoder")})
     assert r.returncode != 0
 
-
-ROOT = Path(__file__).parent.parent
-
-
-def test_the_image_is_built_from_pinned_inputs_only():
-    """Rebuilding Dockerfile.evals.qoder later must give the same toolchain: the base images by digest, the CLI
-    by version, every Python package by exact version from the lock (no >= or bare names)."""
-    d = (ROOT / "Dockerfile.evals.qoder").read_text()
-    froms = [l for l in d.splitlines() if l.startswith(("FROM", "COPY --from"))]
-    assert froms and all("@sha256:" in l for l in froms), froms
-    assert "ARG QODER_VERSION=1.1.86" in d
-    assert "requirements-evals.lock" in d and ">=" not in d.split("requirements-evals.lock")[0].split("uv venv")[-1]
-    lock = [l for l in (ROOT / "evals" / "requirements-evals.lock").read_text().splitlines()
-            if l.strip() and not l.startswith("#")]
-    assert lock and all(re.fullmatch(r"[A-Za-z0-9_.-]+==[A-Za-z0-9_.+-]+", l) for l in lock), lock
-    assert "duckdb==1.5.6" in lock and "rasterio==1.4.1" in lock

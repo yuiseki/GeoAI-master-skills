@@ -3,9 +3,11 @@
 # versions, so the evals compare models, not environments); keep them in step.
 # Build:  docker build -f Dockerfile.evals.claude -t geoai-master-skills-evals-claude .
 # Run:    evals/run_claude_docker.sh <workdir>     (the limits are set there, not here)
-FROM python:3.12-slim-bookworm
+# Pinned inputs, so a later rebuild gives the same toolchain: the base images by digest, the CLI by version, the
+# Python packages from evals/requirements-evals.lock. Only the Debian packages come from apt at build time.
+FROM python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
 
-COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /uvx /usr/local/bin/
+COPY --from=ghcr.io/astral-sh/uv:0.8.24@sha256:1d31be550ff927957472b2a491dc3de1ea9b5c2d319a9cea5b6a48021e2990a6 /uv /uvx /usr/local/bin/
 
 RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-certificates curl \
  && rm -rf /var/lib/apt/lists/*
@@ -24,9 +26,9 @@ ENV DISABLE_AUTOUPDATER=1
 
 # rasterio is pinned below 1.5: 1.5.x reads GeoTIFFs with libertiff, which gave CRS and nodata None
 # (measured 2026-10-14 on the WorldPop rasters in task 11).
-RUN uv venv /opt/venv && VIRTUAL_ENV=/opt/venv uv pip install --no-cache \
-    'duckdb>=1.5.5' numpy scipy scikit-learn pandas pyarrow statsmodels networkx \
-    shapely 'rasterio==1.4.1' esda libpysal pyyaml pytest
+COPY evals/requirements-evals.lock /tmp/requirements-evals.lock
+RUN uv venv /opt/venv && VIRTUAL_ENV=/opt/venv uv pip install --no-cache --no-deps -r /tmp/requirements-evals.lock \
+ && rm /tmp/requirements-evals.lock
 
 # The thread counts are cooperative; the hard limits come from docker run (see run_claude_docker.sh).
 ENV PATH=/opt/venv/bin:$PATH \
@@ -44,7 +46,7 @@ RUN useradd --uid 1000 --create-home --home-dir /home/geo geo \
  && mkdir -p /opt/uv-cache /work /home/geo/.claude && chown -R geo /opt/uv-cache /work /home/geo
 USER geo
 RUN python -c "import duckdb; c = duckdb.connect(); c.sql('install spatial; install httpfs')" \
- && uvx --from 'duckdb>=1.5.5' python -c "import duckdb" \
+ && uvx --from 'duckdb==1.5.6' python -c "import duckdb" \
  && chmod -R a+rwX /opt/uv-cache
 
 WORKDIR /work
