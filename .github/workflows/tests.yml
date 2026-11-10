@@ -22,6 +22,16 @@ jobs:
       - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
         with:
           version: "0.8.24"       # the uv of the eval images
+      # What the tests expect on the machine and do not install themselves: a Japanese font for the figures
+      # (analysis-visualize/scripts/cjk_font.py) and DuckDB extensions that the tests only load. The extensions are
+      # per DuckDB version: the lock's 1.5.6 and the newest one that `--with duckdb` resolves to.
+      - name: Japanese font
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
+      - name: DuckDB extensions
+        run: |
+          for d in 'duckdb==1.5.6' 'duckdb'; do
+            uvx --python 3.12 --with "$d" python -c "import duckdb; c = duckdb.connect(); c.sql('install spatial; install httpfs; install h3 from community'); print(duckdb.__version__)"
+          done
       - name: Skills checker
         run: uvx --python 3.12 --with pyyaml python .agents/skills/check_skills.py
       - name: Tests

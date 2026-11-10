@@ -68,6 +68,7 @@ def clean_env(env=None, threads=None):
     their own PROJ and GDAL data, and an older proj.db or a PYTHONPATH from outside changes what a test sees."""
     env = dict(os.environ if env is None else env)
     env = {k: v for k, v in env.items() if not k.startswith(("PROJ_", "GDAL_", "CONDA_")) and k != "PYTHONPATH"}
+    env.setdefault("UV_PYTHON", "3.12")      # the Python of the eval images; a test's own --python still wins
     if threads:
         env.update(dict.fromkeys(THREAD_VARS, str(threads)))
     return env

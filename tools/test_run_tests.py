@@ -86,7 +86,7 @@ def test_the_local_python_s_geo_variables_do_not_reach_the_tests():
     from run_tests import clean_env
     env = clean_env({"PATH": "/bin", "HOME": "/h", "PROJ_DATA": "/a", "PROJ_LIB": "/a", "GDAL_DATA": "/a",
                      "GDAL_DRIVER_PATH": "/a", "PYTHONPATH": "/a", "CONDA_PREFIX": "/a", "UV_CACHE_DIR": "/c"})
-    assert env == {"PATH": "/bin", "HOME": "/h", "UV_CACHE_DIR": "/c"}
+    assert env == {"PATH": "/bin", "HOME": "/h", "UV_CACHE_DIR": "/c", "UV_PYTHON": "3.12"}
 
 
 def test_each_job_gets_a_fixed_number_of_threads():
@@ -95,3 +95,10 @@ def test_each_job_gets_a_fixed_number_of_threads():
     env = clean_env({"PATH": "/bin", "OMP_NUM_THREADS": "32"}, threads=2)
     assert {env[k] for k in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
                              "NUMEXPR_NUM_THREADS")} == {"2"}
+
+
+def test_uvx_picks_the_same_python_everywhere_unless_told():
+    """Without it uvx took 3.13 here and 3.11 on GitHub, where pyproj then had to build from source."""
+    from run_tests import clean_env
+    assert clean_env({"PATH": "/bin"})["UV_PYTHON"] == "3.12"
+    assert clean_env({"PATH": "/bin", "UV_PYTHON": "3.13"})["UV_PYTHON"] == "3.13"
