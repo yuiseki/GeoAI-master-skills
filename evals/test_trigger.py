@@ -320,12 +320,12 @@ def test_claude_code_s_failed_result_is_an_error_event_and_its_usage_limit_stops
     assert usage_limited("", bad) and not usage_limited("", ok)
 
 
-def test_claude_runs_on_the_host_with_the_context_file_recorded(tmp_path):
+def test_claude_runs_in_docker_with_the_context_file_recorded(tmp_path):
     from trigger import agent_command
     c = tmp_path / "global.md"
     c.write_text("rules")
     cmd, meta = agent_command("claude", None, None, "p.md", "w", context=c)
-    assert cmd[0].endswith("run_claude_local.sh") and "--context" in cmd and str(c) in cmd
+    assert cmd[0].endswith("run_claude_docker.sh") and "--context" in cmd and str(c) in cmd
     assert cmd[-2:] == ["--model", "claude-sonnet-5-5"]
     assert meta["context_sha256"] and meta["context_sha256"] != agent_command("claude", None, None, "p", "w")[1][
         "context_sha256"]
@@ -338,21 +338,3 @@ def test_the_context_is_a_condition_of_the_out_dir():
     from trigger import CONDITIONS
     assert "context_sha256" in CONDITIONS
 
-
-def test_a_claude_run_works_outside_the_out_dir_and_leaves_nothing_there(tmp_path, monkeypatch):
-    """OUT_DIR may sit under a folder with a CLAUDE.md (here, /Workspaces): Claude's workdir must not."""
-    import trigger
-    seen = {}
-
-    def fake(agent, model, effort, prompt, work, context=None):
-        seen["work"] = Path(work)
-        return ["sh", "-c", 'printf "%s" "$0"', str(work)], {"agent": agent, "model": "m", "effort": "",
-                                                             "context_sha256": "none"}
-    monkeypatch.setattr(trigger, "agent_command", fake)
-    monkeypatch.setenv("EVAL_CLAUDE_WORK_BASE", str(tmp_path / "base"))
-    out = tmp_path / "out"
-    trigger._run_case({"id": "c", "prompt": "p"}, out, "claude", None, None, 1)
-    work = seen["work"]
-    assert (tmp_path / "base") in work.parents and out not in work.parents
-    assert (out / "c" / "r1" / "log").read_text() == str(work)
-    assert not work.parent.exists()                     # the run's own folder (and any CLAUDE.md in it) is gone

@@ -6,8 +6,8 @@ references/*.md the agent opens. Cases are in trigger_cases.yaml (explicit, impl
 
 Each case gets a fresh workdir (prepare_workdir.py, so no evals/ on its disk), the prompt plus SUFFIX, and one run
 of an agent in Docker: OpenCode (run_opencode_docker.sh), Codex (run_codex_docker.sh) or the Gemini CLI
-(run_gemini_docker.sh), chosen with --agent; or Claude Code on the host (run_claude_local.sh: no user settings, no
-CLAUDE.md unless --context gives one, its workdir outside OUT_DIR under EVAL_CLAUDE_WORK_BASE, default /tmp/trigger-claude). What counts as read: a file tool on a skill file (OpenCode's `read`, the
+(run_gemini_docker.sh) or Claude Code (run_claude_docker.sh: none of the user's setup, and no CLAUDE.md unless
+--context gives one), chosen with --agent. What counts as read: a file tool on a skill file (OpenCode's `read`, the
 Gemini CLI's read_file and view_file), OpenCode's `skill` tool (it loads the SKILL.md), or a shell command that
 names one (cat, sed, head, grep on the file; Codex reads only this way), also after the shell expands
 braces, a for loop or a glob within one skill (cat references/*.md, against the files at the pinned revision). A directory listing does not count, nor does
@@ -225,9 +225,10 @@ def cases_at(revision, path=CASES):
 
 
 IMAGES = {"opencode": ("geoai-master-skills-evals-opencode", "opencode"),
-          "codex": ("geoai-master-skills-evals-codex", "codex"), "gemini": ("geoai-master-skills-evals-gemini", "agy")}
+          "codex": ("geoai-master-skills-evals-codex", "codex"), "gemini": ("geoai-master-skills-evals-gemini", "agy"),
+          "claude": ("geoai-master-skills-evals-claude", "claude")}
 RUNNERS = {"opencode": "run_opencode_docker.sh", "codex": "run_codex_docker.sh", "gemini": "run_gemini_docker.sh",
-           "claude": "run_claude_local.sh"}
+           "claude": "run_claude_docker.sh"}
 # What makes two runs comparable. The creation time is recorded but is not a condition.
 CONDITIONS = ("revision", "cases", "cases_sha256", "suffix_sha256", "agent", "model", "effort", "image",
               "image_id", "cli_version", "runner_sha256", "minutes", "context_sha256")
@@ -238,13 +239,10 @@ def build_manifest(revision, cases, meta, minutes):
     import datetime
     import hashlib
     run = lambda *c: subprocess.run(c, capture_output=True, text=True, check=True).stdout.strip()
-    if meta["agent"] == "claude":                    # on the host (run_claude_local.sh): no image
-        image, image_id, cli_version = "host", "", run("claude", "--version")
-    else:
-        image, cli = IMAGES[meta["agent"]]
-        image = os.environ.get("EVAL_IMAGE", image)
-        image_id = run("docker", "image", "inspect", "--format", "{{.Id}}", image)
-        cli_version = run("docker", "run", "--rm", image, cli, "--version").splitlines()[-1]
+    image, cli = IMAGES[meta["agent"]]
+    image = os.environ.get("EVAL_IMAGE", image)
+    image_id = run("docker", "image", "inspect", "--format", "{{.Id}}", image)
+    cli_version = run("docker", "run", "--rm", image, cli, "--version").splitlines()[-1]
     return {
         "revision": _git("rev-parse", "--verify", f"{revision}^{{commit}}").strip(),
         "cases": cases,
@@ -284,7 +282,7 @@ def agent_command(agent, model, effort, prompt, work, context=None):
     if context and agent != "claude":
         raise ValueError("--context is a CLAUDE.md: only Claude Code reads it")
     if agent == "claude":
-        cmd = [str(HERE / "run_claude_local.sh"), "--prompt", str(prompt)]
+        cmd = [str(HERE / "run_claude_docker.sh"), "--prompt", str(prompt)]
         cmd += ["--context", str(context)] if context else []
         cmd += [str(work)] + (["--effort", effort] if effort else []) + ["--model", model]
         sha = hashlib.sha256(Path(context).read_bytes()).hexdigest() if context else "none"
@@ -312,13 +310,6 @@ def _run_case(case, out, agent, model, effort, minutes, repeat=1, revision="HEAD
         shutil.rmtree(d)
     d.mkdir(parents=True)
     work = d / "work"
-    if agent == "claude":
-        # Claude Code reads every CLAUDE.md above its folder, and OUT_DIR may be under one. Its workdir goes in a
-        # folder of its own under EVAL_CLAUDE_WORK_BASE, which run_claude_local.sh checks has none above it.
-        import tempfile
-        base = Path(os.environ.get("EVAL_CLAUDE_WORK_BASE", "/tmp/trigger-claude"))
-        base.mkdir(parents=True, exist_ok=True)
-        work = Path(tempfile.mkdtemp(prefix=f"{case['id']}-r{repeat}-", dir=base)) / "work"
     subprocess.run([sys.executable, str(HERE / "prepare_workdir.py"), revision, str(work), "--repo", str(REPO)],
                    check=True, capture_output=True)
     (d / "prompt.md").write_text(case["prompt"] + SUFFIX + "\n", encoding="utf-8")
@@ -328,7 +319,7 @@ def _run_case(case, out, agent, model, effort, minutes, repeat=1, revision="HEAD
     with open(d / "log", "w", encoding="utf-8") as log, open(d / "stderr", "w", encoding="utf-8") as err:
         r = subprocess.run(["timeout", f"{minutes}m", *cmd], stdout=log, stderr=err, env=env)
     (d / "exit").write_text(f"{r.returncode}\n")
-    shutil.rmtree(work.parent if agent == "claude" else work, ignore_errors=True)
+    shutil.rmtree(work, ignore_errors=True)
     return usage_limited((d / "stderr").read_text(encoding="utf-8", errors="replace"),
                          (d / "log").read_text(encoding="utf-8", errors="replace"))
 
