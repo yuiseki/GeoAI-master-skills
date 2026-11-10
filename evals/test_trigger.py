@@ -338,3 +338,25 @@ def test_the_context_is_a_condition_of_the_out_dir():
     from trigger import CONDITIONS
     assert "context_sha256" in CONDITIONS
 
+
+
+def test_a_cd_is_followed_within_a_command_and_across_claude_code_s_calls():
+    """Seen on 2026-11-10: Claude Code ran cd /work/.agents/skills && cat spatial-gnn/SKILL.md, and its next call
+    read spatial-gnn/references/dcrnn.md from there (its Bash keeps the folder between calls). Codex starts each
+    command afresh, so there a cd counts only within its command."""
+    log = "\n".join([
+        cl("Bash", command="cd /work/.agents/skills && ls && cat spatial-gnn/SKILL.md"),
+        cl("Bash", command="cat spatial-gnn/references/dcrnn.md graph.md; sed -n 1,40p ../../README.md"),
+        cl("Bash", command="cd spatial-gnn/references; head -5 evaluation.md"),
+    ])
+    assert reads(log) == {"spatial-gnn", "spatial-gnn/references/dcrnn.md", "spatial-gnn/references/evaluation.md"}
+    codex = "\n".join([
+        cx("/bin/bash -lc 'cd .agents/skills/point-pattern-analysis && cat references/ripley.md'"),
+        cx("/bin/bash -lc 'cat references/baselines.md'"),                     # a new shell: back at /work
+    ])
+    assert reads(codex) == {"point-pattern-analysis", "point-pattern-analysis/references/ripley.md"}
+
+
+def test_a_cd_reaches_globs_too():
+    log = cl("Bash", command="cd /work/.agents/skills/spatial-gnn && cat references/*.md")
+    assert reads(log, FILES) == {"spatial-gnn", "spatial-gnn/references/dcrnn.md", "spatial-gnn/references/graph.md"}

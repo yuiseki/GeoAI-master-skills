@@ -71,9 +71,7 @@ def _globs(text, files):
     Not for a listing (ls, find) or a wildcard in the skill's name, which searches across skills."""
     out = []
     for seg in re.split(r"&&|\|\||[;|\n]", text):
-        words = [w.strip("'\"(") for w in seg.split()]
-        while words and (re.fullmatch(r"(/\S*/)?(ba)?sh|-l?c|", words[0])):     # Codex's /bin/bash -lc '...'
-            words = words[1:]
+        words = _words(seg)
         if not words or words[0] in _LISTS:
             continue
         for pat, _skill in _GLOB.findall(seg):
@@ -82,11 +80,34 @@ def _globs(text, files):
     return out
 
 
-def _shell(command, files=()):
+def _words(seg):
+    """The words of one simple command, without a shell wrapper (Codex's /bin/bash -lc '...') or quotes."""
+    words = [w.strip("'\"()") for w in seg.split()]
+    while words and re.fullmatch(r"(/\S*/)?(ba)?sh|-l?c|", words[0]):
+        words = words[1:]
+    return words
+
+
+def _cd(text, cwd=""):
+    """Paths named relative to a folder the command cd'ed into, written out from that folder, and the folder the
+    command ends in: cd /work/.agents/skills && cat spatial-gnn/SKILL.md names .agents/skills/spatial-gnn/SKILL.md."""
+    out = []
+    for seg in re.split(r"&&|\|\||[;|\n]", text):
+        words = _words(seg)
+        if words[:1] == ["cd"]:
+            cwd = os.path.normpath(os.path.join(cwd, words[1])) if len(words) > 1 else ""
+            continue
+        if cwd:
+            out += [os.path.normpath(os.path.join(cwd, w)) for w in words[1:] if w and w[0] not in "-/~$"]
+    return "\n".join(out), cwd
+
+
+def _shell(command, files=(), cwd=""):
     """A shell command with brace expansion, simple for loops and globs within one skill written out, so files
     named only after the shell expands them are seen: cat .agents/skills/{a,b}/SKILL.md,
     for s in a b; do cat .../$s/SKILL.md; done, cat .agents/skills/a/references/*.md (globs need files, the
-    skill files at the run's revision)."""
+    skill files at the run's revision). cwd: the folder the command starts in (Claude Code keeps it between calls);
+    a cd is followed (_cd)."""
     text, n = command, 0
     while n < 20 and _BRACE.search(text):
         text = _BRACE.sub(lambda m: " ".join(m[1] + x + m[3] for x in m[2].split(",")), text)
@@ -95,6 +116,7 @@ def _shell(command, files=()):
     for var, words, body in _FOR.findall(text):
         for w in words.split():
             out.append(re.sub(r"\$\{?" + var + r"\b\}?", w.strip("'\""), body))
+    out.append(_cd("\n".join(out), cwd)[0])
     if files:
         out += _globs("\n".join(out), files)
     return "\n".join(out)
@@ -110,6 +132,7 @@ def reads(log_text, files=()):
     stream-json`) and Claude Code (`claude -p --output-format stream-json`; Glob only lists). The event shapes do not overlap, so a log is read without being told which agent wrote it.
     files: the skill files at the run's revision, to expand globs (_shell)."""
     got = set()
+    claude_cwd = ""                     # Claude Code's Bash keeps the folder a cd left it in
     for line in log_text.splitlines():
         try:
             j = json.loads(line)
@@ -140,7 +163,9 @@ def reads(log_text, files=()):
                 elif c.get("name") == "Grep":
                     got |= _items(str(inp.get("path", "")))
                 elif c.get("name") == "Bash":
-                    got |= _items(_shell(str(inp.get("command", "")), files))
+                    cmd = str(inp.get("command", ""))
+                    got |= _items(_shell(cmd, files, claude_cwd))
+                    claude_cwd = _cd(cmd, claude_cwd)[1]
         elif j.get("event") == "step_update":                               # Gemini CLI
             st = j.get("step_update") or {}
             if st.get("step_type") == "tool" and st.get("state") == "DONE" and st.get("tool_name") in _AGY_READS:
