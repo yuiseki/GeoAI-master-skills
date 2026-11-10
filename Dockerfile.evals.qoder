@@ -1,0 +1,53 @@
+# Qoder CLI (qodercli), plus the analysis toolchain, for running the evals in evals/ under hard resource limits.
+# The toolchain lines mirror ./Dockerfile, Dockerfile.evals.codex, .gemini and .claude (same library versions, so
+# the evals compare models, not environments); keep them in step.
+# Build:  docker build -f Dockerfile.evals.qoder -t geoai-master-skills-evals-qoder .
+# Run:    evals/run_qoder_docker.sh <workdir>     (the limits are set there, not here)
+FROM python:3.12-slim-bookworm
+
+COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /uvx /usr/local/bin/
+
+RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-certificates curl \
+ && rm -rf /var/lib/apt/lists/*
+
+# Qoder CLI from the official installer, pinned: it fetches a manifest per version and checks the binary's sha256.
+# Bump QODER_VERSION on purpose and record it with the results. The installer puts the binary under $HOME; it is
+# copied to /usr/local/bin (root-owned, so the unprivileged user cannot update it), and settings.json in the
+# user's ~/.qoder turns the auto-update off.
+ARG QODER_VERSION=1.1.86
+RUN curl -fsSL -o /tmp/qoder-install.sh https://qoder.com/install \
+ && bash /tmp/qoder-install.sh --version "${QODER_VERSION}" \
+ && cp -L "/root/.qoder/bin/qodercli/qodercli-${QODER_VERSION}" /usr/local/bin/qodercli \
+ && chmod 0755 /usr/local/bin/qodercli \
+ && rm -rf /tmp/qoder-install.sh /tmp/qodercli-* /root/.local /root/.qoder \
+ && { /usr/local/bin/qodercli --version | grep -q "${QODER_VERSION}" \
+      || { echo "qodercli is $(/usr/local/bin/qodercli --version), not ${QODER_VERSION}" >&2; exit 1; }; }
+
+# rasterio is pinned below 1.5: 1.5.x reads GeoTIFFs with libertiff, which gave CRS and nodata None
+# (measured 2026-10-14 on the WorldPop rasters in task 11).
+RUN uv venv /opt/venv && VIRTUAL_ENV=/opt/venv uv pip install --no-cache \
+    'duckdb>=1.5.5' numpy scipy scikit-learn pandas pyarrow statsmodels networkx \
+    shapely 'rasterio==1.4.1' esda libpysal pyyaml pytest
+
+# The thread counts are cooperative; the hard limits come from docker run (see run_qoder_docker.sh).
+ENV PATH=/opt/venv/bin:$PATH \
+    UV_CACHE_DIR=/opt/uv-cache \
+    HOME=/home/geo \
+    OMP_NUM_THREADS=8 \
+    OPENBLAS_NUM_THREADS=8 \
+    MKL_NUM_THREADS=8 \
+    NUMEXPR_NUM_THREADS=8
+
+# qodercli may run commands in a login shell, and Debian's /etc/profile resets PATH; put the venv back.
+RUN echo 'export PATH=/opt/venv/bin:$PATH' > /etc/profile.d/venv.sh
+
+RUN useradd --uid 1000 --create-home --home-dir /home/geo geo \
+ && mkdir -p /opt/uv-cache /work /home/geo/.qoder \
+ && printf '{"general":{"enableAutoUpdate":false}}\n' > /home/geo/.qoder/settings.json && chown -R geo /opt/uv-cache /work /home/geo
+USER geo
+RUN python -c "import duckdb; c = duckdb.connect(); c.sql('install spatial; install httpfs')" \
+ && uvx --from 'duckdb>=1.5.5' python -c "import duckdb" \
+ && chmod -R a+rwX /opt/uv-cache
+
+WORKDIR /work
+CMD ["bash"]
