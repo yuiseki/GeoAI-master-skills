@@ -1,0 +1,15 @@
+{
+  "source_snapshot": "yuiseki/opencellid, revision 82e4acdb5ea93250ea6128ce08c03a4ca8870c88, 2026-10-06",
+  "mcc": 659,
+  "cell_records": 554,
+  "deployment_coordinate_clusters": 19,
+  "deployment_records_at_coordinate_clusters": 77,
+  "nearest_record_distance_km_median": 454.12,
+  "nearest_record_distance_km_max": 768.025,
+  "clusters_with_record_within_km": {
+    "10": 1,
+    "25": 1
+  },
+  "interpretation": "Distance to a community-mapped cell record only; not evidence of active infrastructure, signal, or service availability.",
+  "output_csv": "projects/_telecom/south-sudan-unmiss-telecom-gap/outputs/opencellid_record_proximity.csv"
+}

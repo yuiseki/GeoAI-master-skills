@@ -1,0 +1,26 @@
+{
+  "deployment_coordinate_clusters": 19,
+  "deployment_records_in_clusters": 77,
+  "thresholds_km": [
+    10,
+    25
+  ],
+  "within_threshold_counts": {
+    "ookla_2024_q2_mobile_tile_centroid": {
+      "10": 11,
+      "25": 11
+    },
+    "osm_mapped_power_related_point": {
+      "10": 10,
+      "25": 10
+    },
+    "osm_mapped_power_line": {
+      "10": 1,
+      "25": 3
+    }
+  },
+  "interpretation": "Distances are proximity to records in the named datasets, not service, operational access, or coverage. OpenCelliD distances are not used for these counts; see the dedicated opencellid_record_proximity.csv, calculated on the WGS84 ellipsoid.",
+  "inputs": [
+    "projects/_telecom/south-sudan-unmiss-telecom-gap/outputs/legacy_unmiss_site_cellular_distance.csv"
+  ]
+}

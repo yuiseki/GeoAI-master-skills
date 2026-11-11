@@ -4,6 +4,7 @@ import json
 import os
 import geopandas as gpd
 from shapely.geometry import Point
+from spatial_helpers import geodesic_distance_km, within_distance
 
 os.makedirs('projects/_telecom/south-sudan-unmiss-telecom-gap/outputs', exist_ok=True)
 conn = duckdb.connect()
@@ -72,36 +73,45 @@ ORDER BY year
 pko_years_df = conn.sql(pko_all_q).df()
 pko_years_df.to_csv('projects/_telecom/south-sudan-unmiss-telecom-gap/outputs/unmiss_annual_summary.csv', index=False, encoding='utf-8')
 
-# 4. UNMISS latest deployment sites (2024-10-25) & Distance to cell towers
+# 4. UNMISS deployment coordinate clusters on the 2024-10-25 source map.
+# nearest_text is a map-text hint, not a verified site name.
 spatial_match_q = """
 WITH pko AS (
     SELECT 
-        nearest_text as site_name, 
-        count(*) as deployed_units, 
+        string_agg(DISTINCT nearest_text, '; ' ORDER BY nearest_text) as map_text_hint,
+        count(*) as deployment_records_at_coordinate,
         round(lon, 4) as site_lon, 
         round(lat, 4) as site_lat
     FROM read_json_auto('data/cache/pko_points_2024.jsonl')
     WHERE mission = 'UNMISS' AND map_date = '20241025'
-    GROUP BY nearest_text, round(lon, 4), round(lat, 4)
+    GROUP BY round(lon, 4), round(lat, 4)
 ),
 cells AS (
     SELECT radio, lon as cell_lon, lat as cell_lat
     FROM 'data/cache/cell_towers.parquet'
     WHERE mcc = 659
 )
-SELECT 
-    p.site_name,
-    p.deployed_units,
-    p.site_lon,
-    p.site_lat,
-    round(min(sqrt((c.cell_lon - p.site_lon)*(c.cell_lon - p.site_lon)*cos(radians(p.site_lat))*cos(radians(p.site_lat)) + (c.cell_lat - p.site_lat)*(c.cell_lat - p.site_lat))) * 111.32, 2) as dist_any_cell_km,
-    round(min(CASE WHEN c.radio = 'LTE' THEN sqrt((c.cell_lon - p.site_lon)*(c.cell_lon - p.site_lon)*cos(radians(p.site_lat))*cos(radians(p.site_lat)) + (c.cell_lat - p.site_lat)*(c.cell_lat - p.site_lat)) END) * 111.32, 2) as dist_lte_km
-FROM pko p
-CROSS JOIN cells c
-GROUP BY p.site_name, p.deployed_units, p.site_lon, p.site_lat
-ORDER BY dist_any_cell_km ASC
+SELECT p.*, c.radio, c.cell_lon, c.cell_lat
+FROM pko p CROSS JOIN cells c
 """
-site_distance_df = conn.sql(spatial_match_q).df()
+cell_pairs_df = conn.sql(spatial_match_q).df()
+site_distance_df = cell_pairs_df[['map_text_hint', 'deployment_records_at_coordinate', 'site_lon', 'site_lat']].drop_duplicates().copy()
+cell_pairs_df['dist_cell_record_km'] = geodesic_distance_km(
+    cell_pairs_df['site_lon'].to_numpy(), cell_pairs_df['site_lat'].to_numpy(),
+    cell_pairs_df['cell_lon'].to_numpy(), cell_pairs_df['cell_lat'].to_numpy(),
+)
+any_nearest = cell_pairs_df.loc[cell_pairs_df.groupby(['site_lon', 'site_lat'])['dist_cell_record_km'].idxmin()]
+site_distance_df = site_distance_df.merge(
+    any_nearest[['site_lon', 'site_lat', 'radio', 'dist_cell_record_km']]
+        .rename(columns={'radio': 'nearest_cell_record_radio', 'dist_cell_record_km': 'dist_any_cell_record_km'}),
+    on=['site_lon', 'site_lat'], how='left', validate='one_to_one')
+lte_pairs = cell_pairs_df[cell_pairs_df['radio'] == 'LTE']
+lte_nearest = lte_pairs.loc[lte_pairs.groupby(['site_lon', 'site_lat'])['dist_cell_record_km'].idxmin()]
+site_distance_df = site_distance_df.merge(
+    lte_nearest[['site_lon', 'site_lat', 'dist_cell_record_km']]
+        .rename(columns={'dist_cell_record_km': 'dist_lte_cell_record_km'}),
+    on=['site_lon', 'site_lat'], how='left', validate='one_to_one')
+site_distance_df = site_distance_df.sort_values('dist_any_cell_record_km')
 
 # 5. Add OSM Power Infrastructure distance
 power_pts = gpd.read_parquet('projects/_telecom/south-sudan-unmiss-telecom-gap/outputs/osm_power_points.parquet')
@@ -117,48 +127,42 @@ def calc_proj_dist_km(lon, lat, target_gdf_proj):
     return round(float(target_gdf_proj.distance(pt).min() / 1000.0), 2)
 
 site_distance_df['dist_power_line_km'] = [calc_proj_dist_km(r['site_lon'], r['site_lat'], power_lines_proj) for _, r in site_distance_df.iterrows()]
-site_distance_df['dist_power_gen_km'] = [calc_proj_dist_km(r['site_lon'], r['site_lat'], power_pts_proj) for _, r in site_distance_df.iterrows()]
-site_distance_df['dist_ookla_km'] = [calc_proj_dist_km(r['site_lon'], r['site_lat'], ookla_proj) for _, r in site_distance_df.iterrows()]
+site_distance_df['dist_osm_power_related_point_km'] = [calc_proj_dist_km(r['site_lon'], r['site_lat'], power_pts_proj) for _, r in site_distance_df.iterrows()]
+site_distance_df['dist_ookla_tile_km'] = [calc_proj_dist_km(r['site_lon'], r['site_lat'], ookla_proj) for _, r in site_distance_df.iterrows()]
 
-# Add coverage threshold flags
-site_distance_df['has_cellular_coverage_10km'] = site_distance_df['dist_any_cell_km'] <= 10.0
-site_distance_df['has_lte_coverage_10km'] = site_distance_df['dist_lte_km'] <= 10.0
-site_distance_df['has_power_line_10km'] = site_distance_df['dist_power_line_km'] <= 10.0
-site_distance_df['has_ookla_test_10km'] = site_distance_df['dist_ookla_km'] <= 10.0
+# Thresholds classify proximity to records only, not coverage or access.
+for column, label in [
+    ('dist_any_cell_record_km', 'opencellid_record'),
+    ('dist_lte_cell_record_km', 'opencellid_lte_record'),
+    ('dist_power_line_km', 'osm_power_line'),
+    ('dist_osm_power_related_point_km', 'osm_power_related_point'),
+    ('dist_ookla_tile_km', 'ookla_mobile_tile'),
+]:
+    site_distance_df[f'{label}_within_10km'] = site_distance_df[column].apply(lambda d: within_distance(d, 10) if pd.notna(d) else False)
 
-site_distance_df.to_csv('projects/_telecom/south-sudan-unmiss-telecom-gap/outputs/unmiss_site_cellular_distance.csv', index=False, encoding='utf-8')
+site_distance_df.to_csv('projects/_telecom/south-sudan-unmiss-telecom-gap/outputs/unmiss_record_proximity.csv', index=False, encoding='utf-8')
 
 # Key metrics summary for checking
 summary_metrics = {
-    "total_unmiss_sites": int(len(site_distance_df)),
-    "total_unmiss_units": int(site_distance_df['deployed_units'].sum()),
-    "sites_with_cellular_10km": int(site_distance_df['has_cellular_coverage_10km'].sum()),
-    "sites_with_lte_10km": int(site_distance_df['has_lte_coverage_10km'].sum()),
-    "sites_without_cellular_10km": int((~site_distance_df['has_cellular_coverage_10km']).sum()),
-    "sites_without_lte_10km": int((~site_distance_df['has_lte_coverage_10km']).sum()),
-    "units_without_cellular_10km": int(site_distance_df[~site_distance_df['has_cellular_coverage_10km']]['deployed_units'].sum()),
-    "units_without_lte_10km": int(site_distance_df[~site_distance_df['has_lte_coverage_10km']]['deployed_units'].sum()),
-    "pct_sites_without_cellular_10km": round(float((~site_distance_df['has_cellular_coverage_10km']).mean() * 100), 2),
-    "pct_sites_without_lte_10km": round(float((~site_distance_df['has_lte_coverage_10km']).mean() * 100), 2),
-    "pct_units_without_cellular_10km": round(float(site_distance_df[~site_distance_df['has_cellular_coverage_10km']]['deployed_units'].sum() / site_distance_df['deployed_units'].sum() * 100), 2),
-    "pct_units_without_lte_10km": round(float(site_distance_df[~site_distance_df['has_lte_coverage_10km']]['deployed_units'].sum() / site_distance_df['deployed_units'].sum() * 100), 2),
-    "median_distance_to_cellular_km": round(float(site_distance_df['dist_any_cell_km'].median()), 2),
-    "median_distance_to_lte_km": round(float(site_distance_df['dist_lte_km'].median()), 2),
-    "max_distance_to_cellular_km": round(float(site_distance_df['dist_any_cell_km'].max()), 2),
-    "max_distance_to_lte_km": round(float(site_distance_df['dist_lte_km'].max()), 2),
-    "total_mcc659_cells": int(cell_df['cell_count'].sum()),
-    "total_mcc659_lte_cells": int(cell_df[cell_df['radio'] == 'LTE']['cell_count'].sum()),
-    "total_mcc659_gsm_cells": int(cell_df[cell_df['radio'] == 'GSM']['cell_count'].sum()),
-    "total_osm_power_plants_generators": int(len(power_pts)),
-    "total_osm_power_lines": int(len(power_lines)),
-    "sites_without_power_line_10km": int((~site_distance_df['has_power_line_10km']).sum()),
-    "pct_sites_without_power_line_10km": round(float((~site_distance_df['has_power_line_10km']).mean() * 100), 2),
-    "median_distance_to_power_line_km": round(float(site_distance_df['dist_power_line_km'].median()), 2),
-    "total_ookla_tiles_ssd": int(len(ookla_tiles)),
-    "total_ookla_tests_ssd": int(ookla_tiles['tests'].sum()),
-    "total_ookla_devices_ssd": int(ookla_tiles['devices'].sum()),
-    "ookla_median_download_mbps": round(float(ookla_tiles['avg_d_kbps'].median() / 1000.0), 2),
-    "ookla_median_latency_ms": round(float(ookla_tiles['avg_lat_ms'].median()), 2)
+    "deployment_coordinate_clusters": int(len(site_distance_df)),
+    "deployment_records_on_2024_10_25_source_map": int(site_distance_df['deployment_records_at_coordinate'].sum()),
+    "opencellid_mcc659_registered_cell_records": int(cell_df['cell_count'].sum()),
+    "opencellid_gsm_records": int(cell_df[cell_df['radio'] == 'GSM']['cell_count'].sum()),
+    "opencellid_lte_records": int(cell_df[cell_df['radio'] == 'LTE']['cell_count'].sum()),
+    "opencellid_record_distance_median_km": round(float(site_distance_df['dist_any_cell_record_km'].median()), 3),
+    "opencellid_record_distance_max_km": round(float(site_distance_df['dist_any_cell_record_km'].max()), 3),
+    "coordinate_clusters_with_opencellid_record_within_10km": int(site_distance_df['opencellid_record_within_10km'].sum()),
+    "coordinate_clusters_with_ookla_2024_q2_tile_within_10km": int(site_distance_df['ookla_mobile_tile_within_10km'].sum()),
+    "coordinate_clusters_with_osm_power_related_point_within_10km": int(site_distance_df['osm_power_related_point_within_10km'].sum()),
+    "coordinate_clusters_with_osm_power_line_within_10km": int(site_distance_df['osm_power_line_within_10km'].sum()),
+    "osm_power_related_point_records": int(len(power_pts)),
+    "osm_power_line_records": int(len(power_lines)),
+    "ookla_2024_q2_mobile_tiles": int(len(ookla_tiles)),
+    "ookla_2024_q2_tests": int(ookla_tiles['tests'].sum()),
+    "sum_of_tile_level_device_counts_not_national_unique": int(ookla_tiles['devices'].sum()),
+    "ookla_median_download_mbps_across_tiles": round(float(ookla_tiles['avg_d_kbps'].median() / 1000.0), 2),
+    "ookla_median_latency_ms_across_tiles": round(float(ookla_tiles['avg_lat_ms'].median()), 2),
+    "interpretation_note": "Spatial thresholds are record-proximity summaries, not coverage, active-service, or operational-access tests."
 }
 
 with open('projects/_telecom/south-sudan-unmiss-telecom-gap/outputs/summary_metrics.json', 'w', encoding='utf-8') as f:
