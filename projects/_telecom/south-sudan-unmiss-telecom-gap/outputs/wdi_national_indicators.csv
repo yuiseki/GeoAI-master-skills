@@ -1,0 +1,8 @@
+indicator_code,indicator_name,year,value
+EG.ELC.ACCS.RU.ZS,"Access to electricity, rural (% of rural population)",2024,0.7
+EG.ELC.ACCS.UR.ZS,"Access to electricity, urban (% of urban population)",2024,22.8
+EG.ELC.ACCS.ZS,Access to electricity (% of population),2024,5.4
+IT.CEL.SETS.P2,Mobile cellular subscriptions (per 100 people),2023,46.6152369503945
+IT.NET.BBND.P2,Fixed broadband subscriptions (per 100 people),2023,0.00174164840403178
+IT.NET.USER.ZS,Individuals using the Internet (% of population),2019,6.671000004
+SP.POP.TOTL,"Population, total",2025,12188788.0
