@@ -18,6 +18,24 @@ OpenCelliD の固定版には MCC 659 の登録セルレコードが554件 (GSM 
 
 したがって、この分析から「地方拠点は通信圏外／完全なオフグリッド」「`unvt/portable` が唯一の実用解」とは結論できません。言えるのは、公開データの記録が空間的に食い違い、拠点単位のサービス利用可能性をこれらの資料だけでは確定できないことです。
 
+### 地図の事前配布に向けた速度の探索
+
+観測されたタイルの平均下り速度の中央値は、ジュバ中心から10 km以内で8.307 Mbps、その他で8.756 Mbpsでした。各タイルをテスト数で加重した平均では、それぞれ19.842 Mbps、10.210 Mbpsです。集計方法によって比較の見え方が変わり、都市と地方の一般的な速度差は判定できません ([speed_comparison.json](outputs/speed_comparison.json))。
+
+中央値の速度が途切れず続くと仮定すると、1 GB（10億バイト）の転送に必要な理想時間は、ジュバ周辺で約16.1分、その他で約15.2分です。これは実際のダウンロード時間ではなく、通信の途切れ、混雑、サーバー、端末、データ料金は含みません ([speed_comparison.json](outputs/speed_comparison.json))。
+
+![観測タイルの下り速度の累積分布](outputs/speed_comparison.png)
+
+線は測定タイルをそれぞれ1票とした累積分布です。ジュバ周辺は91タイル・477テスト、その他は61タイル・247テストです。測定のない場所は含まれず、利用者や地域全体を代表する標本ではありません ([speed_comparison.json](outputs/speed_comparison.json))。配置図由来の各座標から最近傍のタイルまでの距離と、そのタイルの速度・テスト数は [一覧](outputs/nearest_observed_speed_by_map_coordinate.csv) に残しました。座標の名前と位置は未検証で、近くのタイルの速度は拠点内の速度ではありません。
+
+### 地図配布方式への含意
+
+[UNVT Portable](https://github.com/unvt/portable/tree/a3e0c6d8004661ae2a3aa78b516e10885ae82815) は、事前に用意した地図を Raspberry Pi のローカルネットワークからブラウザーへ配信する方式です。[unvt-offgrid](https://github.com/yuiseki/unvt-offgrid/tree/ac9e17207894d4f3e1978f5b3cf0a25548f10cf5) は、PMTiles を事前に各ブラウザーの OPFS に取得し、取得後はオフラインで使用します。後者は途中再開に対応しますが、サーバーが Range を無視した場合は最初から取得し直します。端末の保存容量・ブラウザー対応・電力が必要で、保存の永続化は要求しても保証されません。確認した版の地域カタログは日本の関東の実証用で、南スーダン用のデータ準備や動作は確認していません。
+
+観測された速度は、一部で事前ダウンロードが成立しうることと整合しますが、現場で安定して取得できることを示しません。拠点に到着する前に端末へデータを入れる運用も考えられ、通信が弱いことだけで `unvt-offgrid` が成立しないとは言えません。一方、事前に準備した Portable を現地へ運べば、各端末がインターネットから大容量データを取得せずに共有できる可能性があります。両方式とも現地の電源と機器の運用条件は別途必要です。両者の優劣は、現地での接続・電力・端末と運用の実測なしには決められません。
+
+次に必要なのは、拠点と活動地域の双方で、複数時刻・複数回線の実効速度、切断と再開、料金、電源の稼働時間、端末の空き容量を確かめることです。事前取得した端末を持ち込む場合、Portable を持ち込む場合、拠点で取得する場合について、同一の地図データと利用人数で準備時間・配布時間・失敗を記録すれば、方式の選択を現場の条件に近づけられます。
+
 ## 要点
 
 | 項目 | 値 | 根拠 |
@@ -61,6 +79,7 @@ OSMに登録された送電線・電力関連点の位置です。地物の稼�
 - **Ookla Speedtest Global Performance**: 2024年第2四半期の南スーダン内モバイルタイル。152タイル、724テスト。AWS Registry の説明では、アプリ由来の測定を約610 m（赤道上）のタイルに集計したデータで、ライセンスは CC BY-NC-SA 4.0 です ([AWS Open Data Registry](https://registry.opendata.aws/speedtest-global-performance/))。図中の表記は「Speedtest by Ookla® Global Fixed and Mobile Network Performance Maps. Based on analysis by Ookla of Speedtest Intelligence® data for 2024 Q2; accessed 11 November 2026. CC BY-NC-SA 4.0; trademarks used under license and reprinted with permission.」です。`devices` の合計255はタイルごとの値の合計で、全国の重複排除済み端末数とは解釈しない。
 - **OSM / OpenInfraMap 電力関連データ**: 2026-11-11取得。送電線22地物、電力関連点160地物。点には `plant`、`generator`、`substation` が混在する。UNMISS配置図より後の時点で、完全性・稼働・接続可能性は未確認。© OpenStreetMap contributors、ODbL 1.0 ([著作権とライセンス](https://www.openstreetmap.org/copyright))。
 - **地図の背景**: Natural Earth v5.1.2 (2022年版) の国境・州境・都市データ。Public Domain、EPSG:4326 ([固定データカード](../../../.agents/skills/dataset-discovery/references/huggingface/yuiseki/natural-earth.md))。
+- **補助資料**: [GSMA の南スーダン携帯通信報告](https://www.gsma.com/solutions-and-impact/connectivity-for-good/public-policy/wp-content/uploads/2026/01/Mobile-Sector-Tax-South-Sudan-v2.pdf) は、2024年のモバイルブロードバンド圏外人口を本文では22%、図では23%と記載し、記載値が一致しない。また、圏内でもモバイルインターネットを利用していない人の割合、データ料金の負担を推計している。全国人口の推計であり、UNMISSの回線、拠点、活動地域を代表しない。加入・利用率は4Gカバレッジ率ではない。
 - World Bank の「携帯電話契約数（人口100人当たり）」は、人口カバレッジ率や配置地点の利用可能性と同じ指標ではありません ([World Bank 指標ページ](https://data.worldbank.org/indicator/IT.CEL.SETS.P2))。既存 WDI 出力はこの空間照合の結論には使っていません。全国平均を配置地点の状態へ読み替えないため、報告の根拠から外しました。
 
 ## 方法
@@ -70,6 +89,8 @@ OSMに登録された送電線・電力関連点の位置です。地物の稼�
 Ookla図は保存済みタイルの観測値だけを描き、従来の未検証RBF内挿面を表示しない。OpenCelliD の再計算は保存済み成果物ではなく、固定版から改めて抽出した554レコードを使った。従来の `legacy_unmiss_site_cellular_distance.csv` にあった OpenCelliD 距離は度ベース近似であるため、この報告では再計算値に置き換え、旧値を根拠に使わない。この `legacy_` ファイルは、保存済み OSM / Ookla 投影距離から近接数を再集計するためだけに残している。
 
 今回の checkout には WDI・PKO 等の入力キャッシュが無いため、全工程の再実行はしていない。固定版 OpenCelliD から MCC 659 を抽出して測地線距離を再計算し、Ookla・OSMの距離はコミット済み成果物の投影距離を使って記録近接数を再集計した。したがって、後者は保存済み入力の再検証であり、2026年の元 OSM 抽出からの再構築ではない。
+
+速度比較は既存の南スーダン抽出結果と Natural Earth v5.1.2 の Juba 都市点を用い、タイル中心から WGS84 測地線距離で10 km以内とそれ以外に分けた。20 kmでも中央値の順位は変わらず、ジュバ周辺8.224 Mbps・その他8.950 Mbpsだった ([speed_comparison.json](outputs/speed_comparison.json))。加重平均はタイル平均をテスト数で重み付けし、中央値は各タイルを等重みとした。集計済みタイルから個々の速度分布や通信方式（4G/5G）は分からない。計画は結果を見た後の探索であり、近接タイル一覧は比較結果を見て追加した ([EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md), [EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md))。
 
 ## 失敗の型
 
@@ -91,3 +112,4 @@ Ookla図は保存済みタイルの観測値だけを描き、従来の未検証
 - 配置図抽出点が個々の実際の駐屯地を示すか、`nearest_text` が正しい地名か。座標群の位置誤差が最近傍判定へ及ぼす影響。
 - F7: OSM電力地物の稼働状態、容量、送電網への接続、UNMISS側の利用権・実際の電源、近接閾値を変えたときの頑健性。
 - UNMISSの衛星回線、ミッション内ネットワーク、ローカルキャッシュ等の運用。これらを比較していないため、オフライン配信方式の優劣や必要性は判断していない。
+- 通信テストは速度計測アプリを利用した人の選択的な記録で、未観測や低速時の接続失敗を代表しない。測定期間の各時刻での速度、安定性、料金、4G/5G別の品質とカバレッジ、拠点や活動地域内での品質、現地電源や端末、実際のダウンロード完了率は未確認。過去の観測を現在の性能とは扱わない。

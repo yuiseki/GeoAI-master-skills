@@ -1,0 +1,53 @@
+{
+  "source": "Ookla mobile 2024 Q2; saved South Sudan extraction",
+  "juba_source": "Natural Earth v5.1.2 populated places",
+  "juba_lon": 31.5800256,
+  "juba_lat": 4.8299752,
+  "distance": "WGS84 geodesic to tile centroid",
+  "groups": {
+    "10": {
+      "juba": {
+        "tile_count": 91,
+        "tests": 477,
+        "valid_speed_tiles": 91,
+        "median_mbps": 8.307,
+        "q1_mbps": 5.4925,
+        "q3_mbps": 19.8875,
+        "test_weighted_mean_mbps": 19.8421320754717,
+        "ideal_1gb_minutes": 16.05072027607239
+      },
+      "other": {
+        "tile_count": 61,
+        "tests": 247,
+        "valid_speed_tiles": 61,
+        "median_mbps": 8.756,
+        "q1_mbps": 3.505,
+        "q3_mbps": 15.943,
+        "test_weighted_mean_mbps": 10.210004048582995,
+        "ideal_1gb_minutes": 15.227653418608192
+      }
+    },
+    "20": {
+      "juba": {
+        "tile_count": 92,
+        "tests": 478,
+        "valid_speed_tiles": 92,
+        "median_mbps": 8.224,
+        "q1_mbps": 5.3915,
+        "q3_mbps": 19.85625,
+        "test_weighted_mean_mbps": 19.807953974895398,
+        "ideal_1gb_minutes": 16.212710765239947
+      },
+      "other": {
+        "tile_count": 60,
+        "tests": 246,
+        "valid_speed_tiles": 60,
+        "median_mbps": 8.95,
+        "q1_mbps": 3.8585,
+        "q3_mbps": 15.9845,
+        "test_weighted_mean_mbps": 10.237260162601626,
+        "ideal_1gb_minutes": 14.897579143389201
+      }
+    }
+  }
+}

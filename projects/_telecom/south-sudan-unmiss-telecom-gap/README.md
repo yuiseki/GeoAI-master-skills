@@ -47,10 +47,20 @@ systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400
 
 ## 主なファイル
 
+速度比較は保存済み Ookla タイルと上記 Natural Earth 都市点だけから再実行できます。
+
+```sh
+systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% -- \
+  uvx --with geopandas --with pyarrow --with matplotlib --with matplotlib-fontja --with numpy --with pandas --with pyproj \
+  python projects/_telecom/south-sudan-unmiss-telecom-gap/scripts/05_speed_comparison.py \
+  --places /tmp/ssd-map-context/ne_10m_populated_places.parquet
+```
+
 - `scripts/01_analysis.py`: 固定版キャッシュから距離・要約を生成。OpenCelliDには WGS84 楕円体測地線を使い、列名・閾値は記録への近接として表現。
 - `scripts/02_figures.py`: 固定版 Natural Earth の地理的文脈を重ねた日本語地図と距離補助図を作成。未観測域に補間値を描かない。
 - `scripts/03_observation_audit.py`: Ooklaタイル、OSM電力関連点・送電線への近接数を要約。
 - `scripts/04_recompute_opencellid_distances.py`: 固定版 MCC 659 登録セルへの測地線距離を再計算。
+- `scripts/05_speed_comparison.py`: 保存済み Ookla タイルとジュバ都市点から記述的な速度比較、距離一覧と分布図を作る。
 - `outputs/legacy_unmiss_site_cellular_distance.csv`: 旧出力。度ベースのOpenCelliD距離と旧ラベルを含むため、その値は報告に使わない。保存済みOSM・Ookla投影距離を再集計する入力としてのみ保持。
 - `outputs/`: 集計と図。
 - `report.md`: 根拠と未確認事項を含む報告。

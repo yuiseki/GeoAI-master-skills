@@ -1,0 +1,10 @@
+{
+  "question": "観測タイルの下り速度分布は地域でどう異なるか",
+  "source": "speed_comparison_tiles.csv",
+  "units": "one observed tile; tile-mean Mbps",
+  "font": [
+    "IPAexGothic"
+  ],
+  "scale": "log",
+  "count": 152
+}
