@@ -1,0 +1,12 @@
+{
+  "question": "首都圏と配置図座標：近傍の観測下り速度",
+  "source": "site_transfer_comparison.csv",
+  "ookla_period": "2024 Q2",
+  "license": "CC BY-NC-SA 4.0",
+  "font": "Noto Sans CJK JP",
+  "axis_scale": "linear",
+  "units": "Mbps",
+  "coordinate_groups": 19,
+  "coordinate_groups_shown": 11,
+  "zero_is_missing": false
+}

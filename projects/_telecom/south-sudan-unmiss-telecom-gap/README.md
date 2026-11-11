@@ -62,6 +62,13 @@ systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400
 - `scripts/04_recompute_opencellid_distances.py`: 固定版 MCC 659 登録セルへの測地線距離を再計算。
 - `scripts/05_speed_comparison.py`: 保存済み Ookla タイルとジュバ都市点から記述的な速度比較、距離一覧と分布図を作る。
 - `scripts/06_capital_speed_comparison.py`: Ookla 2024 Q2 モバイル Parquet（元ファイルまたは東京・ジュバ周辺を抽出したもの）と Natural Earth 都市点から東京とジュバの速度分布を比較する。元ファイルは [Ookla](https://ookla-open-data.s3.amazonaws.com/parquet/performance/type=mobile/year=2024/quarter=2/2024-04-01_performance_mobile_tiles.parquet) から入手できる。再集計による変化がありうるため、入力ファイルの SHA-256 を出力に記録する。
+- `scripts/07_site_transfer_comparison.py`: 保存済みの最近傍タイル一覧と首都圏の集計から、速度と100 MBの理想転送時間を図示する。10 km超は欠測扱い。
+
+```sh
+systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% -- \
+  uvx --with pandas --with matplotlib --with matplotlib-fontja \
+  python projects/_telecom/south-sudan-unmiss-telecom-gap/scripts/07_site_transfer_comparison.py
+```
 
 ```sh
 systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% -- \
