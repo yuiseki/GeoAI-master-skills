@@ -34,6 +34,22 @@ OpenCelliD の固定版には MCC 659 の登録セルレコードが554件 (GSM 
 
 次に必要なのは、拠点と活動地域の双方で、複数時刻・複数回線の実効速度、切断と再開、料金、電源の稼働時間、端末の空き容量を確かめることです。事前取得した端末を持ち込む場合、Portable を持ち込む場合、拠点で取得する場合について、同一の地図データと利用人数で準備時間・配布時間・失敗を記録すれば、方式の選択を現場の条件に近づけられます。
 
+### 南スーダン全体の通信・電力の背景
+
+以下は、保存済みのWorld Bank世界開発指標（WDI）から、元のレポートに掲載していた統計を戻したものです。指標ごとに対象年が異なります。
+
+| 指標 | 対象年 | 値 | 根拠 |
+|---|---:|---:|---|
+| 携帯電話契約数 | 2023年 | 人口100人あたり46.61524件 | [WDI出力](outputs/wdi_national_indicators.csv) |
+| 固定ブロードバンド契約数 | 2023年 | 人口100人あたり0.00174件 | [WDI出力](outputs/wdi_national_indicators.csv) |
+| インターネット利用者の割合 | 2019年 | 人口の6.671% | [WDI出力](outputs/wdi_national_indicators.csv) |
+| 電気へのアクセス | 2024年 | 全人口の5.4% | [WDI出力](outputs/wdi_national_indicators.csv) |
+| 電気へのアクセス・都市部 | 2024年 | 都市人口の22.8% | [WDI出力](outputs/wdi_national_indicators.csv) |
+| 電気へのアクセス・農村部 | 2024年 | 農村人口の0.7% | [WDI出力](outputs/wdi_national_indicators.csv) |
+| 総人口 | 2025年 | 12,188,788人 | [WDI出力](outputs/wdi_national_indicators.csv) |
+
+携帯電話契約数は回線の数であり、利用者数やインターネットのカバレッジではありません。固定ブロードバンド契約数もモバイルや衛星通信を含めたインターネット利用者数ではありません。2019年の利用者割合を現在の利用状況として扱うことや、異なる年の人口・契約率を掛け合わせて人数を推定することはできません。電気へのアクセス率もUNMISS拠点の電源事情を直接示すものではありません。
+
 ## 要点
 
 | 項目 | 値 | 根拠 |
@@ -78,7 +94,7 @@ OSMに登録された送電線・電力関連点の位置です。地物の稼�
 - **OSM / OpenInfraMap 電力関連データ**: 2026-11-11取得。送電線22地物、電力関連点160地物。点には `plant`、`generator`、`substation` が混在する。UNMISS配置図より後の時点で、完全性・稼働・接続可能性は未確認。© OpenStreetMap contributors、ODbL 1.0 ([著作権とライセンス](https://www.openstreetmap.org/copyright))。
 - **地図の背景**: Natural Earth v5.1.2 (2022年版) の国境・州境・都市データ。Public Domain、EPSG:4326 ([固定データカード](../../../.agents/skills/dataset-discovery/references/huggingface/yuiseki/natural-earth.md))。
 - **補助資料**: [GSMA の南スーダン携帯通信報告](https://www.gsma.com/solutions-and-impact/connectivity-for-good/public-policy/wp-content/uploads/2026/01/Mobile-Sector-Tax-South-Sudan-v2.pdf) は、2024年のモバイルブロードバンド圏外人口を本文では22%、図では23%と記載し、記載値が一致しない。また、圏内でもモバイルインターネットを利用していない人の割合、データ料金の負担を推計している。全国人口の推計であり、UNMISSの回線、拠点、活動地域を代表しない。加入・利用率は4Gカバレッジ率ではない。
-- World Bank の「携帯電話契約数（人口100人当たり）」は、人口カバレッジ率や配置地点の利用可能性と同じ指標ではありません ([World Bank 指標ページ](https://data.worldbank.org/indicator/IT.CEL.SETS.P2))。既存 WDI 出力はこの空間照合の結論には使っていません。全国平均を配置地点の状態へ読み替えないため、報告の根拠から外しました。
+- **World Bank 世界開発指標（WDI）**: 元の分析で使用した2026-10-01版の保存済み出力。上表の対象年は指標ごとに異なる。指標の説明は [携帯電話契約数](https://data.worldbank.org/indicator/IT.CEL.SETS.P2)、[固定ブロードバンド契約数](https://data.worldbank.org/indicator/IT.NET.BBND.P2)、[インターネット利用者割合](https://data.worldbank.org/indicator/IT.NET.USER.ZS)、[電気へのアクセス](https://data.worldbank.org/indicator/EG.ELC.ACCS.ZS)、[総人口](https://data.worldbank.org/indicator/SP.POP.TOTL)を参照。全国の背景として使用し、配置地点の状態へ読み替えていない。
 
 ## 方法
 
