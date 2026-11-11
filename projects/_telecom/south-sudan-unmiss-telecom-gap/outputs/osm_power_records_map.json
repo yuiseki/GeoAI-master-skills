@@ -1,0 +1,28 @@
+{
+  "language": "ja",
+  "crs": "EPSG:4326",
+  "map_extent": "South Sudan and neighboring countries",
+  "deployment_coordinate_clusters": 19,
+  "geographic_context": {
+    "source": "Natural Earth v5.1.2",
+    "revision": "efdd0668c57c9d42307e12eacbf66d8d151de5b9",
+    "layers": [
+      "10m_admin_0_countries",
+      "10m_admin_1_states_provinces",
+      "10m_populated_places"
+    ],
+    "license": "Public Domain"
+  },
+  "researcher": "調査者：yuiseki (Yui Matsumura), volunteer member of UN Open GIS Initiative, Domain Working Group 7 (\"Smart Maps Group\")",
+  "question": "OSMには南スーダンのどこに電力関連地物が登録されているか。",
+  "font": "Noto Sans CJK JP",
+  "osm_power_points": 160,
+  "osm_power_lines": 22,
+  "osm_tags": [
+    "generator",
+    "plant",
+    "substation"
+  ],
+  "attribution": "© OpenStreetMap contributors, ODbL 1.0; 2026-11-11取得。",
+  "caveat": "OSMの登録は稼働・容量・接続・サービス・UNMISSからの利用可能性を示さない。"
+}

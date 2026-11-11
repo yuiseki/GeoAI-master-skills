@@ -1,5 +1,9 @@
 # 南スーダンの UNMISS 配置図と公開通信・電力データの空間的照合
 
+> 調査者：yuiseki (Yui Matsumura), volunteer member of UN Open GIS Initiative, Domain Working Group 7 ("Smart Maps Group")
+>
+> **注記**: 本報告は、UN Open GIS Initiative, Domain Working Group 7 "Smart Maps Group" のボランティアメンバーである yuiseki (Yui Matsumura) による非商用調査研究として実施・執筆されたものです。
+
 ## 問い
 
 2024年の UNMISS 配置図から抽出された座標群の周辺に、公開通信・電力データの記録がどの程度あるかを照合し、そこから言える範囲を確認する。
@@ -26,7 +30,23 @@ OpenCelliD の固定版には MCC 659 の登録セルレコードが554件 (GSM 
 
 ## 可視化
 
-![配置図座標群から各データの最寄り記録までの距離](outputs/recorded_feature_proximity.png)
+### 記録地点の地図
+
+![OpenCelliD 登録セル記録と UNMISS 配置図由来座標群](outputs/recorded_feature_map.png)
+
+この地図は登録されたセル位置と配置図から自動抽出された座標群を、Natural Earth の国境・州境・都市名と合わせて示します。登録位置は基地局の実数、稼働、電波到達、サービス可用性を示しません。
+
+![Ookla のモバイル測定地点と UNMISS 配置図由来座標群](outputs/ookla_observed_tiles.png)
+
+2024年第2四半期の測定地点を示します。未観測地域は速度ゼロではなく、配置地点での通信品質も保証しません。地図上の Ookla データは CC BY-NC-SA 4.0 の非商用利用条件で掲載しています。
+
+![OSM 電力関連地物と UNMISS 配置図由来座標群](outputs/osm_power_records_map.png)
+
+OSMに登録された送電線・電力関連点の位置です。地物の稼働、容量、送電網への接続、UNMISSからの利用可能性は確認していません。
+
+### 距離の補助図
+
+![配置図由来座標群から各データの最寄り記録までの距離](outputs/recorded_feature_proximity.png)
 
 距離は各データベース内の記録への幾何学的な近さです。サービス提供、設備稼働、現場からの利用可能性を表しません。OpenCelliD は固定スナップショットから抽出した登録セルに対する WGS84 楕円体測地線距離です。
 
@@ -37,14 +57,15 @@ OpenCelliD の固定版には MCC 659 の登録セルレコードが554件 (GSM 
 ## データ
 
 - **UN PKO 配置点**: `yuiseki/un-pko-deployments` 固定版 `528afe3d…`。2024年版のうち `map_date=20241025` を使用。PDFから自動抽出された点で正確性保証なし。日付はPDF作成日で、配置状況の基準日とは限らない。
-- **OpenCelliD**: `yuiseki/opencellid` 固定版 `82e4acdb…`、2026-10-06スナップショット。MCC 659 の554レコード。位置はコミュニティ測定による推定で、測量されたアンテナ位置・稼働状態ではない。`range` と `samples` は行ごとに保持したが、網羅性を検証する参照目録はない。
-- **Ookla Speedtest Global Performance**: 2024年第2四半期の南スーダン内モバイルタイル。152タイル、724テスト。AWS Registry の説明では、アプリ由来の測定を約610 m（赤道上）のタイルに集計したデータで、ライセンスは CC BY-NC-SA 4.0 です ([AWS Open Data Registry](https://registry.opendata.aws/speedtest-global-performance/))。`devices` の合計255はタイルごとの値の合計で、全国の重複排除済み端末数とは解釈しない。
-- **OSM / OpenInfraMap 電力関連データ**: 2026-11-11取得。送電線22地物、電力関連点160地物。点には `plant`、`generator`、`substation` が混在する。UNMISS配置図より後の時点で、完全性・稼働・接続可能性は未確認。
+- **OpenCelliD**: `yuiseki/opencellid` 固定版 `82e4acdb…`、2026-10-06スナップショット。MCC 659 の554レコード。位置はコミュニティ測定による推定で、測量されたアンテナ位置・稼働状態ではない。`range` と `samples` は行ごとに保持したが、網羅性を検証する参照目録はない。元データと座標抽出は CC BY-SA 4.0 ([データカード](../../../.agents/skills/dataset-discovery/references/huggingface/yuiseki/opencellid.md))。
+- **Ookla Speedtest Global Performance**: 2024年第2四半期の南スーダン内モバイルタイル。152タイル、724テスト。AWS Registry の説明では、アプリ由来の測定を約610 m（赤道上）のタイルに集計したデータで、ライセンスは CC BY-NC-SA 4.0 です ([AWS Open Data Registry](https://registry.opendata.aws/speedtest-global-performance/))。図中の表記は「Speedtest by Ookla® Global Fixed and Mobile Network Performance Maps. Based on analysis by Ookla of Speedtest Intelligence® data for 2024 Q2; accessed 11 November 2026. CC BY-NC-SA 4.0; trademarks used under license and reprinted with permission.」です。`devices` の合計255はタイルごとの値の合計で、全国の重複排除済み端末数とは解釈しない。
+- **OSM / OpenInfraMap 電力関連データ**: 2026-11-11取得。送電線22地物、電力関連点160地物。点には `plant`、`generator`、`substation` が混在する。UNMISS配置図より後の時点で、完全性・稼働・接続可能性は未確認。© OpenStreetMap contributors、ODbL 1.0 ([著作権とライセンス](https://www.openstreetmap.org/copyright))。
+- **地図の背景**: Natural Earth v5.1.2 (2022年版) の国境・州境・都市データ。Public Domain、EPSG:4326 ([固定データカード](../../../.agents/skills/dataset-discovery/references/huggingface/yuiseki/natural-earth.md))。
 - World Bank の「携帯電話契約数（人口100人当たり）」は、人口カバレッジ率や配置地点の利用可能性と同じ指標ではありません ([World Bank 指標ページ](https://data.worldbank.org/indicator/IT.CEL.SETS.P2))。既存 WDI 出力はこの空間照合の結論には使っていません。全国平均を配置地点の状態へ読み替えないため、報告の根拠から外しました。
 
 ## 方法
 
-2024-10-25付配置図の点を経度・緯度の小数第4位でまとめ、座標群ごとに記録数を集計した。`nearest_text` は確認済みサイト名ではなく、図上で近接する文字列として扱う。固定 OpenCelliD 全体から MCC 659 の554行を抽出し、WGS84 楕円体上の測地線距離を再計算した。10 km と25 kmは記録の近接を数える便宜的な閾値で、通信可能範囲を意味しない。OSM地物とOoklaタイル中心点への距離は EPSG:32636 で計算した。2024年の配置図、2024年第2四半期のOokla、2026年のOSMは時点が異なるため、同時点の状態比較ではない。
+2024-10-25付配置図の点を経度・緯度の小数第4位でまとめ、座標群ごとに記録数を集計した。`nearest_text` は確認済みサイト名ではなく、図上に近接する文字列として扱う。固定 OpenCelliD 全体から MCC 659 の554行を抽出し、WGS84 楕円体上の測地線距離を再計算した。10 km と25 kmは記録の近接を数える便宜的な閾値で、通信可能範囲を意味しない。OSM地物とOoklaタイル中心点への距離は EPSG:32636 で計算した。地図背景は Natural Earth v5.1.2 (2022年版) の境界・地名、EPSG:4326。点・線は各ソースの記録位置を示し、サービス範囲は補間していない。2024年の配置図、2024年第2四半期のOokla、2026年のOSMは時点が異なるため、同時点の状態比較ではない。
 
 Ookla図は保存済みタイルの観測値だけを描き、従来の未検証RBF内挿面を表示しない。OpenCelliD の再計算は保存済み成果物ではなく、固定版から改めて抽出した554レコードを使った。従来の `legacy_unmiss_site_cellular_distance.csv` にあった OpenCelliD 距離は度ベース近似であるため、この報告では再計算値に置き換え、旧値を根拠に使わない。この `legacy_` ファイルは、保存済み OSM / Ookla 投影距離から近接数を再集計するためだけに残している。
 

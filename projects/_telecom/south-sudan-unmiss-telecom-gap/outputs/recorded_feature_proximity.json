@@ -1,0 +1,14 @@
+{
+  "question": "配置図由来座標から各ソースの最近傍記録までの距離分布。",
+  "language": "ja",
+  "font": "Noto Sans CJK JP",
+  "unit": "km",
+  "axis_scale": "logarithmic",
+  "sample_size": 19,
+  "reference_threshold_km": 10,
+  "threshold_interpretation": "参照線であり、通信カバレッジ閾値ではない。",
+  "source_files": [
+    "opencellid_record_proximity.csv",
+    "legacy_unmiss_site_cellular_distance.csv"
+  ]
+}

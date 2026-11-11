@@ -26,12 +26,29 @@ systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400
   --cells-csv /tmp/ssd-opencellid-review/ssd_cells.csv
 ```
 
-`03_observation_audit.py` は保存済みのタイル・OSM距離出力から記録への近接数をまとめ、`02_figures.py` は測定タイルだけの図を作ります。速度面の内挿は行いません。実データを読むコマンドはすべてメモリ・CPU上限内で実行してください。
+`03_observation_audit.py` は保存済みのタイル・OSM距離出力から記録への近接数をまとめます。図を再生成する場合は、地図背景用の Natural Earth v5.1.2 の固定版を取得します (Public Domain)。
+
+```sh
+mkdir -p /tmp/ssd-map-context
+systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% -- \
+  curl -fL -o /tmp/ssd-map-context/ne_10m_admin_0_countries.parquet \
+  'https://huggingface.co/datasets/yuiseki/natural-earth/resolve/efdd0668c57c9d42307e12eacbf66d8d151de5b9/parquet/v5.1.2/10m_cultural/ne_10m_admin_0_countries.parquet' \
+  -o /tmp/ssd-map-context/ne_10m_admin_1_states_provinces.parquet \
+  'https://huggingface.co/datasets/yuiseki/natural-earth/resolve/efdd0668c57c9d42307e12eacbf66d8d151de5b9/parquet/v5.1.2/10m_cultural/ne_10m_admin_1_states_provinces.parquet' \
+  -o /tmp/ssd-map-context/ne_10m_populated_places.parquet \
+  'https://huggingface.co/datasets/yuiseki/natural-earth/resolve/efdd0668c57c9d42307e12eacbf66d8d151de5b9/parquet/v5.1.2/10m_cultural/ne_10m_populated_places.parquet'
+systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400% -- \
+  uvx --with geopandas --with pyarrow --with matplotlib --with matplotlib-fontja --with pandas --with numpy \
+  python projects/_telecom/south-sudan-unmiss-telecom-gap/scripts/02_figures.py \
+  --natural-earth-dir /tmp/ssd-map-context
+```
+
+地図は日本語で、国境・州境・都市名を背景に重ねています。OpenCelliD 座標抽出図、Ookla 測定図、OSM 電力地物図を別々に作成し、ソース別のライセンスと帰属表示を図中に載せます。Ookla データは CC BY-NC-SA 4.0 のため、本成果は非商用調査研究として扱います。速度面の内挿は行いません。実データを読むコマンドはすべてメモリ・CPU上限内で実行してください。
 
 ## 主なファイル
 
 - `scripts/01_analysis.py`: 固定版キャッシュから距離・要約を生成。OpenCelliDには WGS84 楕円体測地線を使い、列名・閾値は記録への近接として表現。
-- `scripts/02_figures.py`: 保存済み Ooklaタイルと記録近接を描画。未観測域に補間値を描かない。
+- `scripts/02_figures.py`: 固定版 Natural Earth の地理的文脈を重ねた日本語地図と距離補助図を作成。未観測域に補間値を描かない。
 - `scripts/03_observation_audit.py`: Ooklaタイル、OSM電力関連点・送電線への近接数を要約。
 - `scripts/04_recompute_opencellid_distances.py`: 固定版 MCC 659 登録セルへの測地線距離を再計算。
 - `outputs/legacy_unmiss_site_cellular_distance.csv`: 旧出力。度ベースのOpenCelliD距離と旧ラベルを含むため、その値は報告に使わない。保存済みOSM・Ookla投影距離を再集計する入力としてのみ保持。
@@ -45,3 +62,4 @@ systemd-run --user --scope -q -p MemoryMax=8G -p MemorySwapMax=0 -p CPUQuota=400
 - Ooklaのタイル中心は集計された測定位置で、配置座標での接続成功を意味しません。`devices` のタイル間合計は全国のユニーク端末数ではありません。
 - OSMの `plant`、`generator`、`substation` と送電線は別種の地物です。登録は稼働や利用可能性の証拠ではありません。
 - 配置図、Ookla、OSMの時点は異なります。
+- 報告と図には、調査者 yuiseki (Yui Matsumura) および各データのライセンスに応じた帰属・非商用注記を残します。

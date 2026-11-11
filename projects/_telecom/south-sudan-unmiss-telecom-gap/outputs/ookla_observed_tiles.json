@@ -1,0 +1,28 @@
+{
+  "language": "ja",
+  "crs": "EPSG:4326",
+  "map_extent": "South Sudan and neighboring countries",
+  "deployment_coordinate_clusters": 19,
+  "geographic_context": {
+    "source": "Natural Earth v5.1.2",
+    "revision": "efdd0668c57c9d42307e12eacbf66d8d151de5b9",
+    "layers": [
+      "10m_admin_0_countries",
+      "10m_admin_1_states_provinces",
+      "10m_populated_places"
+    ],
+    "license": "Public Domain"
+  },
+  "researcher": "調査者：yuiseki (Yui Matsumura), volunteer member of UN Open GIS Initiative, Domain Working Group 7 (\"Smart Maps Group\")",
+  "question": "2024年第2四半期に記録された Ookla モバイル測定値はどこに分布するか。",
+  "font": "Noto Sans CJK JP",
+  "observed_tile_centres": 152,
+  "value": "tile mean download speed (Mbps)",
+  "size": "tests per tile, capped at 30",
+  "speed_range_mbps": [
+    0,
+    75.195
+  ],
+  "ookla_attribution": "Speedtest by Ookla® Global Fixed and Mobile Network Performance Maps. Based on analysis by Ookla of Speedtest Intelligence® data for 2024 Q2; accessed 11 November 2026. CC BY-NC-SA 4.0; trademarks used under license and reprinted with permission. 非商用調査研究。",
+  "caveat": "未観測地点は速度ゼロではなく、配置地点での可用性・性能を保証しない。"
+}

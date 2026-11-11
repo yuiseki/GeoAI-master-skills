@@ -17,6 +17,7 @@ CURRENT_SITE_CSV = ROOT / "outputs/unmiss_record_proximity.csv"
 LEGACY_SITE_CSV = ROOT / "outputs/legacy_unmiss_site_cellular_distance.csv"
 OUTPUT_CSV = ROOT / "outputs/opencellid_record_proximity.csv"
 OUTPUT_JSON = ROOT / "outputs/opencellid_record_proximity_summary.json"
+CELL_POINTS_CSV = ROOT / "outputs/opencellid_mcc659_cell_records.csv"
 THRESHOLDS_KM = (10, 25)
 
 
@@ -43,6 +44,11 @@ def main():
         sites = list(csv.DictReader(stream))
     with args.cells_csv.open(encoding="utf-8", newline="") as stream:
         cells = list(csv.DictReader(stream))
+
+    with CELL_POINTS_CSV.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=["radio", "lon", "lat", "range", "samples"])
+        writer.writeheader()
+        writer.writerows(cells)
 
     rows = []
     for site in sites:

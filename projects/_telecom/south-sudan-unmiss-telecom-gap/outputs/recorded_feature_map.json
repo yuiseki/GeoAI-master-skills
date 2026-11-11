@@ -1,0 +1,26 @@
+{
+  "language": "ja",
+  "crs": "EPSG:4326",
+  "map_extent": "South Sudan and neighboring countries",
+  "deployment_coordinate_clusters": 19,
+  "geographic_context": {
+    "source": "Natural Earth v5.1.2",
+    "revision": "efdd0668c57c9d42307e12eacbf66d8d151de5b9",
+    "layers": [
+      "10m_admin_0_countries",
+      "10m_admin_1_states_provinces",
+      "10m_populated_places"
+    ],
+    "license": "Public Domain"
+  },
+  "researcher": "調査者：yuiseki (Yui Matsumura), volunteer member of UN Open GIS Initiative, Domain Working Group 7 (\"Smart Maps Group\")",
+  "question": "配置図由来座標と OpenCelliD 登録セル記録は、地理的にどこに位置するか。",
+  "font": "Noto Sans CJK JP",
+  "record_counts": {
+    "opencellid_mcc659": 554,
+    "gsm": 550,
+    "lte": 4
+  },
+  "opencellid_attribution": "OpenCelliD contributors, 2026-10-06 snapshot, MCC 659 extract; CC BY-SA 4.0.",
+  "caveat": "登録記録の位置であり、実設備・稼働・電波到達・サービス可用性を意味しない。"
+}

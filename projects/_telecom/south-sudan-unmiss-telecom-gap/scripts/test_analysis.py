@@ -44,3 +44,26 @@ def test_observation_audit_does_not_call_proximity_coverage():
         data = json.load(f)
     assert data["within_threshold_counts"]["ookla_2024_q2_mobile_tile_centroid"]["10"] == 11
     assert "not" in data["interpretation"].lower()
+
+
+def test_maps_are_japanese_geographic_decision_support():
+    root = Path("projects/_telecom/south-sudan-unmiss-telecom-gap/outputs")
+    for name in ("recorded_feature_map", "ookla_observed_tiles", "osm_power_records_map"):
+        metadata = json.loads((root / f"{name}.json").read_text(encoding="utf-8"))
+        assert metadata["geographic_context"]["source"].startswith("Natural Earth")
+        assert metadata["language"] == "ja"
+        assert metadata["deployment_coordinate_clusters"] == 19
+        assert metadata["map_extent"] == "South Sudan and neighboring countries"
+        assert (root / f"{name}.png").exists()
+    cells = pd.read_csv(root / "opencellid_mcc659_cell_records.csv", encoding="utf-8")
+    assert len(cells) == 554
+    assert set(cells["radio"]) == {"GSM", "LTE"}
+
+
+def test_report_preserves_researcher_and_noncommercial_notice():
+    report = Path("projects/_telecom/south-sudan-unmiss-telecom-gap/report.md").read_text(encoding="utf-8")
+    assert '調査者：yuiseki (Yui Matsumura), volunteer member of UN Open GIS Initiative, Domain Working Group 7 ("Smart Maps Group")' in report
+    assert "非商用調査研究" in report
+    assert "CC BY-NC-SA 4.0" in report
+    assert "CC BY-SA 4.0" in report
+    assert "© OpenStreetMap contributors" in report
