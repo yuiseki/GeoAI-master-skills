@@ -18,6 +18,7 @@
   "font": "Noto Sans CJK JP",
   "osm_power_points": 160,
   "osm_power_lines": 22,
+  "deployment_marker": "small hollow orange ring; underlying records remain visible",
   "osm_tags": [
     "generator",
     "plant",

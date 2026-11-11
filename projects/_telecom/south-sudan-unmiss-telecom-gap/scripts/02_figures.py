@@ -116,6 +116,12 @@ def _save_metadata(name, metadata):
     (OUT / f"{name}.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def _plot_deployment_markers(ax, sites):
+    """Use transparent markers so measurements and mapped assets underneath remain legible."""
+    ax.scatter(sites.geometry.x, sites.geometry.y, s=62, marker="o", facecolors="none",
+               edgecolors="#e34a33", linewidths=1.35, zorder=8)
+
+
 def plot_opencellid_map(natural_earth_dir):
     countries, south_sudan, states, places = _context(natural_earth_dir)
     sites = _sites()
@@ -134,11 +140,10 @@ def plot_opencellid_map(natural_earth_dir):
                edgecolors="white", linewidths=0.25, zorder=5)
     ax.scatter(lte.geometry.x, lte.geometry.y, s=43, marker="^", c="#d73027", alpha=0.9,
                edgecolors="white", linewidths=0.4, zorder=6)
-    sites.plot(ax=ax, marker="*", color="#f28e2b", markersize=80,
-               edgecolor="#24292d", linewidth=0.55, zorder=8)
+    _plot_deployment_markers(ax, sites)
     handles = [
-        Line2D([0], [0], marker="*", color="none", markerfacecolor="#f28e2b", markeredgecolor="#24292d",
-               markersize=10, label=f"UNMISS 配置図由来座標群（{len(sites)}群）"),
+        Line2D([0], [0], marker="o", color="none", markerfacecolor="none", markeredgecolor="#e34a33",
+               markersize=8, label=f"UNMISS 配置図由来座標群（中抜き輪、{len(sites)}群）"),
         Line2D([0], [0], marker="o", color="none", markerfacecolor="#6a51a3", markersize=6,
                label=f"GSM 登録セル記録（{len(gsm)}件）"),
         Line2D([0], [0], marker="^", color="none", markerfacecolor="#d73027", markersize=8,
@@ -160,6 +165,7 @@ def plot_opencellid_map(natural_earth_dir):
     metadata.update({
         "question": "配置図由来座標と OpenCelliD 登録セル記録は、地理的にどこに位置するか。",
         "font": font, "record_counts": {"opencellid_mcc659": len(points), "gsm": len(gsm), "lte": len(lte)},
+        "deployment_marker": "small hollow orange ring; underlying records remain visible",
         "opencellid_attribution": OPENCELLID_ATTRIBUTION,
         "caveat": "登録記録の位置であり、実設備・稼働・電波到達・サービス可用性を意味しない。",
     })
@@ -184,13 +190,12 @@ def plot_ookla_map(natural_earth_dir):
                         vmax=float(speeds.max()), alpha=0.86, edgecolors="white", linewidths=0.35, zorder=5)
     colorbar = fig.colorbar(points, ax=ax, fraction=0.034, pad=0.025)
     colorbar.set_label("タイル内の平均下り速度（Mbps）")
-    sites.plot(ax=ax, marker="*", color="#e34a33", markersize=76,
-               edgecolor="#202326", linewidth=0.55, zorder=7)
+    _plot_deployment_markers(ax, sites)
     ax.legend(handles=[
         Line2D([0], [0], marker="o", color="none", markerfacecolor="#555555", markersize=7,
                label="Ookla 測定地点（色：平均速度、点の大きさ：テスト数）"),
-        Line2D([0], [0], marker="*", color="none", markerfacecolor="#e34a33", markeredgecolor="#202326",
-               markersize=10, label=f"UNMISS 配置図由来座標群（{len(sites)}群）"),
+        Line2D([0], [0], marker="o", color="none", markerfacecolor="none", markeredgecolor="#e34a33",
+               markersize=8, label=f"UNMISS 配置図由来座標群（中抜き輪、{len(sites)}群）"),
     ], loc="upper left", bbox_to_anchor=(1.28, 1), fontsize=8, frameon=True, title="地図記号")
     ax.set_title("南スーダン：Ookla モバイル測定地点と UNMISS 配置図由来座標", fontsize=13, pad=12)
     fig.text(0.72, 0.16, "色はタイル内の平均下り速度、点の大きさはテスト回数（30回で上限）。\n"
@@ -208,6 +213,7 @@ def plot_ookla_map(natural_earth_dir):
     metadata.update({
         "question": "2024年第2四半期に記録された Ookla モバイル測定値はどこに分布するか。",
         "font": font, "observed_tile_centres": len(ookla), "value": "tile mean download speed (Mbps)",
+        "deployment_marker": "small hollow orange ring; underlying records remain visible",
         "size": "tests per tile, capped at 30", "speed_range_mbps": [0, round(float(speeds.max()), 3)],
         "ookla_attribution": OOKLA_ATTRIBUTION,
         "caveat": "未観測地点は速度ゼロではなく、配置地点での可用性・性能を保証しない。",
@@ -237,15 +243,14 @@ def plot_osm_map(natural_earth_dir):
         subset = power_points[power_points["type"] == kind]
         if len(subset):
             subset.plot(ax=ax, color=color, marker=marker, markersize=22, alpha=0.82, zorder=5)
-    sites.plot(ax=ax, marker="*", color="#e34a33", markersize=76,
-               edgecolor="#202326", linewidth=0.55, zorder=7)
+    _plot_deployment_markers(ax, sites)
     handles = [
         Line2D([0], [0], color="#8c6d31", linewidth=1.6, label=f"OSM 送電線（{len(power_lines)}地物）"),
         *[Line2D([0], [0], marker=type_styles[k][2], color="none", markerfacecolor=type_styles[k][1],
                  markersize=7, label=f"{type_styles[k][0]}（{int((power_points['type'] == k).sum())}地物）")
           for k in type_styles if k in present],
-        Line2D([0], [0], marker="*", color="none", markerfacecolor="#e34a33", markeredgecolor="#202326",
-               markersize=10, label=f"UNMISS 配置図由来座標群（{len(sites)}群）"),
+        Line2D([0], [0], marker="o", color="none", markerfacecolor="none", markeredgecolor="#e34a33",
+               markersize=8, label=f"UNMISS 配置図由来座標群（中抜き輪、{len(sites)}群）"),
     ]
     ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(1.02, 1), title="地図記号", fontsize=8)
     ax.set_title("南スーダン：OSM 電力関連地物の登録位置", fontsize=13, pad=12)
@@ -263,6 +268,7 @@ def plot_osm_map(natural_earth_dir):
     metadata.update({
         "question": "OSMには南スーダンのどこに電力関連地物が登録されているか。",
         "font": font, "osm_power_points": len(power_points), "osm_power_lines": len(power_lines),
+        "deployment_marker": "small hollow orange ring; underlying records remain visible",
         "osm_tags": sorted(present), "attribution": OSM_ATTRIBUTION,
         "caveat": "OSMの登録は稼働・容量・接続・サービス・UNMISSからの利用可能性を示さない。",
     })

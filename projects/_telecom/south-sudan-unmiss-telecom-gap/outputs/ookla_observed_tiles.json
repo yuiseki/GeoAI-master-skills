@@ -18,6 +18,7 @@
   "font": "Noto Sans CJK JP",
   "observed_tile_centres": 152,
   "value": "tile mean download speed (Mbps)",
+  "deployment_marker": "small hollow orange ring; underlying records remain visible",
   "size": "tests per tile, capped at 30",
   "speed_range_mbps": [
     0,

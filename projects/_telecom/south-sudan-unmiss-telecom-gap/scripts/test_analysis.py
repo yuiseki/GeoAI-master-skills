@@ -54,6 +54,7 @@ def test_maps_are_japanese_geographic_decision_support():
         assert metadata["language"] == "ja"
         assert metadata["deployment_coordinate_clusters"] == 19
         assert metadata["map_extent"] == "South Sudan and neighboring countries"
+        assert metadata["deployment_marker"] == "small hollow orange ring; underlying records remain visible"
         assert (root / f"{name}.png").exists()
     cells = pd.read_csv(root / "opencellid_mcc659_cell_records.csv", encoding="utf-8")
     assert len(cells) == 554
