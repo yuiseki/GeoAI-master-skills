@@ -1,0 +1,49 @@
+{
+  "source": "Ookla mobile 2024 Q2",
+  "input_subset_sha256": "894548555590310ef45c8212ec055761a5f53066c7d8343502925a39c6a431fe",
+  "source_url": "https://ookla-open-data.s3.amazonaws.com/parquet/performance/type=mobile/year=2024/quarter=2/2024-04-01_performance_mobile_tiles.parquet",
+  "accessed": "2026-11-11",
+  "center_source": "Natural Earth v5.1.2 populated places",
+  "centers_lon_lat": {
+    "Tokyo": [
+      139.7494616,
+      35.6869628
+    ],
+    "Juba": [
+      31.5800256,
+      4.8299752
+    ]
+  },
+  "groups": {
+    "tokyo_10km": {
+      "tile_count": 1102,
+      "tests": 26943,
+      "valid_speed_tiles": 1102,
+      "median_mbps": 81.8985,
+      "q1_mbps": 50.432,
+      "q3_mbps": 118.83275,
+      "test_weighted_mean_mbps": 104.631704784174,
+      "ideal_1gb_minutes": 1.6280314454273683
+    },
+    "tokyo_50km": {
+      "tile_count": 10269,
+      "tests": 90868,
+      "valid_speed_tiles": 10269,
+      "median_mbps": 54.729,
+      "q1_mbps": 28.126,
+      "q3_mbps": 97.279,
+      "test_weighted_mean_mbps": 90.37044232292996,
+      "ideal_1gb_minutes": 2.4362464750558814
+    },
+    "juba_10km": {
+      "tile_count": 91,
+      "tests": 477,
+      "valid_speed_tiles": 91,
+      "median_mbps": 8.307,
+      "q1_mbps": 5.4925,
+      "q3_mbps": 19.8875,
+      "test_weighted_mean_mbps": 19.8421320754717,
+      "ideal_1gb_minutes": 16.05072027607239
+    }
+  }
+}
