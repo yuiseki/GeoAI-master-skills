@@ -1,7 +1,7 @@
 # Claude Code, plus the analysis toolchain, for running the evals in evals/ under hard resource limits.
-# The toolchain lines mirror ./Dockerfile, Dockerfile.evals.codex and Dockerfile.evals.gemini (same library
+# The toolchain lines mirror ./Dockerfile, evals/Dockerfile.codex and evals/Dockerfile.gemini (same library
 # versions, so the evals compare models, not environments); keep them in step.
-# Build:  docker build -f Dockerfile.evals.claude -t geoai-master-skills-evals-claude .
+# Build:  docker build -f evals/Dockerfile.claude -t geoai-master-skills-evals-claude .   (from the repository root)
 # Run:    evals/run_claude_docker.sh <workdir>     (the limits are set there, not here)
 # Pinned inputs, so a later rebuild gives the same toolchain: the base images by digest, the CLI by version, the
 # Python packages from evals/requirements-evals.lock. Only the Debian packages come from apt at build time.
@@ -9,8 +9,10 @@ FROM python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3
 
 COPY --from=ghcr.io/astral-sh/uv:0.8.24@sha256:1d31be550ff927957472b2a491dc3de1ea9b5c2d319a9cea5b6a48021e2990a6 /uv /uvx /usr/local/bin/
 
-RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-certificates curl \
- && rm -rf /var/lib/apt/lists/*
+# ripgrep: the agents' system prompts tell them to search with rg.
+RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-certificates curl ripgrep \
+ && rm -rf /var/lib/apt/lists/* \
+ && rg --version
 
 # Claude Code from the official installer, pinned: bump CLAUDE_VERSION on purpose and record it with the results.
 # The installer puts the binary under $HOME; it is copied to /usr/local/bin (root-owned, so the unprivileged user

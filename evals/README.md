@@ -27,8 +27,8 @@
 | `curriculum/incoming/` | 外部から受け取った候補の原文。検証・採用を意味しない |
 | `curriculum/reviews/` | 候補の採否と修正理由。元の pilot 数値は再検証まで答えにしない |
 | `prompts/agent-task.md` | エージェントへの指示の雛形 (`{{WORKDIR}}`、`{{SHA}}`、`{{TASK}}`) |
-| `run_gemini_docker.sh` | 同じ条件で、Gemini を流す (中で使う CLI は Antigravity CLI の `agy`)。イメージは `../Dockerfile.evals.gemini` |
-| `run_codex_docker.sh` | 作業場所を Docker (`../Dockerfile.evals.codex`) に閉じ込めて Codex を流す。CPU、メモリ、プロセス数の上限はここで強制する (テスト付き) |
+| `run_gemini_docker.sh` | 同じ条件で、Gemini を流す (中で使う CLI は Antigravity CLI の `agy`)。イメージは `Dockerfile.gemini` |
+| `run_codex_docker.sh` | 作業場所を Docker (`Dockerfile.codex`) に閉じ込めて Codex を流す。CPU、メモリ、プロセス数の上限はここで強制する (テスト付き) |
 | `prepare_workdir.py` | エージェントの作業場所を、`evals/` なしで用意する (テスト付き) |
 | `score_points.py` | 予測の点と正解の点を、半径 (m) の中で 1 対 1 に組にして、適合率、再現率、F1 を出す。課題 28 (アンダーパス) の採点に使う (テスト付き) |
 | `tasks/small/28-truth.csv` | 課題 28 の正解 (23 区の 99 点)。作業場所は `--hide mlit-underpass` で作り、データカードを消す |
@@ -68,7 +68,7 @@
 | 自動で読むもの | 作業場所の `AGENTS.md` の本文と、`.agents/skills/*/SKILL.md` の名前、description、場所 (スキルの一覧として)。作業場所に `.git` が無くても読む (0.162.1、`codex debug prompt-input` で 2026-10-17 に確かめた。baseline の作業場所では、このリポジトリのスキルは 0)。Codex に付いているスキル (`~/.codex/skills/.system` の imagegen など) は両方の条件に見える |
 
 ```sh
-docker build -f Dockerfile.evals.codex -t geoai-master-skills-evals-codex .
+docker build -f evals/Dockerfile.codex -t geoai-master-skills-evals-codex .
 
 # 初回だけ: ログイン (認証は ~/.codex-evals に保存。イメージには入れない。普段の ~/.codex とは別)
 evals/run_codex_docker.sh --login
@@ -96,7 +96,7 @@ Codex と同じ課題、同じ作業場所、同じ CPU とメモリの条件で
 | ログ | `--prompt` で、構造化ログ (stream-json) が標準出力に出る。ツール実行の各段階が見える |
 
 ```sh
-docker build -f Dockerfile.evals.gemini -t geoai-master-skills-evals-gemini .
+docker build -f evals/Dockerfile.gemini -t geoai-master-skills-evals-gemini .
 
 # 認証 (どちらか)
 evals/run_gemini_docker.sh --login      # OAuth: 表示された URL でサインインし、認可コードを貼る。トークンは ~/.gemini-evals に保存
@@ -125,7 +125,7 @@ Codex、Gemini と同じ課題、作業場所、CPU、メモリ、プロセス�
 | ログ | `--prompt` で、プロンプトを標準入力から渡し、`--format json` の 1 行 1 イベントが標準出力に出る。`effort.py` が読む |
 
 ```sh
-docker build -f Dockerfile.evals.opencode -t geoai-master-skills-evals-opencode .
+docker build -f evals/Dockerfile.opencode -t geoai-master-skills-evals-opencode .
 
 python evals/prepare_workdir.py <rev> <作業場所> --task evals/tasks/foundational/09.md \
   --template evals/prompts/agent-task.md --prompt-workdir /work > <指示文>

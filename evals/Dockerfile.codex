@@ -1,6 +1,6 @@
 # Codex CLI plus the analysis toolchain, for running the evals in evals/ under hard resource limits.
 # The toolchain lines mirror ./Dockerfile; keep the two in step when the library list changes.
-# Build:  docker build -f Dockerfile.evals.codex -t geoai-master-skills-evals-codex .
+# Build:  docker build -f evals/Dockerfile.codex -t geoai-master-skills-evals-codex .   (from the repository root)
 # Run:    evals/run_codex_docker.sh <workdir>     (the limits are set there, not here)
 FROM python:3.12-slim-bookworm
 
@@ -10,8 +10,10 @@ ARG TARGETARCH
 
 COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /uvx /usr/local/bin/
 
-RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-certificates curl \
- && rm -rf /var/lib/apt/lists/*
+# ripgrep: the agents' system prompts tell them to search with rg.
+RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 ca-certificates curl ripgrep \
+ && rm -rf /var/lib/apt/lists/* \
+ && rg --version
 
 # The Codex release binaries (musl, static), kept apart from the user state in /home/geo/.codex.
 # codex-code-mode-host is a separate asset that codex starts to run commands; without it every
