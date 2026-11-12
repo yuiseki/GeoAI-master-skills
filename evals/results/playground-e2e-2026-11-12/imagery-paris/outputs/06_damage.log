@@ -1,0 +1,11 @@
+1000 patches 200 pictures
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+       n_patches      mean_p       max_p  share_damaged
+count      200.0  200.000000  200.000000     200.000000
+mean         5.0    0.283996    0.509699       0.165000
+std          0.0    0.107874    0.157035       0.170648
+min          5.0    0.060200    0.125400       0.000000
+25%          5.0    0.203540    0.417200       0.000000
+50%          5.0    0.285620    0.520250       0.200000
+75%          5.0    0.356355    0.614075       0.200000
+max          5.0    0.595360    0.842900       1.000000

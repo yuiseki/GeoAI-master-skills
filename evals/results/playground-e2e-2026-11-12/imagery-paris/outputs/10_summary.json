@@ -1,0 +1,20 @@
+{
+ "pictures": 200,
+ "detections_pole_like": 922,
+ "with_position": 672,
+ "corrected": 862,
+ "lean_usable": 438,
+ "lean_abs_median": 0.6295986084102668,
+ "lean_abs_p90": 2.0423513478538142,
+ "lean_gt_2deg": 14,
+ "lean_gt_3deg": 7,
+ "lean_gt_5deg": 0,
+ "veg_gt_0.1": 298,
+ "veg_gt_0.3": 173,
+ "veg_median": 0.02155,
+ "sites_with_repeat": 31,
+ "repeat_sd_median_deg": 0.339563849698167,
+ "repeat_sd_rms_deg": 0.6430970235421719,
+ "repeat_range_median_deg": 0.0,
+ "cells": 15
+}

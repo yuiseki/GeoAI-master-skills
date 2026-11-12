@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/418 [00:00<?, ?it/s]Loading weights: 100%|██████████| 418/418 [00:00<00:00, 11065.37it/s]
+{"pictures": 200, "views": 800, "detections": 3170, "pole_like": 922, "with_position": 672, "sites": 468, "camera_height_m": 2.5, "merge_m": 4.0, "model": "google/owlv2-base-patch16-ensemble", "queries": ["a utility pole", "a street light pole", "a telegraph pole"], "threshold": 0.15, "yaws": [0, 90, 180, 270], "fov": 90}

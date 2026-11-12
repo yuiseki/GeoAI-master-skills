@@ -1,0 +1,41 @@
+no,is_pole,kind,note
+1,0,drainpipe,
+2,1,lamp/signal,real pole; lean NA
+3,0,drainpipe,
+4,0,facade,lamp bracket on wall
+5,0,bollard,short post
+6,1,lamp,
+7,1,lamp,same pole as 6
+8,1,sign pole,
+9,1,lamp,
+10,0,drainpipe,wall bracket lamp
+11,1,pole,
+12,0,drainpipe,
+13,1,pole,
+14,0,facade,
+15,1,pole,
+16,0,drainpipe,
+17,0,drainpipe,
+18,1,signal pole,
+19,1,lamp,
+20,1,signal pole,
+21,0,facade,
+22,1,lamp,
+23,1,lamp,
+24,1,pole,ivy on pole
+25,0,drainpipe,
+26,1,lamp,leaves in background not on pole
+27,0,building edge,
+28,1,lamp,branches overlap pole
+29,1,pole,tree trunk adjacent
+30,0,other,person/window
+31,0,wall bracket,
+32,0,drainpipe,uncertain
+33,0,wall bracket,
+34,1,lamp,leaves behind pole
+35,1,lamp,
+36,0,drainpipe,
+37,0,facade,
+38,1,lamp,
+39,0,drainpipe,
+40,0,scaffold,

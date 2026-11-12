@@ -1,0 +1,11 @@
+{
+ "auc": 0.967304601751973,
+ "average_precision": 0.9739483253280982,
+ "precision_at_0.5": 0.8887048980303295,
+ "recall_at_0.5": 0.9258216814962774,
+ "patches": 20429,
+ "positives": 11014,
+ "zip": "rdd/RDD2022/United_States.zip",
+ "probe": "probe/probe.npz",
+ "pictures": 4805
+}

@@ -1,0 +1,17 @@
+{
+ "dev_n": 60,
+ "dev_pole_share": 0.55,
+ "test_n": 40,
+ "test_pole_share": 0.5,
+ "dev_auc_verify": 0.7867564534231202,
+ "dev_auc_detector_score": 0.6352413019079686,
+ "test_auc_verify": 0.81,
+ "test_auc_detector_score": 0.7787499999999999,
+ "threshold_from_dev": -5.076231002807617,
+ "dev_f1_at_threshold": 0.7654320987654321,
+ "test_precision": 0.5862068965517241,
+ "test_recall": 0.85,
+ "test_kept": 29,
+ "boxes_kept_all": 700,
+ "boxes_all": 922
+}
