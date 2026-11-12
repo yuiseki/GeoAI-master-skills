@@ -442,13 +442,17 @@
     - [x] `references/rdd.md`: 回帰不連続。鋭いと曖昧、局所線形、帯域、境界の両側を比べる空間の RDD
     - [x] `references/synthetic-control.md`: 合成対照。処置された少数の地域、前の期間の当てはまり、置換の推論
     - [x] `references/spillover.md`: 曝露の写像による直接と波及の効果の推定
-- 施設、道路、路面をオープンデータで測る (1 / 3)
+- 施設、道路、路面をオープンデータで測る (2 / 3)
   - [x] `poi-insights`: 施設 (POI) をカテゴリ、ブランド、営業状態、信頼度で取り出し、H3 や S2 で数え、Gi* と多重比較の補正で集積とクラスターを見つけ、地域ごとに密度、人口あたり、HHI、競合の距離、人口の近さを比べる
     - [x] `references/grids-and-hotspots.md`
     - [x] `references/attributes-and-gaps.md`: 商用の POI にあってオープンな POI に無い属性と、その影響
     - [x] `references/compare-regions.md`
     - [ ] 道のりの距離での人口の近さ
-  - [ ] `travel-time-reliability`: 観測した旅行時間から、LOTTR、TTI、PTI、遅延を区間と時間帯ごとに出し、時間帯の差を日の引き直しの区間で比べ、ボトルネックを並べる
+  - [x] `travel-time-reliability`: 観測した旅行時間から、LOTTR、TTI、PTI、遅延を区間と時間帯ごとに出し、時間帯の差を日の引き直しの区間で比べ、ボトルネックを並べる
+    - [x] `references/definitions.md`: FHWA の時間帯と LOTTR、TTI、PTI、遅延、自由流の決め方
+    - [x] `references/data-checks.md`: 状態の符号、間隔、繰り返し、時計、日の欠け、区間の形 (NYC DOT で測った)
+    - [ ] 法定の速度による自由流との比較
+    - [ ] 区間のつながりを確かめた路線の旅行時間
   - [ ] `street-imagery-inspection`: 地上視点の 360 度画像から、柱の傾き、路面の材質と損傷、植生の張り出しを測り、位置つきの表にして地域で集計する
 - 結論を疑う (1 / 1)
   - [x] `robustness-analysis`: 結論を式で書き、種、分け方、標本、集計の単位、設定、データの版を変えて保たれるかを試す

@@ -1,0 +1,16 @@
+{
+ "rows": 641416,
+ "invalid": 0,
+ "used": 641416,
+ "bins": 220499,
+ "links": 94,
+ "links_with_free_flow": 92,
+ "unreliable_links": 60,
+ "compare": [
+  "AM",
+  "PM"
+ ],
+ "holidays": [
+  "2026-10-12"
+ ]
+}
