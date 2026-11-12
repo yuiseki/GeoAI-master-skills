@@ -23,6 +23,8 @@ description: 地上視点の 360 度画像 (Panoramax のような、キーの�
 1. 問いを 1 行で書く。どの範囲の、何の設備や路面を、何のために見るか。
 2. 画像を選ぶ ([imagery-sources](references/imagery-sources.md))。範囲の全ての画像を数え、撮影者、機材 (360 度か)、撮影の時期で絞り、一様な無作為の標本を取る (`scripts/panoramax_fetch.py`)。標本の数と、絞った理由ごとの数を書く。
 3. 透視の画像を切り出す (`scripts/equirect_view.py`)。柱は水平 (pitch 0) の 4 方向、路面は前方の少し下向き。車体や機材が写る部分は使わない。
+GPU が無いときは、torch を PyTorch の CPU 版の配布元から入れる (各スクリプトの冒頭の `uvx --index https://download.pytorch.org/whl/cpu ...`)。指定しないと CUDA 版 (数 GB) が入り、CPU 8 コアの Docker で 6 分半かかった (CPU 版は 44 秒、2026-11-13)。GPU があるときは `--index` を外して `--device cuda`。
+
 4. 柱 (`scripts/inspect_views.py`): OWLv2 で柱を見つけ、細長い枠だけを残し、`pole_lean.py` で傾きを測り、上部の植生の割合を測り、足の俯角から位置を推定し、近い位置をまとめる ([views-and-geometry](references/views-and-geometry.md))。
 5. 路面の損傷 (`scripts/surface_damage.py`): 公開の損傷データでプローブを学習し、写真単位の分割と、別の国のデータで試験してから、路面の帯のパッチに当てる ([surface](references/surface.md))。
 6. 路面の材質 (`scripts/surface_material.py`): ゼロショットで分け、OSM の surface と突き合わせ、多数派のクラスを当てるだけの基準と並べる。

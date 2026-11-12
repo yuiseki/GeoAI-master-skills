@@ -2,7 +2,7 @@
 labelled road-damage patches (RDD2022: D00 longitudinal crack, D10 transverse crack, D20 alligator crack, D40
 pothole) and applied to patches of the road in perspective views.
 
-    train:    uvx --with numpy --with pillow --with scikit-learn --with torch --with open_clip_torch \
+    train:    uvx --index https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --with numpy --with pillow --with scikit-learn --with torch --with open_clip_torch \
                   python surface_damage.py train RDD_COUNTRY.zip OUTDIR [--device cuda]
     evaluate: uvx ... python surface_damage.py evaluate OUTDIR/probe.npz OTHER_COUNTRY.zip OUT.json
     predict:  uvx ... python surface_damage.py predict OUTDIR/probe.npz VIEWS_DIR OUT.csv [--top 0.5 --bottom 0.95]

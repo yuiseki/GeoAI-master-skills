@@ -2,7 +2,7 @@
 sett (paving stones, cobbles) or unpaved (gravel, dirt). Compared against OpenStreetMap's surface tag where the
 road has one.
 
-    uvx --with numpy --with pillow --with torch --with open_clip_torch python surface_material.py VIEWS_DIR OUT.csv \
+    uvx --index https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --with numpy --with pillow --with torch --with open_clip_torch python surface_material.py VIEWS_DIR OUT.csv \
         [--device cuda] [--top 0.55 --bottom 0.9 --left 0.3 --right 0.7]
 
 Each view is cropped to the road ahead (fractions of its width and height) and compared with a few text prompts

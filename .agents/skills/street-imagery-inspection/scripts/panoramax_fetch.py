@@ -89,13 +89,21 @@ def feature_row(f):
             "sd": a.get("sd", {}).get("href"), "hd": a.get("hd", {}).get("href")}
 
 
+def _number(v):
+    """The field of view as a number: the API gives an int, a CSV read back gives text."""
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
 def sample(rows, n, seed=0, producer=None, fov=None, since=None):
     audit = {"listed": len(rows), "other_producer": 0, "other_fov": 0, "too_old": 0}
     ok = []
     for r in sorted(rows, key=lambda r: r["id"]):
         if producer and r["producer"] != producer:
             audit["other_producer"] += 1
-        elif fov and r["fov"] != fov:
+        elif fov and _number(r["fov"]) != fov:
             audit["other_fov"] += 1
         elif since and (r["datetime"] or "") < since:
             audit["too_old"] += 1

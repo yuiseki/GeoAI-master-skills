@@ -2,7 +2,7 @@
 views, measure each pole's lean against the other vertical lines of its view, measure the vegetation around its
 top, and place it on the map from the bearing and the depression angle of its foot.
 
-    uvx --with numpy --with scipy --with pillow --with scikit-image --with torch --with transformers \
+    uvx --index https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --with numpy --with scipy --with pillow --with scikit-image --with torch --with transformers \
         python inspect_views.py MANIFEST.csv IMAGES_DIR OUTDIR [--device cuda] [--camera-height 2.5] [--views-dir V]
 
 MANIFEST.csv: id, lon, lat, azimuth, file (the output of panoramax_fetch.py). Writes OUTDIR/poles.csv (one row

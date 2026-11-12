@@ -51,3 +51,13 @@ def test_the_sample_is_fixed_by_the_seed_and_without_replacement():
     a, _ = sample(rows, n=20, seed=7)
     b, _ = sample(rows, n=20, seed=7)
     assert [r["id"] for r in a] == [r["id"] for r in b] and len({r["id"] for r in a}) == 20
+
+
+def test_the_fov_filter_compares_numbers_whatever_the_type():
+    # rows read back from listed.csv carry the field of view as text; the filter must still keep the 360 ones
+    rows = [{"id": "a", "producer": "p", "fov": "360", "datetime": "2025"},
+            {"id": "b", "producer": "p", "fov": 95, "datetime": "2025"},
+            {"id": "c", "producer": "p", "fov": None, "datetime": "2025"},
+            {"id": "d", "producer": "p", "fov": 360.0, "datetime": "2025"}]
+    kept, audit = sample(rows, n=10, fov=360)
+    assert sorted(r["id"] for r in kept) == ["a", "d"] and audit["other_fov"] == 2
