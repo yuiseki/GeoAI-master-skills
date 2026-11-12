@@ -1,0 +1,13 @@
+{
+ "rows": 1056287,
+ "links": 125,
+ "dup_rows_link_time": 0,
+ "links_with_status0": 94,
+ "report_interval_median_s": 300.0,
+ "repeat_share_median": 0.06203088643411829,
+ "repeat_share_max": 0.4402464065708419,
+ "weekday_slowest_hour": 17,
+ "weekday_fastest_hour": 4,
+ "links_status0_share_ge_0.5_both": 75,
+ "links_status0_share_lt_0.5_either": 50
+}

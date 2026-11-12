@@ -1,0 +1,9 @@
+set,area,res,points,cells,nonempty,hot_cells,clusters,top_cluster_points,top_cluster_cells,max_cell,top10_cells_overlap_primary
+primary,wards,8,6697,990,872,92,7,1138,55,48,
+primary,wards,9,6697,6877,3293,469,42,869,205,17,
+primary,wards,10,6697,48061,5640,1688,335,174,121,5,
+primary,bbox,8,6697,1915,872,210,4,2994,199,48,
+primary,bbox,9,6697,13405,3293,1002,79,1716,496,17,
+primary,bbox,10,6697,93849,5640,2650,536,243,159,5,
+all,wards,9,7582,6877,3334,469,44,958,207,19,
+noatm_nodedup,wards,9,7269,6877,3302,491,46,950,212,19,

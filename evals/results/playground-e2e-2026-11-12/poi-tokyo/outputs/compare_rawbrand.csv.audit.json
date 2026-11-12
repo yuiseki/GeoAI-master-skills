@@ -1,0 +1,9 @@
+{
+ "points": 6697,
+ "in_a_region": 6697,
+ "in_no_region": 0,
+ "points_file": "/work/artifacts/tokyo23-convenience-stores/pts_rawbrand.parquet",
+ "regions_file": "/work/artifacts/tokyo23-convenience-stores/wards.parquet",
+ "population_file": null,
+ "within_m": 500.0
+}

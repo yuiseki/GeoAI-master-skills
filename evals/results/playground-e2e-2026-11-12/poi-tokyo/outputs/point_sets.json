@@ -1,0 +1,7 @@
+{
+ "in_wards": 7582,
+ "after_atm_removed": 7269,
+ "after_dedup25_same_chain": 6697,
+ "removed_atm": 313,
+ "removed_dups": 572
+}

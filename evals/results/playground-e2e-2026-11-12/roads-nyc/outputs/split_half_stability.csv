@@ -1,0 +1,17 @@
+split,period,metric,n,spearman,top10_overlap
+first_vs_second_half,PM,delay_s,94,0.974,6.000
+first_vs_second_half,PM,tti,94,0.952,9.000
+first_vs_second_half,PM,pti,94,0.901,8.000
+first_vs_second_half,AM,delay_s,93,0.959,8.000
+first_vs_second_half,AM,tti,93,0.949,8.000
+first_vs_second_half,PM,lottr,94,0.768,5.000
+first_vs_second_half,AM,lottr,94,0.898,5.000
+first_vs_second_half,PM-AM,diff_s,93,0.842,0.946
+odd_vs_even_day,PM,delay_s,96,0.981,7.000
+odd_vs_even_day,PM,tti,96,0.965,9.000
+odd_vs_even_day,PM,pti,96,0.912,9.000
+odd_vs_even_day,AM,delay_s,96,0.974,9.000
+odd_vs_even_day,AM,tti,96,0.958,8.000
+odd_vs_even_day,PM,lottr,97,0.878,8.000
+odd_vs_even_day,AM,lottr,98,0.925,6.000
+odd_vs_even_day,PM-AM,diff_s,97,0.893,0.928

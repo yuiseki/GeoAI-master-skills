@@ -1,0 +1,12 @@
+rank,cell,stores,gi_z,gi_hot_BH,lat,lon,ward,nearest_station,station_m,chains
+1,892f5aa886fffff,17,5.62,True,35.66463,139.85905,江戸川区,西葛西,25,Lawson 5; 7-Eleven 5; FamilyMart 4; (other/unmatched) 2; Circle K Sunkus 1
+2,892f5a32d97ffff,15,11.2,True,35.67989,139.76797,千代田区,東京,119,NewDays 5; (other/unmatched) 4; FamilyMart 4; 7-Eleven 1; Lawson 1
+3,892f5a37017ffff,14,5.62,True,35.71287,139.70418,新宿区,高田馬場,38,FamilyMart 4; (other/unmatched) 3; Lawson 3; NewDays 2; 7-Eleven 2
+4,892f5aae827ffff,13,8.66,True,35.56279,139.71602,大田区,蒲田,42,NewDays 3; 7-Eleven 3; FamilyMart 3; (other/unmatched) 2; Lawson 1; Three F 1
+5,892f5aad923ffff,12,10.44,True,35.65846,139.70162,渋谷区,渋谷,44,Lawson 3; 7-Eleven 3; (other/unmatched) 3; NewDays 2; FamilyMart 1
+6,892f5a37517ffff,12,9.42,True,35.69163,139.69822,新宿区,新宿,141,(other/unmatched) 4; 7-Eleven 2; FamilyMart 2; Lawson 2; NewDays 1; Circle K Sunkus 1
+7,892f5a32d5bffff,12,9.17,True,35.6981,139.7731,千代田区,秋葉原,30,NewDays 3; FamilyMart 2; 7-Eleven 2; Lawson 2; Seikatsu Saika 1; Circle K Sunkus 1; (other/unmatched) 1
+8,892f5a32d83ffff,11,10.69,True,35.68292,139.76883,千代田区,東京,230,(other/unmatched) 5; Lawson 2; FamilyMart 2; Ministop 1; NewDays 1
+9,892f5a37597ffff,11,5.37,True,35.68415,139.70247,渋谷区,代々木,41,FamilyMart 4; 7-Eleven 3; Lawson 2; Circle K Sunkus 1; NewDays 1
+10,892f5a328cfffff,11,4.35,True,35.71328,139.77738,台東区,上野,77,NewDays 8; FamilyMart 2; Circle K Sunkus 1
+11,892f5aaea77ffff,11,4.35,True,35.58867,139.72963,大田区,大森,161,FamilyMart 6; 7-Eleven 3; (other/unmatched) 1; Lawson 1

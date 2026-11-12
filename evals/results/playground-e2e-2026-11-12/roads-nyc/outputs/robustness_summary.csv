@@ -1,0 +1,9 @@
+scenario,spearman_PM_delay_s,top10_overlap_PM_delay_s,spearman_PM_tti,top10_overlap_PM_tti,spearman_PM_pti,top10_overlap_PM_pti,spearman_AM_tti,top10_overlap_AM_tti,spearman_max_lottr,n_links_lottr_ge_1.5,n_links,same_set_unreliable_as_S0,spearman_diff_s,n_diff_excl0_bh,n_pairs,sign_agree_diff_with_S0
+S0_main,1.000,10,1.000,10,1.000,10,1.000,10,1.000,34,81,34,1.000,73,97,1.000
+S1_include_status_-101_positive_tt,0.991,9,0.987,8,0.986,7,0.964,7,0.953,39,83,34,0.982,71,100,0.969
+S2_drop_repeated_values,1.000,10,1.000,10,1.000,10,1.000,10,0.998,33,81,33,1.000,73,97,1.000
+S3_drop_2026-09-21_(Yom_Kippur),1.000,10,0.999,10,0.998,10,0.999,10,0.991,32,81,31,0.999,72,97,0.979
+S4_drop_2026-09-01..04,0.999,9,0.998,10,0.996,9,0.996,9,0.967,27,79,25,0.995,77,94,0.989
+S5_free_flow_all_hours_p15,0.998,9,0.991,8,0.991,8,0.986,9,1.000,34,81,34,1.000,73,97,1.000
+S6_windows_AM7-10_PM16-19,0.997,9,0.997,9,0.994,9,0.993,9,0.905,27,81,23,0.983,67,97,0.969
+S7_min_8_bins_per_day_period,0.999,10,0.998,10,0.995,9,0.997,10,0.995,32,80,32,0.995,70,97,0.990

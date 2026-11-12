@@ -1,0 +1,4 @@
+server count query, run 2026-11-12 (Socrata i4gi-tjb9, data_as_of in 2026-09):
+[{"count":"1056287"}]
+
+uv 0.8.24

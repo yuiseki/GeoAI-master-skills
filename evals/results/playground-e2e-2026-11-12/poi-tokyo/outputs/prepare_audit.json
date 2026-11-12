@@ -1,0 +1,12 @@
+{
+ "in_bbox": 10439,
+ "in_wards": 7582,
+ "outside_wards": 2857,
+ "brand_missing": 3047,
+ "chain_from_brand": 4509,
+ "chain_from_name": 2753,
+ "chain_unmatched": 320,
+ "atm_like": 313,
+ "near_dup25_same_chain": 770,
+ "status_unknown": 7582
+}

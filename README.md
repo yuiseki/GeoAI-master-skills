@@ -24,6 +24,8 @@
 4. [AGENTS.md](AGENTS.md) (このリポジトリの直下): 分析の流れ全体。どの問いにどのスキルを使うかが分かる。
 5. `.agents/skills/<スキル>/SKILL.md`: 問いごとの手順。必要なものだけ読めばよい。どのスキルも、それだけで最後まで進められるように書いてある。
 
+Google の Geospatial Analytics Playground (POI、道路の交通、通りの画像の分析) と同じことをオープンデータで行うときは、[docs/open-geospatial-analytics-playground.md](docs/open-geospatial-analytics-playground.md) に、能力ごとの方法、データ、確かめた状態、できない理由がある。
+
 進み具合の表 [.agents/skills/TODO.md](.agents/skills/TODO.md) は、リポジトリ直下でなく `.agents/skills/` の中にある。`.agents/skills/AGENTS.md` は、スキルを書く人向けの決まりで、使う人が読む必要はない。
 
 ## テーマから使うスキルを選ぶ
