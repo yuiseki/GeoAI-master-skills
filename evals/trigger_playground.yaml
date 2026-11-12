@@ -1,0 +1,49 @@
+# Trigger cases for the open-data version of the Geospatial Analytics Playground (poi-insights,
+# travel-time-reliability, street-imagery-inspection). Same format as trigger_cases.yaml. Written on 2026-11-12
+# before the SKILL.md of travel-time-reliability and street-imagery-inspection were final, and before any run.
+# p1, p4 and p7 are the example prompts of Google's announcement, as written there. Do not edit these to fit a result.
+
+- id: p1-coffee-h3-london
+  kind: explicit
+  prompt: Find the top 20 coffee shop clusters in London aggregated by H3 cell.
+  expect: [poi-insights, poi-insights/references/grids-and-hotspots.md]
+
+- id: p2-pharmacy-gap
+  kind: implicit
+  prompt: 大阪市の区ごとに、薬局が人口に対して足りていない区を探したい。チェーンの寡占の度合いと、歩いて行ける範囲に住む人の割合も比べたい。
+  expect: [poi-insights, poi-insights/references/compare-regions.md]
+
+- id: p3-brand-rating
+  kind: implicit
+  prompt: 評価の高いラーメン店が集まっている地区を地図にしたい。営業中の店だけを数えたい。
+  expect: [poi-insights, poi-insights/references/attributes-and-gaps.md]
+
+- id: p4-boston-rush-hour
+  kind: explicit
+  prompt: Compare morning and evening rush-hour delays across Boston corridors.
+  expect: [travel-time-reliability, travel-time-reliability/references/definitions.md]
+
+- id: p5-lottr-freeway
+  kind: implicit
+  prompt: 高速道路の区間ごとに、所要時間がどれだけ読めないかを国の基準の指標で出し、信頼できない区間を並べたい。
+  expect: [travel-time-reliability, travel-time-reliability/references/definitions.md]
+
+- id: p6-bus-corridor-slow
+  kind: implicit
+  prompt: 感知器の 5 分ごとの速度から、夕方にいつも遅くなる道と、日によって遅れ方が大きく変わる道を分けて知りたい。
+  expect: [travel-time-reliability]
+
+- id: p7-poles-pci
+  kind: explicit
+  prompt: Inspect leaning utility poles or grade road surface PCI condition.
+  expect: [street-imagery-inspection]
+
+- id: p8-vegetation-lines
+  kind: implicit
+  prompt: 道路沿いの写真から、電柱に木の枝がかかっている所を探して、地図に落としたい。
+  expect: [street-imagery-inspection]
+
+- id: p9-road-surface-material
+  kind: implicit
+  prompt: 町の道路が、アスファルトか石畳か未舗装かを、通りの写真から地区ごとに集計したい。
+  expect: [street-imagery-inspection]
