@@ -1,0 +1,5 @@
+{
+ "source": "https://geodata-eu-central-1-kontur-public.s3.amazonaws.com/kontur_datasets/kontur_population_GB_20231101.gpkg.gz",
+ "cells": 4080,
+ "population_in_box": 10490488.0
+}

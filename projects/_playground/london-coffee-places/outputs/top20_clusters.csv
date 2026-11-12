@@ -1,0 +1,21 @@
+rank,cells,places,lat,lon,borough,top_brands,branded_share
+1,328,1456,51.516043,-0.114484,Camden,"Starbucks=64;Caffè Nero=63;Costa Coffee=61",0.243
+2,28,75,51.482079,-0.200565,Hammersmith and Fulham,"Starbucks=4;Caffè Nero=3;Costa Coffee=2",0.173
+3,15,62,51.541216,-0.142630,Camden,"Costa Coffee=3;Starbucks=2;Triple Two Coffee=1",0.194
+4,16,41,51.511882,-0.200095,Kensington and Chelsea,"Caffè Nero=3;Starbucks=3;Guillam Coffee House=1",0.220
+5,10,36,51.503984,-0.018652,Tower Hamlets,"Black Sheep Coffee=2;Cafe Brera=2;Starbucks=2",0.306
+6,9,34,51.375512,-0.097960,Croydon,"Caffè Nero=3;Costa Coffee=2;Starbucks=2",0.206
+7,10,34,51.506421,-0.223055,Hammersmith and Fulham,"Starbucks=3;Caffè Nero=2;Black Sheep Coffee=1",0.382
+8,9,32,51.510873,-0.304671,Ealing,"Caffè Nero=2;Starbucks=2;Artisan=1",0.250
+9,12,27,51.544887,-0.075568,Hackney,"Costa Coffee=1;Allpress Espresso=1",0.074
+10,6,23,51.460858,-0.302997,Richmond upon Thames,"Black Sheep Coffee=1;Caffè Nero=1;Costa Coffee=1",0.174
+11,8,23,51.492843,-0.224746,Hammersmith and Fulham,"Starbucks=3;Store Street Espresso=1;Caffè Nero=1",0.304
+12,10,23,51.583638,-0.021932,Waltham Forest,"Black Sheep Coffee=1;Coffeestationco=1;Costa Coffee=1",0.130
+13,8,22,51.462642,-0.167216,Wandsworth,"Starbucks=2;Costadoro Social Coffee=1;Caffè Nero=1",0.273
+14,8,21,51.470825,-0.454111,Hillingdon,"Caffè Nero=5;Costa Coffee=2;Black Sheep Coffee=1",0.381
+15,6,20,51.469952,-0.070711,Southwark,"Costa Coffee=1",0.050
+16,4,20,51.403520,0.015629,Bromley,"Starbucks=2;Caffè Nero=2;Triple Two Coffee=1",0.250
+17,6,20,51.410639,-0.304723,Kingston upon Thames,"Caffè Nero=3;Starbucks=2;Costa Coffee=2",0.350
+18,7,20,51.655343,-0.394293,,"Costa Coffee=2;Starbucks=2;Triple Two Coffee=1",0.350
+19,8,19,51.463135,-0.135867,Lambeth,"Starbucks=2;Doctor Espresso Ltd=1;Black Sheep Coffee=1",0.263
+20,7,19,51.555990,-0.173473,Camden,"Starbucks=1;Caffè Nero=1;Les Filles London=1",0.158

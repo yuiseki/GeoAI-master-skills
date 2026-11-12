@@ -20,6 +20,7 @@ contents:
 children:
 - divisions.md
 - transportation.md
+- places.md
 ---
 
 # Overture Maps
@@ -30,8 +31,9 @@ children:
 |---|---|---|
 | [divisions.md](divisions.md) | divisions | 国から町丁目までの行政区域の点、面、境界線 |
 | [transportation.md](transportation.md) | transportation | 道路と鉄道の線 (segment) と交差点 (connector) |
+| [places.md](places.md) | places | 施設 (POI) の点、カテゴリ、ブランド、営業状態、信頼度、出どころ |
 
-places (POI)、buildings (建物)、addresses、base はまだ書いていない (TODO.md)。
+buildings (建物)、addresses、base はまだ書いていない (TODO.md)。
 
 ## 目録の引き方
 

@@ -1,0 +1,9 @@
+{
+ "points": 5080,
+ "in_a_region": 4649,
+ "in_no_region": 431,
+ "points_file": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills/artifacts/_playground/london-coffee-places/coffee.parquet",
+ "regions_file": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills/artifacts/_playground/london-coffee-places/boroughs.parquet",
+ "population_file": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills/artifacts/_playground/london-coffee-places/population_h3r8.parquet",
+ "within_m": 500.0
+}

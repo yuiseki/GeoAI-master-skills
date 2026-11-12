@@ -1,0 +1,17 @@
+{
+ "points": 5080,
+ "cells": 1909,
+ "outside": 0,
+ "grid": "s2",
+ "res": 14,
+ "bbox": [
+  -0.52,
+  51.28,
+  0.34,
+  51.7
+ ],
+ "k": 1,
+ "alpha": 0.05,
+ "clusters": 0,
+ "points_file": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills/artifacts/_playground/london-coffee-places/coffee.parquet"
+}

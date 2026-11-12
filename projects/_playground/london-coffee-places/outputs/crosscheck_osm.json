@@ -1,0 +1,26 @@
+{
+ "overture_places": 10778,
+ "osm_places": 7040,
+ "cells_with_any": 2007,
+ "spearman_cells_r8": 0.6977,
+ "share_cells_only_overture": 0.2915,
+ "share_cells_only_osm": 0.0683,
+ "brands": {
+  "Costa": {
+   "overture": 464,
+   "osm": 376
+  },
+  "Starbucks": {
+   "overture": 204,
+   "osm": 246
+  },
+  "Caffè Nero": {
+   "overture": 191,
+   "osm": 178
+  },
+  "Pret A Manger": {
+   "overture": 35,
+   "osm": 0
+  }
+ }
+}

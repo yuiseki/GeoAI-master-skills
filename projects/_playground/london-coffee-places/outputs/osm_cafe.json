@@ -1,0 +1,6 @@
+{
+ "server": "https://overpass.yuiseki.net/api/interpreter",
+ "osm_base": "2025-09-14T23:59:55Z",
+ "elements": 7040,
+ "query": "[out:json][timeout:900];(node[\"amenity\"=\"cafe\"](51.28,-0.52,51.7,0.34);way[\"amenity\"=\"cafe\"](51.28,-0.52,51.7,0.34););out center tags;"
+}

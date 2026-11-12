@@ -20,5 +20,6 @@ node_modules/
 !/projects/_urban/
 !/projects/_tameike/
 !/projects/_benchmark/
+!/projects/_playground/
 /artifacts/*
 !/artifacts/sample-project/

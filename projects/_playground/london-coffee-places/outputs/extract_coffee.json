@@ -1,0 +1,24 @@
+{
+ "source": "/Workspaces/repos/__yuiseki/_research/GeoAI-skills/artifacts/_playground/london-coffee-places/places_2026-10-21.0_box.parquet",
+ "bbox": [
+  -0.52,
+  51.28,
+  0.34,
+  51.7
+ ],
+ "category": [
+  "coffee_shop"
+ ],
+ "exclude_status": [
+  "permanently_closed"
+ ],
+ "min_confidence": 0.0,
+ "counts": {
+  "in_bbox": 756060,
+  "other_category": 750727,
+  "excluded_status": 253,
+  "low_confidence": 0,
+  "kept": 5080
+ },
+ "duckdb": "1.5.6"
+}
