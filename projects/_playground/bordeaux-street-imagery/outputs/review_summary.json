@@ -1,0 +1,18 @@
+{
+ "reviewer": "Claude (Opus 5.5), visual reading of the contact sheets, 2026-11-12; not a human check",
+ "road_pictures": 40,
+ "road_visible_yes": 7,
+ "road_visible_no": 26,
+ "road_unclear": 7,
+ "road_flagged_among_yes": 7,
+ "road_flagged_among_no": 21,
+ "pole_detections_reviewed": 40,
+ "is_pole_yes": 32,
+ "is_pole_no": 6,
+ "is_pole_unclear": 2,
+ "visibly_leaning": 0,
+ "flagged_lean_over_5": 3,
+ "flagged_lean_over_5_is_pole": 2,
+ "leaves_touch_yes": 2,
+ "leaves_touch_yes_with_veg_over_0.3": 0
+}

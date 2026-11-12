@@ -1,0 +1,12 @@
+{
+ "osm_base": "2025-09-14T23:59:55Z",
+ "osm_nodes": {
+  "tower": 2,
+  "street_lamp": 38
+ },
+ "sites": 446,
+ "median_m_to_nearest_osm": 1444.0099485011485,
+ "share_within_5m": 0.0,
+ "share_within_10m": 0.0,
+ "share_beyond_25m": 1.0
+}

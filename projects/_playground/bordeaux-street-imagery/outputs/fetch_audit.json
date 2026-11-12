@@ -1,0 +1,20 @@
+{
+ "listed": 3982,
+ "other_producer": 0,
+ "other_fov": 0,
+ "too_old": 0,
+ "eligible": 3982,
+ "sampled": 300,
+ "bbox": [
+  -0.72,
+  44.84,
+  -0.68,
+  44.87
+ ],
+ "seed": 20261112,
+ "producer": "bordeaux métropole",
+ "fov": 360,
+ "since": "2025-09-01",
+ "asset": "hd",
+ "api": "https://api.panoramax.xyz/api"
+}

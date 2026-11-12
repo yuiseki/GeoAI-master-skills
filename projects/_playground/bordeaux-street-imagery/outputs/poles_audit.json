@@ -1,0 +1,24 @@
+{
+ "pictures": 300,
+ "views": 1200,
+ "detections": 6929,
+ "pole_like": 928,
+ "with_position": 858,
+ "sites": 446,
+ "camera_height_m": 2.5,
+ "merge_m": 4.0,
+ "model": "google/owlv2-base-patch16-ensemble",
+ "queries": [
+  "a utility pole",
+  "a street light pole",
+  "a telegraph pole"
+ ],
+ "threshold": 0.15,
+ "yaws": [
+  0,
+  90,
+  180,
+  270
+ ],
+ "fov": 90
+}

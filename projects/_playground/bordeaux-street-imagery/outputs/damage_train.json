@@ -1,0 +1,23 @@
+{
+ "auc": 0.9568899810872018,
+ "average_precision": 0.8899888594352457,
+ "precision_at_0.5": 0.8554714384033035,
+ "recall_at_0.5": 0.7123209169054441,
+ "patches": 7393,
+ "positives": 1745,
+ "pictures": 2829,
+ "folds": 5,
+ "test_images_overlap_train": 0,
+ "mean_oof_by_class": {
+  "D00": 0.6063125819111099,
+  "D10": 0.6485445850381726,
+  "D20": 0.6664341490553773,
+  "D40": 0.792322599721439,
+  "none": 0.10988338399309641
+ },
+ "zip": "artifacts/_playground/bordeaux-street-imagery/rdd2022/RDD2022/Czech.zip",
+ "model": [
+  "ViT-B-32",
+  "laion2b_s34b_b79k"
+ ]
+}

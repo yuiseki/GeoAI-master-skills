@@ -1,0 +1,11 @@
+{
+ "auc": 0.9668962333556838,
+ "average_precision": 0.9736112709254072,
+ "precision_at_0.5": 0.8915863277826468,
+ "recall_at_0.5": 0.9236426366442709,
+ "patches": 20429,
+ "positives": 11014,
+ "zip": "artifacts/_playground/bordeaux-street-imagery/rdd2022/RDD2022/United_States.zip",
+ "probe": "artifacts/_playground/bordeaux-street-imagery/damage_probe/probe.npz",
+ "pictures": 4805
+}

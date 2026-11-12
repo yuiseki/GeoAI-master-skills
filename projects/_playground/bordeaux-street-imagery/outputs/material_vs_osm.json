@@ -1,0 +1,21 @@
+{
+ "labelled": 265,
+ "agree": 100,
+ "accuracy": 0.37735849056603776,
+ "confusion": {
+  "asphalt": {
+   "concrete": 165,
+   "asphalt": 100
+  }
+ },
+ "majority_class": "asphalt",
+ "majority_accuracy": 1.0,
+ "pictures": 300,
+ "no_road_within_12m": 35,
+ "road_without_surface_tag": 0,
+ "osm_base": "2025-09-14T23:59:55Z",
+ "predicted_counts": {
+  "concrete": 189,
+  "asphalt": 111
+ }
+}

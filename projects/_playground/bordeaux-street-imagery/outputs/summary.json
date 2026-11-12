@@ -1,0 +1,12 @@
+{
+ "pictures": 300,
+ "cells": 26,
+ "pole_detections": 928,
+ "pole_detections_corrected": 373,
+ "pole_detections_uncorrected": 347,
+ "median_abs_lean_deg": 1.1573330681295173,
+ "detections_lean_over_5deg": 36,
+ "detections_veg_over_0.3": 0,
+ "mean_damaged_share": 0.7933333333333333,
+ "pictures_damaged_share_over_0.5": 263
+}
