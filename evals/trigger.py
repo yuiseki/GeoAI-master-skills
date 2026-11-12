@@ -478,3 +478,29 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def claude_messages(log_text):
+    """How many messages each model wrote in Claude Code's stream-json, counted once per message id: the log
+    writes one line per content block and repeats the id and model on each. The usage on these lines is not summed:
+    its output_tokens is the value when the message started streaming (1,143 against the result's 50,254 in a run of
+    2026-11-12). Take the tokens from the result event."""
+    seen, models = set(), {}
+    for line in log_text.splitlines():
+        try:
+            j = json.loads(line)
+        except ValueError:
+            continue
+        if not isinstance(j, dict) or j.get("type") != "assistant":
+            continue
+        msg = j.get("message") or {}
+        if msg.get("id") in seen:
+            continue
+        seen.add(msg.get("id"))
+        models[msg.get("model")] = models.get(msg.get("model"), 0) + 1
+    return models
+
+
+def model_switched(log_text, expected):
+    """Some message came from a model other than the one asked for (a safeguard can switch it mid-run)."""
+    return any(m != expected for m in claude_messages(log_text))

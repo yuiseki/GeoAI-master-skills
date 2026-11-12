@@ -177,7 +177,9 @@ def main():
             raise SystemExit("--time-limit needs --task")
         workdir = a.prompt_workdir or Path(a.dest).resolve()
         task += (f"\n時間の上限: この実行は {a.time_limit} 分で打ち切られる。打ち切られた時点で "
-                 f"{workdir}/projects/ にある報告を採点する。\n")
+                 f"{workdir}/projects/ にある報告を採点する。始めに `date` で時刻を控え、ときどき時計を見る。"
+                 f"{a.time_limit // 2} 分までに、その時点の結果で報告の初版を書き、そのあとは報告を更新しながら進める。"
+                 "重い処理は、残りの時間で終わる量に絞る。\n")
     sha = subprocess.run(["git", "-C", a.repo, "rev-parse", "--short", a.rev], check=True,
                          capture_output=True, text=True).stdout.strip()
     print(f"prepared {a.dest} from {sha}{' (baseline, no skills)' if a.baseline else ''}",

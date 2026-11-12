@@ -395,3 +395,26 @@ def test_a_qoder_run_out_of_credits_stops_the_runs():
     from trigger import usage_limited
     res = json.dumps({"type": "result", "is_error": True, "result": "Insufficient credits for this request"})
     assert usage_limited("", res)
+
+
+def _cl(mid, model, out):
+    return json.dumps({"type": "assistant", "message": {"id": mid, "model": model,
+                       "usage": {"input_tokens": 1, "output_tokens": out}, "content": []}})
+
+
+def test_claude_code_s_models_are_counted_per_message_not_per_line():
+    # stream-json writes one line per content block, each repeating the message's id, model and usage
+    from trigger import claude_messages
+    log = "\n".join([_cl("m1", "claude-sonnet-5-5", 10), _cl("m1", "claude-sonnet-5-5", 10),
+                     _cl("m2", "claude-opus-4-8", 5), "not json"])
+    assert claude_messages(log) == {"claude-sonnet-5-5": 1, "claude-opus-4-8": 1}
+
+
+def test_a_run_that_switched_models_is_flagged():
+    # a safeguard can switch the model in the middle of a run; that run does not measure the model asked for
+    from trigger import model_switched
+    same = "\n".join([_cl("m1", "claude-sonnet-5-5", 1), _cl("m2", "claude-sonnet-5-5", 1)])
+    other = "\n".join([_cl("m1", "claude-sonnet-5-5", 1), _cl("m2", "claude-opus-4-8", 1)])
+    assert not model_switched(same, "claude-sonnet-5-5")
+    assert model_switched(other, "claude-sonnet-5-5")
+    assert model_switched(same, "claude-opus-5-5")

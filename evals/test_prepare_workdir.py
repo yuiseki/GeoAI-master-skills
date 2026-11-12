@@ -144,6 +144,9 @@ def test_time_limit_is_stated_the_same_for_baseline_and_skills(repo, tmp_path):
              "--prompt-workdir", "/work", "--time-limit", "60", *flag],
             check=True, capture_output=True, text=True).stdout
         assert "60 分" in outs[name] and "/work/projects/" in outs[name]
+        # a run that is cut off must still leave a report: the agent reads the clock and writes a first draft
+        # by half the time (ISUCON2026: the agent looked at the clock twice and stopped with work left)
+        assert "date" in outs[name] and "30 分" in outs[name] and "初版" in outs[name]
     assert outs["s"] == outs["b"]
     without = subprocess.run(
         ["python", str(here / "prepare_workdir.py"), "HEAD", str(tmp_path / "n"), "--repo", str(repo),
