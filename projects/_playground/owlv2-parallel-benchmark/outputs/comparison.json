@@ -1,0 +1,41 @@
+{
+  "metrics": {
+    "sequential": {
+      "seconds": 36.97295285703149,
+      "peak_mib": 745.5,
+      "speedup": 1.0
+    },
+    "workers2": {
+      "seconds": 35.01107522007078,
+      "peak_mib": 1147.2578125,
+      "speedup": 1.0560359150534178
+    },
+    "batch2": {
+      "seconds": 40.95595637999941,
+      "peak_mib": 763.296875,
+      "speedup": 0.9027491023280562
+    }
+  },
+  "matches": {
+    "workers2": {
+      "baseline_detections": 79,
+      "candidate_detections": 79,
+      "matched": 79,
+      "missing": 0,
+      "extra": 0,
+      "min_iou": 1.0,
+      "max_score_difference": 0.0,
+      "max_coordinate_difference_px": 0.0
+    },
+    "batch2": {
+      "baseline_detections": 79,
+      "candidate_detections": 79,
+      "matched": 79,
+      "missing": 0,
+      "extra": 0,
+      "min_iou": 1.0,
+      "max_score_difference": 2.086162567138672e-07,
+      "max_coordinate_difference_px": 0.0
+    }
+  }
+}
