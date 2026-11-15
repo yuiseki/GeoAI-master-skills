@@ -260,7 +260,7 @@ def todo_problems(root):
     return problems
 
 
-PACKAGES = {"sklearn": "scikit-learn", "yaml": "pyyaml", "PIL": "pillow", "skimage": "scikit-image"}
+PACKAGES = {"sklearn": "scikit-learn", "yaml": "pyyaml", "PIL": "pillow", "skimage": "scikit-image", "vroom": "pyvroom"}
 BRINGS = {"scikit-learn": {"numpy", "scipy", "joblib"}, "scipy": {"numpy"}, "rasterio": {"numpy"},
           "pandas": {"numpy"}, "shapely": {"numpy"}, "pyproj": set(), "statsmodels": {"numpy", "scipy", "pandas"},
           "geopandas": {"numpy", "pandas", "shapely", "pyproj"}, "esda": {"numpy", "scipy", "libpysal"}}

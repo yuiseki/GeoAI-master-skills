@@ -428,8 +428,9 @@
     - [x] `references/coverage.md`
     - [x] `references/transport.md`: 割当と輸送 (容量のある割当)。networkx と照合 (transport.py)
     - [x] LP と双対 (資源の値段)。片側の傾きで確かめ、退化した問題での幅も (references/transport.md)
-    - [ ] 出発地を分けない割当、容量のある施設配置 (整数計画)
-    - [ ] CP-SAT (配置とスケジューリング)
+    - [x] 出発地を分けない割当、容量のある施設配置 (整数計画) (`references/cp-sat.md` / `scripts/cpsat_location.py`)
+    - [x] CP-SAT (配置とスケジューリング) (`references/cp-sat.md` / `scripts/cpsat_location.py`)
+    - [x] VRP 配車・巡回ルート最適化 (VROOM / `pyvroom`) (`references/vrp.md` / `scripts/vrp_routing.py`)
     - [ ] 多目的 (重み付き和、パレート、ε 制約)
     - [ ] 無作為な配置の分布を基準にする、既存の配置を評価する (002)
     - [ ] 下限を先に求める (005)
