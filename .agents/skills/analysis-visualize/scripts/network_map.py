@@ -9,6 +9,17 @@ drawn dotted and counted apart from 0. A negative value, or one above the last b
 class (CIELAB lightness), so that the busiest edges stand out: YlOrRd on a dark background, or magma on a
 light one, stops the run. Rainbow palettes stop the run.
 
+Direction: --direction COL (1 along the line's drawing order, -1 against it, 0 or NULL none), or --signed, where
+the value's sign is the direction (a negative value is a flow against the drawing order, a reversal) and the
+classes are by its size. An edge that carries something gets an arrowhead at the middle of its length (or one
+every --arrow-every map units); the line itself is drawn as given, not shortened or moved for the arrows.
+Edges with 0 or no value get no arrow.
+
+--map-height IN fixes the map's height (the width follows the view's extent) and keeps the legend, title and
+footnote in margins around it (--right-margin for the legend); the PNG is saved uncropped and the JSON gets
+"layout", the canvas and map rectangle in pixels, so that maps drawn this way with the same --view line up
+(panel_layout.py check / assemble). Without it the PNG is cropped to its contents, which moves the map.
+
 --highlight COL marks edges where COL is true (a cut bridge, a bottleneck) with an outline, and --label-col
 names them. --points "path,label,marker,colour" (repeatable) adds point layers from a CSV or Parquet with x and
 y columns in the same CRS. Overlapping labels are counted and recorded.
@@ -21,6 +32,7 @@ Usage:
         --crs EPSG:6677 --source "OSM 2026-08-31" --question "..." --value n --value-label "..." --unit "..." \\
         --bins 1 10 100 [--geometry geometry] [--palette YlOrRd] [--theme light|dark] [--width-range 0.4 3.5] \\
         [--highlight COL --highlight-label "..." --label-col name] [--points "pts.csv,label,^,#1f6fb2"] \\
+        [--direction COL | --signed] [--arrow-every M] [--map-height IN --right-margin IN]
         [--view XMIN YMIN XMAX YMAX] [--title "..."] [--note "..."] --png map.png
 """
 
@@ -80,9 +92,12 @@ def class_widths(k, width_range):
     return list(np.linspace(a, b, k)) if k > 1 else [b]
 
 
-def classify(values, bins):
-    """-1 for 0, -2 for missing, else the class index of (0, b0], (b0, b1], ... Stops on bad values."""
+def classify(values, bins, signed=False):
+    """-1 for 0, -2 for missing, else the class index of (0, b0], (b0, b1], ... Stops on bad values.
+    signed: classes by the size of the value (its sign is a direction)."""
     v = np.asarray(values, float)
+    if signed:
+        v = np.abs(v)
     nan = np.isnan(v)
     if (v[~nan] < 0).any():
         raise SystemExit(f"{int((v[~nan] < 0).sum())} negative values: this map draws non-negative amounts")
@@ -92,6 +107,48 @@ def classify(values, bins):
     cls = np.where(v == 0, -1, cls)
     cls = np.where(nan, -2, cls)
     return cls
+
+
+def arrow_marks(lines, sign, every=None):
+    """Arrow anchors along one edge (its line parts, in drawing order): (x, y, dx, dy) with a unit direction.
+    One at the middle of the edge's length, or one every `every` units starting at every / 2. sign: 1 along the
+    drawing order, -1 against it, 0 none."""
+    if not sign:
+        return []
+    pts = np.concatenate([np.asarray(p, float) for p in lines]) if len(lines) > 1 else np.asarray(lines[0], float)
+    seg = np.diff(pts, axis=0)
+    seglen = np.hypot(seg[:, 0], seg[:, 1])
+    total = seglen.sum()
+    if total == 0:
+        return []
+    at = [total / 2] if not every else list(np.arange(every / 2, total, every))
+    cum = np.concatenate([[0], np.cumsum(seglen)])
+    out = []
+    for d in at:
+        i = min(int(np.searchsorted(cum, d, side="right")) - 1, len(seg) - 1)
+        while seglen[i] == 0:
+            i -= 1
+        t = (d - cum[i]) / seglen[i]
+        x, y = pts[i] + t * seg[i]
+        ux, uy = seg[i] / seglen[i] * (1 if sign > 0 else -1)
+        out.append((float(x), float(y), float(ux), float(uy)))
+    return out
+
+
+def arrow_triangle(x, y, dx, dy, length, y_over_x):
+    """An arrowhead centred on (x, y) pointing along (dx, dy), `length` long in x units. Built where a y unit and
+    an x unit look the same (y scaled by y_over_x), so the head is not squashed on longitude and latitude."""
+    vx, vy = dx, dy * y_over_x
+    n = math.hypot(vx, vy)
+    vx, vy = vx / n, vy / n
+    h, w = length / 2, length * 0.35
+    pts = [(h * vx, h * vy), (-h * vx - w * vy, -h * vy + w * vx), (-h * vx + w * vy, -h * vy - w * vx)]
+    return [(x + px, y + py / y_over_x) for px, py in pts]
+
+
+def segments_of_line(lines):
+    """The coordinates drawn for an edge: its parts unchanged (arrows are separate marks)."""
+    return lines
 
 
 def read_edges(path, geometry, cols):
@@ -159,6 +216,15 @@ def main(argv=None):
     ap.add_argument("--label-col")
     ap.add_argument("--points", action="append", default=[])
     ap.add_argument("--view", type=float, nargs=4)
+    d = ap.add_mutually_exclusive_group()
+    d.add_argument("--direction", help="column: 1 along the line's drawing order, -1 against, 0 or NULL none")
+    d.add_argument("--signed", action="store_true", help="the value's sign is the direction; classes by its size")
+    ap.add_argument("--arrow-every", type=float, help="repeat arrows every this many map units along an edge")
+    ap.add_argument("--arrow-size", type=float, default=7.0, help="arrowhead length in points")
+    ap.add_argument("--map-height", type=float, help="fix the map's height in inches and save uncropped")
+    ap.add_argument("--right-margin", type=float, default=3.2, help="inches right of the map for the legend")
+    ap.add_argument("--top-margin", type=float, default=0.6,
+                    help="inches above the map for the title; the same with or without one, so panels line up")
     ap.add_argument("--title", default="")
     ap.add_argument("--note", default="")
     ap.add_argument("--font")
@@ -177,9 +243,19 @@ def main(argv=None):
                          f"the busiest edges would fade. Use a palette whose high end stands out "
                          f"(default {DEFAULT_PALETTE[a.theme]})")
 
-    df, geoms = read_edges(a.edges, a.geometry, [a.value, a.highlight, a.label_col])
+    df, geoms = read_edges(a.edges, a.geometry, [a.value, a.highlight, a.label_col, a.direction])
     n = len(df)
-    cls = classify(df[a.value].astype(float).values, bins)
+    vals = df[a.value].astype(float).values
+    cls = classify(vals, bins, a.signed)
+    if a.direction:
+        dirs = df[a.direction].astype(float).fillna(0).values
+        if not np.isin(dirs, (-1, 0, 1)).all():
+            raise SystemExit(f"--direction {a.direction} must be 1, -1, 0 or NULL")
+    elif a.signed:
+        dirs = np.sign(np.nan_to_num(vals))
+    else:
+        dirs = np.zeros(n)
+    dirs = np.where(cls >= 0, dirs, 0)           # nothing flows on a 0 or unmeasured edge
     k = len(bins)
     counts = {"zero": int((cls == -1).sum()), "nodata": int((cls == -2).sum()),
               "classes": [int((cls == i).sum()) for i in range(k)]}
@@ -200,14 +276,21 @@ def main(argv=None):
     lo = [0.0] + bins[:-1]
     cls_names = [f"{_fmt(l)} より大きく {_fmt(h)} 以下" for l, h in zip(lo, bins)]
     point_specs = [p.split(",") for p in a.points]
-    text = " ".join([a.title, a.note, a.value_label, a.unit, a.highlight_label, a.source, "0 値なし 1 km m",
+    text = " ".join([a.title, a.note, a.value_label, a.unit, a.highlight_label, a.source, "0 値なし 1 km m 向き 逆",
                      *cls_names, *labels, *[s[1] for s in point_specs]])
     font = use_cjk_font(text, a.font)
 
     segs = segments(geoms)
     colours = palette_colours(palette, k)
     widths = class_widths(k, a.width_range)
-    fig, ax = plt.subplots(figsize=(10, 10))
+    x0, y0, x1, y1 = a.view if a.view else _bounds(geoms)
+    if a.map_height:
+        import panel_layout
+        fig, ax, _ = panel_layout.map_frame((x0, y0, x1, y1), aspect(a.crs, y0, y1), a.map_height,
+                                            left=0.15, right=a.right_margin, bottom=0.45,
+                                            top=a.top_margin, dpi=150)
+    else:
+        fig, ax = plt.subplots(figsize=(10, 10))
     fig.patch.set_facecolor(theme["bg"])
     ax.set_facecolor(theme["bg"])
 
@@ -221,6 +304,25 @@ def main(argv=None):
     draw(hl, colors=theme["outline"], linewidths=max(widths) + 3, zorder=2, capstyle="round")
     for i in range(k):  # low classes first, so the busiest edges lie on top
         draw(cls == i, colors=[colours[i]], linewidths=widths[i], zorder=3 + i, capstyle="round")
+    ax.set_xlim(x0, x1)
+    ax.set_ylim(y0, y1)
+    ax.set_aspect(aspect(a.crs, y0, y1))
+    arrows = 0
+    if dirs.any():
+        from matplotlib.collections import PolyCollection
+        fig.canvas.draw()
+        per_inch = (x1 - x0) / ax.get_window_extent().width * fig.dpi
+        length = a.arrow_size / 72 * per_inch
+        tris = [arrow_triangle(*m, length=length * (0.8 + 0.2 * (cls[i] + 1)), y_over_x=aspect(a.crs, y0, y1))
+                for i in np.flatnonzero(dirs) for m in arrow_marks(segs[i], dirs[i], a.arrow_every)]
+        arrows = len(tris)
+        ax.add_collection(PolyCollection(tris, facecolors=theme["text"], edgecolors=theme["bg"], linewidths=0.4,
+                                         zorder=4 + k))
+    direction = None
+    if a.direction or a.signed:
+        direction = {"from": f"column {a.direction}" if a.direction else f"sign of {a.value}",
+                     "along": int((dirs > 0).sum()), "against": int((dirs < 0).sum()),
+                     "none": int((dirs == 0).sum()), "arrows": arrows}
 
     points_meta, marks, point_handles = [], [], []
     for spec in point_specs:
@@ -231,11 +333,6 @@ def main(argv=None):
         point_handles.append(m)
         marks.append((label, xy))
         points_meta.append({"label": label, "path": path, "n": int(len(xy))})
-
-    x0, y0, x1, y1 = a.view if a.view else _bounds(geoms)
-    ax.set_xlim(x0, x1)
-    ax.set_ylim(y0, y1)
-    ax.set_aspect(aspect(a.crs, y0, y1))
 
     # labels are placed after the view is fixed, so that their drawn boxes can be tested against the points
     # and the labels already placed; the first offset that overlaps nothing is kept
@@ -267,20 +364,26 @@ def main(argv=None):
         handles.append(Line2D([], [], color=theme["nodata"], lw=1, ls=":", label=f"値なし ({counts['nodata']})"))
     if hl.any():
         handles.append(Line2D([], [], color=theme["outline"], lw=3, label=a.highlight_label))
+    if direction:
+        handles.append(Line2D([], [], color=theme["text"], marker=">", ls="none", markersize=6,
+                              label=f"向き (逆向き {direction['against']})"))
     handles += point_handles
     leg = ax.legend(handles=handles, title=f"{a.value_label} ({a.unit})", loc="upper left", bbox_to_anchor=(1.01, 1),
                     frameon=False, labelcolor=theme["text"], fontsize=8, title_fontsize=9)
     leg.get_title().set_color(theme["text"])
-    if a.title:
-        ax.set_title(a.title, color=theme["text"], fontsize=11)
+    title = ax.set_title(a.title, color=theme["text"], fontsize=11) if a.title else None
     foot = f"{a.crs}。{a.source}" + (f"。{a.note}" if a.note else "")
-    ax.text(0, -0.01, foot, transform=ax.transAxes, va="top", fontsize=7, color=theme["text"])
+    foot_t = ax.text(0, -0.01, foot, transform=ax.transAxes, va="top", fontsize=7, color=theme["text"])
     if a.crs.upper() not in GEOGRAPHIC:
         _scale_bar(ax, x0, x1, y0, y1, theme["text"])
 
     overlaps = text_overlaps(fig, texts, legends=[leg]) + point_overlaps(fig, ax, texts, marks)
     png = Path(a.png)
-    fig.savefig(png, dpi=150, bbox_inches="tight", facecolor=theme["bg"])
+    layout = None
+    if a.map_height:
+        layout = panel_layout.save(fig, png, [leg, title, foot_t, *texts], facecolor=theme["bg"])
+    else:
+        fig.savefig(png, dpi=150, bbox_inches="tight", facecolor=theme["bg"])
     plt.close(fig)
 
     meta = dict(question=a.question, source=a.source, edges_file=str(a.edges), crs=a.crs, value=a.value,
@@ -288,6 +391,11 @@ def main(argv=None):
                 palette=palette, theme=a.theme, widths=[round(w, 3) for w in widths],
                 highlighted=int(hl.sum()), labels=labels, points=points_meta, view=[x0, y0, x1, y1],
                 text_overlaps=[list(p) for p in overlaps], font=font)
+    if direction:
+        meta["direction"] = direction
+        meta["arrow_every"] = a.arrow_every
+    if layout:
+        meta["layout"] = layout
     png.with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps({k_: meta[k_] for k_ in ("counts", "edges", "highlighted", "text_overlaps")}, ensure_ascii=False))
 

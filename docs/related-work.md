@@ -74,7 +74,7 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - 評価の分け方の決め方。向こうはグループ、時間、不均衡で選ぶ。地理の分析では、予測する場所と観測の離れ方 (空間の自己相関) が加わる (`cross-validation-design`、`leakage-audit`)。
   - 1 ケースごとの費用の上限 (5 ドル) と、Claude Code だけで流すこと。こちらは 4 つの CLI で比べ、Docker の中で流す。
 
-## global-hydrodynamics/CaMa-Flood_v4 の visualization (検討した。取り込みは未決)
+## global-hydrodynamics/CaMa-Flood_v4 の visualization (一部を取り込んだ)
 
 - 場所: <https://github.com/global-hydrodynamics/CaMa-Flood_v4/tree/manual-automation/visualization> (2026-11-16 に manual-automation の 6037115 (2026-11-15) を読んだ。`visualization/README.md`、`figure_making_guideline.md`、`cmf_colormap/README.md`、`river_map/README.md` の見出し)。CaMa-Flood は全球の河川と氾濫原の水理モデル。モデル本体は読んでいない。
 - 自身の注記: この可視化は v5 の作業で作られた参考資料で、v4 の配置と出力では確かめていない。最新は cmf_v5_beta にある。
@@ -89,6 +89,7 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - 地図の枠を先に決める: 地図の軸の大きさと縦横の比を先に決め、題、色の帯、凡例は枠の外に足す。並べる図は画像の縁でなく地図の枠をそろえ、画像を縮めてそろえない。`bbox_inches="tight"` や `tight_layout()` で、図ごとに枠が動かないようにする。色の帯の無い図にも同じ幅の空き (見えない色の帯) を取る。そろったかを、保存した画像の画素で確かめる。
   - 色の帯の長さを、対応する地図の軸の長さに合わせる。
   - 向きのある線: 向きは接続のデータから取る。合流点で矢印が重なるなら、印を線に沿って動かすか繰り返し、線の形は変えない。正負のある流れ (逆流) を、中央から分かれる色と矢印で描く。範囲が正負で非対称なら、0 の近くだけ線形の対数で正規化する。こちらの `network-map` は、有向の辺の矢印を「まだできないこと」としている。
+  - 取り込んだ (2026-11-16): 地図の枠を先に決める並べ方と見えない色の帯 (`analysis-visualize` の `scripts/panel_layout.py`、`classify_map.py` と `network_map.py` の `--map-height`)、向きのある線の矢じりと正負のある流れ (`network_map.py` の `--direction` と `--signed`)。正負で非対称な範囲の対数の正規化と、正負を中央から分かれる色で塗る描き方は取り込んでいない (向きは矢じりで、量は大きさの階級で描く)。
   - 範囲の全ての網を描くと言うなら、密度を下げるために線を間引かない。一部なら選び方を書く。
   - 時間の定義 (ある時刻の値、期間の平均、積算、最大) を、題か注記で区別する。
   - クラスの地図で、意味のある 0、割り当てのない単位、範囲の外、欠損の印を、別のものとして描く。

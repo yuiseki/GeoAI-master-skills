@@ -1,4 +1,4 @@
-"""uvx --with numpy --with duckdb --with shapely --with matplotlib --with pyarrow --with pandas --with pytest pytest test_network_map.py"""
+"""uvx --with numpy --with duckdb --with shapely --with matplotlib --with pyarrow --with pandas --with pillow --with pytest pytest test_network_map.py"""
 
 import json
 import os
@@ -148,3 +148,89 @@ def test_label_moves_off_a_point(tmp_path):
     assert r.returncode == 0, r.stderr
     meta = json.loads((tmp_path / "m.json").read_text(encoding="utf-8"))
     assert meta["text_overlaps"] == [["橋A", "点"]]
+
+
+def line_edges(tmp_path, rows):
+    """Edges from (wkt, value, direction) rows; direction None = no direction."""
+    c = duckdb.connect()
+    c.execute("install spatial; load spatial")
+    c.execute("create table e (id int, wkt varchar, v double, d int)")
+    for i, (w, v, d) in enumerate(rows):
+        c.execute("insert into e values (?, ?, ?, ?)", [i, w, v, d])
+    p = tmp_path / "lines.parquet"
+    c.execute(f"copy (select id, v, d, st_geomfromtext(wkt) geometry from e) to '{p}' (format parquet)")
+    return p
+
+
+def test_an_arrow_sits_on_the_line_at_its_middle_and_points_along_it():
+    import numpy as np
+    line = [np.array([[0.0, 0.0], [100.0, 0.0], [100.0, 300.0]])]       # 400 long: the middle is (100, 100)
+    (x, y, dx, dy), = nm.arrow_marks(line, 1)
+    assert (x, y) == pytest.approx((100, 100)) and (dx, dy) == pytest.approx((0, 1))
+    (x, y, dx, dy), = nm.arrow_marks(line, -1)
+    assert (x, y) == pytest.approx((100, 100)) and (dx, dy) == pytest.approx((0, -1))
+    assert nm.arrow_marks(line, 0) == []
+    # repeated along a long edge, every 150 units from 75: 75, 225, 375
+    marks = nm.arrow_marks(line, 1, every=150)
+    assert [m[:2] for m in marks] == [pytest.approx((75, 0)), pytest.approx((100, 125)), pytest.approx((100, 275))]
+
+
+def test_arrowheads_keep_the_line_geometry():
+    """The arrows are separate marks: the line's own coordinates are drawn as given, not shortened to make room."""
+    import numpy as np
+    line = [np.array([[0.0, 0.0], [100.0, 0.0]])]
+    tri = nm.arrow_triangle(50, 0, 1, 0, length=10, y_over_x=1.0)
+    assert tri[0] == pytest.approx((55, 0))                 # tip ahead of the anchor, base behind it
+    assert all(45 - 1e-9 <= p[0] <= 55 + 1e-9 for p in tri)
+    assert np.array_equal(nm.segments_of_line(line), line)
+
+
+def test_direction_column_draws_arrows_and_counts_reversals(tmp_path):
+    rows = [("LINESTRING(0 0, 100 0)", 5, 1), ("LINESTRING(100 0, 200 0)", 5, -1),
+            ("LINESTRING(0 0, 0 100)", 5, None), ("LINESTRING(0 100, 100 100)", 0, 1)]
+    e = line_edges(tmp_path, rows)
+    r = run(base_args(e, tmp_path / "m.png") + ["--direction", "d"])
+    assert r.returncode == 0, r.stderr
+    meta = json.loads((tmp_path / "m.json").read_text(encoding="utf-8"))
+    # the zero edge carries nothing, so it gets no arrow even with a direction
+    assert meta["direction"] == {"from": "column d", "along": 1, "against": 1, "none": 2, "arrows": 2}
+
+
+def test_a_direction_other_than_plus_or_minus_one_stops(tmp_path):
+    e = line_edges(tmp_path, [("LINESTRING(0 0, 100 0)", 5, 2)])
+    r = run(base_args(e, tmp_path / "m.png") + ["--direction", "d"])
+    assert r.returncode != 0 and "direction" in r.stderr
+
+
+def test_signed_values_are_classed_by_size_and_their_sign_gives_the_arrow(tmp_path):
+    """A flow that runs against the line's drawing order (a reversal) is a negative value."""
+    rows = [("LINESTRING(0 0, 100 0)", 50, None), ("LINESTRING(100 0, 200 0)", -50, None),
+            ("LINESTRING(0 0, 0 100)", -0.5, None), ("LINESTRING(0 100, 100 100)", 0, None)]
+    e = line_edges(tmp_path, rows)
+    r = run(base_args(e, tmp_path / "m.png") + ["--signed"])
+    assert r.returncode == 0, r.stderr
+    meta = json.loads((tmp_path / "m.json").read_text(encoding="utf-8"))
+    assert meta["counts"] == {"zero": 1, "nodata": 0, "classes": [1, 0, 2]}
+    assert meta["direction"] == {"from": "sign of v", "along": 1, "against": 2, "none": 1, "arrows": 3}
+    # without --signed, the negative values still stop the run
+    assert run(base_args(e, tmp_path / "n.png")).returncode != 0
+
+
+def test_map_height_fixes_the_map_so_maps_with_other_legends_line_up(tmp_path):
+    import panel_layout as pl
+    e = grid_edges(tmp_path, [5] * 12)
+    a = run(base_args(e, tmp_path / "a.png") + ["--map-height", 3, "--view", -10, -10, 210, 210])
+    b = run(base_args(e, tmp_path / "b.png")[:-6] + ["--bins", 1, 2, 5, 10, 100, "--png", tmp_path / "b.png",
+                                                     "--map-height", 3, "--view", -10, -10, 210, 210,
+                                                     "--title", "五つの階級で描いた、より長い題の地図"])
+    assert a.returncode == 0, a.stderr
+    assert b.returncode == 0, b.stderr
+    la, lb = (json.loads((tmp_path / f"{n}.json").read_text(encoding="utf-8"))["layout"] for n in "ab")
+    assert pl.check_panels([la, lb]) == []
+    assert la["map_px"][3] - la["map_px"][1] == 3 * 150
+
+
+def test_a_legend_too_wide_for_the_right_margin_stops(tmp_path):
+    e = grid_edges(tmp_path, [5] * 12)
+    r = run(base_args(e, tmp_path / "a.png") + ["--map-height", 3, "--right-margin", 0.3])
+    assert r.returncode != 0 and "outside the canvas" in r.stderr

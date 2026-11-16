@@ -347,3 +347,28 @@ def test_cli_drops_unit_outlines_when_units_are_too_small_to_see_between_them(tm
     p = _write(tmp_path, [1.0, 2, 3, 4], areas_grow=False)
     out = _cli(tmp_path, p, *BASE, "--crs", "EPSG:6677", "--png", str(tmp_path / "m.png"))
     assert json.loads((tmp_path / "m.json").read_text())["unit_edges"] is True
+
+
+def test_map_height_fixes_the_map_so_maps_with_other_legends_and_titles_line_up(tmp_path):
+    """Two periods compared side by side: other classes (a longer legend) and a title on one only."""
+    import panel_layout as pl
+    rng = np.random.default_rng(2)
+    p = _write(tmp_path, list(rng.lognormal(0, 1, 10)), areas_grow=False)
+    common = ["id", "v", "--kind", "rate", "--unit", "per 1,000", "--crs", "EPSG:6677", "--source", "synthetic",
+              "--map-height", "2", "--view", "-5", "-5", "105", "6"]
+    a = _cli(tmp_path, p, *common, "--method", "quantile", "--classes", "3", "--png", str(tmp_path / "a.png"))
+    b = _cli(tmp_path, p, *common, "--method", "quantile", "--classes", "6", "--title", "six classes, longer",
+             "--png", str(tmp_path / "b.png"))
+    assert a.returncode == 0, a.stderr
+    assert b.returncode == 0, b.stderr
+    la, lb = (json.loads((tmp_path / f"{n}.json").read_text())["layout"] for n in "ab")
+    assert pl.check_panels([la, lb]) == []
+    assert la["view"] == [-5, -5, 105, 6]
+
+
+def test_a_view_that_leaves_units_out_stops(tmp_path):
+    p = _write(tmp_path, [1, 2, 3, 4], areas_grow=False)
+    out = _cli(tmp_path, p, "id", "v", "--kind", "rate", "--unit", "x", "--method", "equal", "--classes", "2",
+               "--crs", "EPSG:6677", "--source", "s", "--map-height", "2", "--view", "0", "0", "15", "1",
+               "--png", str(tmp_path / "m.png"))
+    assert out.returncode != 0 and "outside the view" in out.stderr

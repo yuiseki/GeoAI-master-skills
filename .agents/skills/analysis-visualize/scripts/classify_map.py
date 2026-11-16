@@ -182,6 +182,13 @@ def main():
     p.add_argument("--expect-units", type=int, help="stop unless this many units are drawn (from the analysis)")
     p.add_argument("--edges", choices=["auto", "on", "off"], default="auto",
                    help="unit outlines; auto drops them when units are too small to see between the lines")
+    p.add_argument("--map-height", type=float,
+                   help="fix the map's height in inches and save uncropped, with the layout in the JSON, so maps "
+                        "drawn with the same --view line up (panel_layout.py check / assemble)")
+    p.add_argument("--view", type=float, nargs=4, metavar=("XMIN", "YMIN", "XMAX", "YMAX"),
+                   help="the extent drawn; give the same one to every map that is compared")
+    p.add_argument("--right-margin", type=float, default=3.0, help="inches right of the map for the legend")
+    p.add_argument("--top-margin", type=float, default=0.6, help="inches above the map for the title")
     p.add_argument("--font", help="font family for the map's text; by default a Japanese font only when the text needs one")
     a = p.parse_args()
     palette = a.palette or DEFAULT[a.kind]
@@ -299,6 +306,13 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
     xmin, ymin, xmax, ymax = shapely.GeometryCollection(geoms).bounds
     pad = 0.03 * max(xmax - xmin, ymax - ymin)
     view = (xmin - pad, xmax + pad, ymin - pad, ymax + pad)
+    if a.view:
+        vx0, vy0, vx1, vy1 = a.view
+        out_n = sum(1 for g in geoms if not shapely.box(vx0, vy0, vx1, vy1).contains(g))
+        if out_n:
+            raise SystemExit(f"{out_n} units lie partly or wholly outside the view {a.view}; widen it (every map "
+                             "compared needs the same view, so take the union of their extents)")
+        view = (vx0, vx1, vy0, vy1)
     areas = read_areas(a.context, a.context_name, a.context_where, shapely.box(view[0] - pad, view[2] - pad,
                        view[1] + pad, view[3] + pad)) if a.context else []
     hl_rows, groups = hl if hl else ([], [])
@@ -346,10 +360,16 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
         ax.set_yticks([])
         return seams, rank_texts
 
-    fig, ax = plt.subplots(figsize=(10, 8))
-    ax.set_xlim(view[0], view[1])
-    ax.set_ylim(view[2], view[3])
-    ax.set_aspect(aspect(a.crs, view[2], view[3]))
+    if a.map_height:
+        import panel_layout
+        fig, ax, _ = panel_layout.map_frame((view[0], view[2], view[1], view[3]), aspect(a.crs, view[2], view[3]),
+                                            a.map_height, left=0.15, right=a.right_margin, bottom=0.45,
+                                            top=a.top_margin, dpi=170)
+    else:
+        fig, ax = plt.subplots(figsize=(10, 8))
+        ax.set_xlim(view[0], view[1])
+        ax.set_ylim(view[2], view[3])
+        ax.set_aspect(aspect(a.crs, view[2], view[3]))
     edges = a.edges == "on"
     if a.edges == "auto":
         fig.canvas.draw()
@@ -395,9 +415,10 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
         n = sum(1 for _, gg, _ in hl_rows if gg == g)
         handles.append(Patch(facecolor="none", edgecolor=colour[g], lw=2.0, label=f"{g} ({n})"))
     leg = ax.legend(handles=handles, title=legend_title, loc="upper left", bbox_to_anchor=(1.01, 1), fontsize=8)
-    ax.set_title(title, fontsize=11 if a.title else 8, loc="left")
+    title_t = ax.set_title(title, fontsize=11 if a.title else 8, loc="left")
+    caption_t = None
     if a.title:
-        ax.text(0, -0.01, caption, transform=ax.transAxes, fontsize=7, color="#444444", va="top")
+        caption_t = ax.text(0, -0.01, caption, transform=ax.transAxes, fontsize=7, color="#444444", va="top")
     if a.inset:
         fig.canvas.draw()
         r = fig.canvas.get_renderer()
@@ -439,7 +460,11 @@ def draw_map(a, ids, vals, ok, cls, b, counts, geoms, names, label_col, palette,
             fh.write("id,group,rank,area\n")
             for i, g, rank in hl_rows:
                 fh.write(f"{i},{g},{rank},{areas_containing(label_point(by_id[i]), areas)}\n")
-    fig.savefig(a.png, dpi=170, bbox_inches="tight", metadata={"Description": json.dumps(meta)})
+    if a.map_height:
+        meta["layout"] = panel_layout.save(fig, a.png, [leg, title_t, caption_t, *texts],
+                                           metadata={"Description": json.dumps(meta)})
+    else:
+        fig.savefig(a.png, dpi=170, bbox_inches="tight", metadata={"Description": json.dumps(meta)})
     plt.close(fig)
     Path(a.png).with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n")
     print(f"wrote {a.png} and {Path(a.png).with_suffix('.json')}")

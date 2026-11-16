@@ -16,7 +16,8 @@ description: 分析済みの値を、誤解を生まない図や地図にする�
 | [result-figures](references/result-figures.md) | パレート前線や時刻の割当を描くとき | パレート前線と運行・勤務の時刻割当。`scripts/result_figures.py` の入力、解の欠落と区間重複の検査 |
 | [thematic-mapping](references/thematic-mapping.md) | 値を階級で塗り分ける地図を描くとき (手順 3 の前) | 連続値、件数、率、残差、クラスの塗り分け図。`scripts/classify_map.py` の階級、色、NoData、来歴の検査 |
 | [map-context](references/map-context.md) | 地図を描くとき、いつも (手順 8 の前) | 地図で場所を読ませる原則。背景の境界と地名、単位の形、縦横の比、凡例、強調と拡大図、数の照合、文字の重なり。`scripts/context_map.py` と `classify_map.py` の引数 |
-| [network-map](references/network-map.md) | 値が辺に付いた結果 (経路、流れ、橋) を描くとき | 値が辺に付いた結果 (最短経路の木、流れ、効く橋) を、辺の色と太さで描く。`scripts/network_map.py` の入力、階級、0 と値なし、背景に対する色の向き、ラベルの置き方 |
+| [network-map](references/network-map.md) | 値が辺に付いた結果 (経路、流れ、橋) を描くとき | 値が辺に付いた結果 (最短経路の木、流れ、効く橋) を、辺の色と太さで描く。`scripts/network_map.py` の入力、階級、0 と値なし、背景に対する色の向き、流れの向きと逆流の矢じり、ラベルの置き方 |
+| [comparable-maps](references/comparable-maps.md) | 地図を並べて比べるとき | 共通と個別の区切り、地図の枠を先に決めて画素でそろえる並べ方 (`scripts/panel_layout.py`、`--map-height`) |
 
 ## 図の型を、問いから決める
 
