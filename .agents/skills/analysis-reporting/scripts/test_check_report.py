@@ -6,7 +6,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-from check_report import FAILURE_MODES, check, failure_mode_problems, format_problems, numbers_in, sections, traceable
+from check_report import (FAILURE_MODES, check, failure_mode_problems, format_problems, numbers_in, sections,
+                          surprise_problems, surprise_words, traceable)
 
 SIMPLE = """問い: 東京 23 区の中心部に、ヘリポートはいくつ記録されているか。
 結論: OurAirports に 391 件、OpenStreetMap に 83 件。両方にあるのは 68 件 (50 m 以内)。
@@ -328,3 +329,45 @@ def test_a_diagnostic_table_needs_known_verdicts_and_a_next_step_for_each_proble
         "診断: 残差の Moran's I is 要対処 but names no next step"]
     assert diagnostic_problems("| a | b |\n|---|---|\n| 1 | 2 |\n") == []      # other tables are left alone
     assert any(p.startswith("診断:") for p in check(SIMPLE + DIAG.replace("| OK |", "| x |"), "simple"))
+
+
+def test_words_that_call_a_result_unexpected():
+    assert surprise_words("意外にも、北の区のほうが多かった。") == ["意外"]
+    assert surprise_words("予想に反して減った。論文より高い IoU を得た。") == ["予想に反", "論文より高"]
+    assert surprise_words("Surprisingly, the baseline won.") == ["surprising"]
+    # 覆う (cover) and 被覆 are not 覆す (overturn)
+    assert surprise_words("分類図が 95% を覆う面。被覆率は 91.5%。") == []
+    assert surprise_words("定説を覆す結果だった。") == ["覆す"]
+    # 想定外 is also a hazard-map term: outside the assumed flood area
+    assert surprise_words("浸水想定外の候補は 63 か所。ランク 0 は想定外、想定外は 63 か所。") == []
+    assert surprise_words("想定外の結果だった。値は想定外に大きい。") == ["想定外の結果", "想定外に"]
+
+
+SURPRISE = SIMPLE.replace("結論: OurAirports に", "結論: 意外にも、OurAirports に")
+
+
+def test_an_unexpected_result_cannot_be_called_not_applicable_to_f5():
+    """references/failure-modes.md F5: a result called unexpected is first suspected to be a bug or a difference of
+    procedure. The verdict 当てはまらない contradicts the conclusion's own word."""
+    na = FAILURES.replace("| F5 | 確かめた |", "| F5 | 当てはまらない |")
+    report = SURPRISE + na + "確かめていないこと: F4 独立かは見ていない。\n"
+    assert surprise_problems(report) == [
+        "結論 calls a result unexpected (意外) but F5 is 当てはまらない: check it for a bug or a difference of "
+        "procedure (references/failure-modes.md F5), or write that the reason is not separated (F5 確かめていない)"]
+    assert any("意外" in p for p in check(report, "full", EVIDENCE))
+    # checked, or left unchecked and named: both are honest
+    assert surprise_problems(SURPRISE + FAILURES + "確かめていないこと: F4 独立かは見ていない。\n") == []
+    unchecked = FAILURES.replace("| F5 | 確かめた |", "| F5 | 確かめていない |")
+    assert surprise_problems(SURPRISE + unchecked + "確かめていないこと: F4 と F5 は見ていない。\n") == []
+
+
+def test_an_unexpected_result_without_a_failure_table_names_f5_outside_the_conclusion():
+    assert surprise_problems(SURPRISE) == [
+        "結論 calls a result unexpected (意外): say under 方法 how a bug or a difference of procedure was ruled "
+        "out, or under 確かめていないこと that it was not, naming F5 (references/failure-modes.md)"]
+    assert any("意外" in p for p in check(SURPRISE, "simple", EVIDENCE))
+    # naming F5 inside the conclusion does not count: the conclusion is where the claim is made
+    assert surprise_problems(SURPRISE.replace("意外にも、", "意外にも (F5)、")) != []
+    named = SURPRISE.replace("方法: 両方の点を", "方法: F5: 半径を変えて同じ順になるのを見た。両方の点を")
+    assert surprise_problems(named) == []
+    assert surprise_problems(SIMPLE) == []

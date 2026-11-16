@@ -11,6 +11,7 @@ description: このデータの品質で、この分析の結論を支えられ�
 
 | reference | 読むとき | 中身 |
 |---|---|---|
+| [filters-and-labels](references/filters-and-labels.md) | 絞り込み、重複の除去、しきい値、AI の目視のラベルで行を除いたとき | 必ず残るべき要素 (種) の確認、除いたものの判定を隠した無作為な見直し、2 回の判定の一致 (kappa と PABAK) (`scripts/filter_audit.py`) |
 | [positional-error](references/positional-error.md) | 位置の誤差が分析の操作 (バッファ、最寄り、重ね合わせ) に与える影響を見積もるとき (手順 5 の前) | 位置の誤差の測り方と、バッファ、最寄り、重ね合わせ、分類への影響 (実測と合成) |
 
 ## 品質の要素

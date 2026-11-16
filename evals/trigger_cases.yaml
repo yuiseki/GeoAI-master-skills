@@ -94,6 +94,11 @@
   expect: [spatial-interpolation, spatial-interpolation/references/kriging.md]
   forbid: [spatial-data-modeling]
 
+- id: s4-filter-recheck
+  kind: scope
+  prompt: 地図の POI のデータから、カテゴリの列でコーヒー店だけに絞った。この絞り込みで本当のコーヒー店をどれだけ落としたかを確かめたい。
+  expect: [data-quality-audit, data-quality-audit/references/filters-and-labels.md]
+
 - id: n3-plot-style
   kind: negative
   prompt: matplotlib の図の日本語の文字が豆腐 (四角) になるのを直したい。

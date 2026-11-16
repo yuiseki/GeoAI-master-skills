@@ -15,6 +15,9 @@ reads the answer and, optionally, the outputs it was written from.
                             当てはまらない, 確かめていない) and its ground; a mode left 確かめていない is named in
                             確かめていないこと (failure_mode_problems; references/failure-modes.md)
                    確かめていないこと  required at "full"; optional otherwise
+                 a conclusion that calls a result unexpected (意外, 予想に反して, 論文より高い, surprisingly) keeps F5
+                 in view at every level: with a 失敗の型 table, F5 is not 当てはまらない; without one, F5 is named
+                 outside 結論 (surprise_problems; references/failure-modes.md F5)
                  a diagnostic table (| 診断 | 実測 | 基準 | 判定 | 次の手 |), when there is one: verdicts OK, 要対処 or 確認,
                  and a next step for each 要対処 (diagnostic_problems)
                  and a length budget: simple at most 8 non-empty lines, standard at most 40, full no limit
@@ -161,6 +164,45 @@ def failure_mode_problems(text):
     return problems
 
 
+# references/failure-modes.md F5: words that present a result as unexpected, a new finding or better than the
+# published value. 覆う (cover) and 被覆 are not 覆す (overturn); 想定外 alone is a hazard-map term (浸水想定外: outside
+# the assumed flood area), so only 想定外の結果, 想定外に and the like count.
+_SURPRISE = re.compile(r"意外|予想に反|予想外|想定外(?:の結果|の値|の差|に|だっ|であ)|予期せぬ|驚|覆す|覆した|覆る|常識に反|定説に反|直[観感]に反|逆説的|"
+                       r"新発見|新たな発見|論文より(?:も)?(?:高|良|上回|大き)|surprising|unexpected|counter-?intuitive|"
+                       r"contrary to", re.IGNORECASE)
+
+
+def surprise_words(text):
+    return [m.group(0).lower() for m in _SURPRISE.finditer(text)]
+
+
+def surprise_problems(text):
+    """A conclusion that calls a result unexpected must not leave F5 aside. With a 失敗の型 table, F5 may be 確かめた
+    or 確かめていない (then named under 確かめていないこと), not 当てはまらない. Without one, F5 is named outside 結論
+    (under 方法: how it was ruled out; under 確かめていないこと: that it was not)."""
+    s = sections(text)
+    words = surprise_words("\n".join(s.get("結論", [])))
+    if not words:
+        return []
+    shown = "、".join(dict.fromkeys(words))
+    f5 = None
+    for line in s.get("失敗の型", []):
+        cells = [c.strip() for c in line.strip().strip("|").split("|")] if line.strip().startswith("|") else []
+        if cells and cells[0] == "F5":
+            f5 = cells[1] if len(cells) > 1 else ""
+    if f5 is not None:
+        if f5 == "当てはまらない":
+            return [f"結論 calls a result unexpected ({shown}) but F5 is 当てはまらない: check it for a bug or a difference "
+                    "of procedure (references/failure-modes.md F5), or write that the reason is not separated "
+                    "(F5 確かめていない)"]
+        return []
+    outside = "\n".join(line for name, lines in s.items() if name != "結論" for line in lines)
+    if re.search(r"(?<![A-Za-z0-9])F5(?!\d)", outside):
+        return []
+    return [f"結論 calls a result unexpected ({shown}): say under 方法 how a bug or a difference of procedure was "
+            "ruled out, or under 確かめていないこと that it was not, naming F5 (references/failure-modes.md)"]
+
+
 DIAG_HEADER = re.compile(r"^\|\s*診断\s*\|\s*実測\s*\|\s*基準\s*\|\s*判定\s*\|\s*次の手\s*\|\s*$")
 DIAG_VERDICTS = ("OK", "要対処", "確認")
 
@@ -211,6 +253,7 @@ def check(text, level, evidence=None, failure_modes="required"):
     if level == "full" and (failure_modes == "required" or "失敗の型" in s):
         problems += failure_mode_problems(text)
     problems += diagnostic_problems(text)
+    problems += surprise_problems(text)
     limit = LIMITS[level]
     lines = [x for x in text.splitlines() if x.strip()]
     if limit is not None and len(lines) > limit:

@@ -193,6 +193,7 @@
     - [x] `references/missingness.md`: 欠測、0、検出の限界、打ち切りの区別と扱い方
   - [x] `data-quality-audit`: このデータの品質で、この分析の結論を支えられるかを判断する。位置と属性の正確さ、一貫性、完全性、時間、来歴、使ってよいか
     - [x] `references/positional-error.md`: 位置の誤差の測り方と、バッファ、最寄り、重ね合わせへの影響 (駅の実測、合成)
+    - [x] `references/filters-and-labels.md`: 絞り込みと判定の品質。種の確認、除いたものの判定を隠した見直し、kappa と PABAK (`scripts/filter_audit.py`、ロンドンのコーヒー店の例)
   - [x] `spatial-sampling-design`: どこを、何地点、どう観測するか。枠、単純無作為、格子、層別、集落、空間的に均衡した抽出、包含確率、行きやすさの偏り
     - [x] `references/designs.md`: 同じ 100 地点での方法ごとの精度と偏り (合成)
     - [x] `references/sample-size.md`: 標本の大きさの計算 (精度の目標から、sample_size.py)

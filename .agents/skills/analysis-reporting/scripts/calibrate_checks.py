@@ -8,6 +8,8 @@ say how much its "ok" is worth.
     break_link       the first link into outputs/ pointed at a file that does not exist              caught
     drop_failure_row one row of the 失敗の型 table removed (reports that have the table)               caught
     add_claim        a causal sentence with no number added to 結論                                  not_checked
+    add_surprise     a sentence calling a result unexpected (意外にも) added to 結論, and F5 set to    caught
+                     当てはまらない where the 失敗の型 table has it
 
 expect is what the checks are meant to do: caught, or not_checked (a claim in words; the checks do not read it).
 Integers below 10 and numbers glued to a letter (M2, F4) are not perturbed: the checks pass them by design.
@@ -147,6 +149,16 @@ def add_claim(text, rng=None):
     return text[:a] + claim + text[a:], "a causal claim in words"
 
 
+def add_surprise(text, rng=None):
+    a, b = conclusion_span(text)
+    if a == b:
+        return None
+    claim = "\n意外にも、この差は先行研究と逆の向きだった。\n"
+    out = text[:a] + claim + text[a:]
+    out = re.sub(r"^(\|\s*F5\s*\|)\s*[^|]*\|", r"\1 当てはまらない |", out, flags=re.MULTILINE)
+    return out, "an unexpected result in words, F5 set aside"
+
+
 MUTATIONS = [
     Mutation("perturb_number", perturb_number, "caught"),
     Mutation("swap_unit", swap_unit, "not_checked"),
@@ -154,6 +166,7 @@ MUTATIONS = [
     Mutation("break_link", break_link, "caught"),
     Mutation("drop_failure_row", drop_failure_row, "caught"),
     Mutation("add_claim", add_claim, "not_checked"),
+    Mutation("add_surprise", add_surprise, "caught"),
 ]
 
 

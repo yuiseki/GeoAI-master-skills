@@ -2,7 +2,8 @@
 
 import random
 
-from calibrate_checks import MUTATIONS, add_claim, break_link, conclusion_span, drop_failure_row, drop_section, \
+from check_report import surprise_problems
+from calibrate_checks import MUTATIONS, add_surprise, add_claim, break_link, conclusion_span, drop_failure_row, drop_section, \
     perturb_number, swap_unit
 
 REPORT = """# 例
@@ -77,6 +78,17 @@ def test_structural_mutations():
     assert "因果" in out[slice(*conclusion_span(out))]
     out, _ = swap_unit(REPORT)
     assert "1.85 m" in out
+
+
+def test_add_surprise_calls_a_result_unexpected_and_sets_f5_aside():
+    out, note = add_surprise(REPORT)
+    assert "意外" in out[slice(*conclusion_span(out))]
+    assert surprise_problems(out) and not surprise_problems(REPORT)
+    # a report whose F5 was checked: the break also sets F5 aside, or the word alone would be honest
+    with_f5 = REPORT.replace("| F2 | 当てはまらない | 比べていない |\n", "| F2 | 当てはまらない | 比べていない |\n| F5 | 確かめた | 版をそろえた |\n")
+    assert not surprise_problems(with_f5.replace("事故は 4,232", "意外にも事故は 4,232"))
+    out, _ = add_surprise(with_f5)
+    assert "| F5 | 当てはまらない |" in out and surprise_problems(out)
 
 
 def test_every_mutation_says_whether_the_checks_should_catch_it():

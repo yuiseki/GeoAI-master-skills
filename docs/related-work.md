@@ -110,6 +110,9 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - できのよい報告に見えて間違っている型に名前を付け、報告ごとに判定を書かせる (`analysis-reporting` の `references/failure-modes.md` の F1 から F7。F8 と F9 はこちらで足した)。向こうの 7 つの型の出どころは Lu et al. (2026), Nature 651, 914-919 の限界の節。
   - 検査の誤りの率を、答えの分かる壊し方で測る (`analysis-reporting` の `scripts/calibrate_checks.py`)。
   - モデルが変わるたびに足場を見直す (`docs/harness-audits/`)。
+- 取り込んだ (2026-11-16、考え方だけ):
+  - 文献の選別の品質管理 (`sr-screener`): 必ず残るべき既知の要素 (種) の確認、除いたものから種を固定した無作為の見直し、前の判定と理由を見直す側に見せないこと、裁定する側に理由を見せないこと、陽性がまれなときに kappa と並べて PABAK と数を書くこと。こちらでは、POI の絞り込み、重複の除去、画像の AI の目視のラベルに当てる (`data-quality-audit` の `references/filters-and-labels.md` と `scripts/filter_audit.py`)。
+  - 想定外の結果の言葉を F5 の合図にすること (向こうの失敗の型の 5 番目の確かめ方): 結論に「意外」「予想に反して」などがあれば、F5 を脇に置けない (`analysis-reporting` の `check_report.py` の `surprise_problems`)。向こうは人に問うが、こちらは報告の表の判定と照らして機械で止める。
 - 取り込まない点:
   - 段階ごとに人の確認で止めること。記録が足りなければ人に出してもらうまで止めること。
   - 段階の区切りで文脈を捨て、ハッシュでつないだ台帳から再開する仕組み。
