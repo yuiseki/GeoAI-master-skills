@@ -98,3 +98,19 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - 虹のような配色 (Shade-Rainbow、Diverge-Rainbow など)。こちらは、明るさが値の順に並ばない虹色を止めている。向こうも、重ねる層での目立ち方を優先し、知覚の一様さと色覚の多様性とは引き換えだと書いている。
   - 設定をシェルのスクリプトに置き、描く処理を Python に置く分け方。こちらはスクリプトの引数と、PNG と同じ名前の JSON で来歴を残す。
   - ギャラリーへの載せ方と、図の PNG を git で追跡すること。こちらは成果物を artifacts に置き、リポジトリに入れない。
+
+## Imbad0202/academic-research-skills (一部を取り込んだ)
+
+- 場所: <https://github.com/Imbad0202/academic-research-skills> (2026-11-08 に読んだ。版は控えていない。2026-11-16 に 23bd688 (2026-11-15) の 5 つのスキル (`deep-research`、`academic-paper`、`academic-paper-reviewer`、`academic-pipeline`、`sr-screener`) の SKILL.md の冒頭と、`POSITIONING.md`、`academic-pipeline/references` の失敗の型、主張の検証、較正、再実行の文書、`academic-paper/references` の知識の隔離と図の検査、`sr-screener/references` の品質管理と査読役の分担を読み直した)。
+- ライセンス: CC BY-NC 4.0。オープンソースではない。文章もコードも写さず、考え方だけを参考にする。
+- 中身: 論文の調査、執筆、査読、改訂を段階ごとに進める Claude Code のスキル集。段階の変わり目ごとに人の確認で止める (Human-in-the-loop) ことを中心に置き、自律的な研究の仕組みを「やらないこと」として明文化している。実験の実行は扱わない。
+- GeoAI-master-skills との違い: 向こうは人が著者で、AI は副操縦士。こちらは意図的に人の確認で止めない。向こうが「人に記録を出してもらう」所は、こちらではエージェント自身の出力と記録に照らして機械で確かめる。向こうの検査の多くは LLM の判定、こちらはスクリプトの検査が多い。
+- 取り込んだ (2026-11-08、考え方だけ):
+  - やらないことを、理由とともに明文化する (`docs/boundaries.md`)。
+  - できのよい報告に見えて間違っている型に名前を付け、報告ごとに判定を書かせる (`analysis-reporting` の `references/failure-modes.md` の F1 から F7。F8 と F9 はこちらで足した)。向こうの 7 つの型の出どころは Lu et al. (2026), Nature 651, 914-919 の限界の節。
+  - 検査の誤りの率を、答えの分かる壊し方で測る (`analysis-reporting` の `scripts/calibrate_checks.py`)。
+  - モデルが変わるたびに足場を見直す (`docs/harness-audits/`)。
+- 取り込まない点:
+  - 段階ごとに人の確認で止めること。記録が足りなければ人に出してもらうまで止めること。
+  - 段階の区切りで文脈を捨て、ハッシュでつないだ台帳から再開する仕組み。
+  - 引用の書式 (APA など)、投稿先ごとの規則、問いかけで導くモード、査読の模擬の役の数。
