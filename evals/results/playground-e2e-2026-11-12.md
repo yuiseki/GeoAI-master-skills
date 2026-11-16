@@ -24,7 +24,9 @@ Docker の Claude Code (Sonnet 5.5、既定の effort、CPU 8、メモリ 16 GB)
 | 道路 | ニューヨーク市の 2026 年 9 月の朝夕のラッシュの遅れと読めなさ、差の不確かさ | 完了。check_project.py は ok。travel-time-reliability の ttr_metrics.py を使った。80 区間のうち夕が遅い 47、朝が遅い 16。LOTTR が 1.5 以上の区間の数が窓の取り方で 34 から 27 に変わることを示した。Gowanus 北行きの一日中の遅さを測定の異常の疑いとして挙げた | 49 分 | [roads-nyc](playground-e2e-2026-11-12/roads-nyc/report.md) |
 | 画像 | パリ 11 区のオープンな画像で、柱の傾き、柱にかかる枝、路面の傷み、信頼できる度合いも | 未完了。120 分の制限で打ち切られ、報告と地図は出なかった。street-imagery-inspection の SKILL.md と 4 つの reference を全て読み、スクリプトを使った。範囲の 37,197 枚から 1 つの機材 (imajbox 360 HD) の 3,045 枚に絞り、一様な 200 枚。途中の表は残った (下) | 120 分 (打ち切り) | [imagery-paris](playground-e2e-2026-11-12/imagery-paris/PROMPT.md) |
 
-- 2 つの実行は、どちらもスキルの SKILL.md を読んだが、後の段の reference (poi-insights の grids-and-hotspots など) は開かなかった。それでも、スクリプトの説明と dataset-discovery から手順を組み立てた。
+- 2 つの実行は、どちらも主なスキルの SKILL.md と全ての reference (poi-insights は 3 つを `cat references/*.md` で、travel-time-reliability は 2 つ) を、最初の Python を流す前に読んだ。analysis-reporting の reference は、分析の後、報告を書く前に読んだ (`trigger.py order` で数えた。2026-11-16)。
+  - 訂正: 2026-11-12 には「後の段の reference (grids-and-hotspots など) は開かなかった」と書いたが、誤り。ログを読み直すと、POI の実行は `cd` してから glob で全ての reference を読んでいた。
+- 画像の実行 (パリ、ヴォルテール大通りの 2 回) も、street-imagery-inspection の reference を最初の Python の前に読んだ (パリは 4 つ全て、ヴォルテール大通りは surface.md を除く 3 つ。植生だけの課題なので、路面の reference は要らない)。
 - 東京の実行で見つかった重複と ATM の行は、poi-insights の references/attributes-and-gaps.md に書き足した (a176925)。
 
 ## 3. 画像の実行が途中で残したもの

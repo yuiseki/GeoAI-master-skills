@@ -24,6 +24,7 @@ stops (exit 3) instead of waiting the time limit on every remaining case.
         [--context CLAUDE_MD]
         [--cases evals/trigger_cases.yaml] [--only ID ...] [--minutes N] [--repeats N] [--retry-errors]
     python3 evals/trigger.py judge OUT_DIR       # re-grade saved logs
+    python3 evals/trigger.py order LOG           # an analysis run: what it read before its first python
 OUT_DIR is one condition. Its first run writes manifest.json: the revision of the skills and the cases (each workdir
 is made from it, not from HEAD, and the cases are read from it), the agent, model and effort, the Docker image id,
 the CLI's version, the runner's hash and the time limit. Resuming or --retry-errors under anything different is
@@ -126,13 +127,9 @@ def _shell(command, files=(), cwd=""):
 _AGY_READS = {"read_file", "view_file", "run_command", "grep_search"}
 
 
-def reads(log_text, files=()):
-    """Skills and references the agent read, from the JSON events of any of the four agents: OpenCode
-    (`opencode run --format json`), Codex (`codex exec --json`), the Gemini CLI (`agy --output-format
-    stream-json`) and Claude Code (`claude -p --output-format stream-json`; Glob only lists; qodercli 1.1.86 writes
-    the same events). The event shapes do not overlap, so a log is read without being told which agent wrote it.
-    files: the skill files at the run's revision, to expand globs (_shell)."""
-    got = set()
+def _steps(log_text, files=()):
+    """The tool calls of a run in order, as (what they read, the shell command or ""), from the JSON events of
+    any of the four agents (see reads)."""
     claude_cwd = ""                     # Claude Code's Bash keeps the folder a cd left it in
     for line in log_text.splitlines():
         try:
@@ -145,38 +142,88 @@ def reads(log_text, files=()):
             part = j.get("part", {})
             inp = part.get("state", {}).get("input") or {}
             if part.get("tool") == "read":
-                got |= _items(str(inp.get("filePath", "")))
+                yield _items(str(inp.get("filePath", ""))), ""
             elif part.get("tool") == "skill" and re.fullmatch(r"[A-Za-z0-9_-]+", str(inp.get("name", ""))):
-                got.add(inp["name"])
+                yield {inp["name"]}, ""
             elif part.get("tool") == "bash":
-                got |= _items(_shell(str(inp.get("command", "")), files))
+                cmd = str(inp.get("command", ""))
+                yield _items(_shell(cmd, files)), cmd
         elif j.get("type") == "item.completed":                             # Codex: it reads through the shell
             item = j.get("item") or {}
             if item.get("type") == "command_execution":
-                got |= _items(_shell(str(item.get("command", "")), files))
+                cmd = str(item.get("command", ""))
+                yield _items(_shell(cmd, files)), cmd
         elif j.get("type") == "assistant":                                  # Claude Code and qodercli
             for c in (j.get("message") or {}).get("content") or []:
                 if not isinstance(c, dict) or c.get("type") != "tool_use":
                     continue
                 inp = c.get("input") or {}
                 if c.get("name") == "Read":
-                    got |= _items(str(inp.get("file_path", "")))
+                    yield _items(str(inp.get("file_path", ""))), ""
                 elif c.get("name") == "Skill":
                     name = str(inp.get("skill") or inp.get("name") or "")
                     if re.fullmatch(r"[A-Za-z0-9_-]+", name):
-                        got.add(name)
+                        yield {name}, ""
                 elif c.get("name") == "Grep":
-                    got |= _items(str(inp.get("path", "")))
+                    yield _items(str(inp.get("path", ""))), ""
                 elif c.get("name") == "Bash":
                     cmd = str(inp.get("command", ""))
-                    got |= _items(_shell(cmd, files, claude_cwd))
+                    yield _items(_shell(cmd, files, claude_cwd)), cmd
                     claude_cwd = _cd(cmd, claude_cwd)[1]
         elif j.get("event") == "step_update":                               # Gemini CLI
             st = j.get("step_update") or {}
             if st.get("step_type") == "tool" and st.get("state") == "DONE" and st.get("tool_name") in _AGY_READS:
                 params = (st.get("tool_info") or {}).get("parameters") or {}
-                got |= _items(_shell(" ".join(str(v) for v in params.values()), files))
+                text = " ".join(str(v) for v in params.values())
+                yield _items(_shell(text, files)), text if st.get("tool_name") == "run_command" else ""
+
+
+def reads(log_text, files=()):
+    """Skills and references the agent read, from the JSON events of any of the four agents: OpenCode
+    (`opencode run --format json`), Codex (`codex exec --json`), the Gemini CLI (`agy --output-format
+    stream-json`) and Claude Code (`claude -p --output-format stream-json`; Glob only lists; qodercli 1.1.86 writes
+    the same events). The event shapes do not overlap, so a log is read without being told which agent wrote it.
+    files: the skill files at the run's revision, to expand globs (_shell)."""
+    got = set()
+    for items, _cmd in _steps(log_text, files):
+        got |= items
     return got
+
+
+# A command that runs analysis code. Leading wrappers (timeout N, env X=Y, nice, systemd-run ... --) are skipped.
+_RUNNERS = re.compile(r"(python[0-9.]*|uvx|Rscript|duckdb|jupyter|uv run)\b")
+_WRAPPERS = re.compile(r"^((timeout\s+\S+|env|nice|[A-Z_][A-Z0-9_]*=\S*|systemd-run(\s+(?!--)\S+)*\s+--)\s+)+")
+
+
+def _runs_code(command):
+    for seg in re.split(r"&&|\|\||[;|\n]", command):
+        text = _WRAPPERS.sub("", " ".join(_words(seg)))
+        text = re.sub(r"^\S*/(?=\S)", "", text)                         # /usr/bin/python3 -> python3
+        if _RUNNERS.match(text):
+            return True
+    return False
+
+
+def before_first_run(log_text, files=()):
+    """Which skills and references were read before the first command that runs analysis code (python, uv run,
+    uvx, Rscript, duckdb, jupyter), and which only after. For the analysis runs (E2E), where a reference should be
+    read before the method it describes is run; the trigger tests ask the agent not to run anything.
+    ran: that first command, or None."""
+    ran, before, after = None, set(), set()
+    for items, cmd in _steps(log_text, files):
+        if ran is None:
+            before |= items
+            if cmd and _runs_code(cmd):
+                ran = cmd
+        else:
+            after |= items - before
+    return {"ran": ran, "before": before, "after": after}
+
+
+def uncovered_references(refs, cases):
+    """References that no case expects (forbid does not count: it tests that the reference is left alone)."""
+    expected = {x for c in cases for x in c.get("expect", [])}
+    return sorted(r for r in refs if r not in expected)
 
 
 def error_event(log_text):
@@ -423,8 +470,8 @@ def grade(out, cases, files=()):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("cmd", choices=["run", "judge"])
-    p.add_argument("out")
+    p.add_argument("cmd", choices=["run", "judge", "order"])
+    p.add_argument("out", help="OUT_DIR; for order, the log (stream-json) of an analysis run")
     p.add_argument("--cases", default=CASES, help="path in the repository, read at the pinned revision")
     p.add_argument("--rev", default="HEAD", help="revision of the skills and cases for a new OUT_DIR (then fixed)")
     p.add_argument("--only", nargs="*")
@@ -437,6 +484,13 @@ def main():
     p.add_argument("--repeats", type=int, default=1, help="runs per case (r1, r2, ...); runs already there are kept")
     p.add_argument("--retry-errors", action="store_true", help="run again the runs in ERROR (the old ones go to id/err/)")
     a = p.parse_args()
+    if a.cmd == "order":
+        r = before_first_run(Path(a.out).read_text(encoding="utf-8", errors="replace"), skill_files("HEAD"))
+        print("first run:", r["ran"] or "(none)")
+        for when in ("before", "after"):
+            for x in sorted(r[when]):
+                print(f"{when}\t{x}")
+        return
     out = Path(a.out).resolve()
     if REPO in out.parents or out == REPO:
         sys.exit("OUT_DIR must be outside the repository")

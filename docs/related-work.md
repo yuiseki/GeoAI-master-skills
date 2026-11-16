@@ -54,7 +54,7 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
 - 見送った理由: オープンデータ版の Playground の 3 つの領域 (POI、道路、地上の画像) に当たらない。AGPL で、コードを取り込めない。
 - 取り込むなら: 近いのは `sar-change-detection` (InSAR、変化)、`terrain-hydrology` (DEM)。埋め込みで地質図を作り、地域を分けて試す形は、評価の分け方の例として参考になりうる。見直すなら、そのときの最新の版を読み直す。
 
-## atsushi-green/ds-ai-coding-skills (検討した。取り込みは未決)
+## atsushi-green/ds-ai-coding-skills (一部を取り込んだ)
 
 - 場所: <https://github.com/atsushi-green/ds-ai-coding-skills> (2026-11-16 に 9494b02 (2026-10-03) を読んだ。README、`predictive-modeling-diagnostics` の SKILL.md と `references/ml-evaluation.md`、`analysis-reporting`、`statistical-ml-review`、`scripts/skill_eval/README.md` と `cases.yaml` の冒頭)。解説は Zenn の 2 本の記事 (README から辿れる)。
 - ライセンス: MIT。中身は写していない。
@@ -64,8 +64,8 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - 発火テストのハーネス (`scripts/skill_eval/`): ケースごとに別の `claude -p` を起動し、stream-json から読んだ skill と references を取り出す。種別は explicit、implicit、scope (部品として使う手法で、別の references まで読まないか)、negative。
 - GeoAI-master-skills と同じ所: 発火テストを transcript から判定する。explicit、implicit、negative、forbid の考え方。依頼にスキル名を書かない。
 - GeoAI-master-skills に無く、参考になる点:
-  - 読了から実行へ: references を読んでから最初の Python を実行したかを、transcript の順序で数える。こちらの E2E では、エージェントが SKILL.md は読んでも後の段の reference を開かなかった。これを測る列になる。
-  - variants と covers: references の中で手法や条件ごとに分かれる「必ず出す図」を分岐として宣言し、全ての分岐がどれかのケースで試されているかをテストで確かめる。reference に行を足すとテストが落ち、ケースの足し漏れに気づける。
+  - 読了から実行へ: references を読んでから最初の Python を実行したかを、transcript の順序で数える。取り込んだ (2026-11-16、`evals/trigger.py order`)。こちらの E2E のログに当てると、4 つの実行が全て、主なスキルの reference を最初の Python の前に読んでいた。それまでの記録の「後の段の reference を開かなかった」は、glob での読み取りを見落とした誤りだった。
+  - variants と covers: references の中で手法や条件ごとに分かれる「必ず出す図」を分岐として宣言し、全ての分岐がどれかのケースで試されているかをテストで確かめる。reference に行を足すとテストが落ち、ケースの足し漏れに気づける。reference の単位で取り込んだ (2026-11-16)。新しい reference に発火テストのケースが無いと `evals/test_trigger.py` が落ちる。始めた時点で 199 のうち 180 にケースが無く、`evals/trigger_uncovered.txt` に並べた (減らすだけの一覧)。reference の中の分岐までは宣言していない。こちらの reference には「必ず出す図」の表が無いため。
   - 判定と次アクションの文をコードの if で組み立てない。コードは値を表で出すだけで、判定は報告で、基準と図を見て書く。
   - scope の種別: 部品として使う手法 (傾向スコアのロジスティック回帰、クラスタの図の PCA など) で、その手法の reference まで読まないか。
   - 「必ず出す図」を実データで出して並べたギャラリー。

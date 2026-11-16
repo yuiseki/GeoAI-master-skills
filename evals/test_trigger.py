@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from trigger import judge, load_cases, prompt_problems, reads
+from trigger import before_first_run, judge, load_cases, prompt_problems, reads, uncovered_references
 
 HERE = Path(__file__).parent
 SKILLS = HERE.parent / ".agents" / "skills"
@@ -418,3 +418,50 @@ def test_a_run_that_switched_models_is_flagged():
     assert not model_switched(same, "claude-sonnet-5-5")
     assert model_switched(other, "claude-sonnet-5-5")
     assert model_switched(same, "claude-opus-5-5")
+
+
+def test_what_was_read_before_the_first_analysis_command_is_kept_apart_from_what_came_after():
+    """The analysis runs (E2E) should read a reference before running the method it describes. A listing or a
+    pip install is not a run; python, uv run, uvx, Rscript and duckdb are."""
+    log = "\n".join([
+        cl("Read", file_path="/work/.agents/skills/poi-insights/SKILL.md"),
+        cl("Bash", command="ls data && uv pip list"),
+        cl("Read", file_path="/work/.agents/skills/poi-insights/references/attributes-and-gaps.md"),
+        cl("Bash", command="cd /work && timeout 600 uv run python scripts/count.py"),
+        cl("Read", file_path="/work/.agents/skills/poi-insights/references/grids-and-hotspots.md"),
+    ])
+    r = before_first_run(log)
+    assert r["ran"] == "cd /work && timeout 600 uv run python scripts/count.py"
+    assert r["before"] == {"poi-insights", "poi-insights/references/attributes-and-gaps.md"}
+    assert r["after"] == {"poi-insights/references/grids-and-hotspots.md"}
+
+
+def test_the_first_run_is_found_in_each_agent_s_format():
+    for log in (cx("/bin/bash -lc 'python3 a.py'"), ev("bash", command="uvx --with duckdb python a.py"),
+                agy("run_command", CommandLine="Rscript a.R")):
+        assert before_first_run(log)["ran"]
+    assert before_first_run(cx("/bin/bash -lc 'cat .agents/skills/spatial-gnn/SKILL.md'"))["ran"] is None
+
+
+def test_a_run_that_never_ran_anything_has_everything_before():
+    log = cl("Read", file_path="/work/.agents/skills/spatial-gnn/references/dcrnn.md")
+    assert before_first_run(log) == {"ran": None, "before": {"spatial-gnn", "spatial-gnn/references/dcrnn.md"},
+                                     "after": set()}
+
+
+def test_uncovered_references_are_those_no_case_expects():
+    refs = {"a/references/x.md", "a/references/y.md", "b/references/z.md"}
+    cases = [{"expect": ["a", "a/references/x.md"]}, {"expect": ["b"], "forbid": ["b/references/z.md"]}]
+    assert uncovered_references(refs, cases) == ["a/references/y.md", "b/references/z.md"]
+
+
+def test_every_reference_has_a_trigger_case_or_is_on_the_backlog():
+    """Like variants and covers in ds-ai-coding-skills: a new reference without a case fails here. The backlog
+    (trigger_uncovered.txt) only shrinks: a reference that gains a case must leave it."""
+    refs = {str(p.relative_to(SKILLS)) for p in SKILLS.glob("*/references/*.md")}
+    cases = [c for f in sorted(HERE.glob("trigger*.yaml")) for c in load_cases(f)]
+    backlog = [l for l in (HERE / "trigger_uncovered.txt").read_text().splitlines() if l and not l.startswith("#")]
+    assert backlog == sorted(set(backlog)), "keep the backlog sorted, one reference per line"
+    missing = uncovered_references(refs, cases)
+    assert [r for r in missing if r not in backlog] == [], "a reference with no trigger case: add a case"
+    assert [r for r in backlog if r not in missing] == [], "on the backlog but covered or gone: remove the line"
