@@ -28,7 +28,7 @@ GPU が無いときは、torch を PyTorch の CPU 版の配布元から入れ�
 4. 柱 (`scripts/inspect_views.py`): OWLv2 で柱を見つけ、細長い枠だけを残し、`pole_lean.py` で傾きを測り、上部の植生の割合を測り、足の俯角から位置を推定し、近い位置をまとめる ([views-and-geometry](references/views-and-geometry.md))。
 5. 路面の損傷 (`scripts/surface_damage.py`): 公開の損傷データでプローブを学習し、写真単位の分割と、別の国のデータで試験してから、路面の帯のパッチに当てる ([surface](references/surface.md))。
 6. 路面の材質 (`scripts/surface_material.py`): ゼロショットで分け、OSM の surface と突き合わせ、多数派のクラスを当てるだけの基準と並べる。
-7. 目で確かめる ([validation-and-gaps](references/validation-and-gaps.md))。一様に選んだ標本の画像に、結果を重ねて見て、記録する。誰が見たか (人か、AI か) を書く。検出が除いた画像の見直しと、2 回のラベルの一致は、データの品質を監査するスキルの、絞り込みと判定の見直しで測る。
+7. 目で確かめる ([validation-and-gaps](references/validation-and-gaps.md))。一様に選んだ標本の画像に、結果を重ねて見て、記録する。誰が見たか (人か、AI か) を書く。見る数が足りないなら、先に見る数を決め、`scripts/review_plan.py` で点の上位と残りの標本に分けて見る。台帳や OSM の柱を検出が拾わなかったとき、取りこぼしと数える前に、`scripts/expected_view.py` で写るはずだったかを計算する ([views-and-geometry](references/views-and-geometry.md))。検出が除いた画像の見直しと、2 回のラベルの一致は、データの品質を監査するスキルの、絞り込みと判定の見直しで測る。
 8. 写真ごとの表と、H3 の格子ごとの集計と、地図 (PNG) を書き出す。
 
 ## 書き出すもの

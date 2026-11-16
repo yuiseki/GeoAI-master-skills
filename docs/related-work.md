@@ -132,7 +132,7 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
 - 見送った理由: 非営利の条件のため、利用者の指示で中身を読まずに見送った。
 - 取り込むなら: 中身を読んでいないので、置き場は検討していない。見直すなら、ライセンスが変わったかを先に確かめる。
 
-## Oldcircle/geo-sleuth (検討中)
+## Oldcircle/geo-sleuth (考え方の一部を取り込んだ)
 
 - 場所: <https://github.com/Oldcircle/geo-sleuth> (2026-11-16 に d56c357 (2026-11-09) を読んだ。`skills/geo-sleuth/SKILL.md`、`references/` の見出し、`scripts/` の一覧)。
 - ライセンス: MIT。中身は写していない。
@@ -144,4 +144,7 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - 除外する範囲は、証拠が覆う範囲を超えない (道の 1 点を見て道全体を除外しない)。OSM で候補を列挙する前に、地域ごとの網羅を測る。
   - 推定による証拠の重みに上下限を付ける。確信度を、市、地区、道、建物の段ごとに分けて付ける。
   - 位置の分かる 4 点以上からカメラの位置、向き、高さを解く。
+- 取り込んだ (2026-11-16、考え方だけ。コードは写していない):
+  - 機械が順位を付け、目は上位を見る。こちらでは、見る数を先に決め、上位と残りの無作為な標本に分け、順位が取りこぼした陽性の数も見積もる (`street-imagery-inspection` の `scripts/review_plan.py`、`references/validation-and-gaps.md`)。向こうは場所を見つけるのが目的で、取りこぼしの見積もりはしない。
+  - 写っていないことを除外に使う前に、画角、大きさ、隠れを計算する (`street-imagery-inspection` の `scripts/expected_view.py`、`references/views-and-geometry.md`)。Bordeaux の OSM の街灯 40 は、どの画像にも写るはずが無かった。
 - 取り込まない点: 写真の撮影地を当てるスキルそのもの (オープンデータの分析の範囲の外で、人を追う用途にも使える)。公開の Overpass、逆画像検索 (Baidu、Yandex) への問い合わせ。
