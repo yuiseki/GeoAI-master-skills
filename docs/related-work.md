@@ -53,3 +53,23 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
 - 作者自身が「実験的で、十分に検証していない」と書いている。
 - 見送った理由: オープンデータ版の Playground の 3 つの領域 (POI、道路、地上の画像) に当たらない。AGPL で、コードを取り込めない。
 - 取り込むなら: 近いのは `sar-change-detection` (InSAR、変化)、`terrain-hydrology` (DEM)。埋め込みで地質図を作り、地域を分けて試す形は、評価の分け方の例として参考になりうる。見直すなら、そのときの最新の版を読み直す。
+
+## atsushi-green/ds-ai-coding-skills (検討した。取り込みは未決)
+
+- 場所: <https://github.com/atsushi-green/ds-ai-coding-skills> (2026-11-16 に 9494b02 (2026-10-03) を読んだ。README、`predictive-modeling-diagnostics` の SKILL.md と `references/ml-evaluation.md`、`analysis-reporting`、`statistical-ml-review`、`scripts/skill_eval/README.md` と `cases.yaml` の冒頭)。解説は Zenn の 2 本の記事 (README から辿れる)。
+- ライセンス: MIT。中身は写していない。
+- 中身: 地理に限らない、データ分析のための AGENTS.md と skills。
+  - 基本の skill: Python、SQL、polars、可視化、パスと入出力、Notebook、報告、レビュー。
+  - `*-diagnostics` の 5 つのルーターと 19 の手法の references (統計的推論、予測モデル、因果推論、教師なしと EDA、シミュレーションと最適化)。手法を実行したら、頼まれなくても「必ず出す図」と「必ず出す値 (合格基準と違反時の対処)」をそろえさせる。報告には `| 診断項目 | 実測値 | 合格基準 | 判定 | 次アクション |` の表を載せる。
+  - 発火テストのハーネス (`scripts/skill_eval/`): ケースごとに別の `claude -p` を起動し、stream-json から読んだ skill と references を取り出す。種別は explicit、implicit、scope (部品として使う手法で、別の references まで読まないか)、negative。
+- GeoAI-master-skills と同じ所: 発火テストを transcript から判定する。explicit、implicit、negative、forbid の考え方。依頼にスキル名を書かない。
+- GeoAI-master-skills に無く、参考になる点:
+  - 読了から実行へ: references を読んでから最初の Python を実行したかを、transcript の順序で数える。こちらの E2E では、エージェントが SKILL.md は読んでも後の段の reference を開かなかった。これを測る列になる。
+  - variants と covers: references の中で手法や条件ごとに分かれる「必ず出す図」を分岐として宣言し、全ての分岐がどれかのケースで試されているかをテストで確かめる。reference に行を足すとテストが落ち、ケースの足し漏れに気づける。
+  - 判定と次アクションの文をコードの if で組み立てない。コードは値を表で出すだけで、判定は報告で、基準と図を見て書く。
+  - scope の種別: 部品として使う手法 (傾向スコアのロジスティック回帰、クラスタの図の PCA など) で、その手法の reference まで読まないか。
+  - 「必ず出す図」を実データで出して並べたギャラリー。
+- そのまま取り込まない点:
+  - 合格基準の固定の線 (名目のカバレッジ ± 5% など)。GeoAI-master-skills は、基準を手法ごとの既知解と合成データで測って reference に書く。
+  - 評価の分け方の決め方。向こうはグループ、時間、不均衡で選ぶ。地理の分析では、予測する場所と観測の離れ方 (空間の自己相関) が加わる (`cross-validation-design`、`leakage-audit`)。
+  - 1 ケースごとの費用の上限 (5 ドル) と、Claude Code だけで流すこと。こちらは 4 つの CLI で比べ、Docker の中で流す。
