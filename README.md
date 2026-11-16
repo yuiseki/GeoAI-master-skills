@@ -149,9 +149,9 @@ Google の Geospatial Analytics Playground (POI、道路の交通、通りの画
 
 スクリプトが正しく動くことと、エージェントがスキルを使って分析をやり遂げられることは別の話。後者をどこまで評価したかは [evals/status.md](evals/status.md) にある。独立に評価したスキルは、まだ一部だけ。
 
-## 関連するスキル集
+## 関連するスキル集とライブラリ
 
-大きなジョブを流す技術 (分割、再開、事前の検査) は、外のスキル集が詳しい。違いと注意は [docs/related-work.md](docs/related-work.md)。
+大きなジョブを流す技術 (分割、再開、事前の検査) は、外のスキル集が詳しい。違いと注意は [docs/related-work.md](docs/related-work.md)。検討して見送ったライブラリも、理由とともにそこに書く。
 
 ## ライセンス
 
