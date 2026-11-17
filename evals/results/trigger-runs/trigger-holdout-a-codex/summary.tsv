@@ -1,0 +1,36 @@
+id	kind	verdict	missing	forbidden	read	run
+h1-diffusion-rnn	explicit	PASS			analysis-reporting analysis-unit-design spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md time-series-forecasting	r1
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md	r2
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md time-series-forecasting	r3
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatiotemporal-modeling	r4
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r5
+h2-station-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r1
+h2-station-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md time-series-forecasting	r2
+h2-station-dcrnn	explicit	PASS			analysis-reporting analysis-unit-design cross-validation-design dataset-discovery eda-and-baseline leakage-audit noise-ceiling-analysis spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatiotemporal-modeling uncertainty-estimation	r3
+h2-station-dcrnn	explicit	PASS			experiment-design spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatiotemporal-modeling	r4
+h2-station-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r5
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md data-quality-audit robustness-analysis	r1
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r2
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md grid-risk-mapping robustness-analysis uncertainty-estimation	r3
+h3-report-overclaim	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting leakage-audit robustness-analysis uncertainty-estimation	r4
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md robustness-analysis	r5
+h4-report-pitfalls	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting causal-design	r1
+h4-report-pitfalls	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting causal-design	r2
+h4-report-pitfalls	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting data-quality-audit	r3
+h4-report-pitfalls	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md natural-japanese	r4
+h4-report-pitfalls	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting	r5
+h5-block-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r1
+h5-block-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r2
+h5-block-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r3
+h5-block-cv	explicit	FAIL	cross-validation-design/references/spatial.md		cross-validation-design	r4
+h5-block-cv	explicit	PASS			cross-validation-design cross-validation-design/references/group.md cross-validation-design/references/spatial.md	r5
+h6-spatial-error	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md		analysis-reporting analysis-unit-design robustness-analysis spatial-autocorrelation spatial-weights-design	r1
+h6-spatial-error	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md		analysis-reporting analysis-unit-design data-variable-semantics spatial-autocorrelation spatial-weights-design	r2
+h6-spatial-error	explicit	PASS			analysis-unit-design experiment-design spatial-autocorrelation spatial-data-modeling spatial-data-modeling/references/spatial-regression.md spatial-weights-design spatial-weights-design/references/contiguity.md	r3
+h6-spatial-error	explicit	PASS			analysis-reporting analysis-unit-design robustness-analysis spatial-autocorrelation spatial-data-modeling spatial-data-modeling/references/spatial-regression.md spatial-weights-design	r4
+h6-spatial-error	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md		robustness-analysis spatial-autocorrelation spatial-weights-design	r5
+h7-k-function	explicit	PASS			point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r1
+h7-k-function	explicit	PASS			analysis-reporting analysis-unit-design point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r2
+h7-k-function	explicit	PASS			point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r3
+h7-k-function	explicit	PASS			point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r4
+h7-k-function	explicit	PASS			dataset-discovery dataset-discovery/references/services/overpass.md point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r5

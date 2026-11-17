@@ -1,0 +1,10 @@
+id	kind	verdict	missing	forbidden	read	run
+p1-coffee-h3-london	explicit	PASS			poi-insights poi-insights/references/attributes-and-gaps.md poi-insights/references/grids-and-hotspots.md	r1
+p2-pharmacy-gap	implicit	PASS			poi-insights poi-insights/references/attributes-and-gaps.md poi-insights/references/compare-regions.md	r1
+p3-brand-rating	implicit	PASS			data-variable-semantics poi-insights poi-insights/references/attributes-and-gaps.md poi-insights/references/grids-and-hotspots.md	r1
+p4-boston-rush-hour	explicit	PASS			travel-time-reliability travel-time-reliability/references/definitions.md	r1
+p5-lottr-freeway	implicit	PASS			travel-time-reliability travel-time-reliability/references/definitions.md	r1
+p6-bus-corridor-slow	implicit	PASS			travel-time-reliability travel-time-reliability/references/definitions.md	r1
+p7-poles-pci	explicit	PASS			street-imagery-inspection street-imagery-inspection/references/imagery-sources.md	r1
+p8-vegetation-lines	implicit	PASS			street-imagery-inspection street-imagery-inspection/references/imagery-sources.md street-imagery-inspection/references/views-and-geometry.md	r1
+p9-road-surface-material	implicit	PASS			street-imagery-inspection street-imagery-inspection/references/imagery-sources.md street-imagery-inspection/references/surface.md street-imagery-inspection/references/views-and-geometry.md	r1

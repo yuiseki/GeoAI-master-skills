@@ -1,0 +1,11 @@
+id	kind	verdict	missing	forbidden	read	run
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r1
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md time-series-forecasting	r2
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r3
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md time-series-forecasting	r4
+h1-diffusion-rnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatial-weights-design time-series-forecasting	r5
+h2-station-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md time-series-forecasting	r1
+h2-station-dcrnn	explicit	PASS			cross-validation-design spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md time-series-forecasting	r2
+h2-station-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatiotemporal-modeling time-series-forecasting	r3
+h2-station-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatiotemporal-modeling	r4
+h2-station-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatiotemporal-modeling time-series-forecasting	r5

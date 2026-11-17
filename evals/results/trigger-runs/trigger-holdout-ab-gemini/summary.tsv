@@ -1,0 +1,36 @@
+id	kind	verdict	missing	forbidden	read	run
+h1-diffusion-rnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r1
+h1-diffusion-rnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r2
+h1-diffusion-rnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r3
+h1-diffusion-rnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r4
+h1-diffusion-rnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r5
+h2-station-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r1
+h2-station-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r2
+h2-station-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r3
+h2-station-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r4
+h2-station-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r5
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r1
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r2
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r3
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r4
+h3-report-overclaim	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r5
+h4-report-pitfalls	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r1
+h4-report-pitfalls	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r2
+h4-report-pitfalls	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r3
+h4-report-pitfalls	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r4
+h4-report-pitfalls	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md	r5
+h5-block-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r1
+h5-block-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r2
+h5-block-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r3
+h5-block-cv	explicit	FAIL	cross-validation-design/references/spatial.md		cross-validation-design	r4
+h5-block-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r5
+h6-spatial-error	explicit	PASS			spatial-data-modeling spatial-data-modeling/references/spatial-regression.md spatial-weights-design	r1
+h6-spatial-error	explicit	PASS			spatial-data-modeling spatial-data-modeling/references/spatial-regression.md	r2
+h6-spatial-error	explicit	PASS			spatial-data-modeling spatial-data-modeling/references/spatial-regression.md	r3
+h6-spatial-error	explicit	PASS			spatial-data-modeling spatial-data-modeling/references/spatial-regression.md spatial-weights-design	r4
+h6-spatial-error	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md		spatial-weights-design spatial-weights-design/references/contiguity.md	r5
+h7-k-function	explicit	PASS			point-pattern-analysis point-pattern-analysis/references/ripley.md	r1
+h7-k-function	explicit	FAIL	point-pattern-analysis/references/ripley.md		point-pattern-analysis	r2
+h7-k-function	explicit	PASS			point-pattern-analysis point-pattern-analysis/references/ripley.md	r3
+h7-k-function	explicit	FAIL	point-pattern-analysis/references/ripley.md		point-pattern-analysis	r4
+h7-k-function	explicit	FAIL	point-pattern-analysis/references/ripley.md		point-pattern-analysis	r5

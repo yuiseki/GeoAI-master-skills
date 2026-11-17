@@ -1,0 +1,76 @@
+id	kind	verdict	missing	forbidden	read	run
+e1-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r1
+e1-dcrnn	explicit	ERROR				r2
+e1-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r3
+e2-kriging	explicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r1
+e2-kriging	explicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r2
+e2-kriging	explicit	PASS			dataset-discovery dataset-discovery/references/jma-obsdl.md spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r3
+e3-spatial-lag	explicit	PASS			analysis-unit-design data-variable-semantics robustness-analysis spatial-autocorrelation spatial-data-modeling spatial-data-modeling/references/count-modeling.md spatial-data-modeling/references/spatial-regression.md spatial-weights-design	r1
+e3-spatial-lag	explicit	PASS			analysis-unit-design observation-bias-audit spatial-data-modeling spatial-data-modeling/references/spatial-regression.md spatial-weights-design	r2
+e3-spatial-lag	explicit	PASS			spatial-autocorrelation spatial-data-modeling spatial-data-modeling/references/spatial-regression.md spatial-weights-design	r3
+i1-sensor-network	implicit	PASS			spatial-gnn	r1
+i1-sensor-network	implicit	PASS			spatial-gnn spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r2
+i1-sensor-network	implicit	PASS			spatial-gnn	r3
+i2-taxi	implicit	PASS			trajectory-prediction	r1
+i2-taxi	implicit	PASS			trajectory-prediction	r2
+i2-taxi	implicit	PASS			trajectory-prediction	r3
+i3-flood-pixels	implicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r1
+i3-flood-pixels	implicit	PASS			experiment-design image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r2
+i3-flood-pixels	implicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md	r3
+i4-final-report	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting robustness-analysis	r1
+i4-final-report	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting analysis-unit-design robustness-analysis spatial-autocorrelation spatial-weights-design uncertainty-estimation	r2
+i4-final-report	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md analysis-unit-design robustness-analysis robustness-analysis/references/maup.md spatial-autocorrelation spatial-weights-design	r3
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-weights-design	r1
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-weights-design	r2
+s1-moran-only	scope	ERROR				r3
+s2-sensor-baselines	scope	PASS			eda-and-baseline spatial-gnn spatial-gnn/references/evaluation.md time-series-forecasting	r1
+s2-sensor-baselines	scope	PASS			spatial-gnn spatial-gnn/references/evaluation.md	r2
+s2-sensor-baselines	scope	ERROR				r3
+n1-typo	negative	PASS				r1
+n1-typo	negative	PASS				r2
+n1-typo	negative	ERROR				r3
+n2-unit-test	negative	PASS				r1
+n2-unit-test	negative	PASS				r2
+n2-unit-test	negative	ERROR				r3
+e4-spatial-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md dataset-discovery dataset-discovery/references/huggingface/yuiseki/worldbank-wdi.md	r1
+e4-spatial-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r2
+e4-spatial-cv	explicit	ERROR				r3
+i5-clustered-points	implicit	PASS			dataset-discovery dataset-discovery/references/estat-census-mesh-2020.md dataset-discovery/references/ghsl/population.md dataset-discovery/references/huggingface/yuiseki/estat-census-mesh-2020.md dataset-discovery/references/huggingface/yuiseki/estat-census-mesh-250m-2020.md dataset-discovery/references/huggingface/yuiseki/estat-census-mesh-500m-2020.md dataset-discovery/references/huggingface/yuiseki/osm-tag-corpus.md dataset-discovery/references/huggingface/yuiseki/osm-tokyo23-qa-2026-08.md dataset-discovery/references/huggingface/yuiseki/osm-tokyo23-src-2026-08.md dataset-discovery/references/huggingface/yuiseki/osm-wikidata-brand-jp.md dataset-discovery/references/index.md dataset-discovery/references/osm-tokyo23-src-2026-08.md dataset-discovery/references/overture/README.md dataset-discovery/references/tokyo-ckan/README.md dataset-discovery/references/worldpop/japan.md point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r1
+i5-clustered-points	implicit	FAIL	point-pattern-analysis/references/ripley.md		dataset-discovery dataset-discovery/references/tokyo-ckan/README.md dataset-discovery/references/worldpop/japan.md point-pattern-analysis point-pattern-analysis/references/baselines.md	r2
+i5-clustered-points	implicit	ERROR				r3
+i6-leaky-score	implicit	PASS			cross-validation-design data-variable-semantics leakage-audit robustness-analysis	r1
+i6-leaky-score	implicit	PASS			analysis-unit-design cross-validation-design data-variable-semantics leakage-audit	r2
+i6-leaky-score	implicit	ERROR				r3
+i7-far-place	implicit	PASS			cross-validation-design cross-validation-design/references/group.md cross-validation-design/references/spatial.md dataset-discovery dataset-discovery/references/gsi-dem-tiles.md dataset-discovery/references/index.md dataset-discovery/references/mlit-nlftp.md leakage-audit spatial-data-modeling	r1
+i7-far-place	implicit	PASS			cross-validation-design cross-validation-design/references/spatial.md grid-risk-mapping observation-bias-audit robustness-analysis spatial-weights-design uncertainty-estimation	r2
+i7-far-place	implicit	ERROR				r3
+s3-variogram-only	scope	PASS			spatial-interpolation spatial-interpolation/references/kriging.md	r1
+s3-variogram-only	scope	PASS			analysis-visualize dataset-discovery dataset-discovery/references/jma-obsdl.md spatial-autocorrelation spatial-interpolation spatial-interpolation/references/kriging.md	r2
+s3-variogram-only	scope	ERROR				r3
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r1
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r2
+n3-plot-style	negative	ERROR				r3
+c1-temperature-now	implicit	PASS			dataset-discovery dataset-discovery/references/jma-obsdl.md spatial-interpolation spatial-interpolation/references/evaluation.md	r1
+c1-temperature-now	implicit	PASS			spatial-interpolation	r2
+c1-temperature-now	implicit	ERROR				r3
+c2-rain-tomorrow	implicit	PASS			cross-validation-design spatiotemporal-modeling	r1
+c2-rain-tomorrow	implicit	PASS			cross-validation-design data-variable-semantics spatiotemporal-modeling	r2
+c2-rain-tomorrow	implicit	ERROR				r3
+c3-ward-counts-alike	implicit	ERROR				r1
+c3-ward-counts-alike	implicit	PASS			dataset-discovery dataset-discovery/references/tokyo-ckan.md spatial-autocorrelation spatial-weights-design	r2
+c3-ward-counts-alike	implicit	ERROR				r3
+c4-crash-points-gather	implicit	ERROR				r1
+c4-crash-points-gather	implicit	PASS			experiment-design observation-bias-audit point-pattern-analysis spatial-process-modeling	r2
+c4-crash-points-gather	implicit	ERROR				r3
+c5-next-year-grid	implicit	ERROR				r1
+c5-next-year-grid	implicit	PASS			experiment-design grid-risk-mapping	r2
+c5-next-year-grid	implicit	ERROR				r3
+c6-mesh-to-blocks	implicit	ERROR				r1
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation	r2
+c6-mesh-to-blocks	implicit	ERROR				r3
+c7-walk-ten-minutes	implicit	ERROR				r1
+c7-walk-ten-minutes	implicit	PASS			analysis-unit-design dataset-discovery dataset-discovery/references/ghsl/README.md raster-data-integration spatial-network-analysis spatial-network-analysis/references/building-the-graph.md spatial-network-analysis/references/directions-and-time.md spatial-network-analysis/references/measures.md	r2
+c7-walk-ten-minutes	implicit	ERROR				r3
+c8-new-station-price	implicit	ERROR				r1
+c8-new-station-price	implicit	PASS			causal-design	r2
+c8-new-station-price	implicit	ERROR				r3

@@ -1,0 +1,12 @@
+id	kind	verdict	missing	forbidden	read
+e1-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md
+e2-kriging	explicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md
+e3-spatial-lag	explicit	PASS			spatial-autocorrelation spatial-data-modeling spatial-data-modeling/references/spatial-regression.md spatial-weights-design
+i1-sensor-network	implicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md
+i2-taxi	implicit	PASS			trajectory-prediction
+i3-flood-pixels	implicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md
+i4-final-report	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md analysis-reporting/references/figure-led-report.md robustness-analysis robustness-analysis/references/maup.md spatial-autocorrelation spatial-weights-design
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-weights-design
+s2-sensor-baselines	scope	PASS			spatial-gnn spatial-gnn/references/evaluation.md
+n1-typo	negative	PASS			
+n2-unit-test	negative	PASS			

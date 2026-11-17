@@ -1,0 +1,76 @@
+id	kind	verdict	missing	forbidden	read	run
+e1-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r1
+e1-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r2
+e1-dcrnn	explicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r3
+e2-kriging	explicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r1
+e2-kriging	explicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r2
+e2-kriging	explicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r3
+e3-spatial-lag	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md		robustness-analysis spatial-weights-design spatial-weights-design/references/contiguity.md spatial-weights-design/references/distance-and-knn.md spatial-weights-design/references/sensitivity.md spatial-weights-design/references/standardization.md	r1
+e3-spatial-lag	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md		robustness-analysis spatial-weights-design spatial-weights-design/references/contiguity.md spatial-weights-design/references/distance-and-knn.md spatial-weights-design/references/sensitivity.md spatial-weights-design/references/standardization.md	r2
+e3-spatial-lag	explicit	PASS			spatial-data-modeling spatial-data-modeling/references/spatial-regression.md spatial-weights-design	r3
+i1-sensor-network	implicit	PASS			spatial-gnn spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r1
+i1-sensor-network	implicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r2
+i1-sensor-network	implicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r3
+i2-taxi	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r1
+i2-taxi	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r2
+i2-taxi	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r3
+i3-flood-pixels	implicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r1
+i3-flood-pixels	implicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r2
+i3-flood-pixels	implicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r3
+i4-final-report	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md analysis-reporting/references/levels.md	r1
+i4-final-report	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md analysis-reporting/references/figure-led-report.md analysis-reporting/references/levels.md	r2
+i4-final-report	implicit	PASS			analysis-reporting analysis-reporting/references/failure-modes.md analysis-reporting/references/levels.md	r3
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-weights-design	r1
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-weights-design spatial-weights-design/references/contiguity.md spatial-weights-design/references/distance-and-knn.md spatial-weights-design/references/sensitivity.md spatial-weights-design/references/standardization.md	r2
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-weights-design spatial-weights-design/references/contiguity.md	r3
+s2-sensor-baselines	scope	PASS			spatial-gnn spatial-gnn/references/evaluation.md	r1
+s2-sensor-baselines	scope	PASS			spatial-gnn spatial-gnn/references/evaluation.md	r2
+s2-sensor-baselines	scope	PASS			spatial-gnn spatial-gnn/references/evaluation.md	r3
+n1-typo	negative	PASS				r1
+n1-typo	negative	PASS				r2
+n1-typo	negative	PASS				r3
+n2-unit-test	negative	PASS				r1
+n2-unit-test	negative	PASS				r2
+n2-unit-test	negative	PASS				r3
+e4-spatial-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md spatial-data-modeling	r1
+e4-spatial-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r2
+e4-spatial-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r3
+i5-clustered-points	implicit	PASS			point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r1
+i5-clustered-points	implicit	PASS			point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r2
+i5-clustered-points	implicit	PASS			point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r3
+i6-leaky-score	implicit	PASS			cross-validation-design leakage-audit noise-ceiling-analysis	r1
+i6-leaky-score	implicit	PASS			cross-validation-design leakage-audit	r2
+i6-leaky-score	implicit	PASS			cross-validation-design leakage-audit noise-ceiling-analysis	r3
+i7-far-place	implicit	PASS			cross-validation-design cross-validation-design/references/spatial.md	r1
+i7-far-place	implicit	PASS			cross-validation-design cross-validation-design/references/group.md cross-validation-design/references/spatial.md	r2
+i7-far-place	implicit	PASS			cross-validation-design cross-validation-design/references/spatial.md spatial-data-modeling	r3
+s3-variogram-only	scope	PASS			spatial-interpolation spatial-interpolation/references/kriging.md	r1
+s3-variogram-only	scope	PASS			spatial-interpolation spatial-interpolation/references/kriging.md	r2
+s3-variogram-only	scope	PASS			analysis-visualize spatial-interpolation spatial-interpolation/references/kriging.md	r3
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r1
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r2
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r3
+c1-temperature-now	implicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md	r1
+c1-temperature-now	implicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md	r2
+c1-temperature-now	implicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r3
+c2-rain-tomorrow	implicit	PASS			spatial-interpolation spatiotemporal-modeling spatiotemporal-modeling/references/validation.md	r1
+c2-rain-tomorrow	implicit	PASS			spatiotemporal-modeling spatiotemporal-modeling/references/spde.md spatiotemporal-modeling/references/st-kriging.md spatiotemporal-modeling/references/structure.md spatiotemporal-modeling/references/validation.md	r2
+c2-rain-tomorrow	implicit	PASS			spatiotemporal-modeling spatiotemporal-modeling/references/structure.md spatiotemporal-modeling/references/validation.md	r3
+c3-ward-counts-alike	implicit	PASS			spatial-autocorrelation spatial-weights-design	r1
+c3-ward-counts-alike	implicit	PASS			spatial-autocorrelation spatial-weights-design	r2
+c3-ward-counts-alike	implicit	PASS			spatial-autocorrelation spatial-weights-design spatial-weights-design/references/contiguity.md	r3
+c4-crash-points-gather	implicit	PASS			observation-bias-audit point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r1
+c4-crash-points-gather	implicit	PASS			point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r2
+c4-crash-points-gather	implicit	PASS			point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r3
+c5-next-year-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/capture.md grid-risk-mapping/references/grid-and-features.md grid-risk-mapping/references/history-and-level.md	r1
+c5-next-year-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/capture.md grid-risk-mapping/references/grid-and-features.md grid-risk-mapping/references/history-and-level.md	r2
+c5-next-year-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/capture.md grid-risk-mapping/references/grid-and-features.md grid-risk-mapping/references/history-and-level.md	r3
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation areal-interpolation/references/validation.md	r1
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation	r2
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation	r3
+c7-walk-ten-minutes	implicit	PASS			areal-interpolation dataset-discovery spatial-network-analysis	r1
+c7-walk-ten-minutes	implicit	PASS			areal-interpolation spatial-network-analysis spatial-network-analysis/references/measures.md	r2
+c7-walk-ten-minutes	implicit	PASS			analysis-unit-design areal-interpolation spatial-data-integration spatial-network-analysis	r3
+c8-new-station-price	implicit	PASS			causal-design causal-design/references/dag-adjustment.md causal-design/references/potential-outcomes.md causal-design/references/spatial.md	r1
+c8-new-station-price	implicit	PASS			causal-design causal-design/references/dag-adjustment.md causal-design/references/potential-outcomes.md causal-design/references/sensitivity.md causal-design/references/spatial.md	r2
+c8-new-station-price	implicit	PASS			causal-design causal-design/references/dag-adjustment.md causal-design/references/potential-outcomes.md causal-design/references/spatial.md	r3

@@ -1,0 +1,51 @@
+id	kind	verdict	missing	forbidden	read	run
+h14-tree-terrain	implicit	PASS			spatial-process-modeling spatial-process-modeling/references/beyond-poisson.md spatial-process-modeling/references/cox.md spatial-process-modeling/references/poisson-process.md	r1
+h14-tree-terrain	implicit	PASS			spatial-process-modeling spatial-process-modeling/references/beyond-poisson.md spatial-process-modeling/references/cox.md spatial-process-modeling/references/poisson-process.md	r2
+h14-tree-terrain	implicit	PASS			spatial-process-modeling spatial-process-modeling/references/cox.md spatial-process-modeling/references/poisson-process.md	r3
+h14-tree-terrain	implicit	PASS			spatial-process-modeling spatial-process-modeling/references/beyond-poisson.md spatial-process-modeling/references/cox.md spatial-process-modeling/references/poisson-process.md	r4
+h14-tree-terrain	implicit	PASS			spatial-process-modeling spatial-process-modeling/references/cox.md spatial-process-modeling/references/poisson-process.md	r5
+h15-burglary-lgcp	explicit	PASS			spatial-process-modeling spatial-process-modeling/references/cox.md	r1
+h15-burglary-lgcp	explicit	PASS			spatial-process-modeling spatial-process-modeling/references/cox.md	r2
+h15-burglary-lgcp	explicit	PASS			experiment-design spatial-process-modeling spatial-process-modeling/references/cox.md	r3
+h15-burglary-lgcp	explicit	PASS			spatial-process-modeling spatial-process-modeling/references/cox.md	r4
+h15-burglary-lgcp	explicit	PASS			spatial-process-modeling spatial-process-modeling/references/cox.md	r5
+h16-bear-grid	implicit	FAIL	grid-risk-mapping/references/history-and-level.md		grid-risk-mapping	r1
+h16-bear-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/history-and-level.md observation-bias-audit uncertainty-estimation	r2
+h16-bear-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/history-and-level.md uncertainty-estimation	r3
+h16-bear-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/history-and-level.md	r4
+h16-bear-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/history-and-level.md uncertainty-estimation	r5
+h17-fire-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/history-and-level.md	r1
+h17-fire-grid	implicit	FAIL	grid-risk-mapping/references/history-and-level.md		grid-risk-mapping	r2
+h17-fire-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/history-and-level.md	r3
+h17-fire-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/history-and-level.md	r4
+h17-fire-grid	implicit	PASS			grid-risk-mapping grid-risk-mapping/references/history-and-level.md	r5
+h18-sar-typhoon	implicit	PASS			sar-change-detection sar-change-detection/references/backscatter.md sar-change-detection/references/controls.md sar-change-detection/references/scenes.md	r1
+h18-sar-typhoon	implicit	PASS			sar-change-detection sar-change-detection/references/backscatter.md sar-change-detection/references/controls.md sar-change-detection/references/scenes.md	r2
+h18-sar-typhoon	implicit	PASS			sar-change-detection sar-change-detection/references/controls.md sar-change-detection/references/scenes.md	r3
+h18-sar-typhoon	implicit	PASS			sar-change-detection sar-change-detection/references/controls.md sar-change-detection/references/scenes.md	r4
+h18-sar-typhoon	implicit	PASS			sar-change-detection sar-change-detection/references/controls.md sar-change-detection/references/scenes.md	r5
+h19-monthly-rain	implicit	PASS			raster-data-integration raster-data-integration/references/time-aggregation.md	r1
+h19-monthly-rain	implicit	PASS			raster-data-integration raster-data-integration/references/time-aggregation.md	r2
+h19-monthly-rain	implicit	PASS			analysis-unit-design raster-data-integration raster-data-integration/references/time-aggregation.md	r3
+h19-monthly-rain	implicit	PASS			raster-data-integration raster-data-integration/references/time-aggregation.md	r4
+h19-monthly-rain	implicit	PASS			raster-data-integration raster-data-integration/references/time-aggregation.md	r5
+h20-mesh-to-ward	implicit	PASS			areal-interpolation areal-interpolation/references/validation.md	r1
+h20-mesh-to-ward	implicit	PASS			areal-interpolation areal-interpolation/references/validation.md	r2
+h20-mesh-to-ward	implicit	PASS			areal-interpolation areal-interpolation/references/validation.md	r3
+h20-mesh-to-ward	implicit	PASS			areal-interpolation areal-interpolation/references/validation.md	r4
+h20-mesh-to-ward	implicit	PASS			areal-interpolation areal-interpolation/references/validation.md	r5
+h21-station-land-price	implicit	PASS			causal-design causal-design/references/potential-outcomes.md causal-design/references/sensitivity.md	r1
+h21-station-land-price	implicit	PASS			causal-design causal-design/references/potential-outcomes.md causal-design/references/sensitivity.md	r2
+h21-station-land-price	implicit	PASS			causal-design causal-design/references/dag-adjustment.md causal-design/references/potential-outcomes.md causal-design/references/sensitivity.md causal-design/references/spatial.md	r3
+h21-station-land-price	implicit	PASS			causal-design causal-design/references/potential-outcomes.md causal-design/references/sensitivity.md	r4
+h21-station-land-price	implicit	PASS			causal-design causal-design/references/potential-outcomes.md causal-design/references/sensitivity.md	r5
+h22-taxi-dropoff	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r1
+h22-taxi-dropoff	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r2
+h22-taxi-dropoff	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r3
+h22-taxi-dropoff	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r4
+h22-taxi-dropoff	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r5
+h23-building-unet	explicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r1
+h23-building-unet	explicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r2
+h23-building-unet	explicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r3
+h23-building-unet	explicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r4
+h23-building-unet	explicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r5

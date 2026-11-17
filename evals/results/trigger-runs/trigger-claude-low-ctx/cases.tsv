@@ -1,0 +1,3 @@
+id	kind	passed	graded	errors
+h1-diffusion-rnn	explicit	5	5	0
+h2-station-dcrnn	explicit	5	5	0

@@ -1,0 +1,15 @@
+{
+ "revision": "a49000f6d257e68e7d77614c5f8ddc2884fcb3b4",
+ "cases": "evals/trigger_holdout.yaml",
+ "cases_sha256": "d0ebe9d2352e86d592ab00140b41341bb51a1184bd79529d8d8f327c18bfbb25",
+ "suffix_sha256": "5bff2844b5c5e3f2d53a1ad92071238fd4312b976ff2942231f43df01b32b2cc",
+ "agent": "codex",
+ "model": "gpt-6-luna",
+ "effort": "medium",
+ "image": "geoai-master-skills-evals-codex",
+ "image_id": "sha256:b7a6fdd983b0dac23d51bbad23499c0c9d3726e98a4673582297f19d08d5a442",
+ "cli_version": "codex-cli 0.162.1",
+ "runner_sha256": "e7a98094100b2ee75b18d0ab7c9af98b3ea196493c56a62f5b71d28cc37c1ec2",
+ "minutes": 10,
+ "created": "2026-11-09T22:17:40+09:00"
+}

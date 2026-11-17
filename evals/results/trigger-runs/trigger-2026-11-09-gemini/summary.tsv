@@ -1,0 +1,76 @@
+id	kind	verdict	missing	forbidden	read	run
+e1-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r1
+e1-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r2
+e1-dcrnn	explicit	FAIL	spatial-gnn/references/dcrnn.md		spatial-gnn	r3
+e2-kriging	explicit	FAIL	spatial-interpolation/references/kriging.md		spatial-interpolation	r1
+e2-kriging	explicit	FAIL	spatial-interpolation/references/kriging.md		spatial-interpolation	r2
+e2-kriging	explicit	FAIL	spatial-interpolation/references/kriging.md		spatial-interpolation	r3
+e3-spatial-lag	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md			r1
+e3-spatial-lag	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md			r2
+e3-spatial-lag	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md			r3
+i1-sensor-network	implicit	PASS			spatial-gnn	r1
+i1-sensor-network	implicit	PASS			spatial-gnn	r2
+i1-sensor-network	implicit	PASS			spatial-gnn	r3
+i2-taxi	implicit	FAIL	trajectory-prediction			r1
+i2-taxi	implicit	PASS			trajectory-prediction	r2
+i2-taxi	implicit	PASS			trajectory-prediction	r3
+i3-flood-pixels	implicit	PASS			image-segmentation	r1
+i3-flood-pixels	implicit	PASS			image-segmentation	r2
+i3-flood-pixels	implicit	PASS			image-segmentation	r3
+i4-final-report	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting	r1
+i4-final-report	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting	r2
+i4-final-report	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting	r3
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-weights-design	r1
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-weights-design	r2
+s1-moran-only	scope	PASS			spatial-autocorrelation	r3
+s2-sensor-baselines	scope	FAIL	spatial-gnn/references/evaluation.md		spatial-gnn	r1
+s2-sensor-baselines	scope	FAIL	spatial-gnn/references/evaluation.md		spatial-gnn	r2
+s2-sensor-baselines	scope	FAIL	spatial-gnn/references/evaluation.md		spatial-gnn	r3
+n1-typo	negative	PASS				r1
+n1-typo	negative	PASS				r2
+n1-typo	negative	PASS				r3
+n2-unit-test	negative	PASS				r1
+n2-unit-test	negative	PASS				r2
+n2-unit-test	negative	PASS				r3
+e4-spatial-cv	explicit	FAIL	cross-validation-design/references/spatial.md		cross-validation-design	r1
+e4-spatial-cv	explicit	FAIL	cross-validation-design cross-validation-design/references/spatial.md			r2
+e4-spatial-cv	explicit	FAIL	cross-validation-design cross-validation-design/references/spatial.md			r3
+i5-clustered-points	implicit	FAIL	point-pattern-analysis/references/ripley.md		point-pattern-analysis	r1
+i5-clustered-points	implicit	FAIL	point-pattern-analysis/references/ripley.md		point-pattern-analysis	r2
+i5-clustered-points	implicit	FAIL	point-pattern-analysis/references/ripley.md		point-pattern-analysis	r3
+i6-leaky-score	implicit	FAIL	leakage-audit			r1
+i6-leaky-score	implicit	FAIL	leakage-audit			r2
+i6-leaky-score	implicit	PASS			cross-validation-design leakage-audit model-explanation noise-ceiling-analysis	r3
+i7-far-place	implicit	PASS			cross-validation-design	r1
+i7-far-place	implicit	PASS			cross-validation-design	r2
+i7-far-place	implicit	PASS			cross-validation-design	r3
+s3-variogram-only	scope	PASS			spatial-interpolation spatial-interpolation/references/kriging.md	r1
+s3-variogram-only	scope	PASS			spatial-interpolation spatial-interpolation/references/kriging.md	r2
+s3-variogram-only	scope	PASS			spatial-interpolation spatial-interpolation/references/kriging.md	r3
+n3-plot-style	negative	PASS				r1
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r2
+n3-plot-style	negative	PASS				r3
+c1-temperature-now	implicit	PASS			spatial-interpolation	r1
+c1-temperature-now	implicit	PASS			spatial-interpolation	r2
+c1-temperature-now	implicit	PASS			spatial-interpolation	r3
+c2-rain-tomorrow	implicit	PASS			spatiotemporal-modeling	r1
+c2-rain-tomorrow	implicit	FAIL	spatiotemporal-modeling			r2
+c2-rain-tomorrow	implicit	FAIL	spatiotemporal-modeling			r3
+c3-ward-counts-alike	implicit	FAIL	spatial-autocorrelation			r1
+c3-ward-counts-alike	implicit	FAIL	spatial-autocorrelation			r2
+c3-ward-counts-alike	implicit	FAIL	spatial-autocorrelation			r3
+c4-crash-points-gather	implicit	PASS			point-pattern-analysis	r1
+c4-crash-points-gather	implicit	FAIL	point-pattern-analysis			r2
+c4-crash-points-gather	implicit	PASS			point-pattern-analysis	r3
+c5-next-year-grid	implicit	PASS			grid-risk-mapping	r1
+c5-next-year-grid	implicit	FAIL	grid-risk-mapping			r2
+c5-next-year-grid	implicit	PASS			grid-risk-mapping	r3
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation	r1
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation	r2
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation	r3
+c7-walk-ten-minutes	implicit	FAIL	spatial-network-analysis			r1
+c7-walk-ten-minutes	implicit	FAIL	spatial-network-analysis			r2
+c7-walk-ten-minutes	implicit	FAIL	spatial-network-analysis			r3
+c8-new-station-price	implicit	FAIL	causal-design			r1
+c8-new-station-price	implicit	FAIL	causal-design			r2
+c8-new-station-price	implicit	FAIL	causal-design			r3

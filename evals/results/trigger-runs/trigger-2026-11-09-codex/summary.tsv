@@ -1,0 +1,76 @@
+id	kind	verdict	missing	forbidden	read	run
+e1-dcrnn	explicit	FAIL	spatial-gnn spatial-gnn/references/dcrnn.md		time-series-forecasting	r1
+e1-dcrnn	explicit	PASS			cross-validation-design eda-and-baseline leakage-audit spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md time-series-forecasting	r2
+e1-dcrnn	explicit	FAIL	spatial-gnn spatial-gnn/references/dcrnn.md		cross-validation-design eda-and-baseline leakage-audit spatiotemporal-modeling	r3
+e2-kriging	explicit	PASS			analysis-unit-design spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r1
+e2-kriging	explicit	PASS			spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r2
+e2-kriging	explicit	PASS			analysis-reporting analysis-unit-design cross-validation-design spatial-interpolation spatial-interpolation/references/evaluation.md spatial-interpolation/references/kriging.md	r3
+e3-spatial-lag	explicit	FAIL	spatial-data-modeling/references/spatial-regression.md		analysis-unit-design data-variable-semantics dataset-discovery experiment-design spatial-autocorrelation spatial-data-modeling spatial-weights-design	r1
+e3-spatial-lag	explicit	PASS			analysis-unit-design data-variable-semantics observation-bias-audit robustness-analysis spatial-autocorrelation spatial-data-modeling spatial-data-modeling/references/count-modeling.md spatial-data-modeling/references/spatial-regression.md spatial-weights-design	r2
+e3-spatial-lag	explicit	FAIL	spatial-data-modeling spatial-data-modeling/references/spatial-regression.md		analysis-unit-design robustness-analysis spatial-autocorrelation spatial-weights-design	r3
+i1-sensor-network	implicit	PASS			experiment-design spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatiotemporal-modeling	r1
+i1-sensor-network	implicit	PASS			spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md	r2
+i1-sensor-network	implicit	PASS			spatial-gnn spatial-gnn/references/evaluation.md spatial-gnn/references/graph.md spatiotemporal-modeling	r3
+i2-taxi	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/destination-mlp.md trajectory-prediction/references/task-design.md	r1
+i2-taxi	implicit	PASS			trajectory-prediction trajectory-prediction/references/baselines-and-metrics.md trajectory-prediction/references/task-design.md	r2
+i2-taxi	implicit	PASS			cross-validation-design leakage-audit location-privacy trajectory-prediction trajectory-prediction/references/task-design.md	r3
+i3-flood-pixels	implicit	PASS			image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r1
+i3-flood-pixels	implicit	PASS			experiment-design image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r2
+i3-flood-pixels	implicit	PASS			experiment-design image-segmentation image-segmentation/references/baselines.md image-segmentation/references/evaluation.md image-segmentation/references/training.md	r3
+i4-final-report	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting robustness-analysis spatial-autocorrelation	r1
+i4-final-report	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting analysis-reporting/references/levels.md robustness-analysis spatial-autocorrelation spatial-data-modeling spatial-weights-design	r2
+i4-final-report	implicit	FAIL	analysis-reporting/references/failure-modes.md		analysis-reporting robustness-analysis spatial-autocorrelation	r3
+s1-moran-only	scope	PASS			analysis-unit-design spatial-autocorrelation spatial-weights-design	r1
+s1-moran-only	scope	PASS			spatial-autocorrelation spatial-autocorrelation/references/adjacency-weights.md spatial-weights-design spatial-weights-design/references/contiguity.md spatial-weights-design/references/sensitivity.md	r2
+s1-moran-only	scope	PASS			analysis-unit-design spatial-autocorrelation spatial-weights-design	r3
+s2-sensor-baselines	scope	PASS			spatial-gnn spatial-gnn/references/evaluation.md	r1
+s2-sensor-baselines	scope	PASS			spatial-gnn spatial-gnn/references/evaluation.md	r2
+s2-sensor-baselines	scope	FAIL		spatial-gnn/references/dcrnn.md	cross-validation-design spatial-gnn spatial-gnn/references/dcrnn.md spatial-gnn/references/evaluation.md	r3
+n1-typo	negative	PASS			natural-japanese	r1
+n1-typo	negative	PASS			natural-japanese natural-japanese/references/doctypes/guide.md	r2
+n1-typo	negative	PASS			natural-japanese	r3
+n2-unit-test	negative	PASS				r1
+n2-unit-test	negative	PASS				r2
+n2-unit-test	negative	PASS				r3
+e4-spatial-cv	explicit	FAIL	cross-validation-design/references/spatial.md		analysis-unit-design cross-validation-design dataset-discovery eda-and-baseline leakage-audit observation-bias-audit spatial-data-modeling	r1
+e4-spatial-cv	explicit	FAIL	cross-validation-design/references/spatial.md		analysis-unit-design cross-validation-design	r2
+e4-spatial-cv	explicit	PASS			cross-validation-design cross-validation-design/references/spatial.md dataset-discovery dataset-discovery/references/index.md eda-and-baseline	r3
+i5-clustered-points	implicit	PASS			dataset-discovery dataset-discovery/references/index.md dataset-discovery/references/overture/README.md dataset-discovery/references/worldpop/japan.md dataset-discovery/references/worldpop/population.md point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r1
+i5-clustered-points	implicit	FAIL	point-pattern-analysis/references/ripley.md		analysis-unit-design dataset-discovery dataset-discovery/references/index.md dataset-discovery/references/overture/README.md dataset-discovery/references/worldpop/japan.md point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/cross.md spatial-weights-design	r2
+i5-clustered-points	implicit	PASS			analysis-unit-design point-pattern-analysis point-pattern-analysis/references/baselines.md point-pattern-analysis/references/ripley.md	r3
+i6-leaky-score	implicit	PASS			analysis-unit-design cross-validation-design eda-and-baseline leakage-audit noise-ceiling-analysis spatial-autocorrelation	r1
+i6-leaky-score	implicit	PASS			analysis-reporting cross-validation-design eda-and-baseline leakage-audit noise-ceiling-analysis robustness-analysis	r2
+i6-leaky-score	implicit	PASS			analysis-unit-design cross-validation-design eda-and-baseline leakage-audit noise-ceiling-analysis	r3
+i7-far-place	implicit	PASS			cross-validation-design dataset-discovery experiment-design leakage-audit	r1
+i7-far-place	implicit	PASS			cross-validation-design cross-validation-design/references/spatial.md data-quality-audit leakage-audit	r2
+i7-far-place	implicit	PASS			cross-validation-design data-quality-audit leakage-audit spatial-data-modeling	r3
+s3-variogram-only	scope	PASS			analysis-visualize spatial-interpolation spatial-interpolation/references/kriging.md	r1
+s3-variogram-only	scope	PASS			dataset-discovery dataset-discovery/references/index.md spatial-interpolation spatial-interpolation/references/kriging.md	r2
+s3-variogram-only	scope	PASS			spatial-interpolation spatial-interpolation/references/kriging.md	r3
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r1
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r2
+n3-plot-style	negative	PASS			analysis-visualize analysis-visualize/references/japanese-text.md	r3
+c1-temperature-now	implicit	PASS			analysis-unit-design dataset-discovery spatial-interpolation	r1
+c1-temperature-now	implicit	PASS			spatial-interpolation	r2
+c1-temperature-now	implicit	PASS			analysis-unit-design dataset-discovery spatial-interpolation	r3
+c2-rain-tomorrow	implicit	PASS			analysis-reporting cross-validation-design data-quality-audit dataset-discovery experiment-design spatiotemporal-modeling time-series-forecasting	r1
+c2-rain-tomorrow	implicit	PASS			cross-validation-design experiment-design spatial-interpolation spatiotemporal-modeling spatiotemporal-modeling/references/structure.md spatiotemporal-modeling/references/validation.md time-series-forecasting	r2
+c2-rain-tomorrow	implicit	PASS			analysis-reporting analysis-unit-design cross-validation-design eda-and-baseline spatial-interpolation spatiotemporal-modeling spatiotemporal-modeling/references/validation.md time-series-forecasting	r3
+c3-ward-counts-alike	implicit	PASS			analysis-unit-design spatial-autocorrelation spatial-weights-design	r1
+c3-ward-counts-alike	implicit	PASS			dataset-discovery dataset-discovery/references/huggingface/yuiseki/npa-traffic-accidents.md spatial-autocorrelation spatial-weights-design spatial-weights-design/references/contiguity.md spatial-weights-design/references/sensitivity.md	r2
+c3-ward-counts-alike	implicit	PASS			spatial-autocorrelation spatial-weights-design	r3
+c4-crash-points-gather	implicit	PASS			analysis-unit-design data-quality-audit observation-bias-audit point-pattern-analysis	r1
+c4-crash-points-gather	implicit	PASS			analysis-unit-design point-pattern-analysis	r2
+c4-crash-points-gather	implicit	PASS			dataset-discovery dataset-discovery/references/overture/transportation.md point-pattern-analysis point-pattern-analysis/references/baselines.md	r3
+c5-next-year-grid	implicit	PASS			analysis-reporting analysis-unit-design grid-risk-mapping grid-risk-mapping/references/capture.md grid-risk-mapping/references/grid-and-features.md location-privacy observation-bias-audit	r1
+c5-next-year-grid	implicit	PASS			analysis-reporting analysis-unit-design cross-validation-design experiment-design grid-risk-mapping grid-risk-mapping/references/capture.md grid-risk-mapping/references/history-and-level.md observation-bias-audit	r2
+c5-next-year-grid	implicit	PASS			analysis-unit-design dataset-discovery grid-risk-mapping	r3
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation	r1
+c6-mesh-to-blocks	implicit	PASS			analysis-unit-design areal-interpolation areal-interpolation/references/auxiliary.md dataset-discovery	r2
+c6-mesh-to-blocks	implicit	PASS			areal-interpolation areal-interpolation/references/auxiliary.md areal-interpolation/references/validation.md dataset-discovery dataset-discovery/references/index.md	r3
+c7-walk-ten-minutes	implicit	PASS			analysis-unit-design data-quality-audit dataset-discovery dataset-discovery/references/huggingface/yuiseki/estat-census-mesh-500m-2020.md dataset-discovery/references/huggingface/yuiseki/osm-japan-src-2026-08.md raster-data-integration spatial-accessibility-analysis spatial-network-analysis spatial-network-analysis/references/directions-and-time.md	r1
+c7-walk-ten-minutes	implicit	PASS			dataset-discovery dataset-discovery/references/ghsl/population.md dataset-discovery/references/overture/transportation.md dataset-discovery/references/worldpop/japan.md raster-data-integration spatial-accessibility-analysis spatial-network-analysis spatial-network-analysis/references/building-the-graph.md spatial-network-analysis/references/directions-and-time.md spatial-network-analysis/references/measures.md	r2
+c7-walk-ten-minutes	implicit	PASS			analysis-unit-design dataset-discovery dataset-discovery/references/worldpop/README.md dataset-discovery/references/worldpop/japan.md raster-data-integration spatial-accessibility-analysis spatial-network-analysis spatial-network-analysis/references/directions-and-time.md spatial-network-analysis/references/measures.md	r3
+c8-new-station-price	implicit	PASS			causal-design causal-design/references/potential-outcomes.md causal-design/references/spatial.md dataset-discovery dataset-discovery/references/huggingface/yuiseki/ksj-l01-land-price.md dataset-discovery/references/index.md	r1
+c8-new-station-price	implicit	PASS			causal-design causal-design/references/potential-outcomes.md causal-design/references/spatial.md	r2
+c8-new-station-price	implicit	PASS			analysis-unit-design causal-design experiment-design	r3

@@ -1,0 +1,16 @@
+{
+ "revision": "a176925a09f6b02f2e8c0c90d9c2905b23a36609",
+ "cases": "evals/trigger_playground.yaml",
+ "cases_sha256": "75b2151cf42395645499ecdf734b9f46a1b1760a5fcbcd518c477e89b57ba5d6",
+ "suffix_sha256": "5bff2844b5c5e3f2d53a1ad92071238fd4312b976ff2942231f43df01b32b2cc",
+ "agent": "claude",
+ "model": "claude-sonnet-5-5",
+ "effort": "",
+ "context_sha256": "none",
+ "image": "geoai-master-skills-evals-claude",
+ "image_id": "sha256:b200fa0f423b2ed37e049e9acb4c292fa221002ad8b2b7c640d3511e22c1f455",
+ "cli_version": "2.1.321 (Claude Code)",
+ "runner_sha256": "33d54766708dccf6573dde948d7d416931fce41d1a16b2afa9f140ba4272d228",
+ "minutes": 10,
+ "created": "2026-11-12T11:04:45+09:00"
+}

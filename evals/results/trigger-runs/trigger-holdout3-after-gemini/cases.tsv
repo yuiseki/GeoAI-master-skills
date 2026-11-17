@@ -1,0 +1,11 @@
+id	kind	passed	graded	errors
+h14-tree-terrain	implicit	5	5	0
+h15-burglary-lgcp	explicit	5	5	0
+h16-bear-grid	implicit	4	5	0
+h17-fire-grid	implicit	4	5	0
+h18-sar-typhoon	implicit	5	5	0
+h19-monthly-rain	implicit	5	5	0
+h20-mesh-to-ward	implicit	5	5	0
+h21-station-land-price	implicit	5	5	0
+h22-taxi-dropoff	implicit	5	5	0
+h23-building-unet	explicit	5	5	0

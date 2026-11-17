@@ -1,0 +1,7 @@
+id	kind	passed	graded	errors
+h8-river-dcrnn	explicit	5	5	0
+h9-diffusion-conv	implicit	5	5	0
+h10-pems-reproduce	explicit	5	5	0
+h11-l-function	explicit	5	5	0
+h12-pair-counts	implicit	5	5	0
+h13-ambulance-calls	implicit	5	5	0

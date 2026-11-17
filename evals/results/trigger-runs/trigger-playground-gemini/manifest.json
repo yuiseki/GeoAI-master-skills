@@ -1,0 +1,15 @@
+{
+ "revision": "a176925a09f6b02f2e8c0c90d9c2905b23a36609",
+ "cases": "evals/trigger_playground.yaml",
+ "cases_sha256": "75b2151cf42395645499ecdf734b9f46a1b1760a5fcbcd518c477e89b57ba5d6",
+ "suffix_sha256": "5bff2844b5c5e3f2d53a1ad92071238fd4312b976ff2942231f43df01b32b2cc",
+ "agent": "gemini",
+ "model": "gemini-3.8-flash-low",
+ "effort": "",
+ "image": "geoai-master-skills-evals-gemini",
+ "image_id": "sha256:1e765c13bae94223d1998484f68b0f519a32f4e5ec767bd54b20e4642efb477d",
+ "cli_version": "1.3.5",
+ "runner_sha256": "af17dcc0a468c32319c09926a0d025448e23b47a1b32715165957241d957919e",
+ "minutes": 10,
+ "created": "2026-11-12T11:11:23+09:00"
+}

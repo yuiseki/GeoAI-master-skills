@@ -1,0 +1,10 @@
+id	kind	passed	graded	errors
+p1-coffee-h3-london	explicit	1	1	0
+p2-pharmacy-gap	implicit	1	1	0
+p3-brand-rating	implicit	1	1	0
+p4-boston-rush-hour	explicit	1	1	0
+p5-lottr-freeway	implicit	1	1	0
+p6-bus-corridor-slow	implicit	1	1	0
+p7-poles-pci	explicit	1	1	0
+p8-vegetation-lines	implicit	1	1	0
+p9-road-surface-material	implicit	1	1	0
