@@ -1,0 +1,8 @@
+id	kind	passed	graded	errors
+h1-diffusion-rnn	explicit	5	5	0
+h2-station-dcrnn	explicit	5	5	0
+h3-report-overclaim	implicit	5	5	0
+h4-report-pitfalls	implicit	5	5	0
+h5-block-cv	explicit	5	5	0
+h6-spatial-error	explicit	5	5	0
+h7-k-function	explicit	5	5	0

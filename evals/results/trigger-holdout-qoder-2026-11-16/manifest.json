@@ -1,0 +1,15 @@
+{
+ "revision": "68ca7f2e814bf1b954b773a4dd2173a4a4f272eb",
+ "cases": "evals/trigger_holdout.yaml",
+ "cases_sha256": "d0ebe9d2352e86d592ab00140b41341bb51a1184bd79529d8d8f327c18bfbb25",
+ "suffix_sha256": "5bff2844b5c5e3f2d53a1ad92071238fd4312b976ff2942231f43df01b32b2cc",
+ "agent": "qoder",
+ "model": "Auto",
+ "effort": "",
+ "image": "geoai-master-skills-evals-qoder",
+ "image_id": "sha256:73d115bbfa93d8f0532d4b65a1242ca22e5e9d01d9cf6cb022680e0d91932683",
+ "cli_version": "1.1.86",
+ "runner_sha256": "4b90bdeb9ac500151bf1b5789f86e163565c69fc93f8592727538f8add822956",
+ "minutes": 10,
+ "created": "2026-11-16T17:04:23+09:00"
+}

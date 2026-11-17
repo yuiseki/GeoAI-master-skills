@@ -6,6 +6,7 @@
 
 - スキルとケース: 68ca7f2 の `evals/trigger_holdout.yaml` (sha256 d0ebe9d2)。Codex と Gemini の A + B と同じ版。
 - qodercli 1.1.86 を Docker で (`evals/run_qoder_docker.sh`、イメージ geoai-master-skills-evals-qoder、sha256:73d115bb)。モデルは Auto、effort は CLI の既定、上限 10 分。
+- 記録: [trigger-holdout-qoder-2026-11-16/](trigger-holdout-qoder-2026-11-16/) に全部置いた。manifest.json (条件)、summary.tsv (1 回 1 行)、cases.tsv (ケースごと)、ケースと回ごとのフォルダ (prompt.md、agent.json、log は qodercli の stream-json、stderr、exit)。採点し直すときは、リポジトリの外に写してから `python3 evals/trigger.py judge <写した先>` (trigger.py はリポジトリの中の OUT_DIR を受け付けない)。
 - コマンド: `python3 evals/trigger.py run ~/Workspaces/tmp/trigger-holdout-ab-qoder --rev 68ca7f2 --cases evals/trigger_holdout.yaml --repeats 5 --agent qoder`
 
 ## 結果
