@@ -11,7 +11,10 @@ Problems:
 CP-SAT requires integer coefficients. Real-valued costs/weights are scaled by `scale` (default 100)
 and rounded to integers. After solving, the script recomputes the objective and checks every
 constraint (capacity, single assignment, time windows, non-overlap) on the unscaled inputs; if
-anything disagrees or a feasible heuristic beats the solver, it exits with an error.
+anything disagrees or a feasible heuristic beats the solver, it exits with an error. For cflp it also reports a lower
+bound in the original units and the gap to it (rounding_slack, bound_report), so a run stopped by the time limit says
+how far from optimal it may be; when weights or capacities are not multiples of 1/scale, no bound is claimed for the
+original problem.
 
 Usage:
     uvx --from 'duckdb>=1.5.5' --with numpy --with ortools python cpsat_location.py \
@@ -125,8 +128,48 @@ def cflp_heuristic(d, w, s, p, fixed_cost=None):
     return {"open": best_overall[1], "assign": best_overall[2], "recomputed": best_overall[0]}
 
 
-def solve_cflp(d, w, s, p, fixed_cost=None, scale=100, time_limit_s=30.0):
-    """Solve capacitated single-source facility location using OR-Tools CP-SAT."""
+def rounding_slack(cost, fixed_cost, p, scale):
+    """The most the rounded objective can rise above the original one for any solution, in original units.
+
+    CP-SAT minimises rint(c * scale) / scale instead of c, so its bound B holds for the rounded costs. For any
+    solution, original >= rounded - (what rounding added to the terms it uses) >= B - slack. A solution uses one
+    assignment per demand and at most p opening costs, so the slack is, per demand, the largest amount rounding added
+    over the sites it can use, plus the p largest added to opening costs. Exact multiples of 1 / scale add nothing."""
+    def added(c):
+        a = np.asarray(c, dtype=float) * scale
+        return np.maximum(np.rint(a) - a, 0.0) / scale
+    per_demand = np.where(np.isfinite(cost), added(np.where(np.isfinite(cost), cost, 0.0)), 0.0).max(axis=1)
+    fc = np.sort(added(fixed_cost))[::-1][:p]
+    return float(per_demand.sum() + fc.sum())
+
+
+def bound_report(scaled_bound, recomputed, slack, scale, exact_capacity):
+    """The solver's lower bound in the original units, and what it is a bound for.
+
+    scaled_bound / scale - slack (rounding_slack) bounds the original objective, provided the rounded model accepts
+    every original solution. That holds when weights and capacities are exact multiples of 1 / scale (the capacity rows
+    are then the same); otherwise the bound is only for the rounded model and no gap to the original optimum is claimed.
+    """
+    r = {"rounded_model_bound": scaled_bound / scale, "rounding_slack": slack}
+    if not exact_capacity:
+        r.update(bound=None, gap=None, bound_scope="rounded_model")
+        return r
+    bound = scaled_bound / scale - slack
+    r.update(bound=bound, bound_scope="original",
+             gap=(recomputed - bound) / max(abs(recomputed), 1e-12))
+    return r
+
+
+def _exact(arr, scale):
+    a = np.asarray(arr, dtype=float) * scale
+    return bool(np.all(np.abs(a - np.rint(a)) <= 1e-9 * np.maximum(1.0, np.abs(a))))
+
+
+def solve_cflp(d, w, s, p, fixed_cost=None, scale=100, time_limit_s=30.0, workers=None):
+    """Solve capacitated single-source facility location using OR-Tools CP-SAT.
+
+    status "optimal" is CP-SAT's proof for the rounded model. The result also gives a lower bound in the original
+    units (bound_report), so a run stopped by the time limit ("feasible") says how far from optimal it may be."""
     d = np.asarray(d, dtype=float)
     w = np.asarray(w, dtype=float)
     s = np.asarray(s, dtype=float)
@@ -181,12 +224,15 @@ def solve_cflp(d, w, s, p, fixed_cost=None, scale=100, time_limit_s=30.0):
 
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = float(time_limit_s)
+    if workers:
+        solver.parameters.num_search_workers = int(workers)
     t0 = time.perf_counter()
     status = solver.Solve(model)
     elapsed = time.perf_counter() - t0
 
     if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        raise SystemExit(f"CP-SAT CFLP failed with status {solver.StatusName(status)}")
+        hint = " (no proof of infeasibility: the time limit ran out first)" if status == cp_model.UNKNOWN else ""
+        raise SystemExit(f"CP-SAT CFLP failed with status {solver.StatusName(status)}{hint}")
 
     open_sites = [j for j in range(m) if solver.Value(y[j]) == 1]
     assign = []
@@ -198,6 +244,16 @@ def solve_cflp(d, w, s, p, fixed_cost=None, scale=100, time_limit_s=30.0):
 
     recomputed, loads = cflp_recompute(d, w, s, open_sites, assign, fc)
     heur = cflp_heuristic(d, w, s, p, fc)
+    usable = np.full(d.shape, np.inf)
+    for (i, j) in x:
+        usable[i, j] = w[i] * d[i, j]
+    slack = rounding_slack(usable, fc, p, scale)
+    bnd = bound_report(solver.BestObjectiveBound(), recomputed, slack, scale, _exact(w, scale) and _exact(s, scale))
+    if bnd["bound"] is not None:
+        # Any solution feasible for the original problem is at least the bound; one below it means a wrong model.
+        for name, val in (("CP-SAT", recomputed), ("heuristic", heur["recomputed"] if heur else None)):
+            if val is not None and val < bnd["bound"] - 1e-9 * max(1.0, abs(val)):
+                raise SystemExit(f"{name} solution {val:.6g} is below the lower bound {bnd['bound']:.6g}: wrong model")
     if status == cp_model.OPTIMAL and heur is not None:
         # Allow tiny rounding tolerance from integer scaling
         tol = max(1e-4, n * 1.0 / scale)
@@ -215,6 +271,7 @@ def solve_cflp(d, w, s, p, fixed_cost=None, scale=100, time_limit_s=30.0):
         "solver_objective": solver.ObjectiveValue() / scale,
         "heuristic": heur,
         "elapsed_s": round(elapsed, 4),
+        **bnd,
     }
 
 
@@ -406,6 +463,12 @@ def main():
     open_ids = [str(fac_rows[j][0]) for j in res["open"]]
     print(f"status={res['status']} p<={a.p} open={len(open_ids)} ({open_ids}) "
           f"objective={res['recomputed']:.4f} elapsed={res['elapsed_s']}s")
+    if res["bound"] is not None:
+        print(f"lower_bound={res['bound']:.4f} gap={res['gap']:.4%} (original units, rounding slack "
+              f"{res['rounding_slack']:.4g})")
+    else:
+        print(f"lower_bound=none for the original problem (weights or capacities are not multiples of 1/scale); "
+              f"rounded-model bound {res['rounded_model_bound']:.4f}")
     if res["heuristic"] is not None:
         print(f"heuristic={res['heuristic']['recomputed']:.4f}")
 

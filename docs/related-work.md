@@ -149,7 +149,7 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - 写っていないことを除外に使う前に、画角、大きさ、隠れを計算する (`street-imagery-inspection` の `scripts/expected_view.py`、`references/views-and-geometry.md`)。Bordeaux の OSM の街灯 40 は、どの画像にも写るはずが無かった。
 - 取り込まない点: 写真の撮影地を当てるスキルそのもの (オープンデータの分析の範囲の外で、人を追う用途にも使える)。公開の Overpass、逆画像検索 (Baidu、Yandex) への問い合わせ。
 
-## LLM4MIP/llm4mip.github.io (検討中)
+## LLM4MIP/llm4mip.github.io (考え方の一部を取り込んだ)
 
 - 場所: <https://github.com/LLM4MIP/llm4mip.github.io> (2026-11-19 に 38c4a88 (2026-10-26) を読んだ。README、`downloads/milp-structure-research-copt/` の SKILL.md と references の evidence-and-stopping.md、decision-trace-audit.md、`data/skill-study/packages/primal-current/SKILL.md`、`downloads/skill-comparison-report.md`)。
 - ライセンス: MIT (リポジトリと、配っているスキルの LICENSE)。中身は写していない。
@@ -160,4 +160,6 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - 前のエージェントがなぜその道を選んだかを書くとき、記録に理由がある (A)、観察の後に方針が変わったのが見える (B)、後からの推測 (C) を分け、C を A と書かない。後で分かったことを、当時の判断の理由に書き足さない。「完了」「成功」や報告ができたことを、問いの進み具合と読まない。
   - 外れた経路を止める条件と、止めたときに残すもの (試した仮説、覆った範囲、設定と版、一般化するか、次の手)。
   - 上界を探す作業は、最初の改善で止めず、予算を使い切る。current と best を分ける。
+- 取り込んだ (2026-11-19、考え方だけ。文章もコードも写していない): 主張の段。`spatial-optimization` の CP-SAT の CFLP が、時間で止めた解にも元の単位の下界とギャップを出し、丸めの幅を引き、需要と容量が丸められたときは元の問題の下界と言わない (`scripts/cpsat_location.py`、`references/cp-sat.md`)。
+- 今は取り込まない (2026-11-19 の判断): 判断の理由の 3 段 (評価の結果の文書に当てる案)、外れた経路を止める条件と残すもの (`experiment-design` と重なる)。
 - 取り込まない点: MIPLIB と COPT に固有の手順、ソルバーの選び方の既定。

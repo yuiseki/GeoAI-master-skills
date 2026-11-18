@@ -122,3 +122,109 @@ def test_schedule_splits_across_two_teams_when_windows_conflict():
     active_teams = [r for r in res2["routes"] if r["stops"]]
     assert len(active_teams) == 2
     assert res2["total_travel"] == 20
+
+
+def test_rounding_slack_by_hand():
+    from cpsat_location import rounding_slack
+    # scale 10. Demand 0: 1.04 -> 1.0 (rounded down, adds nothing), 2.06 -> 2.1 (adds 0.04). Demand 1: 3.0 exact,
+    # the unreachable site is ignored. Opening costs 0.57 -> 0.6 (adds 0.03), 0.69 -> 0.7 (adds 0.01), 0.2 exact;
+    # p = 1 keeps the largest, 0.03.
+    cost = np.array([[1.04, 2.06], [3.0, np.inf]])
+    assert rounding_slack(cost, np.array([0.57, 0.69, 0.2]), 1, 10) == pytest.approx(0.04 + 0.03)
+
+
+def test_cflp_exact_costs_leave_no_slack_and_no_gap_at_the_optimum():
+    d = np.array([[1.0, 5.0], [2.0, 3.0]])
+    res = solve_cflp(d, np.array([3.0, 2.0]), np.array([4.0, 4.0]), p=2, fixed_cost=np.array([0.5, 0.25]), scale=100)
+    assert res["status"] == "optimal"
+    assert res["rounding_slack"] == 0
+    assert res["bound"] == pytest.approx(res["recomputed"]) and res["gap"] == pytest.approx(0, abs=1e-12)
+
+
+def test_cflp_inexact_opening_costs_count_in_the_slack():
+    d = np.array([[1.0, 5.0], [2.0, 3.0]])                # exact at scale 100
+    res = solve_cflp(d, np.array([3.0, 2.0]), np.array([4.0, 4.0]), p=2, fixed_cost=np.array([0.506, 0.25]), scale=100)
+    assert res["rounding_slack"] == pytest.approx(0.004)   # 0.506 -> 0.51
+
+
+# The lower bound in the original units. CP-SAT solves a model whose costs are rounded to integers after scaling,
+# so its bound holds for that model. Each cost term moves by at most 0.5 / scale, so subtracting that slack for
+# every term a solution can use gives a bound for the original costs, as long as the capacities were not rounded.
+
+def test_bound_report_by_hand():
+    from cpsat_location import bound_report
+    # scaled bound 1234 at scale 100 -> 12.34, minus a rounding slack of 0.025
+    r = bound_report(1234, recomputed=12.50, slack=0.025, scale=100, exact_capacity=True)
+    assert r["rounding_slack"] == pytest.approx(0.025)
+    assert r["bound"] == pytest.approx(12.315)
+    assert r["bound_scope"] == "original"
+    assert r["gap"] == pytest.approx((12.50 - 12.315) / 12.50)
+
+
+def test_bound_report_without_exact_capacities_does_not_claim_the_original():
+    from cpsat_location import bound_report
+    r = bound_report(1234, recomputed=12.50, slack=0.025, scale=100, exact_capacity=False)
+    assert r["bound"] is None and r["gap"] is None
+    assert r["bound_scope"] == "rounded_model"
+    assert r["rounded_model_bound"] == pytest.approx(12.34)
+
+
+@pytest.mark.parametrize("seed", range(4))
+def test_cflp_bound_is_below_the_true_optimum_and_close_when_optimal(seed):
+    rng = np.random.default_rng(seed)
+    n, m, p = 6, 4, 2
+    d = rng.uniform(0, 10, (n, m)).round(4)          # not multiples of 1/scale: the costs are rounded
+    w = rng.integers(1, 5, size=n).astype(float)
+    s = np.full(m, float(np.ceil(w.sum() * 0.75)))
+    fc = rng.uniform(5, 15, size=m).round(3)
+    opt = _brute_cflp(d, w, s, p, fc)
+    res = solve_cflp(d, w, s, p, fixed_cost=fc, scale=100)
+    assert res["bound_scope"] == "original"
+    assert 0 < res["rounding_slack"] <= (n + p) * 0.5 / 100   # n assignments and p opening costs, 0.005 at most each
+    assert res["bound"] <= opt + 1e-9
+    assert res["bound"] <= res["recomputed"]
+    assert res["status"] == "optimal"
+    assert res["recomputed"] - res["bound"] <= (n + p) * 1.0 / 100 + 1e-9   # at most what rounding added and removed
+    assert 0 <= res["gap"]
+
+
+def test_cflp_fractional_capacities_leave_the_bound_on_the_rounded_model():
+    d = np.array([[1.0, 5.0], [2.0, 3.0]])
+    w = np.array([3.004, 2.0])                       # 300.4 at scale 100: the capacity rows are rounded
+    s = np.array([5.5, 4.0])
+    res = solve_cflp(d, w, s, p=2, scale=100)
+    assert res["bound_scope"] == "rounded_model"
+    assert res["bound"] is None and res["gap"] is None
+
+
+def test_cflp_feasible_stop_reports_a_positive_gap():
+    # A search stopped by the time limit: whatever it returns, its bound must not pass the solution, and a stop
+    # before the proof leaves a gap above zero.
+    rng = np.random.default_rng(7)
+    n, m, p = 60, 25, 6
+    d = rng.uniform(0, 100, (n, m)).round(3)
+    w = rng.integers(1, 9, size=n).astype(float)
+    s = np.full(m, float(np.ceil(w.sum() / p * 1.1)))
+    res = solve_cflp(d, w, s, p, scale=100, time_limit_s=0.05, workers=1)
+    assert res["bound"] <= res["recomputed"]
+    if res["status"] == "feasible":
+        assert res["gap"] > 0
+
+
+def test_cflp_stops_when_a_feasible_solution_is_below_the_bound(monkeypatch):
+    # A heuristic solution that is feasible for the original problem cannot be below a valid lower bound. If it is,
+    # the model or its rounding is wrong, and the run stops instead of reporting the bound.
+    import cpsat_location
+    monkeypatch.setattr(cpsat_location, "cflp_heuristic",
+                        lambda *a, **k: {"open": [0], "assign": [0, 0], "recomputed": 1.0})
+    d = np.array([[1.0, 5.0], [2.0, 3.0]])
+    with pytest.raises(SystemExit, match="below the lower bound"):
+        cpsat_location.solve_cflp(d, np.array([3.0, 2.0]), np.array([4.0, 4.0]), p=2, scale=10)
+
+
+def test_cflp_bound_survives_costs_rounded_up():
+    # One demand, one site, cost 1.06 at scale 10: CP-SAT sees 11, i.e. 1.1. Its bound 1.1 is above the true optimum
+    # 1.06, so the slack must take off what rounding added (0.04), not what it removed.
+    res = solve_cflp(np.array([[1.06]]), np.array([1.0]), np.array([1.0]), p=1, scale=10)
+    assert res["recomputed"] == pytest.approx(1.06)
+    assert res["bound"] == pytest.approx(1.06) and res["bound"] <= res["recomputed"] + 1e-12
