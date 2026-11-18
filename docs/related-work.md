@@ -148,3 +148,16 @@ GeoAI-master-skills の外にある、地理空間のスキル集とライブラ
   - 機械が順位を付け、目は上位を見る。こちらでは、見る数を先に決め、上位と残りの無作為な標本に分け、順位が取りこぼした陽性の数も見積もる (`street-imagery-inspection` の `scripts/review_plan.py`、`references/validation-and-gaps.md`)。向こうは場所を見つけるのが目的で、取りこぼしの見積もりはしない。
   - 写っていないことを除外に使う前に、画角、大きさ、隠れを計算する (`street-imagery-inspection` の `scripts/expected_view.py`、`references/views-and-geometry.md`)。Bordeaux の OSM の街灯 40 は、どの画像にも写るはずが無かった。
 - 取り込まない点: 写真の撮影地を当てるスキルそのもの (オープンデータの分析の範囲の外で、人を追う用途にも使える)。公開の Overpass、逆画像検索 (Baidu、Yandex) への問い合わせ。
+
+## LLM4MIP/llm4mip.github.io (検討中)
+
+- 場所: <https://github.com/LLM4MIP/llm4mip.github.io> (2026-11-19 に 38c4a88 (2026-10-26) を読んだ。README、`downloads/milp-structure-research-copt/` の SKILL.md と references の evidence-and-stopping.md、decision-trace-audit.md、`data/skill-study/packages/primal-current/SKILL.md`、`downloads/skill-comparison-report.md`)。
+- ライセンス: MIT (リポジトリと、配っているスキルの LICENSE)。中身は写していない。
+- 中身: MIPLIB の未解決の 217 問に LLM のエージェントを当てた研究のサイトと、そこで使ったスキル (行列の構造を読んで定式化や切除平面や近傍を選ぶ、上界 (実行可能解) を改善する、下界を改善する)。20 問でスキルあり、なしを後ろ向きに比べ、因果の推定ではないと明記している。
+- GeoAI-master-skills と同じ所: ソルバーの状態を元の問いの答えと読まない。解を元のモデルに戻して全ての制約を検算する。外れた試みも、範囲を付けて残す。
+- 参考になりうる点:
+  - 主張の段 (検算前の候補、元のモデルで実行可能、検算した下界、許容差つきの閉じ、総当たり、独立に検算できる証明)。言い方を証拠の段より強くしない。時間切れや UNKNOWN は、実行不能の証拠にならない。
+  - 前のエージェントがなぜその道を選んだかを書くとき、記録に理由がある (A)、観察の後に方針が変わったのが見える (B)、後からの推測 (C) を分け、C を A と書かない。後で分かったことを、当時の判断の理由に書き足さない。「完了」「成功」や報告ができたことを、問いの進み具合と読まない。
+  - 外れた経路を止める条件と、止めたときに残すもの (試した仮説、覆った範囲、設定と版、一般化するか、次の手)。
+  - 上界を探す作業は、最初の改善で止めず、予算を使い切る。current と best を分ける。
+- 取り込まない点: MIPLIB と COPT に固有の手順、ソルバーの選び方の既定。
