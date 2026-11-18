@@ -56,7 +56,7 @@ Claude Code のサブエージェント (Opus 5.5、general-purpose) に、会�
 | h5〜h7 (対照) | 15/15 |
 
 - 35 回全て合格。Gemini が 1 度も開かなかった dcrnn.md も、10 回とも開いた。
-- 条件は Codex と Gemini と同じではない。Claude Code はリポジトリの AGENTS.md を自動では読まない (読むのは CLAUDE.md で、作業場所には無い)。代わりに、流した人の端末にある全体の CLAUDE.md と記憶が読み込まれていた。答えに systemd-run の上限が繰り返し出てくるのと、35 回のうち 7 回で `amem keep` を呼んで活動の記録を書いたのはそのため。AGENTS.md は 27 回で開くか grep した。B の決まりが届いた結果か、自分で探し当てた結果かは分けられない。
+- 条件は Codex と Gemini と同じではない。Claude Code はリポジトリの AGENTS.md を自動では読まない (読むのは CLAUDE.md で、作業場所には無い)。代わりに、流した人の端末にある全体の CLAUDE.md と記憶が読み込まれていた。答えに systemd-run の上限が繰り返し出てくるのと、35 回のうち 7 回で `amem keep` を呼んで活動の記録を書いたのはそのため (段 B。2026-11-19 に記録を見直した。7 回とも CLAUDE.md の書式どおり `source ~/.config/yuiclaw/.env` を前に付けて呼んでいたが、出力にも思考にも CLAUDE.md や記録の決まりを理由に挙げた文は無い。systemd-run の部分は見直していない)。AGENTS.md は 27 回で開くか grep した。B の決まりが届いた結果か、自分で探し当てた結果かは分けられない。
 - 1 回で 7〜9 万トークンを使った (35 回で約 290 万)。
 
 ## Claude Sonnet のサブエージェント (2026-11-10)
