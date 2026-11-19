@@ -114,3 +114,50 @@ def test_prompt_runs_print_their_logs_so_a_silent_rate_limit_shows(home, workdir
     p.write_text("go")
     out = run("--prompt", str(p), "--dry-run", str(workdir), home=home).stdout
     assert "--print-logs" in out
+
+
+def _container_cmd(out):
+    # the words after the image name, split by bash itself: the dry-run line uses printf %q, whose $'...' (the
+    # script has newlines) shlex does not read
+    r = subprocess.run(["bash", "-c", 'eval "a=($1)"; printf "%s\\0" "${a[@]}"', "_", out],
+                       capture_output=True, text=True, check=True)
+    words = r.stdout.split("\0")[:-1]
+    return words[words.index("geoai-master-skills-evals-opencode") + 1:]
+
+
+def test_the_model_list_is_refreshed_before_the_run(home, workdir, tmp_path):
+    # a fresh container lists only the models built into the CLI; a newer free model (hy4-flash-free) is found only
+    # when the background refresh wins the race, and otherwise the run ends in "Model not found" (2026-11-19)
+    p = tmp_path / "p.md"
+    p.write_text("go")
+    for args in (["--prompt", str(p)], []):
+        c = _container_cmd(run(*args, "--dry-run", str(workdir), home=home).stdout)
+        assert c[:2] == ["sh", "-c"]
+        script = c[2]
+        assert "opencode models opencode --refresh </dev/null" in script
+        assert script.index("--refresh") < script.index('exec "$@"')
+        assert c[4] == "opencode"
+
+
+def test_a_model_missing_after_the_refresh_fails_before_the_run(home, workdir, tmp_path):
+    # run the wrapper script with a stand-in opencode: the run must not start, and stdin must reach only the run
+    p = tmp_path / "p.md"
+    p.write_text("go")
+    out = run("--prompt", str(p), "--dry-run", str(workdir), home=home,
+              env={"EVAL_MODEL": "opencode/hy4-flash-free"}).stdout
+    c = _container_cmd(out)
+    assert "-e" in out and "EVAL_MODEL=opencode/hy4-flash-free" in out
+    bin_ = tmp_path / "bin"
+    bin_.mkdir()
+    fake = bin_ / "opencode"
+    for listed, want in (("opencode/deepseek-v4.1-flash-free\n", 1), ("x\nopencode/hy4-flash-free\ny\n", 0)):
+        fake.write_text("#!/bin/sh\nif [ \"$1\" = models ]; then cat >/dev/null; printf '%s' "
+                        f"'{listed}'; exit 0; fi\ncat\n")
+        fake.chmod(0o755)
+        r = subprocess.run(c, input="the prompt", capture_output=True, text=True,
+                           env={"PATH": f"{bin_}:/usr/bin:/bin", "EVAL_MODEL": "opencode/hy4-flash-free"})
+        assert r.returncode == want, (listed, r.stderr)
+        if want == 0:
+            assert r.stdout == "the prompt"
+        else:
+            assert "opencode/hy4-flash-free" in r.stderr and r.stdout == ""

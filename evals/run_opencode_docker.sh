@@ -60,7 +60,7 @@ docker_args=(
   --memory="$MEMORY" --memory-swap="$MEMORY"
   --pids-limit="$PIDS"
   --cap-drop=ALL --security-opt=no-new-privileges
-  -e OPENCODE_CONFIG_CONTENT="$CONFIG"
+  -e OPENCODE_CONFIG_CONTENT="$CONFIG" -e EVAL_MODEL="$MODEL"
   -v "$workdir":/work -w /work
 )
 
@@ -68,12 +68,26 @@ docker_args=(
 # repeated three times) is rejected unless --auto approves it; explicit denials (.env files) still hold.
 # --pure: no external plugins. --print-logs: the log goes to stderr; a rate limit ("Rate limit exceeded") shows only
 # there, since opencode keeps retrying without a JSON event and the run just goes quiet.
+#
+# A fresh container knows only the models built into the CLI. A newer free model (hy4-flash-free) was found only
+# when the CLI's background refresh of the list finished first; otherwise the run ended at once in "Model not
+# found" (4 of 12 runs, 2026-11-19). So the list is refreshed before the run, and a model still not in it stops
+# the run there with exit 1, before any prompt is sent. The refresh reads nothing from stdin, which carries the
+# prompt. The image has no grep, so the check is plain sh.
+REFRESH='list=$(opencode models opencode --refresh </dev/null) || { echo "could not refresh the model list" >&2; exit 1; }
+case "
+$list
+" in *"
+$EVAL_MODEL
+"*) exec "$@" ;; esac
+echo "model $EVAL_MODEL is not in the refreshed model list" >&2
+exit 1'
 if [[ -n "$prompt" ]]; then
-  cmd=(docker "${docker_args[@]}" -i "$IMAGE"
+  cmd=(docker "${docker_args[@]}" -i "$IMAGE" sh -c "$REFRESH" sh
        opencode run --format json --auto --pure --print-logs --dir /work --model "$MODEL" "$@")
   prompt_in=$(realpath "$prompt")
 else
-  cmd=(docker "${docker_args[@]}" -it "$IMAGE" opencode /work --model "$MODEL" "$@")
+  cmd=(docker "${docker_args[@]}" -it "$IMAGE" sh -c "$REFRESH" sh opencode /work --model "$MODEL" "$@")
 fi
 
 if [[ $dry -eq 1 ]]; then printf '%q ' "${cmd[@]}"; echo; exit 0; fi
